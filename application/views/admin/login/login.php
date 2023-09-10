@@ -158,7 +158,7 @@
                       <div class="row flex-between-center mb-7">
 
                         <div class="col-auto">
-                          <a class="fs--1 fw-semi-bold" href="#" style="color: #013738;">Esqueceu a Senha?</a>
+                          <a class="fs--1 fw-semi-bold" href="<?= base_url('login/esqueceusenha') ?>" style="color: #013738;">Esqueceu a Senha?</a>
                         </div>
 
                       </div>
