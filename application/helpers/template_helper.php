@@ -147,6 +147,7 @@ function scriptsUsuarioFooter()
 {
     return array(
 
+        '<script src="' . base_url('vendors/jquery/jquery.min.js') . '"></script>',
         '<script src="' . base_url('vendors/popper/popper.min.js') . '"></script>',
         '<script src="' . base_url('vendors/bootstrap/bootstrap.min.js') . '"></script>',
         '<script src="' . base_url('vendors/anchorjs/anchor.min.js') . '"></script>',
@@ -159,7 +160,9 @@ function scriptsUsuarioFooter()
         '<script src="' . base_url('vendors/dayjs/dayjs.min.js') . '"></script>',
         '<script src="' . base_url('vendors/dropzone/dropzone.min.js') . '"></script>',
         '<script src="' . base_url('vendors/prism/prism.js') . '"></script>',
-        '<script src="' . base_url('assets/js/phoenix.js') . '"></script>'
+        '<script src="' . base_url('assets/js/phoenix.js') . '"></script>',
+        '<script src="' . base_url('assets/js/usuarios/formulario-usuario.js') . '"></script>',
+        '<script src="' . base_url('node_modules/sweetalert2/dist/sweetalert2.all.min.js') . '"></script>'
 
     );
 }
