@@ -48,11 +48,8 @@ class Login extends CI_Controller
 		} 
 	
 		// Gere um código de 6 números aleatórios
-		$codigo = '';
-		for ($i = 0; $i < 6; $i++) {
-			$codigo .= mt_rand(0, 9);
-		}
-	
+		$codigo = str_pad(rand(100000, 999999), 6, '0', STR_PAD_LEFT);
+
 		// Obtenha a data atual no formato 'Y-m-d H:i:s'
 		$dataCriacao = date('Y-m-d H:i:s');
 	
@@ -72,8 +69,8 @@ class Login extends CI_Controller
 	
 		if ($insercaoBemSucedida) {
 			// Inserção bem-sucedida
-			$res = $this->Email_model->email($email, $assunto, $codigo);
-			echo $res;
+			$this->Email_model->email($email, $assunto, $codigo);
+			echo 'Token enviado com sucesso';
 		} else {
 			// Falha na inserção
 			echo "Houve um erro ao inserir o token.";
