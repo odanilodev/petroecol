@@ -30,9 +30,56 @@ class Login extends CI_Controller
 
 	public function recuperaSenha()
 	{
-		$email = $this->input->post('email');
 
-		echo $email;
+		$this->load->library('email');
+		
+    	$this->load->model('Email_model');
+		$this->load->model('Token_model');
+		$this->load->model('Usuarios_model');
+
+		$email = $this->input->post('email');
+		$assunto = 'Alteração de senha sistema Petroecol';
+
+		$usuario = $this->Usuarios_model->recebeUsuarioEmail($email); //Realiza uma busca no DB usando o email digitado
+
+		if(!$usuario) { //Verifica se o usuario existe no banco de dados.
+			echo 'usuario nao encontrado';
+			exit;
+		} 
+	
+		// Gere um código de 6 números aleatórios
+		$codigo = '';
+		for ($i = 0; $i < 6; $i++) {
+			$codigo .= mt_rand(0, 9);
+		}
+	
+		// Obtenha a data atual no formato 'Y-m-d H:i:s'
+		$dataCriacao = date('Y-m-d H:i:s');
+	
+		// Calcule a data de expiração (30 minutos a partir da data atual)
+		$dataValidade = date('Y-m-d H:i:s', strtotime($dataCriacao) + (30 * 60)); // Adiciona 30 minutos (30 * 60 segundos)
+	
+		// Crie um array com os dados para inserção
+		$dadosToken = array(
+			'codigo' => $codigo,
+			'email_usuario' => $email,
+			'data_criacao' => $dataCriacao,
+			'data_validade' => $dataValidade
+		);
+	
+		// Chame a função do modelo para inserir os dados na tabela
+		$insercaoBemSucedida = $this->Token_model->insereToken($dadosToken);
+	
+		if ($insercaoBemSucedida) {
+			// Inserção bem-sucedida
+			$res = $this->Email_model->email($email, $assunto, $codigo);
+			echo $res;
+		} else {
+			// Falha na inserção
+			echo "Houve um erro ao inserir o token.";
+		}
+
+
 	}
 
 	public function redefineSenha()
