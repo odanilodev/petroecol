@@ -35,9 +35,17 @@ class Login extends CI_Controller
 		
     	$this->load->model('Email_model');
 		$this->load->model('Token_model');
+		$this->load->model('Usuarios_model');
 
 		$email = $this->input->post('email');
 		$assunto = 'Alteração de senha sistema Petroecol';
+
+		$usuario = $this->Usuarios_model->recebeUsuarioEmail($email); //Realiza uma busca no DB usando o email digitado
+
+		if(!$usuario) { //Verifica se o usuario existe no banco de dados.
+			echo 'usuario nao encontrado';
+			exit;
+		} 
 	
 		// Gere um código de 6 números aleatórios
 		$codigo = '';
@@ -71,7 +79,6 @@ class Login extends CI_Controller
 			echo "Houve um erro ao inserir o token.";
 		}
 
-		return;
 
 	}
 

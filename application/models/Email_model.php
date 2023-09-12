@@ -7,10 +7,10 @@ class Email_model extends CI_Model {
 	{
 
       //Configuração mail
-      $config['smtp_host'] = 'mail.petroecol.com.br';
+      $config['smtp_host'] = 'mail.petroecol.eco.br';
       $config['smtp_port'] = '587';
-      $config['smtp_user'] = 'contato@petroecol.com.br';
-      $config['smtp_pass'] = '@123contatopetroecol';
+      $config['smtp_user'] = 'contato@petroecol.eco.br';
+      $config['smtp_pass'] = '@@123contato';
       $config['protocol'] = 'smtp';
       $config['wordwrap'] = TRUE;
       $config['validate'] = TRUE;
