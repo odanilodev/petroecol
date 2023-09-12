@@ -34,6 +34,9 @@
 
 <body>
 
+    <input type="hidden" value="<?= base_url(); ?>" class="base-url">
+
+
     <main class="main" id="top">
 
         <nav class="navbar navbar-vertical navbar-expand-lg">
