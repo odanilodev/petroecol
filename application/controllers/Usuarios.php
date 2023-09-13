@@ -26,7 +26,7 @@ class Usuarios extends CI_Controller
 	public function cadastraUsuario()
 	{
 		$dados['nome'] = $this->input->post('nome');
-		// $dados['telefone'] = $this->input->post('telefone');
+		$dados['telefone'] = $this->input->post('telefone');
 		$dados['email'] = $this->input->post('email');
 		$dados['senha'] = $this->input->post('senha');
 		$dados['data_criacao'] = date('Y-m-d H:m:s');

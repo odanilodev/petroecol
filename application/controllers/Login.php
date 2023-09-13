@@ -31,9 +31,9 @@ class Login extends CI_Controller
 	public function recuperaSenha()
 	{
 
-		$this->load->library('email');
-		
-    	$this->load->model('Email_model');
+		$this->load->library('EmailSender');
+		$emailSender = new EmailSender();
+
 		$this->load->model('Token_model');
 		$this->load->model('Usuarios_model');
 
@@ -69,7 +69,7 @@ class Login extends CI_Controller
 	
 		if ($insercaoBemSucedida) {
 			// Inserção bem-sucedida
-			$this->Email_model->email($email, $assunto, $codigo);
+			$emailSender->enviarEmail('definicaoSenha', $email, $assunto, $codigo);
 			echo 'Token enviado com sucesso';
 		} else {
 			// Falha na inserção
@@ -95,7 +95,7 @@ class Login extends CI_Controller
 
 		$usuario = $this->Usuarios_model->recebeUsuarioEmail($email); //Realiza uma busca no DB usando o email digitado
 
-		if($usuario) {
+		if ($usuario) {
 			if ($senha === $usuario['senha']) {
 				// As credenciais são válidas, o usuário está autenticado
 
