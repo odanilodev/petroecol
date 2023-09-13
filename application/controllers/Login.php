@@ -27,17 +27,13 @@ class Login extends CI_Controller
 
         $codigo = $this->input->post('codigo');
 
-        $tokens = $this->Token_model->recebeTokensCodigo($codigo);
+        $tokens = $this->Token_model->recebeTokenCodigo($codigo);
 
         if (!empty($tokens)) {
-            usort($tokens, function ($a, $b) {
-                return strtotime($b['data_validade']) - strtotime($a['data_validade']);
-            });
-
-            $tokenMaisRecente = $tokens[0];
+    
             $dataAtual = date('Y-m-d H:i:s');
 
-            if ($dataAtual <= $tokenMaisRecente['data_validade']) {
+            if ($dataAtual <= $tokens['data_validade']) {
                 echo 'Token válido.';
             } else {
                 echo 'Token expirado.';

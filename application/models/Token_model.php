@@ -12,14 +12,17 @@ class Token_model extends CI_Model {
 		
     }
 
-	public function recebeTokensCodigo($codigo){
-		
-		$this->db->where('codigo', $codigo);
+	public function recebeTokenCodigo($codigo)
+    {
+        $this->db->where('codigo', $codigo);
+        $this->db->order_by('id', 'desc'); 
+        $this->db->limit(1);
+        
         $query = $this->db->get('ci_tokens');
-			
-        return $query->result_array();
-		
+
+        return $query->row_array();
     }
+
 
     public function insereToken($data)
     {
