@@ -138,7 +138,8 @@ function scriptsUsuarioHead()
         '<link href="' . base_url('assets/css/theme-rtl.min.css') . '" type="text/css" rel="stylesheet" id="style-rtl">',
         '<link href="' . base_url('assets/css/theme.min.css') . '" type="text/css" rel="stylesheet" id="style-default">',
         '<link href="' . base_url('assets/css/user-rtl.min.css') . '" type="text/css" rel="stylesheet" id="user-style-rtl">',
-        '<link href="' . base_url('assets/css/user.min.css') . '" type="text/css" rel="stylesheet" id="user-style-default">'
+        '<link href="' . base_url('assets/css/user.min.css') . '" type="text/css" rel="stylesheet" id="user-style-default">',
+        '<link href="' . base_url('assets/css/upload-arquivo.css') . '" type="text/css" rel="stylesheet" id="user-style-default">'
 
     );
 }
@@ -162,7 +163,8 @@ function scriptsUsuarioFooter()
         '<script src="' . base_url('vendors/prism/prism.js') . '"></script>',
         '<script src="' . base_url('assets/js/phoenix.js') . '"></script>',
         '<script src="' . base_url('assets/js/usuarios/formulario-usuario.js') . '"></script>',
-        '<script src="' . base_url('node_modules/sweetalert2/dist/sweetalert2.all.min.js') . '"></script>'
+        '<script src="' . base_url('node_modules/sweetalert2/dist/sweetalert2.all.min.js') . '"></script>',
+        '<script src="' . base_url('assets/js/upload-imagem.js') . '"></script>'
 
     );
 }

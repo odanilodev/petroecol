@@ -5,33 +5,35 @@ const cadastraUsuario = () => {
     let email = $('.input-email').val();
     let senha = $('.input-senha').val();
     let repeteSenha = $('.input-repete-senha').val();
-    let foto = $('.foto-perfil').attr('alt');
+    let imagemInput = $('#imageInput')[0].files[0];
+
+    // cria um FormData para enviar os dados e a imagem
+    let formData = new FormData();
+    formData.append('nome', nome);
+    formData.append('telefone', telefone);
+    formData.append('email', email);
+    formData.append('senha', senha);
+    formData.append('imagem', imagemInput);
 
     var permissao = false;
 
     if (nome != "" && telefone != "" && email != "" && senha != "" && repeteSenha != "") {
 
         if (!validaEmail(email)) {
-
             permissao = false;
             return;
         }
 
         if (senha != repeteSenha) {
-
             permissao = false;
             return;
-
         } else {
-
             permissao = true;
         }
 
     } else {
-
         permissao = false;
     }
-
 
     if (permissao) {
 
@@ -40,19 +42,14 @@ const cadastraUsuario = () => {
         $.ajax({
             type: "post",
             url: `${baseUrl}usuarios/cadastraUsuario`,
-            data: {
-                nome: nome,
-                telefone: telefone,
-                email: email,
-                foto: foto,
-                senha: senha
-            }, beforeSend: function () {
-
+            data: formData,
+            contentType: false,
+            processData: false,
+            beforeSend: function () {
                 $('.load-form').removeClass('d-none');
                 $('.btn-envia').addClass('d-none');
-
-            }, success: function () {
-
+            },
+            success: function () {
                 $('.load-form').addClass('d-none');
                 $('.btn-envia').removeClass('d-none');
 
@@ -64,10 +61,8 @@ const cadastraUsuario = () => {
 
                 $('#cadastra-usuario').trigger("reset");
             }
-
-        })
+        });
     }
-
 }
 
 

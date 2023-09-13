@@ -19,24 +19,21 @@
                 <div class="tab-pane row" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab2" id="bootstrap-wizard-validation-tab2">
                   <form method="post" class="needs-validation" id="cadastra-usuario" novalidate="novalidate" data-wizard-form="1">
 
-                    <div class="row g-4 mb-4" data-dropzone="data-dropzone" data-options='{"maxFiles":1,"data":[{"name":"avatar.webp","size":"54kb","url":"<?= base_url('assets/img/team') ?>"}]}'>
+                    <div class="row mb-4">
 
-                      <div class="col-md-auto">
-                        <div class="dz-preview dz-preview-single">
-                          <div class="dz-preview-cover d-flex align-items-center justify-content-center mb-2 mb-md-0">
-                            <div class="avatar avatar-4xl">
-                              <img class="rounded-circle avatar-placeholder foto-perfil" src="<?= base_url('assets/img/team/avatar.webp') ?>" data-dz-thumbnail="data-dz-thumbnail" />
-                            </div>
-                            <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress=""></span></div>
-                          </div>
+                      <div class="dz-preview-cover d-flex align-items-center justify-content-center mb-2 mb-md-0 col-md-auto">
+                        <div class="icon-box div-preview avatar avatar-4xl">
+                          <img class=" image-preview rounded-circle avatar-placeholder" src="<?= base_url('assets/img/team/avatar.webp') ?>" data-dz-thumbnail="data-dz-thumbnail">
                         </div>
                       </div>
 
-                      <div class="col-md">
-                        <div class="dz-message dropzone-area px-2 py-3" data-dz-message="data-dz-message">
-                          <div class="text-center text-1100">
+                      <div class="form-group col-md">
+                        <div class="image-input">
+                          <input type="file" accept="image/*" id="imageInput" name="capa">
+                          <label for="imageInput" class="image-button">
                             <h5 class="mb-2"><span class="fa-solid fa-upload me-2"></span>Carregar foto de perfil</h5>
-                          </div>
+                          </label>
+
                         </div>
                       </div>
 

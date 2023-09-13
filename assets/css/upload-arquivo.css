@@ -1,0 +1,49 @@
+.image-input {
+	text-align: center;
+}
+
+.image-input input {
+	display: none;
+}
+
+.image-input label {
+	display: block;
+	color: #495057;
+	background: none;
+	padding: 2rem;
+	font-size: 115%;
+	cursor: pointer;
+	border: 1px dashed #9fa6bc;
+	border-radius: 0.375rem;
+}
+
+.image-input label i {
+	font-size: 125%;
+	margin-right: .3rem;
+}
+
+.image-input label:hover i {
+	animation: shake .35s;
+}
+
+.image-input img {
+	max-width: 175px;
+	display: none;
+}
+
+.image-input span {
+	display: none;
+	text-align: center;
+	cursor: pointer;
+}
+
+.change-image {
+	display: block;
+	color: #495057;
+	background: none;
+	padding: 2rem;
+	font-size: 115%;
+	cursor: pointer;
+	border: 1px dotted #ced4da;
+	border-radius: 15px;
+}
