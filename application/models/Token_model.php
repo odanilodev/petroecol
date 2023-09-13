@@ -12,12 +12,12 @@ class Token_model extends CI_Model {
 		
     }
 
-	public function recebeToken($email){
+	public function recebeTokensCodigo($codigo){
 		
-		$this->db->where('email_usuario', $email);
+		$this->db->where('codigo', $codigo);
         $query = $this->db->get('ci_tokens');
 			
-        return $query->row_array();
+        return $query->result_array();
 		
     }
 
