@@ -12,6 +12,13 @@ class Usuarios_model extends CI_Model {
 		
     }
 
+    public function exibeUsuarios()
+    {
+        $query = $this->db->get('ci_usuarios');
+			
+        return $query->result_array();
+    }
+
 	public function recebeUsuarioEmail($email){
 		
 		$this->db->where('email', $email);
