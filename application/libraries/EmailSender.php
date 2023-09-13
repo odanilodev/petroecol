@@ -21,9 +21,6 @@ class EmailSender {
 
         $emailCopia = 'victor@petroecol.com.br';
 
-        // Inicializa a library Email, passando os parâmetros de configuração
-        $this->CI->email->initialize($config);
-
         // Define remetente e destinatário
         $this->CI->email->from('contato@petroecol.eco.br', 'Petroecol Site'); // Remetente
         $this->CI->email->to($email); // Destinatário

@@ -32,6 +32,7 @@ class Login extends CI_Controller
 	{
 
 		$this->load->library('EmailSender');
+		$emailSender = new EmailSender();
 
 		$this->load->model('Token_model');
 		$this->load->model('Usuarios_model');
@@ -42,7 +43,8 @@ class Login extends CI_Controller
 		$usuario = $this->Usuarios_model->recebeUsuarioEmail($email); //Realiza uma busca no DB usando o email digitado
 
 		if(!$usuario) { //Verifica se o usuario existe no banco de dados.
-			return 'usuario nao encontrado';
+			echo 'usuario nao encontrado';
+			exit;
 		} 
 	
 		// Gere um código de 6 números aleatórios
@@ -67,7 +69,7 @@ class Login extends CI_Controller
 	
 		if ($insercaoBemSucedida) {
 			// Inserção bem-sucedida
-			$this->EmailSender->enviarEmail('definicaoSenha', $email, $assunto, $codigo);
+			$emailSender->enviarEmail('definicaoSenha', $email, $assunto, $codigo);
 			echo 'Token enviado com sucesso';
 		} else {
 			// Falha na inserção
