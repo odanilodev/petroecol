@@ -49,17 +49,30 @@ const cadastraUsuario = () => {
                 $('.load-form').removeClass('d-none');
                 $('.btn-envia').addClass('d-none');
             },
-            success: function () {
+            success: function (data) {
                 $('.load-form').addClass('d-none');
                 $('.btn-envia').removeClass('d-none');
 
-                Swal.fire(
-                    'Sucesso!',
-                    'O usuário foi cadastrado com sucesso!',
-                    'success'
-                )
+                if (data == "email já existe") {
 
-                $('#cadastra-usuario').trigger("reset");
+                    Swal.fire({
+                        title: 'Erro',
+                        text: 'Este email está vinculado a outra conta! Tente um email diferente',
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    })
+                   
+                } else {
+
+                    Swal.fire(
+                        'Sucesso!',
+                        'O usuário foi cadastrado com sucesso!',
+                        'success'
+                    )
+
+                    $('#cadastra-usuario').trigger("reset");
+
+                }
             }
         });
     }

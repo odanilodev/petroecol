@@ -31,6 +31,13 @@ class Usuarios extends CI_Controller
 		$dados['senha'] = $this->input->post('senha');
 		$dados['data_criacao'] = date('Y-m-d H:m:s');
 
+		$usuario = $this->Usuarios_model->recebeUsuarioEmail($dados['email']); //Verifica se ja existe existe o email
+
+		if($usuario) {
+			echo "email já existe";
+			return;
+		}
+
 		// verifica se veio imagem
 		if (!empty($_FILES['imagem']['name'])) {
 			$config['upload_path']   = './uploads/usuarios';
