@@ -3,115 +3,110 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Login extends CI_Controller
 {
-	public function index()
-	{
-		$this->load->view('admin/login/login');
-	}
+    public function index()
+    {
+        $this->load->view('admin/login/login');
+    }
 
     public function esqueceuSenha()
-	{
-		$scriptsHead = scriptsLoginHead();
-		add_scripts('header', $scriptsHead);
+    {
+        $scriptsHead = scriptsLoginHead();
+        add_scripts('header', $scriptsHead);
 
-		$scriptsFooter = scriptsLoginFooter();
-		add_scripts('footer', $scriptsFooter);
+        $scriptsFooter = scriptsLoginFooter();
+        add_scripts('footer', $scriptsFooter);
 
-		$this->load->view('admin/includes/login/cabecalho');
-		$this->load->view('admin/login/redefine-senha');
-		$this->load->view('admin/includes/login/rodape');
-	}
+        $this->load->view('admin/includes/login/cabecalho');
+        $this->load->view('admin/login/redefine-senha');
+        $this->load->view('admin/includes/login/rodape');
+    }
 
-	public function verificaCodigo()
-	{
-		$codigo = $this->input->post('codigo');
+    public function verificaCodigo()
+    {
+        $this->load->model('Token_model');
 
-		echo $codigo;
-	}
+        $codigo = $this->input->post('codigo');
 
-	public function recuperaSenha()
-	{
+        $tokens = $this->Token_model->recebeTokenCodigo($codigo);
 
-		$this->load->library('EmailSender');
-		$emailSender = new EmailSender();
-
-		$this->load->model('Token_model');
-		$this->load->model('Usuarios_model');
-
-		$email = $this->input->post('email');
-		$assunto = 'Alteração de senha sistema Petroecol';
-
-		$usuario = $this->Usuarios_model->recebeUsuarioEmail($email); //Realiza uma busca no DB usando o email digitado
-
-		if(!$usuario) { //Verifica se o usuario existe no banco de dados.
-			echo 'usuario nao encontrado';
-			exit;
-		} 
-	
-		// Gere um código de 6 números aleatórios
-		$codigo = str_pad(rand(100000, 999999), 6, '0', STR_PAD_LEFT);
-
-		// Obtenha a data atual no formato 'Y-m-d H:i:s'
-		$dataCriacao = date('Y-m-d H:i:s');
-	
-		// Calcule a data de expiração (30 minutos a partir da data atual)
-		$dataValidade = date('Y-m-d H:i:s', strtotime($dataCriacao) + (30 * 60)); // Adiciona 30 minutos (30 * 60 segundos)
-	
-		// Crie um array com os dados para inserção
-		$dadosToken = array(
-			'codigo' => $codigo,
-			'email_usuario' => $email,
-			'data_criacao' => $dataCriacao,
-			'data_validade' => $dataValidade
-		);
-	
-		// Chame a função do modelo para inserir os dados na tabela
-		$insercaoBemSucedida = $this->Token_model->insereToken($dadosToken);
-	
-		if ($insercaoBemSucedida) {
-			// Inserção bem-sucedida
-			$emailSender->enviarEmail('definicaoSenha', $email, $assunto, $codigo);
-			echo 'Token enviado com sucesso';
-		} else {
-			// Falha na inserção
-			echo "Houve um erro ao inserir o token.";
-		}
-
-
-	}
-
-	public function redefineSenha()
-	{
-		$novaSenha = $this->input->post('senha');
-
-		echo $novaSenha;
-	}
-	
-	public function recebeLogin(){
-
-		$this->load->model('Usuarios_model');
-
-		$email = $this->input->post('email');
-		$senha = $this->input->post('senha');
-
-		$usuario = $this->Usuarios_model->recebeUsuarioEmail($email); //Realiza uma busca no DB usando o email digitado
-
-		if ($usuario) {
-			if ($senha === $usuario['senha']) {
-				// As credenciais são válidas, o usuário está autenticado
-
-				$this->session->set_userdata('nome_usuario', $usuario['nome']);
-				$this->session->set_userdata('email', $usuario['email']);
-
-				echo 'usuario logado';
-			} else {
-				// As credenciais estao incorretas, acesso negado
-				echo 'senha incorreta';
-			}
-		} else{
-			//Nao retornou nada no recebeUsuarioEmail, portando nao existe um usuario com o email digitado
-			echo 'Usuario nao encontrado';
-		}
-
-	}
+        if (!empty($tokens)) {
     
+            $dataAtual = date('Y-m-d H:i:s');
+
+            if ($dataAtual <= $tokens['data_validade']) {
+                echo 'Token válido.';
+            } else {
+                echo 'Token expirado.';
+            }
+        } else {
+            echo 'Token não encontrado.';
+        }
+    }
+
+    public function recuperaSenha()
+    {
+        $this->load->library('EmailSender');
+        $emailSender = new EmailSender();
+
+        $this->load->model('Token_model');
+        $this->load->model('Usuarios_model');
+
+        $email = $this->input->post('email');
+        $assunto = 'Alteração de senha sistema Petroecol';
+
+        $usuario = $this->Usuarios_model->recebeUsuarioEmail($email);
+
+        if (!$usuario) {
+            echo 'Usuário não encontrado';
+            exit;
+        }
+
+        $codigo = str_pad(rand(100000, 999999), 6, '0', STR_PAD_LEFT);
+        $dataCriacao = date('Y-m-d H:i:s');
+        $dataValidade = date('Y-m-d H:i:s', strtotime($dataCriacao) + (30 * 60));
+
+        $dadosToken = array(
+            'codigo' => $codigo,
+            'email_usuario' => $email,
+            'data_criacao' => $dataCriacao,
+            'data_validade' => $dataValidade
+        );
+
+        $insercaoBemSucedida = $this->Token_model->insereToken($dadosToken);
+
+        if ($insercaoBemSucedida) {
+            $emailSender->enviarEmail('definicaoSenha', $email, $assunto, $codigo);
+            echo 'Token enviado com sucesso';
+        } else {
+            echo 'Houve um erro ao inserir o token.';
+        }
+    }
+
+    public function redefineSenha()
+    {
+        $novaSenha = $this->input->post('senha');
+        echo $novaSenha;
+    }
+
+    public function recebeLogin()
+    {
+        $this->load->model('Usuarios_model');
+
+        $email = $this->input->post('email');
+        $senha = $this->input->post('senha');
+
+        $usuario = $this->Usuarios_model->recebeUsuarioEmail($email);
+
+        if ($usuario) {
+            if ($senha === $usuario['senha']) {
+                $this->session->set_userdata('nome_usuario', $usuario['nome']);
+                $this->session->set_userdata('email', $usuario['email']);
+                echo 'Usuário logado';
+            } else {
+                echo 'Senha incorreta';
+            }
+        } else {
+            echo 'Usuário não encontrado';
+        }
+    }
 }
