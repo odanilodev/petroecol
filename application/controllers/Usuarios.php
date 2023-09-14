@@ -9,6 +9,21 @@ class Usuarios extends CI_Controller
 		$this->load->model('Usuarios_model');
         date_default_timezone_set('America/Sao_Paulo');
 	}
+
+	public function index()
+	{
+		$scriptsHead = scriptsUsuarioHead();
+		add_scripts('header', $scriptsHead);
+
+		$scriptsFooter = scriptsUsuarioFooter();
+		add_scripts('footer', $scriptsFooter);
+
+		$data['usuarios'] = $this->Usuarios_model->exibeUsuarios();
+
+		$this->load->view('admin/includes/painel/cabecalho', $data);
+		$this->load->view('admin/paginas/usuarios/usuarios');
+		$this->load->view('admin/includes/painel/rodape');
+	}
 	
 	public function formulario()
 	{
