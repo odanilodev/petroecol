@@ -19,11 +19,12 @@
                 <div class="tab-pane row" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab2" id="bootstrap-wizard-validation-tab2">
                   <form method="post" class="needs-validation" id="cadastra-usuario" novalidate="novalidate" data-wizard-form="1">
 
+                  <input type="hidden" class="input-id" value="<?= isset($usuario['id']) ? $usuario['id'] : "" ?>">
                     <div class="row mb-4">
 
                       <div class="dz-preview-cover d-flex align-items-center justify-content-center mb-2 mb-md-0 col-md-auto">
                         <div class="icon-box div-preview avatar avatar-4xl">
-                          <img class=" image-preview rounded-circle avatar-placeholder" src="<?= base_url('assets/img/team/avatar.webp') ?>" data-dz-thumbnail="data-dz-thumbnail">
+                          <img class=" image-preview rounded-circle avatar-placeholder" src="<?= base_url('uploads/usuarios/' . (isset($usuario['foto_perfil']) ? $usuario['foto_perfil'] : 'sem_foto.jpg')) ?>" data-dz-thumbnail="data-dz-thumbnail">
                         </div>
                       </div>
 
@@ -43,30 +44,30 @@
 
                       <div class="mb-2 col-md-6">
                         <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-name">Nome*</label>
-                        <input required class="form-control input-nome" type="text" name="nome" placeholder="Nome do Usuário" id="bootstrap-wizard-validation-wizard-name" />
+                        <input required value="<?= isset($usuario['nome']) ? $usuario['nome'] : "" ?>" class="form-control input-nome" type="text" name="nome" placeholder="Nome do Usuário" id="bootstrap-wizard-validation-wizard-name" />
                         <div class="invalid-feedback">Preencha este campo.</div>
                       </div>
 
                       <div class="mb-2 col-md-6">
                         <label class="form-label" for="bootstrap-wizard-validation-wizard-phone">Telefone*</label>
-                        <input required class="form-control input-telefone" type="text" name="telefone" placeholder="Telefone" id="bootstrap-wizard-validation-wizard-phone" />
+                        <input value="<?= isset($usuario['telefone']) ? $usuario['telefone'] : "" ?>" required class="form-control input-telefone" type="text" name="telefone" placeholder="Telefone" id="bootstrap-wizard-validation-wizard-phone" />
                         <div class="invalid-feedback">Preencha este campo.</div>
                       </div>
 
                       <div class="mb-2">
                         <label class="form-label" for="bootstrap-wizard-validation-wizard-email">Email*</label>
-                        <input required class="form-control input-email" type="email" name="email" placeholder="Email address" pattern="^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$" id="bootstrap-wizard-validation-wizard-email" />
+                        <input value="<?= isset($usuario['email']) ? $usuario['email'] : "" ?>" required class="form-control input-email" type="email" name="email" placeholder="Email address" pattern="^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$" id="bootstrap-wizard-validation-wizard-email" />
                         <div class="invalid-feedback">Preencha este campo.</div>
                       </div>
 
-                      <div class="col-sm-6">
+                      <div class="col-sm-6 <?= isset($usuario['id']) ? "d-none" : "" ?>">
                         <div class="mb-2 mb-sm-0">
                           <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-password">Senha*</label>
                           <input required class="form-control input-senha" type="password" name="senha" placeholder="Senha" id="bootstrap-wizard-validation-wizard-password" data-wizard-password="true" />
                           <div class="invalid-feedback">Preencha este campo.</div>
                         </div>
                       </div>
-                      <div class="col-sm-6">
+                      <div class="col-sm-6 <?= isset($usuario['id']) ? "d-none" : "" ?>">
                         <div class="mb-2">
                           <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-confirm-password">Confirme a Senha*</label>
                           <input required class="form-control input-repete-senha" type="password" name="confirme-senha" placeholder="Confirme a Senha" id="bootstrap-wizard-validation-wizard-confirm-password" data-wizard-confirm-password="true" />
@@ -77,12 +78,53 @@
                     </div>
 
 
+                    <!-- redefinir senha de usuario quando está editando-->
+                    <div class="accordion mt-6 mb-4 <?= !isset($usuario['id']) ? 'd-none' : ''?>">
+
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFive">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseOne">Redefinir senha</button>
+                        </h2>
+
+                        <div class="accordion-collapse collapse" id="collapseFive" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                          <div class="accordion-body pt-0 row">
+
+                            <div class="col-sm-4">
+                              <div class="mb-2 mb-sm-0">
+                                <label class="form-label text-900">Senha Antiga</label>
+                                <input class="input-senha-antiga inputs-redefine" type="password" name="senha-antiga" placeholder="Senha antiga">
+                                <div class="invalid-feedback senha-antiga-invalida">Senha incorreta.</div>
+                              </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                              <div class="mb-2 mb-sm-0">
+                                <label class="form-label text-900">Senha*</label>
+                                <input class="input-nova-senha inputs-redefine" type="password" name="nova-senha" placeholder="Nova Senha">
+                                <div class="invalid-feedback aviso-nova-senha">Insira uma nova senha.</div>
+                              </div>
+                            </div>
+                            <div class="col-sm-4">
+                              <div class="mb-2">
+                                <label class="form-label text-900">Confirme a Nova Senha*</label>
+                                <input class="input-repete-nova-senha inputs-redefine" type="password" name="confirme-nova-senha" placeholder="Confirme a Nova Senha">
+                                <div class="invalid-feedback aviso-senha-diferente">As senhas precisam combinar.</div>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
                     <div class="flex-1 text-end my-5">
                       <button class="btn btn-primary px-6 px-sm-6 btn-envia" onclick="cadastraUsuario()">Cadastrar
                         <span class="fas fa-chevron-right ms-1" data-fa-transform="shrink-3"> </span>
                       </button>
                       <div class="spinner-border text-primary load-form d-none" role="status"></div>
                     </div>
+
 
 
                   </form>
