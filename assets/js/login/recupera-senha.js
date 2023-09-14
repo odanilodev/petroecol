@@ -25,8 +25,11 @@ const verificaEmail = () => {
     beforeSend: function () {
       $('.load-btn').removeClass('d-none');
     },
-    success: function () {
+    success: function (data) {
 
+      if (data == "Token enviado com sucesso") {
+        $('.btn-redefine-senha').attr('data-email', email.val());
+      }
       $('.div-email').addClass('d-none');
       $('.div-codigo').removeClass('d-none');
 
@@ -71,6 +74,8 @@ const redefineSenha = () => {
   let novaSenha = $('.nova-senha').val();
   let repeteSenha = $('.repete-senha').val();
 
+  let email = $('.btn-redefine-senha').data('email');
+
   if (novaSenha != repeteSenha) {
     Swal.fire({
       title: 'Erro',
@@ -84,7 +89,8 @@ const redefineSenha = () => {
     type: "POST",
     url: `${baseUrl}login/redefineSenha`,
     data: {
-      senha: novaSenha
+      senha: novaSenha,
+      email: email
     },
     beforeSend: function () {
       $('.load-btn').removeClass('d-none');
