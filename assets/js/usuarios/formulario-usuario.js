@@ -1,3 +1,5 @@
+var baseUrl = $('.base-url').val();
+
 const cadastraUsuario = () => {
 
     let nome = $('.input-nome').val();
@@ -6,6 +8,7 @@ const cadastraUsuario = () => {
     let senha = $('.input-senha').val();
     let repeteSenha = $('.input-repete-senha').val();
     let imagemInput = $('#imageInput')[0].files[0];
+    let id = $('.input-id').val();
 
     // cria um FormData para enviar os dados e a imagem
     let formData = new FormData();
@@ -17,7 +20,8 @@ const cadastraUsuario = () => {
 
     var permissao = false;
 
-    if (nome != "" && telefone != "" && email != "" && senha != "" && repeteSenha != "") {
+    // cadastra um usuario novo
+    if (id == "" && nome != "" && telefone != "" && email != "" && senha != "" && repeteSenha != "") {
 
         if (!validaEmail(email)) {
             permissao = false;
@@ -31,13 +35,87 @@ const cadastraUsuario = () => {
             permissao = true;
         }
 
-    } else {
-        permissao = false;
+    } else if (id != "" && nome != "" && telefone != "" && email != "") {
+
+        if (!validaEmail(email)) {
+            permissao = false;
+            return;
+        }
+
+        // == redefine senha do usuario == //
+
+        let senhaAntiga = $('.input-senha-antiga').val();
+
+        // verifica se a senha antiga existe no banco para poder alterar
+        if (senhaAntiga != "") {
+
+            $.ajax({
+                type: "post",
+                url: `${baseUrl}usuarios/verificaSenhaAntiga`,
+                async: false,
+                data: {
+                    id: id,
+                    senhaAntiga: senhaAntiga
+                },
+                success: function (data) {
+
+                    if (data != "senha encontrada") {
+
+                        $('.input-senha-antiga').addClass('invalido');
+                        $('.senha-antiga-invalida').addClass('d-flex');
+
+                    } else {
+
+                        $('.input-senha-antiga').removeClass('invalido');
+                        $('.senha-antiga-invalida').addClass('d-none');
+                        $('.senha-antiga-invalida').addClass('form-control');
+
+                        let novaSenha = $('.input-nova-senha').val();
+                        let repeteNovaSenha = $('.input-repete-nova-senha').val();
+
+                        if (novaSenha != "" && repeteNovaSenha != "") {
+
+                            if (novaSenha != repeteNovaSenha) {
+
+                                $('.input-repete-nova-senha').addClass('invalido');
+                                $('.aviso-senha-diferente').addClass('d-flex');
+
+                            } else {
+
+                                $('.inputs-redefine').removeClass('invalido');
+                                $('.inputs-redefine').addClass('form-control');
+                                $('.aviso-senha-diferente').addClass('d-none');
+                                $('.aviso-nova-senha').addClass('d-none');
+
+                                formData.append('id', id);
+                                formData.append('novaSenha', repeteNovaSenha);
+
+                                permissao = true;
+
+                            }
+
+                        } else {
+
+                            $('.input-repete-nova-senha').addClass('invalido');
+                            $('.aviso-senha-diferente').addClass('d-flex');
+                            $('.input-nova-senha').addClass('invalido');
+                            $('.aviso-nova-senha').addClass('d-flex');
+
+                            permissao = false;
+
+                        }
+                    }
+
+                }
+            });
+        } else {
+
+            formData.append('id', id);
+            permissao = true;
+        }
     }
 
     if (permissao) {
-
-        var baseUrl = $('.base-url').val();
 
         $.ajax({
             type: "post",
@@ -50,6 +128,7 @@ const cadastraUsuario = () => {
                 $('.btn-envia').addClass('d-none');
             },
             success: function (data) {
+
                 $('.load-form').addClass('d-none');
                 $('.btn-envia').removeClass('d-none');
 
@@ -61,23 +140,39 @@ const cadastraUsuario = () => {
                         icon: 'error',
                         confirmButtonText: 'Fechar'
                     })
-                   
-                } else {
 
-                    Swal.fire(
-                        'Sucesso!',
-                        'O usuário foi cadastrado com sucesso!',
-                        'success'
-                    )
+                } else if (data == "usuario cadastrado") {
 
-                    $('#cadastra-usuario').trigger("reset");
+                    Swal.fire({
+                        title: 'Sucesso!',
+                        text: 'O usuário foi cadastrado com sucesso!',
+                        icon: 'success',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            window.location.href = `${baseUrl}usuarios/`;
+                        }
+                    });
+
+
+                } else if (data == "usuario editado") {
+
+                    Swal.fire({
+                        title: 'Sucesso!',
+                        text: 'O usuário foi editado com sucesso!',
+                        icon: 'success',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            window.location.href = `${baseUrl}usuarios/`;
+                        }
+                    });
 
                 }
             }
         });
     }
 }
-
 
 function validaEmail(email) {
 

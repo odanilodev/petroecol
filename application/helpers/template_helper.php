@@ -139,7 +139,8 @@ function scriptsUsuarioHead()
         '<link href="' . base_url('assets/css/theme.min.css') . '" type="text/css" rel="stylesheet" id="style-default">',
         '<link href="' . base_url('assets/css/user-rtl.min.css') . '" type="text/css" rel="stylesheet" id="user-style-rtl">',
         '<link href="' . base_url('assets/css/user.min.css') . '" type="text/css" rel="stylesheet" id="user-style-default">',
-        '<link href="' . base_url('assets/css/upload-arquivo.css') . '" type="text/css" rel="stylesheet" id="user-style-default">'
+        '<link href="' . base_url('assets/css/upload-arquivo.css') . '" type="text/css" rel="stylesheet" id="user-style-default">',
+        '<link href="' . base_url('assets/css/usuario/usuarios.css') . '" type="text/css" rel="stylesheet" id="user-style-default">',
 
     );
 }
