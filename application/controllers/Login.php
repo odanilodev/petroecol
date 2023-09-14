@@ -84,8 +84,29 @@ class Login extends CI_Controller
 
     public function redefineSenha()
     {
+        $this->load->model('Usuarios_model');
+        
         $novaSenha = $this->input->post('senha');
-        echo $novaSenha;
+        $email = $this->input->post('email');
+        
+        $usuario = $this->Usuarios_model->recebeUsuarioEmail($email);
+        
+        if ($usuario) {
+            $id = $usuario['id'];
+            $usuario['senha'] = $novaSenha;
+        
+            $resultado = $this->Usuarios_model->editaUsuario($id, $usuario);
+        
+            // Verifica se a edição foi bem-sucedida
+            if ($resultado) {
+                return "Editado com sucesso!";
+            } else {
+                return "Erro ao editar usuário, ou nenhum dado afetado.";
+            }
+        } else {
+            // Retorna mensagem de erro se o usuário não for encontrado
+            return "Usuário não encontrado.";
+        }
     }
 
     public function recebeLogin()

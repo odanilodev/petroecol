@@ -93,7 +93,7 @@
                   <div class="mt-5">
                     <input class="form-control mb-2 nova-senha" id="password" type="password" placeholder="Nova Senha">
                     <input class="form-control mb-4 repete-senha" id="confirmPassword" type="password" placeholder="Confirme a nova senha">
-                    <button class="btn btn-success btn-padrao w-100" onclick="redefineSenha()">Redefinir senha</button>
+                    <button class="btn btn-success btn-padrao w-100 btn-redefine-senha" onclick="redefineSenha()">Redefinir senha</button>
                   </div>
                 </div>
               </div>
