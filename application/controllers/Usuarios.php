@@ -51,14 +51,12 @@ class Usuarios extends CI_Controller
 		$dados['email'] = $this->input->post('email');
 		$dados['data_criacao'] = date('Y-m-d H:m:s');
 
-		if (!$id) {
+		$usuario = $this->Usuarios_model->recebeUsuarioEmail($dados['email']); //Verifica se ja existe o email
 
-			$usuario = $this->Usuarios_model->recebeUsuarioEmail($dados['email']); //Verifica se ja existe existe o email
-
-			if ($usuario) {
-				echo "email já existe";
-				return;
-			}
+		// verifica se o email ja existe e se não é o email do usuario que está sendo editado
+		if ($usuario && $usuario['id'] != $id) {
+			echo "email já existe";
+			return;
 		}
 
 		// verifica se veio imagem
