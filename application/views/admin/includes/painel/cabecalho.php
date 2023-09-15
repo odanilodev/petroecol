@@ -68,6 +68,17 @@
                                         </span>
                                     </div>
                                 </a>
+
+                                <a class="nav-link label-1" href="<?= base_url('usuarios')?>" role="button" data-bs-toggle="" aria-expanded="false">
+                                    <div class="d-flex align-items-center">
+                                        <span class="nav-link-icon">
+                                            <span data-feather="users"></span>
+                                        </span>
+                                        <span class="nav-link-text-wrapper">
+                                            <span class="nav-link-text">Usuários</span>
+                                        </span>
+                                    </div>
+                                </a>
                             </div>
 
                         </li>
