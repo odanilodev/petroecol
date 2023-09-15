@@ -69,7 +69,7 @@ class Usuarios extends CI_Controller
 			$this->load->library('upload', $config);
 
 			// deleta a foto de perfil antiga do server
-			if($id) {
+			if ($id) {
 
 				$imagemAntiga = $this->Usuarios_model->imagemAntiga($id);
 
@@ -81,7 +81,6 @@ class Usuarios extends CI_Controller
 				$dados_imagem = $this->upload->data();
 				$dados['foto_perfil'] = $dados_imagem['file_name'];
 			}
-
 		}
 
 		if ($id) {
@@ -93,7 +92,6 @@ class Usuarios extends CI_Controller
 			$this->Usuarios_model->editaUsuario($id, $dados);
 
 			echo "usuario editado";
-			
 		} else {
 
 			$dados['senha'] = $this->input->post('senha');
@@ -116,5 +114,23 @@ class Usuarios extends CI_Controller
 		} else {
 			echo "senha não encontrada";
 		}
+	}
+
+	public function deletaUsuario()
+	{
+		$id = $this->uri->segment(3);
+
+		$imagemAntiga = $this->Usuarios_model->imagemAntiga($id);
+
+		if ($imagemAntiga['foto_perfil']) {
+			$caminho = './uploads/usuarios/' . $imagemAntiga['foto_perfil'];
+			unlink($caminho);
+		}
+
+		$this->Usuarios_model->deletaUsuario($id);
+
+		$this->session->set_flashdata('retorno_funcao', 'deletou');
+
+		redirect('usuarios');
 	}
 }

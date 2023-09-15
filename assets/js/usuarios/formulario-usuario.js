@@ -180,3 +180,19 @@ function validaEmail(email) {
 
     return filter.test(email);
 }
+
+
+$(document).ready(function(){
+    if($('.retorno-funcao').val() == "deletou") {
+        avisoDeletado('Usuário');
+    }
+});
+
+
+function avisoDeletado(string) {
+    Swal.fire({
+        title: 'Sucesso!',
+        text: `${string} deletado com sucesso!`,
+        icon: 'success',
+    })
+}
