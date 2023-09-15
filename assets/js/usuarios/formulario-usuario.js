@@ -185,7 +185,7 @@ const deletarUsuario = (id) => {
 
     Swal.fire({
         title: 'Você tem certeza?',
-        text: "Esta ação não porerá ser convertida",
+        text: "Esta ação não porerá ser revertida",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
