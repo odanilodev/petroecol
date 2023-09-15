@@ -66,4 +66,12 @@ class Usuarios_model extends CI_Model {
 			
         return $query->row_array();
     }
+
+    public function deletaUsuario($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('ci_usuarios');
+
+        return $this->db->affected_rows() > 0;
+    }
 }

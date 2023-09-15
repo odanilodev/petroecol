@@ -180,3 +180,49 @@ function validaEmail(email) {
 
     return filter.test(email);
 }
+
+const deletarUsuario = (id) => {
+
+    Swal.fire({
+        title: 'Você tem certeza?',
+        text: "Esta ação não porerá ser revertida",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Sim, deletar'
+
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+
+            $.ajax({
+                type: 'post',
+                url: `${baseUrl}usuarios/deletaUsuario`,
+                data: {
+                    id: id
+                }, success: function () {
+
+                    avisoDeletado('Usuário', 'usuarios');
+                }
+            })
+
+        }
+    })
+
+
+}
+
+function avisoDeletado(string, redirect) {
+    Swal.fire({
+        title: 'Sucesso!',
+        text: `${string} deletado com sucesso!`,
+        icon: 'success',
+    }).then((result) => {
+        if (result.isConfirmed) {
+
+            window.location.href = `${baseUrl}${redirect}`;
+        }
+    });
+}

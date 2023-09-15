@@ -73,7 +73,7 @@
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="<?= base_url('usuarios/deletausuario/' . $v['id']) ?>" class="btn btn-danger">
+                                    <a href="#" class="btn btn-danger" onclick="deletarUsuario(<?= $v['id'] ?>)">
                                         <span class="fas fa-trash ms-1"></span>
                                     </a>
                                 </td>
