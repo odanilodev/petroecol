@@ -118,7 +118,7 @@ class Usuarios extends CI_Controller
 
 	public function deletaUsuario()
 	{
-		$id = $this->uri->segment(3);
+		$id = $this->input->post('id');
 
 		$imagemAntiga = $this->Usuarios_model->imagemAntiga($id);
 
@@ -128,8 +128,6 @@ class Usuarios extends CI_Controller
 		}
 
 		$this->Usuarios_model->deletaUsuario($id);
-
-		$this->session->set_flashdata('retorno_funcao', 'deletou');
 
 		redirect('usuarios');
 	}
