@@ -13,7 +13,7 @@ class Usuarios_model extends CI_Model {
 		
     }
 
-    public function exibeUsuario($id) 
+    public function recebeUsuario($id) 
     {
         $this->db->where('id', $id);
         $query = $this->db->get('ci_usuarios');
