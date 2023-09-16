@@ -18,7 +18,7 @@ class Usuarios extends CI_Controller
 		$scriptsFooter = scriptsUsuarioFooter();
 		add_scripts('footer', $scriptsFooter);
 
-		$data['usuarios'] = $this->Usuarios_model->exibeUsuarios();
+		$data['usuarios'] = $this->Usuarios_model->recebeUsuarios();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/usuarios/usuarios');
@@ -35,7 +35,7 @@ class Usuarios extends CI_Controller
 
 		$id = $this->uri->segment(3);
 
-		$data['usuario'] = $this->Usuarios_model->exibeUsuario($id);
+		$data['usuario'] = $this->Usuarios_model->recebeUsuario($id);
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/usuarios/cadastra-usuario');
@@ -49,28 +49,31 @@ class Usuarios extends CI_Controller
 		$dados['nome'] = $this->input->post('nome');
 		$dados['telefone'] = $this->input->post('telefone');
 		$dados['email'] = $this->input->post('email');
-		$dados['data_criacao'] = date('Y-m-d H:m:s');
+		$dados['data_criacao'] = date('Y-m-d H:i:s'); // Corrija o formato da data.
 
-		$usuario = $this->Usuarios_model->recebeUsuarioEmail($dados['email']); //Verifica se ja existe o email
+		$usuario = $this->Usuarios_model->recebeUsuarioEmail($dados['email']); // Verifica se já existe o email
 
-		// verifica se o email ja existe e se não é o email do usuario que está sendo editado
+		// Verifica se o email já existe e se não é o email do usuário que está sendo editado
 		if ($usuario && $usuario['id'] != $id) {
-			echo "email já existe";
+			echo "Email já existe";
 			return;
 		}
 
-		// verifica se veio imagem
+		// Verifica se veio a senha
+		if ($this->input->post('senha')) {
+			$dados['senha'] = password_hash($this->input->post('senha'), PASSWORD_DEFAULT);
+		}
+
+		// Verifica se veio imagem
 		if (!empty($_FILES['imagem']['name'])) {
 			$config['upload_path']   = './uploads/usuarios';
 			$config['allowed_types'] = 'jpg|jpeg|png|';
 
 			$this->load->library('upload', $config);
 
-			// deleta a foto de perfil antiga do server
+			// Deleta a foto de perfil antiga do servidor
 			if ($id) {
-
 				$imagemAntiga = $this->Usuarios_model->imagemAntiga($id);
-
 				$caminho = './uploads/usuarios/' . $imagemAntiga['foto_perfil'];
 				unlink($caminho);
 			}
@@ -82,37 +85,41 @@ class Usuarios extends CI_Controller
 		}
 
 		if ($id) {
-
 			if ($this->input->post('novaSenha')) {
-				$dados['senha'] = $this->input->post('novaSenha');
+				$dados['senha'] = password_hash($this->input->post('novaSenha'), PASSWORD_DEFAULT);
 			}
 
 			$this->Usuarios_model->editaUsuario($id, $dados);
 
 			echo "usuario editado";
 		} else {
-
-			$dados['senha'] = $this->input->post('senha');
-
 			$this->Usuarios_model->insereUsuario($dados);
-
 			echo "usuario cadastrado";
 		}
 	}
+
 
 	public function verificaSenhaAntiga()
 	{
 		$id = $this->input->post('id');
 		$senhaAntiga = $this->input->post('senhaAntiga');
 
-		$usuario = $this->Usuarios_model->verificaSenhaAntiga($id, $senhaAntiga);
+		$usuario = $this->Usuarios_model->recebeUsuario($id);
 
 		if ($usuario) {
-			echo "senha encontrada";
-		} else {
-			echo "senha não encontrada";
-		}
+			$senha_hash = $usuario['senha']; // O hash da senha armazenado no banco de dados.
+
+			if (password_verify($senhaAntiga, $senha_hash)) {
+				// A senha antiga está correta.
+				echo "senha encontrada";
+			} else {
+				// A senha antiga está incorreta.
+				echo "senha não encontrada";
+			}
+		} 
+		
 	}
+
 
 	public function deletaUsuario()
 	{
