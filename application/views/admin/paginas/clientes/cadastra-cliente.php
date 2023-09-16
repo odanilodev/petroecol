@@ -1,0 +1,214 @@
+<div class="content">
+
+  <div class="row mb-9">
+    <div class="col-12 col-xxl-12">
+      <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
+        <div class="card-body p-0">
+
+          <div class="p-4 code-to-copy">
+            <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
+              <div class="card-header bg-100 pt-3 pb-2 border-bottom-0">
+                <ul class="nav justify-content-between nav-wizard">
+
+                  <li class="nav-item">
+                    <a class="nav-link active fw-semi-bold" href="#bootstrap-wizard-tab1" data-bs-toggle="tab" data-wizard-step="1">
+                      <div class="text-center d-inline-block">
+                        <span class="nav-item-circle-parent">
+                          <span class="nav-item-circle">
+                            <span class="fas fa-building"></span>
+                          </span>
+                        </span>
+                        <span class="d-none d-md-block mt-1 fs--1">Empresa</span>
+                      </div>
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link fw-semi-bold" href="#bootstrap-wizard-tab2" data-bs-toggle="tab" data-wizard-step="2">
+                      <div class="text-center d-inline-block">
+                        <span class="nav-item-circle-parent">
+                          <span class="nav-item-circle">
+                            <span class="fas fa-map-marker-alt"></span>
+                          </span>
+                        </span>
+                        <span class="d-none d-md-block mt-1 fs--1">Endereço</span>
+                      </div>
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link fw-semi-bold" href="#bootstrap-wizard-tab3" data-bs-toggle="tab" data-wizard-step="3">
+                      <div class="text-center d-inline-block">
+                        <span class="nav-item-circle-parent">
+                          <span class="nav-item-circle">
+                            <span class="fas fa-user-alt"></span>
+                          </span>
+                        </span>
+                        <span class="d-none d-md-block mt-1 fs--1">Responsável</span>
+                      </div>
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link fw-semi-bold" onclick="verificaCampos()">
+                      <div class="text-center d-inline-block">
+                        <span class="nav-item-circle-parent">
+                          <span class="nav-item-circle">
+                            <span class="fas fa-check"></span>
+                          </span>
+                        </span>
+                        <span class="d-none d-md-block mt-1 fs--1">Finalizar</span>
+                      </div>
+                    </a>
+                  </li>
+
+                </ul>
+              </div>
+
+              <div class="card-body pt-4 pb-0">
+                <div class="tab-content">
+                  <div class="tab-pane active" role="tabpanel" aria-labelledby="bootstrap-wizard-tab1" id="bootstrap-wizard-tab1">
+                    <form id="form-empresa" novalidate="novalidate" data-wizard-form="1">
+                      <div class="row">
+
+                        <div class="mb-2 mt-2 col-md-6">
+                          <label class="form-label text-900">Nome da empresa</label>
+                          <input class="form-control" type="text" name="nome" placeholder="Insira o nome da empresa" />
+                        </div>
+
+                        <div class="mb-2 mt-2 col-md-4">
+                          <label class="form-label">Telefone</label>
+                          <input class="form-control" type="text" name="telefone" placeholder="Telefone com DDD" />
+                        </div>
+
+                        <div class="mb-2 mt-2 col-md-2">
+                          <label class="form-label text-900">Código</label>
+                          <input class="form-control" type="text" name="codigo" placeholder="Código da empresa" />
+                        </div>
+
+                        <div class="mb-2 mt-5 col-md-3">
+                          <label class="form-label">CNPJ</label>
+                          <input class="form-control" type="text" name="cnpj" placeholder="CNPJ da empresa" />
+                        </div>
+
+                        <div class="mb-2 mt-5 col-md-3">
+                          <label class="form-label">Razão social</label>
+                          <input class="form-control" type="text" name="razao-social" placeholder="Razão Social" />
+                        </div>
+
+                        <div class="mb-2 mt-5 col-md-3">
+                          <label class="form-label">Tipo de empresa</label>
+                          <input class="form-control" type="text" name="tipo-empresa" placeholder="Tipo de empresa" />
+                        </div>
+
+                        <div class="mb-2 mt-5 col-md-3">
+                          <label class="form-label">Grupo de negócio</label>
+                          <input class="form-control" type="text" name="grupo-negocio" placeholder="Grupo de negócio" />
+                        </div>
+
+                      </div>
+
+                    </form>
+                  </div>
+
+                  <div class="tab-pane" role="tabpanel" aria-labelledby="bootstrap-wizard-tab2" id="bootstrap-wizard-tab2">
+                    <form id="form-endereco" novalidate="novalidate" data-wizard-form="2">
+
+                      <div class="row">
+
+                        <div class="mb-2 mt-2 col-md-4">
+                          <label class="form-label">CEP</label>
+                          <input class="form-control" type="text" name="phone" placeholder="Insira o CEP">
+                        </div>
+
+                        <div class="mb-2 mt-2 col-md-6">
+                          <label class="form-label">Rua</label>
+                          <input class="form-control" type="text" name="phone" placeholder="Nome da rua">
+                        </div>
+
+                        <div class="mb-2 mt-2 col-md-2">
+                          <label class="form-label">N°</label>
+                          <input class="form-control" type="text" name="phone" placeholder="Número">
+                        </div>
+
+                        <div class="mb-2 col-md-3 mt-5">
+                          <label class="form-label">Bairro</label>
+                          <input class="form-control" type="text" name="phone" placeholder="Bairro">
+                        </div>
+
+                        <div class="mb-2 col-md-3 mt-5">
+                          <label class="form-label">Cidade</label>
+                          <input class="form-control" type="text" name="phone" placeholder="Número">
+                        </div>
+
+                        <div class="mb-2 col-md-3 mt-5">
+                          <label class="form-label">Estado</label>
+                          <input class="form-control" type="text" name="phone" placeholder="Número">
+                        </div>
+
+                        <div class="mb-2 col-md-3 mt-5">
+                          <label class="form-label">País</label>
+                          <input class="form-control" type="text" name="phone" placeholder="Número">
+                        </div>
+
+                        <div class="mb-2 col-md-12 mt-5">
+                          <label class="form-label">Complemento</label>
+                          <textarea class="form-control" rows="4"></textarea>
+                        </div>
+
+                      </div>
+                    </form>
+                  </div>
+
+                  <div class="tab-pane" role="tabpanel" aria-labelledby="bootstrap-wizard-tab3" id="bootstrap-wizard-tab3">
+                    <form class="mb-2" id="form-responsavel" novalidate="novalidate" data-wizard-form="3">
+
+                      <div class="row gx-3 gy-2">
+
+                        <div class="col-md-4">
+                          <label class="form-label" for="bootstrap-wizard-card-name">Nome</label>
+                          <input class="form-control" placeholder="John Doe" name="cardName" type="text" id="bootstrap-wizard-card-name" />
+                        </div>
+
+                        <div class="col-md-4">
+                          <label class="form-label" for="bootstrap-wizard-card-name">Telefone do Responsável</label>
+                          <input class="form-control" placeholder="John Doe" name="cardName" type="text" id="bootstrap-wizard-card-name" />
+                        </div>
+
+                        <div class="col-md-4">
+                          <label class="form-label" for="bootstrap-wizard-card-name">Função do Responsável</label>
+                          <input class="form-control" placeholder="John Doe" name="cardName" type="text" id="bootstrap-wizard-card-name" />
+                        </div>
+
+                      </div>
+                    </form>
+                  </div>
+
+                  <div class="tab-pane d-none" role="tabpanel" aria-labelledby="bootstrap-wizard-tab4" id="bootstrap-wizard-tab4">
+                    <div class="row flex-center pb-8 pt-4 gx-3 gy-4">
+
+                      <div data-bds-toggle="tab" data-wizard-step="1">
+
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="card-footer border-top-0" data-wizard-footer="data-wizard-footer">
+                <div class="d-flex pager wizard list-inline mb-0">
+                  <button class="d-none btn btn-link ps-0" type="button" data-wizard-prev-btn="data-wizard-prev-btn"><span class="fas fa-chevron-left me-1" data-fa-transform="shrink-3"></span>Voltar</button>
+                  <div class="flex-1 text-end">
+                    <button class="btn btn-primary px-6 px-sm-6" type="submit" data-wizard-next-btn="data-wizard-next-btn">
+                      Próximo <span class="fas fa-chevron-right ms-1" data-fa-transform="shrink-3"> </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
