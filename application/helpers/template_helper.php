@@ -169,3 +169,47 @@ function scriptsUsuarioFooter()
 
     );
 }
+
+function scriptsClienteHead()
+{
+    return array(
+        '<script src="' . base_url('node_modules/sweetalert2/dist/sweetalert2.all.min.js') . '"></script>',
+        '<script src="' . base_url('assets/js/config.js') . '"></script>',
+        '<link href="' . base_url('vendors/flatpickr/flatpickr.min.css') . '" rel="stylesheet">',
+        '<link href="' . base_url('vendors/dropzone/dropzone.min.css') . '" rel="stylesheet">',
+        '<link href="' . base_url('vendors/prism/prism-okaidia.css') . '" rel="stylesheet">',
+        '<link rel="preconnect" href="https://fonts.googleapis.com">',
+        '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">',
+        '<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet">',
+        '<link href="' . base_url('vendors/simplebar/simplebar.min.css') . '" rel="stylesheet">',
+        '<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">',
+        '<link href="' . base_url('assets/css/theme-rtl.min.css') . '" type="text/css" rel="stylesheet" id="style-rtl">',
+        '<link href="' . base_url('assets/css/theme.min.css') . '" type="text/css" rel="stylesheet" id="style-default">',
+        '<link href="' . base_url('assets/css/user-rtl.min.css') . '" type="text/css" rel="stylesheet" id="user-style-rtl">',
+        '<link href="' . base_url('assets/css/user.min.css') . '" type="text/css" rel="stylesheet" id="user-style-default">'
+
+    );
+}
+
+function scriptsClienteFooter()
+{
+    return array(
+
+        '<script src="' . base_url('vendors/jquery/jquery.min.js') . '"></script>',
+        '<script src="' . base_url('vendors/popper/popper.min.js') . '"></script>',
+        '<script src="' . base_url('vendors/bootstrap/bootstrap.min.js') . '"></script>',
+        '<script src="' . base_url('vendors/anchorjs/anchor.min.js') . '"></script>',
+        '<script src="' . base_url('vendors/is/is.min.js') . '"></script>',
+        '<script src="' . base_url('vendors/fontawesome/all.min.js') . '"></script>',
+        '<script src="' . base_url('vendors/lodash/lodash.min.js') . '"></script>',
+        '<script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>',
+        '<script src="' . base_url('vendors/list.js/list.min.js') . '"></script>',
+        '<script src="' . base_url('vendors/feather-icons/feather.min.js') . '"></script>',
+        '<script src="' . base_url('vendors/dayjs/dayjs.min.js') . '"></script>',
+        '<script src="' . base_url('vendors/prism/prism.js') . '"></script>',
+        '<script src="' . base_url('assets/js/phoenix.js') . '"></script>',
+        '<script src="' . base_url('assets/js/clientes/formulario-cliente.js') . '"></script>',
+        '<script src="' . base_url('node_modules/sweetalert2/dist/sweetalert2.all.min.js') . '"></script>'
+
+    );
+}
