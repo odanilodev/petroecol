@@ -173,7 +173,7 @@ function scriptsUsuarioFooter()
 function scriptsClienteHead()
 {
     return array(
-
+        '<script src="' . base_url('node_modules/sweetalert2/dist/sweetalert2.all.min.js') . '"></script>',
         '<script src="' . base_url('assets/js/config.js') . '"></script>',
         '<link href="' . base_url('vendors/flatpickr/flatpickr.min.css') . '" rel="stylesheet">',
         '<link href="' . base_url('vendors/dropzone/dropzone.min.css') . '" rel="stylesheet">',
