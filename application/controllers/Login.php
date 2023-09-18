@@ -93,7 +93,10 @@ class Login extends CI_Controller
         
         if ($usuario) {
             $id = $usuario['id'];
-            $usuario['senha'] = $novaSenha;
+
+            // Hash da nova senha
+            $novaSenhaHash = password_hash($novaSenha, PASSWORD_DEFAULT);
+            $usuario['senha'] = $novaSenhaHash;
         
             $resultado = $this->Usuarios_model->editaUsuario($id, $usuario);
         
@@ -112,22 +115,28 @@ class Login extends CI_Controller
     public function recebeLogin()
     {
         $this->load->model('Usuarios_model');
-
+    
         $email = $this->input->post('email');
-        $senha = $this->input->post('senha');
-
+        $senha_digitada = $this->input->post('senha'); // A senha inserida pelo usuário.
+    
         $usuario = $this->Usuarios_model->recebeUsuarioEmail($email);
-
+    
         if ($usuario) {
-            if ($senha === $usuario['senha']) {
+            $senha_hash = $usuario['senha']; // O hash da senha armazenado no banco de dados.
+    
+            if (password_verify($senha_digitada, $senha_hash)) {
+                // A senha está correta.
                 $this->session->set_userdata('nome_usuario', $usuario['nome']);
                 $this->session->set_userdata('email', $usuario['email']);
                 echo 'Usuário logado';
             } else {
+                // A senha está incorreta.
                 echo 'Senha incorreta';
             }
         } else {
+            // Usuário não encontrado.
             echo 'Usuário não encontrado';
         }
     }
+    
 }
