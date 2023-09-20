@@ -6,7 +6,7 @@ class Clientes extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        //Do your magic here
+        $this->load->model('Clientes_model');
     }
 
     public function formulario()
@@ -19,7 +19,7 @@ class Clientes extends CI_Controller
 
         // $id = $this->uri->segment(3);
 
-        // $data['usuario'] = $this->Usuarios_model->exibeUsuario($id);
+        // $data['usuario'] = $this->Clientes_model->exibeCliente($id);
 
         $this->load->view('admin/includes/painel/cabecalho');
         $this->load->view('admin/paginas/clientes/cadastra-cliente');
@@ -31,9 +31,18 @@ class Clientes extends CI_Controller
         $dadosEmpresa = $this->input->post('dadosEmpresa');
         $dadosEndereco = $this->input->post('dadosEndereco');
         $dadosResponsavel = $this->input->post('dadosResponsavel');
-
-        // coloca os arrays em uma única variável
+    
+        // Coloca os arrays em uma única variável
         $dados = array_merge($dadosEmpresa, $dadosEndereco, $dadosResponsavel);
         
+        $dataHoraAtual = date('Y-m-d H:i:s');
+        
+        $dados['data_criacao'] = $dataHoraAtual;
+    
+        $this->Clientes_model->insereCliente($dados);
+    
+        echo "Usuário cadastrado com sucesso";
     }
+    
+    
 }
