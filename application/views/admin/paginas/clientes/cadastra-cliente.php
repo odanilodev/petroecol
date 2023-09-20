@@ -190,12 +190,12 @@
 
                         <div class="col-md-4">
                           <label class="form-label" for="bootstrap-wizard-card-name">Telefone do Responsável</label>
-                          <input class="form-control" placeholder="John Doe" name="tel_responsavel" type="text" id="bootstrap-wizard-card-name" />
+                          <input class="form-control" placeholder="John Doe" name="telefone_responsavel" type="text" id="bootstrap-wizard-card-name" />
                         </div>
 
                         <div class="col-md-4">
                           <label class="form-label" for="bootstrap-wizard-card-name">Função do Responsável</label>
-                          <input class="form-control" placeholder="John Doe" name="func_responsavel" type="text" id="bootstrap-wizard-card-name" />
+                          <input class="form-control" placeholder="John Doe" name="funcao_responsavel" type="text" id="bootstrap-wizard-card-name" />
                         </div>
 
                       </div>
