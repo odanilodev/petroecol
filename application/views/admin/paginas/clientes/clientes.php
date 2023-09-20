@@ -1,7 +1,7 @@
 <div class="content">
 
     <div class="pb-8">
-        <div id="reports" data-list="{&quot;valueNames&quot;:[&quot;title&quot;,&quot;text&quot;,&quot;priority&quot;,&quot;reportsby&quot;,&quot;reports&quot;,&quot;date&quot;],&quot;page&quot;:10,&quot;pagination&quot;:true}">
+        <div id="reports">
             <div class="row g-3 justify-content-between mb-2">
                 <div class="col-12">
                     <div class="d-md-flex justify-content-between">
@@ -242,29 +242,6 @@
 
             </div>
 
-            <div class="row align-items-center justify-content-between py-2 pe-0 fs--1 mt-2">
-
-                <div class="col-auto d-flex float-right">
-
-                    <button class="page-link disabled" data-list-pagination="prev" disabled="">
-                        <span class="fas fa-chevron-left"></span>
-                    </button>
-
-                    <ul class="mb-0 pagination">
-                        <li class="active">
-                            <button class="page" type="button" data-i="1" data-page="10">1</button>
-                        </li>
-                        <li>
-                            <button class="page" type="button" data-i="2" data-page="10">2</button>
-                        </li>
-                    </ul>
-
-                    <button class="page-link pe-0" data-list-pagination="next">
-                        <span class="fas fa-chevron-right"></span>
-                    </button>
-
-                </div>
-
-            </div>
+           
         </div>
     </div>
