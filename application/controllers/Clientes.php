@@ -9,6 +9,19 @@ class Clientes extends CI_Controller
         //Do your magic here
     }
 
+    public function index()
+    {
+        $scriptsHead = scriptsClienteHead();
+        add_scripts('header', $scriptsHead);
+
+        $scriptsFooter = scriptsClienteFooter();
+        add_scripts('footer', $scriptsFooter);
+
+        $this->load->view('admin/includes/painel/cabecalho');
+        $this->load->view('admin/paginas/clientes/clientes');
+        $this->load->view('admin/includes/painel/rodape');
+    }
+
     public function formulario()
     {
         $scriptsHead = scriptsClienteHead();
