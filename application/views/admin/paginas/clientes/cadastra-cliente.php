@@ -175,9 +175,7 @@
 
                         <div class="mb-2 col-md-12 mt-5">
                           <label class="form-label">Complemento</label>
-                          <textarea class="form-control campo" rows="4" name="complemento" value="<?= isset($cliente['complemento']) ? $cliente['complemento'] : ""; ?>">
-                            <?= isset($cliente['complemento']) ? $cliente['complemento'] : ""; ?>
-                          </textarea>
+                          <textarea class="form-control campo" rows="4" name="complemento" value="<?= isset($cliente['complemento']) ? $cliente['complemento'] : ""; ?>"><?= isset($cliente['complemento']) ? $cliente['complemento'] : ""; ?></textarea>
                         </div>
 
                       </div>
