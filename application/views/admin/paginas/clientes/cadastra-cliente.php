@@ -76,47 +76,51 @@
               <div class="card-body pt-4 pb-0">
                 <div class="tab-content">
                   <div class="tab-pane active" role="tabpanel" aria-labelledby="bootstrap-wizard-tab1" id="bootstrap-wizard-tab1">
+
+                    <input type="hidden" value="<?= isset($cliente['id']) ? $cliente['id'] : "" ?>" class="input-id">
+                    
                     <form id="form-empresa" class="needs-validation" novalidate="novalidate" data-wizard-form="1">
+
                       <div class="row">
 
                         <div class="mb-2 mt-2 col-md-6">
                           <label class="form-label text-900">Nome da empresa *</label>
-                          <input required class="form-control" type="text" name="nome" placeholder="Insira o nome da empresa" />
+                          <input required class="form-control" type="text" name="nome" value="<?= isset($cliente['nome']) ? $cliente['nome'] : ""; ?>" placeholder="Insira o nome da empresa"/>
                           <div class="invalid-feedback">Preencha este campo</div>
 
                         </div>
 
                         <div class="mb-2 mt-2 col-md-4">
                           <label class="form-label">Telefone *</label>
-                          <input required class="form-control" type="text" name="telefone" placeholder="Telefone com DDD" />
+                          <input required class="form-control" type="text" name="telefone" value="<?= isset($cliente['telefone']) ? $cliente['telefone'] : ""; ?>" placeholder="Telefone com DDD" />
                           <div class="invalid-feedback">Preencha este campo</div>
 
                         </div>
 
                         <div class="mb-2 mt-2 col-md-2">
                           <label class="form-label text-900">Código</label>
-                          <input class="form-control" type="text" name="codigo" placeholder="Código da empresa" />
+                          <input class="form-control" type="text" name="codigo" value="<?= isset($cliente['codigo']) ? $cliente['codigo'] : ""; ?>" placeholder="Código da empresa" />
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">CNPJ</label>
-                          <input class="form-control" type="text" name="cnpj" placeholder="CNPJ da empresa" />
+                          <input class="form-control" type="text" name="cnpj" value="<?= isset($cliente['cnpj']) ? $cliente['cnpj'] : ""; ?>" placeholder="CNPJ da empresa" />
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">Razão social *</label>
-                          <input required class="form-control" type="text" name="razao_social" placeholder="Razão Social" />
+                          <input required class="form-control" type="text" name="razao_social" value="<?= isset($cliente['razao_social']) ? $cliente['razao_social'] : ""; ?>" placeholder="Razão Social" />
                           <div class="invalid-feedback">Preencha este campo</div>
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">Tipo de empresa</label>
-                          <input class="form-control" type="text" name="tipo_negocio" placeholder="Tipo de empresa" />
+                          <input class="form-control" type="text" name="tipo_negocio" value="<?= isset($cliente['tipo_negocio']) ? $cliente['tipo_negocio'] : ""; ?>" placeholder="Tipo de empresa" />
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">Grupo de negócio</label>
-                          <input class="form-control" type="text" name="grupo_negocio" placeholder="Grupo de negócio" />
+                          <input class="form-control" type="text" name="grupo_negocio" value="<?= isset($cliente['grupo_negocio']) ? $cliente['grupo_negocio'] : ""; ?>" placeholder="Grupo de negócio" />
                         </div>
 
                       </div>
@@ -131,47 +135,49 @@
 
                         <div class="mb-2 mt-2 col-md-4">
                           <label class="form-label">CEP</label>
-                          <input class="form-control campo input-cep" type="text" name="cep" placeholder="Insira o CEP">
+                          <input class="form-control campo input-cep" type="text" name="cep" value="<?= isset($cliente['cep']) ? $cliente['cep'] : ""; ?>" placeholder="Insira o CEP">
                         </div>
 
                         <div class="mb-2 mt-2 col-md-6">
                           <label class="form-label">Rua *</label>
-                          <input id="rua" required class="form-control campo" type="text" name="rua" placeholder="Nome da rua">
+                          <input id="rua" required class="form-control campo" type="text" name="rua" value="<?= isset($cliente['rua']) ? $cliente['rua'] : ""; ?>" placeholder="Nome da rua">
                           <div class="invalid-feedback">Preencha este campo</div>
                         </div>
 
                         <div class="mb-2 mt-2 col-md-2">
                           <label class="form-label">N° *</label>
-                          <input required class="form-control campo" type="text" name="numero" placeholder="Número">
+                          <input required class="form-control campo" type="text" name="numero" value="<?= isset($cliente['numero']) ? $cliente['numero'] : ""; ?>" placeholder="Número">
                           <div class="invalid-feedback">Preencha este campo</div>
                         </div>
 
                         <div class="mb-2 col-md-4 mt-5">
                           <label class="form-label">Bairro *</label>
-                          <input id="bairro" required class="form-control campo" type="text" name="bairro" placeholder="Bairro">
+                          <input id="bairro" required class="form-control campo" type="text" name="bairro" value="<?= isset($cliente['bairro']) ? $cliente['bairro'] : ""; ?>" placeholder="Bairro">
                           <div class="invalid-feedback">Preencha este campo</div>
                         </div>
 
                         <div class="mb-2 col-md-3 mt-5">
                           <label class="form-label">Cidade *</label>
-                          <input id="cidade" required class="form-control campo" type="text" name="cidade" placeholder="Número">
+                          <input id="cidade" required class="form-control campo" type="text" name="cidade" value="<?= isset($cliente['cidade']) ? $cliente['cidade'] : ""; ?>" placeholder="Número">
                           <div class="invalid-feedback">Preencha este campo</div>
                         </div>
 
                         <div class="mb-2 col-md-2 mt-5">
                           <label class="form-label">Estado *</label>
-                          <input id="estado" required class="form-control campo" type="text" name="estado" placeholder="Número">
+                          <input id="estado" required class="form-control campo" type="text" name="estado" value="<?= isset($cliente['estado']) ? $cliente['estado'] : ""; ?>" placeholder="Número">
                           <div class="invalid-feedback">Preencha este campo</div>
                         </div>
 
                         <div class="mb-2 col-md-3 mt-5">
                           <label class="form-label">País</label>
-                          <input class="form-control campo" type="text" name="pais" placeholder="País">
+                          <input class="form-control campo" type="text" name="pais" value="<?= isset($cliente['pais']) ? $cliente['pais'] : ""; ?>" placeholder="País">
                         </div>
 
                         <div class="mb-2 col-md-12 mt-5">
                           <label class="form-label">Complemento</label>
-                          <textarea class="form-control campo" rows="4" name="complemento"></textarea>
+                          <textarea class="form-control campo" rows="4" name="complemento" value="<?= isset($cliente['complemento']) ? $cliente['complemento'] : ""; ?>">
+                            <?= isset($cliente['complemento']) ? $cliente['complemento'] : ""; ?>
+                          </textarea>
                         </div>
 
                       </div>
@@ -185,17 +191,17 @@
 
                         <div class="col-md-4">
                           <label class="form-label" for="bootstrap-wizard-card-name">Nome</label>
-                          <input class="form-control" placeholder="John Doe" name="nome_responsavel" type="text" id="bootstrap-wizard-card-name" />
+                          <input class="form-control" placeholder="Nome do responsável" name="nome_responsavel" value="<?= isset($cliente['nome_responsavel']) ? $cliente['nome_responsavel'] : ""; ?>" type="text"/>
                         </div>
 
                         <div class="col-md-4">
                           <label class="form-label" for="bootstrap-wizard-card-name">Telefone do Responsável</label>
-                          <input class="form-control" placeholder="John Doe" name="telefone_responsavel" type="text" id="bootstrap-wizard-card-name" />
+                          <input class="form-control" placeholder="Telefone do responsável" name="telefone_responsavel" value="<?= isset($cliente['telefone_responsavel']) ? $cliente['telefone_responsavel'] : ""; ?>" type="text"/>
                         </div>
 
                         <div class="col-md-4">
                           <label class="form-label" for="bootstrap-wizard-card-name">Função do Responsável</label>
-                          <input class="form-control" placeholder="John Doe" name="funcao_responsavel" type="text" id="bootstrap-wizard-card-name" />
+                          <input class="form-control" placeholder="Função do responsável" name="funcao_responsavel" value="<?= isset($cliente['funcao_responsavel']) ? $cliente['funcao_responsavel'] : ""; ?>" type="text"/>
                         </div>
 
                       </div>

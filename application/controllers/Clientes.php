@@ -17,7 +17,7 @@ class Clientes extends CI_Controller
         $scriptsFooter = scriptsClienteFooter();
         add_scripts('footer', $scriptsFooter);
 
-		$data['clientes'] = $this->Clientes_model->recebeClientes();
+        $data['clientes'] = $this->Clientes_model->recebeClientes();
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/clientes');
@@ -32,11 +32,11 @@ class Clientes extends CI_Controller
         $scriptsFooter = scriptsClienteFooter();
         add_scripts('footer', $scriptsFooter);
 
-        // $id = $this->uri->segment(3);
+        $id = $this->uri->segment(3);
 
-        // $data['usuario'] = $this->Clientes_model->exibeCliente($id);
+        $data['cliente'] = $this->Clientes_model->recebeCliente($id);
 
-        $this->load->view('admin/includes/painel/cabecalho');
+        $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/cadastra-cliente');
         $this->load->view('admin/includes/painel/rodape');
     }
@@ -46,18 +46,30 @@ class Clientes extends CI_Controller
         $dadosEmpresa = $this->input->post('dadosEmpresa');
         $dadosEndereco = $this->input->post('dadosEndereco');
         $dadosResponsavel = $this->input->post('dadosResponsavel');
-    
+        $id = $this->input->post('id');
+
         // Coloca os arrays em uma única variável
         $dados = array_merge($dadosEmpresa, $dadosEndereco, $dadosResponsavel);
-        
+
         $dataHoraAtual = date('Y-m-d H:i:s');
-        
+
         $dados['data_criacao'] = $dataHoraAtual;
-    
-        $this->Clientes_model->insereCliente($dados);
-    
-        echo "Usuário cadastrado com sucesso";
+
+        if ($id) {
+
+            $res = $this->Clientes_model->editaCliente($id, $dados);
+
+            if ($res) {
+                echo "editado";
+            }
+
+        } else {
+
+            $res = $this->Clientes_model->insereCliente($dados);
+
+            if ($res) {
+                echo "cadastrado";
+            }
+        }
     }
-    
-    
 }
