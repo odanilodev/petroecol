@@ -17,11 +17,9 @@ class Clientes extends CI_Controller
         $scriptsFooter = scriptsClienteFooter();
         add_scripts('footer', $scriptsFooter);
 
-        // $id = $this->uri->segment(3);
+		$data['clientes'] = $this->Clientes_model->recebeClientes();
 
-        // $data['usuario'] = $this->Usuarios_model->exibeUsuario($id);
-
-        $this->load->view('admin/includes/painel/cabecalho');
+        $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/clientes');
         $this->load->view('admin/includes/painel/rodape');
     }
