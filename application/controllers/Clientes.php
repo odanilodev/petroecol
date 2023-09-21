@@ -56,6 +56,13 @@ class Clientes extends CI_Controller
     
         echo "Usuário cadastrado com sucesso";
     }
+
+    public function insereSql()
+    {
+        $this->load->view('admin/paginas/clientes/sql-cliente');
+    }
+
+
     
     
 }
