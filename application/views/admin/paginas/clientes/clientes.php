@@ -71,6 +71,8 @@
 
             <div class="row g-3 list" id="reportsList">
 
+            <?php foreach($clientes as $v) { ?>
+
                 <div class="col-4 col-xl-4">
                     <div class="card h-100">
 
@@ -82,11 +84,13 @@
                                         <input class="form-check-input" type="checkbox">
                                     </div>
                                     <div class="d-sm-flex align-items-center ps-2">
-                                        <a class="fw-bold fs-1 lh-sm title line-clamp-1 me-sm-4 " href="#">Carrefour Prudente</a>
+                                        <a title="<?= $v['nome']?>" class="fw-bold fs-1 lh-sm title line-clamp-1 me-sm-4 " href="#"><?= $v['nome']?></a>
                                     </div>
                                 </div>
 
-                                <p class="fs--1 fw-semi-bold text-900 ms-4 text mb-4 ps-2 w-50">Av. Manoel Goulart, 400 Vila Santa Helena - Presidene Prudente / SP </p>
+                                <p class="fs--1 fw-semi-bold text-900 ms-4 text mb-4 ps-2 w-50">
+                                    <?= $v['rua']; ?>, <?= $v['numero']; ?> <?= $v['bairro']?> - <?= $v['cidade']?> / <?= $v['estado']?> 
+                                </p>
 
                                 <div class="d-flex align-items-center" style="position: absolute; top: 5px; right: 10px">
 
@@ -104,7 +108,7 @@
 
                                                 <div class="dropdown-divider"></div>
 
-                                                <a class="dropdown-item text-danger text-center" href="<?= base_url('clientes/formulario/') ?>">
+                                                <a class="dropdown-item text-danger text-center" href="<?= base_url('clientes/formulario/' . $v['id']) ?>">
                                                     <span class="text-900 uil uil-pen"></span>
                                                     <span class="text-900"> Editar</span>
                                                 </a>
@@ -137,7 +141,7 @@
                                 <div class="col-12 col-sm-auto">
                                     <div class="d-flex align-items-center">
                                         <p class="mb-0 fs--1 fw-semi-bold text-700 reports">
-                                            <i class="fas fa-barcode"></i> RPN
+                                            <i class="fas fa-barcode"></i> <?= $v['codigo']?>
                                         </p>
                                     </div>
                                 </div>
@@ -145,7 +149,7 @@
                                 <div class="col-12 col-sm-auto">
                                     <div class="d-flex align-items-center">
                                         <p class="mb-0 fs--1 fw-semi-bold text-700 date">
-                                            <i class="fas fa-phone-square"></i> (14) 99164-3110
+                                            <i class="fas fa-phone-square"></i> <?= $v['telefone']?>
                                         </p>
                                     </div>
                                 </div>
@@ -156,89 +160,7 @@
                     </div>
                 </div>
 
-                <div class="col-4 col-xl-4">
-                    <div class="card h-100">
-
-                        <div class="card-body">
-                            <div class="border-bottom">
-
-                                <div class="d-flex align-items-start mb-1 mt-3">
-                                    <div class="form-check mb-0">
-                                        <input class="form-check-input" type="checkbox">
-                                    </div>
-                                    <div class="d-sm-flex align-items-center ps-2">
-                                        <a class="fw-bold fs-1 lh-sm title line-clamp-1 me-sm-4 " href="#">Carrefour Prudente</a>
-                                    </div>
-                                </div>
-
-                                <p class="fs--1 fw-semi-bold text-900 ms-4 text mb-4 ps-2 w-50">Av. Manoel Goulart, 400 Vila Santa Helena - Presidene Prudente / SP </p>
-
-                                <div class="d-flex align-items-center" style="position: absolute; top: 5px; right: 10px">
-
-                                    <div class="col-12 col-sm-auto flex-1 text-truncate">
-                                        <div class="font-sans-serif btn-reveal-trigger position-static">
-                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
-                                                <span class="fas fa-ellipsis-h fs--2"></span>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-end py-2">
-
-                                                <a class="dropdown-item text-center" href="#!">
-                                                    <span class="text-900 uil uil-eye"></span>
-                                                    <span class="text-900"> Visualizar</span>
-                                                </a>
-
-                                                <div class="dropdown-divider"></div>
-
-                                                <a class="dropdown-item text-danger text-center" href="#!">
-                                                    <span class="text-900 uil uil-pen"></span>
-                                                    <span class="text-900"> Editar</span>
-                                                </a>
-
-                                                <div class="dropdown-divider"></div>
-
-                                                <a class="dropdown-item text-danger text-center" href="#!">
-                                                    <span class="text-900 uil uil-trash"></span>
-                                                    <span class="text-900"> Excluir</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="d-flex align-items-center" style="position: absolute; top: 10px; left: 10px">
-                                    <span class="fw-bold fs--1 text-light lh-2 mr-5 badge rounded-pill bg-danger">Inativo</span>
-                                </div>
-
-                            </div>
-
-                            <div class="row g-1 g-sm-3 mt-2 lh-1">
-
-                                <div class="col-12 col-sm-auto flex-1 text-truncate">
-                                    <span class="far fa-clock text-success me-1"></span>
-                                </div>
-
-                                <div class="col-12 col-sm-auto">
-                                    <div class="d-flex align-items-center">
-                                        <p class="mb-0 fs--1 fw-semi-bold text-700 reports">
-                                            <i class="fas fa-barcode"></i> RPN
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div class="col-12 col-sm-auto">
-                                    <div class="d-flex align-items-center">
-                                        <p class="mb-0 fs--1 fw-semi-bold text-700 date">
-                                            <i class="fas fa-phone-square"></i> (14) 99164-3110
-                                        </p>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+            <?php } ?>
 
             </div>
 
