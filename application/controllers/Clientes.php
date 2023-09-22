@@ -64,4 +64,10 @@ class Clientes extends CI_Controller
         }
 
     }
+
+    public function insereSql()
+    {
+        $this->load->view('admin/paginas/clientes/sql-cliente');
+    }    
+    
 }
