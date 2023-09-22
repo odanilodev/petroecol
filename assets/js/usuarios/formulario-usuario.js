@@ -132,41 +132,13 @@ const cadastraUsuario = () => {
                 $('.load-form').addClass('d-none');
                 $('.btn-envia').removeClass('d-none');
 
-                if (data == "email já existe") {
+                if (data.success) {
 
-                    Swal.fire({
-                        title: 'Erro',
-                        text: 'Este email está vinculado a outra conta! Tente um email diferente',
-                        icon: 'error',
-                        confirmButtonText: 'Fechar'
-                    })
+                    avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}usuarios`);
 
-                } else if (data == "usuario cadastrado") {
+                } else {
 
-                    Swal.fire({
-                        title: 'Sucesso!',
-                        text: 'O usuário foi cadastrado com sucesso!',
-                        icon: 'success',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-
-                            window.location.href = `${baseUrl}usuarios/`;
-                        }
-                    });
-
-
-                } else if (data == "usuario editado") {
-
-                    Swal.fire({
-                        title: 'Sucesso!',
-                        text: 'O usuário foi editado com sucesso!',
-                        icon: 'success',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-
-                            window.location.href = `${baseUrl}usuarios/`;
-                        }
-                    });
+                    avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
 
                 }
             }
@@ -204,7 +176,8 @@ const deletarUsuario = (id) => {
                     id: id
                 }, success: function () {
 
-                    avisoDeletado('Usuário', 'usuarios');
+                    avisoRetorno('Sucesso!', 'Usuário deletado com sucesso!', 'success', `${baseUrl}usuarios`);
+
                 }
             })
 
@@ -212,17 +185,4 @@ const deletarUsuario = (id) => {
     })
 
 
-}
-
-function avisoDeletado(string, redirect) {
-    Swal.fire({
-        title: 'Sucesso!',
-        text: `${string} deletado com sucesso!`,
-        icon: 'success',
-    }).then((result) => {
-        if (result.isConfirmed) {
-
-            window.location.href = `${baseUrl}${redirect}`;
-        }
-    });
 }
