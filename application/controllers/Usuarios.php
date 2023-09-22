@@ -121,15 +121,25 @@ class Usuarios extends CI_Controller
 		$usuario = $this->Usuarios_model->recebeUsuario($id);
 
 		if ($usuario) {
+
 			$senha_hash = $usuario['senha']; // O hash da senha armazenado no banco de dados.
 
 			if (password_verify($senhaAntiga, $senha_hash)) {
 				// A senha antiga está correta.
-				echo "senha encontrada";
+				$response = array(
+					'success' => true
+				);
+
 			} else {
 				// A senha antiga está incorreta.
-				echo "senha não encontrada";
+				$response = array(
+					'success' => false
+				);
+
 			}
+
+			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
 		}
 	}
 

@@ -59,7 +59,7 @@ const cadastraUsuario = () => {
                 },
                 success: function (data) {
 
-                    if (data != "senha encontrada") {
+                    if (!data.success) {
 
                         $('.input-senha-antiga').addClass('invalido');
                         $('.senha-antiga-invalida').addClass('d-flex');
