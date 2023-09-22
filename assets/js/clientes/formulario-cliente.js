@@ -168,3 +168,45 @@ $(document).on('click', '.btn-etapas', function () {
 
     }
 });
+
+
+const deletaCliente = (id) => {
+
+    Swal.fire({
+        title: 'Você tem certeza?',
+        text: "Esta ação não porerá ser revertida",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Sim, deletar'
+
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+
+            $.ajax({
+                type: 'post',
+                url: `${baseUrl}clientes/deletaCliente`,
+                data: {
+                    id: id
+                }, success: function () {
+
+                    Swal.fire({
+                        title: 'Sucesso!',
+                        text: `Cliente deletado com sucesso!`,
+                        icon: 'success',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                
+                            window.location.href = `${baseUrl}clientes`;
+                        }
+                    });
+                }
+            })
+
+        }
+    })
+
+}
