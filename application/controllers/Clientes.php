@@ -55,21 +55,26 @@ class Clientes extends CI_Controller
 
         $dados['data_criacao'] = $dataHoraAtual;
 
-        if ($id) {
+        $resultado = $id ? $this->Clientes_model->editaCliente($id, $dados) : $this->Clientes_model->insereCliente($dados);
 
-            $res = $this->Clientes_model->editaCliente($id, $dados);
-
-            if ($res) {
-                echo "editado";
-            }
-
+        if ($resultado) {
+            echo $id ? "Cliente editado com sucesso" : "Cliente cadastrado com sucesso";
         } else {
-
-            $res = $this->Clientes_model->insereCliente($dados);
-
-            if ($res) {
-                echo "cadastrado";
-            }
+            echo $id ? "Erro ao editar o cliente" : "Erro ao cadastrar o cliente";
         }
+
+    }
+
+    public function insereSql()
+    {
+        $this->load->view('admin/paginas/clientes/sql-cliente');
+    }    
+    
+    public function deletaCliente()
+    {
+        $id = $this->input->post('id');
+
+		$this->Clientes_model->deletaCliente($id);
+
     }
 }
