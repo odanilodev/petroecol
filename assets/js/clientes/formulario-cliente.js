@@ -60,13 +60,16 @@ const verificaCampos = () => {
 
 const cadastraCliente = (dadosEmpresa, dadosEndereco, dadosResponsavel) => {
 
+    let id = $('.input-id').val();
+
     $.ajax({
         type: 'POST',
         url: `${baseUrl}clientes/cadastraCliente`,
         data: {
             dadosEmpresa: dadosEmpresa,
             dadosEndereco: dadosEndereco,
-            dadosResponsavel: dadosResponsavel
+            dadosResponsavel: dadosResponsavel,
+            id: id
         },
         beforeSend: function () {
             $('.load-form').removeClass('d-none');
@@ -75,7 +78,7 @@ const cadastraCliente = (dadosEmpresa, dadosEndereco, dadosResponsavel) => {
         },
         success: function (data) {
 
-            if (data == "cadastrado") {
+            if (data == "Cliente cadastrado com sucesso") {
 
                 Swal.fire({
                     title: 'Sucesso!',
@@ -88,7 +91,7 @@ const cadastraCliente = (dadosEmpresa, dadosEndereco, dadosResponsavel) => {
                     }
                 });
 
-            } else if (data == "editado") {
+            } else if (data == "Cliente editado com sucesso") {
 
                 Swal.fire({
                     title: 'Sucesso!',
@@ -164,4 +167,4 @@ $(document).on('click', '.btn-etapas', function () {
         $('.btn-proximo').html('Próximo <span class="fas fa-chevron-right ms-1" data-fa-transform="shrink-3">');
 
     }
-})
+});
