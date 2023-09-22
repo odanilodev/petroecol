@@ -78,7 +78,7 @@ const cadastraCliente = (dadosEmpresa, dadosEndereco, dadosResponsavel) => {
         },
         success: function (data) {
 
-            if (data == "cadastrado") {
+            if (data == "Cliente cadastrado com sucesso") {
 
                 Swal.fire({
                     title: 'Sucesso!',
@@ -91,7 +91,7 @@ const cadastraCliente = (dadosEmpresa, dadosEndereco, dadosResponsavel) => {
                     }
                 });
 
-            } else if (data == "editado") {
+            } else if (data == "Cliente editado com sucesso") {
 
                 Swal.fire({
                     title: 'Sucesso!',
