@@ -115,7 +115,7 @@
 
                                                 <div class="dropdown-divider"></div>
 
-                                                <a class="dropdown-item text-danger text-center" href="#!">
+                                                <a class="dropdown-item text-danger text-center" href="#" onclick="deletaCliente(<?= $v['id']?>)">
                                                     <span class="text-900 uil uil-trash"></span>
                                                     <span class="text-900"> Excluir</span>
                                                 </a>

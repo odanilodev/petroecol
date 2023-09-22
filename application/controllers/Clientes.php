@@ -70,4 +70,11 @@ class Clientes extends CI_Controller
         $this->load->view('admin/paginas/clientes/sql-cliente');
     }    
     
+    public function deletaCliente()
+    {
+        $id = $this->input->post('id');
+
+		$this->Clientes_model->deletaCliente($id);
+
+    }
 }
