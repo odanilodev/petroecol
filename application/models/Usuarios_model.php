@@ -39,6 +39,7 @@ class Usuarios_model extends CI_Model {
     public function insereUsuario($dados)
     {
         $this->db->insert('ci_usuarios', $dados);
+        return $this->db->affected_rows() > 0;
     }
 
     public function editaUsuario($id, $dados)
