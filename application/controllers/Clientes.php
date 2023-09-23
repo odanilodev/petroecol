@@ -6,6 +6,15 @@ class Clientes extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+
+        // INICIO controle sessão
+		$this->load->library('Controle_sessao');
+		$res = $this->controle_sessao->controle();
+		if ($res == 'erro') {
+			redirect('login/erro', 'refresh');
+		}
+		// FIM controle sessão
+        
         $this->load->model('Clientes_model');
     }
 
@@ -54,27 +63,39 @@ class Clientes extends CI_Controller
         $dataHoraAtual = date('Y-m-d H:i:s');
 
         $dados['data_criacao'] = $dataHoraAtual;
+        $dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-        $resultado = $id ? $this->Clientes_model->editaCliente($id, $dados) : $this->Clientes_model->insereCliente($dados);
+        $retorno = $id ? $this->Clientes_model->editaCliente($id, $dados) : $this->Clientes_model->insereCliente($dados); // se tiver ID edita se não INSERE
 
-        if ($resultado) {
-            echo $id ? "Cliente editado com sucesso" : "Cliente cadastrado com sucesso";
-        } else {
-            echo $id ? "Erro ao editar o cliente" : "Erro ao cadastrar o cliente";
+        if ($retorno) { // inseriu ou editou
+
+            $response = array(
+                'success' => true,
+                'message' => $id ? 'Cliente editado com sucesso!' : 'Cliente cadastrado com sucesso!'
+            );
+
+        } else { // erro ao inserir ou editar
+
+            $response = array(
+                'success' => false,
+                'message' => $id ? "Erro ao editar o cliente!" : "Erro ao cadastrar o cliente!"
+            );
+            
         }
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 
     }
 
     public function insereSql()
     {
         $this->load->view('admin/paginas/clientes/sql-cliente');
-    }    
-    
+    }
+
     public function deletaCliente()
     {
         $id = $this->input->post('id');
 
-		$this->Clientes_model->deletaCliente($id);
-
+        $this->Clientes_model->deletaCliente($id);
     }
 }

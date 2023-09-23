@@ -78,53 +78,34 @@ const cadastraCliente = (dadosEmpresa, dadosEndereco, dadosResponsavel) => {
         },
         success: function (data) {
 
-            if (data == "Cliente cadastrado com sucesso") {
+            if (data.success) {
 
-                Swal.fire({
-                    title: 'Sucesso!',
-                    text: 'O cliente foi cadastrado com sucesso!',
-                    icon: 'success',
-                }).then((result) => {
-                    if (result.isConfirmed) {
+                avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}clientes`);
 
-                        window.location.href = `${baseUrl}clientes/`;
-                    }
-                });
+            } else {
 
-            } else if (data == "Cliente editado com sucesso") {
-
-                Swal.fire({
-                    title: 'Sucesso!',
-                    text: 'O cliente foi editado com sucesso!',
-                    icon: 'success',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-
-                        window.location.href = `${baseUrl}clientes/`;
-                    }
-                });
+                avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
 
             }
-
 
         }
     });
 }
 
 // preenche todos os campos de endereço depois de digitar o cep
-$(document).ready(function() {
-    $('.input-cep').on('blur', function() {
+$(document).ready(function () {
+    $('.input-cep').on('blur', function () {
         var cep = $(this).val().replace(/\D/g, '');
 
         if (cep.length !== 8) {
-            alert('CEP inválido');
+            avisoRetorno('CEP inválido', 'Verifique se digitou corretamente!', 'error', '#');
             return;
         }
 
         $.ajax({
             url: 'https://viacep.com.br/ws/' + cep + '/json/',
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
 
                 if (!data.erro) {
                     $('#rua').val(data.logradouro);
@@ -132,11 +113,8 @@ $(document).ready(function() {
                     $('#cidade').val(data.localidade);
                     $('#estado').val(data.uf);
                 } else {
-                    alert('CEP não encontrado');
+                    avisoRetorno('CEP não encotrado', 'Verifique se digitou corretamente', 'error', '#');
                 }
-            },
-            error: function() {
-                alert('Erro ao buscar o CEP');
             }
         });
     });
@@ -193,16 +171,8 @@ const deletaCliente = (id) => {
                     id: id
                 }, success: function () {
 
-                    Swal.fire({
-                        title: 'Sucesso!',
-                        text: `Cliente deletado com sucesso!`,
-                        icon: 'success',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                
-                            window.location.href = `${baseUrl}clientes`;
-                        }
-                    });
+                    avisoRetorno('Sucesso!', 'Cliente deletado com sucesso!', 'success', `${baseUrl}clientes`);
+
                 }
             })
 

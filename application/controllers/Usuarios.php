@@ -6,6 +6,13 @@ class Usuarios extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+
+		// INICIO controle sessão
+        $this->load->library('Controle_sessao');
+        $res = $this->controle_sessao->controle();
+        if($res == 'erro'){ redirect('login/erro', 'refresh');}
+        // FIM controle sessão
+
 		$this->load->model('Usuarios_model');
 		date_default_timezone_set('America/Sao_Paulo');
 	}
@@ -50,13 +57,19 @@ class Usuarios extends CI_Controller
 		$dados['telefone'] = $this->input->post('telefone');
 		$dados['email'] = $this->input->post('email');
 		$dados['data_criacao'] = date('Y-m-d H:i:s'); // Corrija o formato da data.
+		$dados['id_empresa'] = $this->session->userdata('id_empresa') > 1 ? $this->session->userdata('id_empresa') : $this->input->post('id_empresa'); // Se for usuário master pela valor do input
 
 		$usuario = $this->Usuarios_model->recebeUsuarioEmail($dados['email']); // Verifica se já existe o email
 
 		// Verifica se o email já existe e se não é o email do usuário que está sendo editado
 		if ($usuario && $usuario['id'] != $id) {
-			echo "Email já existe";
-			return;
+
+			$response = array(
+				'success' => false,
+				'message' => "Este email está vinculado a outra conta! Tente um email diferente."
+			);
+
+			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 		}
 
 		// Verifica se veio a senha
@@ -84,18 +97,27 @@ class Usuarios extends CI_Controller
 			}
 		}
 
-		if ($id) {
-			if ($this->input->post('novaSenha')) {
-				$dados['senha'] = password_hash($this->input->post('novaSenha'), PASSWORD_DEFAULT);
-			}
-
-			$this->Usuarios_model->editaUsuario($id, $dados);
-
-			echo "usuario editado";
-		} else {
-			$this->Usuarios_model->insereUsuario($dados);
-			echo "usuario cadastrado";
+		if ($id && $this->input->post('novaSenha')) {
+			$dados['senha'] = password_hash($this->input->post('novaSenha'), PASSWORD_DEFAULT);
 		}
+
+		$retorno = $id ? $this->Usuarios_model->editaUsuario($id, $dados) : $this->Usuarios_model->insereUsuario($dados); // se tiver ID edita se não INSERE
+
+		if ($retorno) { // inseriu ou editou
+
+			$response = array(
+				'success' => true,
+				'message' => $id ? 'Usuário editado com sucesso!' : 'Usuário cadastrado com sucesso!'
+			);
+		} else { // erro ao inserir ou editar
+
+			$response = array(
+				'success' => false,
+				'message' => $id ? "Erro ao editar o usuario!" : "Erro ao cadastrar o usuario!"
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
 
@@ -107,17 +129,26 @@ class Usuarios extends CI_Controller
 		$usuario = $this->Usuarios_model->recebeUsuario($id);
 
 		if ($usuario) {
+
 			$senha_hash = $usuario['senha']; // O hash da senha armazenado no banco de dados.
 
 			if (password_verify($senhaAntiga, $senha_hash)) {
 				// A senha antiga está correta.
-				echo "senha encontrada";
+				$response = array(
+					'success' => true
+				);
+
 			} else {
 				// A senha antiga está incorreta.
-				echo "senha não encontrada";
+				$response = array(
+					'success' => false
+				);
+
 			}
-		} 
-		
+
+			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
+		}
 	}
 
 

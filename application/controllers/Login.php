@@ -30,7 +30,7 @@ class Login extends CI_Controller
         $tokens = $this->Token_model->recebeTokenCodigo($codigo);
 
         if (!empty($tokens)) {
-    
+
             $dataAtual = date('Y-m-d H:i:s');
 
             if ($dataAtual <= $tokens['data_validade']) {
@@ -85,21 +85,21 @@ class Login extends CI_Controller
     public function redefineSenha()
     {
         $this->load->model('Usuarios_model');
-        
+
         $novaSenha = $this->input->post('senha');
         $email = $this->input->post('email');
-        
+
         $usuario = $this->Usuarios_model->recebeUsuarioEmail($email);
-        
+
         if ($usuario) {
             $id = $usuario['id'];
 
             // Hash da nova senha
             $novaSenhaHash = password_hash($novaSenha, PASSWORD_DEFAULT);
             $usuario['senha'] = $novaSenhaHash;
-        
+
             $resultado = $this->Usuarios_model->editaUsuario($id, $usuario);
-        
+
             // Verifica se a edição foi bem-sucedida
             if ($resultado) {
                 return "Editado com sucesso!";
@@ -115,28 +115,59 @@ class Login extends CI_Controller
     public function recebeLogin()
     {
         $this->load->model('Usuarios_model');
-    
+
         $email = $this->input->post('email');
         $senha_digitada = $this->input->post('senha'); // A senha inserida pelo usuário.
-    
+        $redirecionamento = $this->input->post('link'); // Pega a url que o usuário tentou acessar
         $usuario = $this->Usuarios_model->recebeUsuarioEmail($email);
-    
+
         if ($usuario) {
             $senha_hash = $usuario['senha']; // O hash da senha armazenado no banco de dados.
-    
+
             if (password_verify($senha_digitada, $senha_hash)) {
                 // A senha está correta.
+                $this->session->set_userdata('logado', true);
                 $this->session->set_userdata('nome_usuario', $usuario['nome']);
                 $this->session->set_userdata('email', $usuario['email']);
-                echo 'Usuário logado';
+                $this->session->set_userdata('id_usuario', $usuario['id']);
+                $this->session->set_userdata('id_empresa', $usuario['id_empresa']);
+
+                $url_redirecionamento = explode('login/index/', $redirecionamento);
+
+                if (isset($url_redirecionamento[1])) { // manda o usuário pra url que ele tentou acessar com a senha expirada
+                    redirect($url_redirecionamento[1]);
+                }
+                redirect('admin');
+                exit;
             } else {
                 // A senha está incorreta.
-                echo 'Senha incorreta';
+                $this->session->set_flashdata('mensagem', 'Senha incorreta');
+                $this->session->set_flashdata('tipo_alerta', 'danger');
+                echo 'Senha incorreta (ja deixei a flahsdata setada)';
             }
         } else {
             // Usuário não encontrado.
-            echo 'Usuário não encontrado';
+            $this->session->set_flashdata('mensagem', 'Usuário não encontrado');
+            $this->session->set_flashdata('tipo_alerta', 'danger');
+            echo 'Usuário não encontrado (ja deixei a flahsdata setada)';
         }
     }
-    
+
+    public function sair()
+    {
+        // Destrói a sessão
+        $this->session->sess_destroy();
+
+        // Redireciona para login
+        redirect('login');
+    }
+
+    public function erro()
+    {
+        // Destrói a sessão
+        $this->session->sess_destroy();
+
+        // view
+        echo 'Montar uma página falando que o cliente não tem permissão para acessar esse conteúdo';
+    }
 }
