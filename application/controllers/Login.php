@@ -34,13 +34,24 @@ class Login extends CI_Controller
             $dataAtual = date('Y-m-d H:i:s');
 
             if ($dataAtual <= $tokens['data_validade']) {
-                echo 'Token válido.';
+                $response = array(
+                    'success' => true,
+                    'message' => 'Token válido.'
+                );
             } else {
-                echo 'Token expirado.';
+                $response = array(
+                    'success' => false,
+                    'message' => 'Token expirado.'
+                );
             }
         } else {
-            echo 'Token não encontrado.';
+            $response = array(
+                'success' => false,
+                'message' => 'Token não encontrado.'
+            );
         }
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
     public function recuperaSenha()
@@ -57,8 +68,11 @@ class Login extends CI_Controller
         $usuario = $this->Usuarios_model->recebeUsuarioEmail($email);
 
         if (!$usuario) {
-            echo 'Usuário não encontrado';
-            exit;
+            $response = array(
+                'success' => false,
+                'message' => 'Usuário não encontrado'
+            );
+            return $this->output->set_content_type('application/json')->set_output(json_encode($response));
         }
 
         $codigo = str_pad(rand(100000, 999999), 6, '0', STR_PAD_LEFT);
@@ -76,10 +90,19 @@ class Login extends CI_Controller
 
         if ($insercaoBemSucedida) {
             $emailSender->enviarEmail('definicaoSenha', $email, $assunto, $codigo);
-            echo 'Token enviado com sucesso';
+             $response = array(
+                'success' => true,
+                'message' => 'Token enviado com sucesso'
+            );
         } else {
-            echo 'Houve um erro ao inserir o token.';
+            $response = array(
+                'success' => false,
+                'message' => 'Houve um erro ao inserir o token.'
+            );
         }
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
     }
 
     public function redefineSenha()
@@ -102,14 +125,25 @@ class Login extends CI_Controller
 
             // Verifica se a edição foi bem-sucedida
             if ($resultado) {
-                return "Editado com sucesso!";
+                $response = array(
+                'success' => true,
+                'message' => "Editado com sucesso!"
+                );
             } else {
-                return "Erro ao editar usuário, ou nenhum dado afetado.";
+                $response = array(
+                    'success' => true,
+                    'message' => "Editado com sucesso!"
+                );
             }
         } else {
             // Retorna mensagem de erro se o usuário não for encontrado
-            return "Usuário não encontrado.";
+            $response = array(
+                'success' => false,
+                'message' => "Usuário não encontrado."
+            );
         }
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
     public function recebeLogin()
@@ -143,13 +177,15 @@ class Login extends CI_Controller
                 // A senha está incorreta.
                 $this->session->set_flashdata('mensagem', 'Senha incorreta');
                 $this->session->set_flashdata('tipo_alerta', 'danger');
-                echo 'Senha incorreta (ja deixei a flahsdata setada)';
+                redirect('login');
+                exit;
             }
         } else {
             // Usuário não encontrado.
             $this->session->set_flashdata('mensagem', 'Usuário não encontrado');
             $this->session->set_flashdata('tipo_alerta', 'danger');
-            echo 'Usuário não encontrado (ja deixei a flahsdata setada)';
+            redirect('login');
+            exit;
         }
     }
 
