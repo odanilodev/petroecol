@@ -130,7 +130,7 @@
 
                     <form action="<?= base_url('login/recebeLogin') ?>" method="post">
 
-                      <input type="text" name="link" value="<?=base_url(uri_string())?>">
+                      <input type="hidden" name="link" value="<?=base_url(uri_string())?>">
 
                       <div class="mb-3 text-start">
                         <label class="form-label" for="email">Email</label>
