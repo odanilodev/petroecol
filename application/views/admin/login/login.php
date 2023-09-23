@@ -128,7 +128,9 @@
                       <div class="divider-content-center bg-white">Acesse com seu login</div>
                     </div>
 
-                    <form action="<?= base_url('login/recebeLogin')?>" method="post">
+                    <form action="<?= base_url('login/recebeLogin') ?>" method="post">
+
+                      <input type="text" name="link" value="<?=base_url(uri_string())?>">
 
                       <div class="mb-3 text-start">
                         <label class="form-label" for="email">Email</label>
@@ -144,8 +146,8 @@
                         <div class="form-icon-container">
 
                           <span class="fas fa-key text-900 fs--1 form-icon"></span>
-                          
-                          <input name="senha" class="form-control form-icon-input" id="password" type="password" placeholder="Digite sua senha" required/>
+
+                          <input name="senha" class="form-control form-icon-input" id="password" type="password" placeholder="Digite sua senha" required />
 
                           <span onclick="mostrarSenha()" class="far fa-eye-slash text-700 fs--1 form-icodn mostrar-senha icon-senha" title="Mostar Senha"></span>
 
