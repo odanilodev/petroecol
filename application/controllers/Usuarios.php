@@ -6,6 +6,13 @@ class Usuarios extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+
+		// INICIO controle sessão
+        $this->load->library('Controle_sessao');
+        $res = $this->controle_sessao->controle();
+        if($res == 'erro'){ redirect('login/erro', 'refresh');}
+        // FIM controle sessão
+
 		$this->load->model('Usuarios_model');
 		date_default_timezone_set('America/Sao_Paulo');
 	}
@@ -50,6 +57,7 @@ class Usuarios extends CI_Controller
 		$dados['telefone'] = $this->input->post('telefone');
 		$dados['email'] = $this->input->post('email');
 		$dados['data_criacao'] = date('Y-m-d H:i:s'); // Corrija o formato da data.
+		$dados['id_empresa'] = $this->session->userdata('id_empresa') > 1 ? $this->session->userdata('id_empresa') : $this->input->post('id_empresa'); // Se for usuário master pela valor do input
 
 		$usuario = $this->Usuarios_model->recebeUsuarioEmail($dados['email']); // Verifica se já existe o email
 

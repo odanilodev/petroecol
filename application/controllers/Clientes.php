@@ -6,6 +6,15 @@ class Clientes extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+
+        // INICIO controle sessão
+		$this->load->library('Controle_sessao');
+		$res = $this->controle_sessao->controle();
+		if ($res == 'erro') {
+			redirect('login/erro', 'refresh');
+		}
+		// FIM controle sessão
+        
         $this->load->model('Clientes_model');
     }
 
@@ -54,6 +63,7 @@ class Clientes extends CI_Controller
         $dataHoraAtual = date('Y-m-d H:i:s');
 
         $dados['data_criacao'] = $dataHoraAtual;
+        $dados['id_empresa'] = $this->session->userdata('id_empresa');
 
         $retorno = $id ? $this->Clientes_model->editaCliente($id, $dados) : $this->Clientes_model->insereCliente($dados); // se tiver ID edita se não INSERE
 
