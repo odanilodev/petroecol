@@ -132,7 +132,7 @@ class Login extends CI_Controller
             } else {
                 $response = array(
                     'success' => true,
-                    'message' => "Editado com sucesso!"
+                    'message' => "Erro ao editar usuário, ou nenhum dado afetado."
                 );
             }
         } else {
