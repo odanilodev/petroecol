@@ -214,3 +214,36 @@ function scriptsClienteFooter()
 
     );
 }
+
+function scriptsMenuHead()
+{
+    return array(
+        '<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet">',
+        '<link href="' . base_url() . 'vendors/simplebar/simplebar.min.css" rel="stylesheet">',
+        '<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">',
+        '<link href="' . base_url() . 'assets/css/theme-rtl.min.css" type="text/css" rel="stylesheet" id="style-rtl">',
+        '<link href="' . base_url() . 'assets/css/theme.css" type="text/css" rel="stylesheet" id="style-default">',
+        '<link href="' . base_url() . 'assets/img/favicons/favicon-32x32.png" rel="icon" type="image/png" sizes="32x32">',
+        '<link href="' . base_url() . 'assets/img/favicons/favicon-16x16.png" rel="icon" type="image/png" sizes="16x16">',
+        '<link href="' . base_url() . 'assets/img/favicons/favicon.ico" rel="shortcut icon" type="image/x-icon">',
+        '<script src="' . base_url() . 'vendors/imagesloaded/imagesloaded.pkgd.min.js"></script>',
+        '<script src="' . base_url() . 'assets/js/config.js"></script>'
+
+    );
+}
+
+function scriptsMenuFooter()
+{
+    return array(
+        '<script src="' . base_url() . 'vendors/popper/popper.min.js"></script>',
+        '<script src="' . base_url() . 'vendors/bootstrap/bootstrap.min.js"></script>',
+        '<script src="' . base_url() . 'vendors/anchorjs/anchor.min.js"></script>',
+        '<script src="' . base_url() . 'vendors/is/is.min.js"></script>',
+        '<script src="' . base_url() . 'vendors/fontawesome/all.min.js"></script>',
+        '<script src="' . base_url() . 'vendors/lodash/lodash.min.js"></script>',
+        '<script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>',
+        '<script src="' . base_url() . 'vendors/list.js/list.min.js"></script>',
+        '<script src="' . base_url() . 'vendors/feather-icons/feather.min.js"></script>',
+        '<script src="' . base_url() . 'assets/js/phoenix.js"></script>'
+    );
+}
