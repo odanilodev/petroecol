@@ -34195,3 +34195,7 @@ a[href].bg-200:hover, a[href].bg-200:focus {
   cursor: grabbing;
 }
 /*# sourceMappingURL=theme.css.map */
+
+.col--1 {
+  width: 10.333333%;
+}
