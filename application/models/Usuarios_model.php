@@ -1,47 +1,50 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Usuarios_model extends CI_Model {
-	
-	public function recebeUsuarios()
+class Usuarios_model extends CI_Model
+{
+
+    public function __construct()
     {
-		$this->db->order_by('nome', 'DESC');  
+        parent::__construct();
+        $this->load->model('Log_model');
+    }
+
+    public function recebeUsuarios()
+    {
+        $this->db->order_by('nome', 'DESC');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_usuarios');
-			
+
         return $query->result_array();
     }
 
-    public function recebeUsuario($id) 
+    public function recebeUsuario($id)
     {
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_usuarios');
-			
+
         return $query->row_array();
     }
 
-    public function exibeUsuarios()
+    public function recebeUsuarioEmail($email)
     {
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('ci_usuarios');
-			
-        return $query->result_array();
-    }
 
-	public function recebeUsuarioEmail($email)
-    {
-		
-		$this->db->where('email', $email);
+        $this->db->where('email', $email);
         $query = $this->db->get('ci_usuarios');
-			
+
         return $query->row_array();
-		
     }
 
     public function insereUsuario($dados)
     {
         $this->db->insert('ci_usuarios', $dados);
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($this->db->insert_id());
+        }
+
         return $this->db->affected_rows() > 0;
     }
 
@@ -50,6 +53,11 @@ class Usuarios_model extends CI_Model {
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->update('ci_usuarios', $dados);
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id);
+        }
+
         return $this->db->affected_rows() > 0;
     }
 
@@ -59,7 +67,7 @@ class Usuarios_model extends CI_Model {
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('senha', $senhaAntiga);
         $query = $this->db->get('ci_usuarios');
-			
+
         return $query->row_array();
     }
 
@@ -68,7 +76,7 @@ class Usuarios_model extends CI_Model {
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_usuarios');
-			
+
         return $query->row_array();
     }
 
@@ -77,6 +85,10 @@ class Usuarios_model extends CI_Model {
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->delete('ci_usuarios');
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id);
+        }
 
         return $this->db->affected_rows() > 0;
     }
