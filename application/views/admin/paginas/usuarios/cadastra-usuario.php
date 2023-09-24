@@ -19,7 +19,7 @@
                 <div class="tab-pane row" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab2" id="bootstrap-wizard-validation-tab2">
                   <form method="post" class="needs-validation" id="cadastra-usuario" novalidate="novalidate" data-wizard-form="1">
 
-                  <input type="hidden" class="input-id" value="<?= isset($usuario['id']) ? $usuario['id'] : "" ?>">
+                    <input type="hidden" class="input-id" value="<?= isset($usuario['id']) ? $usuario['id'] : "" ?>">
                     <div class="row mb-4">
 
                       <div class="dz-preview-cover d-flex align-items-center justify-content-center mb-2 mb-md-0 col-md-auto">
@@ -75,11 +75,30 @@
                         </div>
                       </div>
 
+
+                      <div class="col-sm-6 mt-3 <?= $this->session->userdata('id_empresa') != 1 ? "d-none" : "" ?>">
+                        <div class="mb-2">
+                          <label class="form-label text-900">Empresa</label>
+                          <select class="select-empresa">
+                            <option value="" selected disabled>Selecione</option>
+
+                            <?php if ($this->session->userdata('id_empresa') != 1) { ?>
+                              <option value="<?= $this->session->userdata('id_empresa')?>" selected>teste</option>
+                            <?php } ?>
+
+                            <?php foreach ($empresas as $v) { ?>
+                              <option value="<?= $v['id'] ?>"><?= $v['nome'] ?></option>
+                            <?php } ?>
+                            
+                          </select>
+                        </div>
+                      </div>
+
                     </div>
 
 
                     <!-- redefinir senha de usuario quando está editando-->
-                    <div class="accordion mt-6 mb-4 <?= !isset($usuario['id']) ? 'd-none' : ''?>">
+                    <div class="accordion mt-6 mb-4 <?= !isset($usuario['id']) ? 'd-none' : '' ?>">
 
                       <div class="accordion-item">
                         <h2 class="accordion-header" id="headingFive">
