@@ -12,15 +12,21 @@ class Etiquetas extends CI_Controller
         $res = $this->controle_sessao->controle();
         if($res == 'erro'){ redirect('login/erro', 'refresh');}
         // FIM controle sessão
+
+        $this->load->model('Etiquetas_model');
 	}
 
 	public function index()
 	{
-		$scriptsHead = scriptsUsuarioHead();
-		add_scripts('header', $scriptsHead);
+		// scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
 
-		$scriptsFooter = scriptsUsuarioFooter();
-		add_scripts('footer', $scriptsFooter);
+		// scripts para etiquetas
+		$scriptsEtiquetaFooter = scriptsEtiquetaFooter();
+
+		add_scripts('header', array_merge($scriptsPadraoHead));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsEtiquetaFooter));
 
 		$data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
 
@@ -31,17 +37,22 @@ class Etiquetas extends CI_Controller
 
 	public function formulario()
 	{
-		$scriptsHead = scriptsUsuarioHead();
-		add_scripts('header', $scriptsHead);
+		// scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
 
-		$scriptsFooter = scriptsUsuarioFooter();
-		add_scripts('footer', $scriptsFooter);
+		// scripts para etiquetas
+		$scriptsEtiquetaFooter = scriptsEtiquetaFooter();
 
-		$this->load->model('Etiquetas_model');
+		add_scripts('header', array_merge($scriptsPadraoHead));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsEtiquetaFooter));
+
+		$this->load->model('Empresas_model');
 
 		$id = $this->uri->segment(3);
 
 		$data['etiqueta'] = $this->Etiquetas_model->recebeEtiqueta($id);
+		$data['empresas'] = $this->Empresas_model->recebeEmpresas();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/etiquetas/cadastra-etiqueta');
@@ -53,6 +64,7 @@ class Etiquetas extends CI_Controller
 		$id = $this->input->post('id');
 
 		$dados['nome'] = $this->input->post('nome');
+		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
 		$retorno = $id ? $this->Etiquetas_model->editaEtiqueta($id, $dados) : $this->Etiquetas_model->insereEtiqueta($dados); // se tiver ID edita se não INSERE
 
@@ -60,7 +72,7 @@ class Etiquetas extends CI_Controller
 
 			$response = array(
 				'success' => true,
-				'message' => $id ? 'Etiqueta editado com sucesso!' : 'Etiqueta cadastrado com sucesso!'
+				'message' => $id ? 'Etiqueta editada com sucesso!' : 'Etiqueta cadastrada com sucesso!'
 			);
 		} else { // erro ao inserir ou editar
 
