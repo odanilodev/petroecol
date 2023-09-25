@@ -3,6 +3,7 @@ var baseUrl = $('.base-url').val();
 const cadastraEtiqueta = () => {
 
     let nome = $('.input-nome').val();
+    let id = $('.input-id').val();
     let permissao = false;
 
     // cadastra uma etiqueta nova
@@ -22,7 +23,8 @@ const cadastraEtiqueta = () => {
             type: "post",
             url: `${baseUrl}etiquetas/cadastraEtiqueta`,
             data: {
-                nome: nome
+                nome: nome,
+                id: id
             },
             beforeSend: function () {
                 $('.load-form').removeClass('d-none');
