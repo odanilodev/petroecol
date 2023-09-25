@@ -40,9 +40,13 @@ class Usuarios extends CI_Controller
 		$scriptsFooter = scriptsUsuarioFooter();
 		add_scripts('footer', $scriptsFooter);
 
+		$this->load->model('Empresas_model');
+
 		$id = $this->uri->segment(3);
 
 		$data['usuario'] = $this->Usuarios_model->recebeUsuario($id);
+
+		$data['empresas'] = $this->Empresas_model->recebeEmpresas();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/usuarios/cadastra-usuario');
