@@ -142,12 +142,12 @@
                             <label class="form-label text-900">Frequencia de coleta</label>
                             <select name="frequencia_coleta" class="form-select campo-empresa">
                               <option value="" selected disabled>Selecione</option>
-                                <option value="Diário">Diário</option>
-                                <option value="Semanal">Semanal</option>
-                                <option value="Quinzenal">Quinzenal</option>
-                                <option value="Mensal">Mensal</option>
-                                <option value="Não especificado">Não especificado</option>
-                            </select>
+                              <option value="Diário" <?= ($cliente['frequencia_coleta'] == 'Diário') ? 'selected' : ''; ?>>Diário</option>
+                              <option value="Semanal" <?= ($cliente['frequencia_coleta'] == 'Semanal') ? 'selected' : ''; ?>>Semanal</option>
+                              <option value="Quinzenal" <?= ($cliente['frequencia_coleta'] == 'Quinzenal') ? 'selected' : ''; ?>>Quinzenal</option>
+                              <option value="Mensal" <?= ($cliente['frequencia_coleta'] == 'Mensal') ? 'selected' : ''; ?>>Mensal</option>
+                              <option value="Não especificado" <?= ($cliente['frequencia_coleta'] == 'Não especificado') ? 'selected' : ''; ?>>Não especificado</option>
+                          </select>
                           </div>
                         </div>
 
@@ -168,47 +168,47 @@
 
                         <div class="mb-2 mt-2 col-md-4">
                           <label class="form-label">CEP</label>
-                          <input class="form-control campo input-cep mascara-cep" type="text" name="cep" value="<?= isset($cliente['cep']) ? $cliente['cep'] : ""; ?>" placeholder="Insira o CEP">
+                          <input class="form-control campo input-cep mascara-cep" type="text" name="cep" value="<?= $cliente['cep'] ?? ''; ?>" placeholder="Insira o CEP">
                         </div>
 
                         <div class="mb-2 mt-2 col-md-6">
                           <label class="form-label">Rua *</label>
-                          <input id="rua" required class="form-control campo" type="text" name="rua" value="<?= isset($cliente['rua']) ? $cliente['rua'] : ""; ?>" placeholder="Nome da rua">
+                          <input id="rua" required class="form-control campo" type="text" name="rua" value="<?= $cliente['rua'] ?? ''; ?>" placeholder="Nome da rua">
                           <div class="invalid-feedback">Preencha este campo</div>
                         </div>
 
                         <div class="mb-2 mt-2 col-md-2">
                           <label class="form-label">N° *</label>
-                          <input required class="form-control campo" type="text" name="numero" value="<?= isset($cliente['numero']) ? $cliente['numero'] : ""; ?>" placeholder="Número">
+                          <input required class="form-control campo" type="text" name="numero" value="<?= $cliente['numero'] ?? ''; ?>" placeholder="Número">
                           <div class="invalid-feedback">Preencha este campo</div>
                         </div>
 
                         <div class="mb-2 col-md-4 mt-5">
                           <label class="form-label">Bairro *</label>
-                          <input id="bairro" required class="form-control campo" type="text" name="bairro" value="<?= isset($cliente['bairro']) ? $cliente['bairro'] : ""; ?>" placeholder="Bairro">
+                          <input id="bairro" required class="form-control campo" type="text" name="bairro" value="<?= $cliente['bairro'] ?? ''; ?>" placeholder="Bairro">
                           <div class="invalid-feedback">Preencha este campo</div>
                         </div>
 
                         <div class="mb-2 col-md-3 mt-5">
                           <label class="form-label">Cidade *</label>
-                          <input id="cidade" required class="form-control campo" type="text" name="cidade" value="<?= isset($cliente['cidade']) ? $cliente['cidade'] : ""; ?>" placeholder="Número">
+                          <input id="cidade" required class="form-control campo" type="text" name="cidade" value="<?= $cliente['cidade'] ?? ''; ?>" placeholder="Número">
                           <div class="invalid-feedback">Preencha este campo</div>
                         </div>
 
                         <div class="mb-2 col-md-2 mt-5">
                           <label class="form-label">Estado *</label>
-                          <input id="estado" required class="form-control campo" type="text" name="estado" value="<?= isset($cliente['estado']) ? $cliente['estado'] : ""; ?>" placeholder="Número">
+                          <input id="estado" required class="form-control campo" type="text" name="estado" value="<?= $cliente['estado'] ?? ''; ?>" placeholder="Número">
                           <div class="invalid-feedback">Preencha este campo</div>
                         </div>
 
                         <div class="mb-2 col-md-3 mt-5">
                           <label class="form-label">País</label>
-                          <input class="form-control campo" type="text" name="pais" value="<?= isset($cliente['pais']) ? $cliente['pais'] : ""; ?>" placeholder="País">
+                          <input class="form-control campo" type="text" name="pais" value="<?= $cliente['pais'] ?? ''; ?>" placeholder="País">
                         </div>
 
                         <div class="mb-2 col-md-12 mt-5">
                           <label class="form-label">Complemento</label>
-                          <textarea class="form-control campo" rows="4" name="complemento" value="<?= isset($cliente['complemento']) ? $cliente['complemento'] : ""; ?>"><?= isset($cliente['complemento']) ? $cliente['complemento'] : ""; ?></textarea>
+                          <textarea class="form-control campo" rows="4" name="complemento" value="<?= $cliente['complemento'] ?? ''; ?>"><?= $cliente['complemento'] ?? ''; ?></textarea>
                         </div>
 
                       </div>
