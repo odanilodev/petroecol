@@ -166,7 +166,9 @@ function scriptsUsuarioFooter()
         '<script src="' . base_url('assets/js/usuarios/formulario-usuario.js') . '"></script>',
         '<script src="' . base_url('node_modules/sweetalert2/dist/sweetalert2.all.min.js') . '"></script>',
         '<script src="' . base_url('assets/js/upload-imagem.js') . '"></script>',
-        '<script src="' . base_url('assets/js/alertas/alertas-retornos.js') . '"></script>'
+        '<script src="' . base_url('assets/js/alertas/alertas-retornos.js') . '"></script>',
+        '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>',
+        '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>'
     );
 }
 
@@ -210,7 +212,9 @@ function scriptsClienteFooter()
         '<script src="' . base_url('assets/js/phoenix.js') . '"></script>',
         '<script src="' . base_url('assets/js/clientes/formulario-cliente.js') . '"></script>',
         '<script src="' . base_url('node_modules/sweetalert2/dist/sweetalert2.all.min.js') . '"></script>',
-        '<script src="' . base_url('assets/js/alertas/alertas-retornos.js') . '"></script>'
+        '<script src="' . base_url('assets/js/alertas/alertas-retornos.js') . '"></script>',
+        '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>',
+        '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>'
 
     );
 }
