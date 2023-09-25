@@ -85,53 +85,75 @@
 
                         <div class="mb-2 mt-2 col-md-6">
                           <label class="form-label text-900">Nome da empresa *</label>
-                          <input required class="form-control" type="text" name="nome" value="<?= $cliente['razao_social'] ?? ''; ?>" placeholder="Insira o nome da empresa"/>
+                          <input required class="form-control campo-empresa" type="text" name="nome" value="<?= $cliente['nome'] ?? ''; ?>" placeholder="Insira o nome da empresa"/>
                           <div class="invalid-feedback">Preencha este campo</div>
-
                         </div>
 
                         <div class="mb-2 mt-2 col-md-4">
                           <label class="form-label">Telefone *</label>
-                          <input required class="form-control" type="text" name="telefone" value="<?= $cliente['telefone'] ?? ''; ?>" placeholder="Telefone com DDD" />
+                          <input required class="form-control mascara-tel campo-empresa" type="text" name="telefone" value="<?= $cliente['telefone'] ?? ''; ?>" placeholder="Telefone com DDD" />
                           <div class="invalid-feedback">Preencha este campo</div>
-
                         </div>
 
                         <div class="mb-2 mt-2 col-md-2">
                           <label class="form-label text-900">Código</label>
-                          <input class="form-control" type="text" name="codigo" value="<?= $cliente['codigo'] ?? ''; ?>" placeholder="Código da empresa" />
+                          <input class="form-control campo-empresa" type="text" name="codigo" value="<?= $cliente['codigo'] ?? ''; ?>" placeholder="Código da empresa" />
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">CNPJ</label>
-                          <input class="form-control" type="text" name="cnpj" value="<?= $cliente['cnpj'] ?? ''; ?>" placeholder="CNPJ da empresa" />
+                          <input class="form-control mascara-cnpj campo-empresa" type="text" name="cnpj" value="<?= $cliente['cnpj'] ?? ''; ?>" placeholder="CNPJ da empresa" />
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">Inscrição Estadual</label>
-                          <input class="form-control" type="text" name="inscricao_estadual" value="<?= $cliente['inscricao_estadual'] ?? ''; ?>" placeholder="Inscricao estadual da empresa" />
+                          <input class="form-control campo-empresa" type="text" name="inscricao_estadual" value="<?= $cliente['inscricao_estadual'] ?? ''; ?>" placeholder="Inscricao estadual da empresa" />
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">Razão social *</label>
-                          <input required class="form-control" type="text" name="razao_social" value="<?= $cliente['razao_social'] ?? ''; ?>" placeholder="Razão Social" />
+                          <input required class="form-control campo-empresa" type="text" name="razao_social" value="<?= $cliente['razao_social'] ?? ''; ?>" placeholder="Razão Social" />
                           <div class="invalid-feedback">Preencha este campo</div>
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">Email</label>
-                          <input class="form-control" type="text" name="email" value="<?= $cliente['email'] ?? ''; ?>" placeholder="Email" />
+                          <input class="form-control campo-empresa" type="text" name="email" value="<?= $cliente['email'] ?? ''; ?>" placeholder="Email" />
                           <div class="invalid-feedback">Preencha este campo</div>
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">Tipo de empresa</label>
-                          <input class="form-control" type="text" name="tipo_negocio" value="<?= $cliente['tipo_negocio'] ?? ''; ?>" placeholder="Tipo de empresa" />
+                          <input class="form-control campo-empresa" type="text" name="tipo_negocio" value="<?= $cliente['tipo_negocio'] ?? ''; ?>" placeholder="Tipo de empresa" />
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">Grupo de negócio</label>
-                          <input class="form-control" type="text" name="grupo_negocio" value="<?= $cliente['grupo_negocio'] ?? ''; ?>" placeholder="Grupo de negócio" />
+                          <input class="form-control campo-empresa" type="text" name="grupo_negocio" value="<?= $cliente['grupo_negocio'] ?? ''; ?>" placeholder="Grupo de negócio" />
+                        </div>
+
+                        <div class="mb-2 mt-5 col-md-3">
+                          <label class="form-label">Dia de pagamento</label>
+                          <input class="form-control campo-empresa" type="number" name="dia_pagamento" value="<?= $cliente['dia_pagamento'] ?? ''; ?>" placeholder="Dia de pagamento" />
+                        </div>
+                      
+                        <div class="mb-2 mt-5 col-md-3">
+                          <div class="mb-2">
+                            <label class="form-label text-900">Frequencia de coleta</label>
+                            <select name="frequencia_coleta" class="form-select campo-empresa">
+                              <option value="" selected disabled>Selecione</option>
+                                <option value="Diário">Diário</option>
+                                <option value="Semanal">Semanal</option>
+                                <option value="Quinzenal">Quinzenal</option>
+                                <option value="Mensal">Mensal</option>
+                                <option value="Não especificado">Não especificado</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="mb-2 col-md-12 mt-5">
+                          <label class="form-label">Observação</label>
+                          <textarea class="form-control campo-empresa" rows="4" name="observacao" value="<?= $cliente['observacao'] ?? ''; ?>"><?= $cliente['observacao'] ?? ''; ?></textarea>
                         </div>
 
                       </div>
@@ -146,7 +168,7 @@
 
                         <div class="mb-2 mt-2 col-md-4">
                           <label class="form-label">CEP</label>
-                          <input class="form-control campo input-cep" type="text" name="cep" value="<?= isset($cliente['cep']) ? $cliente['cep'] : ""; ?>" placeholder="Insira o CEP">
+                          <input class="form-control campo input-cep mascara-cep" type="text" name="cep" value="<?= isset($cliente['cep']) ? $cliente['cep'] : ""; ?>" placeholder="Insira o CEP">
                         </div>
 
                         <div class="mb-2 mt-2 col-md-6">
@@ -205,7 +227,7 @@
 
                         <div class="col-md-4">
                           <label class="form-label" for="bootstrap-wizard-card-name">Telefone do Responsável</label>
-                          <input class="form-control" placeholder="Telefone do responsável" name="telefone_responsavel" value="<?= isset($cliente['telefone_responsavel']) ? $cliente['telefone_responsavel'] : ""; ?>" type="text"/>
+                          <input class="form-control mascara-tel" placeholder="Telefone do responsável" name="telefone_responsavel" value="<?= isset($cliente['telefone_responsavel']) ? $cliente['telefone_responsavel'] : ""; ?>" type="text"/>
                         </div>
 
                         <div class="col-md-4">

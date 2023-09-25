@@ -50,7 +50,7 @@
 
                       <div class="mb-2 col-md-6">
                         <label class="form-label" for="bootstrap-wizard-validation-wizard-phone">Telefone*</label>
-                        <input value="<?= isset($usuario['telefone']) ? $usuario['telefone'] : "" ?>" required class="form-control input-telefone" type="text" name="telefone" placeholder="Telefone" id="bootstrap-wizard-validation-wizard-phone" />
+                        <input value="<?= isset($usuario['telefone']) ? $usuario['telefone'] : "" ?>" required class="form-control input-telefone mascara-tel" type="text" name="telefone" placeholder="Telefone" id="bootstrap-wizard-validation-wizard-phone" />
                         <div class="invalid-feedback">Preencha este campo.</div>
                       </div>
 
