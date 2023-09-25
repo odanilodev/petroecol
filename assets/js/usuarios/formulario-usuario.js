@@ -9,6 +9,7 @@ const cadastraUsuario = () => {
     let repeteSenha = $('.input-repete-senha').val();
     let imagemInput = $('#imageInput')[0].files[0];
     let id = $('.input-id').val();
+    let empresa = $('.select-empresa').val(); // se for usuario master
 
     // cria um FormData para enviar os dados e a imagem
     let formData = new FormData();
@@ -16,12 +17,23 @@ const cadastraUsuario = () => {
     formData.append('telefone', telefone);
     formData.append('email', email);
     formData.append('senha', senha);
+    formData.append('id_empresa', empresa);
     formData.append('imagem', imagemInput);
 
     var permissao = false;
 
+    // verifica se o select de empresa está preenchido
+    if(empresa == null) {
+
+        $('.select-empresa').addClass('select-empresa-invalido');
+        permissao = false;
+
+    } else {
+        $('.select-empresa').removeClass('select-empresa-invalido');
+    }
+
     // cadastra um usuario novo
-    if (id == "" && nome != "" && telefone != "" && email != "" && senha != "" && repeteSenha != "") {
+    if (id == "" && nome != "" && telefone != "" && email != "" && senha != "" && repeteSenha != ""  && empresa != null) {
 
         if (!validaEmail(email)) {
             permissao = false;
@@ -35,7 +47,7 @@ const cadastraUsuario = () => {
             permissao = true;
         }
 
-    } else if (id != "" && nome != "" && telefone != "" && email != "") {
+    } else if (id != "" && nome != "" && telefone != "" && email != "" && empresa != "") {
 
         if (!validaEmail(email)) {
             permissao = false;
