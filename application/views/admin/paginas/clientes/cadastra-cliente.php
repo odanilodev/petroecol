@@ -85,42 +85,53 @@
 
                         <div class="mb-2 mt-2 col-md-6">
                           <label class="form-label text-900">Nome da empresa *</label>
-                          <input required class="form-control" type="text" name="nome" value="<?= isset($cliente['nome']) ? $cliente['nome'] : ""; ?>" placeholder="Insira o nome da empresa"/>
+                          <input required class="form-control" type="text" name="nome" value="<?= $cliente['razao_social'] ?? ''; ?>" placeholder="Insira o nome da empresa"/>
                           <div class="invalid-feedback">Preencha este campo</div>
 
                         </div>
 
                         <div class="mb-2 mt-2 col-md-4">
                           <label class="form-label">Telefone *</label>
-                          <input required class="form-control" type="text" name="telefone" value="<?= isset($cliente['telefone']) ? $cliente['telefone'] : ""; ?>" placeholder="Telefone com DDD" />
+                          <input required class="form-control" type="text" name="telefone" value="<?= $cliente['telefone'] ?? ''; ?>" placeholder="Telefone com DDD" />
                           <div class="invalid-feedback">Preencha este campo</div>
 
                         </div>
 
                         <div class="mb-2 mt-2 col-md-2">
                           <label class="form-label text-900">Código</label>
-                          <input class="form-control" type="text" name="codigo" value="<?= isset($cliente['codigo']) ? $cliente['codigo'] : ""; ?>" placeholder="Código da empresa" />
+                          <input class="form-control" type="text" name="codigo" value="<?= $cliente['codigo'] ?? ''; ?>" placeholder="Código da empresa" />
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">CNPJ</label>
-                          <input class="form-control" type="text" name="cnpj" value="<?= isset($cliente['cnpj']) ? $cliente['cnpj'] : ""; ?>" placeholder="CNPJ da empresa" />
+                          <input class="form-control" type="text" name="cnpj" value="<?= $cliente['cnpj'] ?? ''; ?>" placeholder="CNPJ da empresa" />
+                        </div>
+
+                        <div class="mb-2 mt-5 col-md-3">
+                          <label class="form-label">Inscrição Estadual</label>
+                          <input class="form-control" type="text" name="inscricao_estadual" value="<?= $cliente['inscricao_estadual'] ?? ''; ?>" placeholder="Inscricao estadual da empresa" />
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">Razão social *</label>
-                          <input required class="form-control" type="text" name="razao_social" value="<?= isset($cliente['razao_social']) ? $cliente['razao_social'] : ""; ?>" placeholder="Razão Social" />
+                          <input required class="form-control" type="text" name="razao_social" value="<?= $cliente['razao_social'] ?? ''; ?>" placeholder="Razão Social" />
+                          <div class="invalid-feedback">Preencha este campo</div>
+                        </div>
+
+                        <div class="mb-2 mt-5 col-md-3">
+                          <label class="form-label">Email</label>
+                          <input class="form-control" type="text" name="email" value="<?= $cliente['email'] ?? ''; ?>" placeholder="Email" />
                           <div class="invalid-feedback">Preencha este campo</div>
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">Tipo de empresa</label>
-                          <input class="form-control" type="text" name="tipo_negocio" value="<?= isset($cliente['tipo_negocio']) ? $cliente['tipo_negocio'] : ""; ?>" placeholder="Tipo de empresa" />
+                          <input class="form-control" type="text" name="tipo_negocio" value="<?= $cliente['tipo_negocio'] ?? ''; ?>" placeholder="Tipo de empresa" />
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">Grupo de negócio</label>
-                          <input class="form-control" type="text" name="grupo_negocio" value="<?= isset($cliente['grupo_negocio']) ? $cliente['grupo_negocio'] : ""; ?>" placeholder="Grupo de negócio" />
+                          <input class="form-control" type="text" name="grupo_negocio" value="<?= $cliente['grupo_negocio'] ?? ''; ?>" placeholder="Grupo de negócio" />
                         </div>
 
                       </div>
