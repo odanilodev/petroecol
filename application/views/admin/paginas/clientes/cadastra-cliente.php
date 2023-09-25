@@ -92,7 +92,7 @@
 
                         <div class="mb-2 mt-2 col-md-4">
                           <label class="form-label">Telefone *</label>
-                          <input required class="form-control" type="text" name="telefone" value="<?= isset($cliente['telefone']) ? $cliente['telefone'] : ""; ?>" placeholder="Telefone com DDD" />
+                          <input required class="form-control mascara-tel" type="text" name="telefone" value="<?= isset($cliente['telefone']) ? $cliente['telefone'] : ""; ?>" placeholder="Telefone com DDD" />
                           <div class="invalid-feedback">Preencha este campo</div>
 
                         </div>
@@ -104,7 +104,7 @@
 
                         <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">CNPJ</label>
-                          <input class="form-control" type="text" name="cnpj" value="<?= isset($cliente['cnpj']) ? $cliente['cnpj'] : ""; ?>" placeholder="CNPJ da empresa" />
+                          <input class="form-control mascara-cnpj" type="text" name="cnpj" value="<?= isset($cliente['cnpj']) ? $cliente['cnpj'] : ""; ?>" placeholder="CNPJ da empresa" />
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
@@ -135,7 +135,7 @@
 
                         <div class="mb-2 mt-2 col-md-4">
                           <label class="form-label">CEP</label>
-                          <input class="form-control campo input-cep" type="text" name="cep" value="<?= isset($cliente['cep']) ? $cliente['cep'] : ""; ?>" placeholder="Insira o CEP">
+                          <input class="form-control campo input-cep mascara-cep" type="text" name="cep" value="<?= isset($cliente['cep']) ? $cliente['cep'] : ""; ?>" placeholder="Insira o CEP">
                         </div>
 
                         <div class="mb-2 mt-2 col-md-6">
@@ -194,7 +194,7 @@
 
                         <div class="col-md-4">
                           <label class="form-label" for="bootstrap-wizard-card-name">Telefone do Responsável</label>
-                          <input class="form-control" placeholder="Telefone do responsável" name="telefone_responsavel" value="<?= isset($cliente['telefone_responsavel']) ? $cliente['telefone_responsavel'] : ""; ?>" type="text"/>
+                          <input class="form-control mascara-tel" placeholder="Telefone do responsável" name="telefone_responsavel" value="<?= isset($cliente['telefone_responsavel']) ? $cliente['telefone_responsavel'] : ""; ?>" type="text"/>
                         </div>
 
                         <div class="col-md-4">
