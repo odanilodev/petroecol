@@ -222,17 +222,17 @@
 
                         <div class="col-md-4">
                           <label class="form-label" for="bootstrap-wizard-card-name">Nome</label>
-                          <input class="form-control" placeholder="Nome do responsável" name="nome_responsavel" value="<?= isset($cliente['nome_responsavel']) ? $cliente['nome_responsavel'] : ""; ?>" type="text"/>
+                          <input class="form-control" placeholder="Nome do responsável" name="nome_responsavel" value="<?= $cliente['nome_responsavel'] ?? ''; ?>" type="text"/>
                         </div>
 
                         <div class="col-md-4">
                           <label class="form-label" for="bootstrap-wizard-card-name">Telefone do Responsável</label>
-                          <input class="form-control mascara-tel" placeholder="Telefone do responsável" name="telefone_responsavel" value="<?= isset($cliente['telefone_responsavel']) ? $cliente['telefone_responsavel'] : ""; ?>" type="text"/>
+                          <input class="form-control mascara-tel" placeholder="Telefone do responsável" name="telefone_responsavel" value="<?= $cliente['telefone_responsavel'] ?? ''; ?>" type="text"/>
                         </div>
 
                         <div class="col-md-4">
                           <label class="form-label" for="bootstrap-wizard-card-name">Função do Responsável</label>
-                          <input class="form-control" placeholder="Função do responsável" name="funcao_responsavel" value="<?= isset($cliente['funcao_responsavel']) ? $cliente['funcao_responsavel'] : ""; ?>" type="text"/>
+                          <input class="form-control" placeholder="Função do responsável" name="funcao_responsavel" value="<?= $cliente['funcao_responsavel'] ?? ''; ?>" type="text"/>
                         </div>
 
                       </div>
