@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Usuarios_model extends CI_Model
+class Setores_model extends CI_Model
 {
 
     public function __construct()
@@ -10,37 +10,37 @@ class Usuarios_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebeUsuarios()
+    public function recebeSetores()
     {
         $this->db->order_by('nome', 'DESC');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('ci_usuarios');
+        $query = $this->db->get('ci_setores');
 
         return $query->result_array();
     }
 
-    public function recebeUsuario($id)
+    public function recebeSetor($id)
     {
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('ci_usuarios');
+        $query = $this->db->get('ci_setores');
 
         return $query->row_array();
     }
 
-    public function recebeUsuarioEmail($email)
+    public function recebeSetorNome($nome)
     {
-
-        $this->db->where('email', $email);
-        $query = $this->db->get('ci_usuarios');
+        $this->db->where('nome', $nome);
+        $query = $this->db->get('ci_setores');
 
         return $query->row_array();
     }
 
-    public function insereUsuario($dados)
+    public function insereSetor($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');
-        $this->db->insert('ci_usuarios', $dados);
+
+        $this->db->insert('ci_setores', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($this->db->insert_id());
@@ -49,12 +49,13 @@ class Usuarios_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function editaUsuario($id, $dados)
+    public function editaSetor($id, $dados)
     {
         $dados['editado_em'] = date('Y-m-d H:i:s');
+
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->update('ci_usuarios', $dados);
+        $this->db->update('ci_setores', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);
@@ -63,30 +64,11 @@ class Usuarios_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function verificaSenhaAntiga($id, $senhaAntiga)
+    public function deletaSetor($id)
     {
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('senha', $senhaAntiga);
-        $query = $this->db->get('ci_usuarios');
-
-        return $query->row_array();
-    }
-
-    public function imagemAntiga($id)
-    {
-        $this->db->where('id', $id);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('ci_usuarios');
-
-        return $query->row_array();
-    }
-
-    public function deletaUsuario($id)
-    {
-        $this->db->where('id', $id);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->delete('ci_usuarios');
+        $this->db->delete('ci_setores');
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);
