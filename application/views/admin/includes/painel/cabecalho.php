@@ -101,6 +101,28 @@
                                         </span>
                                     </div>
                                 </a>
+
+                                <a class="nav-link label-1" href="<?= base_url('etiquetas')?>" role="button" data-bs-toggle="" aria-expanded="false">
+                                    <div class="d-flex align-items-center">
+                                        <span class="nav-link-icon">
+                                            <span data-feather="users"></span>
+                                        </span>
+                                        <span class="nav-link-text-wrapper">
+                                            <span class="nav-link-text">Etiquetas</span>
+                                        </span>
+                                    </div>
+                                </a>
+
+                                <a class="nav-link label-1" href="<?= base_url('setores')?>" role="button" data-bs-toggle="" aria-expanded="false">
+                                    <div class="d-flex align-items-center">
+                                        <span class="nav-link-icon">
+                                            <span data-feather="users"></span>
+                                        </span>
+                                        <span class="nav-link-text-wrapper">
+                                            <span class="nav-link-text">Setores</span>
+                                        </span>
+                                    </div>
+                                </a>
                             </div>
 
                         </li>
