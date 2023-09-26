@@ -85,7 +85,9 @@
                               <option value="" selected disabled>Selecione</option>
 
                               <?php foreach ($empresas as $v) { ?>
-                                <option value="<?= $v['id'] ?>" <?= $v['id'] == $usuario['id_empresa'] ? "selected" : ""?>><?= $v['nome'] ?></option>
+                                <option value="<?= $v['id'] ?>" <?= (isset($usuario['id_empresa'])) && $usuario['id_empresa'] == $v['id'] ? "selected" : ""?>>
+                                  <?= $v['nome']; ?>
+                                </option>
                               <?php } ?>
 
                             </select>
