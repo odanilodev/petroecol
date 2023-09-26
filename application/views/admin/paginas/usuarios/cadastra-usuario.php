@@ -76,23 +76,23 @@
                       </div>
 
 
-                      <div class="col-sm-6 mt-3 <?= $this->session->userdata('id_empresa') != 1 ? "d-none" : "" ?>">
-                        <div class="mb-2">
-                          <label class="form-label text-900">Empresa</label>
-                          <select class="select-empresa">
-                            <option value="" selected disabled>Selecione</option>
+                      <?php if ($this->session->userdata('id_empresa') == 1) { ?>
 
-                            <?php if ($this->session->userdata('id_empresa') != 1) { ?>
-                              <option value="<?= $this->session->userdata('id_empresa')?>" selected>teste</option>
-                            <?php } ?>
+                        <div class="col-sm-6 mt-3">
+                          <div class="mb-2">
+                            <label class="form-label text-900">Empresa</label>
+                            <select class="select-empresa">
+                              <option value="" selected disabled>Selecione</option>
 
-                            <?php foreach ($empresas as $v) { ?>
-                              <option value="<?= $v['id'] ?>"><?= $v['nome'] ?></option>
-                            <?php } ?>
-                            
-                          </select>
+                              <?php foreach ($empresas as $v) { ?>
+                                <option value="<?= $v['id'] ?>" <?= $v['id'] == $usuario['id_empresa'] ? "selected" : ""?>><?= $v['nome'] ?></option>
+                              <?php } ?>
+
+                            </select>
+                          </div>
                         </div>
-                      </div>
+
+                      <?php } ?>
 
                     </div>
 

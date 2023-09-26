@@ -13,7 +13,11 @@ class Usuarios_model extends CI_Model
     public function recebeUsuarios()
     {
         $this->db->order_by('nome', 'DESC');
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+
+        if($this->session->userdata('id_empresa') > 1){
+            $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        }
+        
         $query = $this->db->get('ci_usuarios');
 
         return $query->result_array();
@@ -22,7 +26,11 @@ class Usuarios_model extends CI_Model
     public function recebeUsuario($id)
     {
         $this->db->where('id', $id);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+
+        if($this->session->userdata('id_empresa') > 1){
+            $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        }
+
         $query = $this->db->get('ci_usuarios');
 
         return $query->row_array();
@@ -53,7 +61,11 @@ class Usuarios_model extends CI_Model
     {
         $dados['editado_em'] = date('Y-m-d H:i:s');
         $this->db->where('id', $id);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+
+        if($this->session->userdata('id_empresa') > 1){
+            $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        }
+
         $this->db->update('ci_usuarios', $dados);
 
         if ($this->db->affected_rows()) {
