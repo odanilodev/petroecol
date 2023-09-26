@@ -52,7 +52,7 @@ function scriptsPadraoHead()
         '<link href="' . base_url('vendors/simplebar/simplebar.min.css') . '" rel="stylesheet">',
         '<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">',
         '<link href="' . base_url('assets/css/theme-rtl.min.css') . '" type="text/css" rel="stylesheet" id="style-rtl">',
-        '<link href="' . base_url('assets/css/theme.min.css') . '" type="text/css" rel="stylesheet" id="style-default">',
+        '<link href="' . base_url('assets/css/theme.css') . '" type="text/css" rel="stylesheet" id="style-default">',
         '<link href="' . base_url('assets/css/user-rtl.min.css') . '" type="text/css" rel="stylesheet" id="user-style-rtl">',
         '<link href="' . base_url('assets/css/user.min.css') . '" type="text/css" rel="stylesheet" id="user-style-default">',
 
@@ -99,7 +99,9 @@ function scriptsUsuarioFooter()
     return array(
 
         '<script src="' . base_url('assets/js/usuarios/formulario-usuario.js') . '"></script>',
-        '<script src="' . base_url('assets/js/upload-imagem.js') . '"></script>'
+        '<script src="' . base_url('assets/js/upload-imagem.js') . '"></script>',
+        '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>',
+        '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>'
 
     );
 }
@@ -109,7 +111,9 @@ function scriptsClienteFooter()
 {
     return array(
 
-        '<script src="' . base_url('assets/js/clientes/formulario-cliente.js') . '"></script>'
+        '<script src="' . base_url('assets/js/clientes/formulario-cliente.js') . '"></script>',
+        '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>',
+        '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>'
 
     );
 }
@@ -120,6 +124,16 @@ function scriptsEtiquetaFooter()
     return array(
 
         '<script src="' . base_url('assets/js/etiquetas/formulario-etiqueta.js') . '"></script>'
+
+    );
+}
+
+// Pagina de setores
+function scriptsSetorFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/setores/formulario-setor.js') . '"></script>'
 
     );
 }
