@@ -124,6 +124,16 @@ function scriptsEtiquetaFooter()
     );
 }
 
+// Pagina de setores
+function scriptsSetorFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/setores/formulario-setor.js') . '"></script>'
+
+    );
+}
+
 // pagina de login
 function scriptsLoginFooter()
 {
