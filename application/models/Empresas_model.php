@@ -25,6 +25,7 @@ class Empresas_model extends CI_Model
 
     public function insereEmpresa($dados)
     {
+        $dados['criado_em'] = date('Y-m-d H:i:s');
         $this->db->insert('ci_empresas', $dados);
 
         if ($this->db->affected_rows()) {
@@ -36,6 +37,7 @@ class Empresas_model extends CI_Model
 
     public function editaEmpresa($id, $dados)
     {
+        $dados['editado_em'] = date('Y-m-d H:i:s');
         $this->db->where('id', $id);
         $this->db->update('ci_empresas', $dados);
 
