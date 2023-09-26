@@ -142,11 +142,11 @@
                             <label class="form-label text-900">Frequencia de coleta</label>
                             <select name="frequencia_coleta" class="form-select campo-empresa">
                               <option value="" selected disabled>Selecione</option>
-                              <option value="Diário" <?= ($cliente['frequencia_coleta'] == 'Diário') ? 'selected' : ''; ?>>Diário</option>
-                              <option value="Semanal" <?= ($cliente['frequencia_coleta'] == 'Semanal') ? 'selected' : ''; ?>>Semanal</option>
-                              <option value="Quinzenal" <?= ($cliente['frequencia_coleta'] == 'Quinzenal') ? 'selected' : ''; ?>>Quinzenal</option>
-                              <option value="Mensal" <?= ($cliente['frequencia_coleta'] == 'Mensal') ? 'selected' : ''; ?>>Mensal</option>
-                              <option value="Não especificado" <?= ($cliente['frequencia_coleta'] == 'Não especificado') ? 'selected' : ''; ?>>Não especificado</option>
+                              <option value="Diário" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Diário') ? 'selected' : ''; ?>>Diário</option>
+                              <option value="Semanal" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Semanal') ? 'selected' : ''; ?>>Semanal</option>
+                              <option value="Quinzenal" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Quinzenal') ? 'selected' : ''; ?>>Quinzenal</option>
+                              <option value="Mensal" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Mensal') ? 'selected' : ''; ?>>Mensal</option>
+                              <option value="Não especificado" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Não especificado') ? 'selected' : ''; ?>>Não especificado</option>
                           </select>
                           </div>
                         </div>
