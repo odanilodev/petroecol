@@ -38,7 +38,7 @@ class Etiquetas_model extends CI_Model
 
     public function insereEtiqueta($dados)
     {
-        $dados['criado_em'] = date('Y-m-d H:m:s');
+        $dados['criado_em'] = date('Y-m-d H:i:s');
 
         $this->db->insert('ci_etiquetas', $dados);
 
@@ -51,7 +51,7 @@ class Etiquetas_model extends CI_Model
 
     public function editaEtiqueta($id, $dados)
     {
-        $dados['editado_em'] = date('Y-m-d H:m:s');
+        $dados['editado_em'] = date('Y-m-d H:i:s');
 
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
