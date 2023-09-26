@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Setores extends CI_Controller
+class Etiquetas extends CI_Controller
 {
 	public function __construct()
 	{
@@ -13,8 +13,7 @@ class Setores extends CI_Controller
         if($res == 'erro'){ redirect('login/erro', 'refresh');}
         // FIM controle sessão
 
-		$this->load->model('Setores_model');
-
+        $this->load->model('Etiquetas_model');
 	}
 
 	public function index()
@@ -23,16 +22,16 @@ class Setores extends CI_Controller
 		$scriptsPadraoHead = scriptsPadraoHead();
 		$scriptsPadraoFooter = scriptsPadraoFooter();
 
-		// scripts para setores
-		$scriptsSetorFooter = scriptsSetorFooter();
+		// scripts para etiquetas
+		$scriptsEtiquetaFooter = scriptsEtiquetaFooter();
 
 		add_scripts('header', array_merge($scriptsPadraoHead));
-		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsSetorFooter));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsEtiquetaFooter));
 
-		$data['setores'] = $this->Setores_model->recebeSetores();
+		$data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
-		$this->load->view('admin/paginas/setores/setores');
+		$this->load->view('admin/paginas/etiquetas/etiquetas');
 		$this->load->view('admin/includes/painel/rodape');
 	}
 
@@ -42,54 +41,58 @@ class Setores extends CI_Controller
 		$scriptsPadraoHead = scriptsPadraoHead();
 		$scriptsPadraoFooter = scriptsPadraoFooter();
 
-		// scripts para setores
-		$scriptsSetorFooter = scriptsSetorFooter();
+		// scripts para etiquetas
+		$scriptsEtiquetaFooter = scriptsEtiquetaFooter();
 
 		add_scripts('header', array_merge($scriptsPadraoHead));
-		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsSetorFooter));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsEtiquetaFooter));
+
+		$this->load->model('Empresas_model');
 
 		$id = $this->uri->segment(3);
 
-		$data['setor'] = $this->Setores_model->recebeSetor($id);
+		$data['etiqueta'] = $this->Etiquetas_model->recebeEtiqueta($id);
+		$data['empresas'] = $this->Empresas_model->recebeEmpresas();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
-		$this->load->view('admin/paginas/setores/cadastra-setor');
+		$this->load->view('admin/paginas/etiquetas/cadastra-etiqueta');
 		$this->load->view('admin/includes/painel/rodape');
 	}
 
-	public function cadastraSetor()
+	public function cadastraEtiqueta()
 	{
 		$id = $this->input->post('id');
 
 		$dados['nome'] = $this->input->post('nome');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-		$setor = $this->Setores_model->recebeSetorNome($dados['nome']); // verifica se já existe o setor
+		$etiqueta = $this->Etiquetas_model->recebeEtiquetaNome($dados['nome']); // verifica se já existe a etiqueta
 
-		// Verifica se o setor já existe e se não é o setor que está sendo editada
-		if ($setor && $setor['id'] != $id) {
+		// Verifica se a etiqueta já existe e se não é a etiqueta que está sendo editada
+		if ($etiqueta && $etiqueta['id'] != $id) {
 
 			$response = array(
 				'success' => false,
-				'message' => "Este setor já existe! Tente cadastrar um diferente."
+				'message' => "Esta etiqueta já existe! Tente cadastrar uma diferente."
 			);
 
 			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 		}
 
-		$retorno = $id ? $this->Setores_model->editaSetor($id, $dados) : $this->Setores_model->insereSetor($dados); // se tiver ID edita se não INSERE
+
+		$retorno = $id ? $this->Etiquetas_model->editaEtiqueta($id, $dados) : $this->Etiquetas_model->insereEtiqueta($dados); // se tiver ID edita se não INSERE
 
 		if ($retorno) { // inseriu ou editou
 
 			$response = array(
 				'success' => true,
-				'message' => $id ? 'Setor editado com sucesso!' : 'Setor cadastrado com sucesso!'
+				'message' => $id ? 'Etiqueta editada com sucesso!' : 'Etiqueta cadastrada com sucesso!'
 			);
 		} else { // erro ao inserir ou editar
 
 			$response = array(
 				'success' => false,
-				'message' => $id ? "Erro ao editar o setor!" : "Erro ao cadastrar o setor!"
+				'message' => $id ? "Erro ao editar etiqueta!" : "Erro ao cadastrar etiqueta!"
 			);
 		}
 
@@ -97,12 +100,12 @@ class Setores extends CI_Controller
 	}
 
 
-	public function deletaSetor()
+	public function deletaEtiqueta()
 	{
 		$id = $this->input->post('id');
 
-		$this->Setores_model->deletaSetor($id);
+		$this->Etiquetas_model->deletaEtiqueta($id);
 
-		redirect('setores');
+		redirect('etiquetas');
 	}
 }

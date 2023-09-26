@@ -5,14 +5,14 @@
             <div class="col-auto">
                 <div class="d-flex align-items-center">
                     <button class="btn btn-link text-900 me-4 px-0 d-none"><span class="fa-solid fa-file-export fs--1 me-2"></span>Export</button>
-                    <a href="<?= base_url("setores/formulario") ?>" class="btn btn-primary"><span class="fas fa-plus me-2"></span>Adicionar Setor</a>
+                    <a href="<?= base_url("etiquetas/formulario") ?>" class="btn btn-primary"><span class="fas fa-plus me-2"></span>Adicionar Etiqueta</a>
                 </div>
             </div>
 
             <div class="col col-auto">
                 <div class="search-box">
                     <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                        <input class="form-control search-input search" type="search" placeholder="Buscar Setores" aria-label="Search" />
+                        <input class="form-control search-input search" type="search" placeholder="Buscar Etiquetas" aria-label="Search" />
                         <span class="fas fa-search search-box-icon"></span>
 
                     </form>
@@ -30,7 +30,7 @@
                                 </div>
                             </th>
 
-                            <th class="sort align-middle" scope="col" data-sort="customer">Setor</th>
+                            <th class="sort align-middle" scope="col" data-sort="customer">Etiqueta</th>
                             <th class="sort align-middle pe-3">Editar</th>
                             <th class="sort align-middle pe-3">Excluir</th>
                         </tr>
@@ -38,7 +38,7 @@
 
                     <tbody class="list" id="members-table-body">
 
-                        <?php foreach ($setores as $v) { ?>
+                        <?php foreach ($etiquetas as $v) { ?>
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
 
                                 <td class="fs--1 align-middle ps-0 py-3">
@@ -52,13 +52,13 @@
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="<?= base_url('setores/formulario/' . $v['id']) ?>" class="btn btn-info">
+                                    <a href="<?= base_url('etiquetas/formulario/' . $v['id']) ?>" class="btn btn-info">
                                         <span class="fas fa-pencil ms-1"></span>
                                     </a>
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="#" class="btn btn-danger" onclick="deletarSetor(<?= $v['id'] ?>)">
+                                    <a href="#" class="btn btn-danger" onclick="deletarEtiqueta(<?= $v['id'] ?>)">
                                         <span class="fas fa-trash ms-1"></span>
                                     </a>
                                 </td>
