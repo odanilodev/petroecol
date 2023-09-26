@@ -109,8 +109,7 @@ function scriptsClienteFooter()
 {
     return array(
 
-        '<script src="' . base_url('assets/js/clientes/formulario-cliente.js') . '"></script>',
-        '<script src="' . base_url('assets/js/alertas/alertas-retornos.js') . '"></script>'
+        '<script src="' . base_url('assets/js/clientes/formulario-cliente.js') . '"></script>'
 
     );
 }
@@ -120,8 +119,7 @@ function scriptsEtiquetaFooter()
 {
     return array(
 
-        '<script src="' . base_url('assets/js/etiquetas/formulario-etiqueta.js') . '"></script>',
-        '<script src="' . base_url('assets/js/alertas/alertas-retornos.js') . '"></script>'
+        '<script src="' . base_url('assets/js/etiquetas/formulario-etiqueta.js') . '"></script>'
 
     );
 }
