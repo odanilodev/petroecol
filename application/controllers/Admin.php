@@ -18,11 +18,12 @@ class Admin extends CI_Controller
 
 	public function index()
 	{
-		$scriptsHead = scriptsGeralHead();
-		add_scripts('header', $scriptsHead);
+		// scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
 
-		$scriptsFooter = scriptsGeralFooter();
-		add_scripts('footer', $scriptsFooter);
+		add_scripts('header', $scriptsPadraoHead);
+		add_scripts('footer', $scriptsPadraoFooter);
 
 		$this->load->view('admin/includes/painel/cabecalho');
 		$this->load->view('admin/paginas/admin');

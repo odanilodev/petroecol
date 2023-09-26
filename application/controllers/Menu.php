@@ -18,11 +18,12 @@ class Menu extends CI_Controller
 
 	public function formulario()
 	{
-		$scriptsHead = scriptsMenuHead();
-		add_scripts('header', $scriptsHead);
+		// scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
 
-		$scriptsFooter = scriptsMenuFooter();
-		add_scripts('footer', $scriptsFooter);
+		add_scripts('header', $scriptsPadraoHead);
+		add_scripts('footer', $scriptsPadraoFooter);
 
 		$this->load->view('admin/includes/painel/cabecalho');
 		$this->load->view('admin/paginas/menu/cadastra-menu');
