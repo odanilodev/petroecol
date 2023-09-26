@@ -12,15 +12,22 @@ class Setores extends CI_Controller
         $res = $this->controle_sessao->controle();
         if($res == 'erro'){ redirect('login/erro', 'refresh');}
         // FIM controle sessão
+
+		$this->load->model('Setores_model');
+
 	}
 
 	public function index()
 	{
-		$scriptsHead = scriptsUsuarioHead();
-		add_scripts('header', $scriptsHead);
+		// scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
 
-		$scriptsFooter = scriptsUsuarioFooter();
-		add_scripts('footer', $scriptsFooter);
+		// scripts para setores
+		$scriptsSetorFooter = scriptsSetorFooter();
+
+		add_scripts('header', array_merge($scriptsPadraoHead));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsSetorFooter));
 
 		$data['setores'] = $this->Setores_model->recebeSetores();
 
@@ -31,13 +38,15 @@ class Setores extends CI_Controller
 
 	public function formulario()
 	{
-		$scriptsHead = scriptsUsuarioHead();
-		add_scripts('header', $scriptsHead);
+		// scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
 
-		$scriptsFooter = scriptsUsuarioFooter();
-		add_scripts('footer', $scriptsFooter);
+		// scripts para setores
+		$scriptsSetorFooter = scriptsSetorFooter();
 
-		$this->load->model('Setores_model');
+		add_scripts('header', array_merge($scriptsPadraoHead));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsSetorFooter));
 
 		$id = $this->uri->segment(3);
 
@@ -53,6 +62,20 @@ class Setores extends CI_Controller
 		$id = $this->input->post('id');
 
 		$dados['nome'] = $this->input->post('nome');
+		$dados['id_empresa'] = $this->session->userdata('id_empresa');
+
+		$setor = $this->Setores_model->recebeSetorNome($dados['nome']); // verifica se já existe o setor
+
+		// Verifica se o setor já existe e se não é o setor que está sendo editada
+		if ($setor && $setor['id'] != $id) {
+
+			$response = array(
+				'success' => false,
+				'message' => "Este setor já existe! Tente cadastrar um diferente."
+			);
+
+			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+		}
 
 		$retorno = $id ? $this->Setores_model->editaSetor($id, $dados) : $this->Setores_model->insereSetor($dados); // se tiver ID edita se não INSERE
 
