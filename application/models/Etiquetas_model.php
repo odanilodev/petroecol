@@ -28,8 +28,18 @@ class Etiquetas_model extends CI_Model
         return $query->row_array();
     }
 
+    public function recebeEtiquetaNome($nome)
+    {
+        $this->db->where('nome', $nome);
+        $query = $this->db->get('ci_etiquetas');
+
+        return $query->row_array();
+    }
+
     public function insereEtiqueta($dados)
     {
+        $dados['criado_em'] = date('Y-m-d H:m:s');
+
         $this->db->insert('ci_etiquetas', $dados);
 
         if ($this->db->affected_rows()) {
@@ -41,6 +51,8 @@ class Etiquetas_model extends CI_Model
 
     public function editaEtiqueta($id, $dados)
     {
+        $dados['editado_em'] = date('Y-m-d H:m:s');
+
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->update('ci_etiquetas', $dados);
