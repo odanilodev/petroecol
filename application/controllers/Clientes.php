@@ -20,11 +20,15 @@ class Clientes extends CI_Controller
 
     public function index()
     {
-        $scriptsHead = scriptsClienteHead();
-        add_scripts('header', $scriptsHead);
+        // scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
+		
+		// scripts para clientes
+		$scriptsClienteFooter = scriptsClienteFooter();
 
-        $scriptsFooter = scriptsClienteFooter();
-        add_scripts('footer', $scriptsFooter);
+		add_scripts('header', array_merge($scriptsPadraoHead));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsClienteFooter));
 
         $data['clientes'] = $this->Clientes_model->recebeClientes();
 
@@ -35,11 +39,15 @@ class Clientes extends CI_Controller
 
     public function formulario()
     {
-        $scriptsHead = scriptsClienteHead();
-        add_scripts('header', $scriptsHead);
+        // scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
+		
+		// scripts para clientes
+		$scriptsClienteFooter = scriptsClienteFooter();
 
-        $scriptsFooter = scriptsClienteFooter();
-        add_scripts('footer', $scriptsFooter);
+		add_scripts('header', array_merge($scriptsPadraoHead));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsClienteFooter));
 
         $id = $this->uri->segment(3);
 

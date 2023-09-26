@@ -19,11 +19,17 @@ class Usuarios extends CI_Controller
 
 	public function index()
 	{
-		$scriptsHead = scriptsUsuarioHead();
-		add_scripts('header', $scriptsHead);
+		// scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
+		
+		// scripts para usuarios
+		$scriptsUsuarioHead = scriptsUsuarioHead();
+		$scriptsUsuarioFooter = scriptsUsuarioFooter();
 
-		$scriptsFooter = scriptsUsuarioFooter();
-		add_scripts('footer', $scriptsFooter);
+		add_scripts('header', array_merge($scriptsPadraoHead,$scriptsUsuarioHead));
+		add_scripts('footer', array_merge($scriptsPadraoFooter,$scriptsUsuarioFooter));
+
 
 		$data['usuarios'] = $this->Usuarios_model->recebeUsuarios();
 
@@ -34,11 +40,16 @@ class Usuarios extends CI_Controller
 
 	public function formulario()
 	{
-		$scriptsHead = scriptsUsuarioHead();
-		add_scripts('header', $scriptsHead);
+		// scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
+		
+		// scripts para usuarios
+		$scriptsUsuarioHead = scriptsUsuarioHead();
+		$scriptsUsuarioFooter = scriptsUsuarioFooter();
 
-		$scriptsFooter = scriptsUsuarioFooter();
-		add_scripts('footer', $scriptsFooter);
+		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsUsuarioHead));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsUsuarioFooter));
 
 		$this->load->model('Empresas_model');
 
