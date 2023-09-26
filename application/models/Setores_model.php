@@ -28,8 +28,18 @@ class Setores_model extends CI_Model
         return $query->row_array();
     }
 
+    public function recebeSetorNome($nome)
+    {
+        $this->db->where('nome', $nome);
+        $query = $this->db->get('ci_setores');
+
+        return $query->row_array();
+    }
+
     public function insereSetor($dados)
     {
+        $dados['criado_em'] = date('Y-m-d H:m:s');
+
         $this->db->insert('ci_setores', $dados);
 
         if ($this->db->affected_rows()) {
@@ -41,6 +51,8 @@ class Setores_model extends CI_Model
 
     public function editaSetor($id, $dados)
     {
+        $dados['editado_em'] = date('Y-m-d H:m:s');
+
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->update('ci_setores', $dados);
