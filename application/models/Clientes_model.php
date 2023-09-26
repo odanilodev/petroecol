@@ -30,7 +30,7 @@ class Clientes_model extends CI_Model {
 
     public function insereCliente($dados)
     {
-        $dados['criado_em'] = date('Y-m-d H:m:s');
+        $dados['criado_em'] = date('Y-m-d H:i:s');
         $this->db->insert('ci_clientes', $dados);
 
         if ($this->db->affected_rows()) {
@@ -43,7 +43,7 @@ class Clientes_model extends CI_Model {
 
     public function editaCliente($id, $dados)
     {
-        $dados['editado_em'] = date('Y-m-d H:m:s');
+        $dados['editado_em'] = date('Y-m-d H:i:s');
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->update('ci_clientes', $dados);
