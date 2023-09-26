@@ -70,7 +70,6 @@ class Clientes extends CI_Controller
 
         $dataHoraAtual = date('Y-m-d H:i:s');
 
-        $dados['data_criacao'] = $dataHoraAtual;
         $dados['id_empresa'] = $this->session->userdata('id_empresa');
 
         $retorno = $id ? $this->Clientes_model->editaCliente($id, $dados) : $this->Clientes_model->insereCliente($dados); // se tiver ID edita se não INSERE
