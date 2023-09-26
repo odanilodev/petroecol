@@ -85,42 +85,75 @@
 
                         <div class="mb-2 mt-2 col-md-6">
                           <label class="form-label text-900">Nome da empresa *</label>
-                          <input required class="form-control" type="text" name="nome" value="<?= isset($cliente['nome']) ? $cliente['nome'] : ""; ?>" placeholder="Insira o nome da empresa"/>
+                          <input required class="form-control campo-empresa" type="text" name="nome" value="<?= $cliente['nome'] ?? ''; ?>" placeholder="Insira o nome da empresa"/>
                           <div class="invalid-feedback">Preencha este campo</div>
-
                         </div>
 
                         <div class="mb-2 mt-2 col-md-4">
                           <label class="form-label">Telefone *</label>
-                          <input required class="form-control mascara-tel" type="text" name="telefone" value="<?= isset($cliente['telefone']) ? $cliente['telefone'] : ""; ?>" placeholder="Telefone com DDD" />
+                          <input required class="form-control mascara-tel campo-empresa" type="text" name="telefone" value="<?= $cliente['telefone'] ?? ''; ?>" placeholder="Telefone com DDD" />
                           <div class="invalid-feedback">Preencha este campo</div>
-
                         </div>
 
                         <div class="mb-2 mt-2 col-md-2">
                           <label class="form-label text-900">Código</label>
-                          <input class="form-control" type="text" name="codigo" value="<?= isset($cliente['codigo']) ? $cliente['codigo'] : ""; ?>" placeholder="Código da empresa" />
+                          <input class="form-control campo-empresa" type="text" name="codigo" value="<?= $cliente['codigo'] ?? ''; ?>" placeholder="Código da empresa" />
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">CNPJ</label>
-                          <input class="form-control mascara-cnpj" type="text" name="cnpj" value="<?= isset($cliente['cnpj']) ? $cliente['cnpj'] : ""; ?>" placeholder="CNPJ da empresa" />
+                          <input class="form-control mascara-cnpj campo-empresa" type="text" name="cnpj" value="<?= $cliente['cnpj'] ?? ''; ?>" placeholder="CNPJ da empresa" />
+                        </div>
+
+                        <div class="mb-2 mt-5 col-md-3">
+                          <label class="form-label">Inscrição Estadual</label>
+                          <input class="form-control campo-empresa" type="text" name="inscricao_estadual" value="<?= $cliente['inscricao_estadual'] ?? ''; ?>" placeholder="Inscricao estadual da empresa" />
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">Razão social *</label>
-                          <input required class="form-control" type="text" name="razao_social" value="<?= isset($cliente['razao_social']) ? $cliente['razao_social'] : ""; ?>" placeholder="Razão Social" />
+                          <input required class="form-control campo-empresa" type="text" name="razao_social" value="<?= $cliente['razao_social'] ?? ''; ?>" placeholder="Razão Social" />
+                          <div class="invalid-feedback">Preencha este campo</div>
+                        </div>
+
+                        <div class="mb-2 mt-5 col-md-3">
+                          <label class="form-label">Email</label>
+                          <input class="form-control campo-empresa" type="text" name="email" value="<?= $cliente['email'] ?? ''; ?>" placeholder="Email" />
                           <div class="invalid-feedback">Preencha este campo</div>
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">Tipo de empresa</label>
-                          <input class="form-control" type="text" name="tipo_negocio" value="<?= isset($cliente['tipo_negocio']) ? $cliente['tipo_negocio'] : ""; ?>" placeholder="Tipo de empresa" />
+                          <input class="form-control campo-empresa" type="text" name="tipo_negocio" value="<?= $cliente['tipo_negocio'] ?? ''; ?>" placeholder="Tipo de empresa" />
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">Grupo de negócio</label>
-                          <input class="form-control" type="text" name="grupo_negocio" value="<?= isset($cliente['grupo_negocio']) ? $cliente['grupo_negocio'] : ""; ?>" placeholder="Grupo de negócio" />
+                          <input class="form-control campo-empresa" type="text" name="grupo_negocio" value="<?= $cliente['grupo_negocio'] ?? ''; ?>" placeholder="Grupo de negócio" />
+                        </div>
+
+                        <div class="mb-2 mt-5 col-md-3">
+                          <label class="form-label">Dia de pagamento</label>
+                          <input class="form-control campo-empresa" type="number" name="dia_pagamento" value="<?= $cliente['dia_pagamento'] ?? ''; ?>" placeholder="Dia de pagamento" />
+                        </div>
+                      
+                        <div class="mb-2 mt-5 col-md-3">
+                          <div class="mb-2">
+                            <label class="form-label text-900">Frequencia de coleta</label>
+                            <select name="frequencia_coleta" class="form-select campo-empresa">
+                              <option value="" selected disabled>Selecione</option>
+                              <option value="Diário" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Diário') ? 'selected' : ''; ?>>Diário</option>
+                              <option value="Semanal" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Semanal') ? 'selected' : ''; ?>>Semanal</option>
+                              <option value="Quinzenal" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Quinzenal') ? 'selected' : ''; ?>>Quinzenal</option>
+                              <option value="Mensal" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Mensal') ? 'selected' : ''; ?>>Mensal</option>
+                              <option value="Não especificado" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Não especificado') ? 'selected' : ''; ?>>Não especificado</option>
+                          </select>
+                          </div>
+                        </div>
+
+                        <div class="mb-2 col-md-12 mt-5">
+                          <label class="form-label">Observação</label>
+                          <textarea class="form-control campo-empresa" rows="4" name="observacao" value="<?= $cliente['observacao'] ?? ''; ?>"><?= $cliente['observacao'] ?? ''; ?></textarea>
                         </div>
 
                       </div>
@@ -135,47 +168,47 @@
 
                         <div class="mb-2 mt-2 col-md-4">
                           <label class="form-label">CEP</label>
-                          <input class="form-control campo input-cep mascara-cep" type="text" name="cep" value="<?= isset($cliente['cep']) ? $cliente['cep'] : ""; ?>" placeholder="Insira o CEP">
+                          <input class="form-control campo input-cep mascara-cep" type="text" name="cep" value="<?= $cliente['cep'] ?? ''; ?>" placeholder="Insira o CEP">
                         </div>
 
                         <div class="mb-2 mt-2 col-md-6">
                           <label class="form-label">Rua *</label>
-                          <input id="rua" required class="form-control campo" type="text" name="rua" value="<?= isset($cliente['rua']) ? $cliente['rua'] : ""; ?>" placeholder="Nome da rua">
+                          <input id="rua" required class="form-control campo" type="text" name="rua" value="<?= $cliente['rua'] ?? ''; ?>" placeholder="Nome da rua">
                           <div class="invalid-feedback">Preencha este campo</div>
                         </div>
 
                         <div class="mb-2 mt-2 col-md-2">
                           <label class="form-label">N° *</label>
-                          <input required class="form-control campo" type="text" name="numero" value="<?= isset($cliente['numero']) ? $cliente['numero'] : ""; ?>" placeholder="Número">
+                          <input required class="form-control campo" type="text" name="numero" value="<?= $cliente['numero'] ?? ''; ?>" placeholder="Número">
                           <div class="invalid-feedback">Preencha este campo</div>
                         </div>
 
                         <div class="mb-2 col-md-4 mt-5">
                           <label class="form-label">Bairro *</label>
-                          <input id="bairro" required class="form-control campo" type="text" name="bairro" value="<?= isset($cliente['bairro']) ? $cliente['bairro'] : ""; ?>" placeholder="Bairro">
+                          <input id="bairro" required class="form-control campo" type="text" name="bairro" value="<?= $cliente['bairro'] ?? ''; ?>" placeholder="Bairro">
                           <div class="invalid-feedback">Preencha este campo</div>
                         </div>
 
                         <div class="mb-2 col-md-3 mt-5">
                           <label class="form-label">Cidade *</label>
-                          <input id="cidade" required class="form-control campo" type="text" name="cidade" value="<?= isset($cliente['cidade']) ? $cliente['cidade'] : ""; ?>" placeholder="Número">
+                          <input id="cidade" required class="form-control campo" type="text" name="cidade" value="<?= $cliente['cidade'] ?? ''; ?>" placeholder="Número">
                           <div class="invalid-feedback">Preencha este campo</div>
                         </div>
 
                         <div class="mb-2 col-md-2 mt-5">
                           <label class="form-label">Estado *</label>
-                          <input id="estado" required class="form-control campo" type="text" name="estado" value="<?= isset($cliente['estado']) ? $cliente['estado'] : ""; ?>" placeholder="Número">
+                          <input id="estado" required class="form-control campo" type="text" name="estado" value="<?= $cliente['estado'] ?? ''; ?>" placeholder="Número">
                           <div class="invalid-feedback">Preencha este campo</div>
                         </div>
 
                         <div class="mb-2 col-md-3 mt-5">
                           <label class="form-label">País</label>
-                          <input class="form-control campo" type="text" name="pais" value="<?= isset($cliente['pais']) ? $cliente['pais'] : ""; ?>" placeholder="País">
+                          <input class="form-control campo" type="text" name="pais" value="<?= $cliente['pais'] ?? ''; ?>" placeholder="País">
                         </div>
 
                         <div class="mb-2 col-md-12 mt-5">
                           <label class="form-label">Complemento</label>
-                          <textarea class="form-control campo" rows="4" name="complemento" value="<?= isset($cliente['complemento']) ? $cliente['complemento'] : ""; ?>"><?= isset($cliente['complemento']) ? $cliente['complemento'] : ""; ?></textarea>
+                          <textarea class="form-control campo" rows="4" name="complemento" value="<?= $cliente['complemento'] ?? ''; ?>"><?= $cliente['complemento'] ?? ''; ?></textarea>
                         </div>
 
                       </div>
@@ -189,17 +222,17 @@
 
                         <div class="col-md-4">
                           <label class="form-label" for="bootstrap-wizard-card-name">Nome</label>
-                          <input class="form-control" placeholder="Nome do responsável" name="nome_responsavel" value="<?= isset($cliente['nome_responsavel']) ? $cliente['nome_responsavel'] : ""; ?>" type="text"/>
+                          <input class="form-control" placeholder="Nome do responsável" name="nome_responsavel" value="<?= $cliente['nome_responsavel'] ?? ''; ?>" type="text"/>
                         </div>
 
                         <div class="col-md-4">
                           <label class="form-label" for="bootstrap-wizard-card-name">Telefone do Responsável</label>
-                          <input class="form-control mascara-tel" placeholder="Telefone do responsável" name="telefone_responsavel" value="<?= isset($cliente['telefone_responsavel']) ? $cliente['telefone_responsavel'] : ""; ?>" type="text"/>
+                          <input class="form-control mascara-tel" placeholder="Telefone do responsável" name="telefone_responsavel" value="<?= $cliente['telefone_responsavel'] ?? ''; ?>" type="text"/>
                         </div>
 
                         <div class="col-md-4">
                           <label class="form-label" for="bootstrap-wizard-card-name">Função do Responsável</label>
-                          <input class="form-control" placeholder="Função do responsável" name="funcao_responsavel" value="<?= isset($cliente['funcao_responsavel']) ? $cliente['funcao_responsavel'] : ""; ?>" type="text"/>
+                          <input class="form-control" placeholder="Função do responsável" name="funcao_responsavel" value="<?= $cliente['funcao_responsavel'] ?? ''; ?>" type="text"/>
                         </div>
 
                       </div>
