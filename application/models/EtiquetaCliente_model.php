@@ -15,7 +15,7 @@ class EtiquetaCliente_model extends CI_Model
         $this->db->select('EC.*, C.nome, E.nome');
         $this->db->from('ci_etiqueta_cliente EC');
         $this->db->join('ci_clientes C', 'EC.id_cliente = C.id', 'inner');
-        $this->db->join('ci_etiquetas E', 'EC.id_etiqueta = E.id_etiqueta', 'inner');
+        $this->db->join('ci_etiquetas E', 'EC.id_etiqueta = E.id', 'inner');
         $this->db->where('EC.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('E.id_empresa', $this->session->userdata('id_empresa'));

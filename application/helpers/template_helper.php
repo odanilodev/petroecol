@@ -188,8 +188,8 @@ function scriptsClienteHead()
         '<link href="' . base_url('assets/css/theme-rtl.min.css') . '" type="text/css" rel="stylesheet" id="style-rtl">',
         '<link href="' . base_url('assets/css/theme.min.css') . '" type="text/css" rel="stylesheet" id="style-default">',
         '<link href="' . base_url('assets/css/user-rtl.min.css') . '" type="text/css" rel="stylesheet" id="user-style-rtl">',
-        '<link href="' . base_url('assets/css/user.min.css') . '" type="text/css" rel="stylesheet" id="user-style-default">'
-
+        '<link href="' . base_url('assets/css/user.min.css') . '" type="text/css" rel="stylesheet" id="user-style-default">',
+        '<link href="' . base_url('vendors/choices/choices.min.css') . '" rel="stylesheet" />'
     );
 }
 
@@ -214,7 +214,8 @@ function scriptsClienteFooter()
         '<script src="' . base_url('node_modules/sweetalert2/dist/sweetalert2.all.min.js') . '"></script>',
         '<script src="' . base_url('assets/js/alertas/alertas-retornos.js') . '"></script>',
         '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>',
-        '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>'
+        '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>',
+        '<script src="' . base_url('vendors/choices/choices.min.js') . '"></script>'
 
     );
 }

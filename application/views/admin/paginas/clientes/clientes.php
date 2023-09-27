@@ -106,14 +106,15 @@
                                                     <span class="text-900"> Visualizar</span>
                                                 </a>
 
-                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item text-center" href="#!" data-bs-toggle="modal" data-bs-target="#modalEtiqueta">
+                                                    <span class="text-900 uil-pricetag-alt"></span>
+                                                    <span class="text-900"> Etiquetas</span>
+                                                </a>
 
                                                 <a class="dropdown-item text-danger text-center" href="<?= base_url('clientes/formulario/' . $v['id']) ?>">
                                                     <span class="text-900 uil uil-pen"></span>
                                                     <span class="text-900"> Editar</span>
                                                 </a>
-
-                                                <div class="dropdown-divider"></div>
 
                                                 <a class="dropdown-item text-danger text-center" href="#" onclick="deletaCliente(<?= $v['id']?>)">
                                                     <span class="text-900 uil uil-trash"></span>
@@ -124,6 +125,49 @@
                                         </div>
                                     </div>
 
+                                </div>
+
+                                <div class="modal fade" id="modalEtiqueta" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Etiquetas</h5>
+                                                <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1"></span></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="text-700 lh-lg mb-0">Etiquetas atribuídas: </p>
+
+                                                <div class="etiquetas-atribuidas my-2">
+                                                    <span class="fw-bold fs--1 text-light lh-2 mr-5 badge rounded-pill bg-secondary my-1">Zona Sul</span>
+                                                    <span class="fw-bold fs--1 text-light lh-2 mr-5 badge rounded-pill bg-secondary my-1">Zona Norte</span>
+                                                    <span class="fw-bold fs--1 text-light lh-2 mr-5 badge rounded-pill bg-secondary my-1">Zona Leste Segunda de Manhã</span>
+                                                    <span class="fw-bold fs--1 text-light lh-2 mr-5 badge rounded-pill bg-secondary my-1">Zona Oeste</span>
+                                                    <span class="fw-bold fs--1 text-light lh-2 mr-5 badge rounded-pill bg-secondary my-1">Zona Oeste</span>
+                                                    <span class="fw-bold fs--1 text-light lh-2 mr-5 badge rounded-pill bg-secondary my-1">Zona Oeste</span>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+
+                                                <div class="add-etiqueta w-100 my-3 mb-4">
+
+                                                    <label for="organizerMultiple">Atribuir novas etiquetas</label>
+                                                    <select class="form-select w-100" id="organizerMultiple" data-choices="data-choices" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}'>
+                                                        
+                                                        <option value="">Selecione etiquetas</option>
+                                                        <option>Bauru</option>
+                                                        <option>Bauru de Segunda</option>
+                                                        <option>Teste nome de etiqueta grande</option>
+                                                        
+                                                    </select>
+                                                    
+                                                </div>
+
+                                                <button class="btn btn-success" type="button">Salvar</button>
+                                                <button class="btn btn-outline-secondary" type="button" data-bs-dismiss="modal">Fechar</button>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="d-flex align-items-center" style="position: absolute; top: 10px; left: 10px">
