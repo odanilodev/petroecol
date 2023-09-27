@@ -115,7 +115,7 @@ $(document).ready(function () {
                     $('#cidade').val(data.localidade);
                     $('#estado').val(data.uf);
                 } else {
-                    avisoRetorno('CEP não encotrado', 'Verifique se digitou corretamente', 'error', '#');
+                    avisoRetorno('CEP não encontrado', 'Verifique se digitou corretamente', 'error', '#');
                 }
             }
         });
