@@ -18,24 +18,46 @@ class Clientes extends CI_Controller
         $this->load->model('Clientes_model');
     }
 
-    public function index()
+    public function index($page = 1)
     {
         // scripts padrão
-		$scriptsPadraoHead = scriptsPadraoHead();
-		$scriptsPadraoFooter = scriptsPadraoFooter();
-		
-		// scripts para clientes
-		$scriptsClienteFooter = scriptsClienteFooter();
-
-		add_scripts('header', array_merge($scriptsPadraoHead));
-		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsClienteFooter));
-
-        $data['clientes'] = $this->Clientes_model->recebeClientes();
-
+        $scriptsPadraoHead = scriptsPadraoHead();
+        $scriptsPadraoFooter = scriptsPadraoFooter();
+    
+        // scripts para clientes
+        $scriptsClienteFooter = scriptsClienteFooter();
+    
+        add_scripts('header', array_merge($scriptsPadraoHead));
+        add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsClienteFooter));
+    
+        $limit = 15; // Número de clientes por página
+    
+        // Carregar a biblioteca de paginação do CodeIgniter
+        $this->load->library('pagination');
+    
+        // Configuração da paginação
+        $config['base_url'] = base_url('clientes/index');
+        $config['total_rows'] = $this->Clientes_model->contarClientes();
+        $config['per_page'] = $limit;
+        $config['use_page_numbers'] = TRUE; // Usar números de página em vez de offset
+    
+        $this->pagination->initialize($config);
+    
+        // Calcule o offset com base no número da página
+        $offset = ($page - 1) * $limit;
+    
+        // Consultar os clientes paginados usando o modelo
+        $data['clientes'] = $this->Clientes_model->getClientesPaginados($limit, $offset);
+    
+        // Passar a informação da paginação para a visão
+        $data['pagination_links'] = $this->pagination->create_links();
+    
+        // Restante do seu código para carregar a visualização
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/clientes');
         $this->load->view('admin/includes/painel/rodape');
     }
+
 
     public function formulario()
     {

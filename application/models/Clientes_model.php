@@ -19,6 +19,24 @@ class Clientes_model extends CI_Model {
         return $query->result_array();
     }
 
+    public function getClientesPaginados($limit, $offset)
+    {
+        $this->db->order_by('nome', 'DESC');
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->limit($limit, $offset);
+        $query = $this->db->get('ci_clientes');
+
+        return $query->result_array();
+    }
+
+    public function contarClientes()
+    {
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('ci_clientes');
+
+        return $query->num_rows();
+    }
+
     public function recebeCliente($id)
     {
         $this->db->where('id', $id);

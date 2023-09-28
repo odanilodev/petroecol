@@ -1,3 +1,5 @@
+
+
 <div class="content">
 
     <div class="pb-8">
@@ -164,6 +166,16 @@
 
             </div>
 
-           
+         <!-- Links de Paginação usando classes Bootstrap -->
+        <div class="row">
+            <div class="col-12">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        <?php echo $pagination_links; ?>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
         </div>
     </div>
