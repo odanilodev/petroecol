@@ -5,9 +5,11 @@ const verificaCampos = () => {
     var permissao = false;
 
     let dadosEmpresa = {};
-    $('#form-empresa input').each(function () {
+    $('#form-empresa .campo-empresa').each(function () {
         dadosEmpresa[$(this).attr('name')] = $(this).val();
     });
+
+    // console.log(dadosEmpresa); return;
 
     let dadosEndereco = {};
     $('#form-endereco .campo').each(function () {
@@ -113,7 +115,7 @@ $(document).ready(function () {
                     $('#cidade').val(data.localidade);
                     $('#estado').val(data.uf);
                 } else {
-                    avisoRetorno('CEP não encotrado', 'Verifique se digitou corretamente', 'error', '#');
+                    avisoRetorno('CEP não encontrado', 'Verifique se digitou corretamente', 'error', '#');
                 }
             }
         });

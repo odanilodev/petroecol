@@ -1,32 +1,46 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Empresas_model extends CI_Model
+class Setores_model extends CI_Model
 {
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model('Log_model');
     }
 
-    public function recebeEmpresas()
+    public function recebeSetores()
     {
         $this->db->order_by('nome', 'DESC');
-        $query = $this->db->get('ci_empresas');
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('ci_setores');
+
         return $query->result_array();
     }
 
-    public function recebeEmpresa($id)
+    public function recebeSetor($id)
     {
         $this->db->where('id', $id);
-        $query = $this->db->get('ci_empresas');
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('ci_setores');
+
         return $query->row_array();
     }
 
-    public function insereEmpresa($dados)
+    public function recebeSetorNome($nome)
+    {
+        $this->db->where('nome', $nome);
+        $query = $this->db->get('ci_setores');
+
+        return $query->row_array();
+    }
+
+    public function insereSetor($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');
-        $this->db->insert('ci_empresas', $dados);
+
+        $this->db->insert('ci_setores', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($this->db->insert_id());
@@ -35,11 +49,13 @@ class Empresas_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function editaEmpresa($id, $dados)
+    public function editaSetor($id, $dados)
     {
         $dados['editado_em'] = date('Y-m-d H:i:s');
+
         $this->db->where('id', $id);
-        $this->db->update('ci_empresas', $dados);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->update('ci_setores', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);
@@ -48,10 +64,11 @@ class Empresas_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function deletaEmpresa($id)
+    public function deletaSetor($id)
     {
         $this->db->where('id', $id);
-        $this->db->delete('ci_empresas');
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->delete('ci_setores');
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);

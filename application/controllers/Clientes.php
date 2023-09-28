@@ -20,13 +20,25 @@ class Clientes extends CI_Controller
 
     public function index()
     {
-        $scriptsHead = scriptsClienteHead();
-        add_scripts('header', $scriptsHead);
+        // scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
+		
+		// scripts para clientes
+		$scriptsClienteHead = scriptsClienteHead();
+		$scriptsClienteFooter = scriptsClienteFooter();
 
-        $scriptsFooter = scriptsClienteFooter();
-        add_scripts('footer', $scriptsFooter);
+		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsClienteHead));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsClienteFooter));
 
         $data['clientes'] = $this->Clientes_model->recebeClientes();
+
+        $this->load->model('Etiquetas_model');
+		$data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
+
+        $this->load->model('EtiquetaCliente_model');
+		$data['etiquetasClientes'] = $this->EtiquetaCliente_model->recebeEtiquetasClientes();
+
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/clientes');
@@ -35,11 +47,15 @@ class Clientes extends CI_Controller
 
     public function formulario()
     {
-        $scriptsHead = scriptsClienteHead();
-        add_scripts('header', $scriptsHead);
+        // scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
+		
+		// scripts para clientes
+		$scriptsClienteFooter = scriptsClienteFooter();
 
-        $scriptsFooter = scriptsClienteFooter();
-        add_scripts('footer', $scriptsFooter);
+		add_scripts('header', array_merge($scriptsPadraoHead));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsClienteFooter));
 
         $id = $this->uri->segment(3);
 
@@ -62,7 +78,6 @@ class Clientes extends CI_Controller
 
         $dataHoraAtual = date('Y-m-d H:i:s');
 
-        $dados['data_criacao'] = $dataHoraAtual;
         $dados['id_empresa'] = $this->session->userdata('id_empresa');
 
         $retorno = $id ? $this->Clientes_model->editaCliente($id, $dados) : $this->Clientes_model->insereCliente($dados); // se tiver ID edita se não INSERE

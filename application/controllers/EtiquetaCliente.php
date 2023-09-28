@@ -16,61 +16,45 @@ class EtiquetaCliente extends CI_Controller
 		$this->load->model('EtiquetaCliente_model');
 	}
 
-	public function index()
-	{
-		$scriptsHead = scriptsUsuarioHead();
-		add_scripts('header', $scriptsHead);
-
-		$scriptsFooter = scriptsUsuarioFooter();
-		add_scripts('footer', $scriptsFooter);
-
-		$data['etiquetasClientes'] = $this->EtiquetaCliente_model->recebeEtiquetasClientes();
-
-		$this->load->view('admin/includes/painel/cabecalho', $data);
-		$this->load->view('admin/paginas/etiquetas_clientes/etiquetas-clientes');
-		$this->load->view('admin/includes/painel/rodape');
-	}
-
-	public function formulario()
-	{
-		$scriptsHead = scriptsUsuarioHead();
-		add_scripts('header', $scriptsHead);
-
-		$scriptsFooter = scriptsUsuarioFooter();
-		add_scripts('footer', $scriptsFooter);
-
-		$this->load->model('EtiquetaCliente_model');
-
-		$id = $this->uri->segment(3);
-
-		$data['etiquetaCliente'] = $this->EtiquetaCliente_model->recebeEtiquetaCliente($id);
-
-		$this->load->view('admin/includes/painel/cabecalho', $data);
-		$this->load->view('admin/paginas/etiquetas_clientes/cadastra-etiqueta-cliente');
-		$this->load->view('admin/includes/painel/rodape');
-	}
-
 	public function cadastraEtiquetaCliente()
 	{
-		$id = $this->input->post('id');
-
 		$dados['id_cliente'] = $this->input->post('id_cliente');
-		$dados['id_etiqueta'] = $this->input->post('id_etiqueta');
+		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-		$retorno = $id ? $this->EtiquetaCliente_model->editaEtiquetaCliente($id, $dados) : $this->EtiquetaCliente_model->insereEtiquetaCliente($dados); // se tiver ID edita se não INSERE
+		$nomeEtiqueta = $this->input->post('nome_etiqueta');
 
-		if ($retorno) { // inseriu ou editou
+		$id_etiqueta = $this->input->post('id_etiqueta');
 
-			$response = array(
-				'success' => true,
-				'message' => $id ? 'Vinculo de etiqueta editado com sucesso!' : 'Vinculo de etiqueta cadastrado com sucesso!'
-			);
-		} else { // erro ao inserir ou editar
+		foreach ($id_etiqueta as $v) {
 
-			$response = array(
-				'success' => false,
-				'message' => $id ? "Erro ao editar vinculo de etiqueta!" : "Erro ao cadastrar vinculo de etiqueta!"
-			);
+			$dados['id_etiqueta'] = $v;
+
+			$etiqueta = $this->EtiquetaCliente_model->recebeIdEtiquetaCliente($dados['id_etiqueta'], $dados['id_cliente']); // verifica se a etiqueta já está vinculada ao cliente
+
+			// se a etiqueta já está vinculada, retorna um aviso
+			if ($etiqueta) {
+				
+				$response = array(
+					'success' => false,
+					'message' => "Esta etiqueta já está atribuída. Tente uma diferente!"
+				);
+
+			} else {
+
+				$this->EtiquetaCliente_model->insereEtiquetaCliente($dados);
+
+				$novaEtiqueta[] = '
+				<span class="fw-bold fs--1 text-light lh-2 mr-5 badge rounded-pill bg-secondary my-1 mx-1"> 
+					' . array_shift($nomeEtiqueta) . 
+				'</span>';
+
+				$response = array(
+					'success' => true,
+					'message' => $novaEtiqueta
+				);
+
+			}
+
 		}
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
@@ -82,7 +66,24 @@ class EtiquetaCliente extends CI_Controller
 		$id = $this->input->post('id');
 
 		$this->EtiquetaCliente_model->deletaEtiquetaCliente($id);
+	}
 
-		redirect('etiquetas-clientes');
+	// exibe as etiquetas de cada cliente dentro do modal
+	public function recebeEtiquetaCliente()
+	{
+		$id_cliente = $this->input->post('id_cliente');
+
+		$etiquetas = $this->EtiquetaCliente_model->recebeEtiquetaCliente($id_cliente);
+
+		foreach($etiquetas as $v) {
+			echo '
+			<span class="fw-bold fs--1 text-light lh-2 mr-5 badge rounded-pill bg-secondary my-1 mx-1 etiqueta-' . $v['id'] . '"> 
+				' . $v['nome'] . '
+				<a href="#" class="text-light">
+					<i class="fas fa-times-circle delete-icon" onclick="deletaEtiquetaCliente(' . $v['id'] . ')"></i>
+				</a>
+			</span>';
+
+		}
 	}
 }
