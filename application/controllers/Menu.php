@@ -24,8 +24,10 @@ class Menu extends CI_Controller
 		$scriptsPadraoHead = scriptsPadraoHead();
 		$scriptsPadraoFooter = scriptsPadraoFooter();
 
-		add_scripts('header', $scriptsPadraoHead);
-		add_scripts('footer', $scriptsPadraoFooter);
+		$scriptsMenuFooter = array('<script src="' . base_url('assets/js/menu/formulario-menu.js') . '"></script>');
+
+		add_scripts('header', array_merge($scriptsPadraoHead));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsMenuFooter));
 
 		$data['menus'] = $this->Menu_model->recebeMenus();
 
@@ -85,4 +87,12 @@ class Menu extends CI_Controller
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 		
 	}
+
+	public function deletaMenu()
+	{
+		$id = $this->input->post('id');
+
+        $this->Menu_model->deletaMenu($id);
+	}
+
 }

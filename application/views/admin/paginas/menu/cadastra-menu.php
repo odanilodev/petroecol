@@ -9,19 +9,19 @@
                             <h4 class="text-900 mb-0">Adicionar novo menu</h4>
 
                             <div class="row mt-4">
-                                <div class="col-2">
+                                <div class="col-md-2 col-lg-2 col-12">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                         <span class="uil-plus-circle ms-1" data-fa-transform="shrink-3"> Categoria</span>
                                     </button>
                                 </div>
 
-                                <div class="col-2">
+                                <div class="col-md-2 col-lg-2 col-12">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                                         <span class="uil-plus-circle ms-1" data-fa-transform="shrink-3"> Categoria Pai</span>
                                     </button>
                                 </div>
 
-                                <div class="col-2">
+                                <div class="col-md-2 col-lg-2 col-12">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
                                         <span class="uil-plus-circle ms-1" data-fa-transform="shrink-3"> Sub Categoria</span>
                                     </button>
@@ -49,17 +49,17 @@
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Nome</label>
-                                                        <input class="form-control input-nome" name="nome" type="text" placeholder="Nome" value="<?= $menu['nome'] ?? "" ?>">
+                                                        <input required class="form-control input-nome" required name="nome" type="text" placeholder="Nome" value="<?= $menu['nome'] ?? "" ?>">
                                                     </div>
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Ícone</label>
-                                                        <input class="form-control input-icone" name="icone" type="text" placeholder="Icone" value="<?= $menu['icone'] ?? "" ?>">
+                                                        <input required class="form-control input-icone" name="icone" type="text" placeholder="Icone" value="<?= $menu['icone'] ?? "" ?>">
                                                     </div>
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Link</label>
-                                                        <input class="form-control input-link" name="link" type="text" placeholder="Link" value="<?= $menu['link'] ?? "" ?>">
+                                                        <input required class="form-control input-link" name="link" type="text" placeholder="Link" value="<?= $menu['link'] ?? "" ?>">
                                                     </div>
 
                                                     <div class="col-md-6 mb-3">
@@ -69,7 +69,7 @@
 
 
                                                     <div class="flex-1 text-end my-5">
-                                                        <button type="button" onclick="cadastraMenu()" class="btn btn-primary px-6 px-sm-6 btn-envia">Cadastrar
+                                                        <button type="submit" class="btn btn-primary px-6 px-sm-6 btn-envia">Cadastrar
                                                             <span class="fas fa-chevron-right" data-fa-transform="shrink-3"> </span>
                                                         </button>
                                                         <div class="spinner-border text-primary load-form d-none" role="status"></div>
@@ -98,7 +98,7 @@
                                                 <form id="form-categoria-pai" class="row" method="post">
                                                     <div class="col-md-4 mb-3">
                                                         <label class="form-label">Nome</label>
-                                                        <input class="form-control input-nome" name="nome" type="text" placeholder="Nome" value="<?= $menu['nome'] ?? "" ?>" required>
+                                                        <input class="form-control input-nome" required name="nome" type="text" placeholder="Nome" value="<?= $menu['nome'] ?? "" ?>">
                                                     </div>
 
                                                     <div class="col-md-4 mb-3">
@@ -113,7 +113,7 @@
 
 
                                                     <div class="flex-1 text-end my-5">
-                                                        <button type="button" onclick="cadastraMenu()" class="btn btn-primary px-6 px-sm-6 btn-envia">Cadastrar
+                                                        <button type="submit" class="btn btn-primary px-6 px-sm-6 btn-envia">Cadastrar
                                                             <span class="fas fa-chevron-right" data-fa-transform="shrink-3"> </span>
                                                         </button>
                                                         <div class="spinner-border text-primary load-form d-none" role="status"></div>
@@ -141,7 +141,7 @@
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Nome</label>
-                                                        <input class="form-control input-nome" name="nome" type="text" placeholder="Nome" value="<?= $menu['nome'] ?? "" ?>">
+                                                        <input class="form-control input-nome" required name="nome" type="text" placeholder="Nome" value="<?= $menu['nome'] ?? "" ?>">
                                                     </div>
 
                                                     <div class="col-md-6 mb-3">

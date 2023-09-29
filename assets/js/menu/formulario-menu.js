@@ -1,53 +1,39 @@
 var baseUrl = $('.base-url').val();
 
-const cadastraUsuario = () => {
+$(document).ready(function () {
 
-    let nome = $('.input-nome').val();
-    let icone = $('.input-icone').val();
-    let link = $('.input-link').val();
-    let ordem = $('.input-ordem').val();
-    let sub = $('.input-sub').val();
+    $('.btn-envia').click(function (event) {
 
-    $.ajax({
-        type: "post",
-        url: `${baseUrl}menu/cadastraMenu`,
-        data: {
-            nome: nome,
-            icone: icone,
-            link: link,
-            ordem: ordem,
-            sub: sub
-        },
-        beforeSend: function () {
-            $('.load-form').removeClass('d-none');
-            $('.btn-envia').addClass('d-none');
-        },
-        success: function (data) {
+        event.preventDefault();
 
-            $('.load-form').addClass('d-none');
-            $('.btn-envia').removeClass('d-none');
+        var form = $(this).closest('form'); // pega o <form> mais perto do botão de enviar
+        var formData = form.serialize();
 
-            if (data.success) {
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}menu/cadastraMenu`,
+            data: formData,
+            beforeSend: function () {
+                form.find('.load-form').removeClass('d-none');
+                form.find('.btn-envia').addClass('d-none');
+            },
+            success: function (data) {
+                form.find('.load-form').addClass('d-none');
+                form.find('.btn-envia').removeClass('d-none');
 
-                avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}menu`);
-
-            } else {
-
-                avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
-
+                if (data.success) {
+                    avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}menu`);
+                } else {
+                    avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
+                }
             }
-        }
+        });
+
     });
-}
 
-function validaEmail(email) {
+});
 
-    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-
-    return filter.test(email);
-}
-
-const deletarUsuario = (id) => {
+const deletarMenu= (id) => {
 
     Swal.fire({
         title: 'Você tem certeza?',
@@ -65,18 +51,17 @@ const deletarUsuario = (id) => {
 
             $.ajax({
                 type: 'post',
-                url: `${baseUrl}usuarios/deletaUsuario`,
+                url: `${baseUrl}menu/deletaMenu`,
                 data: {
                     id: id
                 }, success: function () {
 
-                    avisoRetorno('Sucesso!', 'Usuário deletado com sucesso!', 'success', `${baseUrl}usuarios`);
+                    avisoRetorno('Sucesso!', 'Menu deletado com sucesso!', 'success', `${baseUrl}menu`);
 
                 }
             })
 
         }
     })
-
 
 }

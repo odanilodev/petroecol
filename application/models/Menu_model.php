@@ -47,4 +47,16 @@ class Menu_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+    public function deletaMenu($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('ci_menu');
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id);
+        }
+
+        return $this->db->affected_rows() > 0;
+    }
 }
