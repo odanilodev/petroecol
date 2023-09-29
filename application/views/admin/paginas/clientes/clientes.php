@@ -73,7 +73,7 @@
 
             <?php foreach($clientes as $v) { ?>
 
-                <div class="col-4 col-xl-4">
+                <div class="col-12 col-xs-12 col-xl-4 col-md-4">
                     <div class="card h-100">
 
                         <div class="card-body">
@@ -178,16 +178,14 @@
                     <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1"></span></button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-700 lh-lg mb-0 titulo-etiqueta"></p>
-                    <div class="spinner-border text-primary load-form" role="status"></div>
-
+                   
                     <div class="my-2 div-etiquetas">
                         <!-- Manipulado ajax -->
                     </div>
-                </div>
-                <div class="modal-footer">
 
                     <div class="add-etiqueta w-100 my-3 mb-4">
+
+                        <input type="hidden" class="id-cliente">
 
                         <label>Atribuir novas etiquetas</label>
                         <select class="form-select w-100" id="select-etiqueta" data-choices="data-choices" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}'>
@@ -200,9 +198,14 @@
                         </select>
                         
                     </div>
+                </div>
 
-                    <button class="btn btn-success btn-salva-etiqueta" type="button" onclick="cadastraEtiquetaCliente()">Salvar</button>
-                    <button class="btn btn-outline-secondary" type="button" data-bs-dismiss="modal">Fechar</button>
+                <div class="modal-footer">
+
+                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+
+                    <button class="btn btn-success btn-salva-etiqueta btn-form" type="button" onclick="cadastraEtiquetaCliente()">Salvar</button>
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
                     
                 </div>
             </div>
