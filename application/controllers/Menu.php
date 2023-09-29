@@ -18,7 +18,7 @@ class Menu extends CI_Controller
 		$this->load->model('Menu_model');
 	}
 
-	public function formulario()
+	public function index()
 	{
 		// scripts padrão
 		$scriptsPadraoHead = scriptsPadraoHead();
@@ -28,6 +28,27 @@ class Menu extends CI_Controller
 		add_scripts('footer', $scriptsPadraoFooter);
 
 		$data['menus'] = $this->Menu_model->recebeMenus();
+
+		$this->load->view('admin/includes/painel/cabecalho', $data);
+		$this->load->view('admin/paginas/menu/menus');
+		$this->load->view('admin/includes/painel/rodape');
+	}
+
+	public function formulario()
+	{
+		// scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
+
+		$scriptsMenuFooter = array('<script src="' . base_url('assets/js/menu/formulario-menu.js') . '"></script>');
+
+		add_scripts('header', array_merge($scriptsPadraoHead));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsMenuFooter));
+
+		$id = $this->uri->segment(3);
+
+		$data['menus'] = $this->Menu_model->recebeMenus();
+		$data['menu'] = $this->Menu_model->recebeMenu($id);
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/menu/cadastra-menu');
@@ -44,9 +65,24 @@ class Menu extends CI_Controller
 		$dados['ordem'] = $this->input->post('ordem');
 		$dados['sub'] = $this->input->post('sub');
 
-		$this->Menu_model->insereMenu($dados);
+		$retorno = $id ? $this->Menu_model->editaMenu($id, $dados) : $this->Menu_model->insereMenu($dados);
 
-		echo "deu bom";
+		if ($retorno) { 
+
+			$response = array(
+				'success' => true,
+				'message' => $id ? 'Menu editado com sucesso!' : 'Menu cadastrado com sucesso!'
+			);
+
+		} else { 
+
+			$response = array(
+				'success' => false,
+				'message' => $id ? "Erro ao editar o menu!" : "Erro ao cadastrar o menu!"
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 		
 	}
 }

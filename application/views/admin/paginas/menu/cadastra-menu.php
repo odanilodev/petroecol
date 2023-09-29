@@ -43,32 +43,33 @@
                                     <div class="p-4 code-to-copy">
                                         <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
 
+                                            <!-- Menu categoria -->
                                             <div class="card-body pt-4 pb-0">
-                                                <form class="row" method="post" action="<?= base_url('menu/cadastraMenu')?>">
+                                                <form id="form-categoria" class="row" method="post">
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Nome</label>
-                                                        <input class="form-control" name="nome" type="text" placeholder="Nome">
+                                                        <input class="form-control input-nome" name="nome" type="text" placeholder="Nome" value="<?= $menu['nome'] ?? "" ?>">
                                                     </div>
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Ícone</label>
-                                                        <input class="form-control" name="icone" type="text" placeholder="Icone">
+                                                        <input class="form-control input-icone" name="icone" type="text" placeholder="Icone" value="<?= $menu['icone'] ?? "" ?>">
                                                     </div>
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Link</label>
-                                                        <input class="form-control" name="link" type="text" placeholder="Link">
+                                                        <input class="form-control input-link" name="link" type="text" placeholder="Link" value="<?= $menu['link'] ?? "" ?>">
                                                     </div>
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Ordem</label>
-                                                        <input class="form-control" name="ordem" type="text" placeholder="Ordem">
+                                                        <input class="form-control input-ordem" name="ordem" type="text" placeholder="Ordem" value="<?= $menu['ordem'] ?? "" ?>">
                                                     </div>
 
 
                                                     <div class="flex-1 text-end my-5">
-                                                        <button type="submit" class="btn btn-primary px-6 px-sm-6 btn-envia">Cadastrar
+                                                        <button type="button" onclick="cadastraMenu()" class="btn btn-primary px-6 px-sm-6 btn-envia">Cadastrar
                                                             <span class="fas fa-chevron-right" data-fa-transform="shrink-3"> </span>
                                                         </button>
                                                         <div class="spinner-border text-primary load-form d-none" role="status"></div>
@@ -77,6 +78,7 @@
                                                 </form>
 
                                             </div>
+                                            <!-- Final Menu categoria -->
 
                                         </div>
                                     </div>
@@ -91,33 +93,34 @@
                                     <div class="p-4 code-to-copy">
                                         <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
 
+                                            <!-- Menu Categoria Pai -->
                                             <div class="card-body pt-4 pb-0">
-
-                                                <form class="row" method="post" action="<?= base_url('menu/cadastraMenu')?>">
+                                                <form id="form-categoria-pai" class="row" method="post">
                                                     <div class="col-md-4 mb-3">
                                                         <label class="form-label">Nome</label>
-                                                        <input class="form-control" name="nome" type="text" placeholder="Nome" required>
+                                                        <input class="form-control input-nome" name="nome" type="text" placeholder="Nome" value="<?= $menu['nome'] ?? "" ?>" required>
                                                     </div>
 
                                                     <div class="col-md-4 mb-3">
                                                         <label class="form-label">Ícone</label>
-                                                        <input class="form-control" name="icone" type="text" placeholder="Icone">
+                                                        <input class="form-control input-icone" name="icone" type="text" placeholder="Icone" value="<?= $menu['icone'] ?? "" ?>">
                                                     </div>
 
                                                     <div class="col-md-4 mb-3">
                                                         <label class="form-label">Ordem</label>
-                                                        <input class="form-control" name="ordem" type="text" placeholder="Ordem">
+                                                        <input class="form-control input-ordem" name="ordem" type="text" placeholder="Ordem" value="<?= $menu['ordem'] ?? "" ?>">
                                                     </div>
 
 
                                                     <div class="flex-1 text-end my-5">
-                                                        <button type="submit" class="btn btn-primary px-6 px-sm-6 btn-envia">Cadastrar
+                                                        <button type="button" onclick="cadastraMenu()" class="btn btn-primary px-6 px-sm-6 btn-envia">Cadastrar
                                                             <span class="fas fa-chevron-right" data-fa-transform="shrink-3"> </span>
                                                         </button>
                                                         <div class="spinner-border text-primary load-form d-none" role="status"></div>
                                                     </div>
                                                 </form>
                                             </div>
+                                            <!-- Final Categoria Pai -->
 
                                         </div>
                                     </div>
@@ -132,24 +135,24 @@
                                     <div class="p-4 code-to-copy">
                                         <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
 
+                                            <!-- Sub Categoria  -->
                                             <div class="card-body pt-4 pb-0">
-                                                
-                                                <form class="row" method="post" action="<?= base_url('menu/cadastraMenu')?>">
+                                                <form id="form-sub-categoria" class="row" method="post">
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Nome</label>
-                                                        <input class="form-control" name="nome" type="text" placeholder="Nome">
+                                                        <input class="form-control input-nome" name="nome" type="text" placeholder="Nome" value="<?= $menu['nome'] ?? "" ?>">
                                                     </div>
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Categoria Pai</label>
-                                                        <select class="form-select" name="sub">
+                                                        <select class="form-select input-sub" name="sub">
 
                                                             <option selected disabled value="">Selecione</option>
-                                                            
-                                                            <?php foreach($menus as $v) { ?>
 
-                                                                <option value="<?= $v['id']; ?>"><?= $v['nome'];?></option>
+                                                            <?php foreach ($menus as $v) { ?>
+
+                                                                <option value="<?= $v['id']; ?>"><?= $v['nome']; ?></option>
 
                                                             <?php } ?>
 
@@ -158,25 +161,26 @@
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Link</label>
-                                                        <input class="form-control" name="link" type="text" placeholder="Ordem">
+                                                        <input class="form-control input-link" name="link" type="text" placeholder="Link" value="<?= $menu['link'] ?? "" ?>">
                                                     </div>
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Ordem</label>
-                                                        <input class="form-control" name="ordem" type="text" placeholder="Ordem">
+                                                        <input class="form-control input-ordem" name="ordem" type="text" placeholder="Ordem" value="<?= $menu['ordem'] ?? "" ?>">
                                                     </div>
 
 
                                                     <div class="flex-1 text-end my-5">
-                                                        <button type="submit" class="btn btn-primary px-6 px-sm-6 btn-envia">Cadastrar
+                                                        <button type="button" onclick="cadastraMenu()" class="btn btn-primary px-6 px-sm-6 btn-envia">Cadastrar
                                                             <span class="fas fa-chevron-right" data-fa-transform="shrink-3"> </span>
                                                         </button>
                                                         <div class="spinner-border text-primary load-form d-none" role="status"></div>
                                                     </div>
-                                                    
+
                                                 </form>
 
                                             </div>
+                                            <!-- Final Sub Categoria -->
 
                                         </div>
                                     </div>
