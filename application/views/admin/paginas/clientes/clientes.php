@@ -101,22 +101,22 @@
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-end py-2">
 
-                                                <a class="dropdown-item text-center" href="#!">
+                                                <a class="dropdown-item" href="#!">
                                                     <span class="text-900 uil uil-eye"></span>
                                                     <span class="text-900"> Visualizar</span>
                                                 </a>
 
-                                                <a class="dropdown-item text-center" href="#" onclick="exibirEtiquetasCliente(<?= $v['id']?>)" data-bs-toggle="modal" data-bs-target="#modalEtiqueta">
+                                                <a class="dropdown-item" href="#" onclick="exibirEtiquetasCliente(<?= $v['id']?>)" data-bs-toggle="modal" data-bs-target="#modalEtiqueta">
                                                     <span class="text-900 uil-pricetag-alt"></span>
                                                     <span class="text-900"> Etiquetas</span>
                                                 </a>
 
-                                                <a class="dropdown-item text-danger text-center" href="<?= base_url('clientes/formulario/' . $v['id']) ?>">
+                                                <a class="dropdown-item text-danger" href="<?= base_url('clientes/formulario/' . $v['id']) ?>">
                                                     <span class="text-900 uil uil-pen"></span>
                                                     <span class="text-900"> Editar</span>
                                                 </a>
 
-                                                <a class="dropdown-item text-danger text-center" href="#" onclick="deletaCliente(<?= $v['id']?>)">
+                                                <a class="dropdown-item text-danger" href="#" onclick="deletaCliente(<?= $v['id']?>)">
                                                     <span class="text-900 uil uil-trash"></span>
                                                     <span class="text-900"> Excluir</span>
                                                 </a>
