@@ -73,7 +73,7 @@
 
             <?php foreach($clientes as $v) { ?>
 
-                <div class="col-4 col-xl-4">
+                <div class="col-12 col-xs-12 col-xl-4 col-md-4">
                     <div class="card h-100">
 
                         <div class="card-body">
@@ -101,21 +101,22 @@
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-end py-2">
 
-                                                <a class="dropdown-item text-center" href="#!">
+                                                <a class="dropdown-item" href="#!">
                                                     <span class="text-900 uil uil-eye"></span>
                                                     <span class="text-900"> Visualizar</span>
                                                 </a>
 
-                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#" onclick="exibirEtiquetasCliente(<?= $v['id']?>)" data-bs-toggle="modal" data-bs-target="#modalEtiqueta">
+                                                    <span class="text-900 uil-pricetag-alt"></span>
+                                                    <span class="text-900"> Etiquetas</span>
+                                                </a>
 
-                                                <a class="dropdown-item text-danger text-center" href="<?= base_url('clientes/formulario/' . $v['id']) ?>">
+                                                <a class="dropdown-item text-danger" href="<?= base_url('clientes/formulario/' . $v['id']) ?>">
                                                     <span class="text-900 uil uil-pen"></span>
                                                     <span class="text-900"> Editar</span>
                                                 </a>
 
-                                                <div class="dropdown-divider"></div>
-
-                                                <a class="dropdown-item text-danger text-center" href="#" onclick="deletaCliente(<?= $v['id']?>)">
+                                                <a class="dropdown-item text-danger" href="#" onclick="deletaCliente(<?= $v['id']?>)">
                                                     <span class="text-900 uil uil-trash"></span>
                                                     <span class="text-900"> Excluir</span>
                                                 </a>
@@ -165,5 +166,48 @@
             </div>
 
            
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modalEtiqueta" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Etiquetas</h5>
+                    <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1"></span></button>
+                </div>
+                <div class="modal-body">
+                   
+                    <div class="my-2 div-etiquetas">
+                        <!-- Manipulado ajax -->
+                    </div>
+
+                    <div class="add-etiqueta w-100 my-3 mb-4">
+
+                        <input type="hidden" class="id-cliente">
+
+                        <label>Atribuir novas etiquetas</label>
+                        <select class="form-select w-100" id="select-etiqueta" data-choices="data-choices" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}'>
+                            
+                            <option value="">Selecione etiquetas</option>
+                            <?php foreach($etiquetas as $e) { ?>
+                                <option value="<?= $e['id']?>"><?= $e['nome']; ?></option>
+                            <?php } ?>
+                            
+                        </select>
+                        
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+
+                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+
+                    <button class="btn btn-success btn-salva-etiqueta btn-form" type="button" onclick="cadastraEtiquetaCliente()">Salvar</button>
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+                    
+                </div>
+            </div>
         </div>
     </div>

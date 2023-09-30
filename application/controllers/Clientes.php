@@ -25,12 +25,20 @@ class Clientes extends CI_Controller
 		$scriptsPadraoFooter = scriptsPadraoFooter();
 		
 		// scripts para clientes
+		$scriptsClienteHead = scriptsClienteHead();
 		$scriptsClienteFooter = scriptsClienteFooter();
 
-		add_scripts('header', array_merge($scriptsPadraoHead));
+		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsClienteHead));
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsClienteFooter));
 
         $data['clientes'] = $this->Clientes_model->recebeClientes();
+
+        $this->load->model('Etiquetas_model');
+		$data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
+
+        $this->load->model('EtiquetaCliente_model');
+		$data['etiquetasClientes'] = $this->EtiquetaCliente_model->recebeEtiquetasClientes();
+
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/clientes');
