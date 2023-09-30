@@ -201,10 +201,18 @@ class Login extends CI_Controller
 
     public function erro()
     {
+        // scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
+
+        add_scripts('header', $scriptsPadraoHead);
+        add_scripts('footer', $scriptsPadraoFooter);
+
+        
         // Destrói a sessão
         $this->session->sess_destroy();
 
         // view
-        echo 'Montar uma página falando que o cliente não tem permissão para acessar esse conteúdo';
+        $this->load->view('admin/erros/acesso-negado');
     }
 }
