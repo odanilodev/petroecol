@@ -112,5 +112,7 @@ class Clientes extends CI_Controller
         $id = $this->input->post('id');
 
         $this->Clientes_model->deletaCliente($id);
+
+        $this->Clientes_model->deletaEtiquetaCliente($id);
     }
 }
