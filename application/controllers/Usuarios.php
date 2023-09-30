@@ -32,6 +32,8 @@ class Usuarios extends CI_Controller
 
 
 		$data['usuarios'] = $this->Usuarios_model->recebeUsuarios();
+        $data['menus'] = $this->Menu_model->recebeMenus(); // Busque os menus no modelo
+
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/usuarios/usuarios');
