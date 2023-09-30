@@ -117,6 +117,13 @@
                     <div class="position-relative">
                       <hr class="bg-200 mt-5 mb-4" />
                       <div class="divider-content-center bg-white">Acesse com seu login</div>
+
+                      <?php
+                        if ($this->session->flashdata('mensagem')) {
+                            
+                          echo '<div class="p-1 text-center text-light alert alert-' . $this->session->flashdata('tipo_alerta') . '">' . $this->session->flashdata('mensagem') . '</div>';
+                        }
+                      ?>
                     </div>
 
                     <form action="<?= base_url('login/recebeLogin') ?>" method="post">
@@ -246,7 +253,14 @@
     }
   </script>
 
-
+  <script>
+    	
+    setTimeout(function() { 
+        
+        $(".alert").hide("slow", function(){});
+      
+    }, 3500);
+  </script>
 </body>
 
 </html>

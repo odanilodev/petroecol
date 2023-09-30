@@ -178,14 +178,14 @@ class Login extends CI_Controller
                 exit;
             } else {
                 // A senha está incorreta.
-                $this->session->set_flashdata('mensagem', 'Senha incorreta');
+                $this->session->set_flashdata('mensagem', 'Usuário ou senha incorretos!');
                 $this->session->set_flashdata('tipo_alerta', 'danger');
                 redirect('login');
                 exit;
             }
         } else {
             // Usuário não encontrado.
-            $this->session->set_flashdata('mensagem', 'Usuário não encontrado');
+            $this->session->set_flashdata('mensagem', 'Usuário ou senha incorretos!');
             $this->session->set_flashdata('tipo_alerta', 'danger');
             redirect('login');
             exit;
