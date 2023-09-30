@@ -3,6 +3,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Menu_model extends CI_Model
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('Log_model');
+    }
+    
 	public function recebeMenus()
     {
         $this->db->order_by('nome', 'DESC');
