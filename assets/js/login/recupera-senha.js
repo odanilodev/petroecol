@@ -124,10 +124,18 @@ const redefineSenha = () => {
       $('.load-form').addClass('d-none');
       $('.btn-envia').removeClass('d-none');
 
-      console.log(data)
+      if (data.success) {
+
+        avisoRetorno('Sucesso!', `${data.message}`, 'success', 'index');
+
+      } else {
+
+        avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
+
+      }
+
     }
 
   })
-
 
 }
