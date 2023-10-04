@@ -141,7 +141,7 @@
                     <a class="navbar-brand me-1 me-sm-3" href="index.html">
                         <div class="d-flex align-items-center">
                             <div class="d-flex align-items-center">
-                                <img src="<?= base_url('assets/img/icons/logo.png') ?>" alt="Logo" style="max-width: 180px;" class="img-fluid"/>
+                                <img id="logo" src="" style="max-width: 180px;" class="img-fluid"/>
                                 <!-- <p class="logo-text ms-2 d-none d-sm-block">phoenix</p> -->
                             </div>
                         </div>
@@ -283,8 +283,8 @@
                     <li class="nav-item">
                         <div class="theme-control-toggle fa-icon-wait px-2">
                             <input class="form-check-input ms-0 theme-control-toggle-input" type="checkbox" data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" />
-                            <label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Alterar Tema"><span class="icon" data-feather="moon"></span></label>
-                            <label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Alterar Tema"><span class="icon" data-feather="sun"></span></label>
+                            <label class="altera-logo-tema mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Alterar Tema"><span class="icon" data-feather="moon"></span></label>
+                            <label class="altera-logo-tema mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Alterar Tema"><span class="icon" data-feather="sun"></span></label>
                         </div>
                     </li>
                     <li class="nav-item dropdown d-none">
