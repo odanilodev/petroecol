@@ -98,6 +98,9 @@ const redefineSenha = () => {
   let novaSenha = $('.nova-senha').val();
   let repeteSenha = $('.repete-senha').val();
 
+  $('.load-form').removeClass('d-none');
+  $('.btn-redefine-senha').addClass('d-none');
+
   let email = $('.btn-redefine-senha').data('email');
 
   if (novaSenha != repeteSenha) {
