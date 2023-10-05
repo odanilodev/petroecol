@@ -7036,3 +7036,36 @@
 
 }));
 //# sourceMappingURL=phoenix.js.map
+
+
+// coloca a logo certa quando atualiza a página
+$(document).ready(function() {
+
+  var baseUrl = $('.base-url').val();
+
+  if(window.config.config.phoenixTheme == "dark") {
+    $('#logo').attr('src', `${baseUrl}assets/img/icons/logo-branca.png`);
+
+  } else {
+    $('#logo').attr('src', `${baseUrl}assets/img/icons/logo.png`);
+  }
+})
+
+// troca a logo quando clica no icone de alterar tema
+$(document).on('click', '.altera-logo-tema', function () {
+
+  var baseUrl = $('.base-url').val();
+
+  if (window.config.config.phoenixTheme == "dark") {
+
+    // logo tema claro
+    $('#logo').attr('src', `${baseUrl}assets/img/icons/logo.png`);
+
+  } else {
+
+    // logo tema escuro
+    $('#logo').attr('src', `${baseUrl}assets/img/icons/logo-branca.png`);
+
+  }
+
+})
