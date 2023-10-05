@@ -98,6 +98,9 @@ const redefineSenha = () => {
   let novaSenha = $('.nova-senha').val();
   let repeteSenha = $('.repete-senha').val();
 
+  $('.load-form').removeClass('d-none');
+  $('.btn-redefine-senha').addClass('d-none');
+
   let email = $('.btn-redefine-senha').data('email');
 
   if (novaSenha != repeteSenha) {
@@ -124,10 +127,18 @@ const redefineSenha = () => {
       $('.load-form').addClass('d-none');
       $('.btn-envia').removeClass('d-none');
 
-      console.log(data)
+      if (data.success) {
+
+        avisoRetorno('Sucesso!', `${data.message}`, 'success', 'index');
+
+      } else {
+
+        avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
+
+      }
+
     }
 
   })
-
 
 }

@@ -121,7 +121,7 @@ class Login extends CI_Controller
             $novaSenhaHash = password_hash($novaSenha, PASSWORD_DEFAULT);
             $dados['senha'] = $novaSenhaHash;
             $dados['id_empresa'] = $usuario['id_empresa'];
-
+            
             $resultado = $this->Usuarios_model->editaUsuario($id, $dados);
 
             // Verifica se aletrou a senha

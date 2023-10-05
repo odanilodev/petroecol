@@ -64,7 +64,7 @@ class Usuarios_model extends CI_Model
         $this->db->update('ci_usuarios', $dados);
 
         if ($this->db->affected_rows()) {
-            $this->Log_model->insereLog($id);
+            $this->Log_model->insereLogSenha($id, $dados['id_empresa']);
         }
 
         return $this->db->affected_rows() > 0;
