@@ -83,6 +83,7 @@
 
 <body>
 
+  <input type="hidden" class="base-url" value="<?= base_url(); ?>">
   <!-- ===============================================-->
   <!--    Main Content-->
   <!-- ===============================================-->
@@ -109,7 +110,7 @@
 
                     <div class="text-center mb-7"><a class="d-flex flex-center text-decoration-none mb-4" href="<?= base_url('login') ?>">
                         <div class="d-flex align-items-center fw-bolder fs-5 d-inline-block">
-                          <img src="<?= base_url('assets/img/icons/logo.png') ?>" alt="phoenix" width="200" class="logo-img" />
+                          <img class="logo" src="" width="200" class="logo-img" />
                         </div>
                       </a>
                     </div>
@@ -158,7 +159,7 @@
                       <div class="row flex-between-center mb-7">
 
                         <div class="col-auto">
-                          <a class="fs--1 fw-semi-bold" href="<?= base_url('login/esqueceusenha') ?>" style="color: #013738;">Esqueceu a Senha?</a>
+                          <a class="fs--1 fw-semi-bold text-1100" href="<?= base_url('login/esqueceusenha') ?>" style="color: #013738;">Esqueceu a Senha?</a>
                         </div>
                       </div>
 

@@ -7041,14 +7041,8 @@
 // coloca a logo certa quando atualiza a página
 $(document).ready(function() {
 
-  var baseUrl = $('.base-url').val();
+  alteraLogoTema();
 
-  if(window.config.config.phoenixTheme == "dark") {
-    $('#logo').attr('src', `${baseUrl}assets/img/icons/logo-branca.png`);
-
-  } else {
-    $('#logo').attr('src', `${baseUrl}assets/img/icons/logo.png`);
-  }
 })
 
 // troca a logo quando clica no icone de alterar tema
@@ -7059,13 +7053,31 @@ $(document).on('click', '.altera-logo-tema', function () {
   if (window.config.config.phoenixTheme == "dark") {
 
     // logo tema claro
-    $('#logo').attr('src', `${baseUrl}assets/img/icons/logo.png`);
+    $('.logo').attr('src', `${baseUrl}assets/img/icons/logo.png`);
 
   } else {
 
     // logo tema escuro
-    $('#logo').attr('src', `${baseUrl}assets/img/icons/logo-branca.png`);
+    $('.logo').attr('src', `${baseUrl}assets/img/icons/logo-branca.png`);
 
   }
 
 })
+
+// exibe a logo com o tema certo
+function alteraLogoTema() {
+
+  var baseUrl = $('.base-url').val();
+
+  if (window.config.config.phoenixTheme == "dark") {
+
+    // logo tema escuro
+    $('.logo').attr('src', `${baseUrl}assets/img/icons/logo-branca.png`);
+
+  } else {
+
+    // logo tema claro
+    $('.logo').attr('src', `${baseUrl}assets/img/icons/logo.png`);
+
+  }
+}

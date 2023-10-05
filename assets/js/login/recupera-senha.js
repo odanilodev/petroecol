@@ -2,9 +2,11 @@ var baseUrl = $('.base-url').val();
 
 const verificaEmail = () => {
 
+  alteraLogoTema(); // exibe a logo certa do tema (claro e escuro)
+
   let email = $('.input-email');
 
-  if(email.val() == '') {
+  if (email.val() == '') {
 
     Swal.fire({
       title: 'Erro',
@@ -54,7 +56,7 @@ const verificaCodigo = () => {
 
   var codigo = "";
 
-  $('.codigo-input').each(function() {
+  $('.codigo-input').each(function () {
 
     codigo += $(this).val();
 
@@ -95,11 +97,10 @@ const verificaCodigo = () => {
 
 const redefineSenha = () => {
 
+  alteraLogoTema(); // exibe a logo certa do tema (claro e escuro)
+
   let novaSenha = $('.nova-senha').val();
   let repeteSenha = $('.repete-senha').val();
-
-  $('.load-form').removeClass('d-none');
-  $('.btn-redefine-senha').addClass('d-none');
 
   let email = $('.btn-redefine-senha').data('email');
 
@@ -110,6 +111,7 @@ const redefineSenha = () => {
       icon: 'error',
       confirmButtonText: 'Fechar'
     })
+    return;
   }
 
   $.ajax({
@@ -120,12 +122,13 @@ const redefineSenha = () => {
       email: email
     },
     beforeSend: function () {
-      $('.load-btn').removeClass('d-none');
+      $('.load-form').removeClass('d-none');
+      $('.btn-redefine-senha').addClass('d-none');
     },
     success: function (data) {
 
       $('.load-form').addClass('d-none');
-      $('.btn-envia').removeClass('d-none');
+      $('.btn-redefine-senha').removeClass('d-none');
 
       if (data.success) {
 
@@ -142,3 +145,4 @@ const redefineSenha = () => {
   })
 
 }
+

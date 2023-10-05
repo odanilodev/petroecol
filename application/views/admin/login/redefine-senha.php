@@ -30,7 +30,7 @@
                   <div class="text-center">
                     <a class="d-flex flex-center text-decoration-none mb-4" href="#">
                       <div class="d-flex align-items-center fw-bolder fs-5 d-inline-block">
-                        <img src="<?= base_url('assets/img/icons/logo.png') ?>" width="200" />
+                        <img class="logo" src="" width="200" />
                       </div>
                     </a>
                     <h4 class="text-1000">Esqueceu sua senha?</h4>
@@ -54,7 +54,7 @@
               <div class="col mx-auto d-none div-codigo">
                 <div class="auth-form-box">
                   <div class="text-center"><a class="d-flex flex-center text-decoration-none mb-4" href="#">
-                      <div class="d-flex align-items-center fw-bolder fs-5 d-inline-block"><img src="<?= base_url('assets/img/icons/logo.png') ?>" alt="phoenix" width="200">
+                      <div class="d-flex align-items-center fw-bolder fs-5 d-inline-block"><img class="logo" src="" width="200">
                       </div>
                     </a>
                     <h4 class="text-1000">Insira o código de verificação</h4>
@@ -83,7 +83,7 @@
               <div class="col mx-auto d-none div-nova-senha">
                 <div class="auth-form-box">
                   <div class="text-center mb-7"><a class="d-flex flex-center text-decoration-none mb-4" href="#">
-                      <div class="d-flex align-items-center fw-bolder fs-5 d-inline-block"><img src="<?= base_url('assets/img/icons/logo.png') ?>" alt="phoenix" width="200">
+                      <div class="d-flex align-items-center fw-bolder fs-5 d-inline-block"><img class="logo" alt="phoenix" width="200">
                       </div>
                     </a>
                     <h4 class="text-1000">Redefinir nova senha</h4>
