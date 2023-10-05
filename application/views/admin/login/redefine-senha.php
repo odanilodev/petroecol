@@ -41,7 +41,8 @@
 
                       <button type="submit" class="btn btn-success btn-padrao ms-2 btn-envia" onclick="verificaEmail()">Enviar<span class="fas fa-chevron-right ms-2"></span></button>
                       
-                      <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                      <div class="p-3"><div class="spinner-border text-primary load-form d-none" role="status"></div></div>
+                      
                     </div>
                     
                     <a class="fs--1 fw-bold text-dark" href="<?= base_url('login')?>">Lembrei a senha!</a>
