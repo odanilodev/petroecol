@@ -11,6 +11,7 @@ class Empresas_model extends CI_Model
 
     public function recebeEmpresas()
     {
+        $this->db->where('status', 1);
         $this->db->order_by('nome', 'DESC');
         $query = $this->db->get('ci_empresas');
         return $query->result_array();
@@ -50,8 +51,9 @@ class Empresas_model extends CI_Model
 
     public function deletaEmpresa($id)
     {
+        $dados['status'] = 3;
         $this->db->where('id', $id);
-        $this->db->delete('ci_empresas');
+        $this->db->update('ci_empresas', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);

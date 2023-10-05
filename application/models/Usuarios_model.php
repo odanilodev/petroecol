@@ -13,7 +13,7 @@ class Usuarios_model extends CI_Model
     public function recebeUsuarios()
     {
         $this->db->order_by('nome', 'DESC');
-
+        $this->db->where('status', 1);
         if($this->session->userdata('id_empresa') > 1){
             $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         }
@@ -26,7 +26,6 @@ class Usuarios_model extends CI_Model
     public function recebeUsuario($id)
     {
         $this->db->where('id', $id);
-
         if($this->session->userdata('id_empresa') > 1){
             $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         }
@@ -38,7 +37,7 @@ class Usuarios_model extends CI_Model
 
     public function recebeUsuarioEmail($email)
     {
-
+        $this->db->where('status', 1);
         $this->db->where('email', $email);
         $query = $this->db->get('ci_usuarios');
 
@@ -91,9 +90,10 @@ class Usuarios_model extends CI_Model
 
     public function deletaUsuario($id)
     {
+        $dados['status'] = 3;
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->delete('ci_usuarios');
+        $this->db->update('ci_usuarios', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);

@@ -13,6 +13,7 @@ class Clientes_model extends CI_Model {
     public function recebeClientes()
     {
         $this->db->order_by('nome', 'DESC');
+        $this->db->where('status', 1);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_clientes');
 
@@ -57,9 +58,10 @@ class Clientes_model extends CI_Model {
 
     public function deletaCliente($id)
     {
+        $dados['status'] = 3;
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->delete('ci_clientes');
+        $this->db->update('ci_clientes', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);
