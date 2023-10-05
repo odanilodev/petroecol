@@ -30,27 +30,18 @@ class Clientes extends CI_Controller
         add_scripts('header', array_merge($scriptsPadraoHead));
         add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsClienteFooter));
     
-        $limit = 15; // Número de clientes por página
-    
-        // Carregar a biblioteca de paginação do CodeIgniter
+        // >>>> PAGINAÇÃO <<<<<
+        $limit = 6; // Número de clientes por página
         $this->load->library('pagination');
-    
-        // Configuração da paginação
         $config['base_url'] = base_url('clientes/index');
-        $config['total_rows'] = $this->Clientes_model->contarClientes();
+        $config['total_rows'] = $this->Clientes_model->recebeClientes($limit, $page, true); // true para contar
         $config['per_page'] = $limit;
         $config['use_page_numbers'] = TRUE; // Usar números de página em vez de offset
-    
         $this->pagination->initialize($config);
-    
-        // Calcule o offset com base no número da página
-        $offset = ($page - 1) * $limit;
+        // >>>> FIM PAGINAÇÃO <<<<<
     
         // Consultar os clientes paginados usando o modelo
-        $data['clientes'] = $this->Clientes_model->getClientesPaginados($limit, $offset);
-    
-        // Passar a informação da paginação para a visão
-        $data['pagination_links'] = $this->pagination->create_links();
+        $data['clientes'] = $this->Clientes_model->recebeClientes($limit, $page);
     
         // Restante do seu código para carregar a visualização
         $this->load->view('admin/includes/painel/cabecalho', $data);
