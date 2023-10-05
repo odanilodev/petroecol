@@ -10,11 +10,11 @@ class Login extends CI_Controller
 
     public function esqueceuSenha()
     {
-        $scriptsHead = scriptsLoginHead();
-        add_scripts('header', $scriptsHead);
-
-        $scriptsFooter = scriptsLoginFooter();
-        add_scripts('footer', $scriptsFooter);
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
+		$scriptsLoginFooter = array('<script src="' . base_url('assets/js/login/recupera-senha.js') . '"></script>');
+		add_scripts('header', $scriptsPadraoHead);
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsLoginFooter));
 
         $this->load->view('admin/includes/login/cabecalho');
         $this->load->view('admin/login/redefine-senha');
@@ -119,20 +119,21 @@ class Login extends CI_Controller
 
             // Hash da nova senha
             $novaSenhaHash = password_hash($novaSenha, PASSWORD_DEFAULT);
-            $usuario['senha'] = $novaSenhaHash;
+            $dados['senha'] = $novaSenhaHash;
+            $dados['id_empresa'] = $usuario['id_empresa'];
+            
+            $resultado = $this->Usuarios_model->editaUsuario($id, $dados);
 
-            $resultado = $this->Usuarios_model->editaUsuario($id, $usuario);
-
-            // Verifica se a edição foi bem-sucedida
+            // Verifica se aletrou a senha
             if ($resultado) {
                 $response = array(
                 'success' => true,
-                'message' => "Editado com sucesso!"
+                'message' => "Senha alterada com sucesso!"
                 );
             } else {
                 $response = array(
                     'success' => true,
-                    'message' => "Erro ao editar usuário, ou nenhum dado afetado."
+                    'message' => "Não foi possível alterar a senha. Tente novamente!"
                 );
             }
         } else {
@@ -176,14 +177,14 @@ class Login extends CI_Controller
                 exit;
             } else {
                 // A senha está incorreta.
-                $this->session->set_flashdata('mensagem', 'Senha incorreta');
+                $this->session->set_flashdata('mensagem', 'Usuário ou senha incorretos!');
                 $this->session->set_flashdata('tipo_alerta', 'danger');
                 redirect('login');
                 exit;
             }
         } else {
             // Usuário não encontrado.
-            $this->session->set_flashdata('mensagem', 'Usuário não encontrado');
+            $this->session->set_flashdata('mensagem', 'Usuário ou senha incorretos!');
             $this->session->set_flashdata('tipo_alerta', 'danger');
             redirect('login');
             exit;
@@ -201,10 +202,18 @@ class Login extends CI_Controller
 
     public function erro()
     {
+        // scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
+
+        add_scripts('header', $scriptsPadraoHead);
+        add_scripts('footer', $scriptsPadraoFooter);
+
+        
         // Destrói a sessão
         $this->session->sess_destroy();
 
         // view
-        echo 'Montar uma página falando que o cliente não tem permissão para acessar esse conteúdo';
+        $this->load->view('admin/erros/acesso-negado');
     }
 }

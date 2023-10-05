@@ -23,15 +23,26 @@ const verificaEmail = () => {
       email: email.val()
     },
     beforeSend: function () {
-      $('.load-btn').removeClass('d-none');
+      $('.load-form').removeClass('d-none');
+      $('.btn-envia').addClass('d-none');
     },
     success: function (data) {
 
-      if (data == "Token enviado com sucesso") {
+      $('.load-form').addClass('d-none');
+      $('.btn-envia').removeClass('d-none');
+
+      if (data.success) {
+
         $('.btn-redefine-senha').attr('data-email', email.val());
+
+        $('.div-email').addClass('d-none');
+        $('.div-codigo').removeClass('d-none');
+
+      } else {
+
+        avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
+
       }
-      $('.div-email').addClass('d-none');
-      $('.div-codigo').removeClass('d-none');
 
     }
 
@@ -56,13 +67,26 @@ const verificaCodigo = () => {
       codigo: codigo
     },
     beforeSend: function () {
-      $('.load-btn').removeClass('d-none');
+      $('.load-form').removeClass('d-none');
+      $('.btn-envia').addClass('d-none');
     },
-    success: function () {
+    success: function (data) {
 
-      $('.div-email').addClass('d-none');
-      $('.div-codigo').addClass('d-none');
-      $('.div-nova-senha').removeClass('d-none');
+      $('.load-form').addClass('d-none');
+      $('.btn-envia').removeClass('d-none');
+
+      if (data.success) {
+
+        $('.div-email').addClass('d-none');
+        $('.div-codigo').addClass('d-none');
+        $('.div-nova-senha').removeClass('d-none');
+
+      } else {
+
+        avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
+
+      }
+
     }
 
   })
@@ -73,6 +97,9 @@ const redefineSenha = () => {
 
   let novaSenha = $('.nova-senha').val();
   let repeteSenha = $('.repete-senha').val();
+
+  $('.load-form').removeClass('d-none');
+  $('.btn-redefine-senha').addClass('d-none');
 
   let email = $('.btn-redefine-senha').data('email');
 
@@ -97,10 +124,21 @@ const redefineSenha = () => {
     },
     success: function (data) {
 
-      alert(data)
+      $('.load-form').addClass('d-none');
+      $('.btn-envia').removeClass('d-none');
+
+      if (data.success) {
+
+        avisoRetorno('Sucesso!', `${data.message}`, 'success', 'index');
+
+      } else {
+
+        avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
+
+      }
+
     }
 
   })
-
 
 }
