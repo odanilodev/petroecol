@@ -141,7 +141,7 @@
                     <a class="navbar-brand me-1 me-sm-3" href="index.html">
                         <div class="d-flex align-items-center">
                             <div class="d-flex align-items-center">
-                                <img id="logo" src="" style="max-width: 180px;" class="img-fluid"/>
+                                <img src="" style="max-width: 180px;" class="img-fluid logo"/>
                                 <!-- <p class="logo-text ms-2 d-none d-sm-block">phoenix</p> -->
                             </div>
                         </div>
