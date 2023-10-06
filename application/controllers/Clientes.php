@@ -31,7 +31,7 @@ class Clientes extends CI_Controller
         add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsClienteFooter));
     
         // >>>> PAGINAÇÃO <<<<<
-        $limit = 6; // Número de clientes por página
+        $limit = 12; // Número de clientes por página
         $this->load->library('pagination');
         $config['base_url'] = base_url('clientes/index');
         $config['total_rows'] = $this->Clientes_model->recebeClientes($limit, $page, true); // true para contar
