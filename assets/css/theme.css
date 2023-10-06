@@ -34199,3 +34199,51 @@ a[href].bg-200:hover, a[href].bg-200:focus {
 .col--1 {
   width: 10.333333%;
 }
+
+
+/* paginacao */
+
+.pagination a {
+  text-decoration: none;
+  padding: 5px 10px;
+  margin: 2px;
+  border-radius: 5px;
+}
+
+/* Paginação tema claro */
+.pagination-light a {
+  text-decoration: none;
+  padding: 5px 10px;
+  margin: 2px;
+  border-radius: 5px;
+}
+
+.pagination-light a:hover {
+  background-color: #E3E6ED;
+}
+
+.pagination-light .atual {
+  background-color: #E3E6ED;
+  color: #3874ff;
+  padding: 5px 10px;
+  margin: 2px;
+}
+
+/* Paginação tema escuro */
+.pagination-dark a {
+  text-decoration: none;
+  padding: 5px 10px;
+  margin: 2px;
+  border-radius: 5px;
+}
+
+.pagination-dark a:hover {
+  background-color: #31374A;
+}
+
+.pagination-dark .atual {
+  background-color: #31374A; 
+  padding: 5px 10px;
+  margin: 2px;
+  color: #85a9ff;
+}

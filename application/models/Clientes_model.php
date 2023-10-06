@@ -1,8 +1,9 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Clientes_model extends CI_Model {
+class Clientes_model extends CI_Model
+{
 
     public function __construct()
     {
@@ -10,11 +11,21 @@ class Clientes_model extends CI_Model {
         $this->load->model('Log_model');
     }
 
-    public function recebeClientes()
+    public function recebeClientes($limit, $page, $count = null)
     {
+        if ($count) {
+            $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+            $this->db->where('status', 1);
+
+            $query = $this->db->get('ci_clientes');
+            return $query->num_rows();
+        }
+
+        $offset = ($page - 1) * $limit;
         $this->db->order_by('nome', 'DESC');
         $this->db->where('status', 1);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->limit($limit, $offset);
         $query = $this->db->get('ci_clientes');
 
         return $query->result_array();
@@ -39,7 +50,6 @@ class Clientes_model extends CI_Model {
         }
 
         return $this->db->affected_rows() > 0;
-        
     }
 
     public function editaCliente($id, $dados)

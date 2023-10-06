@@ -18,7 +18,7 @@ class Clientes extends CI_Controller
         $this->load->model('Clientes_model');
     }
 
-    public function index()
+    public function index($page = 1)
     {
         // scripts padrão
 		$scriptsPadraoHead = scriptsPadraoHead();
@@ -31,7 +31,17 @@ class Clientes extends CI_Controller
 		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsClienteHead));
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsClienteFooter));
 
-        $data['clientes'] = $this->Clientes_model->recebeClientes();
+        // >>>> PAGINAÇÃO <<<<<
+        $limit = 12; // Número de clientes por página
+        $this->load->library('pagination');
+        $config['base_url'] = base_url('clientes/index');
+        $config['total_rows'] = $this->Clientes_model->recebeClientes($limit, $page, true); // true para contar
+        $config['per_page'] = $limit;
+        $config['use_page_numbers'] = TRUE; // Usar números de página em vez de offset
+        $this->pagination->initialize($config);
+        // >>>> FIM PAGINAÇÃO <<<<<
+
+        $data['clientes'] = $this->Clientes_model->recebeClientes($limit, $page);
 
         $this->load->model('Etiquetas_model');
 		$data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
@@ -44,6 +54,7 @@ class Clientes extends CI_Controller
         $this->load->view('admin/paginas/clientes/clientes');
         $this->load->view('admin/includes/painel/rodape');
     }
+
 
     public function formulario()
     {
