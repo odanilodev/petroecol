@@ -147,6 +147,17 @@ function scriptsSetorFooter()
     );
 }
 
+
+// Pagina de recipientes
+function scriptsRecipienteFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/recipientes/formulario-recipiente.js') . '"></script>'
+
+    );
+}
+
 // pagina de login
 function scriptsLoginFooter()
 {
