@@ -15,6 +15,8 @@ class Clientes_model extends CI_Model
     {
         if ($count) {
             $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+            $this->db->where('status', 1);
+
             $query = $this->db->get('ci_clientes');
             return $query->num_rows();
         }
