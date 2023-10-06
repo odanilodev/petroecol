@@ -52,7 +52,7 @@
                                 <td class="customer align-middle white-space-nowrap">
                                     <a class="d-flex align-items-center text-900" href="#!">
                                         <div class="avatar avatar-m">
-                                            <img class="rounded-circle" src="<?= base_url('uploads/usuarios/' . ($v['foto_perfil'] ? $v['foto_perfil'] : "sem_foto.jpg")) ?>">
+                                            <img class="rounded-circle" src="<?= $v['foto_perfil'] ? base_url('uploads/usuarios/' . ($v['foto_perfil'])) : base_url('assets/img/icons/sem_foto.jpg') ?>">
                                         </div>
                                         <h6 class="mb-0 ms-3 fw-semi-bold"><?= $v['nome'] ?></h6>
                                     </a>

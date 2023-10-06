@@ -34206,18 +34206,44 @@ a[href].bg-200:hover, a[href].bg-200:focus {
 .pagination a {
   text-decoration: none;
   padding: 5px 10px;
-  /* border: 1px solid #ccc; */
   margin: 2px;
   border-radius: 5px;
 }
 
-.pagination a:hover {
-  background-color:#E3E6ED;
-}
-
-.pagination .atual {
-  background-color: #E3E6ED;
-  color: #3e465b;
+/* Paginação tema claro */
+.pagination-light a {
+  text-decoration: none;
   padding: 5px 10px;
   margin: 2px;
+  border-radius: 5px;
+}
+
+.pagination-light a:hover {
+  background-color: #E3E6ED;
+}
+
+.pagination-light .atual {
+  background-color: #E3E6ED;
+  color: #3874ff;
+  padding: 5px 10px;
+  margin: 2px;
+}
+
+/* Paginação tema escuro */
+.pagination-dark a {
+  text-decoration: none;
+  padding: 5px 10px;
+  margin: 2px;
+  border-radius: 5px;
+}
+
+.pagination-dark a:hover {
+  background-color: #31374A;
+}
+
+.pagination-dark .atual {
+  background-color: #31374A; 
+  padding: 5px 10px;
+  margin: 2px;
+  color: #85a9ff;
 }
