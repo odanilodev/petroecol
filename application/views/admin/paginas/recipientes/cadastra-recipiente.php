@@ -28,18 +28,20 @@
 
                                                 <div class="col-md-4 mb-3">
                                                     <label class="form-label">Nome do recipiente</label>
-                                                    <input class="form-control input-nome" type="text" placeholder="Digite o nome do recipiente" value="<?= $recipiente['nome_recipiente'] ?? ''; ?>">
+                                                    <input class="form-control input-obrigatorio input-nome" type="text" placeholder="Digite o nome do recipiente" value="<?= $recipiente['nome_recipiente'] ?? ''; ?>">
+                                                    <div class="d-none invalid-feedback">Preencha este campo</div>
                                                 </div>
 
                                                 <div class="col-md-2 mb-3">
                                                     <label class="form-label">Volume Suportado</label>
-                                                    <input class="form-control input-volume" type="number" placeholder="Digite a capacidade" value="<?= $recipiente['volume_suportado'] ?? ''; ?>">
+                                                    <input class="form-control input-obrigatorio input-volume" type="number" placeholder="Digite a capacidade" value="<?= $recipiente['volume_suportado'] ?? ''; ?>">
+                                                    <div class="d-none invalid-feedback">Preencha este campo</div>
                                                 </div>
 
                                                 <div class="col-sm-2">
                                                 <div class="mb-2">
                                                     <label class="form-label text-900">Unidade de peso</label>
-                                                    <select class="form-select input-unidade">
+                                                    <select class="form-select input-obrigatorio input-unidade">
                                                     <option value="" selected disabled>Selecione</option>
                                                     <option value="LT" <?= (isset($recipiente['unidade_peso']) && $recipiente['unidade_peso'] == 'LT') ? 'selected' : ''; ?>>LT</option>
                                                     <option value="KG" <?= (isset($recipiente['unidade_peso']) && $recipiente['unidade_peso'] == 'KG') ? 'selected' : ''; ?>>KG</option>
@@ -49,7 +51,8 @@
 
                                                 <div class="col-md-2 mb-3">
                                                     <label class="form-label">Quantidade em estoque</label>
-                                                    <input class="form-control input-quantidade" type="number" placeholder="Digite a quantidade" value="<?= $recipiente['quantidade'] ?? ''; ?>">
+                                                    <input class="form-control input-obrigatorio input-quantidade" type="number" placeholder="Digite a quantidade" value="<?= $recipiente['quantidade'] ?? ''; ?>">
+                                                    <div class="d-none invalid-feedback">Preencha este campo</div>
                                                 </div>
 
                                                 <div class="flex-1 text-end my-4">

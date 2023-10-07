@@ -6,11 +6,21 @@ const cadastraRecipiente = () => {
     let quantidade = $('.input-quantidade').val();
     let unidade_peso = $('.input-unidade').val();
 
-    let id = $('.input-id').val();
     let permissao = false;
 
+    $('.input-obrigatorio').each(function(){
+        if($(this).val() == "" || $(this).val() == null) {
+            $(this).addClass('invalido')
+            permissao = false;
+        }else{
+            $(this).removeClass('invalido')
+        }
+    })
+
+    let id = $('.input-id').val();
+
     // cadastra um setor novo
-    if (nome_recipiente != "") {
+    if (nome_recipiente != "" && volume_suportado != "" && quantidade != "" && unidade_peso != null) {
 
         permissao = true;
 
