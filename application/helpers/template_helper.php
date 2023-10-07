@@ -147,13 +147,22 @@ function scriptsSetorFooter()
     );
 }
 
-
 // Pagina de recipientes
 function scriptsRecipienteFooter()
 {
     return array(
 
         '<script src="' . base_url('assets/js/recipientes/formulario-recipiente.js') . '"></script>'
+
+    );
+}
+
+// Pagina de residuos
+function scriptsResiduoFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/residuos/formulario-residuo.js') . '"></script>'
 
     );
 }
