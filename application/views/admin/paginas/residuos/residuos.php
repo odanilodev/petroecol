@@ -12,7 +12,7 @@
             <div class="col col-auto">
                 <div class="search-box">
                     <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                        <input class="form-control search-input search" type="search" placeholder="Buscar Resíduoss" aria-label="Search" />
+                        <input class="form-control search-input search" type="search" placeholder="Buscar Resíduos" aria-label="Search" />
                         <span class="fas fa-search search-box-icon"></span>
 
                     </form>
