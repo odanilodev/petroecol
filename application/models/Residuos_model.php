@@ -20,10 +20,13 @@ class Residuos_model extends CI_Model
         }
 
         $offset = ($page - 1) * $limit;
-        $this->db->order_by('nome', 'DESC');
+        $this->db->select('R.*, GR.nome_grupo');
+        $this->db->from('ci_residuos R');
+        $this->db->join('ci_grupo_residuos GR', 'R.id_grupo = GR.id', 'inner');
+        $this->db->order_by('R.nome', 'DESC');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->limit($limit, $offset);
-        $query = $this->db->get('ci_residuos');
+        $query = $this->db->get();
 
         return $query->result_array();
     }
@@ -43,6 +46,13 @@ class Residuos_model extends CI_Model
         $query = $this->db->get('ci_residuos');
 
         return $query->row_array();
+    }
+
+    public function recebeGruposResiduo()
+    {
+        $query = $this->db->get('ci_grupo_residuos');
+
+        return $query->result_array();
     }
 
     public function insereResiduo($dados)

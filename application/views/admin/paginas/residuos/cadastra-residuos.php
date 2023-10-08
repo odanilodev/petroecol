@@ -36,24 +36,13 @@
                                                         <label class="form-label text-900">Grupo</label>
                                                         <select class="form-select input-grupo">
                                                             <option value="" selected disabled>Selecione</option>
-                                                            <option value="1">Resíduos de Óleos</option>
-                                                            <option value="2">Resíduos Perigosos</option>
-                                                            <option value="3">Resíduos Eletrônicos (e-lixo)</option>
-                                                            <option value="4">Resíduos Orgânicos</option>
-                                                            <option value="5">Resíduos de Construção e Demolição (RCD)</option>
-                                                            <option value="6">Resíduos Industriais</option>
-                                                            <option value="7">Resíduos Agrícolas</option>
-                                                            <option value="8">Resíduos de Serviços de Saúde</option>
-                                                            <option value="9">Resíduos de Mineração</option>
-                                                            <option value="10">Resíduos Sólidos de Construção Naval</option>
-                                                            <option value="11">Resíduos Plásticos</option>
-                                                            <option value="12">Resíduos Alimentares</option>
-                                                            <option value="13">Resíduos de Papel e Papelão</option>
-                                                            <option value="14">Resíduos de Metais</option>
-                                                            <option value="15">Resíduos de Vidro</option>
-                                                            <option value="16">Resíduos Radioativos</option>
-                                                            <option value="17">Resíduos Sólidos Urbanos (RSU)</option>
 
+                                                            <?php foreach ($grupo_residuos as $v) { ?>
+
+                                                                <option value="<?= $v['id']?>" <?= (isset($residuo['id_grupo']) && $residuo['id_grupo'] == $v['id']) ? "selected" : ""?>><?= $v['nome_grupo'] ?></option>
+
+                                                            <?php } ?>
+                                                            
                                                         </select>
                                                     </div>
                                                 </div>

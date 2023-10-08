@@ -53,7 +53,7 @@
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <?= $v['id_grupo'] ?>
+                                    <?= $v['nome_grupo'] ?>
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">

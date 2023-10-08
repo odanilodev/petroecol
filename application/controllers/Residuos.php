@@ -41,6 +41,8 @@ class Residuos extends CI_Controller
 
 		$data['residuos'] = $this->Residuos_model->recebeResiduos($limit, $page);
 
+		// echo "<pre>"; print_r($data['residuos']); exit;
+
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/residuos/residuos');
 		$this->load->view('admin/includes/painel/rodape');
@@ -61,6 +63,7 @@ class Residuos extends CI_Controller
 		$id = $this->uri->segment(3);
 
 		$data['residuo'] = $this->Residuos_model->recebeResiduo($id);
+		$data['grupo_residuos'] = $this->Residuos_model->recebeGruposResiduo();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/residuos/cadastra-residuos');
