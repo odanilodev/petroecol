@@ -28,13 +28,13 @@
 
                                                 <div class="col-md-4 mb-3">
                                                     <label class="form-label">Nome</label>
-                                                    <input class="form-control input-nome" type="text" placeholder="Digite o nome do resíduo" value="<?= $residuo['nome'] ?? ''; ?>">
+                                                    <input class="form-control input-nome input-obrigatorio" type="text" placeholder="Digite o nome do resíduo" value="<?= $residuo['nome'] ?? ''; ?>">
                                                 </div>
 
                                                 <div class="col-sm-4">
                                                     <div class="mb-2">
                                                         <label class="form-label text-900">Grupo</label>
-                                                        <select class="form-select input-grupo">
+                                                        <select class="form-select input-grupo input-obrigatorio">
                                                             <option value="" selected disabled>Selecione</option>
 
                                                             <?php foreach ($grupo_residuos as $v) { ?>

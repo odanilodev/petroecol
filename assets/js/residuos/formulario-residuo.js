@@ -8,12 +8,16 @@ const cadastraResiduos = () => {
 
     let permissao = false;
 
-    // cadastra um setor novo
-    if (residuo != "" || grupo != "") {
+    $('.input-obrigatorio').each(function () {
 
-        permissao = true;
-
-    }
+        if ($(this).val() == "" || $(this).val() == null) {
+            $(this).addClass('invalido');
+            permissao = false;
+        } else {
+            $(this).removeClass('invalido');
+            permissao = true;
+        }
+    })
 
     if (permissao) {
 
