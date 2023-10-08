@@ -26,19 +26,19 @@
                                             <div class="card-body pt-4 pb-0 row">
                                                 <input type="hidden" class="input-id" value="<?= $recipiente['id'] ?? ''; ?>">
 
-                                                <div class="col-md-4 mb-3">
+                                                <div class="col-md-3 mb-3">
                                                     <label class="form-label">Nome do recipiente</label>
                                                     <input class="form-control input-obrigatorio input-nome" type="text" placeholder="Digite o nome do recipiente" value="<?= $recipiente['nome_recipiente'] ?? ''; ?>">
                                                     <div class="d-none invalid-feedback">Preencha este campo</div>
                                                 </div>
 
-                                                <div class="col-md-2 mb-3">
+                                                <div class="col-md-3 mb-3">
                                                     <label class="form-label">Volume Suportado</label>
                                                     <input class="form-control input-obrigatorio input-volume" type="number" placeholder="Digite a capacidade" value="<?= $recipiente['volume_suportado'] ?? ''; ?>">
                                                     <div class="d-none invalid-feedback">Preencha este campo</div>
                                                 </div>
 
-                                                <div class="col-sm-2">
+                                                <div class="col-md-3">
                                                 <div class="mb-2">
                                                     <label class="form-label text-900">Unidade de peso</label>
                                                     <select class="form-select input-obrigatorio input-unidade">
@@ -49,7 +49,7 @@
                                                 </div>
                                                 </div>
 
-                                                <div class="col-md-2 mb-3">
+                                                <div class="col-md-3 mb-3">
                                                     <label class="form-label">Quantidade em estoque</label>
                                                     <input class="form-control input-obrigatorio input-quantidade" type="number" placeholder="Digite a quantidade" value="<?= $recipiente['quantidade'] ?? ''; ?>">
                                                     <div class="d-none invalid-feedback">Preencha este campo</div>

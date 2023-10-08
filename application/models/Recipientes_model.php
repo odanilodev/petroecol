@@ -9,9 +9,19 @@ class Recipientes_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebeRecipientes()
+    public function recebeRecipientes($limit, $page, $count = null)
     {
+        if ($count) {
+            $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+
+            $query = $this->db->get('ci_recipientes');
+            return $query->num_rows();
+        }
+
+        $offset = ($page - 1) * $limit;
         $this->db->order_by('nome_recipiente', 'DESC');
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->limit($limit, $offset);
         $query = $this->db->get('ci_recipientes');
         return $query->result_array();
     }
