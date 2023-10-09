@@ -124,6 +124,29 @@
                                         </span>
                                     </div>
                                 </a>
+
+                                <a class="nav-link label-1" href="<?= base_url('recipientes')?>" role="button" data-bs-toggle="" aria-expanded="false">
+                                    <div class="d-flex align-items-center">
+                                        <span class="nav-link-icon">
+                                            <span data-feather="users"></span>
+                                        </span>
+                                        <span class="nav-link-text-wrapper">
+                                            <span class="nav-link-text">Recipientes</span>
+                                        </span>
+                                    </div>
+                                </a>
+
+                                <a class="nav-link label-1" href="<?= base_url('residuos')?>" role="button" data-bs-toggle="" aria-expanded="false">
+                                    <div class="d-flex align-items-center">
+                                        <span class="nav-link-icon">
+                                            <span data-feather="users"></span>
+                                        </span>
+                                        <span class="nav-link-text-wrapper">
+                                            <span class="nav-link-text">Residuos</span>
+                                        </span>
+                                    </div>
+                                </a>
+
                             </div>
 
                         </li>
