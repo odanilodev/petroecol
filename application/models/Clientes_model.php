@@ -91,4 +91,81 @@ class Clientes_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+    public function buscarClientes($status = null, $etiquetas = array(), $nome = null, $estado = null, $cidade = null) {
+       
+        $this->db->select('*');
+        $this->db->from('ci_clientes');
+
+        // Aplicar os filtros, se fornecidos
+        if ($status !== null) {
+            $this->db->where('status', $status);
+        }
+        
+        // Lidar com as etiquetas como um array
+        if (!empty($etiquetas)) {
+            foreach ($etiquetas as $etiqueta) {
+                $this->db->or_like('etiquetas', $etiqueta);
+            }
+        }
+
+        if ($nome !== null) {
+            $this->db->like('nome', $nome);
+        }
+        if ($estado !== null) {
+            $this->db->where('estado', $estado);
+        }
+        if ($cidade !== null) {
+            $this->db->where('cidade', $cidade);
+        }
+
+        // Executar a consulta
+        $query = $this->db->get();
+
+        // Retornar os resultados como um array
+        return $query->result_array();
+    }
+
+    public function buscarEstadosClientes() {
+        // Selecionar os estados sem repetição da tabela de clientes
+        $this->db->distinct();
+        $this->db->select('estado');
+        $this->db->from('ci_clientes');
+
+        // Executar a consulta
+        $query = $this->db->get();
+
+        // Verificar se a consulta retornou resultados
+        if ($query->num_rows() > 0) {
+            $estados = $query->result_array();
+            // Extrair os estados em um array simples
+            $estados_simples = array_column($estados, 'estado');
+            return $estados_simples;
+        } else {
+            return array(); // Nenhum estado encontrado
+        }
+    }
+
+    public function buscarCidadesClientes($estado) {
+        // Selecionar as cidades do estado fornecido na tabela de clientes
+        $this->db->distinct();
+        $this->db->select('cidade');
+        $this->db->from('ci_clientes');
+        $this->db->where('estado', $estado);
+
+        // Executar a consulta
+        $query = $this->db->get();
+
+        // Verificar se a consulta retornou resultados
+        if ($query->num_rows() > 0) {
+            $cidades = $query->result_array();
+            // Extrair as cidades em um array simples
+            $cidades_simples = array_column($cidades, 'cidade');
+            return $cidades_simples;
+        } else {
+            return array(); // Nenhuma cidade encontrada para o estado fornecido
+        }
+    }
+
+    
 }

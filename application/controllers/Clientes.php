@@ -56,6 +56,87 @@ class Clientes extends CI_Controller
     }
 
 
+    public function buscarClientes() {
+        
+        $status = $this->input->post('status');
+        $etiquetas = $this->input->post('etiquetas'); // Recebido como um array
+        $nome = $this->input->post('nome');
+        $estado = $this->input->post('estado');
+        $cidade = $this->input->post('cidade');
+
+        $clientes = $this->Clientes_model->buscarClientes($status, $etiquetas, $nome, $estado, $cidade);
+
+        if ($clientes !== false) {
+            $response = array(
+                'success' => true,
+                'message' => 'Clientes encontrados com sucesso!',
+                'data' => $clientes
+            );
+        } else {
+            $response = array(
+                'success' => false,
+                'message' => 'Nenhum cliente encontrado.'
+            );
+        }
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+  
+    }
+
+    public function recebeEstadosClientes() {
+
+        $estados = $this->Clientes_model->buscarEstadosClientes();
+    
+        if (!empty($estados)) {
+            $response = array(
+                'success' => true,
+                'message' => 'Estados encontrados com sucesso!',
+                'data' => $estados
+            );
+        } else {
+            $response = array(
+                'success' => false,
+                'message' => 'Nenhum estado encontrado.'
+            );
+        }
+    
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
+    
+    public function recebeCidadesClientes() {
+
+        $estado = 'SP';
+    
+        // Verificar se o estado foi fornecido
+        if (!empty($estado)) {
+
+            $cidades = $this->Clientes_model->buscarCidadesClientes($estado);
+    
+            if (!empty($cidades)) {
+                $response = array(
+                    'success' => true,
+                    'message' => 'Cidades do estado encontradas com sucesso!',
+                    'data' => $cidades
+                );
+            } else {
+                $response = array(
+                    'success' => false,
+                    'message' => 'Nenhuma cidade encontrada para o estado fornecido.'
+                );
+            }
+        } else {
+            $response = array(
+                'success' => false,
+                'message' => 'O estado não foi fornecido.'
+            );
+        }
+    
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
+    
+    
+
+
     public function formulario()
     {
         // scripts padrão
