@@ -113,6 +113,11 @@
                                                     <span class="text-900"> Etiquetas</span>
                                                 </a>
 
+                                                <a class="dropdown-item" href="#" onclick="exibirResiduoCliente(<?= $v['id']?>)" data-bs-toggle="modal" data-bs-target="#modalResiduo">
+                                                    <span class="text-900 uil-pricetag-alt"></span>
+                                                    <span class="text-900"> Resíduos</span>
+                                                </a>
+
                                                 <a class="dropdown-item text-danger" href="<?= base_url('clientes/formulario/' . $v['id']) ?>">
                                                     <span class="text-900 uil uil-pen"></span>
                                                     <span class="text-900"> Editar</span>
@@ -182,6 +187,7 @@
     </div>
 
 
+    <!-- Modal de etiquetas para clientes -->
     <div class="modal fade" id="modalEtiqueta" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -217,6 +223,49 @@
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
 
                     <button class="btn btn-success btn-salva-etiqueta btn-form" type="button" onclick="cadastraEtiquetaCliente()">Salvar</button>
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- Modal de residuos para clientes -->
+     <div class="modal fade" id="modalResiduo" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Residuos</h5>
+                    <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1"></span></button>
+                </div>
+                <div class="modal-body">
+                   
+                    <div class="my-2 div-residuos">
+                        <!-- Manipulado ajax -->
+                    </div>
+
+                    <div class="add-residuo w-100 my-3 mb-4">
+
+                        <input type="hidden" class="id-cliente">
+
+                        <label>Atribuir novos resíduos</label>
+                        <select class="form-select w-100" id="select-residuo" data-choices="data-choices" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}'>
+                            
+                            <option value="">Selecione residuos</option>
+                            <?php foreach($residuos as $v) { ?>
+                                <option value="<?= $v['id']?>"><?= $v['nome']; ?></option>
+                            <?php } ?>
+                            
+                        </select>
+                        
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+
+                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+
+                    <button class="btn btn-success btn-salva-residuo btn-form" type="button" onclick="cadastraResiduoCliente()">Salvar</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
                     
                 </div>
