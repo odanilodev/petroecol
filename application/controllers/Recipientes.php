@@ -17,7 +17,7 @@ class Recipientes extends CI_Controller
 
 	}
 
-	public function index()
+	public function index($page = 1)
 	{
 		// scripts padrão
 		$scriptsPadraoHead = scriptsPadraoHead();
@@ -29,7 +29,17 @@ class Recipientes extends CI_Controller
 		add_scripts('header', array_merge($scriptsPadraoHead));
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsRecipienteFooter));
 
-		$data['recipientes'] = $this->recipientes_model->recebeRecipientes();
+		// >>>> PAGINAÇÃO <<<<<
+        $limit = 12; // Número de recipientes por página
+        $this->load->library('pagination');
+        $config['base_url'] = base_url('recipientes/index');
+        $config['total_rows'] = $this->recipientes_model->recebeRecipientes($limit, $page, true); // true para contar
+        $config['per_page'] = $limit;
+        $config['use_page_numbers'] = TRUE; // Usar números de página em vez de offset
+        $this->pagination->initialize($config);
+        // >>>> FIM PAGINAÇÃO <<<<<
+
+		$data['recipientes'] = $this->recipientes_model->recebeRecipientes($limit, $page);
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/recipientes/recipientes');

@@ -34229,7 +34229,6 @@ a[href].bg-200:hover, a[href].bg-200:focus {
   margin: 2px;
 }
 
-/* Paginação tema escuro */
 .pagination-dark a {
   text-decoration: none;
   padding: 5px 10px;
@@ -34246,4 +34245,27 @@ a[href].bg-200:hover, a[href].bg-200:focus {
   padding: 5px 10px;
   margin: 2px;
   color: #85a9ff;
+}
+
+
+
+/* Alerta de input invalido */
+
+.invalido {
+	border: 1px solid #ed2000;
+	padding-right: calc(1.49em + 1rem);
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23ed2000'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23ed2000' stroke='none'/%3e%3c/svg%3e");
+	background-repeat: no-repeat;
+	background-position: right calc(0.3725em + 0.25rem) center;
+	background-size: calc(0.745em + 0.5rem) calc(0.745em + 0.5rem);
+}
+
+.invalido:focus {
+	border: 1px solid #ed2000;
+	padding-right: calc(1.49em + 1rem);
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23ed2000'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23ed2000' stroke='none'/%3e%3c/svg%3e");
+	background-repeat: no-repeat;
+	background-position: right calc(0.3725em + 0.25rem) center;
+	background-size: calc(0.745em + 0.5rem) calc(0.745em + 0.5rem);
+	box-shadow: inset 0 1px 2px transparent, inset 0 0 0 30px var(--phoenix-input-bg), 0 0 0 0.25rem rgba(230, 91, 53, 0.25);
 }
