@@ -32,8 +32,6 @@ const cadastraResiduoCliente = () => {
             },
             success: function (data) {
 
-                console.log(data.message);
-
                 $('.load-form').addClass('d-none');
                 $('.btn-form').removeClass('d-none');
 
