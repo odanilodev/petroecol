@@ -39,6 +39,13 @@ const cadastraResiduoCliente = () => {
 
                     $('.div-residuos').append(data.message);
 
+
+                    let selectResiduo = $("#select-residuo");
+
+                    selectResiduo.val('');
+                
+                    $(".choices__item--selectable").remove();
+
                 } else {
 
                     avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
@@ -50,6 +57,8 @@ const cadastraResiduoCliente = () => {
     }
 
 }
+
+
 
 const exibirResiduoCliente = (idCliente) => {
 
