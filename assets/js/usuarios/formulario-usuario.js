@@ -9,7 +9,7 @@ const cadastraUsuario = () => {
     let repeteSenha = $('.input-repete-senha').val();
     let imagemInput = $('#imageInput')[0].files[0];
     let id = $('.input-id').val();
-    let empresa = $('.select-empresa').val(); // se for usuario master
+    let empresa = $('.select-empresa'); // se for usuario master
 
     // cria um FormData para enviar os dados e a imagem
     let formData = new FormData();
@@ -22,18 +22,24 @@ const cadastraUsuario = () => {
 
     var permissao = false;
 
-    // verifica se o select de empresa está preenchido
-    if(empresa == null) {
+     // verifica se o select da empresa existe
+     if (empresa.length > 0) {
 
-        $('.select-empresa').addClass('select-empresa-invalido');
-        permissao = false;
+        // Verifica se o select tá vazio
+        if (empresa.val() == null) {
 
-    } else {
-        $('.select-empresa').removeClass('select-empresa-invalido');
+            $('.select-empresa').addClass('select-empresa-invalido');
+            permissao = false;
+            return;
+            
+        } else {
+
+            $('.select-empresa').removeClass('select-empresa-invalido');
+        }
     }
 
     // cadastra um usuario novo
-    if (id == "" && nome != "" && telefone != "" && email != "" && senha != "" && repeteSenha != ""  && empresa != null) {
+    if (id == "" && nome != "" && telefone != "" && email != "" && senha != "" && repeteSenha != "") {
 
         if (!validaEmail(email)) {
             permissao = false;
@@ -47,7 +53,7 @@ const cadastraUsuario = () => {
             permissao = true;
         }
 
-    } else if (id != "" && nome != "" && telefone != "" && email != "" && empresa != "") {
+    } else if (id != "" && nome != "" && telefone != "" && email != "") {
 
         if (!validaEmail(email)) {
             permissao = false;

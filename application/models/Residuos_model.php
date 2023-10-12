@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Clientes_model extends CI_Model
+class Residuos_model extends CI_Model
 {
 
     public function __construct()
@@ -11,39 +11,54 @@ class Clientes_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebeClientes($limit, $page, $count = null)
+    public function recebeResiduos($limit, $page, $count = null)
     {
         if ($count) {
             $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-            $this->db->where('status', 1);
-
-            $query = $this->db->get('ci_clientes');
+            $query = $this->db->get('ci_residuos');
             return $query->num_rows();
         }
 
         $offset = ($page - 1) * $limit;
-        $this->db->order_by('nome', 'DESC');
-        $this->db->where('status', 1);
+        $this->db->select('R.*, GR.nome_grupo');
+        $this->db->from('ci_residuos R');
+        $this->db->join('ci_grupo_residuos GR', 'R.id_grupo = GR.id', 'inner');
+        $this->db->order_by('R.nome', 'DESC');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->limit($limit, $offset);
-        $query = $this->db->get('ci_clientes');
+        $query = $this->db->get();
 
         return $query->result_array();
     }
 
-    public function recebeCliente($id)
+    public function recebeResiduo($id)
     {
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('ci_clientes');
+        $query = $this->db->get('ci_residuos');
 
         return $query->row_array();
     }
 
-    public function insereCliente($dados)
+    public function recebeResiduoNome($nome)
+    {
+        $this->db->where('nome', $nome);
+        $query = $this->db->get('ci_residuos');
+
+        return $query->row_array();
+    }
+
+    public function recebeGruposResiduo()
+    {
+        $query = $this->db->get('ci_grupo_residuos');
+
+        return $query->result_array();
+    }
+
+    public function insereResiduo($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');
-        $this->db->insert('ci_clientes', $dados);
+        $this->db->insert('ci_residuos', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($this->db->insert_id());
@@ -52,12 +67,12 @@ class Clientes_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function editaCliente($id, $dados)
+    public function editaResiduo($id, $dados)
     {
         $dados['editado_em'] = date('Y-m-d H:i:s');
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->update('ci_clientes', $dados);
+        $this->db->update('ci_residuos', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);
@@ -66,12 +81,11 @@ class Clientes_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function deletaCliente($id)
+    public function deletaResiduo($id)
     {
-        $dados['status'] = 3;
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->update('ci_clientes', $dados);
+        $this->db->delete('ci_residuos');
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);
@@ -80,15 +94,4 @@ class Clientes_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function deletaEtiquetaCliente($id)
-    {
-        $this->db->where('id_cliente', $id);
-        $this->db->delete('ci_etiqueta_cliente');
-
-        if ($this->db->affected_rows()) {
-            $this->Log_model->insereLog($id);
-        }
-
-        return $this->db->affected_rows() > 0;
-    }
 }

@@ -203,14 +203,14 @@ class CI_Pagination {
 	 *
 	 * @var	string
 	 */
-	protected $cur_tag_open = '<strong>';
+	protected $cur_tag_open = '<a class="atual page">';
 
 	/**
 	 * Current tag close
 	 *
 	 * @var	string
 	 */
-	protected $cur_tag_close = '</strong>';
+	protected $cur_tag_close = '</a>';
 
 	/**
 	 * Next tag open
@@ -570,8 +570,7 @@ class CI_Pagination {
 			// Take the general parameters, and squeeze this pagination-page attr in for JS frameworks.
 			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, 1);
 
-			$output .= $this->first_tag_open.'<a href="'.$first_url.'"'.$attributes.$this->_attr_rel('start').'>'
-				.$this->first_link.'</a>'.$this->first_tag_close;
+			$output .= $this->first_tag_open.'<a class="primeira-pg" href="'.$first_url.'"'.$attributes.$this->_attr_rel('start').'>1</a>'.$this->first_tag_close;
 		}
 
 		// Render the "Previous" link.
@@ -647,9 +646,10 @@ class CI_Pagination {
 
 			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, $num_pages);
 
-			$output .= $this->last_tag_open.'<a href="'.$base_url.$this->prefix.$i.$this->suffix.'"'.$attributes.'>'
-				.$this->last_link.'</a>'.$this->last_tag_close;
+			// Adicione o número da última página dentro do link
+			$output .= $this->last_tag_open.'<a href="'.$base_url.$this->prefix.$i.$this->suffix.'"'.$attributes.'> '.$num_pages.'</a>'.$this->last_tag_close;
 		}
+
 
 		// Kill double slashes. Note: Sometimes we can end up with a double slash
 		// in the penultimate link so we'll kill all double slashes.

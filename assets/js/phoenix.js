@@ -7036,3 +7036,75 @@
 
 }));
 //# sourceMappingURL=phoenix.js.map
+
+
+// coloca a logo certa quando atualiza a página
+$(document).ready(function() {
+
+  alteraLogoTema();
+
+})
+
+$(document).ready(function() {
+
+  alteraTema();
+
+
+})
+
+// troca a logo quando clica no icone de alterar tema
+$(document).on('click', '.altera-logo-tema', function () {
+
+  var baseUrl = $('.base-url').val();
+
+  let paginacao = $(".pagination");
+
+  if (window.config.config.phoenixTheme == "dark") {
+
+    // logo tema claro
+    $('.logo').attr('src', `${baseUrl}assets/img/icons/logo.png`);
+
+    //paginação tema claro
+    paginacao.removeClass("pagination-dark");
+    paginacao.addClass("pagination-light");
+
+  } else {
+
+    // logo tema escuro
+    $('.logo').attr('src', `${baseUrl}assets/img/icons/logo-branca.png`);
+
+    // paginacao tema escuro
+    paginacao.removeClass("pagination-light");
+    paginacao.addClass("pagination-dark");
+
+  }
+
+})
+
+// exibe a logo com o tema certo
+function alteraTema() {
+
+  let paginacao = $(".pagination");
+
+  var baseUrl = $('.base-url').val();
+
+  if (window.config.config.phoenixTheme == "dark") {
+
+    // logo tema escuro
+    $('.logo').attr('src', `${baseUrl}assets/img/icons/logo-branca.png`);
+
+    // paginacao tema escuro
+    paginacao.removeClass("pagination-light");
+    paginacao.addClass("pagination-dark");
+
+  } else {
+
+    // logo tema claro
+    $('.logo').attr('src', `${baseUrl}assets/img/icons/logo.png`);
+
+    //paginação tema claro
+    paginacao.removeClass("pagination-dark");
+    paginacao.addClass("pagination-light");
+
+  }
+}
