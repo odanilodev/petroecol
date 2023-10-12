@@ -49,7 +49,7 @@
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Nome</label>
-                                                        <input required class="form-control input-nome" required name="nome" type="text" placeholder="Nome" value="<?= $menu['nome'] ?? "" ?>">
+                                                        <input required class="form-control input-nome input-obrigatorio" required name="nome" type="text" placeholder="Nome" value="<?= $menu['nome'] ?? "" ?>">
                                                     </div>
 
                                                     <div class="col-md-6 mb-3">
@@ -59,7 +59,7 @@
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Link</label>
-                                                        <input required class="form-control input-link" name="link" type="text" placeholder="Link" value="<?= $menu['link'] ?? "" ?>">
+                                                        <input required class="form-control input-link input-obrigatorio" name="link" type="text" placeholder="Link" value="<?= $menu['link'] ?? "" ?>">
                                                     </div>
 
                                                     <div class="col-md-6 mb-3">
@@ -98,7 +98,7 @@
                                                 <form id="form-categoria-pai" class="row" method="post">
                                                     <div class="col-md-4 mb-3">
                                                         <label class="form-label">Nome</label>
-                                                        <input class="form-control input-nome" required name="nome" type="text" placeholder="Nome" value="<?= $menu['nome'] ?? "" ?>">
+                                                        <input class="form-control input-nome input-obrigatorio" required name="nome" type="text" placeholder="Nome" value="<?= $menu['nome'] ?? "" ?>">
                                                     </div>
 
                                                     <div class="col-md-4 mb-3">
@@ -141,12 +141,12 @@
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Nome</label>
-                                                        <input class="form-control input-nome" required name="nome" type="text" placeholder="Nome" value="<?= $menu['nome'] ?? "" ?>">
+                                                        <input class="form-control input-nome input-obrigatorio" required name="nome" type="text" placeholder="Nome" value="<?= $menu['nome'] ?? "" ?>">
                                                     </div>
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Categoria Pai</label>
-                                                        <select class="form-select input-sub" name="sub">
+                                                        <select class="form-select input-sub input-obrigatorio" name="sub">
 
                                                             <option selected disabled value="">Selecione</option>
 
@@ -161,7 +161,7 @@
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Link</label>
-                                                        <input class="form-control input-link" name="link" type="text" placeholder="Link" value="<?= $menu['link'] ?? "" ?>">
+                                                        <input class="form-control input-link input-obrigatorio" name="link" type="text" placeholder="Link" value="<?= $menu['link'] ?? "" ?>">
                                                     </div>
 
                                                     <div class="col-md-6 mb-3">

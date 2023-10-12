@@ -6,34 +6,60 @@ $(document).ready(function () {
 
         event.preventDefault();
 
-        var form = $(this).closest('form'); // pega o <form> mais perto do botão de enviar
-        var formData = form.serialize();
+        let form = $(this).closest('form'); // pega o <form> mais perto do botão de enviar
 
-        $.ajax({
-            type: "post",
-            url: `${baseUrl}menu/cadastraMenu`,
-            data: formData,
-            beforeSend: function () {
-                form.find('.load-form').removeClass('d-none');
-                form.find('.btn-envia').addClass('d-none');
-            },
-            success: function (data) {
-                form.find('.load-form').addClass('d-none');
-                form.find('.btn-envia').removeClass('d-none');
+        let formData = form.serialize();
 
-                if (data.success) {
-                    avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}menu`);
-                } else {
-                    avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
-                }
+        var inputsObrigatorios = form.find('.input-obrigatorio');
+
+        var permissao = true;
+
+        inputsObrigatorios.each(function () {
+
+            if ($(this).val() == "" || $(this).val() == null) {
+
+                $(this).addClass('invalido');
+                permissao = false;
+                
+
+            } else {
+                
+                $(this).removeClass('invalido');
             }
+
         });
+
+        if (permissao) {
+        
+            $.ajax({
+                type: "post",
+                url: `${baseUrl}menu/cadastraMenu`,
+                data: {
+                    formData: formData,
+                    id: id
+                },
+                beforeSend: function () {
+                    form.find('.load-form').removeClass('d-none');
+                    form.find('.btn-envia').addClass('d-none');
+                },
+                success: function (data) {
+                    form.find('.load-form').addClass('d-none');
+                    form.find('.btn-envia').removeClass('d-none');
+
+                    if (data.success) {
+                        avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}menu`);
+                    } else {
+                        avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
+                    }
+                }
+            });
+        }
 
     });
 
 });
 
-const deletarMenu= (id) => {
+const deletarMenu = (id) => {
 
     Swal.fire({
         title: 'Você tem certeza?',
