@@ -6,9 +6,13 @@ $(document).ready(function () {
 
         event.preventDefault();
 
+        let id = $('.input-id-menu').val();
+
         let form = $(this).closest('form'); // pega o <form> mais perto do botão de enviar
 
         let formData = form.serialize();
+
+        formData += `&id=${id}`; // acrescenta o id no formData
 
         var inputsObrigatorios = form.find('.input-obrigatorio');
 
@@ -34,10 +38,7 @@ $(document).ready(function () {
             $.ajax({
                 type: "post",
                 url: `${baseUrl}menu/cadastraMenu`,
-                data: {
-                    formData: formData,
-                    id: id
-                },
+                data:  formData,
                 beforeSend: function () {
                     form.find('.load-form').removeClass('d-none');
                     form.find('.btn-envia').addClass('d-none');

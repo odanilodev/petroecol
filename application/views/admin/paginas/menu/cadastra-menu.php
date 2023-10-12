@@ -8,6 +8,8 @@
                         <div class="col-12 col-md">
                             <h4 class="text-900 mb-0">Adicionar novo menu</h4>
 
+                            <input type="hidden" class="input-id-menu" value="<?= $menu['id'] ?? "" ?>">
+
                             <div class="row mt-4">
                                 <div class="col-md-2 col-lg-2 col-12">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
