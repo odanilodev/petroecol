@@ -6,16 +6,17 @@ const cadastraResiduoCliente = () => {
 
     let idResiduo = $('#select-residuo').val();
 
-    var nomeResiduo = [];
-    $('#select-residuo option:selected').each(function () {
-        nomeResiduo.push($(this).text());
-    });
+    var nomeResiduo = $('#select-residuo').text();
 
-    if (idResiduo != "") {
-        permissao = true;
+    permissao = true;
+
+    if (!idResiduo) {
+        permissao = false;
+
     }
 
     if (permissao) {
+
         $.ajax({
             type: "POST",
             url: `${baseUrl}residuoCliente/cadastraResiduoCliente`,
@@ -39,13 +40,6 @@ const cadastraResiduoCliente = () => {
 
                     $('.div-residuos').append(data.message);
 
-
-                    let selectResiduo = $("#select-residuo");
-
-                    selectResiduo.val('');
-                
-                    $(".choices__item--selectable").remove();
-
                 } else {
 
                     avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
@@ -57,7 +51,6 @@ const cadastraResiduoCliente = () => {
     }
 
 }
-
 
 
 const exibirResiduoCliente = (idCliente) => {

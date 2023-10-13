@@ -24,57 +24,52 @@ class ResiduoCliente extends CI_Controller
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
 		$nomeResiduo = $this->input->post('nome_residuo');
-
 		$id_residuo = $this->input->post('id_residuo');
 
-		// Obtenha todas as residuos do banco de dados
+		// todos resíduos do cliente
 		$residuosNoBanco = $this->ResiduoCliente_model->recebeResiduoCliente($dados['id_cliente']);
 
-		// Use array_diff para encontrar residuos que estão em $id_residuo, mas não em $residuosNoBanco
-		$residuosNaoRepetidos = array_diff($id_residuo, array_column($residuosNoBanco, 'id_residuo'));
+		// verifica se o resíduo já existe para esse cliente
+		if (in_array($id_residuo, array_column($residuosNoBanco, 'id_residuo'))) {
 
-		$residuosInseridos = [];
+			$response = array(
+				'success' => false,
+				'message' => 'Este resíduo já está cadastrado para o cliente.'
+			);
 
-		foreach ($residuosNaoRepetidos as $index => $v) {
-
-			$dados['id_residuo'] = $v;
+		} else {
+			
+			$dados['id_residuo'] = $id_residuo;
 			$inseridoId = $this->ResiduoCliente_model->insereResiduoCliente($dados);
 
 			if ($inseridoId) {
 
 				$novoResiduo = '
-					<span class="badge rounded-pill badge-phoenix fs--2 badge-phoenix-info my-1 mx-1 p-2 residuo-' . $inseridoId . '">
-						<span class="badge-label">
-							' . $nomeResiduo[$index] . '
-							<a href="#">
-								<i class="fas fa-times-circle delete-icon" onclick="deletaResiduoCliente(' . $inseridoId . ')"></i>
-							</a>
-						</span>
-					</span>';
-				$residuosInseridos[] = $novoResiduo;
+                <span class="badge rounded-pill badge-phoenix fs--2 badge-phoenix-info my-1 mx-1 p-2 residuo-' . $inseridoId . '">
+                    <span class="badge-label">
+                        ' . $nomeResiduo . '
+                        <a href="#">
+                            <i class="fas fa-times-circle delete-icon" onclick="deletaResiduoCliente(' . $inseridoId . ')"></i>
+                        </a>
+                    </span>
+                </span>';
+				
+				$response = array(
+					'success' => true,
+					'message' => $novoResiduo
+				);
+
+			} else {
+				$response = array(
+					'success' => false,
+					'message' => 'Falha ao cadastrar o resíduo.'
+				);
 			}
-		}
-
-		$residuosInseridosString = implode('', $residuosInseridos);
-
-		if (!empty($residuosInseridos)) {
-
-			$response = array(
-				'success' => true,
-				'message' => $residuosInseridosString
-			);
-
-		} else {
-
-			$response = array(
-				'success' => false,
-				'message' => 'Estes residuos já estão cadastrados.',
-			);
-
 		}
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
 
 	public function deletaResiduoCliente()
 	{

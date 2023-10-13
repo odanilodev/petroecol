@@ -247,9 +247,9 @@
                         <input type="hidden" class="id-cliente">
 
                         <label>Atribuir novos resíduos</label>
-                        <select class="form-select w-100" id="select-residuo" data-choices="data-choices" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}'>
+                        <select class="form-select w-100" id="select-residuo" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
 
-                            <option value="">Selecione residuos</option>
+                            <option disabled selected value="">Selecione residuos</option>
                             <?php foreach ($residuos as $v) { ?>
                                 <option value="<?= $v['id'] ?>"><?= $v['nome']; ?></option>
                             <?php } ?>
