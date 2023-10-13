@@ -152,7 +152,7 @@
 
                                                             <option selected disabled value="">Selecione</option>
 
-                                                            <?php foreach ($menus as $v) { ?>
+                                                            <?php foreach ($categoriasPai as $v) { ?>
 
                                                                 <option value="<?= $v['id']; ?>"><?= $v['nome']; ?></option>
 

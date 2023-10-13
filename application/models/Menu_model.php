@@ -16,6 +16,15 @@ class Menu_model extends CI_Model
 
         return $query->result_array();
     }
+
+    public function recebeCategoriasPai()
+    {
+        $this->db->where('link', null);
+        $this->db->order_by('nome', 'DESC');
+        $query = $this->db->get('ci_menu');
+
+        return $query->result_array();
+    }
 	
 	public function recebeMenu($id)
 	{

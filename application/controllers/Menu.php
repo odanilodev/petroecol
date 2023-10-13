@@ -49,7 +49,7 @@ class Menu extends CI_Controller
 
 		$id = $this->uri->segment(3);
 
-		$data['menus'] = $this->Menu_model->recebeMenus();
+		$data['categoriasPai'] = $this->Menu_model->recebeCategoriasPai();
 		$data['menu'] = $this->Menu_model->recebeMenu($id);
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
