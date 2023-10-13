@@ -24,21 +24,21 @@ $(document).ready(function () {
 
                 $(this).addClass('invalido');
                 permissao = false;
-                
+
 
             } else {
-                
+
                 $(this).removeClass('invalido');
             }
 
         });
 
         if (permissao) {
-        
+
             $.ajax({
                 type: "post",
                 url: `${baseUrl}menu/cadastraMenu`,
-                data:  formData,
+                data: formData,
                 beforeSend: function () {
                     form.find('.load-form').removeClass('d-none');
                     form.find('.btn-envia').addClass('d-none');
@@ -60,11 +60,25 @@ $(document).ready(function () {
 
 });
 
-const deletarMenu = (id) => {
+const deletarMenu = (id, link) => {
+
+    if (link) {
+
+        excluirMenuPadrao(id);
+
+    } else {
+
+        excluirMenuPai(id);
+    }
+}
+
+
+// alerta para excluir menu padrão
+const excluirMenuPadrao = (id) => {
 
     Swal.fire({
         title: 'Você tem certeza?',
-        text: "Esta ação não porerá ser revertida",
+        text: 'Esta ação não poderá ser revertida',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -75,20 +89,47 @@ const deletarMenu = (id) => {
     }).then((result) => {
 
         if (result.isConfirmed) {
-
             $.ajax({
                 type: 'post',
                 url: `${baseUrl}menu/deletaMenu`,
                 data: {
                     id: id
-                }, success: function () {
-
+                },
+                success: function () {
                     avisoRetorno('Sucesso!', 'Menu deletado com sucesso!', 'success', `${baseUrl}menu`);
-
                 }
-            })
-
+            });
         }
-    })
+    });
+}
 
+
+// alerta para excluir menu pai
+const excluirMenuPai = (id) => {
+
+    Swal.fire({
+        title: 'Você tem certeza?',
+        text: 'Esta ação não pode ser revertida. A exclusão deste menu pode afetar submenus vinculados a ele. Deseja continuar?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Sim, deletar'
+
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+            $.ajax({
+                type: 'post',
+                url: `${baseUrl}menu/deletaMenu`,
+                data: {
+                    id: id
+                },
+                success: function () {
+                    avisoRetorno('Sucesso!', 'Menu e submenus deletados com sucesso!', 'success', `${baseUrl}menu`);
+                }
+            });
+        }
+    });
 }

@@ -69,4 +69,16 @@ class Menu_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+    public function deletaSubMenus($idPai)
+    {
+        $this->db->where('sub', $idPai);
+        $this->db->delete('ci_menu');
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($idPai);
+        }
+
+        return $this->db->affected_rows() > 0;
+    }
 }

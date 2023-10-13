@@ -93,6 +93,7 @@ class Menu extends CI_Controller
 		$id = $this->input->post('id');
 
         $this->Menu_model->deletaMenu($id);
+        $this->Menu_model->deletaSubMenus($id);
 	}
 
 }

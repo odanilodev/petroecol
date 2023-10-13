@@ -58,7 +58,7 @@
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="#" class="btn btn-danger" onclick="deletarMenu(<?= $v['id'] ?>)">
+                                    <a href="#" class="btn btn-danger" onclick="deletarMenu(<?= $v['id'] ?>, '<?= $v['link'] ?>')">
                                         <span class="fas fa-trash ms-1"></span>
                                     </a>
                                 </td>
