@@ -133,3 +133,27 @@ const excluirMenuPai = (id) => {
         }
     });
 }
+
+// exibe o tipo do menu quando editar
+$(document).ready(function () {
+
+    let tipoMenu = $('.tipo-menu').val();
+
+    switch (tipoMenu) {
+        case 'padrao':
+            $('.accordion-padrao').click();
+            $('.tipos-menu').remove();
+            break;
+
+        case 'pai':
+            $('.accordion-pai').click();
+            $('.tipos-menu').remove();
+            break;
+
+        case 'submenu':
+            $('.accordion-sub').click();
+            $('.tipos-menu').remove();
+            break;
+    }
+
+})

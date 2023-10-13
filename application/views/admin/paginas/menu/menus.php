@@ -52,7 +52,7 @@
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="<?= base_url('menu/formulario/' . $v['id']) ?>" class="btn btn-info">
+                                    <a onclick="exibeTipoMenu('<?= $v['link'] ?>', <?= $v['sub'] ?>)" href="<?= base_url('menu/formulario/' . $v['id']) ?>" class="btn btn-info">
                                         <span class="fas fa-pencil ms-1"></span>
                                     </a>
                                 </td>
