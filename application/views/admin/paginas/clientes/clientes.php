@@ -89,7 +89,7 @@
                                     </div>
 
                                     <p class="fs--1 fw-semi-bold text-900 ms-4 text mb-4 ps-2 w-50">
-                                        <?= $v['rua']; ?>, <?= $v['numero']; ?> <?= $v['bairro'] ?> - <?= $v['cidade'] ?> / <?= $v['estado'] ?>
+                                        <?php echo "{$v['rua']}, {$v['numero']} {$v['bairro']} - {$v['cidade']} / {$v['estado']}"; ?>
                                     </p>
 
                                     <div class="d-flex align-items-center" style="position: absolute; top: 5px; right: 10px">
