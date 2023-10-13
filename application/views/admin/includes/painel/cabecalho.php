@@ -92,7 +92,7 @@
                                     </div>
                                 </a>
 
-                                <a class="nav-link label-1" href="<?= base_url('menu/formulario')?>" role="button" data-bs-toggle="" aria-expanded="false">
+                                <a class="nav-link label-1" href="<?= base_url('menu')?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">
                                             <span data-feather="users"></span>
