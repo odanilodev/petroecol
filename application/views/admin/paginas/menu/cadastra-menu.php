@@ -178,7 +178,9 @@
 
                                                             <?php foreach ($categoriasPai as $v) { ?>
 
-                                                                <option value="<?= $v['id']; ?>"><?= $v['nome']; ?></option>
+                                                                <option value="<?= $v['id']; ?>"  <?= (isset($menu['sub'])) && $menu['sub'] == $v['id'] ? "selected" : ""?>>
+                                                                    <?= $v['nome']; ?>
+                                                                </option>
 
                                                             <?php } ?>
 
