@@ -1,18 +1,18 @@
 <div class="content">
-    <div id="members" data-list='{"valueNames":["customer","email","mobile_number","city","last_active","joined"],"page":10,"pagination":true}'>
+    <div>
         <div class="row align-items-center justify-content-between g-3 mb-4">
 
             <div class="col-auto">
                 <div class="d-flex align-items-center">
                     <button class="btn btn-link text-900 me-4 px-0 d-none"><span class="fa-solid fa-file-export fs--1 me-2"></span>Export</button>
-                    <a href="<?= base_url("menu/formulario") ?>" class="btn btn-primary"><span class="fas fa-plus me-2"></span>Adicionar Menu</a>
+                    <a href="<?= base_url("residuos/formulario") ?>" class="btn btn-primary"><span class="fas fa-plus me-2"></span>Adicionar Resíduos</a>
                 </div>
             </div>
 
             <div class="col col-auto">
                 <div class="search-box">
                     <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                        <input class="form-control search-input search" type="search" placeholder="Buscar Menus" aria-label="Search" />
+                        <input class="form-control search-input search" type="search" placeholder="Buscar Resíduos" aria-label="Search" />
                         <span class="fas fa-search search-box-icon"></span>
 
                     </form>
@@ -30,15 +30,16 @@
                                 </div>
                             </th>
 
-                            <th class="sort align-middle" scope="col" data-sort="customer">Menu</th>
+                            <th class="sort align-middle" scope="col" data-sort="customer">Resíduos</th>
+                            <th class="sort align-middle" scope="col" data-sort="customer">Grupo</th>
                             <th class="sort align-middle pe-3">Editar</th>
                             <th class="sort align-middle pe-3">Excluir</th>
                         </tr>
                     </thead>
 
-                    <tbody class="list" id="members-table-body">
+                    <tbody class="list" id="members-table-body align-middle">
 
-                        <?php foreach ($menus as $v) { ?>
+                        <?php foreach ($residuos as $v) { ?>
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
 
                                 <td class="fs--1 align-middle ps-0 py-3">
@@ -47,18 +48,22 @@
                                     </div>
                                 </td>
 
-                                <td class="email align-middle white-space-nowrap">
+                                <td class="align-middle white-space-nowrap">
                                     <?= $v['nome'] ?>
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="<?= base_url('menu/formulario/' . $v['id']) ?>" class="btn btn-info">
+                                    <?= $v['nome_grupo'] ?>
+                                </td>
+
+                                <td class="align-middle white-space-nowrap">
+                                    <a href="<?= base_url('residuos/formulario/' . $v['id']) ?>" class="btn btn-info">
                                         <span class="fas fa-pencil ms-1"></span>
                                     </a>
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="#" class="btn btn-danger" onclick="deletarMenu(<?= $v['id'] ?>, '<?= $v['link'] ?>')">
+                                    <a href="#" class="btn btn-danger" onclick="deletarResiduo(<?= $v['id'] ?>)">
                                         <span class="fas fa-trash ms-1"></span>
                                     </a>
                                 </td>
@@ -69,17 +74,19 @@
 
                     </tbody>
                 </table>
-            </div>
-            <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
-                <div class="col-auto d-none">
-                    <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!" data-list-view="*">Ver todos<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">Ver menos<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
-                </div>
 
-                <div class="col-auto d-flex w-100 justify-content-end">
-                    <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
-                    <ul class="mb-0 pagination"></ul>
-                    <button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
-                </div>
             </div>
+
+        </div>
+    </div>
+
+    <!-- Links de Paginação usando classes Bootstrap -->
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="Page navigation" style="display: flex; float: right">
+                <ul class="pagination">
+                    <?= $this->pagination->create_links(); ?>
+                </ul>
+            </nav>
         </div>
     </div>

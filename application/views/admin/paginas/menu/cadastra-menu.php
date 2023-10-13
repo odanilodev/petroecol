@@ -6,23 +6,49 @@
                 <div class="card-header p-4 border-bottom border-300 bg-soft">
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
-                            <h4 class="text-900 mb-0">Adicionar novo menu</h4>
+                            <h4 class="text-900 mb-0">
+                                <?= $this->uri->segment(3) ? "Editar Menu" : "Adicionar novo menu" ?>
+                            </h4>
 
-                            <div class="row mt-4">
+                            <input type="hidden" class="input-id-menu" value="<?= $menu['id'] ?? "" ?>">
+
+                            <?php
+
+                            // tipo de menu para exibir quando editar (js)
+                            if (!empty($this->uri->segment(3))) {
+
+                                if (empty($menu['link']) && empty($menu['sub'])) {
+
+                                    $tipoMenu = 'pai';
+
+                                } elseif (!empty($menu['link']) && empty($menu['sub'])) {
+
+                                    $tipoMenu = 'padrao';
+
+                                } else {
+
+                                    $tipoMenu = 'submenu';
+                                }
+
+                                echo '<input type="hidden" class="tipo-menu" value="' . $tipoMenu . '">';
+                            }
+                            ?>
+
+                            <div class="row mt-4 tipos-menu">
                                 <div class="col-md-2 col-lg-2 col-12">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    <button class="accordion-button accordion-padrao" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                         <span class="uil-plus-circle ms-1" data-fa-transform="shrink-3"> Categoria</span>
                                     </button>
                                 </div>
 
                                 <div class="col-md-2 col-lg-2 col-12">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                    <button class="accordion-button collapsed accordion-pai" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                                         <span class="uil-plus-circle ms-1" data-fa-transform="shrink-3"> Categoria Pai</span>
                                     </button>
                                 </div>
 
                                 <div class="col-md-2 col-lg-2 col-12">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                    <button class="accordion-button collapsed accordion-sub" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
                                         <span class="uil-plus-circle ms-1" data-fa-transform="shrink-3"> Sub Categoria</span>
                                     </button>
                                 </div>
@@ -38,7 +64,7 @@
 
                         <div class="accordion-item" style="border: none !important;">
 
-                            <div class="accordion-collapse collapse show" id="collapseOne" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-collapse collapse <?= !$this->uri->segment(3) ? "show" : "" ?>" id="collapseOne" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                 <div class="accordion-body pt-0">
                                     <div class="p-4 code-to-copy">
                                         <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
@@ -49,7 +75,7 @@
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Nome</label>
-                                                        <input required class="form-control input-nome" required name="nome" type="text" placeholder="Nome" value="<?= $menu['nome'] ?? "" ?>">
+                                                        <input required class="form-control input-nome input-obrigatorio" required name="nome" type="text" placeholder="Nome" value="<?= $menu['nome'] ?? "" ?>">
                                                     </div>
 
                                                     <div class="col-md-6 mb-3">
@@ -59,7 +85,7 @@
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Link</label>
-                                                        <input required class="form-control input-link" name="link" type="text" placeholder="Link" value="<?= $menu['link'] ?? "" ?>">
+                                                        <input required class="form-control input-link input-obrigatorio" name="link" type="text" placeholder="Link" value="<?= $menu['link'] ?? "" ?>">
                                                     </div>
 
                                                     <div class="col-md-6 mb-3">
@@ -98,7 +124,7 @@
                                                 <form id="form-categoria-pai" class="row" method="post">
                                                     <div class="col-md-4 mb-3">
                                                         <label class="form-label">Nome</label>
-                                                        <input class="form-control input-nome" required name="nome" type="text" placeholder="Nome" value="<?= $menu['nome'] ?? "" ?>">
+                                                        <input class="form-control input-nome input-obrigatorio" required name="nome" type="text" placeholder="Nome" value="<?= $menu['nome'] ?? "" ?>">
                                                     </div>
 
                                                     <div class="col-md-4 mb-3">
@@ -141,18 +167,20 @@
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Nome</label>
-                                                        <input class="form-control input-nome" required name="nome" type="text" placeholder="Nome" value="<?= $menu['nome'] ?? "" ?>">
+                                                        <input class="form-control input-nome input-obrigatorio" required name="nome" type="text" placeholder="Nome" value="<?= $menu['nome'] ?? "" ?>">
                                                     </div>
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Categoria Pai</label>
-                                                        <select class="form-select input-sub" name="sub">
+                                                        <select class="form-select input-sub input-obrigatorio" name="sub">
 
                                                             <option selected disabled value="">Selecione</option>
 
-                                                            <?php foreach ($menus as $v) { ?>
+                                                            <?php foreach ($categoriasPai as $v) { ?>
 
-                                                                <option value="<?= $v['id']; ?>"><?= $v['nome']; ?></option>
+                                                                <option value="<?= $v['id']; ?>"  <?= (isset($menu['sub'])) && $menu['sub'] == $v['id'] ? "selected" : ""?>>
+                                                                    <?= $v['nome']; ?>
+                                                                </option>
 
                                                             <?php } ?>
 
@@ -161,7 +189,7 @@
 
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Link</label>
-                                                        <input class="form-control input-link" name="link" type="text" placeholder="Link" value="<?= $menu['link'] ?? "" ?>">
+                                                        <input class="form-control input-link input-obrigatorio" name="link" type="text" placeholder="Link" value="<?= $menu['link'] ?? "" ?>">
                                                     </div>
 
                                                     <div class="col-md-6 mb-3">
