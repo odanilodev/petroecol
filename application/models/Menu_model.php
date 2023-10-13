@@ -8,13 +8,33 @@ class Menu_model extends CI_Model
         parent::__construct();
         $this->load->model('Log_model');
     }
-    
-	public function recebeMenus()
+      
+    public function recebeMenus()
     {
-        $this->db->order_by('nome', 'DESC');
-        $query = $this->db->get('ci_menu');
+        $query = $this->db->query("
+            SELECT *, CASE WHEN `ordem` = 0 THEN 1 ELSE 0 END AS is_zero
+            FROM `ci_menu`
+            ORDER BY `sub` ASC, is_zero ASC, `ordem` ASC, `id` ASC
+        ");
+        $menus = $query->result_array();
 
-        return $query->result_array();
+        // Organize os menus em um array hierárquico
+        $menuHierarquia = [];
+        foreach ($menus as $menu) {
+            $menu['sub_menus'] = [];
+            if ($menu['sub'] == 0) {
+                $menuHierarquia[$menu['id']] = $menu;
+            } else {
+                $menuHierarquia[$menu['sub']]['sub_menus'][$menu['id']] = $menu;
+            }
+        }
+
+        // Ordene os menus em ordem crescente de acordo com a ordem 'ordem'
+        foreach ($menuHierarquia as &$menuPai) {
+            ksort($menuPai['sub_menus']);
+        }
+
+        return array_values($menuHierarquia);
     }
 
     public function recebeCategoriasPai()
