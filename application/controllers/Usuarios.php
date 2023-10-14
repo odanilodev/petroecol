@@ -30,7 +30,6 @@ class Usuarios extends CI_Controller
 		add_scripts('header', array_merge($scriptsPadraoHead,$scriptsUsuarioHead));
 		add_scripts('footer', array_merge($scriptsPadraoFooter,$scriptsUsuarioFooter));
 
-
 		$data['usuarios'] = $this->Usuarios_model->recebeUsuarios();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
@@ -52,12 +51,15 @@ class Usuarios extends CI_Controller
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsUsuarioFooter));
 
 		$this->load->model('Empresas_model');
+		$this->load->model('Setores_model');
 
 		$id = $this->uri->segment(3);
 
 		$data['usuario'] = $this->Usuarios_model->recebeUsuario($id);
 
 		$data['empresas'] = $this->Empresas_model->recebeEmpresas();
+
+		$data['setores'] = $this->Setores_model->recebeSetores();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/usuarios/cadastra-usuario');
@@ -72,6 +74,7 @@ class Usuarios extends CI_Controller
 		$dados['telefone'] = $this->input->post('telefone');
 		$dados['email'] = $this->input->post('email');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa') > 1 ? $this->session->userdata('id_empresa') : $this->input->post('id_empresa'); // Se for usuário master pela valor do input
+		$dados['id_setor'] = $this->input->post('setor');
 
 		$usuario = $this->Usuarios_model->recebeUsuarioEmail($dados['email']); // Verifica se já existe o email
 
@@ -165,7 +168,6 @@ class Usuarios extends CI_Controller
 
 		}
 	}
-
 
 	public function deletaUsuario()
 	{
