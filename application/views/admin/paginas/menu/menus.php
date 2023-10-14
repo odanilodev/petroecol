@@ -36,13 +36,14 @@
                     </thead>
                     <tbody class="list" id="members-table-body">
                         <?php function printMenu($menu, $level = 0)  {   ?> <!-- Quando o $level é igual a zero significa que a categoria é pai -->
-                            
+
                         <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                             <td class="email align-middle white-space-nowrap" style="padding-left: <?= $level * 20 ?>px;"> 
                                 <?php
                                 // Verifica o nível do menu e formata o nome
                                 if ($level === 0) {
-                                    $menu['nome'] = mb_strtoupper($menu['nome']);
+                                    
+                                    $menu['nome'] = $menu['link'] == null ? '<strong>'.mb_strtoupper($menu['nome']).'</strong>' : mb_strtoupper($menu['nome']);
                                 } elseif ($level === 1) {
                                     $menu['nome'] = ucwords($menu['nome']);
                                 }
