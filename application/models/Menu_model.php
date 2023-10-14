@@ -17,26 +17,31 @@ class Menu_model extends CI_Model
             ORDER BY `sub` ASC, is_zero ASC, `ordem` ASC, `id` ASC
         ");
         $menus = $query->result_array();
-
-        // Organize os menus em um array hierárquico
+    
         $menuHierarquia = [];
+    
         foreach ($menus as $menu) {
+            // Inicializa um array para armazenar os submenus
             $menu['sub_menus'] = [];
+    
+            // Verifica se o menu é um menu PAI (sem submenu)
             if ($menu['sub'] == 0) {
-                $menuHierarquia[$menu['id']] = $menu;
+                $menuHierarquia[$menu['id']] = $menu; // Adiciona o menu PAI ao array hierárquico
             } else {
+                // Se não for um menu PAI, adiciona o menu como submenu do menu PAI
                 $menuHierarquia[$menu['sub']]['sub_menus'][$menu['id']] = $menu;
             }
         }
-
-        // Ordene os menus em ordem crescente de acordo com a ordem 'ordem'
+    
+        // Ordena os submenus em ordem crescente com base na coluna 'ordem'
         foreach ($menuHierarquia as &$menuPai) {
             ksort($menuPai['sub_menus']);
         }
-
+    
+        // Retorna os menus organizados como um array numérico
         return array_values($menuHierarquia);
     }
-
+    
     public function recebeCategoriasPai()
     {
         $this->db->where('link', null);
