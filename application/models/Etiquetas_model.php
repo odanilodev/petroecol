@@ -31,6 +31,7 @@ class Etiquetas_model extends CI_Model
     public function recebeEtiquetaNome($nome)
     {
         $this->db->where('nome', $nome);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_etiquetas');
 
         return $query->row_array();
