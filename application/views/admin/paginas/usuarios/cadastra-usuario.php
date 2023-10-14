@@ -54,11 +54,24 @@
                         <div class="invalid-feedback">Preencha este campo.</div>
                       </div>
 
-                      <div class="mb-2">
+                      <div class="mb-2 col-md-6">
                         <label class="form-label" for="bootstrap-wizard-validation-wizard-email">Email*</label>
                         <input value="<?= isset($usuario['email']) ? $usuario['email'] : "" ?>" required class="form-control input-email" type="email" name="email" placeholder="Email address" pattern="^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$" id="bootstrap-wizard-validation-wizard-email" />
                         <div class="invalid-feedback">Preencha este campo.</div>
                       </div>
+
+                      <div class="mb-2 col-md-6">
+                          <div class="mb-2">
+                            <label class="form-label text-900">Setor</label>
+                            <select name='setor' class="select-validation select-setor">
+                              <option value="" selected disabled>Selecione</option>
+                              <?php foreach($setores as $s){ ?>
+                              <option value="<?= $s['id'] ?>" <?= (isset($usuario['id_setor']) && $usuario['id_setor'] == $s['id']) ? 'selected' : ''; ?>><?= $s['nome'] ?></option>
+                              <?php } ?>
+                          </select>
+                          <div class="invalid-feedback">Preencha este campo.</div>
+                          </div>
+                        </div>
 
                       <div class="col-sm-6 <?= isset($usuario['id']) ? "d-none" : "" ?>">
                         <div class="mb-2 mb-sm-0">
@@ -81,7 +94,7 @@
                         <div class="col-sm-6 mt-3">
                           <div class="mb-2">
                             <label class="form-label text-900">Empresa</label>
-                            <select class="select-empresa">
+                            <select class="select-empresa select-validation">
                               <option value="" selected disabled>Selecione</option>
 
                               <?php foreach ($empresas as $v) { ?>
