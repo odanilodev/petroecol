@@ -251,7 +251,7 @@
 
                             <option disabled selected value="">Selecione residuos</option>
                             <?php foreach ($residuos as $v) { ?>
-                                <option value="<?= $v['id'] ?>"><?= $v['nome']; ?></option>
+                                <option value="<?= $v['id'] ?>"><?= strtoupper($v['nome']); ?></option>
                             <?php } ?>
 
                         </select>
