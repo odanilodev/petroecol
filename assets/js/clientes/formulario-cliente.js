@@ -126,6 +126,22 @@ $(document).ready(function () {
 
 $(document).on('click', '.btn-proximo', function () {
 
+    if (!validaEmail($('.valida-email').val()) && $('.valida-email').val() != "") {
+
+        $('.valida-email').addClass('invalido');
+
+        $('.email-invalido').css('display', 'block');
+        
+        return;
+
+    } else {
+
+        $('.valida-email').removeClass('invalido');
+
+        $('.email-invalido').css('display', 'none');
+        
+    }
+
     if ($('a.nav-link.btn-responsavel').hasClass('active')) {
 
         $('.btn-proximo').attr('onclick', 'verificaCampos()');
