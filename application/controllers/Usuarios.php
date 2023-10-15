@@ -32,6 +32,7 @@ class Usuarios extends CI_Controller
 
 		$data['usuarios'] = $this->Usuarios_model->recebeUsuarios();
 
+
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/usuarios/usuarios');
 		$this->load->view('admin/includes/painel/rodape');

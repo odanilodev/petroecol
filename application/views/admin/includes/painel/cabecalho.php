@@ -92,7 +92,7 @@
                                     </div>
                                 </a>
 
-                                <a class="nav-link label-1" href="<?= base_url('menu/formulario')?>" role="button" data-bs-toggle="" aria-expanded="false">
+                                <a class="nav-link label-1" href="<?= base_url('menu')?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">
                                             <span data-feather="users"></span>
@@ -102,6 +102,40 @@
                                         </span>
                                     </div>
                                 </a>
+
+                                <div class="nav-item-wrapper">
+
+                                    <a class="nav-link dropdown-indicator label-1" href="#nv-faq" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-faq">
+                                        <div class="d-flex align-items-center">
+                                            <div class="dropdown-indicator-icon">
+                                                <span class="fas fa-caret-right"></span>
+                                            </div>
+                                            <span class="nav-link-icon">
+                                                <span data-feather="users"></span>
+                                            </span>
+                                            <span class="nav-link-text">Faq</span>
+                                        </div>
+                                    </a>
+
+                                    <div class="parent-wrapper label-1">
+                                        <ul class="nav parent collapse show" data-bs-parent="#navbarVerticalCollapse" id="nv-faq">
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="pages/faq/faq-accordion.html" data-bs-toggle="" aria-expanded="false">
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="nav-link-text">Faq accordion</span>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item"><a class="nav-link" href="pages/faq/faq-tab.html" data-bs-toggle="" aria-expanded="false">
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="nav-link-text">Faq tab</span>
+                                                    </div>
+                                                </a><!-- more inner pages-->
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
 
                                 <a class="nav-link label-1" href="<?= base_url('etiquetas')?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
