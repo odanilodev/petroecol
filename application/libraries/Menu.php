@@ -10,7 +10,7 @@ class Menu_library {
     }
 
     public function load_menu() {
-        $data['menus'] = $this->CI->Menu_model->getMenus(); // Busque os menus no modelo
+        $data['menus'] = $this->CI->Menu_model->recebeMenus(); // Busque os menus no modelo
 
         // Carregue a visão do menu
         $this->CI->load->view('menu_view', $data);
