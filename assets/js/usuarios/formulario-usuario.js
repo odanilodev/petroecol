@@ -5,6 +5,7 @@ const cadastraUsuario = () => {
     let nome = $('.input-nome').val();
     let telefone = $('.input-telefone').val();
     let email = $('.input-email').val();
+    let setor = $('.select-setor').val();
     let senha = $('.input-senha').val();
     let repeteSenha = $('.input-repete-senha').val();
     let imagemInput = $('#imageInput')[0].files[0];
@@ -16,6 +17,7 @@ const cadastraUsuario = () => {
     formData.append('nome', nome);
     formData.append('telefone', telefone);
     formData.append('email', email);
+    formData.append('setor', setor);
     formData.append('senha', senha);
     formData.append('id_empresa', empresa);
     formData.append('imagem', imagemInput);
@@ -28,18 +30,32 @@ const cadastraUsuario = () => {
         // Verifica se o select tá vazio
         if (empresa.val() == null) {
 
-            $('.select-empresa').addClass('select-empresa-invalido');
+            $('.select-validation').addClass('select-validation-invalido');
             permissao = false;
             return;
             
         } else {
 
-            $('.select-empresa').removeClass('select-empresa-invalido');
+            $('.select-validation').removeClass('select-validation-invalido');
+            $('.select-validation').addClass('form-control');
+
         }
     }
 
+     // Verifica se o select setor tá vazio
+     if (setor == null) {
+
+        $('.select-setor').addClass('select-validation-invalido');
+        permissao = false;
+        return;
+        
+    } else {
+        $('.select-validation').addClass('form-control');
+        $('.select-setor').removeClass('select-validation-invalido');
+    }
+
     // cadastra um usuario novo
-    if (id == "" && nome != "" && telefone != "" && email != "" && senha != "" && repeteSenha != "") {
+    if (id == "" && nome != "" && telefone != "" && email != "" && senha != "" && repeteSenha != "" && setor != null) {
 
         if (!validaEmail(email)) {
             permissao = false;

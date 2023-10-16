@@ -78,7 +78,7 @@ class Recipientes extends CI_Controller
 
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-		$recipiente = $this->recipientes_model->recebeRecipienteNome($dados['nome_recipiente']); // verifica se já existe o recipiente
+		$recipiente = $this->recipientes_model->recebeRecipienteNome($dados['nome_recipiente'], $dados['volume_suportado'], $dados['unidade_peso']); // verifica se já existe o recipiente
 
 		// Verifica se o recipiente já existe e se não é o recipiente que está sendo editada
 		if ($recipiente && $recipiente['id'] != $id) {
