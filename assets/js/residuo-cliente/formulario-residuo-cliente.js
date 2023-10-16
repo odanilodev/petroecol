@@ -40,12 +40,15 @@ const cadastraResiduoCliente = () => {
 
                     $('.div-residuos').append(data.message);
 
-                } else {
+                } else if (data.message != undefined) {
 
                     avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
-                    $('.div-residuos').append(data.residuo);
+
+                } else {
+                    avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação`, 'error', '#');
 
                 }
+                
             }
         })
     }

@@ -40,9 +40,12 @@ const cadastraEtiquetaCliente = () => {
 
                     $('.div-etiquetas').append(data.message);
 
-                } else {
+                } else if (data.message != undefined) {
 
                     avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
+
+                } else {
+                    avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação`, 'error', '#');
 
                 }
             }
