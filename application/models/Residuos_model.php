@@ -31,6 +31,13 @@ class Residuos_model extends CI_Model
         return $query->result_array();
     }
 
+    public function recebeTodosResiduos()
+    {
+        $query = $this->db->get('ci_residuos');
+
+        return $query->result_array();
+    }
+
     public function recebeResiduo($id)
     {
         $this->db->where('id', $id);

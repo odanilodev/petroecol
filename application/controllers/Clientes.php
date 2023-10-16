@@ -43,11 +43,19 @@ class Clientes extends CI_Controller
 
         $data['clientes'] = $this->Clientes_model->recebeClientes($limit, $page);
 
+        // etiquetas 
         $this->load->model('Etiquetas_model');
 		$data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
 
         $this->load->model('EtiquetaCliente_model');
 		$data['etiquetasClientes'] = $this->EtiquetaCliente_model->recebeEtiquetasClientes();
+
+        // residuos
+        $this->load->model('Residuos_model');
+		$data['residuos'] = $this->Residuos_model->recebeTodosResiduos();
+
+        $this->load->model('ResiduoCliente_model');
+		$data['residuosClientes'] = $this->ResiduoCliente_model->recebeResiduosClientes();
 
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
