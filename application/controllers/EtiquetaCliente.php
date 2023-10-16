@@ -26,10 +26,10 @@ class EtiquetaCliente extends CI_Controller
 		$nomeEtiqueta = $this->input->post('nome_etiqueta');
 		$id_etiqueta = $this->input->post('id_etiqueta');
 
-		// todos resíduos do cliente
+		// todas etiquetas do cliente
 		$etiquetasNoBanco = $this->EtiquetaCliente_model->recebeEtiquetaCliente($dados['id_cliente']);
 
-		// verifica se o resíduo já existe para esse cliente
+		// verifica se a etiqueta já existe para esse cliente
 		if (in_array($id_etiqueta, array_column($etiquetasNoBanco, 'id_etiqueta'))) {
 
 			$response = array(
@@ -78,7 +78,7 @@ class EtiquetaCliente extends CI_Controller
 		$this->EtiquetaCliente_model->deletaEtiquetaCliente($id);
 	}
 
-	// exibe os redisuos de cada cliente dentro do modal
+	// exibe as etiquetas de cada cliente dentro do modal
 	public function recebeEtiquetaCliente()
 	{
 		$id_cliente = $this->input->post('id_cliente');
