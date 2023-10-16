@@ -122,7 +122,17 @@ $(document).ready(function () {
     });
 });
 
+$(document).ready(function () {
 
+    if ($('.valida-email').val() != "" && !validaEmail($('.valida-email').val())) {
+
+        $('.valida-email').attr('required', true);
+
+        $('.email-invalido').css('display', 'block');
+        
+    }
+
+});
 
 $(document).on('click', '.btn-proximo', function () {
 
@@ -131,7 +141,9 @@ $(document).on('click', '.btn-proximo', function () {
         $('.valida-email').addClass('invalido');
 
         $('.email-invalido').css('display', 'block');
-        
+
+        permissao = false;
+
         return;
 
     } else {
@@ -139,7 +151,9 @@ $(document).on('click', '.btn-proximo', function () {
         $('.valida-email').removeClass('invalido');
 
         $('.email-invalido').css('display', 'none');
-        
+
+        permissao = true;
+
     }
 
     if ($('a.nav-link.btn-responsavel').hasClass('active')) {
