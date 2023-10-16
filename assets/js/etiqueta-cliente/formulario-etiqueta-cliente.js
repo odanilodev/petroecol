@@ -6,16 +6,17 @@ const cadastraEtiquetaCliente = () => {
 
     let idEtiqueta = $('#select-etiqueta').val();
 
-    var nomeEtiqueta = [];
-    $('#select-etiqueta option:selected').each(function () {
-        nomeEtiqueta.push($(this).text());
-    });
+    var nomeEtiqueta = $('#select-etiqueta').text();
 
-    if (idEtiqueta != "") {
-        permissao = true;
+    permissao = true;
+
+    if (!idEtiqueta) {
+        permissao = false;
+
     }
 
     if (permissao) {
+
         $.ajax({
             type: "POST",
             url: `${baseUrl}etiquetaCliente/cadastraEtiquetaCliente`,
@@ -34,7 +35,7 @@ const cadastraEtiquetaCliente = () => {
 
                 $('.load-form').addClass('d-none');
                 $('.btn-form').removeClass('d-none');
-                
+
                 if (data.success) {
 
                     $('.div-etiquetas').append(data.message);
@@ -42,7 +43,6 @@ const cadastraEtiquetaCliente = () => {
                 } else {
 
                     avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
-                    $('.div-etiquetas').append(data.etiqueta);
 
                 }
             }
@@ -50,6 +50,7 @@ const cadastraEtiquetaCliente = () => {
     }
 
 }
+
 
 const exibirEtiquetasCliente = (idCliente) => {
 
