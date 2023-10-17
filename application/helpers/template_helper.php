@@ -125,6 +125,7 @@ function scriptsClienteFooter()
         '<script src="' . base_url('vendors/choices/choices.min.js') . '"></script>',
         '<script src="' . base_url('assets/js/validacoes.js') . '"></script>',
         '<script src="' . base_url('assets/js/etiqueta-cliente/formulario-etiqueta-cliente.js') . '"></script>',
+        '<script src="' . base_url('assets/js/recipiente-cliente/formulario-recipiente-cliente.js') . '"></script>',
         '<script src="' . base_url('assets/js/residuo-cliente/formulario-residuo-cliente.js') . '"></script>'
 
     );

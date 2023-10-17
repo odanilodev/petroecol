@@ -116,6 +116,11 @@
                                                         <span class="text-900"> Resíduos</span>
                                                     </a>
 
+                                                    <a class="dropdown-item" href="#" onclick="exibirRecipientesCliente(<?= $v['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalRecipiente">
+                                                        <span class="text-900 uil-pricetag-alt"></span>
+                                                        <span class="text-900"> Recipientes</span>
+                                                    </a>
+
                                                     <a class="dropdown-item text-danger" href="<?= base_url('clientes/formulario/' . $v['id']) ?>">
                                                         <span class="text-900 uil uil-pen"></span>
                                                         <span class="text-900"> Editar</span>
@@ -264,6 +269,51 @@
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
 
                     <button class="btn btn-success btn-salva-residuo btn-form" type="button" onclick="cadastraResiduoCliente()">Salvar</button>
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- Modal de recipientes para clientes -->
+     <div class="modal fade" id="modalRecipiente" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Recipientes</h5>
+                    <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1"></span></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="my-2 div-recipientes">
+                        <!-- Manipulado ajax -->
+                    </div>
+
+                    <div class="add-recipiente w-100 my-3 mb-4">
+
+                        <input type="hidden" class="id-cliente">
+
+                        <label>Atribuir novos recipientes</label>
+                        <select class="form-select w-100" id="select-recipiente" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+
+                            <option disabled selected value="">Selecione recipientes</option>
+                            <?php foreach ($recipientes as $v) { ?>
+                                <option value="<?= $v['id'] ?>"><?= strtoupper($v['nome_recipiente']); ?></option>
+                            <?php } ?>
+
+                        </select>
+
+                        <input type="number" class="w-100 form-control" id="quantidade-recipiente" placeholder="quantidade">
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+
+                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+
+                    <button class="btn btn-success btn-salva-recipiente btn-form" type="button" onclick="cadastraRecipienteCliente()">Salvar</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
                 </div>
