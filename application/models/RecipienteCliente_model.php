@@ -24,6 +24,13 @@ class RecipienteCliente_model extends CI_Model
         return $query->result_array();
     }
 
+    public function recebeRecipiente($id)
+    {
+        $this->db->where('id', $id);
+        $query = $this->db->get('ci_recipiente_cliente');
+        return $query->row_array();
+    }
+
     public function recebeRecipienteCliente($id)
     {
         $this->db->select('RC.*, C.nome, R.nome_recipiente');

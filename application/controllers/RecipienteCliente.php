@@ -16,6 +16,8 @@ class RecipienteCliente extends CI_Controller
 		// FIM controle sessão
 
 		$this->load->model('RecipienteCliente_model');
+		$this->load->model('recipientes_model');
+
 	}
 
 	public function cadastraRecipienteCliente()
@@ -39,10 +41,27 @@ class RecipienteCliente extends CI_Controller
 			);
 		} else {
 
+			$recipiente = $this->recipientes_model->recebeRecipiente($id_recipiente);
+
+			if ($recipiente['quantidade'] < $dados['quantidade']) {
+
+				$response = array(
+					'success' => false,
+					'message' => "Não existe a quantidade solicitada do recipiente em estoque!"
+				);
+	
+				return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+			}
+			
+
 			$dados['id_recipiente'] = $id_recipiente;
 			$inseridoId = $this->RecipienteCliente_model->insereRecipienteCliente($dados);
 
 			if ($inseridoId) {
+
+				$data['quantidade'] = $recipiente['quantidade'] - $dados['quantidade'];
+
+				$this->recipientes_model->editaRecipiente($id_recipiente, $data);
 
 				$novoRecipiente = '
                 <span class="badge rounded-pill badge-phoenix fs--2 badge-phoenix-info my-1 mx-1 p-2 recipiente-' . $inseridoId . '">
@@ -73,6 +92,14 @@ class RecipienteCliente extends CI_Controller
 	public function deletaRecipienteCliente()
 	{
 		$id = $this->input->post('id');
+
+		$recipienteCliente = $this->RecipienteCliente_model->recebeRecipiente($id);
+
+		$dados = $this->recipientes_model->recebeRecipiente($recipienteCliente['id_recipiente']);
+
+		$dados['quantidade'] = $recipienteCliente['quantidade'] + $dados['quantidade'];
+
+		$this->recipientes_model->editaRecipiente($recipienteCliente['id_recipiente'], $dados);
 
 		$this->RecipienteCliente_model->deletaRecipienteCliente($id);
 	}
