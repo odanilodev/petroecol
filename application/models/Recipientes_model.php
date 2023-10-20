@@ -44,6 +44,14 @@ class Recipientes_model extends CI_Model
         return $query->row_array();
     }
 
+    public function recebeTodosRecipientes()
+    {
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('ci_recipientes');
+
+        return $query->result_array();
+    }
+
     public function insereRecipiente($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');

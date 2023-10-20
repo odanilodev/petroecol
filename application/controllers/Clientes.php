@@ -57,6 +57,13 @@ class Clientes extends CI_Controller
         $this->load->model('ResiduoCliente_model');
         $data['residuosClientes'] = $this->ResiduoCliente_model->recebeResiduosClientes();
 
+        // recipientes
+        $this->load->model('Recipientes_model');
+		$data['recipientes'] = $this->Recipientes_model->recebeTodosRecipientes();
+
+        $this->load->model('RecipienteCliente_model');
+		$data['recipientesClientes'] = $this->RecipienteCliente_model->recebeRecipientesClientes();
+
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/clientes');

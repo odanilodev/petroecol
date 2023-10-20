@@ -116,6 +116,11 @@
                                                         <span class="text-900"> Resíduos</span>
                                                     </a>
 
+                                                    <a class="dropdown-item" href="#" onclick="exibirRecipientesCliente(<?= $v['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalRecipiente">
+                                                        <span class="text-900 uil-pricetag-alt"></span>
+                                                        <span class="text-900"> Recipientes</span>
+                                                    </a>
+
                                                     <a class="dropdown-item text-danger" href="<?= base_url('clientes/formulario/' . $v['id']) ?>">
                                                         <span class="text-900 uil uil-pen"></span>
                                                         <span class="text-900"> Editar</span>
