@@ -29,6 +29,18 @@ class RecipienteCliente extends CI_Controller
 		$nomeRecipiente = $this->input->post('nome_recipiente');
 		$id_recipiente = $this->input->post('id_recipiente');
 
+
+		if ($dados['quantidade'] == 0 or $dados['quantidade'] == '') {
+
+			$response = array(
+				'success' => false,
+				'message' => 'Digite uma quantidade de recipiente maior que zero'
+			);
+
+			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
+		}
+
 		// todos recipientes do cliente
 		$recipientesNoBanco = $this->RecipienteCliente_model->recebeRecipienteCliente($dados['id_cliente']);
 
