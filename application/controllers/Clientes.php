@@ -8,28 +8,28 @@ class Clientes extends CI_Controller
         parent::__construct();
 
         // INICIO controle sessão
-		$this->load->library('Controle_sessao');
-		$res = $this->controle_sessao->controle();
-		if ($res == 'erro') {
-			redirect('login/erro', 'refresh');
-		}
-		// FIM controle sessão
-        
+        $this->load->library('Controle_sessao');
+        $res = $this->controle_sessao->controle();
+        if ($res == 'erro') {
+            redirect('login/erro', 'refresh');
+        }
+        // FIM controle sessão
+
         $this->load->model('Clientes_model');
     }
 
     public function index($page = 1)
     {
         // scripts padrão
-		$scriptsPadraoHead = scriptsPadraoHead();
-		$scriptsPadraoFooter = scriptsPadraoFooter();
-		
-		// scripts para clientes
-		$scriptsClienteHead = scriptsClienteHead();
-		$scriptsClienteFooter = scriptsClienteFooter();
+        $scriptsPadraoHead = scriptsPadraoHead();
+        $scriptsPadraoFooter = scriptsPadraoFooter();
 
-		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsClienteHead));
-		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsClienteFooter));
+        // scripts para clientes
+        $scriptsClienteHead = scriptsClienteHead();
+        $scriptsClienteFooter = scriptsClienteFooter();
+
+        add_scripts('header', array_merge($scriptsPadraoHead, $scriptsClienteHead));
+        add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsClienteFooter));
 
         // >>>> PAGINAÇÃO <<<<<
         $limit = 12; // Número de clientes por página
@@ -45,21 +45,56 @@ class Clientes extends CI_Controller
 
         // etiquetas 
         $this->load->model('Etiquetas_model');
-		$data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
+        $data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
 
         $this->load->model('EtiquetaCliente_model');
-		$data['etiquetasClientes'] = $this->EtiquetaCliente_model->recebeEtiquetasClientes();
+        $data['etiquetasClientes'] = $this->EtiquetaCliente_model->recebeEtiquetasClientes();
 
         // residuos
         $this->load->model('Residuos_model');
-		$data['residuos'] = $this->Residuos_model->recebeTodosResiduos();
+        $data['residuos'] = $this->Residuos_model->recebeTodosResiduos();
 
         $this->load->model('ResiduoCliente_model');
-		$data['residuosClientes'] = $this->ResiduoCliente_model->recebeResiduosClientes();
+        $data['residuosClientes'] = $this->ResiduoCliente_model->recebeResiduosClientes();
 
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/clientes');
+        $this->load->view('admin/paginas/clientes/modals');
+        $this->load->view('admin/includes/painel/rodape');
+    }
+
+    public function detalhes()
+    {
+        // scripts padrão
+        $scriptsPadraoHead = scriptsPadraoHead();
+        $scriptsPadraoFooter = scriptsPadraoFooter();
+
+        // scripts para clientes
+        $scriptsClienteHead = scriptsClienteHead();
+        $scriptsClienteFooter = scriptsClienteFooter();
+
+        add_scripts('header', array_merge($scriptsPadraoHead, $scriptsClienteHead));
+        add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsClienteFooter));
+
+        $id = $this->uri->segment(3);
+
+        $data['cliente'] = $this->Clientes_model->recebeCliente($id);
+
+        // etiquetas
+        $this->load->model('EtiquetaCliente_model');
+        $data['etiquetas'] = $this->EtiquetaCliente_model-> recebeEtiquetaCliente($id);
+
+        // residuos
+        $this->load->model('ResiduoCliente_model');
+        $data['residuos'] = $this->ResiduoCliente_model->recebeResiduoCliente($id);
+
+        $this->load->model('ResiduoCliente_model');
+        $data['residuosClientes'] = $this->ResiduoCliente_model->recebeResiduosClientes();
+
+        $this->load->view('admin/includes/painel/cabecalho', $data);
+        $this->load->view('admin/paginas/clientes/detalhes-cliente');
+        $this->load->view('admin/paginas/clientes/modals');
         $this->load->view('admin/includes/painel/rodape');
     }
 
@@ -67,14 +102,14 @@ class Clientes extends CI_Controller
     public function formulario()
     {
         // scripts padrão
-		$scriptsPadraoHead = scriptsPadraoHead();
-		$scriptsPadraoFooter = scriptsPadraoFooter();
-		
-		// scripts para clientes
-		$scriptsClienteFooter = scriptsClienteFooter();
+        $scriptsPadraoHead = scriptsPadraoHead();
+        $scriptsPadraoFooter = scriptsPadraoFooter();
 
-		add_scripts('header', array_merge($scriptsPadraoHead));
-		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsClienteFooter));
+        // scripts para clientes
+        $scriptsClienteFooter = scriptsClienteFooter();
+
+        add_scripts('header', array_merge($scriptsPadraoHead));
+        add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsClienteFooter));
 
         $id = $this->uri->segment(3);
 
@@ -107,18 +142,15 @@ class Clientes extends CI_Controller
                 'success' => true,
                 'message' => $id ? 'Cliente editado com sucesso!' : 'Cliente cadastrado com sucesso!'
             );
-
         } else { // erro ao inserir ou editar
 
             $response = array(
                 'success' => false,
                 'message' => $id ? "Erro ao editar o cliente!" : "Erro ao cadastrar o cliente!"
             );
-            
         }
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-
     }
 
     public function insereSql()
