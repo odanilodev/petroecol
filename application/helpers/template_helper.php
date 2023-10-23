@@ -107,6 +107,30 @@ function scriptsUsuarioFooter()
     );
 }
 
+
+// pagina de motorista
+function scriptsMotoristaHead()
+{
+    return array(
+
+        '<link href="' . base_url('assets/css/upload-arquivo.css') . '" type="text/css" rel="stylesheet" id="user-style-default">',
+
+    );
+}
+
+function scriptsMotoristaFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/motoristas/formulario-motoristas.js') . '"></script>',
+        '<script src="' . base_url('assets/js/upload-imagem.js') . '"></script>',
+        '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>',
+        '<script src="' . base_url('assets/js/validacoes.js') . '"></script>',
+        '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>'
+
+    );
+}
+
 // Pagina de clientes
 function scriptsClienteHead()
 {
