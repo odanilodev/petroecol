@@ -8,12 +8,12 @@ const cadastraRecipienteCliente = () => {
 
     let quantidade = $('#quantidade-recipiente').val();
 
-    var nomeRecipiente= $('#select-recipiente').text();
+    var nomeRecipiente = $('#select-recipiente').text();
 
     permissao = true;
 
     if (!idRecipiente || !quantidade) {
-        
+
         permissao = false;
 
     } else {
@@ -21,6 +21,7 @@ const cadastraRecipienteCliente = () => {
         permissao = true;
 
     }
+
 
     if (permissao) {
 
@@ -41,18 +42,31 @@ const cadastraRecipienteCliente = () => {
             },
             success: function (data) {
 
+                // console.log(data); return;
+
                 $('.load-form').addClass('d-none');
                 $('.btn-form').removeClass('d-none');
 
-                if (data.success) {
+                // editar quantidade que já está cadastrado
+                if (data.aviso == 'editado') {
+
+                    alert(data.idRecipiente);
+                    // alert(data.quantidade);
+
+                    $(`.qtd-${data.idRecipiente}`).text(data.quantidade);
+
+                }
+
+                if (data.success && !data.aviso) {
 
                     $('.div-recipientes').append(data.message);
 
-                } else if (data.message != undefined) {
+                } else if (data.message != undefined && !data.aviso) {
 
                     avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
 
-                } else {
+                } else if (data.message == undefined && !data.aviso) {
+
                     avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação`, 'error', '#');
 
                 }

@@ -1,61 +1,49 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Recipientes_model extends CI_Model
+class Coletas_model extends CI_Model
 {
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model('Log_model');
     }
 
-    public function recebeRecipientes($limit, $page, $count = null)
+    public function recebeColetas($limit, $page, $count = null)
     {
         if ($count) {
             $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+            $this->db->where('status', 1);
 
-            $query = $this->db->get('ci_recipientes');
+            $query = $this->db->get('ci_clientes');
             return $query->num_rows();
         }
 
         $offset = ($page - 1) * $limit;
-        $this->db->order_by('nome_recipiente', 'DESC');
+        $this->db->order_by('nome', 'DESC');
+        $this->db->where('status', 1);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->limit($limit, $offset);
-        $query = $this->db->get('ci_recipientes');
+        $query = $this->db->get('ci_clientes');
+
         return $query->result_array();
     }
 
-    public function recebeRecipiente($id)
+    public function recebeColeta($id)
     {
         $this->db->where('id', $id);
-        $query = $this->db->get('ci_recipientes');
-        return $query->row_array();
-    }
-
-    public function recebeRecipienteNome($nome, $volume, $unidade_peso)
-    {
-        $this->db->where('nome_recipiente', $nome);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('volume_suportado', $volume);
-        $this->db->where('unidade_peso', $unidade_peso);
-        $query = $this->db->get('ci_recipientes');
+        $query = $this->db->get('ci_clientes');
 
         return $query->row_array();
     }
 
-    public function recebeTodosRecipientes()
-    {
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('ci_recipientes');
-
-        return $query->result_array();
-    }
-
-    public function insereRecipiente($dados)
+    public function insereColeta($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');
-        $this->db->insert('ci_recipientes', $dados);
+        $this->db->insert('ci_clientes', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($this->db->insert_id());
@@ -64,11 +52,12 @@ class Recipientes_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function editaRecipiente($id, $dados)
+    public function editaColeta($id, $dados)
     {
-        // $dados['editado_em'] = date('Y-m-d H:i:s');
+        $dados['editado_em'] = date('Y-m-d H:i:s');
         $this->db->where('id', $id);
-        $this->db->update('ci_recipientes', $dados);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->update('ci_clientes', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);
@@ -77,11 +66,24 @@ class Recipientes_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function deletaRecipiente($id)
+    public function deletaColeta($id)
     {
+        $dados['status'] = 3;
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->delete('ci_recipientes');
+        $this->db->update('ci_clientes', $dados);
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id);
+        }
+
+        return $this->db->affected_rows() > 0;
+    }
+
+    public function deletaEtiquetaColeta($id)
+    {
+        $this->db->where('id_cliente', $id);
+        $this->db->delete('ci_etiqueta_cliente');
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);

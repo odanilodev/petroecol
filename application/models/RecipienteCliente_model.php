@@ -46,6 +46,19 @@ class RecipienteCliente_model extends CI_Model
         return $query->result_array();
     }
 
+    public function editaRecipienteCliente($id, $dados)
+    {
+        $dados['editado_em'] = date('Y-m-d H:i:s');
+        $this->db->where('id_recipiente', $id);
+        $this->db->update('ci_recipiente_cliente', $dados);
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id);
+        }
+
+        return $this->db->affected_rows() > 0;
+    }
+
     public function recebeIdRecipienteCliente($id, $id_cliente)
     {
         $this->db->select('RC.*, R.nome_recipiente');
