@@ -44,20 +44,18 @@
 
                       <div class="mb-2 col-md-4">
                         <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-name">Nome*</label>
-                        <input required value="<?= isset($usuario['nome']) ? $usuario['nome'] : "" ?>" class="form-control input-nome" type="text" name="nome" placeholder="Nome do Usuário" id="bootstrap-wizard-validation-wizard-name" />
+                        <input required value="<?= isset($motorista['nome']) ? $motorista['nome'] : "" ?>" class="form-control input-nome" type="text" name="nome" placeholder="Nome do Usuário" id="bootstrap-wizard-validation-wizard-name" />
                         <div class="invalid-feedback">Preencha este campo.</div>
                       </div>
 
                       <div class="mb-2 col-md-4">
-                        <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-name">CPF</label>
-                        <input required value="<?= isset($usuario['nome']) ? $usuario['nome'] : "" ?>" class="form-control input-cpf mascara-cpf" type="text" name="nome" placeholder="Nome do Usuário" id="bootstrap-wizard-validation-wizard-name" />
-                        <div class="invalid-feedback">Preencha este campo.</div>
+                        <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-cpf">CPF</label>
+                        <input value="<?= isset($motorista['cpf']) ? $motorista['cpf'] : "" ?>" class="form-control input-cpf mascara-cpf" type="text" name="nome" placeholder="Digite o CPF"  />
                       </div>
 
                       <div class="mb-2 col-md-4">
                         <label class="form-label" for="bootstrap-wizard-validation-wizard-phone">Telefone</label>
-                        <input value="<?= isset($usuario['telefone']) ? $usuario['telefone'] : "" ?>" required class="form-control input-telefone mascara-tel" type="text" name="telefone" placeholder="Telefone" id="bootstrap-wizard-validation-wizard-phone" />
-                        <div class="invalid-feedback">Preencha este campo.</div>
+                        <input value="<?= isset($motorista['telefone']) ? $motorista['telefone'] : "" ?>" class="form-control input-telefone mascara-tel" type="text" name="telefone" placeholder="Digite o telefone" />
                       </div>
 
                       <div class="mb-2 col-md-6">
@@ -67,7 +65,7 @@
 
                     <div class="mb-2 col-md-6">
                         <label class="form-label" for="basic-form-dob">Data de validade (CNH)</label>
-                        <input class="form-control input-data" id="basic-form-dob" type="date">
+                        <input class="form-control input-data" value="<?= isset($motorista['data_cnh']) ? $motorista['data_cnh'] : "" ?>" id="basic-form-dob" type="date">
                     </div>
 
                     <div class="flex-1 text-end my-5">

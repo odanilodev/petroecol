@@ -2,16 +2,17 @@ var baseUrl = $('.base-url').val();
 
 const cadastraMotorista = () => {
 
+    let id = $('.input-id').val();
     let nome = $('.input-nome').val();
     let telefone = $('.input-telefone').val();
     let cpf = $('.input-cpf').val();
     let fotoPerfil = $('.inputFoto')[0].files[0];
     let fotoCnh = $('.inputCnh')[0].files[0];
     let dataCnh = $('.input-data').val();
-    let id = $('.input-id').val();
 
     // cria um FormData para enviar os dados e a imagem
     let formData = new FormData();
+    formData.append('id', id);
     formData.append('nome', nome);
     formData.append('telefone', telefone);
     formData.append('cpf', cpf);
@@ -20,10 +21,9 @@ const cadastraMotorista = () => {
     formData.append('data_cnh', dataCnh);
 
     var permissao = false;
-
   
-    // cadastra um usuario novo
-    if (id == "" && nome != "") {
+    // Valida se veio nome
+    if (nome != "") {
 
         permissao = true;
 
@@ -78,12 +78,12 @@ const deletarUsuario = (id) => {
 
             $.ajax({
                 type: 'post',
-                url: `${baseUrl}usuarios/deletaUsuario`,
+                url: `${baseUrl}motoristas/deletaMotorista`,
                 data: {
                     id: id
                 }, success: function () {
 
-                    avisoRetorno('Sucesso!', 'Usuário deletado com sucesso!', 'success', `${baseUrl}usuarios`);
+                    avisoRetorno('Sucesso!', 'Motorista deletado com sucesso!', 'success', `${baseUrl}motoristas`);
 
                 }
             })

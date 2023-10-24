@@ -68,13 +68,13 @@
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="<?= base_url('usuarios/formulario/' . $v['id']) ?>" class="btn btn-info">
+                                    <a href="<?= base_url('motoristas/downloadCnh/' . $v['id']) ?>" class="btn btn-info">
                                         <span class="fas fa-download ms-1"></span>
                                     </a>
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="<?= base_url('usuarios/formulario/' . $v['id']) ?>" class="btn btn-info">
+                                    <a href="<?= base_url('motoristas/formulario/' . $v['id']) ?>" class="btn btn-info">
                                         <span class="fas fa-pencil ms-1"></span>
                                     </a>
                                 </td>

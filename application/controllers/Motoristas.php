@@ -68,31 +68,10 @@ class Motoristas extends CI_Controller
 		$id = $this->input->post('id');
 
 		$dados['nome'] = $this->input->post('nome');
-		$dados['data_cnh'] = $this->input->post('telefone');
-		$dados['telefone'] = $this->input->post('email');
-		$dados['cpf'] = $this->input->post('setor');
+		$dados['data_cnh'] = $this->input->post('data_cnh');
+		$dados['telefone'] = $this->input->post('telefone');
+		$dados['cpf'] = $this->input->post('cpf');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
-
-		// Verifica se veio imagem
-		if (!empty($_FILES['foto_perfil']['name'])) {
-			$config['upload_path']   = './uploads/motoristas/perfil';
-			$config['allowed_types'] = 'jpg|jpeg|png|';
-
-			$this->load->library('upload', $config);
-
-			$imagemAntiga = $this->Motoristas_model->recebeMotorista($id);
-			
-			// Deleta a foto de perfil antiga do servidor
-			if ($id && $imagemAntiga['foto_perfil']) {
-				$caminho = './uploads/motoristas/perfil' . $imagemAntiga['foto_perfil'];
-				unlink($caminho);
-			}
-
-			if ($this->upload->do_upload('foto_perfil')) {
-				$dados_imagem = $this->upload->data();
-				$dados['foto_perfil'] = $dados_imagem['file_name'];
-			}
-		}
 
 		// Verifica se veio imagem
 		if (!empty($_FILES['foto_cnh']['name'])) {
@@ -101,17 +80,45 @@ class Motoristas extends CI_Controller
 
 			$this->load->library('upload', $config);
 
+			$this->upload->initialize($config);
+
 			$imagemAntiga = $this->Motoristas_model->recebeMotorista($id);
 			
 			// Deleta a foto de perfil antiga do servidor
 			if ($id && $imagemAntiga['foto_cnh']) {
-				$caminho = './uploads/motoristas/cnh' . $imagemAntiga['foto_cnh'];
+				$caminho = './uploads/motoristas/cnh/' . $imagemAntiga['foto_cnh'];
 				unlink($caminho);
 			}
 
 			if ($this->upload->do_upload('foto_cnh')) {
 				$dados_imagem = $this->upload->data();
 				$dados['foto_cnh'] = $dados_imagem['file_name'];
+			}
+
+			// Limpa a configuração para a próxima instância
+		}
+
+
+		// Verifica se veio imagem
+		if (!empty($_FILES['foto_perfil']['name'])) {
+			$config['upload_path']   = './uploads/motoristas/perfil';
+			$config['allowed_types'] = 'jpg|jpeg|png|';
+
+			$this->load->library('upload', $config);
+
+			$this->upload->initialize($config);
+
+			$imagemAntiga = $this->Motoristas_model->recebeMotorista($id);
+			
+			// Deleta a foto de perfil antiga do servidor
+			if ($id && $imagemAntiga['foto_perfil']) {
+				$caminho = './uploads/motoristas/perfil/' . $imagemAntiga['foto_perfil'];
+				unlink($caminho);
+			}
+
+			if ($this->upload->do_upload('foto_perfil')) {
+				$dados_imagem = $this->upload->data();
+				$dados['foto_perfil'] = $dados_imagem['file_name'];
 			}
 		}
 
@@ -122,7 +129,7 @@ class Motoristas extends CI_Controller
 			$response = array(
 				'success' => true,
 				'message' => $id ? 'Motorista editado com sucesso!' : 'Motorista cadastrado com sucesso!'
-			);
+			);	
 		} else { // erro ao inserir ou editar
 
 			$response = array(
@@ -165,19 +172,46 @@ class Motoristas extends CI_Controller
 		}
 	}
 
-	public function deletaUsuario()
+	public function downloadCnh($id)
+    {
+        $this->load->helper('download'); 
+
+        $this->load->model('Motoristas_model');
+
+        $motorista = $this->Motoristas_model->recebeMotorista($id);
+
+		$path =  './uploads/motoristas/cnh/'.$motorista['foto_cnh'] ;
+
+		$arquivoPath = base_url($path);
+
+		$data = file_get_contents($path); 
+		
+		force_download($arquivoPath, $data);
+
+		redirect('Motoristas');
+		
+    }
+
+
+
+	public function deletaMotorista()
 	{
 		$id = $this->input->post('id');
 
-		$imagemAntiga = $this->Usuarios_model->imagemAntiga($id);
+		$imagemAntiga = $this->Motoristas_model->recebeMotorista($id);
 
 		if ($imagemAntiga['foto_perfil']) {
-			$caminho = './uploads/usuarios/' . $imagemAntiga['foto_perfil'];
+			$caminho = './uploads/motoristas/perfil' . $imagemAntiga['foto_perfil'];
 			unlink($caminho);
 		}
 
-		$this->Usuarios_model->deletaUsuario($id);
+		if ($imagemAntiga['foto_cnh']) {
+			$caminho = './uploads/motoristas/cnh' . $imagemAntiga['foto_cnh'];
+			unlink($caminho);
+		}
 
-		redirect('usuarios');
+		$this->Motoristas_model->deletaMotorista($id);
+
+		redirect('motoristas');
 	}
 }
