@@ -100,9 +100,9 @@ class RecipienteCliente extends CI_Controller
 				$this->recipientes_model->editaRecipiente($id_recipiente, $data);
 
 				$novoRecipiente = '
-                <span class="badge rounded-pill badge-phoenix fs--2 badge-phoenix-info my-1 mx-1 p-2 recipiente-' . $inseridoId . '">
+                <span class="badge rounded-pill badge-phoenix fs--2 badge-phoenix-info my-1 mx-1 p-2 recipiente-' . $id_recipiente . '">
                     <span class="badge-label">
-                        <span class="qtd-' . $inseridoId . '">' . $nomeRecipiente . " - " .  $dados['quantidade'] . " Uni" . '</span>
+                        ' . $nomeRecipiente . " - " . '<span class="qtd-' . $id_recipiente . '">' .  $dados['quantidade'] . "</span> Uni" . '
                         <a href="#">
                             <i class="fas fa-times-circle delete-icon" onclick="deletaRecipienteCliente(' . $inseridoId . ')"></i>
                         </a>
