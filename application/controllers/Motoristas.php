@@ -193,7 +193,6 @@ class Motoristas extends CI_Controller
     }
 
 
-
 	public function deletaMotorista()
 	{
 		$id = $this->input->post('id');

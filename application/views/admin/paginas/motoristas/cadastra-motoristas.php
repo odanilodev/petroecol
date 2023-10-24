@@ -65,7 +65,7 @@
 
                     <div class="mb-2 col-md-6">
                         <label class="form-label" for="basic-form-dob">Data de validade (CNH)</label>
-                        <input class="form-control input-data" value="<?= isset($motorista['data_cnh']) ? $motorista['data_cnh'] : "" ?>" id="basic-form-dob" type="date">
+                        <input class="form-control input-data datetimepicker" value="<?= isset($motorista['data_cnh']) ? $motorista['data_cnh'] : "" ?>"  placeholder="dd/mm/yyyy" id="basic-form-dob" type="date">
                     </div>
 
                     <div class="flex-1 text-end my-5">

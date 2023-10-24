@@ -60,7 +60,7 @@
                                 </td>
 
                                 <td class="email align-middle white-space-nowrap">
-                                    <h6 class="fw-semi-bold"><?= date('d/m/Y', strtotime($v['data_cnh'])) ?></h6>
+                                    <h6 class="fw-semi-bold"><?= $v['data_cnh'] != '0000-00-00' ? date('d/m/Y', strtotime($v['data_cnh'])) : ''?></h6>
                                 </td>
 
                                 <td class="mobile_number align-middle white-space-nowrap">
@@ -68,7 +68,7 @@
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="<?= base_url('motoristas/downloadCnh/' . $v['id']) ?>" class="btn btn-info">
+                                    <a href="<?= base_url('motoristas/downloadCnh/' . $v['id']) ?>" class="btn <?= $v['foto_cnh'] ? 'btn-info' : 'btn-secondary' ?>">
                                         <span class="fas fa-download ms-1"></span>
                                     </a>
                                 </td>
