@@ -24,7 +24,7 @@
 
                       <div class="dz-preview-cover d-flex align-items-center justify-content-center mb-2 mb-md-0 col-md-auto">
                         <div class="icon-box div-preview avatar avatar-4xl">
-                          <img class=" image-preview rounded-circle avatar-placeholder" src="<?= base_url('uploads/motoristas/perfil/' . (isset($motorista['foto_perfil']) ? $motorista['foto_perfil'] : 'sem_foto.jpg')) ?>" data-dz-thumbnail="data-dz-thumbnail">
+                          <img class=" image-preview rounded-circle avatar-placeholder" src="<?= base_url((isset($motorista['foto_perfil']) ? 'uploads/motoristas/perfil/'.$motorista['foto_perfil'] : 'assets/img/icons/sem_foto.jpg')) ?>" data-dz-thumbnail="data-dz-thumbnail">
                         </div>
                       </div>
 

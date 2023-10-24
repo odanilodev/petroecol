@@ -141,37 +141,6 @@ class Motoristas extends CI_Controller
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
-
-	public function verificaSenhaAntiga()
-	{
-		$id = $this->input->post('id');
-		$senhaAntiga = $this->input->post('senhaAntiga');
-
-		$usuario = $this->Usuarios_model->recebeUsuario($id);
-
-		if ($usuario) {
-
-			$senha_hash = $usuario['senha']; // O hash da senha armazenado no banco de dados.
-
-			if (password_verify($senhaAntiga, $senha_hash)) {
-				// A senha antiga está correta.
-				$response = array(
-					'success' => true
-				);
-
-			} else {
-				// A senha antiga está incorreta.
-				$response = array(
-					'success' => false
-				);
-
-			}
-
-			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-
-		}
-	}
-
 	public function downloadCnh($id)
     {
         $this->load->helper('download'); 
@@ -188,7 +157,7 @@ class Motoristas extends CI_Controller
 		
 		force_download($arquivoPath, $data);
 
-		redirect('Motoristas');
+		redirect('motoristas');
 		
     }
 
