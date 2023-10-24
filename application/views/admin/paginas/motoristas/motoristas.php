@@ -80,7 +80,7 @@
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="#" class="btn btn-danger" onclick="deletarUsuario(<?= $v['id'] ?>)">
+                                    <a href="#" class="btn btn-danger" onclick="deletarMotorista(<?= $v['id'] ?>)">
                                         <span class="fas fa-trash ms-1"></span>
                                     </a>
                                 </td>

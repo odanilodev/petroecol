@@ -14,9 +14,7 @@ class Motoristas_model extends CI_Model
     {
         $this->db->order_by('nome', 'DESC');
         $this->db->where('status', 1);
-        if($this->session->userdata('id_empresa') > 1){
-            $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        }
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         
         $query = $this->db->get('ci_motoristas');
 
@@ -51,6 +49,7 @@ class Motoristas_model extends CI_Model
     {
         $dados['editado_em'] = date('Y-m-d H:i:s');
         $this->db->where('id', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->update('ci_motoristas', $dados);
 
         if ($this->db->affected_rows()) {

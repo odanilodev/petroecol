@@ -60,7 +60,7 @@ const cadastraMotorista = () => {
     }
 }
 
-const deletarUsuario = (id) => {
+const deletarMotorista = (id) => {
 
     Swal.fire({
         title: 'Você tem certeza?',
