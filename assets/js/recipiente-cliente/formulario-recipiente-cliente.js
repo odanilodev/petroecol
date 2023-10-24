@@ -23,6 +23,8 @@ const cadastraRecipienteCliente = () => {
     }
 
 
+    alert(quantidade); 
+
     if (permissao) {
 
         $.ajax({
@@ -42,7 +44,6 @@ const cadastraRecipienteCliente = () => {
             },
             success: function (data) {
 
-                // console.log(data); return;
 
                 $('.load-form').addClass('d-none');
                 $('.btn-form').removeClass('d-none');
@@ -50,7 +51,7 @@ const cadastraRecipienteCliente = () => {
                 // editar quantidade que já está cadastrado
                 if (data.aviso == 'editado') {
 
-                    alert(data.idRecipiente);
+                    // alert(data.idRecipiente);
                     // alert(data.quantidade);
 
                     $(`.qtd-${data.idRecipiente}`).text(data.quantidade);
@@ -70,6 +71,9 @@ const cadastraRecipienteCliente = () => {
                     avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação`, 'error', '#');
 
                 }
+
+                console.log(data);
+
             }
         })
     }

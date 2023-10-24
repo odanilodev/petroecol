@@ -70,7 +70,7 @@ class RecipienteCliente extends CI_Controller
 					'success' => true,
 					'aviso' => "editado",
 					'idRecipiente' => $id_recipiente,
-					'quantidade' => $recipientesNoBanco[0]['quantidade'] + $dados['quantidade']
+					'quantidade' => $data['quantidade']
 				);
 	
 				return $this->output->set_content_type('application/json')->set_output(json_encode($response));
