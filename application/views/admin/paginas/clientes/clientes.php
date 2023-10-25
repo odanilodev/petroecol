@@ -1,5 +1,11 @@
 <div class="content">
 
+<select class="js-example-basic-single form-select mx-5" id="select-recipiente" name="state" style="margin-left: 25%; width: 50%">
+  <option value="1">Selecione</option>
+  <option value="3">Alabama</option>
+  <option value="WY">Wyoming</option>
+</select>
+
     <div class="pb-8">
         <div id="reports">
             <div class="row g-3 justify-content-between mb-2">

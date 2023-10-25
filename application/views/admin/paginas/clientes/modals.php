@@ -104,9 +104,9 @@
                     <input type="hidden" class="id-cliente">
 
                     <label>Atribuir novos recipientes</label>
-                    <select class="form-select w-100" id="select-recipiente" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                    <select class="form-select w-100 js-example-basic-single" id="select-recipiente" >
 
-                        <option disabled selected value="">Selecione recipientes</option>
+                        <option value="">Selecione recipientes</option>
                         <?php foreach ($recipientes as $v) { ?>
                             <option value="<?= $v['id'] ?>"><?= strtoupper($v['nome_recipiente']); ?></option>
                         <?php } ?>

@@ -34382,3 +34382,11 @@ a[href].bg-200:hover, a[href].bg-200:focus {
   -moz-appearance: none;
   appearance: none;
 }
+
+.btn-ver-recipiente {
+  margin-left: 10px;
+}
+
+.btn-deleta-recipiente {
+  margin-left: 10px;
+}

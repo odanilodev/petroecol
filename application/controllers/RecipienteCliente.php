@@ -28,6 +28,11 @@ class RecipienteCliente extends CI_Controller
 		$nomeRecipiente = $this->input->post('nome_recipiente');
 		$id_recipiente = $this->input->post('id_recipiente');
 
+		//print_r($dados['quantidade']);
+
+		// echo $id_recipiente;
+		// exit;
+
 
 		if ($dados['quantidade'] == 0 or $dados['quantidade'] == '') {
 
@@ -47,7 +52,9 @@ class RecipienteCliente extends CI_Controller
 		// verifica se o recipiente já existe para esse cliente
 		if (in_array($id_recipiente, array_column($recipientesNoBanco, 'id_recipiente'))) {
 
-			$data['quantidade'] = $recipientesNoBanco[0]['quantidade'] + $dados['quantidade'];
+			$recipienteCliente = $this->RecipienteCliente_model->recipienteCliente($id_recipiente);
+
+			$data['quantidade'] = $recipienteCliente['quantidade'] + $dados['quantidade'];
 
 			if ($recipiente['quantidade'] < $dados['quantidade']) {
 
@@ -57,26 +64,23 @@ class RecipienteCliente extends CI_Controller
 				);
 
 				return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-
 			} else {
 
-				$quantidadeRecipiente['quantidade'] = $recipiente['quantidade'] - $dados['quantidade']; 
+				$quantidadeRecipiente['quantidade'] = $recipiente['quantidade'] - $dados['quantidade'];
 
 				$this->RecipienteCliente_model->editaRecipienteCliente($id_recipiente, $data); // altera a quantidade do cliente
 
 				$this->recipientes_model->editaRecipiente($id_recipiente, $quantidadeRecipiente); // altera a quantidade no estoque
-				
+
 				$response = array(
 					'success' => true,
 					'aviso' => "editado",
 					'idRecipiente' => $id_recipiente,
 					'quantidade' => $data['quantidade']
 				);
-	
+
 				return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-
 			}
-
 		} else {
 
 			if ($recipiente['quantidade'] < $dados['quantidade']) {
@@ -100,11 +104,14 @@ class RecipienteCliente extends CI_Controller
 				$this->recipientes_model->editaRecipiente($id_recipiente, $data);
 
 				$novoRecipiente = '
-                <span class="badge rounded-pill badge-phoenix fs--2 badge-phoenix-info my-1 mx-1 p-2 recipiente-' . $id_recipiente . '">
+                <span class="badge rounded-pill badge-phoenix fs--2 badge-phoenix-info my-1 mx-1 p-2 recipiente-' . $inseridoId . '">
                     <span class="badge-label">
                         ' . $nomeRecipiente . " - " . '<span class="qtd-' . $id_recipiente . '">' .  $dados['quantidade'] . "</span> Uni" . '
-                        <a href="#">
+                        <a href="#" class="btn-deleta-recipiente">
                             <i class="fas fa-times-circle delete-icon" onclick="deletaRecipienteCliente(' . $inseridoId . ')"></i>
+                        </a>
+						<a href="#" class="btn-ver-recipiente">
+                            <i class="far fa-eye" onclick="verRecipienteCliente(\'' . $nomeRecipiente . '\')"></i>
                         </a>
                     </span>
                 </span>';
@@ -151,8 +158,11 @@ class RecipienteCliente extends CI_Controller
 			echo '
 			<span class="fw-bold lh-2 mr-5 badge rounded-pill badge-phoenix fs--2 badge-phoenix-info my-1 mx-1 p-2 recipiente-' . $v['id'] . '"> 
 				' . $v['nome_recipiente'] . " - " . '<span class="qtd-' . $v['id_recipiente'] . '">' .  $v['quantidade'] . "</span> Uni" . '
-				<a href="#">
+				<a href="#" class="btn-deleta-recipiente">
 					<i class="fas fa-times-circle delete-icon" onclick="deletaRecipienteCliente(' . $v['id'] . ')"></i>
+				</a>
+				<a href="#" class="btn-ver-recipiente">
+					<i class="far fa-eye ml-5" onclick="verRecipienteCliente(\'' . $v['nome_recipiente'] . '\')"></i>
 				</a>
 			</span>';
 		}

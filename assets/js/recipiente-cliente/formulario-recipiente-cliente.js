@@ -22,9 +22,6 @@ const cadastraRecipienteCliente = () => {
 
     }
 
-
-    alert(quantidade); 
-
     if (permissao) {
 
         $.ajax({
@@ -44,15 +41,11 @@ const cadastraRecipienteCliente = () => {
             },
             success: function (data) {
 
-
                 $('.load-form').addClass('d-none');
                 $('.btn-form').removeClass('d-none');
 
                 // editar quantidade que já está cadastrado
                 if (data.aviso == 'editado') {
-
-                    // alert(data.idRecipiente);
-                    // alert(data.quantidade);
 
                     $(`.qtd-${data.idRecipiente}`).text(data.quantidade);
 
@@ -72,16 +65,32 @@ const cadastraRecipienteCliente = () => {
 
                 }
 
-                console.log(data);
-
             }
         })
     }
 
 }
 
+$(document).ready(function () {
+
+    $('#select-recipiente').select2();
+
+    var idEspecifico = 3;
+
+    // Selecione o elemento select
+    var selectRecipiente = $('#select-recipiente');
+
+    // Encontre a opção com o valor correspondente ao ID específico
+    var optionToSelect = selectRecipiente.find('option[value="' + idEspecifico + '"]');
+    
+    optionToSelect.prop('selected', true);
+
+});
 
 const exibirRecipientesCliente = (idCliente) => {
+
+    $('.js-example-basic-single').select2();
+
 
     $('#quantidade-recipiente').val('');
 
@@ -121,5 +130,21 @@ const deletaRecipienteCliente = (idRecipienteCliente) => {
             $(`.recipiente-${idRecipienteCliente}`).remove();
         }
     })
+
+}
+
+const verRecipienteCliente = (idRecipienteCliente) => {
+
+    var idEspecifico = 3;
+
+    // Selecione o elemento select
+    var selectRecipiente = $('#select-recipiente');
+
+    // Encontre a opção com o valor correspondente ao ID específico
+    var optionToSelect = selectRecipiente.find('option[value="' + idEspecifico + '"]');
+
+    optionToSelect.prop('selected', true);
+
+
 
 }
