@@ -66,9 +66,9 @@
                                 <td class="mobile_number align-middle white-space-nowrap">
                                     <h6 class="fw-bold text-1100"><?= $v['cpf'] ?></h6>
                                 </td>
-
+                                
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="<?= base_url('motoristas/downloadCnh/' . $v['id']) ?>" class="btn <?= $v['foto_cnh'] ? 'btn-info' : 'btn-secondary' ?>">
+                                    <a href="<?= $v['foto_cnh'] ? base_url('motoristas/downloadCnh/' . $v['id']) : '#'?>" class="btn <?= $v['foto_cnh'] ? 'btn-info' : 'btn-secondary' ?>">
                                         <span class="fas fa-download ms-1"></span>
                                     </a>
                                 </td>
