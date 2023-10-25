@@ -17,7 +17,7 @@
 
               <div class="card-body pt-4 pb-0">
                 <div class="tab-pane row" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab2" id="bootstrap-wizard-validation-tab2">
-                  <form method="post" class="needs-validation" id="cadastra-usuario" novalidate="novalidate" data-wizard-form="1">
+                  <form method="post" class="needs-validation" novalidate="novalidate" data-wizard-form="1">
 
                     <input type="hidden" class="input-id" value="<?= isset($motorista['id']) ? $motorista['id'] : "" ?>">
                     <div class="row mb-4">
@@ -44,7 +44,7 @@
 
                       <div class="mb-2 col-md-4">
                         <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-name">Nome*</label>
-                        <input required value="<?= isset($motorista['nome']) ? $motorista['nome'] : "" ?>" class="form-control input-nome" type="text" name="nome" placeholder="Nome do Usuário" id="bootstrap-wizard-validation-wizard-name" />
+                        <input required value="<?= isset($motorista['nome']) ? $motorista['nome'] : "" ?>" class="form-control input-nome" type="text" name="nome" placeholder="Nome do motorista" id="bootstrap-wizard-validation-wizard-name" />
                         <div class="invalid-feedback">Preencha este campo.</div>
                       </div>
 

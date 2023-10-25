@@ -23,7 +23,7 @@ class Motoristas extends CI_Controller
 		$scriptsPadraoHead = scriptsPadraoHead();
 		$scriptsPadraoFooter = scriptsPadraoFooter();
 		
-		// scripts para usuarios
+		// scripts para motoristas
 		$scriptsMotoristaHead = scriptsMotoristaHead();
 		$scriptsMotoristaFooter = scriptsMotoristaFooter();
 
@@ -43,7 +43,7 @@ class Motoristas extends CI_Controller
 		$scriptsPadraoHead = scriptsPadraoHead();
 		$scriptsPadraoFooter = scriptsPadraoFooter();
 		
-		// scripts para usuarios
+		// scripts para motoristas
 		$scriptsMotoristaHead = scriptsMotoristaHead();
 		$scriptsMotoristaFooter = scriptsMotoristaFooter();
 

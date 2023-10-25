@@ -24,9 +24,7 @@ class Motoristas_model extends CI_Model
     public function recebeMotorista($id)
     {
         $this->db->where('id', $id);
-        if($this->session->userdata('id_empresa') > 1){
-            $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        }
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
 
         $query = $this->db->get('ci_motoristas');
 
