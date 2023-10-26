@@ -1,11 +1,5 @@
 <div class="content">
 
-<select class="js-example-basic-single form-select mx-5" id="select-recipiente" name="state" style="margin-left: 25%; width: 50%">
-  <option value="1">Selecione</option>
-  <option value="3">Alabama</option>
-  <option value="WY">Wyoming</option>
-</select>
-
     <div class="pb-8">
         <div id="reports">
             <div class="row g-3 justify-content-between mb-2">
@@ -90,7 +84,7 @@
                                             <input class="form-check-input" type="checkbox">
                                         </div>
                                         <div class="d-sm-flex align-items-center ps-2">
-                                            <a title="<?= $v['nome'] ?>" class="fw-bold fs-1 lh-sm title line-clamp-1 me-sm-4 " href="<?= base_url('clientes/detalhes/' . $v['id']);?>"><?= $v['nome'] ?></a>
+                                            <a title="<?= $v['nome'] ?>" class="fw-bold fs-1 lh-sm title line-clamp-1 me-sm-4 " href="<?= base_url('clientes/detalhes/' . $v['id']); ?>"><?= $v['nome'] ?></a>
                                         </div>
                                     </div>
 
@@ -107,7 +101,7 @@
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-end py-2">
 
-                                                    <a class="dropdown-item" href="<?= base_url('clientes/detalhes/' . $v['id']);?>">
+                                                    <a class="dropdown-item" href="<?= base_url('clientes/detalhes/' . $v['id']); ?>">
                                                         <span class="text-900 uil uil-eye"></span>
                                                         <span class="text-900"> Visualizar</span>
                                                     </a>
@@ -194,6 +188,3 @@
 
         </div>
     </div>
-
-
-    

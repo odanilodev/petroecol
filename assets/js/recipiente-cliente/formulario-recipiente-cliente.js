@@ -8,7 +8,8 @@ const cadastraRecipienteCliente = () => {
 
     let quantidade = $('#quantidade-recipiente').val();
 
-    var nomeRecipiente = $('#select-recipiente').text();
+    var nomeRecipiente = $('#select-recipiente option:selected').text();
+
 
     permissao = true;
 
@@ -16,7 +17,8 @@ const cadastraRecipienteCliente = () => {
 
         permissao = false;
 
-    } else {
+    }
+    else {
 
         permissao = true;
 
@@ -41,6 +43,8 @@ const cadastraRecipienteCliente = () => {
             },
             success: function (data) {
 
+                console.log(data);
+                // return;
                 $('.load-form').addClass('d-none');
                 $('.btn-form').removeClass('d-none');
 
@@ -72,25 +76,21 @@ const cadastraRecipienteCliente = () => {
 }
 
 $(document).ready(function () {
-
-    $('#select-recipiente').select2();
-
-    var idEspecifico = 3;
-
-    // Selecione o elemento select
-    var selectRecipiente = $('#select-recipiente');
-
-    // Encontre a opção com o valor correspondente ao ID específico
-    var optionToSelect = selectRecipiente.find('option[value="' + idEspecifico + '"]');
-    
-    optionToSelect.prop('selected', true);
-
-});
+    $('#single-select-field').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+    });
+})
 
 const exibirRecipientesCliente = (idCliente) => {
 
-    $('.js-example-basic-single').select2();
+    $('#select-recipiente').select2({
+        dropdownParent: "#modalRecipiente",
+        theme: 'bootstrap-5' // Aplicar o tema Bootstrap 4
+    });
 
+    $('#select-recipiente').val('');
 
     $('#quantidade-recipiente').val('');
 
@@ -133,18 +133,24 @@ const deletaRecipienteCliente = (idRecipienteCliente) => {
 
 }
 
-const verRecipienteCliente = (idRecipienteCliente) => {
 
-    var idEspecifico = 3;
+const verRecipienteCliente = (textoRecipiente, quantidadeRecipiente) => {
 
-    // Selecione o elemento select
     var selectRecipiente = $('#select-recipiente');
 
-    // Encontre a opção com o valor correspondente ao ID específico
-    var optionToSelect = selectRecipiente.find('option[value="' + idEspecifico + '"]');
+    var textoRecipienteLower = textoRecipiente.toUpperCase(); // Converte o texto fornecido para minúsculas
+
+    var optionToSelect = selectRecipiente.find('option').filter(function () {
+        return $(this).text().toUpperCase() == textoRecipienteLower;
+    });
 
     optionToSelect.prop('selected', true);
 
+    $('#quantidade-recipiente').val(quantidadeRecipiente);
 
+    $('#select-recipiente').select2({
+        dropdownParent: "#modalRecipiente",
+        theme: 'bootstrap-5' // Aplicar o tema Bootstrap 4
+    });
 
 }

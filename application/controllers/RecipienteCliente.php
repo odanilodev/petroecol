@@ -28,12 +28,6 @@ class RecipienteCliente extends CI_Controller
 		$nomeRecipiente = $this->input->post('nome_recipiente');
 		$id_recipiente = $this->input->post('id_recipiente');
 
-		//print_r($dados['quantidade']);
-
-		// echo $id_recipiente;
-		// exit;
-
-
 		if ($dados['quantidade'] == 0 or $dados['quantidade'] == '') {
 
 			$response = array(
@@ -54,9 +48,15 @@ class RecipienteCliente extends CI_Controller
 
 			$recipienteCliente = $this->RecipienteCliente_model->recipienteCliente($id_recipiente);
 
-			$data['quantidade'] = $recipienteCliente['quantidade'] + $dados['quantidade'];
+			$data['quantidade'] = $dados['quantidade'] - $recipienteCliente['quantidade'];
 
-			if ($recipiente['quantidade'] < $dados['quantidade']) {
+			//print_r($data['quantidade']);
+
+			$novaQuantidade['quantidade'] = $recipienteCliente['quantidade'] + $data['quantidade'];
+
+			// echo $novaQuantidade; exit;
+
+			if ($recipiente['quantidade'] < $data['quantidade']) {
 
 				$response = array(
 					'success' => false,
@@ -66,9 +66,9 @@ class RecipienteCliente extends CI_Controller
 				return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 			} else {
 
-				$quantidadeRecipiente['quantidade'] = $recipiente['quantidade'] - $dados['quantidade'];
+				$quantidadeRecipiente['quantidade'] = $recipiente['quantidade'] - $data['quantidade'];
 
-				$this->RecipienteCliente_model->editaRecipienteCliente($id_recipiente, $data); // altera a quantidade do cliente
+				$this->RecipienteCliente_model->editaRecipienteCliente($id_recipiente, $novaQuantidade); // altera a quantidade do cliente
 
 				$this->recipientes_model->editaRecipiente($id_recipiente, $quantidadeRecipiente); // altera a quantidade no estoque
 
@@ -76,7 +76,7 @@ class RecipienteCliente extends CI_Controller
 					'success' => true,
 					'aviso' => "editado",
 					'idRecipiente' => $id_recipiente,
-					'quantidade' => $data['quantidade']
+					'quantidade' => $novaQuantidade['quantidade']
 				);
 
 				return $this->output->set_content_type('application/json')->set_output(json_encode($response));
@@ -110,8 +110,8 @@ class RecipienteCliente extends CI_Controller
                         <a href="#" class="btn-deleta-recipiente">
                             <i class="fas fa-times-circle delete-icon" onclick="deletaRecipienteCliente(' . $inseridoId . ')"></i>
                         </a>
-						<a href="#" class="btn-ver-recipiente">
-                            <i class="far fa-eye" onclick="verRecipienteCliente(\'' . $nomeRecipiente . '\')"></i>
+						<a href="#" class="btn-ver-recipiente" title="Editar Recipiente">
+                            <i class="fas fa-pencil-alt" onclick="verRecipienteCliente(\'' . $nomeRecipiente . '\' ,  ' . $dados['quantidade'] . ')"></i>
                         </a>
                     </span>
                 </span>';
@@ -161,8 +161,8 @@ class RecipienteCliente extends CI_Controller
 				<a href="#" class="btn-deleta-recipiente">
 					<i class="fas fa-times-circle delete-icon" onclick="deletaRecipienteCliente(' . $v['id'] . ')"></i>
 				</a>
-				<a href="#" class="btn-ver-recipiente">
-					<i class="far fa-eye ml-5" onclick="verRecipienteCliente(\'' . $v['nome_recipiente'] . '\')"></i>
+				<a href="#" class="btn-ver-recipiente" title="Editar Recipiente">
+					<i class="fas fa-pencil-alt ml-5" onclick="verRecipienteCliente(\'' . $v['nome_recipiente'] . '\' , ' . $v['quantidade'] . ')"></i>
 				</a>
 			</span>';
 		}
