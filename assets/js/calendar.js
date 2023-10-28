@@ -1,7 +1,8 @@
 (function (factory) {
   typeof define === 'function' && define.amd ? define(factory) :
-  factory();
-})((function () { 'use strict';
+    factory();
+})((function () {
+  'use strict';
 
   /* -------------------------------------------------------------------------- */
 
@@ -74,9 +75,11 @@
   const prevMonth = dayjs && dayjs().subtract(1, 'month').format('MM');
   const nextMonth = dayjs && dayjs().add(1, 'month').format('MM');
   const currentYear = dayjs && dayjs().format('YYYY');
+
   const events = [
+
     {
-      title: 'Boot Camp',
+      title: 'Boot sasaCamp',
       start: `${currentYear}-${currentMonth}-01 10:00:00`,
       end: `${currentYear}-${currentMonth}-03 16:00:00`,
       description:
@@ -86,13 +89,7 @@
         'Boston Harborwalk, Christopher Columbus Park, <br /> Boston, MA 02109, United States',
       organizer: 'Boston Harbor Now'
     },
-    {
-      title: `Crain's New York Business `,
-      start: `${currentYear}-${currentMonth}-11`,
-      description:
-        "Crain's 2020 Hall of Fame. Sponsored Content By Crain's Content Studio. Crain's Content Studio Presents: New Jersey: Perfect for Business. Crain's Business Forum: Letitia James, New York State Attorney General. Crain's NYC Summit: Examining racial disparities during the pandemic",
-      className: 'text-primary'
-    },
+
     {
       title: 'Conference',
       start: `${currentYear}-${currentMonth}-${currentDay}`,
@@ -101,6 +98,7 @@
       className: 'text-success',
       // allDay: true,
       schedules: [
+
         {
           title: 'Reporting',
           start: `${currentYear}-${currentMonth}-${currentDay} 11:00:00`,
@@ -108,171 +106,126 @@
             'Time to start the conference and will briefly describe all information about the event.  ',
           className: 'text-success '
         },
+
         {
           title: 'Lunch',
           start: `${currentYear}-${currentMonth}-${currentDay} 14:00:00`,
           description: 'Lunch facility for all the attendance in the conference.',
           className: 'text-info'
         },
+
         {
           title: 'Contest',
           start: `${currentYear}-${currentMonth}-${currentDay} 16:00:00`,
           description: 'The starting of the programming contest',
           className: 'text-success'
         },
+
         {
           title: 'Dinner',
           start: `${currentYear}-${currentMonth}-${currentDay} 22:00:00`,
           description: 'Dinner facility for all the attendance in the conference',
           className: 'text-success'
+        },
+
+        {
+          title: 'Teste',
+          start: `${currentYear}-${currentMonth}-${currentDay} 22:00:00`,
+          description: 'Dinner facility for all the attendance in the conference',
+          className: 'text-success'
         }
+
       ]
-    },
-    {
-      title: `ICT Expo ${currentYear} - Product Release`,
-      start: `${currentYear}-${currentMonth}-16 10:00:00`,
-      description: `ICT Expo ${currentYear} is the largest private-sector exposition aimed at showcasing IT and ITES products and services in Switzerland.`,
-      end: `${currentYear}-${currentMonth}-18 16:00:00`,
-      className: 'text-warning',
-      allDay: true
-    },
-    {
-      title: 'Meeting',
-      start: `${currentYear}-${currentMonth}-07 10:00:00`,
-      description:
-        'Discuss about the upcoming projects in current year and assign all tasks to the individuals',
-      className: 'text-info'
-    },
-    {
-      title: 'Contest',
-      start: `${currentYear}-${currentMonth}-14 10:00:00`,
-      className: 'text-info',
-      description:
-        'PeaceX is an international peace and amity organisation that aims at casting a pall at the striking issues surmounting the development of peoples and is committed to impacting the lives of young people all over the world.'
-    },
-    {
-      title: 'Event With Url',
-      start: `${currentYear}-${currentMonth}-23`,
-      description:
-        'Sample example of a event with url. Click the event, will redirect to the given link.',
-      className: 'text-success',
-      url: 'http://google.com'
-    },
-    {
-      title: 'Competition',
-      start: `${currentYear}-${currentMonth}-26`,
-      description:
-        'The Future of Zambia – Top 30 Under 30 is an annual award, ranking scheme, and recognition platform for young Zambian achievers under the age of 30, who are building brands, creating jobs, changing the game, and transforming the country.',
-      className: 'text-danger'
-    },
-    {
-      title: 'Birthday Party',
-      start: `${currentYear}-${nextMonth}-05`,
-      description: 'Will celebrate birthday party with my friends and family',
-      className: 'text-primary'
-    },
-    {
-      title: 'Click for Google',
-      url: 'http://google.com/',
-      start: `${currentYear}-${prevMonth}-10`,
-      description:
-        'Applications are open for the New Media Writing Prize 2020. The New Media Writing Prize (NMWP) showcases exciting and inventive stories and poetry that integrate a variety of formats, platforms, and digital media.',
-      className: 'text-primary'
+
     }
+
   ];
 
   const getTemplate = event => `
-<div class="modal-header ps-card border-bottom">
-  <div>
-    <h4 class="modal-title text-1000 mb-0">${event.title}</h4>
-    ${
-      event.extendedProps.organizer
-        ? `<p class="mb-0 fs--1 mt-1">
-        by <a href="#!">${event.extendedProps.organizer}</a>
-      </p>`
-        : ''
-    }
-  </div>
-  <button type="button" class="btn p-1 fw-bolder" data-bs-dismiss="modal" aria-label="Close">
-    <span class='fas fa-times fs-0'></span>
-  </button>
-
-</div>
-
-<div class="modal-body px-card pb-card pt-1 fs--1">
-  ${
-    event.extendedProps.description
-      ? `
-      <div class="mt-3 border-bottom pb-3">
-        <h5 class='mb-0 text-800'>Description</h5>
-        <p class="mb-0 mt-2">
-          ${event.extendedProps.description.split(' ').slice(0, 30).join(' ')}
-        </p>
-      </div>
-    `
+    <div class="modal-header ps-card border-bottom">
+      <div>
+        <h4 class="modal-title text-1000 mb-0">${event.title}</h4>
+        ${event.extendedProps.organizer
+      ? `<p class="mb-0 fs--1 mt-1">
+            by <a href="#!">${event.extendedProps.organizer}</a>
+          </p>`
       : ''
-  } 
-  <div class="mt-4 ${event.extendedProps.location ? 'border-bottom pb-3' : ''}">
-    <h5 class='mb-0 text-800'>Date and Time</h5>
-    <p class="mb-1 mt-2">
-    ${
-      window.dayjs &&
-      window.dayjs(event.start).format('dddd, MMMM D, YYYY, h:mm A')
+    }
+      </div>
+      <button type="button" class="btn p-1 fw-bolder" data-bs-dismiss="modal" aria-label="Close">
+        <span class='fas fa-times fs-0'></span>
+      </button>
+
+    </div>
+
+    <div class="modal-body px-card pb-card pt-1 fs--1">
+      ${event.extendedProps.description
+      ? `
+          <div class="mt-3 border-bottom pb-3">
+            <h5 class='mb-0 text-800'>Description</h5>
+            <p class="mb-0 mt-2">
+              ${event.extendedProps.description.split(' ').slice(0, 30).join(' ')}
+            </p>
+          </div>
+        `
+      : ''
     } 
-    ${
-      event.end
-        ? `– ${
-            window.dayjs &&
-            window
-              .dayjs(event.end)
-              .subtract(1, 'day')
-              .format('dddd, MMMM D, YYYY, h:mm A')
-          }`
-        : ''
+      <div class="mt-4 ${event.extendedProps.location ? 'border-bottom pb-3' : ''}">
+        <h5 class='mb-0 text-800'>Date and Time</h5>
+        <p class="mb-1 mt-2">
+        ${window.dayjs &&
+    window.dayjs(event.start).format('dddd, MMMM D, YYYY, h:mm A')
+    } 
+        ${event.end
+      ? `– ${window.dayjs &&
+      window
+        .dayjs(event.end)
+        .subtract(1, 'day')
+        .format('dddd, MMMM D, YYYY, h:mm A')
+      }`
+      : ''
     }
-  </p>
+      </p>
 
-  </div>
-  ${
-    event.extendedProps.location
-      ? `
-        <div class="mt-4 ">
-          <h5 class='mb-0 text-800'>Location</h5>
-          <p class="mb-0 mt-2">${event.extendedProps.location}</p>
-        </div>
-      `
-      : ''
-  }
-  ${
-    event.schedules
-      ? `
-      <div class="mt-3">
-        <h5 class='mb-0 text-800'>Schedule</h5>
-        <ul class="list-unstyled timeline mt-2 mb-0">
-          ${event.schedules
-            .map(schedule => `<li>${schedule.title}</li>`)
-            .join('')}
-        </ul>
       </div>
-      `
+      ${event.extendedProps.location
+      ? `
+            <div class="mt-4 ">
+              <h5 class='mb-0 text-800'>Location</h5>
+              <p class="mb-0 mt-2">${event.extendedProps.location}</p>
+            </div>
+          `
       : ''
-  }
-  </div>
-</div>
+    }
+      ${event.schedules
+      ? `
+          <div class="mt-3">
+            <h5 class='mb-0 text-800'>Schedule</h5>
+            <ul class="list-unstyled timeline mt-2 mb-0">
+              ${event.schedules
+        .map(schedule => `<li>${schedule.title}</li>`)
+        .join('')}
+            </ul>
+          </div>
+          `
+      : ''
+    }
+      </div>
+    </div>
 
-<div class="modal-footer d-flex justify-content-end px-card pt-0 border-top-0">
-  <a href="#!" class="btn btn-phoenix-secondary btn-sm">
-    <span class="fas fa-pencil-alt fs--2 mr-2"></span> Edit
-  </a>
-  <button class="btn btn-phoenix-danger btn-sm" data-calendar-event-remove >
-    <span class="fa-solid fa-trash fs--1 mr-2" data-fa-transform="shrink-2"></span> Delete
-  </button>
-  <a href='#!' class="btn btn-primary btn-sm">
-    See more details
-    <span class="fas fa-angle-right fs--2 ml-1"></span>
-  </a>
-</div>
-`;
+    <div class="modal-footer d-flex justify-content-end px-card pt-0 border-top-0">
+      <a href="#!" class="btn btn-phoenix-secondary btn-sm">
+        <span class="fas fa-pencil-alt fs--2 mr-2"></span> Edit
+      </a>
+      <button class="btn btn-phoenix-danger btn-sm" data-calendar-event-remove >
+        <span class="fa-solid fa-trash fs--1 mr-2" data-fa-transform="shrink-2"></span> Delete
+      </button>
+      <a href='#!' class="btn btn-primary btn-sm">
+        See more details
+        <span class="fas fa-angle-right fs--2 ml-1"></span>
+      </a>
+    </div>
+  `;
 
   /*-----------------------------------------------
   |   Calendar
@@ -312,34 +265,26 @@
       []
     );
 
-    const updateDay = day => {
-      const days = [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday'
-      ];
-      return days[day];
-    };
-
     const setCurrentDate = () => {
       const dateObj = new Date();
-      const month = dateObj.toLocaleString('en-US', { month: 'short' });
-      const date = dateObj.getDate(); // return date number
-      const day = dateObj.getDay(); // return week day number
+      const dayNames = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+      const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+      
+      const day = dateObj.getDay(); // Retorna o número do dia da semana (0 = Domingo, 1 = Segunda, etc.)
+      const date = dateObj.getDate(); // Retorna o número do dia do mês
+      const month = dateObj.getMonth(); // Retorna o número do mês (0 = Janeiro, 1 = Fevereiro, etc.)
       const year = dateObj.getFullYear();
-      const newdate = `${date}  ${month},  ${year}`;
+    
+      const newDate = `${date} de ${monthNames[month]} de ${year}`;
+    
       if (document.querySelector(Selectors.CALENDAR_DAY)) {
-        document.querySelector(Selectors.CALENDAR_DAY).textContent =
-          updateDay(day);
+        document.querySelector(Selectors.CALENDAR_DAY).textContent = dayNames[day];
       }
       if (document.querySelector(Selectors.CALENDAR_DATE)) {
-        document.querySelector(Selectors.CALENDAR_DATE).textContent = newdate;
+        document.querySelector(Selectors.CALENDAR_DATE).textContent = newDate;
       }
     };
+    
     setCurrentDate();
 
     const updateTitle = currentData => {
