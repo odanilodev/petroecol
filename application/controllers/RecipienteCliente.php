@@ -50,11 +50,7 @@ class RecipienteCliente extends CI_Controller
 
 			$data['quantidade'] = $dados['quantidade'] - $recipienteCliente['quantidade'];
 
-			//print_r($data['quantidade']);
-
 			$novaQuantidade['quantidade'] = $recipienteCliente['quantidade'] + $data['quantidade'];
-
-			// echo $novaQuantidade; exit;
 
 			if ($recipiente['quantidade'] < $data['quantidade']) {
 
