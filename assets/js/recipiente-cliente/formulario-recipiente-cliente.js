@@ -43,8 +43,6 @@ const cadastraRecipienteCliente = () => {
             },
             success: function (data) {
 
-                console.log(data);
-                // return;
                 $('.load-form').addClass('d-none');
                 $('.btn-form').removeClass('d-none');
 
