@@ -70,7 +70,7 @@ class RecipienteCliente extends CI_Controller
 
 				$response = array(
 					'success' => true,
-					'aviso' => "editado",
+					'aviso' => true,
 					'idRecipiente' => $id_recipiente,
 					'quantidade' => $novaQuantidade['quantidade']
 				);

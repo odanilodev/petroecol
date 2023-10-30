@@ -27,6 +27,7 @@ class RecipienteCliente_model extends CI_Model
     public function recebeRecipiente($id)
     {
         $this->db->where('id', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_recipiente_cliente');
         return $query->row_array();
     }
@@ -34,6 +35,7 @@ class RecipienteCliente_model extends CI_Model
     public function recipienteCliente($id_recipiente)
     {
         $this->db->where('id_recipiente', $id_recipiente);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_recipiente_cliente');
         return $query->row_array();
     }
@@ -57,6 +59,7 @@ class RecipienteCliente_model extends CI_Model
     {
         $dados['editado_em'] = date('Y-m-d H:i:s');
         $this->db->where('id_recipiente', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->update('ci_recipiente_cliente', $dados);
 
         if ($this->db->affected_rows()) {
