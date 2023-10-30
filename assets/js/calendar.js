@@ -269,14 +269,14 @@
       const dateObj = new Date();
       const dayNames = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
       const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-      
+
       const day = dateObj.getDay(); // Retorna o número do dia da semana (0 = Domingo, 1 = Segunda, etc.)
       const date = dateObj.getDate(); // Retorna o número do dia do mês
       const month = dateObj.getMonth(); // Retorna o número do mês (0 = Janeiro, 1 = Fevereiro, etc.)
       const year = dateObj.getFullYear();
-    
+
       const newDate = `${date} de ${monthNames[month]} de ${year}`;
-    
+
       if (document.querySelector(Selectors.CALENDAR_DAY)) {
         document.querySelector(Selectors.CALENDAR_DAY).textContent = dayNames[day];
       }
@@ -284,7 +284,7 @@
         document.querySelector(Selectors.CALENDAR_DATE).textContent = newDate;
       }
     };
-    
+
     setCurrentDate();
 
     const updateTitle = currentData => {
@@ -442,3 +442,11 @@
 
 }));
 //# sourceMappingURL=calendar.js.map
+
+
+// remove a opção de arrastar os eventos do calendário
+$(document).ready(function () {
+
+  $('.fc-daygrid-event').removeClass('fc-event-draggable');
+  
+})
