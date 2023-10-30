@@ -66,7 +66,7 @@ class Recipientes_model extends CI_Model
 
     public function editaRecipiente($id, $dados)
     {
-        // $dados['editado_em'] = date('Y-m-d H:i:s');
+        $dados['editado_em'] = date('Y-m-d H:i:s');
         $this->db->where('id', $id);
         $this->db->update('ci_recipientes', $dados);
 
