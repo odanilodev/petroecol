@@ -51,6 +51,8 @@ const cadastraRecipienteCliente = () => {
 
                     $(`.qtd-${data.idRecipiente}`).text(data.quantidade);
 
+                    $('.edita-recipiente').attr('onclick', `verRecipienteCliente('${nomeRecipiente}', '${data.quantidade}')`);
+
                 }
 
                 if (data.success && !data.aviso) {
@@ -72,6 +74,15 @@ const cadastraRecipienteCliente = () => {
     }
 
 }
+
+$('#select-recipiente').change(function () {
+
+    let idRecipiente = $(this).val();
+
+    let quantidadeRecipiente = $(`.qtd-${idRecipiente}`).text();
+
+    $('#quantidade-recipiente').val(quantidadeRecipiente);
+})
 
 $(document).ready(function () {
     $('#single-select-field').select2({
