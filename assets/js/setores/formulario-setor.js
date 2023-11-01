@@ -53,7 +53,7 @@ const deletarSetor = (id) => {
 
     Swal.fire({
         title: 'Você tem certeza?',
-        text: "Esta ação não porerá ser revertida",
+        text: "Esta ação não poderá ser revertida",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
