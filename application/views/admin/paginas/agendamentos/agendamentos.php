@@ -43,6 +43,12 @@
             </div>
           </div>
           <div class="modal-body p-card py-0">
+
+          <div class="form-floating mb-3">
+            <input class="form-control" id="eventTitle" type="text" name="title" required="required" placeholder="Event title" />
+            <label for="eventTitle">Title</label>
+          </div>
+
             <div class="mb-3">
 
               <select class="form-select w-100 cliente-agendamento" id="select-cliente" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
@@ -72,15 +78,11 @@
               <textarea class="form-control obs-agendamento" id="eventDescription" placeholder="Leave a comment here" name="observacao" style="height: 128px"></textarea>
               <label for="eventDescription">Observação</label>
             </div>
-
           </div>
 
           <div class="modal-footer d-flex justify-content-between align-items-center border-0">
 
-            <div class="spinner-border text-primary load-form d-none" role="status"></div>
-
-            <button class="btn btn-success btn-salva-agendamento btn-form" type="button" onclick="salvaAgendamento()">Salvar</button>
-            
+            <button class="btn btn-primary px-4" type="submit">Save</button>
           </div>
 
         </form>
