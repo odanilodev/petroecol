@@ -34388,3 +34388,32 @@ a[href].bg-200:hover, a[href].bg-200:focus {
   -moz-appearance: none;
   appearance: none;
 }
+/* Estilização para página de Login */
+
+.btn-login {
+  background: #013738;
+  color: #fff;
+}
+
+.btn-login:hover {
+  background: #006b6d;
+  color: #fff;
+}
+
+.icon-senha {
+  position: absolute;
+  right: 15px;
+  top: 12px;
+  cursor: pointer;
+}
+
+.imglogo{
+  margin-bottom: 100px;
+
+}
+
+.auth-title-box-img {
+  height: 100% !important; 
+  width: 100% !important;
+  padding-top: 5%
+}

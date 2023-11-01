@@ -37,7 +37,7 @@
   <link href="<?= base_url('vendors/simplebar/simplebar.min.css') ?>" rel="stylesheet">
   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
   <link href="<?= base_url('assets/css/theme-rtl.min.css') ?>" type="text/css" rel="stylesheet" id="style-rtl">
-  <link href="<?= base_url('assets/css/theme.min.css') ?>" type="text/css" rel="stylesheet" id="style-default">
+  <link href="<?= base_url('assets/css/theme.css') ?>" type="text/css" rel="stylesheet" id="style-default">
   <link href="<?= base_url('assets/css/user-rtl.min.css') ?>" type="text/css" rel="stylesheet" id="user-style-rtl">
   <link href="<?= base_url('assets/css/user.min.css') ?>" type="text/css" rel="stylesheet" id="user-style-default">
   <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
@@ -60,24 +60,6 @@
   </script>
 
 
-  <style>
-    .btn-login {
-      background: #013738;
-      color: #fff;
-    }
-
-    .btn-login:hover {
-      background: #006b6d;
-      color: #fff;
-    }
-
-    .icon-senha {
-      position: absolute;
-      right: 15px;
-      top: 12px;
-      cursor: pointer;
-    }
-  </style>
 </head>
 
 
@@ -98,12 +80,16 @@
           <div class="card border border-200 auth-card">
             <div class="card-body pe-md-0">
               <div class="row align-items-center gx-0 gy-7">
-                <div class="col-auto bg-100 dark__bg-1100 rounded-3 position-relative overflow-hidden auth-title-box">
-                  <div class="bg-holder" style="background-image:url(<?= base_url('assets/img/bg/38.png') ?>);">
-                  </div>
+
+                <div class="col-auto bg-100 dark__bg-1100 rounded-3 position-relative overflow-hidden auth-title-box" style="margin-left: 5%">
+
+                  <div class="bg-holder" style="background-image:url(<?= base_url('assets/img/bg/38.png') ?>);"></div>
                   <!--/.bg-holder-->
 
-                  <div class="position-relative z-index--1 mb-6 d-none d-md-block text-center mt-md-15"><img class="auth-title-box-img d-dark-none" src="<?= base_url() ?>assets/img/spot-illustrations/auth.png" alt="" /><img class="auth-title-box-img d-light-none" src="<?= base_url() ?>assets/img/spot-illustrations/auth-dark.png" alt="" /></div>
+                  <div class="position-relative z-index--1 mb-6 d-none d-md-block text-center">
+                    <img class="auth-title-box-img d-dark-none " src="<?= base_url() ?>assets/img/spot-illustrations/logo-sys.png" alt="" />
+                    <img class="auth-title-box-img d-light-none " src="<?= base_url() ?>assets/img/spot-illustrations/logo-sys.png" alt="" />
+                  </div>
                 </div>
                 <div class="col mx-auto">
                   <div class="auth-form-box">
