@@ -92,6 +92,17 @@
                                     </div>
                                 </a>
 
+                                <a class="nav-link label-1" href="<?= base_url('motoristas')?>" role="button" data-bs-toggle="" aria-expanded="false">
+                                    <div class="d-flex align-items-center">
+                                        <span class="nav-link-icon">
+                                            <span data-feather="users"></span>
+                                        </span>
+                                        <span class="nav-link-text-wrapper">
+                                            <span class="nav-link-text">Motoristas</span>
+                                        </span>
+                                    </div>
+                                </a>
+
                                 <a class="nav-link label-1" href="<?= base_url('menu')?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">
