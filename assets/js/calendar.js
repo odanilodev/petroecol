@@ -79,65 +79,21 @@
   const events = [
 
     {
-      title: 'Boot sasaCamp',
-      start: `${currentYear}-${currentMonth}-01 10:00:00`,
-      end: `${currentYear}-${currentMonth}-03 16:00:00`,
+      title: '145 agendados',
+      start: `${currentYear}-${currentMonth}-${currentDay} 11:00:00`,
       description:
-        "Boston Harbor Now in partnership with the Friends of Christopher Columbus Park, the Wharf District Council and the City of Boston is proud to announce the New Year's Eve Midnight Harbor Fireworks! This beloved nearly 40-year old tradition is made possible by the generous support of local waterfront organizations and businesses and the support of the City of Boston and the Office of Mayor Marty Walsh.",
-      className: 'text-success',
-      location:
-        'Boston Harborwalk, Christopher Columbus Park, <br /> Boston, MA 02109, United States',
-      organizer: 'Boston Harbor Now'
+        'Time to start the conference and will briefly describe all information about the event.  ',
+      className: 'text-success '
     },
 
     {
-      title: 'Conference',
-      start: `${currentYear}-${currentMonth}-${currentDay}`,
+      title: '50 Atrasados',
+      start: `${currentYear}-${currentMonth}-${currentDay} 11:00:00`,
       description:
-        'The Milken Institute Global Conference gathered the best minds in the world to tackle some of its most stubborn challenges. It was a unique experience in which individuals with the power to enact change connected with experts who are reinventing health, technology, philanthropy, industry, and media.',
-      className: 'text-success',
-      // allDay: true,
-      schedules: [
-
-        {
-          title: 'Reporting',
-          start: `${currentYear}-${currentMonth}-${currentDay} 11:00:00`,
-          description:
-            'Time to start the conference and will briefly describe all information about the event.  ',
-          className: 'text-success '
-        },
-
-        {
-          title: 'Lunch',
-          start: `${currentYear}-${currentMonth}-${currentDay} 14:00:00`,
-          description: 'Lunch facility for all the attendance in the conference.',
-          className: 'text-info'
-        },
-
-        {
-          title: 'Contest',
-          start: `${currentYear}-${currentMonth}-${currentDay} 16:00:00`,
-          description: 'The starting of the programming contest',
-          className: 'text-success'
-        },
-
-        {
-          title: 'Dinner',
-          start: `${currentYear}-${currentMonth}-${currentDay} 22:00:00`,
-          description: 'Dinner facility for all the attendance in the conference',
-          className: 'text-success'
-        },
-
-        {
-          title: 'Teste',
-          start: `${currentYear}-${currentMonth}-${currentDay} 22:00:00`,
-          description: 'Dinner facility for all the attendance in the conference',
-          className: 'text-success'
-        }
-
-      ]
-
+        'Time to start the conference and will briefly describe all information about the event.  ',
+      className: 'text-danger '
     }
+    
 
   ];
 
@@ -230,6 +186,21 @@
   /*-----------------------------------------------
   |   Calendar
   -----------------------------------------------*/
+  const monthTranslations = {
+    'January': 'Janeiro',
+    'February': 'Fevereiro',
+    'March': 'Março',
+    'April': 'Abril',
+    'May': 'Maio',
+    'June': 'Junho',
+    'July': 'Julho',
+    'August': 'Agosto',
+    'September': 'Setembro',
+    'October': 'Outubro',
+    'November': 'Novembro',
+    'December': 'Dezembro'
+  };
+
   const appCalendarInit = () => {
     const Selectors = {
       ACTIVE: '.active',
@@ -289,26 +260,32 @@
 
     const updateTitle = currentData => {
       const { currentViewType } = currentData;
-      // week view
+
+      // Função para traduzir o mês
+      const translateMonth = (date) => {
+        const monthName = date.toLocaleString('en-US', { month: 'long' });
+        return monthTranslations[monthName] || monthName;
+      };
+
       if (currentViewType === 'timeGridWeek') {
         const weekStartsDate = currentData.dateProfile.currentRange.start;
-        const startingMonth = weekStartsDate.toLocaleString('en-US', {
-          month: 'short'
-        });
+        const startingMonth = translateMonth(weekStartsDate);
         const startingDate = weekStartsDate.getDate();
         const weekEndDate = currentData.dateProfile.currentRange.end;
-
-        const endingMonth = weekEndDate.toLocaleString('en-US', {
-          month: 'short'
-        });
+        const endingMonth = translateMonth(weekEndDate);
         const endingDate = weekEndDate.getDate();
 
         document.querySelector(
           Selectors.CALENDAR_TITLE
-        ).textContent = `${startingMonth} ${startingDate} - ${endingMonth} ${endingDate}`;
-      } else
-        document.querySelector(Selectors.CALENDAR_TITLE).textContent =
-          currentData.viewTitle;
+        ).textContent = `${startingDate} de ${startingMonth} - ${endingMonth} ${endingDate}`;
+
+      } else {
+        // Se você deseja traduzir o mês em currentData.viewTitle e exibir o ano
+        const viewTitleDate = new Date(currentData.viewTitle);
+        const translatedMonth = translateMonth(viewTitleDate);
+        const year = viewTitleDate.getFullYear();
+        document.querySelector(Selectors.CALENDAR_TITLE).textContent = `${translatedMonth} ${year}`;
+      }
     };
 
     const appCalendar = document.querySelector(Selectors.CALENDAR);
@@ -448,5 +425,7 @@
 $(document).ready(function () {
 
   $('.fc-daygrid-event').removeClass('fc-event-draggable');
-  
+  $('.fc-timegrid-event').removeClass('fc-event-draggable');
+  $('.fc-daygrid-event').css('cursor', 'pointer');
+
 })

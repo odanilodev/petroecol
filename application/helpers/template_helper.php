@@ -78,7 +78,8 @@ function scriptsPadraoFooter()
         '<script src="' . base_url('vendors/prism/prism.js') . '"></script>',
         '<script src="' . base_url('assets/js/phoenix.js') . '"></script>',
         '<script src="' . base_url('node_modules/sweetalert2/dist/sweetalert2.all.min.js') . '"></script>',
-        '<script src="' . base_url('assets/js/alertas/alertas-retornos.js') . '"></script>'
+        '<script src="' . base_url('assets/js/alertas/alertas-retornos.js') . '"></script>',
+        '<script type="module" src="' . base_url('assets/js/flatpickr.js') . '"></script>'
     );
 }
 
@@ -200,7 +201,8 @@ function scriptsAgendamentoHead()
     return array(
 
         '<link href="' . base_url('vendors/fullcalendar/main.min.css') . '" rel="stylesheet" />',
-        '<link href="' . base_url('assets/css/theme.css') . '" rel="stylesheet" />'
+        '<link href="' . base_url('assets/css/theme.css') . '" rel="stylesheet" />',
+        '<link href="' . base_url('vendors/choices/choices.min.css') . '" rel="stylesheet" />'
         
     );
 }
@@ -211,7 +213,9 @@ function scriptsAgendamentoFooter()
 
         '<script src="' . base_url('vendors/fullcalendar/main.min.js') . '"></script>',
         '<script src="' . base_url('vendors/dayjs/dayjs.min.js') . '"></script>',
-        '<script src="' . base_url('assets/js/calendar.js') . '"></script>'
+        '<script src="' . base_url('vendors/choices/choices.min.js') . '"></script>',
+        '<script src="' . base_url('assets/js/calendar.js') . '"></script>',
+        '<script src="' . base_url('assets/js/agendamentos/formulario-agendamento.js') . '"></script>'
     );
 }
 
