@@ -67,7 +67,8 @@ class Motoristas extends CI_Controller
 	{
 		$id = $this->input->post('id');
 
-		$dados['nome'] = $this->input->post('nome');
+		$nome = $this->input->post('nome');
+		$dados['nome'] = mb_convert_case($nome, MB_CASE_TITLE, 'UTF-8');
 		$dados['data_cnh'] = $this->input->post('data_cnh');
 		$dados['telefone'] = $this->input->post('telefone');
 		$dados['cpf'] = $this->input->post('cpf');
