@@ -112,12 +112,12 @@
                                                     </a>
 
                                                     <a class="dropdown-item" href="#" onclick="exibirResiduoCliente(<?= $v['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalResiduo">
-                                                        <span class="text-900 uil-pricetag-alt"></span>
+                                                        <span class="text-900 fas fa-recycle"></span>
                                                         <span class="text-900"> Resíduos</span>
                                                     </a>
 
                                                     <a class="dropdown-item" href="#" onclick="exibirRecipientesCliente(<?= $v['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalRecipiente">
-                                                        <span class="text-900 uil-pricetag-alt"></span>
+                                                        <span class="text-900 fas fa-boxes"></span>
                                                         <span class="text-900"> Recipientes</span>
                                                     </a>
 
