@@ -101,7 +101,7 @@
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-end py-2">
 
-                                                    <a class="dropdown-item" href="<?= base_url('clientes/detalhes/' . $v['id']);?>">
+                                                    <a class="dropdown-item" href="<?= base_url('clientes/detalhes/' . $v['id']); ?>">
                                                         <span class="text-900 uil uil-eye"></span>
                                                         <span class="text-900"> Visualizar</span>
                                                     </a>
@@ -188,6 +188,3 @@
 
         </div>
     </div>
-
-
-    

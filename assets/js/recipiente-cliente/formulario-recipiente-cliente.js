@@ -8,17 +8,14 @@ const cadastraRecipienteCliente = () => {
 
     let quantidade = $('#quantidade-recipiente').val();
 
-    var nomeRecipiente= $('#select-recipiente').text();
+    var nomeRecipiente = $('#select-recipiente option:selected').text();
+
 
     permissao = true;
 
     if (!idRecipiente || !quantidade) {
-        
+
         permissao = false;
-
-    } else {
-
-        permissao = true;
 
     }
 
@@ -44,26 +41,61 @@ const cadastraRecipienteCliente = () => {
                 $('.load-form').addClass('d-none');
                 $('.btn-form').removeClass('d-none');
 
-                if (data.success) {
+                // editar quantidade que já está cadastrado
+                if (data.aviso) {
+
+                    $(`.qtd-${data.idRecipiente}`).text(data.quantidade);
+
+                    $('.edita-recipiente').attr('onclick', `verRecipienteCliente('${nomeRecipiente}', '${data.quantidade}')`);
+                    return;
+                }
+
+                // adiciona um novo
+                if (data.success && !data.aviso) {
 
                     $('.div-recipientes').append(data.message);
 
-                } else if (data.message != undefined) {
+                } else if (data.message == undefined && !data.aviso) {
+
+                    avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação`, 'error', '#');
+
+                } else {
 
                     avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
 
-                } else {
-                    avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação`, 'error', '#');
-
                 }
+
             }
         })
     }
 
 }
 
+$('#select-recipiente').change(function () {
+
+    let idRecipiente = $(this).val();
+
+    let quantidadeRecipiente = $(`.qtd-${idRecipiente}`).text();
+
+    $('#quantidade-recipiente').val(quantidadeRecipiente);
+})
+
+$(document).ready(function () {
+    $('#single-select-field').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+    });
+})
 
 const exibirRecipientesCliente = (idCliente) => {
+
+    $('#select-recipiente').select2({
+        dropdownParent: "#modalRecipiente",
+        theme: 'bootstrap-5' // Aplicar o tema Bootstrap 4
+    });
+
+    $('#select-recipiente').val('');
 
     $('#quantidade-recipiente').val('');
 
@@ -103,5 +135,27 @@ const deletaRecipienteCliente = (idRecipienteCliente) => {
             $(`.recipiente-${idRecipienteCliente}`).remove();
         }
     })
+
+}
+
+
+const verRecipienteCliente = (textoRecipiente, quantidadeRecipiente) => {
+
+    var selectRecipiente = $('#select-recipiente');
+
+    var textoRecipienteLower = textoRecipiente.toUpperCase(); // Converte o texto fornecido para minúsculas
+
+    var optionToSelect = selectRecipiente.find('option').filter(function () {
+        return $(this).text().toUpperCase() == textoRecipienteLower;
+    });
+
+    optionToSelect.prop('selected', true);
+
+    $('#quantidade-recipiente').val(quantidadeRecipiente);
+
+    $('#select-recipiente').select2({
+        dropdownParent: "#modalRecipiente",
+        theme: 'bootstrap-5' // Aplicar o tema Bootstrap 4
+    });
 
 }
