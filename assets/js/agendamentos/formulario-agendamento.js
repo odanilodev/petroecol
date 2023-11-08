@@ -6,7 +6,8 @@ const salvaAgendamento = () => {
     let data = $('.data-agendamento').val();
     let horario = $('.horario-agendamento').val();
     let obs = $('.obs-agendamento').val();
-    
+
+    alert(cliente);
     let id = $('.input-id').val();
     let permissao = false;
 
