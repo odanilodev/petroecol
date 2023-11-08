@@ -7039,11 +7039,6 @@
 
 
 // coloca a logo certa quando atualiza a página
-$(document).ready(function() {
-
-  alteraLogoTema();
-
-})
 
 $(document).ready(function() {
 
