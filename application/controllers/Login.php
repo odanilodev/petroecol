@@ -167,6 +167,8 @@ class Login extends CI_Controller
                 $this->session->set_userdata('id_usuario', $usuario['id']);
                 $this->session->set_userdata('id_empresa', $usuario['id_empresa']);
                 $this->session->set_userdata('foto_perfil', $usuario['foto_perfil']);
+                $this->session->set_userdata('id_setor', $usuario['id_setor']);
+
 
                 $url_redirecionamento = explode('login/index/', $redirecionamento);
 
