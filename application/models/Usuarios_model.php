@@ -17,11 +17,11 @@ class Usuarios_model extends CI_Model
         $this->db->join('ci_empresas' ,'ci_empresas.id = ci_usuarios.id_empresa', 'INNER');
         $this->db->order_by('ci_usuarios.nome', 'DESC');
         $this->db->where('ci_usuarios.status', 1);
-        if($this->session->userdata('ci_usuarios.id_empresa') > 1){
-            $this->db->where('ci_usuarios.id_setor <>', 0 );
-            $this->db->where('ci_usuarios.id_empresa', $this->session->userdata('ci_usuarios.id_empresa'));
+        if($this->session->userdata('id_empresa') > 1){
+            $this->db->where('ci_usuarios.id_setor <>', '0' );
+            $this->db->where('ci_usuarios.id_empresa', $this->session->userdata('id_empresa'));
         }else{
-            $this->db->where('ci_usuarios.id_setor', 0 );
+            $this->db->where('ci_usuarios.id_setor', '0' );
         }
         
         $query = $this->db->get();
