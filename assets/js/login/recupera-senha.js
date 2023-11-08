@@ -2,7 +2,7 @@ var baseUrl = $('.base-url').val();
 
 const verificaEmail = () => {
 
-  alteraLogoTema(); // exibe a logo certa do tema (claro e escuro)
+  alteraTema(); // exibe a logo certa do tema (claro e escuro)
 
   let email = $('.input-email');
 
@@ -97,7 +97,7 @@ const verificaCodigo = () => {
 
 const redefineSenha = () => {
 
-  alteraLogoTema(); // exibe a logo certa do tema (claro e escuro)
+  alteraTema(); // exibe a logo certa do tema (claro e escuro)
 
   let novaSenha = $('.nova-senha').val();
   let repeteSenha = $('.repete-senha').val();
