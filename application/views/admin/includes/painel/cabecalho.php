@@ -73,7 +73,7 @@
                                 <a class="nav-link label-1" href="<?= base_url('usuarios')?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">
-                                            <span data-feather="users"></span>
+                                            <span class="far fa-user-circle"></span>
                                         </span>
                                         <span class="nav-link-text-wrapper">
                                             <span class="nav-link-text">Usuários</span>
@@ -95,7 +95,7 @@
                                 <a class="nav-link label-1" href="<?= base_url('motoristas')?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">
-                                            <span data-feather="users"></span>
+                                            <span class="fas fa-truck-pickup"></span>
                                         </span>
                                         <span class="nav-link-text-wrapper">
                                             <span class="nav-link-text">Motoristas</span>
@@ -106,7 +106,7 @@
                                 <a class="nav-link label-1" href="<?= base_url('menu')?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">
-                                            <span data-feather="users"></span>
+                                            <span class="uil-align-justify"></span>
                                         </span>
                                         <span class="nav-link-text-wrapper">
                                             <span class="nav-link-text">Menu</span>
@@ -114,7 +114,7 @@
                                     </div>
                                 </a>
 
-                                <div class="nav-item-wrapper">
+                                <!-- <div class="nav-item-wrapper">
 
                                     <a class="nav-link dropdown-indicator label-1" href="#nv-faq" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-faq">
                                         <div class="d-flex align-items-center">
@@ -141,17 +141,17 @@
                                                     <div class="d-flex align-items-center">
                                                         <span class="nav-link-text">Faq tab</span>
                                                     </div>
-                                                </a><!-- more inner pages-->
+                                                </a>
                                             </li>
                                         </ul>
-                                    </div>
+                                    </div> -->
 
                                 </div>
 
                                 <a class="nav-link label-1" href="<?= base_url('etiquetas')?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">
-                                            <span data-feather="users"></span>
+                                            <span class="uil-label-alt"></span>
                                         </span>
                                         <span class="nav-link-text-wrapper">
                                             <span class="nav-link-text">Etiquetas</span>
@@ -162,7 +162,7 @@
                                 <a class="nav-link label-1" href="<?= base_url('setores')?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">
-                                            <span data-feather="users"></span>
+                                            <span class="uil-create-dashboard"></span>
                                         </span>
                                         <span class="nav-link-text-wrapper">
                                             <span class="nav-link-text">Setores</span>
@@ -173,7 +173,7 @@
                                 <a class="nav-link label-1" href="<?= base_url('recipientes')?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">
-                                            <span data-feather="users"></span>
+                                            <span class="fas fa-boxes"></span>
                                         </span>
                                         <span class="nav-link-text-wrapper">
                                             <span class="nav-link-text">Recipientes</span>
@@ -184,7 +184,7 @@
                                 <a class="nav-link label-1" href="<?= base_url('residuos')?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">
-                                            <span data-feather="users"></span>
+                                            <span class="fas fa-recycle"></span>
                                         </span>
                                         <span class="nav-link-text-wrapper">
                                             <span class="nav-link-text">Residuos</span>
