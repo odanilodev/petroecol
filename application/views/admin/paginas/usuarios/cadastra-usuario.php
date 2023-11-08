@@ -64,7 +64,10 @@
                           <div class="mb-2">
                             <label class="form-label text-900">Setor</label>
                             <select name='setor' class="select-validation select-setor">
-                              <option value="" selected disabled>Selecione</option>
+                              <option selected disabled>Selecione</option>
+                                <?php if ($this->session->userdata('id_empresa') == 1) { ?>
+                                  <option selected value="0">N/A</option>
+                                <?php } ?>
                               <?php foreach($setores as $s){ ?>
                               <option value="<?= $s['id'] ?>" <?= (isset($usuario['id_setor']) && $usuario['id_setor'] == $s['id']) ? 'selected' : ''; ?>><?= $s['nome'] ?></option>
                               <?php } ?>

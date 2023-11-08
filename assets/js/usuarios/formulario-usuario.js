@@ -19,10 +19,10 @@ const cadastraUsuario = () => {
     formData.append('email', email);
     formData.append('setor', setor);
     formData.append('senha', senha);
-    formData.append('id_empresa', empresa);
+    formData.append('id_empresa', empresa.val());
     formData.append('imagem', imagemInput);
 
-    var permissao = false;
+    var permissao = true;
 
      // verifica se o select da empresa existe
      if (empresa.length > 0) {
@@ -30,14 +30,16 @@ const cadastraUsuario = () => {
         // Verifica se o select tá vazio
         if (empresa.val() == null) {
 
-            $('.select-validation').addClass('select-validation-invalido');
+            $('.select-empresa').addClass('select-validation-invalido');
+            $('.select-empresa').removeClass('form-control');
+
+
             permissao = false;
-            return;
             
         } else {
 
-            $('.select-validation').removeClass('select-validation-invalido');
-            $('.select-validation').addClass('form-control');
+            $('.select-empresa').removeClass('select-validation-invalido');
+            $('.select-empresa').addClass('form-control');
 
         }
     }
@@ -46,34 +48,30 @@ const cadastraUsuario = () => {
      if (setor == null) {
 
         $('.select-setor').addClass('select-validation-invalido');
+        $('.select-setor').removeClass('form-control');
+
         permissao = false;
-        return;
         
     } else {
-        $('.select-validation').addClass('form-control');
+        $('.select-setor').addClass('form-control');
         $('.select-setor').removeClass('select-validation-invalido');
     }
 
     // cadastra um usuario novo
-    if (id == "" && nome != "" && telefone != "" && email != "" && senha != "" && repeteSenha != "" && setor != null) {
+    if (id == "" && nome != "" && telefone != "" && email != "" && setor != null) {
 
         if (!validaEmail(email)) {
             permissao = false;
-            return;
         }
 
-        if (senha != repeteSenha) {
+        if (senha == "" || repeteSenha == "" || senha != repeteSenha) {
             permissao = false;
-            return;
-        } else {
-            permissao = true;
         }
 
     } else if (id != "" && nome != "" && telefone != "" && email != "") {
 
         if (!validaEmail(email)) {
             permissao = false;
-            return;
         }
 
         // == redefine senha do usuario == //
@@ -97,7 +95,7 @@ const cadastraUsuario = () => {
 
                         $('.input-senha-antiga').addClass('invalido');
                         $('.senha-antiga-invalida').addClass('d-flex');
-
+                        permissao = false;
                     } else {
 
                         $('.input-senha-antiga').removeClass('invalido');
@@ -113,6 +111,7 @@ const cadastraUsuario = () => {
 
                                 $('.input-repete-nova-senha').addClass('invalido');
                                 $('.aviso-senha-diferente').addClass('d-flex');
+                                permissao = false;
 
                             } else {
 
@@ -123,8 +122,6 @@ const cadastraUsuario = () => {
 
                                 formData.append('id', id);
                                 formData.append('novaSenha', repeteNovaSenha);
-
-                                permissao = true;
 
                             }
 
@@ -145,7 +142,6 @@ const cadastraUsuario = () => {
         } else {
 
             formData.append('id', id);
-            permissao = true;
         }
     }
 
