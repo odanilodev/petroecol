@@ -46,7 +46,7 @@ class RecipienteCliente extends CI_Controller
 		// verifica se o recipiente já existe para esse cliente
 		if (in_array($id_recipiente, array_column($recipientesNoBanco, 'id_recipiente'))) {
 
-			$recipienteCliente = $this->RecipienteCliente_model->recipienteCliente($id_recipiente);
+			$recipienteCliente = $this->RecipienteCliente_model->recipienteCliente($id_recipiente, $dados['id_cliente']);
 
 			$data['quantidade'] = $dados['quantidade'] - $recipienteCliente['quantidade'];
 
