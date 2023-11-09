@@ -7,7 +7,7 @@
         <span class="calendar-date"></span>
       </h4>
     </div>
-    <div class="col-7 col-md-6 d-flex justify-content-end">
+    <div class="col-7 col-md-6 d-flex justify-content-end d-none">
       <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#addEventModal"> <span class="fas fa-plus pe-2 fs--2"></span>Add new task </button>
     </div>
   </div>
@@ -85,7 +85,7 @@
           <div class="modal-footer d-flex justify-content-between align-items-center border-0">
 
             <!-- <button class="btn btn-primary px-4" type="submit">Save</button> -->
-            <button class="btn btn-primary px-4 btn-envia" type="button" onclick="salvaAgendamento()">Salvar</button>
+            <button class="btn btn-primary px-4 btn-envia btn-salva-agendamento" type="button" onclick="salvaAgendamento()">Salvar</button>
             <div class="spinner-border text-primary load-form d-none" role="status"></div>
           </div>
 
@@ -98,29 +98,7 @@
   <div class="modal fade" id="eventDetailsModal" data-bs-focus="false">
     <div class="modal-dialog modal-xl modal-dialog-centered">
       <div class="modal-content">
-        <table class="table table-hover tabela-clientes-agendados">
-          <thead>
-            <tr>
-              <th scope="col">Cliente</th>
-              <th scope="col">Endereço</th>
-              <th scope="col">Telefone</th>
-              <th scope="col">Data</th>
-              <th scope="col">Mais detalhes</th>
-            </tr>
-          </thead>
-          <tbody class="clientes-agendados text-start">
-
-            <td>
-
-              <label class="form-label" for="datetimepicker">Start Date</label>
-              <input class="form-control datetimepicker flatpickr-input" id="datetimepicker" type="text" placeholder="dd/mm/yyyy hour : minute" data-options="{&quot;enableTime&quot;:true,&quot;dateFormat&quot;:&quot;d/m/y H:i&quot;,&quot;disableMobile&quot;:true}" readonly="readonly">
-
-
-            </td>
-
-
-          </tbody>
-        </table>
+        <!-- JS -->
       </div>
     </div>
   </div>

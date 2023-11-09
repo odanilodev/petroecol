@@ -47,26 +47,39 @@ class Agendamentos extends CI_Controller
         $dados['id_empresa'] = $this->session->userdata('id_empresa');
         $id = $this->input->post('id');
 
+        $clienteAgendado = $this->Agendamentos_model->recebeClienteAgendado($dados['id_cliente'], $dados['data_coleta']);
+
+        if (
+            in_array($dados['id_cliente'], array_column($clienteAgendado, 'id_cliente')) &&
+            in_array($dados['data_coleta'], array_column($clienteAgendado, 'data_coleta')) && !$id
+        ) {
+
+            $response = array(
+                'success' => false,
+                'message' => 'Este cliente já está agendado para este dia.'
+            );
+
+            return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+        }
+
         $retorno = $id ? $this->Agendamentos_model->editaAgendamento($id, $dados) : $this->Agendamentos_model->insereAgendamento($dados); // se tiver ID edita se não INSERE
 
         if ($retorno) { // inseriu ou editou
 
             $response = array(
-                'success' => true,
-                'message' => $id ? 'Agendamento editado com sucesso!' : 'Agendamento realizado com sucesso!'
+                'success' => true
             );
         } else { // erro ao inserir ou editar
 
             $response = array(
-                'success' => false,
-                'message' => $id ? "Erro ao editar o agendamento!" : "Erro ao realizar o agendamento!"
+                'success' => false
             );
         }
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
-    public function teste()
+    public function exibirAgendamentos()
     {
         $anoAtual = $this->input->post('anoAtual');
         $mesAtual = $this->input->post('mesAtual');
@@ -95,5 +108,4 @@ class Agendamentos extends CI_Controller
 
         $this->Agendamentos_model->cancelaAgendamentoCliente($idAgendamento);
     }
-    
 }

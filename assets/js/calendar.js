@@ -92,12 +92,6 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
       <div class="modal-header ps-card border-bottom">
         <div>
           <h4 class="modal-title text-1000 mb-0">${event.title}</h4>
-          ${event.extendedProps.organizer
-      ? `<p class="mb-0 fs--1 mt-1">
-                    by <a href="#!">${event.extendedProps.organizer}</a>
-                  </p>`
-      : ''
-    }
         </div>
 
         <button type="button" class="btn p-1 fw-bolder" data-bs-dismiss="modal" aria-label="Close">
@@ -108,26 +102,28 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
   
       <div class="modal-body">
         <div class="container">
-            <div class="row table-responsive" align="center">
-              <table class="table table-hover tabela-clientes-agendados">
-                <thead>
-                  <tr>
-                    <th scope="col">Cliente</th>
-                    <th scope="col">Endereço</th>
-                    <th scope="col">Telefone</th>
-                    <th scope="col">Data</th>
-                    <th scope="col">Hora</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody class="clientes-agendados text-start">
-                  
-                  
-                </tbody>
-              </table>
-            
-            </div>
+          <div class="row table-responsive" align="center">
+            <table class="table tabela-clientes-agendados">
+              <thead>
+                <tr>
+                  <th scope="col">Cliente</th>
+                  <th scope="col">Endereço</th>
+                  <th scope="col">Telefone</th>
+                  <th scope="col">Data</th>
+                  <th scope="col">Hora</th>
+                  <th scope="col"></th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody class="clientes-agendados text-start">
+                
+                
+              </tbody>
+            </table>
+          
+          </div>
+          <div class="spinner-border text-primary load-form" role="status"></div>
+
         </div>            
       </div>
   
@@ -286,6 +282,199 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
         }
       });
 
+      // adiciona um novo agendamento
+      const salvaAgendamento = (cliente, data, horario, obs, id) => {
+
+        let dataNova = data;
+
+        let permissao = true;
+
+        if (!cliente || !data) {
+          permissao = false;
+
+          alert('campos vazios'); return;
+        }
+
+        if (permissao) {
+
+          let dataClicada = dataNova.split('-');
+          let ano = dataClicada[0];
+          let mes = dataClicada[1];
+
+          calendar.removeAllEvents(); // remove todos agendamentos
+          events = [];
+
+          $.ajax({
+            type: "post",
+            url: `${baseUrl}agendamentos/cadastraAgendamento`,
+            data: {
+              cliente: cliente,
+              data: dataNova,
+              horario: horario,
+              obs: obs,
+              id: id
+            },
+            beforeSend: function () {
+              $('.load-form').removeClass('d-none');
+              $('.btn-envia').addClass('d-none');
+            },
+            success: function (data) {
+
+              $('.load-form').addClass('d-none');
+              $('.btn-envia').removeClass('d-none');
+
+              if (!data.success) {
+
+                avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
+
+              } else {
+
+                let dataAntiga = $('.agendamento-' + id).data('data');
+
+                $('#addEventModal').modal('hide');
+
+                if (id && dataAntiga != dataNova) {
+                  $('.agendamento-' + id).remove();
+                }
+
+                $('.salva-modal-' + cliente).addClass('d-none');
+                $('.detalhes-modal-' + cliente).removeClass('d-none');
+
+              }
+
+              var atualizaAgenda = exibirAgendamentos(ano, mes);
+              calendar.addEventSource(atualizaAgenda); // adiciona os novos agendamentos
+
+            }
+          });
+        }
+      }
+
+      $(document).on('click', '.btn-salva-agendamento', function () {
+
+        let cliente = $('.cliente-agendamento').val();
+        let data = $('.data-agendamento').val();
+        let horario = $('.horario-agendamento').val();
+        let obs = $('.obs-agendamento').val();
+
+        let id = $('.input-id').val();
+
+        salvaAgendamento(cliente, data, horario, obs, id);
+
+      })
+
+
+      $(document).on('change', '.data-modal', function () {
+
+        let dataColetaAtual = $(this).data('data');
+        let idCliente = $(this).data('id');
+        let obs = $(this).data('obs');
+        let idAgendamento = $(this).data('agendamento');
+        let horaColeta = $(`.hora-modal-${idCliente}`).val();
+
+        if (dataColetaAtual != $(this).val()) {
+
+          $(`.detalhes-modal-${idCliente}`).addClass('d-none');
+          $(`.salva-modal-${idCliente}`).removeClass('d-none');
+
+          let data = $(this).val().split('/');
+
+          let dataFormatada = `${data[2]}-${data[1]}-${data[0]}`;
+
+          $(`.salva-modal-${idCliente}`).attr('data-cliente', idCliente);
+          $(`.salva-modal-${idCliente}`).attr('data-data', dataFormatada);
+          $(`.salva-modal-${idCliente}`).attr('data-hora', horaColeta);
+          $(`.salva-modal-${idCliente}`).attr('data-obs', obs);
+          $(`.salva-modal-${idCliente}`).attr('data-agendamento', idAgendamento);
+
+        } else {
+
+          $(`.detalhes-modal-${idCliente}`).removeClass('d-none');
+          $(`.salva-modal-${idCliente}`).addClass('d-none');
+
+        }
+
+      })
+
+      $(document).on('change', '.hora-modal', function () {
+
+        let horaColetaAtual = $(this).data('hora');
+        let idCliente = $(this).data('id');
+        let obs = $(this).data('obs');
+        let idAgendamento = $(this).data('agendamento');
+
+        let data = $(`.data-modal-${idCliente}`).val().split('/');
+
+        let dataFormatada = `${data[2]}-${data[1]}-${data[0]}`;
+
+        if (horaColetaAtual != $(this).val()) {
+
+          $(`.detalhes-modal-${idCliente}`).addClass('d-none');
+          $(`.salva-modal-${idCliente}`).removeClass('d-none');
+
+          $(`.salva-modal-${idCliente}`).attr('data-hora', $(this).val());
+
+          $(`.salva-modal-${idCliente}`).attr('data-cliente', idCliente);
+          $(`.salva-modal-${idCliente}`).attr('data-data', dataFormatada);
+          $(`.salva-modal-${idCliente}`).attr('data-agendamento', idAgendamento);
+          $(`.salva-modal-${idCliente}`).attr('data-obs', obs);
+
+        } else {
+
+          $(`.detalhes-modal-${idCliente}`).removeClass('d-none');
+          $(`.salva-modal-${idCliente}`).addClass('d-none');
+
+        }
+
+      })
+
+      $(document).on('click', '.btn-salva-modal', function () {
+
+        let idCliente = $(this).data('cliente');
+        let dataNova = $(this).data('data');
+
+        let horaNova = $(this).data('hora');
+        let idAgendamento = $(this).data('agendamento');
+        let obs = $(this).data('obs');
+
+        salvaAgendamento(idCliente, dataNova, horaNova, obs, idAgendamento);
+
+      })
+
+
+      // remove o cliente da data agendada
+      const removeClienteAgendamento = (idAgendamento, mes, ano) => {
+
+        calendar.removeAllEvents(); // remove todos agendamentos
+        events = [];
+
+        $('.agendamento-' + idAgendamento).remove();
+
+        $.ajax({
+          type: "POST",
+          url: `${baseUrl}agendamentos/cancelaAgendamentoCliente`,
+          data: {
+            idAgendamento: idAgendamento
+          }, success: function () {
+
+            // Atualize os eventos no calendário
+            var atualizaAgenda = exibirAgendamentos(ano, mes);
+            calendar.addEventSource(atualizaAgenda); // adiciona os novos agendamentos
+          }
+        })
+      }
+
+      // clique para chamar a função que remove o cliente da data agendada
+      $(document).on('click', '.remove-cliente-agendamento', function () {
+
+        let idAgendamento = $(this).data('id');
+        let mes = $(this).data('mes');
+        let ano = $(this).data('ano');
+
+        removeClienteAgendamento(idAgendamento, mes, ano);
+      })
+
+
       updateTitle(calendar.currentData);
 
       document.addEventListener('click', e => {
@@ -428,64 +617,12 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
 //# sourceMappingURL=calendar.js.mapv
 
 
-const salvaAgendamento = () => {
 
-  let cliente = $('.cliente-agendamento').val();
-  let data = $('.data-agendamento').val();
-  let horario = $('.horario-agendamento').val();
-  let obs = $('.obs-agendamento').val();
-
-  let id = $('.input-id').val();
-
-  let permissao = true;
-
-  if (!cliente || !data) {
-    permissao = false;
-
-    alert('campos vazios'); return;
-  }
-
-  if (permissao) {
-
-    $.ajax({
-      type: "post",
-      url: `${baseUrl}agendamentos/cadastraAgendamento`,
-      data: {
-        cliente: cliente,
-        data: data,
-        horario: horario,
-        obs: obs,
-        id: id
-      },
-      beforeSend: function () {
-        $('.load-form').removeClass('d-none');
-        $('.btn-envia').addClass('d-none');
-      },
-      success: function (data) {
-
-        $('.load-form').addClass('d-none');
-        $('.btn-envia').removeClass('d-none');
-
-        // if (data.success) {
-
-        //     avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}agendamentos`);
-
-        // } else {
-
-        //     avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
-
-        // }
-
-        // exibirAgendamentos(2023, 11);
-      }
-    });
-  }
-}
 
 function exibirAgendamentos(currentYear, currentMonth) {
 
   $.ajax({
-    url: baseUrl + 'agendamentos/teste',
+    url: baseUrl + 'agendamentos/exibirAgendamentos',
     method: 'POST',
     async: false,
     data: {
@@ -502,10 +639,12 @@ function exibirAgendamentos(currentYear, currentMonth) {
 
         let titulo = obj[i].data_coleta < dataAtualFormatada ? " Atrasado(s)" : " Agendado(s)";
 
+        let tipo = obj[i].data_coleta < dataAtualFormatada ? "text-danger" : 'text-success';
+
         var event = {
           title: obj[i].total_agendamento + titulo,
           start: obj[i].data_coleta,
-          className: obj[i].data_coleta < dataAtualFormatada ? "text-danger" : `text-success agendamento dataClicada-${obj[i].data_coleta}`
+          className: `${tipo} agendamento dataClicada-${obj[i].data_coleta}`
         };
 
         events.push(event);
@@ -546,46 +685,53 @@ const exibirClientesAgendados = (dataColeta) => {
     beforeSend: function () {
 
       $('.tabela-clientes-agendados').addClass('d-none');
+      $('.load-form').removeClass('d-none');
 
     },
     success: function (data) {
 
       $('.tabela-clientes-agendados').removeClass('d-none');
+      $('.load-form').addClass('d-none');
 
       var clientes = $.parseJSON(data);
 
       $.each(clientes, function (index, cliente) {
 
         var dataDividida = cliente.data_coleta.split('-');
+
         var dataFormatada = dataDividida[2] + '/' + dataDividida[1] + '/' + dataDividida[0];
 
         let clientesAgendados = `
 
-          <tr class="agendamento-${cliente.id}">
+          <tr class="agendamento-${cliente.id}" data-data="${cliente.data_coleta}">
             <td>${cliente.nome}</td>
             <td>${cliente.rua} ${cliente.numero}</td>
             <td>${cliente.telefone}</td>
 
             <td>
            
-              <input class="form-control datetimepicker flatpickr-input" id="datepicker" type="text" placeholder="dd/mm/yyyy" data-options="{&quot;disableMobile&quot;:true,&quot;dateFormat&quot;:&quot;Y-m-d&quot;}" readonly="readonly" value="${dataFormatada}">
+              <input class="form-control datetimepicker flatpickr-input data-modal data-modal-${cliente.id_cliente}" id="datepicker" type="text" placeholder="dd/mm/yyyy" data-options="{&quot;disableMobile&quot;:true,&quot;}" readonly="readonly" value="${dataFormatada}" data-data="${dataFormatada}" data-id="${cliente.id_cliente}"  data-agendamento="${cliente.id}" data-obs="${cliente.observacao}">
           
             </td>
 
             <td>
            
-              <input class="form-control datetimepicker2 flatpickr-input" id="timepicker1" type="text" placeholder="hour : minute" data-options="{&quot;enableTime&quot;:true,&quot;noCalendar&quot;:true,&quot;dateFormat&quot;:&quot;H:i&quot;,&quot;disableMobile&quot;:true}" readonly="readonly" value="${cliente.hora_coleta}">
+            <input class="form-control datetimepicker2 flatpickr-input hora-modal hora-modal-${cliente.id_cliente}" id="timepicker1" type="text" placeholder="hora : minuto" data-options="{&quot;noCalendar&quot;:true,&quot;dateFormat&quot;:&quot;H:i&quot;,&quot;disableMobile&quot;:true}" readonly="readonly" value="${cliente.hora_coleta}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
+
         
             </td>
 
             <td style="text-align: center">
-              <a style="" href="${baseUrl}clientes/detalhes/${cliente.id_cliente}" title="Mais detalhes">
+              <a class="detalhes-modal-${cliente.id_cliente}" href="${baseUrl}clientes/detalhes/${cliente.id_cliente}" title="Mais detalhes">
                 <span class="fas fa-eye fs-1"></span>
+              </a>
+              <a class="btn-salva-modal d-none text-success salva-modal-${cliente.id_cliente}" href="#" title="Salvar Agendamento">
+                <span class="fas fa-check-circle fs-1"></span>
               </a>
             </td>
 
             <td>
-              <a href="#" class="text-danger" title="Cancelar agendamento" onclick="removeClienteAgendamento(${cliente.id})">
+              <a style="cursor: pointer" class="text-danger remove-cliente-agendamento" data-mes="${dataDividida[1]}" data-ano="${dataDividida[0]}" data-id="${cliente.id}" title="Cancelar agendamento">
                 <span class="fas fa-times fs-1 ml-5"></span>
               </a>
             </td>
@@ -598,7 +744,7 @@ const exibirClientesAgendados = (dataColeta) => {
         $('.clientes-agendados').append(clientesAgendados);
 
         $("#eventDetailsModal").find('.datetimepicker').flatpickr({
-          dateFormat: "d/m/y",
+          dateFormat: "d/m/Y",
           disableMobile: true
         });
 
@@ -609,7 +755,6 @@ const exibirClientesAgendados = (dataColeta) => {
           enableTime: true
         });
       });
-
 
 
     }
@@ -629,24 +774,3 @@ $(document).ready(function () {
 });
 
 
-const removeClienteAgendamento = (idAgendamento) => {
-
-  $('.agendamento-' + idAgendamento).remove();
-
-  $.ajax({
-    type: "POST",
-    url: `${baseUrl}agendamentos/cancelaAgendamentoCliente`,
-    async: false,
-    data: {
-      idAgendamento: idAgendamento
-    }
-  })
-
-  // Atualize os eventos no calendário
-  calendar.removeAllEvents(); // remove todos agendamentos
-  events = [];
-  // calendar.addEventSource(atualizaAgenda); // adiciona os novos agendamentos
-
-  console.log('ffoooooiii')
-
-}

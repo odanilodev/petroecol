@@ -35,6 +35,20 @@ class Agendamentos_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
+    public function editaAgendamento($id, $dados)
+    {
+        $dados['editado_em'] = date('Y-m-d H:i:s');
+        $this->db->where('id', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->update('ci_agendamentos', $dados);
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id);
+        }
+
+        return $this->db->affected_rows() > 0;
+    }
+
     public function getRecordCount()
     {
         // Substitua 'your_table' pelo nome da tabela do seu banco de dados
@@ -48,6 +62,21 @@ class Agendamentos_model extends CI_Model
         $this->db->from('ci_agendamentos A');
         $this->db->join('ci_clientes C', 'A.id_cliente = C.id', 'inner');
         $this->db->where('A.data_coleta', $dataColeta);
+        $this->db->where('A.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get();
+
+        return $query->result_array();
+
+    }
+
+    public function recebeClienteAgendado($idCLiente, $dataColeta) 
+    {
+        $this->db->select('A.*, C.nome, C.rua, C.numero, C.cidade, C.telefone');
+        $this->db->from('ci_agendamentos A');
+        $this->db->join('ci_clientes C', 'A.id_cliente = C.id', 'inner');
+        $this->db->where('A.data_coleta', $dataColeta);
+        $this->db->where('A.id_cliente', $idCLiente);
         $this->db->where('A.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get();
