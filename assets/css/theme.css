@@ -34388,7 +34388,35 @@ a[href].bg-200:hover, a[href].bg-200:focus {
   -moz-appearance: none;
   appearance: none;
 }
+
+.select2-container {
+  z-index: 9999999999;
+}
+
+.select2-selection {
+  background-color: transparent !important;
+  color: #9fa6bc !important;
+  border: 1px solid #8a8e996b !important;
+}
+
+.select2-selection--single .select2-selection__rendered {
+  color: #8990a4 !important;
+}
+
+
+
+.select2-search__field {
+  z-index: 9999;
+}
+
+.btn-ver-recipiente {
+  margin-left: 10px;
+}
+
+.btn-deleta-recipiente {
+  margin-left: 10px;
 /* Estilização para página de Login */
+}
 
 .btn-login {
   background: #013738;

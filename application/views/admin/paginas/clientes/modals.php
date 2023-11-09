@@ -86,7 +86,7 @@
 
 
 <!-- Modal de recipientes para clientes -->
-<div class="modal fade" id="modalRecipiente" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modalRecipiente">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -104,16 +104,16 @@
                     <input type="hidden" class="id-cliente">
 
                     <label>Atribuir novos recipientes</label>
-                    <select class="form-select w-100" id="select-recipiente" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                    <select class="form-select w-100 mb-3" id="select-recipiente" >
 
-                        <option disabled selected value="">Selecione recipientes</option>
+                        <option selected disabled value="">Selecione recipientes</option>
                         <?php foreach ($recipientes as $v) { ?>
                             <option value="<?= $v['id'] ?>"><?= strtoupper($v['nome_recipiente']); ?></option>
                         <?php } ?>
 
                     </select>
 
-                    <input type="number" class="w-100 form-control" id="quantidade-recipiente" placeholder="quantidade">
+                    <input type="number" class="w-100 form-control mt-4" id="quantidade-recipiente" placeholder="quantidade">
 
                 </div>
             </div>

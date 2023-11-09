@@ -73,7 +73,7 @@
                                 <a class="nav-link label-1" href="<?= base_url('usuarios')?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">
-                                            <span data-feather="users"></span>
+                                            <span class="far fa-user-circle"></span>
                                         </span>
                                         <span class="nav-link-text-wrapper">
                                             <span class="nav-link-text">Usuários</span>
@@ -92,10 +92,21 @@
                                     </div>
                                 </a>
 
+                                <a class="nav-link label-1" href="<?= base_url('agendamentos')?>" role="button" data-bs-toggle="" aria-expanded="false">
+                                    <div class="d-flex align-items-center">
+                                        <span class="nav-link-icon">
+                                            <span data-feather="calendar"></span>
+                                        </span>
+                                        <span class="nav-link-text-wrapper">
+                                            <span class="nav-link-text">Agendamentos</span>
+                                        </span>
+                                    </div>
+                                </a>
+
                                 <a class="nav-link label-1" href="<?= base_url('motoristas')?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">
-                                            <span data-feather="users"></span>
+                                            <span class="fas fa-truck-pickup"></span>
                                         </span>
                                         <span class="nav-link-text-wrapper">
                                             <span class="nav-link-text">Motoristas</span>
@@ -106,7 +117,7 @@
                                 <a class="nav-link label-1" href="<?= base_url('menu')?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">
-                                            <span data-feather="users"></span>
+                                            <span class="fas fa-list-ul"></span>
                                         </span>
                                         <span class="nav-link-text-wrapper">
                                             <span class="nav-link-text">Menu</span>
@@ -114,7 +125,7 @@
                                     </div>
                                 </a>
 
-                                <div class="nav-item-wrapper">
+                                <!-- <div class="nav-item-wrapper">
 
                                     <a class="nav-link dropdown-indicator label-1" href="#nv-faq" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-faq">
                                         <div class="d-flex align-items-center">
@@ -141,17 +152,17 @@
                                                     <div class="d-flex align-items-center">
                                                         <span class="nav-link-text">Faq tab</span>
                                                     </div>
-                                                </a><!-- more inner pages-->
+                                                </a>
                                             </li>
                                         </ul>
-                                    </div>
+                                    </div> -->
 
                                 </div>
 
                                 <a class="nav-link label-1" href="<?= base_url('etiquetas')?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">
-                                            <span data-feather="users"></span>
+                                            <span class="uil-label-alt"></span>
                                         </span>
                                         <span class="nav-link-text-wrapper">
                                             <span class="nav-link-text">Etiquetas</span>
@@ -162,7 +173,7 @@
                                 <a class="nav-link label-1" href="<?= base_url('setores')?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">
-                                            <span data-feather="users"></span>
+                                            <span class="uil-create-dashboard"></span>
                                         </span>
                                         <span class="nav-link-text-wrapper">
                                             <span class="nav-link-text">Setores</span>
@@ -173,7 +184,7 @@
                                 <a class="nav-link label-1" href="<?= base_url('recipientes')?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">
-                                            <span data-feather="users"></span>
+                                            <span class="fas fa-boxes"></span>
                                         </span>
                                         <span class="nav-link-text-wrapper">
                                             <span class="nav-link-text">Recipientes</span>
@@ -184,7 +195,7 @@
                                 <a class="nav-link label-1" href="<?= base_url('residuos')?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">
-                                            <span data-feather="users"></span>
+                                            <span class="fas fa-recycle"></span>
                                         </span>
                                         <span class="nav-link-text-wrapper">
                                             <span class="nav-link-text">Residuos</span>
@@ -207,7 +218,7 @@
                 <div class="navbar-logo">
 
                     <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-                    <a class="navbar-brand me-1 me-sm-3" href="index.html">
+                    <a class="navbar-brand me-1 me-sm-3" href="<?= base_url('dashboard') ?>">
                         <div class="d-flex align-items-center">
                             <div class="d-flex align-items-center">
                                 <img src="" style="max-width: 180px;" class="img-fluid logo"/>
@@ -568,19 +579,18 @@
                                 </div>
                                 <div class="overflow-auto scrollbar" >
                                     <ul class="nav d-flex flex-column mb-2 pb-1">
-                                        <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="user"></span><span>Perfil</span></a></li>
-                                        <li class="nav-item"><a class="nav-link px-3" href="#!"><span class="me-2 text-900" data-feather="pie-chart"></span>Painel Principal</a></li>
-                                        <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="settings"></span>Politica de Privacidade</a></li>
-                                        <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="help-circle"></span>Central de Ajuda</a></li>
+                                        <?php if($this->session->userdata("id_setor") != 0) { ?>
+                                            <li class="nav-item"><a class="nav-link px-3" href="<?= base_url('usuarios/formulario/' . $this->session->userdata("id_usuario"))?>"> <span class="me-2 text-900" data-feather="user"></span><span>Perfil</span></a></li>
+                                            <li class="nav-item"><a class="nav-link px-3" href="https://api.whatsapp.com/send?l=pt_br&phone=5514997501274"> <span class="me-2 text-900" data-feather="help-circle"></span>Central de Ajuda</a></li>
+                                        <?php } ?>
+                                        <li class="nav-item"><a class="nav-link px-3" href="<?= base_url('dashboard') ?>"><span class="me-2 text-900" data-feather="pie-chart"></span>Painel Principal</a></li>
+                                        <li class="nav-item"><a class="nav-link px-3" href="<?= base_url('usuarios/formulario')?>"><span class="me-2 text-900" data-feather="user-plus"></span>Criar outra conta</a></li>
+                                        <!-- <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="settings"></span>Politica de Privacidade</a></li> -->
+
                                     </ul>
                                 </div>
-                                <div class="card-footer p-0 border-top">
-                                    <ul class="nav d-flex flex-column my-3">
-                                        <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="user-plus"></span>Criar outra conta</a></li>
-                                    </ul>
-                                    <hr />
+                                <div class="card-footer p-3 border-top">
                                     <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="<?=base_url('login/sair')?>"> <span class="me-2" data-feather="log-out"> </span>Sair</a></div>
-                                    <div class="my-2 text-center fw-bold fs--2 text-600"></div>
                                 </div>
                             </div>
                         </div>
