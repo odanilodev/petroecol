@@ -1,7 +1,26 @@
+var baseUrl = $('.base-url').val();
+
+var dataAtual = new Date();
+var mes = (dataAtual.getMonth() + 1).toString().padStart(2, '0'); // Adiciona um zero à esquerda, se necessário
+var dia = dataAtual.getDate().toString().padStart(2, '0'); // Adiciona um zero à esquerda, se necessário
+var ano = dataAtual.getFullYear();
+var dataAtualFormatada = ano + '-' + mes + '-' + dia;
+
+const { dayjs } = window;
+const currentDay = dayjs && dayjs().format('DD');
+const currentMonth = dayjs && dayjs().format('MM');
+const prevMonth = dayjs && dayjs().subtract(1, 'month').format('MM');
+const nextMonth = dayjs && dayjs().add(1, 'month').format('MM');
+const currentYear = dayjs && dayjs().format('YYYY');
+
+var events = []; // inicia vazio e é alimentado na função abaixo
+exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calendario
+
 (function (factory) {
   typeof define === 'function' && define.amd ? define(factory) :
-  factory();
-})((function () { 'use strict';
+    factory();
+})((function () {
+  'use strict';
 
   /* -------------------------------------------------------------------------- */
 
@@ -68,215 +87,66 @@
     fullCalendarInit
   };
 
-  const { dayjs } = window;
-  const currentDay = dayjs && dayjs().format('DD');
-  const currentMonth = dayjs && dayjs().format('MM');
-  const prevMonth = dayjs && dayjs().subtract(1, 'month').format('MM');
-  const nextMonth = dayjs && dayjs().add(1, 'month').format('MM');
-  const currentYear = dayjs && dayjs().format('YYYY');
-  const events = [
-    {
-      title: 'Boot Camp',
-      start: `${currentYear}-${currentMonth}-01 10:00:00`,
-      end: `${currentYear}-${currentMonth}-03 16:00:00`,
-      description:
-        "Boston Harbor Now in partnership with the Friends of Christopher Columbus Park, the Wharf District Council and the City of Boston is proud to announce the New Year's Eve Midnight Harbor Fireworks! This beloved nearly 40-year old tradition is made possible by the generous support of local waterfront organizations and businesses and the support of the City of Boston and the Office of Mayor Marty Walsh.",
-      className: 'text-success',
-      location:
-        'Boston Harborwalk, Christopher Columbus Park, <br /> Boston, MA 02109, United States',
-      organizer: 'Boston Harbor Now'
-    },
-    {
-      title: `Crain's New York Business `,
-      start: `${currentYear}-${currentMonth}-11`,
-      description:
-        "Crain's 2020 Hall of Fame. Sponsored Content By Crain's Content Studio. Crain's Content Studio Presents: New Jersey: Perfect for Business. Crain's Business Forum: Letitia James, New York State Attorney General. Crain's NYC Summit: Examining racial disparities during the pandemic",
-      className: 'text-primary'
-    },
-    {
-      title: 'Conference',
-      start: `${currentYear}-${currentMonth}-${currentDay}`,
-      description:
-        'The Milken Institute Global Conference gathered the best minds in the world to tackle some of its most stubborn challenges. It was a unique experience in which individuals with the power to enact change connected with experts who are reinventing health, technology, philanthropy, industry, and media.',
-      className: 'text-success',
-      // allDay: true,
-      schedules: [
-        {
-          title: 'Reporting',
-          start: `${currentYear}-${currentMonth}-${currentDay} 11:00:00`,
-          description:
-            'Time to start the conference and will briefly describe all information about the event.  ',
-          className: 'text-success '
-        },
-        {
-          title: 'Lunch',
-          start: `${currentYear}-${currentMonth}-${currentDay} 14:00:00`,
-          description: 'Lunch facility for all the attendance in the conference.',
-          className: 'text-info'
-        },
-        {
-          title: 'Contest',
-          start: `${currentYear}-${currentMonth}-${currentDay} 16:00:00`,
-          description: 'The starting of the programming contest',
-          className: 'text-success'
-        },
-        {
-          title: 'Dinner',
-          start: `${currentYear}-${currentMonth}-${currentDay} 22:00:00`,
-          description: 'Dinner facility for all the attendance in the conference',
-          className: 'text-success'
-        }
-      ]
-    },
-    {
-      title: `ICT Expo ${currentYear} - Product Release`,
-      start: `${currentYear}-${currentMonth}-16 10:00:00`,
-      description: `ICT Expo ${currentYear} is the largest private-sector exposition aimed at showcasing IT and ITES products and services in Switzerland.`,
-      end: `${currentYear}-${currentMonth}-18 16:00:00`,
-      className: 'text-warning',
-      allDay: true
-    },
-    {
-      title: 'Meeting',
-      start: `${currentYear}-${currentMonth}-07 10:00:00`,
-      description:
-        'Discuss about the upcoming projects in current year and assign all tasks to the individuals',
-      className: 'text-info'
-    },
-    {
-      title: 'Contest',
-      start: `${currentYear}-${currentMonth}-14 10:00:00`,
-      className: 'text-info',
-      description:
-        'PeaceX is an international peace and amity organisation that aims at casting a pall at the striking issues surmounting the development of peoples and is committed to impacting the lives of young people all over the world.'
-    },
-    {
-      title: 'Event With Url',
-      start: `${currentYear}-${currentMonth}-23`,
-      description:
-        'Sample example of a event with url. Click the event, will redirect to the given link.',
-      className: 'text-success',
-      url: 'http://google.com'
-    },
-    {
-      title: 'Competition',
-      start: `${currentYear}-${currentMonth}-26`,
-      description:
-        'The Future of Zambia – Top 30 Under 30 is an annual award, ranking scheme, and recognition platform for young Zambian achievers under the age of 30, who are building brands, creating jobs, changing the game, and transforming the country.',
-      className: 'text-danger'
-    },
-    {
-      title: 'Birthday Party',
-      start: `${currentYear}-${nextMonth}-05`,
-      description: 'Will celebrate birthday party with my friends and family',
-      className: 'text-primary'
-    },
-    {
-      title: 'Click for Google',
-      url: 'http://google.com/',
-      start: `${currentYear}-${prevMonth}-10`,
-      description:
-        'Applications are open for the New Media Writing Prize 2020. The New Media Writing Prize (NMWP) showcases exciting and inventive stories and poetry that integrate a variety of formats, platforms, and digital media.',
-      className: 'text-primary'
-    }
-  ];
 
   const getTemplate = event => `
-<div class="modal-header ps-card border-bottom">
-  <div>
-    <h4 class="modal-title text-1000 mb-0">${event.title}</h4>
-    ${
-      event.extendedProps.organizer
-        ? `<p class="mb-0 fs--1 mt-1">
-        by <a href="#!">${event.extendedProps.organizer}</a>
-      </p>`
-        : ''
-    }
-  </div>
-  <button type="button" class="btn p-1 fw-bolder" data-bs-dismiss="modal" aria-label="Close">
-    <span class='fas fa-times fs-0'></span>
-  </button>
-
-</div>
-
-<div class="modal-body px-card pb-card pt-1 fs--1">
-  ${
-    event.extendedProps.description
-      ? `
-      <div class="mt-3 border-bottom pb-3">
-        <h5 class='mb-0 text-800'>Description</h5>
-        <p class="mb-0 mt-2">
-          ${event.extendedProps.description.split(' ').slice(0, 30).join(' ')}
-        </p>
-      </div>
-    `
-      : ''
-  } 
-  <div class="mt-4 ${event.extendedProps.location ? 'border-bottom pb-3' : ''}">
-    <h5 class='mb-0 text-800'>Date and Time</h5>
-    <p class="mb-1 mt-2">
-    ${
-      window.dayjs &&
-      window.dayjs(event.start).format('dddd, MMMM D, YYYY, h:mm A')
-    } 
-    ${
-      event.end
-        ? `– ${
-            window.dayjs &&
-            window
-              .dayjs(event.end)
-              .subtract(1, 'day')
-              .format('dddd, MMMM D, YYYY, h:mm A')
-          }`
-        : ''
-    }
-  </p>
-
-  </div>
-  ${
-    event.extendedProps.location
-      ? `
-        <div class="mt-4 ">
-          <h5 class='mb-0 text-800'>Location</h5>
-          <p class="mb-0 mt-2">${event.extendedProps.location}</p>
+      <div class="modal-header ps-card border-bottom">
+        <div>
+          <h4 class="modal-title text-1000 mb-0">${event.title}</h4>
         </div>
-      `
-      : ''
-  }
-  ${
-    event.schedules
-      ? `
-      <div class="mt-3">
-        <h5 class='mb-0 text-800'>Schedule</h5>
-        <ul class="list-unstyled timeline mt-2 mb-0">
-          ${event.schedules
-            .map(schedule => `<li>${schedule.title}</li>`)
-            .join('')}
-        </ul>
-      </div>
-      `
-      : ''
-  }
-  </div>
-</div>
 
-<div class="modal-footer d-flex justify-content-end px-card pt-0 border-top-0">
-  <a href="#!" class="btn btn-phoenix-secondary btn-sm">
-    <span class="fas fa-pencil-alt fs--2 mr-2"></span> Edit
-  </a>
-  <button class="btn btn-phoenix-danger btn-sm" data-calendar-event-remove >
-    <span class="fa-solid fa-trash fs--1 mr-2" data-fa-transform="shrink-2"></span> Delete
-  </button>
-  <a href='#!' class="btn btn-primary btn-sm">
-    See more details
-    <span class="fas fa-angle-right fs--2 ml-1"></span>
-  </a>
-</div>
-`;
+        <button type="button" class="btn p-1 fw-bolder" data-bs-dismiss="modal" aria-label="Close">
+          <span class='fas fa-times fs-0'></span>
+        </button>
+  
+      </div>
+  
+      <div class="modal-body">
+        <div class="container">
+          <div class="row table-responsive" align="center">
+            <table class="table tabela-clientes-agendados">
+              <thead>
+                <tr>
+                  <th scope="col">Cliente</th>
+                  <th scope="col">Endereço</th>
+                  <th scope="col">Telefone</th>
+                  <th scope="col">Data</th>
+                  <th scope="col">Hora</th>
+                  <th scope="col"></th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody class="clientes-agendados text-start">
+                
+                
+              </tbody>
+            </table>
+          
+          </div>
+          <div class="spinner-border text-primary load-form" role="status"></div>
+
+        </div>            
+      </div>
+  
+    `;
 
   /*-----------------------------------------------
   |   Calendar
   -----------------------------------------------*/
+  const monthTranslations = {
+    'January': 'Janeiro',
+    'February': 'Fevereiro',
+    'March': 'Março',
+    'April': 'Abril',
+    'May': 'Maio',
+    'June': 'Junho',
+    'July': 'Julho',
+    'August': 'Agosto',
+    'September': 'Setembro',
+    'October': 'Outubro',
+    'November': 'Novembro',
+    'December': 'Dezembro'
+  };
+
   const appCalendarInit = () => {
     const Selectors = {
       ACTIVE: '.active',
@@ -312,58 +182,57 @@
       []
     );
 
-    const updateDay = day => {
-      const days = [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday'
-      ];
-      return days[day];
-    };
-
     const setCurrentDate = () => {
       const dateObj = new Date();
-      const month = dateObj.toLocaleString('en-US', { month: 'short' });
-      const date = dateObj.getDate(); // return date number
-      const day = dateObj.getDay(); // return week day number
+      const dayNames = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+      const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+
+      const day = dateObj.getDay(); // Retorna o número do dia da semana (0 = Domingo, 1 = Segunda, etc.)
+      const date = dateObj.getDate(); // Retorna o número do dia do mês
+      const month = dateObj.getMonth(); // Retorna o número do mês (0 = Janeiro, 1 = Fevereiro, etc.)
       const year = dateObj.getFullYear();
-      const newdate = `${date}  ${month},  ${year}`;
+
+      const newDate = `${date} de ${monthNames[month]} de ${year}`;
+
       if (document.querySelector(Selectors.CALENDAR_DAY)) {
-        document.querySelector(Selectors.CALENDAR_DAY).textContent =
-          updateDay(day);
+        document.querySelector(Selectors.CALENDAR_DAY).textContent = dayNames[day];
       }
       if (document.querySelector(Selectors.CALENDAR_DATE)) {
-        document.querySelector(Selectors.CALENDAR_DATE).textContent = newdate;
+        document.querySelector(Selectors.CALENDAR_DATE).textContent = newDate;
       }
     };
+
     setCurrentDate();
 
     const updateTitle = currentData => {
+
       const { currentViewType } = currentData;
-      // week view
+
+      // Função para traduzir o mês
+      const translateMonth = (date) => {
+        const monthName = date.toLocaleString('en-US', { month: 'long' });
+        return monthTranslations[monthName] || monthName;
+      };
+
       if (currentViewType === 'timeGridWeek') {
         const weekStartsDate = currentData.dateProfile.currentRange.start;
-        const startingMonth = weekStartsDate.toLocaleString('en-US', {
-          month: 'short'
-        });
+        const startingMonth = translateMonth(weekStartsDate);
         const startingDate = weekStartsDate.getDate();
         const weekEndDate = currentData.dateProfile.currentRange.end;
-
-        const endingMonth = weekEndDate.toLocaleString('en-US', {
-          month: 'short'
-        });
+        const endingMonth = translateMonth(weekEndDate);
         const endingDate = weekEndDate.getDate();
 
         document.querySelector(
           Selectors.CALENDAR_TITLE
-        ).textContent = `${startingMonth} ${startingDate} - ${endingMonth} ${endingDate}`;
-      } else
-        document.querySelector(Selectors.CALENDAR_TITLE).textContent =
-          currentData.viewTitle;
+        ).textContent = `${startingDate} de ${startingMonth} - ${endingMonth} ${endingDate}`;
+
+      } else {
+        // Se você deseja traduzir o mês em currentData.viewTitle e exibir o ano
+        const viewTitleDate = new Date(currentData.viewTitle);
+        const translatedMonth = translateMonth(viewTitleDate);
+        const year = viewTitleDate.getFullYear();
+        document.querySelector(Selectors.CALENDAR_TITLE).textContent = `${translatedMonth} ${year}`;
+      }
     };
 
     const appCalendar = document.querySelector(Selectors.CALENDAR);
@@ -413,6 +282,199 @@
         }
       });
 
+      // adiciona um novo agendamento
+      const salvaAgendamento = (cliente, data, horario, obs, id) => {
+
+        let dataNova = data;
+
+        let permissao = true;
+
+        if (!cliente || !data) {
+          permissao = false;
+
+          alert('campos vazios'); return;
+        }
+
+        if (permissao) {
+
+          let dataClicada = dataNova.split('-');
+          let ano = dataClicada[0];
+          let mes = dataClicada[1];
+
+          calendar.removeAllEvents(); // remove todos agendamentos
+          events = [];
+
+          $.ajax({
+            type: "post",
+            url: `${baseUrl}agendamentos/cadastraAgendamento`,
+            data: {
+              cliente: cliente,
+              data: dataNova,
+              horario: horario,
+              obs: obs,
+              id: id
+            },
+            beforeSend: function () {
+              $('.load-form').removeClass('d-none');
+              $('.btn-envia').addClass('d-none');
+            },
+            success: function (data) {
+
+              $('.load-form').addClass('d-none');
+              $('.btn-envia').removeClass('d-none');
+
+              if (!data.success) {
+
+                avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
+
+              } else {
+
+                let dataAntiga = $('.agendamento-' + id).data('data');
+
+                $('#addEventModal').modal('hide');
+
+                if (id && dataAntiga != dataNova) {
+                  $('.agendamento-' + id).remove();
+                }
+
+                $('.salva-modal-' + cliente).addClass('d-none');
+                $('.detalhes-modal-' + cliente).removeClass('d-none');
+
+              }
+
+              var atualizaAgenda = exibirAgendamentos(ano, mes);
+              calendar.addEventSource(atualizaAgenda); // adiciona os novos agendamentos
+
+            }
+          });
+        }
+      }
+
+      $(document).on('click', '.btn-salva-agendamento', function () {
+
+        let cliente = $('.cliente-agendamento').val();
+        let data = $('.data-agendamento').val();
+        let horario = $('.horario-agendamento').val();
+        let obs = $('.obs-agendamento').val();
+
+        let id = $('.input-id').val();
+
+        salvaAgendamento(cliente, data, horario, obs, id);
+
+      })
+
+
+      $(document).on('change', '.data-modal', function () {
+
+        let dataColetaAtual = $(this).data('data');
+        let idCliente = $(this).data('id');
+        let obs = $(this).data('obs');
+        let idAgendamento = $(this).data('agendamento');
+        let horaColeta = $(`.hora-modal-${idCliente}`).val();
+
+        if (dataColetaAtual != $(this).val()) {
+
+          $(`.detalhes-modal-${idCliente}`).addClass('d-none');
+          $(`.salva-modal-${idCliente}`).removeClass('d-none');
+
+          let data = $(this).val().split('/');
+
+          let dataFormatada = `${data[2]}-${data[1]}-${data[0]}`;
+
+          $(`.salva-modal-${idCliente}`).attr('data-cliente', idCliente);
+          $(`.salva-modal-${idCliente}`).attr('data-data', dataFormatada);
+          $(`.salva-modal-${idCliente}`).attr('data-hora', horaColeta);
+          $(`.salva-modal-${idCliente}`).attr('data-obs', obs);
+          $(`.salva-modal-${idCliente}`).attr('data-agendamento', idAgendamento);
+
+        } else {
+
+          $(`.detalhes-modal-${idCliente}`).removeClass('d-none');
+          $(`.salva-modal-${idCliente}`).addClass('d-none');
+
+        }
+
+      })
+
+      $(document).on('change', '.hora-modal', function () {
+
+        let horaColetaAtual = $(this).data('hora');
+        let idCliente = $(this).data('id');
+        let obs = $(this).data('obs');
+        let idAgendamento = $(this).data('agendamento');
+
+        let data = $(`.data-modal-${idCliente}`).val().split('/');
+
+        let dataFormatada = `${data[2]}-${data[1]}-${data[0]}`;
+
+        if (horaColetaAtual != $(this).val()) {
+
+          $(`.detalhes-modal-${idCliente}`).addClass('d-none');
+          $(`.salva-modal-${idCliente}`).removeClass('d-none');
+
+          $(`.salva-modal-${idCliente}`).attr('data-hora', $(this).val());
+
+          $(`.salva-modal-${idCliente}`).attr('data-cliente', idCliente);
+          $(`.salva-modal-${idCliente}`).attr('data-data', dataFormatada);
+          $(`.salva-modal-${idCliente}`).attr('data-agendamento', idAgendamento);
+          $(`.salva-modal-${idCliente}`).attr('data-obs', obs);
+
+        } else {
+
+          $(`.detalhes-modal-${idCliente}`).removeClass('d-none');
+          $(`.salva-modal-${idCliente}`).addClass('d-none');
+
+        }
+
+      })
+
+      $(document).on('click', '.btn-salva-modal', function () {
+
+        let idCliente = $(this).data('cliente');
+        let dataNova = $(this).data('data');
+
+        let horaNova = $(this).data('hora');
+        let idAgendamento = $(this).data('agendamento');
+        let obs = $(this).data('obs');
+
+        salvaAgendamento(idCliente, dataNova, horaNova, obs, idAgendamento);
+
+      })
+
+
+      // remove o cliente da data agendada
+      const removeClienteAgendamento = (idAgendamento, mes, ano) => {
+
+        calendar.removeAllEvents(); // remove todos agendamentos
+        events = [];
+
+        $('.agendamento-' + idAgendamento).remove();
+
+        $.ajax({
+          type: "POST",
+          url: `${baseUrl}agendamentos/cancelaAgendamentoCliente`,
+          data: {
+            idAgendamento: idAgendamento
+          }, success: function () {
+
+            // Atualize os eventos no calendário
+            var atualizaAgenda = exibirAgendamentos(ano, mes);
+            calendar.addEventSource(atualizaAgenda); // adiciona os novos agendamentos
+          }
+        })
+      }
+
+      // clique para chamar a função que remove o cliente da data agendada
+      $(document).on('click', '.remove-cliente-agendamento', function () {
+
+        let idAgendamento = $(this).data('id');
+        let mes = $(this).data('mes');
+        let ano = $(this).data('ano');
+
+        removeClienteAgendamento(idAgendamento, mes, ano);
+      })
+
+
       updateTitle(calendar.currentData);
 
       document.addEventListener('click', e => {
@@ -425,18 +487,74 @@
             ? e.target
             : e.target.parentNode;
           const type = getData(el, DataKeys.EVENT);
+
           switch (type) {
+
             case 'prev':
+
               calendar.prev();
+
               updateTitle(calendar.currentData);
+
+              var ano = calendar.currentData.viewTitle.split(" ");
+
+              var monthName = calendar.currentData.viewTitle;
+
+              var date = new Date(monthName + " 1, 2023");
+
+              var monthNumber = date.getMonth() + 1;
+
+              var atualizaAgenda = exibirAgendamentos(ano[1], monthNumber);
+
+              // Atualize os eventos no calendário
+              calendar.removeAllEvents(); // remove todos agendamentos
+              events = [];
+              calendar.addEventSource(atualizaAgenda); // adiciona os novos agendamentos
+
               break;
+
             case 'next':
+
               calendar.next();
+
               updateTitle(calendar.currentData);
+
+              var ano = calendar.currentData.viewTitle.split(" ");
+
+              var monthName = calendar.currentData.viewTitle;
+
+              var date = new Date(monthName + " 1, 2023");
+
+              var monthNumber = date.getMonth() + 1;
+
+              var atualizaAgenda = exibirAgendamentos(ano[1], monthNumber);
+
+              // Atualize os eventos no calendário
+              calendar.removeAllEvents(); // remove todos agendamentos
+              events = [];
+              calendar.addEventSource(atualizaAgenda); // adiciona os novos agendamentos
+
               break;
             case 'today':
+
               calendar.today();
               updateTitle(calendar.currentData);
+
+              var ano = calendar.currentData.viewTitle.split(" ");
+
+              var monthName = calendar.currentData.viewTitle;
+
+              var date = new Date(monthName + " 1, 2023");
+
+              var monthNumber = date.getMonth() + 1;
+
+              var atualizaAgenda = exibirAgendamentos(ano[1], monthNumber);
+
+              // Atualize os eventos no calendário
+              calendar.removeAllEvents(); // remove todos agendamentos
+              events = [];
+              calendar.addEventSource(atualizaAgenda); // adiciona os novos agendamentos
+
               break;
             default:
               calendar.today();
@@ -496,4 +614,163 @@
   docReady(appCalendarInit);
 
 }));
-//# sourceMappingURL=calendar.js.map
+//# sourceMappingURL=calendar.js.mapv
+
+
+
+
+function exibirAgendamentos(currentYear, currentMonth) {
+
+  $.ajax({
+    url: baseUrl + 'agendamentos/exibirAgendamentos',
+    method: 'POST',
+    async: false,
+    data: {
+      anoAtual: currentYear,
+      mesAtual: currentMonth
+    },
+    success: function (data) {
+
+      let jsonString = JSON.stringify(data.agendamentos);
+
+      var obj = JSON.parse(jsonString);
+
+      for (var i = 0; i < obj.length; i++) {
+
+        let titulo = obj[i].data_coleta < dataAtualFormatada ? " Atrasado(s)" : " Agendado(s)";
+
+        let tipo = obj[i].data_coleta < dataAtualFormatada ? "text-danger" : 'text-success';
+
+        var event = {
+          title: obj[i].total_agendamento + titulo,
+          start: obj[i].data_coleta,
+          className: `${tipo} agendamento dataClicada-${obj[i].data_coleta}`
+        };
+
+        events.push(event);
+
+      }
+
+    }
+
+
+  });
+
+  return events;
+
+}
+
+$(document).on('click', '.agendamento', function () {
+
+  let classeClicada = $(this).attr("class").split(" ");
+  let dataClicada = classeClicada.find(function (className) {
+    return className.match(/\d{4}-\d{2}-\d{2}/);
+  });
+
+  let dataFormatada = dataClicada.replace("dataClicada-", "");
+  $(this).addClass(dataFormatada);
+
+  exibirClientesAgendados(dataFormatada);
+
+})
+
+const exibirClientesAgendados = (dataColeta) => {
+
+  $.ajax({
+    url: baseUrl + 'agendamentos/recebeClientesAgendados',
+    method: 'POST',
+    data: {
+      dataColeta: dataColeta
+    },
+    beforeSend: function () {
+
+      $('.tabela-clientes-agendados').addClass('d-none');
+      $('.load-form').removeClass('d-none');
+
+    },
+    success: function (data) {
+
+      $('.tabela-clientes-agendados').removeClass('d-none');
+      $('.load-form').addClass('d-none');
+
+      var clientes = $.parseJSON(data);
+
+      $.each(clientes, function (index, cliente) {
+
+        var dataDividida = cliente.data_coleta.split('-');
+
+        var dataFormatada = dataDividida[2] + '/' + dataDividida[1] + '/' + dataDividida[0];
+
+        let clientesAgendados = `
+
+          <tr class="agendamento-${cliente.id}" data-data="${cliente.data_coleta}">
+            <td>${cliente.nome}</td>
+            <td>${cliente.rua} ${cliente.numero}</td>
+            <td>${cliente.telefone}</td>
+
+            <td>
+           
+              <input class="form-control datetimepicker flatpickr-input data-modal data-modal-${cliente.id_cliente}" id="datepicker" type="text" placeholder="dd/mm/yyyy" data-options="{&quot;disableMobile&quot;:true,&quot;}" readonly="readonly" value="${dataFormatada}" data-data="${dataFormatada}" data-id="${cliente.id_cliente}"  data-agendamento="${cliente.id}" data-obs="${cliente.observacao}">
+          
+            </td>
+
+            <td>
+           
+            <input class="form-control datetimepicker2 flatpickr-input hora-modal hora-modal-${cliente.id_cliente}" id="timepicker1" type="text" placeholder="hora : minuto" data-options="{&quot;noCalendar&quot;:true,&quot;dateFormat&quot;:&quot;H:i&quot;,&quot;disableMobile&quot;:true}" readonly="readonly" value="${cliente.hora_coleta}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
+
+        
+            </td>
+
+            <td style="text-align: center">
+              <a class="detalhes-modal-${cliente.id_cliente}" href="${baseUrl}clientes/detalhes/${cliente.id_cliente}" title="Mais detalhes">
+                <span class="fas fa-eye fs-1"></span>
+              </a>
+              <a class="btn-salva-modal d-none text-success salva-modal-${cliente.id_cliente}" href="#" title="Salvar Agendamento">
+                <span class="fas fa-check-circle fs-1"></span>
+              </a>
+            </td>
+
+            <td>
+              <a style="cursor: pointer" class="text-danger remove-cliente-agendamento" data-mes="${dataDividida[1]}" data-ano="${dataDividida[0]}" data-id="${cliente.id}" title="Cancelar agendamento">
+                <span class="fas fa-times fs-1 ml-5"></span>
+              </a>
+            </td>
+            
+            
+          </tr>
+          
+        `;
+
+        $('.clientes-agendados').append(clientesAgendados);
+
+        $("#eventDetailsModal").find('.datetimepicker').flatpickr({
+          dateFormat: "d/m/Y",
+          disableMobile: true
+        });
+
+        $("#eventDetailsModal").find('.datetimepicker2').flatpickr({
+          dateFormat: "H:i",
+          disableMobile: true,
+          noCalendar: true,
+          enableTime: true
+        });
+      });
+
+
+    }
+
+  });
+
+}
+
+
+// remove a opção de arrastar os eventos do calendário
+$(document).ready(function () {
+
+  $('.fc-daygrid-event').removeClass('fc-event-draggable');
+  $('.fc-timegrid-event').removeClass('fc-event-draggable');
+  $('.fc-daygrid-event').css('cursor', 'pointer');
+
+});
+
+
