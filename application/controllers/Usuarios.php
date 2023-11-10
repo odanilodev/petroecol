@@ -107,8 +107,13 @@ class Usuarios extends CI_Controller
 			
 			// Deleta a foto de perfil antiga do servidor
 			if ($id && $imagemAntiga['foto_perfil']) {
+
 				$caminho = './uploads/usuarios/' . $imagemAntiga['foto_perfil'];
-				unlink($caminho);
+
+				if (file_exists($caminho)) {
+
+					unlink($caminho);
+				}
 			}
 
 			if ($this->upload->do_upload('imagem')) {
