@@ -5,8 +5,10 @@ const cadastraResiduos = () => {
     let residuo = $('.input-nome').val();
     let grupo = $('.input-grupo').val();
     let id = $('.input-id').val();
+    let uni = $('.input-medida').val();
 
-    let permissao = false;
+
+    let permissao = true;
 
     $('.input-obrigatorio').each(function () {
 
@@ -15,7 +17,6 @@ const cadastraResiduos = () => {
             permissao = false;
         } else {
             $(this).removeClass('invalido');
-            permissao = true;
         }
     })
 
@@ -27,7 +28,8 @@ const cadastraResiduos = () => {
             data: {
                 residuo: residuo,
                 grupo: grupo,
-                id: id
+                id: id,
+                unidade: uni
             },
             beforeSend: function () {
                 $('.load-form').removeClass('d-none');
