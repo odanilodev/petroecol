@@ -42,11 +42,16 @@ class Clientes_model extends CI_Model
 
     public function recebeCliente($id)
     {
-        $this->db->where('id', $id);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('ci_clientes');
+        $this->db->select('C.*, F.frequencia');
+        $this->db->from('ci_clientes C');
+        $this->db->join('ci_frequencia_coleta F', 'C.id_frequencia_coleta = F.id', 'inner');
+        $this->db->where('C.id', $id);
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('F.id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get();
 
         return $query->row_array();
+
     }
 
     public function insereCliente($dados)

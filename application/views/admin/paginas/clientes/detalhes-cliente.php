@@ -337,7 +337,15 @@
                   <div class="d-flex bg-info-100 rounded flex-center me-3 mb-sm-3 mb-md-0 mb-xl-3 mb-xxl-0" style="width:32px; height:32px"><span class="text-info-600 dark__text-info-300" data-feather="bar-chart-2" style="width:24px; height:24px"></span></div>
                   <div>
                     <p class="fw-bold mb-1">Frequência de Coleta</p>
-                    <h4 class="fw-bolder text-nowrap"><?= ucfirst($cliente['frequencia_coleta']) ?></h4>
+                    <h4 class="fw-bolder text-nowrap">
+                      <?php
+                      if ($cliente['frequencia'] == "Fixo") {
+                        echo $cliente['frequencia'] . " <small>(" . $cliente['dia_coleta_fixo'] . ")</small>";
+                      } else {
+                        echo $cliente['frequencia'];
+                      }
+                      ?>
+                    </h4>
                   </div>
                 </div>
               </div>
