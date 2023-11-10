@@ -125,7 +125,7 @@
                         <div class="mb-2 mt-5 col-md-3">
                           <div class="mb-2">
                             <label class="form-label text-900">Frequência de coleta *</label>
-                            <select required name="frequencia_coleta" class="form-select campo-empresa select-frequencia">
+                            <select required name="id_frequencia_coleta" class="form-select campo-empresa select-frequencia">
                               <option value="" selected disabled>Selecione</option>
 
                               <?php foreach($frequencia as $v) { ?>
