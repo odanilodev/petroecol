@@ -127,12 +127,11 @@
                             <label class="form-label text-900">Frequência de coleta *</label>
                             <select required name="frequencia_coleta" class="form-select campo-empresa select-frequencia">
                               <option value="" selected disabled>Selecione</option>
-                              <option value="Diário" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Diário') ? 'selected' : ''; ?>>Diário</option>
-                              <option value="Semanal" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Semanal') ? 'selected' : ''; ?>>Semanal</option>
-                              <option value="Quinzenal" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Quinzenal') ? 'selected' : ''; ?>>Quinzenal</option>
-                              <option value="Mensal" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Mensal') ? 'selected' : ''; ?>>Mensal</option>
-                              <option value="Fixo" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Fixo') ? 'selected' : ''; ?>>Fixo</option>
-                              <option value="Não especificado" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Não especificado') ? 'selected' : ''; ?>>Não especificado</option>
+
+                              <?php foreach($frequencia as $v) { ?>
+                                <option value="<?= $v['id']?>" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == $v['id']) ? 'selected' : ''; ?>><?= $v['frequencia'];?></option>
+                              <?php }?>
+
                             </select>
                           </div>
                         </div>

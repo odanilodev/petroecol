@@ -57,16 +57,12 @@ const verificaCampos = () => {
 
 $(document).on('change', '.select-frequencia', function () {
 
-    if ($(this).val() == "Fixo") {
-
+    if ($('.select-frequencia option:selected').text() == "Fixo") {
         $('.fixo-coleta').removeClass('d-none');
         $('.select-dia-fixo').attr('required', true);
-
     } else {
-
         $('.fixo-coleta').addClass('d-none');
         $('.select-dia-fixo').attr('required', false);
-
     }
 })
 
