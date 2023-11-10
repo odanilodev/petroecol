@@ -2,14 +2,12 @@ var baseUrl = $('.base-url').val();
 
 const verificaCampos = () => {
 
-    var permissao = false;
+    var permissao = true;
 
     let dadosEmpresa = {};
     $('#form-empresa .campo-empresa').each(function () {
         dadosEmpresa[$(this).attr('name')] = $(this).val();
     });
-
-    // console.log(dadosEmpresa); return;
 
     let dadosEndereco = {};
     $('#form-endereco .campo').each(function () {
@@ -44,13 +42,11 @@ const verificaCampos = () => {
         }
     });
 
-    if (!camposVazios.length) {
 
-        permissao = true;
-
-    } else {
+    if (camposVazios.length) {
 
         permissao = false;
+
     }
 
     if (permissao) {
@@ -58,6 +54,21 @@ const verificaCampos = () => {
     }
 
 }
+
+$(document).on('change', '.select-frequencia', function () {
+
+    if ($(this).val() == "Fixo") {
+
+        $('.fixo-coleta').removeClass('d-none');
+        $('.select-dia-fixo').attr('required', true);
+
+    } else {
+
+        $('.fixo-coleta').addClass('d-none');
+        $('.select-dia-fixo').attr('required', false);
+
+    }
+})
 
 
 const cadastraCliente = (dadosEmpresa, dadosEndereco, dadosResponsavel) => {
@@ -129,7 +140,7 @@ $(document).ready(function () {
         $('.valida-email').attr('required', true);
 
         $('.email-invalido').css('display', 'block');
-        
+
     }
 
 });

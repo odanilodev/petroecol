@@ -123,6 +123,43 @@
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
+                          <div class="mb-2">
+                            <label class="form-label text-900">Frequência de coleta *</label>
+                            <select required name="frequencia_coleta" class="form-select campo-empresa select-frequencia">
+                              <option value="" selected disabled>Selecione</option>
+                              <option value="Diário" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Diário') ? 'selected' : ''; ?>>Diário</option>
+                              <option value="Semanal" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Semanal') ? 'selected' : ''; ?>>Semanal</option>
+                              <option value="Quinzenal" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Quinzenal') ? 'selected' : ''; ?>>Quinzenal</option>
+                              <option value="Mensal" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Mensal') ? 'selected' : ''; ?>>Mensal</option>
+                              <option value="Fixo" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Fixo') ? 'selected' : ''; ?>>Fixo</option>
+                              <option value="Não especificado" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Não especificado') ? 'selected' : ''; ?>>Não especificado</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="mb-2 mt-5 col-md-3 fixo-coleta <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo']) ? "d-block" : "d-none"?> ">
+                          <div class="mb-2">
+                            <label class="form-label text-900">Dia da Semana *</label>
+                            <select name="dia_coleta_fixo" class="form-select campo-empresa select-dia-fixo">
+                              <option value="" selected disabled>Selecione</option>
+                              <option value="Domingo" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Domingo') ? 'selected' : ''; ?>>Domingo</option>
+                              <option value="Segunda" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Segunda') ? 'selected' : ''; ?>>Segunda</option>
+                              <option value="Terça" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Terça') ? 'selected' : ''; ?>>Terça</option>
+                              <option value="Quarta" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Quarta') ? 'selected' : ''; ?>>Quarta</option>
+                              <option value="Quinta" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Quinta') ? 'selected' : ''; ?>>Quinta</option>
+                              <option value="Sexta" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Sexta') ? 'selected' : ''; ?>>Sexta</option>
+                              <option value="Sabado" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Sabado') ? 'selected' : ''; ?>>Sábado</option>
+                              
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="mb-2 mt-5 col-md-3">
+                          <label class="form-label">Dia de pagamento</label>
+                          <input class="form-control campo-empresa" type="number" name="dia_pagamento" value="<?= $cliente['dia_pagamento'] ?? ''; ?>" placeholder="Dia de pagamento" />
+                        </div>
+
+                        <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">Tipo de empresa</label>
                           <input class="form-control campo-empresa" type="text" name="tipo_negocio" value="<?= $cliente['tipo_negocio'] ?? ''; ?>" placeholder="Tipo de empresa" />
                         </div>
@@ -130,25 +167,6 @@
                         <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">Grupo de negócio</label>
                           <input class="form-control campo-empresa" type="text" name="grupo_negocio" value="<?= $cliente['grupo_negocio'] ?? ''; ?>" placeholder="Grupo de negócio" />
-                        </div>
-
-                        <div class="mb-2 mt-5 col-md-3">
-                          <label class="form-label">Dia de pagamento</label>
-                          <input class="form-control campo-empresa" type="number" name="dia_pagamento" value="<?= $cliente['dia_pagamento'] ?? ''; ?>" placeholder="Dia de pagamento" />
-                        </div>
-                      
-                        <div class="mb-2 mt-5 col-md-3">
-                          <div class="mb-2">
-                            <label class="form-label text-900">Frequencia de coleta</label>
-                            <select name="frequencia_coleta" class="form-select campo-empresa">
-                              <option value="" selected disabled>Selecione</option>
-                              <option value="Diário" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Diário') ? 'selected' : ''; ?>>Diário</option>
-                              <option value="Semanal" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Semanal') ? 'selected' : ''; ?>>Semanal</option>
-                              <option value="Quinzenal" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Quinzenal') ? 'selected' : ''; ?>>Quinzenal</option>
-                              <option value="Mensal" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Mensal') ? 'selected' : ''; ?>>Mensal</option>
-                              <option value="Não especificado" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == 'Não especificado') ? 'selected' : ''; ?>>Não especificado</option>
-                          </select>
-                          </div>
                         </div>
 
                         <div class="mb-2 col-md-12 mt-5">
