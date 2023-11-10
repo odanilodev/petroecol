@@ -129,7 +129,7 @@
                               <option value="" selected disabled>Selecione</option>
 
                               <?php foreach($frequencia as $v) { ?>
-                                <option value="<?= $v['id']?>" <?= (isset($cliente['frequencia_coleta']) && $cliente['frequencia_coleta'] == $v['id']) ? 'selected' : ''; ?>><?= $v['frequencia'];?></option>
+                                <option value="<?= $v['id']?>" <?= (isset($cliente['id_frequencia_coleta']) && $cliente['id_frequencia_coleta'] == $v['id']) ? 'selected' : ''; ?>><?= $v['frequencia'];?></option>
                               <?php }?>
 
                             </select>
