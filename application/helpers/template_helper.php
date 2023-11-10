@@ -219,8 +219,7 @@ function scriptsAgendamentoFooter()
         '<script src="' . base_url('vendors/fullcalendar/main.min.js') . '"></script>',
         '<script src="' . base_url('vendors/dayjs/dayjs.min.js') . '"></script>',
         '<script src="' . base_url('vendors/choices/choices.min.js') . '"></script>',
-        '<script src="' . base_url('assets/js/calendar.js') . '"></script>',
-        '<script src="' . base_url('assets/js/agendamentos/formulario-agendamento.js') . '"></script>'
+        '<script src="' . base_url('assets/js/agendamentos/agendamento.js') . '"></script>'
     );
 }
 
