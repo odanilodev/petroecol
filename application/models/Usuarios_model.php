@@ -88,7 +88,9 @@ class Usuarios_model extends CI_Model
     public function imagemAntiga($id)
     {
         $this->db->where('id', $id);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        if($this->session->userdata('id_empresa') > 1) {
+            $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        }
         $query = $this->db->get('ci_usuarios');
 
         return $query->row_array();

@@ -92,6 +92,17 @@
                                     </div>
                                 </a>
 
+                                <a class="nav-link label-1" href="<?= base_url('agendamentos')?>" role="button" data-bs-toggle="" aria-expanded="false">
+                                    <div class="d-flex align-items-center">
+                                        <span class="nav-link-icon">
+                                            <span data-feather="calendar"></span>
+                                        </span>
+                                        <span class="nav-link-text-wrapper">
+                                            <span class="nav-link-text">Agendamentos</span>
+                                        </span>
+                                    </div>
+                                </a>
+
                                 <a class="nav-link label-1" href="<?= base_url('motoristas')?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">

@@ -200,6 +200,29 @@ function scriptsResiduoFooter()
     );
 }
 
+// pagina de agendamento
+function scriptsAgendamentoHead()
+{
+    return array(
+
+        '<link href="' . base_url('vendors/fullcalendar/main.min.css') . '" rel="stylesheet" />',
+        '<link href="' . base_url('assets/css/theme.css') . '" rel="stylesheet" />',
+        '<link href="' . base_url('vendors/choices/choices.min.css') . '" rel="stylesheet" />'
+        
+    );
+}
+
+function scriptsAgendamentoFooter()
+{
+    return array(
+
+        '<script src="' . base_url('vendors/fullcalendar/main.min.js') . '"></script>',
+        '<script src="' . base_url('vendors/dayjs/dayjs.min.js') . '"></script>',
+        '<script src="' . base_url('vendors/choices/choices.min.js') . '"></script>',
+        '<script src="' . base_url('assets/js/agendamentos/agendamento.js') . '"></script>'
+    );
+}
+
 // pagina de login
 function scriptsLoginFooter()
 {
