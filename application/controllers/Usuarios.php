@@ -99,7 +99,7 @@ class Usuarios extends CI_Controller
 		// Verifica se veio imagem
 		if (!empty($_FILES['imagem']['name'])) {
 			$config['upload_path']   = './uploads/usuarios';
-			$config['allowed_types'] = 'jpg|jpeg|png|';
+			$config['allowed_types'] = '*';
 
 			$this->load->library('upload', $config);
 
