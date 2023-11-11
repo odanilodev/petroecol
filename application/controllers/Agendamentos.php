@@ -44,6 +44,7 @@ class Agendamentos extends CI_Controller
         $dados['data_coleta'] = $this->input->post('data');
         $dados['hora_coleta'] = $this->input->post('horario');
         $dados['observacao'] = $this->input->post('obs');
+        $dados['prioridade'] = 1; // define como prioridade
         $dados['id_empresa'] = $this->session->userdata('id_empresa');
         $id = $this->input->post('id');
 
@@ -83,8 +84,24 @@ class Agendamentos extends CI_Controller
     {
         $anoAtual = $this->input->post('anoAtual');
         $mesAtual = $this->input->post('mesAtual');
+        $prioridade = $this->input->post('prioridade'); 
 
-        $agendamentos = $this->Agendamentos_model->recebeAgendamentos($anoAtual, $mesAtual);
+        $agendamentos = $this->Agendamentos_model->recebeAgendamentos($anoAtual, $mesAtual, $prioridade);
+
+        $data = array(
+            'agendamentos' => $agendamentos
+        );
+
+        // Responda com os dados em formato JSON
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
+
+    public function exibirAgendamentosManuais()
+    {
+        $anoAtual = $this->input->post('anoAtual');
+        $mesAtual = $this->input->post('mesAtual');
+
+        $agendamentos = $this->Agendamentos_model->recebeAgendamentosManuais($anoAtual, $mesAtual);
 
         $data = array(
             'agendamentos' => $agendamentos
@@ -97,8 +114,9 @@ class Agendamentos extends CI_Controller
     public function recebeClientesAgendados()
     {
         $dataColeta = $this->input->post('dataColeta');
+        $prioridade = $this->input->post('prioridade'); 
 
-        $clientesAgendados = $this->Agendamentos_model->recebeClientesAgendados($dataColeta);
+        $clientesAgendados = $this->Agendamentos_model->recebeClientesAgendados($dataColeta, $prioridade);
         echo json_encode($clientesAgendados);
     }
 
