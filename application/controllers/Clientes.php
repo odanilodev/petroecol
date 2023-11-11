@@ -88,6 +88,12 @@ class Clientes extends CI_Controller
 
         $data['cliente'] = $this->Clientes_model->recebeCliente($id);
 
+        // verifica se existe cliente
+        if (empty($data['cliente'])) {
+
+            redirect('clientes');
+        }
+
         // etiquetas
         $this->load->model('EtiquetaCliente_model');
         $data['etiquetas'] = $this->EtiquetaCliente_model-> recebeEtiquetaCliente($id);
