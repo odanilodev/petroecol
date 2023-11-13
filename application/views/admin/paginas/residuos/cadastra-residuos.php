@@ -47,6 +47,21 @@
                                                     </div>
                                                 </div>
 
+                                                <div class="col-sm-4">
+                                                    <div class="mb-2">
+                                                        <label class="form-label text-900">Unidade de medida</label>
+                                                        <select class="form-select input-medida input-obrigatorio">
+                                                            <option value="" selected disabled>Selecione</option>
+                                                                
+                                                            <option value="kg" <?= (isset ($residuo['unidade_medida']) && $residuo['unidade_medida'] == 'kg') ? "selected" : "" ?>>KG</option>
+
+                                                            <option value="lt" <?= (isset ($residuo['unidade_medida']) && $residuo['unidade_medida'] == 'lt') ? "selected" : "" ?>>LT</option>
+
+                                                            <option value="unidade" <?= (isset ($residuo['unidade_medida']) && $residuo['unidade_medida'] == 'unidade') ? "selected" : "" ?>>UNIDADE</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
                                                 <div class="flex-1 text-end my-4">
                                                     <button class="btn btn-primary px-6 px-sm-6 btn-envia" onclick="cadastraResiduos()">Cadastrar
                                                         <span class="fas fa-chevron-right" data-fa-transform="shrink-3"> </span>
