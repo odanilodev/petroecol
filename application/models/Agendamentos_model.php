@@ -10,14 +10,16 @@ class Agendamentos_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebeAgendamentos($anoAtual, $mesAtual)
+    public function recebeAgendamentos($anoAtual, $mesAtual, $prioridade)
     {
-        $this->db->select('data_coleta, COUNT(*) AS total_agendamento');
+        $this->db->select('data_coleta, prioridade, COUNT(*) AS total_agendamento');
         $this->db->from('ci_agendamentos');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('YEAR(data_coleta)', $anoAtual);
         $this->db->where('MONTH(data_coleta)', $mesAtual);
+        $this->db->where('prioridade', $prioridade);
         $this->db->group_by('data_coleta');
+        $this->db->group_by('prioridade'); // Adiciona prioridade ao agrupamento se necessário
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -49,19 +51,13 @@ class Agendamentos_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function getRecordCount()
-    {
-        // Substitua 'your_table' pelo nome da tabela do seu banco de dados
-        $this->db->from('ci_agendamentos');
-        return $this->db->count_all_results();
-    }
-
-    public function recebeClientesAgendados($dataColeta) 
+    public function recebeClientesAgendados($dataColeta, $prioridade) 
     {
         $this->db->select('A.*, C.nome, C.rua, C.numero, C.cidade, C.telefone');
         $this->db->from('ci_agendamentos A');
         $this->db->join('ci_clientes C', 'A.id_cliente = C.id', 'inner');
         $this->db->where('A.data_coleta', $dataColeta);
+        $this->db->where('A.prioridade', $prioridade);
         $this->db->where('A.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get();
@@ -72,22 +68,19 @@ class Agendamentos_model extends CI_Model
 
     public function recebeClienteAgendado($idCLiente, $dataColeta) 
     {
-        $this->db->select('A.*, C.nome, C.rua, C.numero, C.cidade, C.telefone');
-        $this->db->from('ci_agendamentos A');
-        $this->db->join('ci_clientes C', 'A.id_cliente = C.id', 'inner');
-        $this->db->where('A.data_coleta', $dataColeta);
-        $this->db->where('A.id_cliente', $idCLiente);
-        $this->db->where('A.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get();
+        $this->db->where('data_coleta', $dataColeta);
+        $this->db->where('id_cliente', $idCLiente);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('ci_agendamentos');
 
-        return $query->result_array();
+        return $query->row_array();
 
     }
 
     public function cancelaAgendamentoCliente($idAgendamento)
     {
         $this->db->where('id', $idAgendamento);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->delete('ci_agendamentos');
 
         if ($this->db->affected_rows()) {

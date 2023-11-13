@@ -616,10 +616,10 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
 }));
 //# sourceMappingURL=calendar.js.mapv
 
+// busca os agendamentos feitos manuais (prioridades)
+function exibirAgendamentosManuais(currentYear, currentMonth) {
 
-
-
-function exibirAgendamentos(currentYear, currentMonth) {
+  events = [];
 
   $.ajax({
     url: baseUrl + 'agendamentos/exibirAgendamentos',
@@ -627,7 +627,53 @@ function exibirAgendamentos(currentYear, currentMonth) {
     async: false,
     data: {
       anoAtual: currentYear,
-      mesAtual: currentMonth
+      mesAtual: currentMonth,
+      prioridade: 1
+    },
+    success: function (data) {
+
+      let jsonString = JSON.stringify(data.agendamentos);
+
+      var obj = JSON.parse(jsonString);
+
+      for (var i = 0; i < obj.length; i++) {
+
+        let titulo = obj[i].data_coleta < dataAtualFormatada ? " Atrasado(s)" : " Prioridade(s)";
+
+        let tipo = obj[i].data_coleta < dataAtualFormatada ? "text-danger" : 'text-warning';
+
+        var event = {
+          title: obj[i].total_agendamento + titulo,
+          start: obj[i].data_coleta,
+          className: `${tipo} agendamento dataClicada-${obj[i].data_coleta} prioridade`
+        };
+
+        events.push(event);
+
+      }
+
+    }
+
+
+  });
+
+  return events;
+
+}
+
+
+function exibirAgendamentos(currentYear, currentMonth) {
+
+  exibirAgendamentosManuais(currentYear, currentMonth); // exibe os agendamentos manuais (prioridades) no calendario
+
+  $.ajax({
+    url: baseUrl + 'agendamentos/exibirAgendamentos',
+    method: 'POST',
+    async: false,
+    data: {
+      anoAtual: currentYear,
+      mesAtual: currentMonth,
+      prioridade: 0
     },
     success: function (data) {
 
@@ -660,6 +706,7 @@ function exibirAgendamentos(currentYear, currentMonth) {
 
 }
 
+
 $(document).on('click', '.agendamento', function () {
 
   let classeClicada = $(this).attr("class").split(" ");
@@ -670,17 +717,21 @@ $(document).on('click', '.agendamento', function () {
   let dataFormatada = dataClicada.replace("dataClicada-", "");
   $(this).addClass(dataFormatada);
 
-  exibirClientesAgendados(dataFormatada);
+  // se for prioridade, busca somente os clientes que são prioridade
+  exibirClientesAgendados(dataFormatada, $(this).hasClass('prioridade'));
 
 })
 
-const exibirClientesAgendados = (dataColeta) => {
+const exibirClientesAgendados = (dataColeta, prioridade) => {
+
+  let prd = prioridade ? 1 : 0;
 
   $.ajax({
     url: baseUrl + 'agendamentos/recebeClientesAgendados',
     method: 'POST',
     data: {
-      dataColeta: dataColeta
+      dataColeta: dataColeta,
+      prioridade: prd
     },
     beforeSend: function () {
 
@@ -693,7 +744,8 @@ const exibirClientesAgendados = (dataColeta) => {
       $('.tabela-clientes-agendados').removeClass('d-none');
       $('.load-form').addClass('d-none');
 
-      var clientes = $.parseJSON(data);
+      var clientes = data.agendados;
+
 
       $.each(clientes, function (index, cliente) {
 

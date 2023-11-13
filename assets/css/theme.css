@@ -23970,11 +23970,6 @@ html[dir=rtl] .googlemap .gm-style-iw.gm-style-iw-c button[title=Close] {
   background-color: #0097eb !important;
 }
 
-#testes svg{
-  color:  var(--phoenix-dropdown-link-color) !important;
-}
-
-
 .fc .text-info.fc-v-event {
   border: 1px solid var(--phoenix-gray-300) !important;
   background-color: var(--phoenix-gray-100) !important;
