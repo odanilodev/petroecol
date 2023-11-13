@@ -203,17 +203,42 @@ const deletaCliente = (id) => {
 
         if (result.isConfirmed) {
 
-            $.ajax({
-                type: 'post',
-                url: `${baseUrl}clientes/deletaCliente`,
-                data: {
-                    id: id
-                }, success: function () {
+            // verifica se tem algum recipiente com o cliente antes de deletar
+            verificaRecipienteCliente(id);
 
-                    avisoRetorno('Sucesso!', 'Cliente deletado com sucesso!', 'success', `${baseUrl}clientes`);
+        }
+    })
 
-                }
-            })
+}
+
+const verificaRecipienteCliente = (id) => {
+
+    $.ajax({
+        type: 'post',
+        url: `${baseUrl}clientes/verificaRecipienteCliente`,
+        data: {
+            id: id
+        }, success: function (data) {
+
+            if (data.success) {
+
+                $.ajax({
+                    type: 'post',
+                    url: `${baseUrl}clientes/deletaCliente`,
+                    data: {
+                        id: id
+                    }, success: function () {
+    
+                        avisoRetorno('Sucesso!', 'Cliente deletado com sucesso!', 'success', `${baseUrl}clientes`);
+    
+                    }
+                })
+
+            } else {
+
+                avisoRetorno('Algo deu errado!', `${data.message}`, 'error', `#`);
+
+            }
 
         }
     })

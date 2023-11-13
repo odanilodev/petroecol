@@ -182,4 +182,27 @@ class Clientes extends CI_Controller
 
         $this->Clientes_model->deletaEtiquetaCliente($id);
     }
+
+    public function verificaRecipienteCliente() 
+    {
+        $id = $this->input->post('id');
+        $recipienteCliente = $this->Clientes_model->verificaRecipienteCliente($id);
+
+        if (!$recipienteCliente) {
+
+            $response = array(
+                'success' => true
+            );
+
+        } else {
+
+            $response = array(
+                'success' => false,
+                'message' => "Parece que não podemos excluir este cliente, pois há recipientes associados a ele. Por favor, solicite a coleta ou justifique uma perda de recipiente."
+            );
+        }
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
+    }
 }
