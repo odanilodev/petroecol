@@ -619,6 +619,8 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
 // busca os agendamentos feitos manuais (prioridades)
 function exibirAgendamentosManuais(currentYear, currentMonth) {
 
+  events = [];
+
   $.ajax({
     url: baseUrl + 'agendamentos/exibirAgendamentos',
     method: 'POST',

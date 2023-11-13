@@ -50,10 +50,7 @@ class Agendamentos extends CI_Controller
 
         $clienteAgendado = $this->Agendamentos_model->recebeClienteAgendado($dados['id_cliente'], $dados['data_coleta']);
 
-        if (
-            in_array($dados['id_cliente'], array_column($clienteAgendado, 'id_cliente')) &&
-            in_array($dados['data_coleta'], array_column($clienteAgendado, 'data_coleta')) && !$id
-        ) {
+        if ($clienteAgendado && !$id) {
 
             $response = array(
                 'success' => false,
@@ -61,6 +58,7 @@ class Agendamentos extends CI_Controller
             );
 
             return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+           
         }
 
         $retorno = $id ? $this->Agendamentos_model->editaAgendamento($id, $dados) : $this->Agendamentos_model->insereAgendamento($dados); // se tiver ID edita se não INSERE
@@ -87,21 +85,6 @@ class Agendamentos extends CI_Controller
         $prioridade = $this->input->post('prioridade'); 
 
         $agendamentos = $this->Agendamentos_model->recebeAgendamentos($anoAtual, $mesAtual, $prioridade);
-
-        $data = array(
-            'agendamentos' => $agendamentos
-        );
-
-        // Responda com os dados em formato JSON
-        $this->output->set_content_type('application/json')->set_output(json_encode($data));
-    }
-
-    public function exibirAgendamentosManuais()
-    {
-        $anoAtual = $this->input->post('anoAtual');
-        $mesAtual = $this->input->post('mesAtual');
-
-        $agendamentos = $this->Agendamentos_model->recebeAgendamentosManuais($anoAtual, $mesAtual);
 
         $data = array(
             'agendamentos' => $agendamentos
