@@ -100,7 +100,14 @@ class Agendamentos extends CI_Controller
         $prioridade = $this->input->post('prioridade'); 
 
         $clientesAgendados = $this->Agendamentos_model->recebeClientesAgendados($dataColeta, $prioridade);
-        echo json_encode($clientesAgendados);
+
+        $data = array(
+            'agendados' => $clientesAgendados
+        );
+
+        // Responda com os dados em formato JSON
+        return $this->output->set_content_type('application/json')->set_output(json_encode($data));
+
     }
 
     public function cancelaAgendamentoCliente()

@@ -718,27 +718,20 @@ $(document).on('click', '.agendamento', function () {
   $(this).addClass(dataFormatada);
 
   // se for prioridade, busca somente os clientes que são prioridade
-  if ($(this).hasClass('prioridade')) {
-
-    exibirClientesAgendados(dataFormatada, 1);
-
-  } else {
-
-    exibirClientesAgendados(dataFormatada, 0);
-
-  }
-
+  exibirClientesAgendados(dataFormatada, $(this).hasClass('prioridade'));
 
 })
 
 const exibirClientesAgendados = (dataColeta, prioridade) => {
+
+  let prd = prioridade ? 1 : 0;
 
   $.ajax({
     url: baseUrl + 'agendamentos/recebeClientesAgendados',
     method: 'POST',
     data: {
       dataColeta: dataColeta,
-      prioridade: prioridade
+      prioridade: prd
     },
     beforeSend: function () {
 
@@ -751,7 +744,8 @@ const exibirClientesAgendados = (dataColeta, prioridade) => {
       $('.tabela-clientes-agendados').removeClass('d-none');
       $('.load-form').addClass('d-none');
 
-      var clientes = $.parseJSON(data);
+      var clientes = data.agendados;
+
 
       $.each(clientes, function (index, cliente) {
 
