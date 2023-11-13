@@ -52,9 +52,9 @@
                                                         <label class="form-label text-900">Unidade de medida</label>
                                                         <select class="form-select input-medida input-obrigatorio">
                                                             <option value="" selected disabled>Selecione</option>
-                                                            <option value="kg" <?= $residuo['unidade_medida'] == 'kg' ? "selected" : "" ?>>KG</option>
-                                                            <option value="lt" <?= $residuo['unidade_medida'] == 'lt' ? "selected" : "" ?>>LT</option>
-                                                            <option value="unidade" <?= $residuo['unidade_medida'] == 'unidade' ? "selected" : "" ?>>UNIDADE</option>
+                                                            <option value="kg" <?= (isset ($residuo['unidade_medida']) && $residuo ['unidade_medida'] == $v['kg']) ? "selected" : "" ?>>KG</option>
+                                                            <option value="lt" <?= (isset ($residuo['unidade_medida']) && $v['lt']) == 'lt' ? "selected" : "" ?>>LT</option>
+                                                            <option value="unidade" <?= (isset ($residuo['unidade_medida']) && $v['unidade']) == 'unidade' ? "selected" : "" ?>>UNIDADE</option>
                                                         </select>
                                                     </div>
                                                 </div>
