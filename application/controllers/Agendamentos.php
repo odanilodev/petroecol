@@ -91,7 +91,7 @@ class Agendamentos extends CI_Controller
         );
 
         // Responda com os dados em formato JSON
-        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+        return $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
     public function recebeClientesAgendados()
