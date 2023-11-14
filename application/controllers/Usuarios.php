@@ -8,10 +8,12 @@ class Usuarios extends CI_Controller
 		parent::__construct();
 
 		// INICIO controle sessão
-        $this->load->library('Controle_sessao');
-        $res = $this->controle_sessao->controle();
-        if($res == 'erro'){ redirect('login/erro', 'refresh');}
-        // FIM controle sessão
+		$this->load->library('Controle_sessao');
+		$res = $this->controle_sessao->controle();
+		if ($res == 'erro') {
+			redirect('login/erro', 'refresh');
+		}
+		// FIM controle sessão
 
 		$this->load->model('Usuarios_model');
 		date_default_timezone_set('America/Sao_Paulo');
@@ -22,13 +24,13 @@ class Usuarios extends CI_Controller
 		// scripts padrão
 		$scriptsPadraoHead = scriptsPadraoHead();
 		$scriptsPadraoFooter = scriptsPadraoFooter();
-		
+
 		// scripts para usuarios
 		$scriptsUsuarioHead = scriptsUsuarioHead();
 		$scriptsUsuarioFooter = scriptsUsuarioFooter();
 
-		add_scripts('header', array_merge($scriptsPadraoHead,$scriptsUsuarioHead));
-		add_scripts('footer', array_merge($scriptsPadraoFooter,$scriptsUsuarioFooter));
+		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsUsuarioHead));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsUsuarioFooter));
 
 		$data['usuarios'] = $this->Usuarios_model->recebeUsuarios();
 
@@ -43,7 +45,7 @@ class Usuarios extends CI_Controller
 		// scripts padrão
 		$scriptsPadraoHead = scriptsPadraoHead();
 		$scriptsPadraoFooter = scriptsPadraoFooter();
-		
+
 		// scripts para usuarios
 		$scriptsUsuarioHead = scriptsUsuarioHead();
 		$scriptsUsuarioFooter = scriptsUsuarioFooter();
@@ -104,7 +106,7 @@ class Usuarios extends CI_Controller
 			$this->load->library('upload', $config);
 
 			$imagemAntiga = $this->Usuarios_model->imagemAntiga($id);
-			
+
 			// Deleta a foto de perfil antiga do servidor
 			if ($id && $imagemAntiga['foto_perfil']) {
 
@@ -162,17 +164,14 @@ class Usuarios extends CI_Controller
 				$response = array(
 					'success' => true
 				);
-
 			} else {
 				// A senha antiga está incorreta.
 				$response = array(
 					'success' => false
 				);
-
 			}
 
 			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-
 		}
 	}
 
@@ -190,5 +189,60 @@ class Usuarios extends CI_Controller
 		$this->Usuarios_model->deletaUsuario($id);
 
 		redirect('usuarios');
+	}
+
+	public function permissaoUsuarios()
+	{
+		$this->load->model('Menu_model');
+		$id = $this->uri->segment(3);
+
+		// scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
+
+		// scripts para usuarios
+		$scriptsUsuarioHead = scriptsUsuarioHead();
+		$scriptsUsuarioFooter = scriptsUsuarioFooter();
+
+		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsUsuarioHead));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsUsuarioFooter));
+
+		$data['menus'] = $this->Menu_model->recebeMenus();
+		$usuario = $this->Usuarios_model->recebeUsuario($id);
+		$data['id_menu'] = [];
+
+		if ($usuario) {
+			$data['id_menu'] = json_decode($usuario['permissao'], true);
+		}
+
+		$this->load->view('admin/includes/painel/cabecalho', $data);
+		$this->load->view('admin/paginas/usuarios/permissao-menus');
+		$this->load->view('admin/includes/painel/rodape');
+	}
+
+	public function atualizaPermissoes()
+	{
+		$id_usuario = $this->input->post('id_usuario');
+		$permissoes = $this->input->post('permissoes');
+		
+		$dados['permissao'] = json_encode($permissoes);
+
+		$retorno = $this->Usuarios_model->editaUsuario($id_usuario, $dados);
+
+		if ($retorno) { // editou
+
+			$response = array(
+				'success' => true,
+				'message' => "Permissão editada com sucesso!"
+			);
+		} else { // erro ao editar
+
+			$response = array(
+				'success' => false,
+				'message' => "Erro ao editar a permissão do usuario!"
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 }

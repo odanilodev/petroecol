@@ -66,6 +66,25 @@ class Usuarios_model extends CI_Model
     {
         $dados['editado_em'] = date('Y-m-d H:i:s');
         $this->db->where('id', $id);
+
+        if($this->session->userdata('id_empresa') > 1){
+            $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        }
+        
+        $this->db->update('ci_usuarios', $dados);
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id);
+        }
+
+        return $this->db->affected_rows() > 0;
+    }
+
+    public function redefinirSenha($id, $dados)
+    {
+        $dados['editado_em'] = date('Y-m-d H:i:s');
+        $this->db->where('id', $id);
+        
         $this->db->update('ci_usuarios', $dados);
 
         if ($this->db->affected_rows()) {
