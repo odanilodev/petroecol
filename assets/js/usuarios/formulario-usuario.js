@@ -24,8 +24,8 @@ const cadastraUsuario = () => {
 
     var permissao = true;
 
-     // verifica se o select da empresa existe
-     if (empresa.length > 0) {
+    // verifica se o select da empresa existe
+    if (empresa.length > 0) {
 
         // Verifica se o select tá vazio
         if (empresa.val() == null) {
@@ -35,7 +35,7 @@ const cadastraUsuario = () => {
 
 
             permissao = false;
-            
+
         } else {
 
             $('.select-empresa').removeClass('select-validation-invalido');
@@ -44,14 +44,14 @@ const cadastraUsuario = () => {
         }
     }
 
-     // Verifica se o select setor tá vazio
-     if (setor == null) {
+    // Verifica se o select setor tá vazio
+    if (setor == null) {
 
         $('.select-setor').addClass('select-validation-invalido');
         $('.select-setor').removeClass('form-control');
 
         permissao = false;
-        
+
     } else {
         $('.select-setor').addClass('form-control');
         $('.select-setor').removeClass('select-validation-invalido');
@@ -208,4 +208,32 @@ const deletarUsuario = (id) => {
     })
 
 
+}
+
+const atualizaPermissoesUsuario = (id) => {
+
+    var permissoesSelecionadas = $('input[name="permissao"]:checked').map(function () {
+        return this.value;
+    }).get();
+
+    $.ajax({
+        type: "POST",
+        url: `${baseUrl}usuarios/atualizaPermissoes`,
+        data: { permissoes: permissoesSelecionadas, id_usuario: id },
+        success: function (data) {
+
+            $('.load-form').addClass('d-none');
+            $('.btn-envia').removeClass('d-none');
+
+            if (data.success) {
+                avisoRetorno('Sucesso!', 'Permissão atualizada com sucesso!', 'success', `${baseUrl}usuarios/permissaoUsuarios/${id}`);
+            } else {
+                avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
+            }
+
+        },
+        error: function (error) {
+            console.error("Erro ao enviar dados:", error);
+        }
+    });
 }

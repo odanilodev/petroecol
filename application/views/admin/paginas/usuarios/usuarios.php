@@ -38,7 +38,7 @@
                             <th class="sort align-middle" scope="col" data-sort="customer">Usuário</th>
                             <th class="sort align-middle" scope="col" data-sort="customer">Empresa</th>
                             <th class="sort align-middle" scope="col" data-sort="email">Email</th>
-                            <th class="sort align-middle pe-3" scope="col" data-sort="mobile_number">Telefone</th>
+                            <th class="sort align-middle pe-3">Permissão</th>
                             <th class="sort align-middle pe-3">Editar</th>
                             <th class="sort align-middle pe-3">Excluir</th>
                         </tr>
@@ -75,8 +75,10 @@
                             </td>
 
 
-                            <td class="mobile_number align-middle white-space-nowrap">
-                                <a class="fw-bold text-1100" href="tel:<?= $v['telefone'] ?>"><?= $v['telefone'] ?></a>
+                            <td class="align-middle white-space-nowrap">
+                                <a href="<?= base_url('usuarios/permissaoUsuarios/' . $v['id']) ?>" class="btn btn-warning">
+                                    <span class="fas fa-lock ms-1"></span>
+                                </a>
                             </td>
 
                             <td class="align-middle white-space-nowrap">
