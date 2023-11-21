@@ -128,10 +128,6 @@ class Clientes extends CI_Controller
 
         $data['cliente'] = $this->Clientes_model->recebeCliente($id);
 
-        echo "<pre>";
-		print_r($data['cliente']);
-		exit;
-
         $this->load->model('Frequencias_model');
         $data['frequencia'] = $this->Frequencias_model->recebeFrequenciasColeta();
 

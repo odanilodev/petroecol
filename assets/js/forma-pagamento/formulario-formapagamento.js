@@ -8,7 +8,7 @@ const cadastraFormaPagamento = () => {
     let id = $('.input-id').val();
     let permissao = false;
 
-    // cadastra um setor novo
+    // cadastra uma forma de Pagamento nova
     if (formaPagamento != "") {
 
         permissao = true;
@@ -52,7 +52,7 @@ const cadastraFormaPagamento = () => {
 }
 
 const deletaFormaPagamento = (id) => {
-alert('aqui')
+
     Swal.fire({
         title: 'Você tem certeza?',
         text: "Esta ação não poderá ser revertida",
