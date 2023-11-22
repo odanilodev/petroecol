@@ -201,12 +201,22 @@ function scriptsResiduoFooter()
 }
 
 
-// Pagina de etiquetas
+// Pagina de forma de pagamento
 function scriptsFormaPagamentoFooter()
 {
     return array(
 
         '<script src="' . base_url('assets/js/forma-pagamento/formulario-formapagamento.js') . '"></script>'
+
+    );
+}
+
+// Pagina de forma de pagamento
+function scriptsFrequenciaColetaFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/frequencia/formulario-frequencia.js') . '"></script>'
 
     );
 }
