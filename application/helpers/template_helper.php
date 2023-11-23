@@ -180,6 +180,16 @@ function scriptsSetorFooter()
     );
 }
 
+// Pagina de Frequencia coleta
+function scriptsFrequenciaColetaFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/frequencia/frequencia-formulario.js') . '"></script>'
+
+    );
+}
+
 // Pagina de recipientes
 function scriptsRecipienteFooter()
 {
