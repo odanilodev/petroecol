@@ -67,7 +67,7 @@ class FrequenciaColeta extends CI_Controller
 
 		$frequencia = $this->FrequenciaColeta_model->recebeFrequenciaColetaNome($dados['frequencia'],$dados['dia']); // verifica se já existe a frenquencia
 
-		// Verifica se a frequencia já existe e se não é a frequencia que está sendo editada
+		// Verifica se a frequencia ja existe e se não é a frequencia que está sendo editada
 		if ($frequencia && $frequencia['id'] != $id) {
 
 			$response = array(
