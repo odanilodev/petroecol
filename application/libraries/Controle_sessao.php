@@ -32,6 +32,7 @@ class Controle_sessao
 		
 			if (in_array($c, $array_menu)) {
 				//liberado
+				$CI->session->set_userdata('menu', $CI->Menu_model->recebeMenus());
 			} else {
 				$result = 'erro';
 				return $result;

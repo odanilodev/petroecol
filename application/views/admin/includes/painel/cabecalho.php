@@ -125,7 +125,7 @@
                                     </div>
                                 </a>
 
-                                <!-- <div class="nav-item-wrapper">
+                                <div class="nav-item-wrapper">
 
                                     <a class="nav-link dropdown-indicator label-1" href="#nv-faq" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-faq">
                                         <div class="d-flex align-items-center">
@@ -155,7 +155,7 @@
                                                 </a>
                                             </li>
                                         </ul>
-                                    </div> -->
+                                    </div>
 
                                 </div>
 

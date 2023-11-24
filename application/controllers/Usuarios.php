@@ -212,7 +212,8 @@ class Usuarios extends CI_Controller
 		$data['id_menu'] = [];
 
 		if ($usuario) {
-			$data['id_menu'] = json_decode($usuario['permissao'], true);
+			$id_menu = json_decode($usuario['permissao'], true);
+			$data['id_menu'] = $id_menu ?? [];
 		}
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
@@ -230,6 +231,8 @@ class Usuarios extends CI_Controller
 		$retorno = $this->Usuarios_model->editaUsuario($id_usuario, $dados);
 
 		if ($retorno) { // editou
+
+			$this->session->set_userdata('permissao', json_decode($dados['permissao'], true));
 
 			$response = array(
 				'success' => true,
