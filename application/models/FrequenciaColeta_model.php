@@ -86,4 +86,13 @@ class FrequenciaColeta_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+    public function verificaFrequenciaColetaCliente($id)
+    {
+        $this->db->where('id_frequencia_coleta', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->get('ci_clientes');
+
+        return $this->db->affected_rows() > 0;
+    }
 }

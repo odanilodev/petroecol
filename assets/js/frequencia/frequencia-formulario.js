@@ -6,18 +6,16 @@ const cadastraFrequenciaColeta = () => {
     let diaColeta = $('.input-dias').val();
 
     let id = $('.input-id').val();
-    let permissao = false;
+    let permissao = true;
 
-    // cadastra uma nova Frequencia
-    if (frequenciaColeta!= "") {
+    $('.campo-obrigatorio').each(function(){
+        if (!$(this).val()) {
+            $(this).addClass('invalido');
+           $(this).next('.msg-invalido').removeClass('d-none');
 
-        permissao = true;
-
-    } else {
-
-        permissao = false;
-
-    }
+            permissao = false;
+        } 
+    });
 
     if (permissao) {
 
@@ -73,9 +71,11 @@ const deletaFrequenciaColeta = (id) => {
                 url: `${baseUrl}frequenciacoleta/deletaFrequenciaColeta`,
                 data: {
                     id: id
-                }, success: function () {
+                }, success: function (data) {
 
-                    avisoRetorno('Sucesso!', 'Frequência de coleta deletada com sucesso!', 'success', `${baseUrl}frequenciacoleta`);
+                    let redirect = data.type != 'error' ? `${baseUrl}frequenciacoleta` : '#';
+
+                    avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
                 }
             })

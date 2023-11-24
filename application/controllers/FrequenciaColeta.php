@@ -1,21 +1,22 @@
-<?php 
+<?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class FrequenciaColeta extends CI_Controller
 {
-  public function __construct()
-  {
-    parent::__construct();
+	public function __construct()
+	{
+		parent::__construct();
 
-      // INICIO controle sessão
-        $this->load->library('Controle_sessao');
-        $res = $this->controle_sessao->controle();
-        if($res == 'erro'){ redirect('login/erro', 'refresh');}
-      // FIM controle sessão
+		// INICIO controle sessão
+		$this->load->library('Controle_sessao');
+		$res = $this->controle_sessao->controle();
+		if ($res == 'erro') {
+			redirect('login/erro', 'refresh');
+		}
+		// FIM controle sessão
 
-    $this->load->model('FrequenciaColeta_model');
-
-  }
+		$this->load->model('FrequenciaColeta_model');
+	}
 	public function index()
 	{
 		// scripts padrão
@@ -29,14 +30,14 @@ class FrequenciaColeta extends CI_Controller
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsFrequenciaColetaFooter));
 
 		$data['frequencia'] = $this->FrequenciaColeta_model->recebeFrequenciasColeta();
-		
+
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/frequencia-coleta/frequencia');
 		$this->load->view('admin/includes/painel/rodape');
-}
+	}
 
-  public function formulario()
-  {
+	public function formulario()
+	{
 		// scripts padrão
 		$scriptsPadraoHead = scriptsPadraoHead();
 		$scriptsPadraoFooter = scriptsPadraoFooter();
@@ -47,24 +48,24 @@ class FrequenciaColeta extends CI_Controller
 		add_scripts('header', array_merge($scriptsPadraoHead));
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsFrequenciaColetaFooter));
 
-    $id = $this->uri->segment(3);
+		$id = $this->uri->segment(3);
 
-    $data['frequencia'] = $this->FrequenciaColeta_model->recebeFrequenciaColeta($id);
+		$data['frequencia'] = $this->FrequenciaColeta_model->recebeFrequenciaColeta($id);
 
-    $this->load->view('admin/includes/painel/cabecalho', $data);
-    $this->load->view('admin/paginas/frequencia-coleta/cadastra-frequencia');
-    $this->load->view('admin/includes/painel/rodape');
-  }
-  public function cadastraFrequenciaColeta()
+		$this->load->view('admin/includes/painel/cabecalho', $data);
+		$this->load->view('admin/paginas/frequencia-coleta/cadastra-frequencia');
+		$this->load->view('admin/includes/painel/rodape');
+	}
+	public function cadastraFrequenciaColeta()
 	{
 		$id = $this->input->post('id');
-    $frequencia = $this->input->post('frequenciaColeta');
-		
-    $dados['dia'] = $this->input->post('diaColeta');
+		$frequencia = $this->input->post('frequenciaColeta');
+
+		$dados['dia'] = $this->input->post('diaColeta');
 		$dados['frequencia'] = mb_convert_case($frequencia, MB_CASE_TITLE, 'UTF-8');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-		$frequencia = $this->FrequenciaColeta_model->recebeFrequenciaColetaNome($dados['frequencia'],$dados['dia']); // verifica se já existe a frenquencia
+		$frequencia = $this->FrequenciaColeta_model->recebeFrequenciaColetaNome($dados['frequencia'], $dados['dia']); // verifica se já existe a frenquencia
 
 		// Verifica se a frequencia ja existe e se não é a frequencia que está sendo editada
 		if ($frequencia && $frequencia['id'] != $id) {
@@ -100,17 +101,27 @@ class FrequenciaColeta extends CI_Controller
 	{
 		$id = $this->input->post('id');
 
-		$this->FrequenciaColeta_model->deletaFrequenciaColeta($id);
+		// Verifica se a frequência esta vinculada a um cliente
+		$frequenciaVinculadaCliente = $this->FrequenciaColeta_model->verificaFrequenciaColetaCliente($id);
 
+		if ($frequenciaVinculadaCliente) {
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Esta frequência está vinculada a um cliente, não é possível excluí-la.",
+				'type' => "error"
+			);
+		} else {
+			$this->FrequenciaColeta_model->deletaFrequenciaColeta($id);
+
+			$response = array(
+				'success' => true,
+				'title' => "Sucesso!",
+				'message' => "Frequência deletada com sucesso!",
+				'type' => "success"
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 }
-
-
-
-
-
-
-
-
-
-?>

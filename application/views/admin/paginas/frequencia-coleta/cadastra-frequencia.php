@@ -28,12 +28,15 @@
 
                                                 <div class="col-md-6 mb-3">
                                                     <label class="form-label">Frequência:</label>
-                                                    <input class="form-control input-frequencia" type="text" placeholder="Escolha o nome para a frequência" value="<?= $frequencia['frequencia'] ?? ''; ?>">
+                                                    <input class="form-control input-frequencia campo-obrigatorio" type="text" placeholder="Escolha o nome para a frequência" value="<?= $frequencia['frequencia'] ?? ''; ?>">
+                                                    <div class="text-danger m-1 msg-invalido d-none">Preencha este campo</div>
                                                 </div>
 
                                                 <div class="col-md-6 mb-3">
                                                     <label class="form-label">Dias:</label>
-                                                    <input class="form-control input-dias" type="number" placeholder="Escolha de quanto em quanto tempo" value="<?= $frequencia['dia'] ?? ''; ?>">
+                                                    <input class="form-control input-dias campo-obrigatorio" type="number" placeholder="Escolha de quanto em quanto tempo" value="<?= $frequencia['dia'] ?? ''; ?>">
+
+                                                    <div class="text-danger m-1 msg-invalido co-one d-none">Preencha este campo</div>
                                                 </div>
 
                                                 <div class="flex-1 text-end my-5">
