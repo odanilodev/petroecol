@@ -71,6 +71,7 @@ class Agendamentos_model extends CI_Model
         $this->db->where('data_coleta', $dataColeta);
         $this->db->where('id_cliente', $idCLiente);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        
         $query = $this->db->get('ci_agendamentos');
 
         return $query->row_array();
