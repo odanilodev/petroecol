@@ -29,14 +29,14 @@
             userLinkRTL.setAttribute('disabled', true);
         }
     </script>
-    
+
 </head>
 
 
 <body>
 
     <input type="hidden" value="<?= base_url(); ?>" class="base-url">
-    
+
     <input type="hidden" value="<?= $this->session->flashdata('retorno_funcao'); ?>" class="retorno-funcao">
 
     <main class="main" id="top">
@@ -59,151 +59,70 @@
                             <hr class="navbar-vertical-line" />
                             <!-- parent pages-->
                             <div class="nav-item-wrapper">
-                                <a class="nav-link label-1" href="#" role="button" data-bs-toggle="" aria-expanded="false">
-                                    <div class="d-flex align-items-center">
-                                        <span class="nav-link-icon">
-                                            <span data-feather="pie-chart"></span>
-                                        </span>
-                                        <span class="nav-link-text-wrapper">
-                                            <span class="nav-link-text">Início</span>
-                                        </span>
-                                    </div>
-                                </a>
+                                <?php
 
-                                <a class="nav-link label-1" href="<?= base_url('usuarios')?>" role="button" data-bs-toggle="" aria-expanded="false">
-                                    <div class="d-flex align-items-center">
-                                        <span class="nav-link-icon">
-                                            <span class="far fa-user-circle"></span>
-                                        </span>
-                                        <span class="nav-link-text-wrapper">
-                                            <span class="nav-link-text">Usuários</span>
-                                        </span>
-                                    </div>
-                                </a>
+                                foreach ($this->session->userdata('menu') as $v) : // Todos os menus do sistema
+                                    if (in_array($v['id'], $this->session->userdata('permissao'))) { // Apenas os menu liberado para o usuário logado
+                                        if (!empty($v['icone'])) : // Mostrar quando ter icone
 
-                                <a class="nav-link label-1" href="<?= base_url('clientes')?>" role="button" data-bs-toggle="" aria-expanded="false">
-                                    <div class="d-flex align-items-center">
-                                        <span class="nav-link-icon">
-                                            <span data-feather="users"></span>
-                                        </span>
-                                        <span class="nav-link-text-wrapper">
-                                            <span class="nav-link-text">Clientes</span>
-                                        </span>
-                                    </div>
-                                </a>
-
-                                <a class="nav-link label-1" href="<?= base_url('agendamentos')?>" role="button" data-bs-toggle="" aria-expanded="false">
-                                    <div class="d-flex align-items-center">
-                                        <span class="nav-link-icon">
-                                            <span data-feather="calendar"></span>
-                                        </span>
-                                        <span class="nav-link-text-wrapper">
-                                            <span class="nav-link-text">Agendamentos</span>
-                                        </span>
-                                    </div>
-                                </a>
-
-                                <a class="nav-link label-1" href="<?= base_url('motoristas')?>" role="button" data-bs-toggle="" aria-expanded="false">
-                                    <div class="d-flex align-items-center">
-                                        <span class="nav-link-icon">
-                                            <span class="fas fa-truck-pickup"></span>
-                                        </span>
-                                        <span class="nav-link-text-wrapper">
-                                            <span class="nav-link-text">Motoristas</span>
-                                        </span>
-                                    </div>
-                                </a>
-
-                                <a class="nav-link label-1" href="<?= base_url('menu')?>" role="button" data-bs-toggle="" aria-expanded="false">
-                                    <div class="d-flex align-items-center">
-                                        <span class="nav-link-icon">
-                                            <span class="fas fa-list-ul"></span>
-                                        </span>
-                                        <span class="nav-link-text-wrapper">
-                                            <span class="nav-link-text">Menu</span>
-                                        </span>
-                                    </div>
-                                </a>
-
-                                <div class="nav-item-wrapper">
-
-                                    <a class="nav-link dropdown-indicator label-1" href="#nv-faq" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-faq">
-                                        <div class="d-flex align-items-center">
-                                            <div class="dropdown-indicator-icon">
-                                                <span class="fas fa-caret-right"></span>
-                                            </div>
-                                            <span class="nav-link-icon">
-                                                <span data-feather="users"></span>
-                                            </span>
-                                            <span class="nav-link-text">Faq</span>
-                                        </div>
-                                    </a>
-
-                                    <div class="parent-wrapper label-1">
-                                        <ul class="nav parent collapse show" data-bs-parent="#navbarVerticalCollapse" id="nv-faq">
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="pages/faq/faq-accordion.html" data-bs-toggle="" aria-expanded="false">
+                                            if (!empty($v['link'])) { // categoria normal 
+                                ?>
+                                                <a class="nav-link label-1" href="<?= base_url($v['link']) ?>" role="button" data-bs-toggle="" aria-expanded="false">
                                                     <div class="d-flex align-items-center">
-                                                        <span class="nav-link-text">Faq accordion</span>
+                                                        <span class="nav-link-icon">
+                                                            <span <?= $v['icone'] ?>></span>
+                                                        </span>
+                                                        <span class="nav-link-text-wrapper">
+                                                            <span class="nav-link-text"><?= $v['nome'] ?></span>
+                                                        </span>
                                                     </div>
                                                 </a>
-                                            </li>
-                                            <li class="nav-item"><a class="nav-link" href="pages/faq/faq-tab.html" data-bs-toggle="" aria-expanded="false">
-                                                    <div class="d-flex align-items-center">
-                                                        <span class="nav-link-text">Faq tab</span>
+                                            <?php } else { // categoria PAI - FILHOS 
+                                            ?>
+
+                                                <div class="nav-item-wrapper">
+
+                                                    <a class="nav-link dropdown-indicator label-1" href="#nv-faq" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-faq">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="dropdown-indicator-icon">
+                                                                <span class="fas fa-caret-right"></span>
+                                                            </div>
+                                                            <span class="nav-link-icon">
+                                                                <span <?= $v['icone'] ?>></span>
+                                                            </span>
+                                                            <span class="nav-link-text"><strong><?= $v['nome'] ?></strong></span>
+                                                        </div>
+                                                    </a>
+
+                                                    <div class="parent-wrapper label-1">
+                                                        <ul class="nav parent collapse show" data-bs-parent="#navbarVerticalCollapse" id="nv-faq">
+
+                                                            <?php foreach ($v['sub_menus'] as $sub) { // Sub menu
+
+                                                                if (in_array($sub['id'], $this->session->userdata('permissao'))) { // Sub menus com permissão para o usuário
+
+                                                            ?>
+
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link" href="<?= base_url($sub['link']) ?>" data-bs-toggle="" aria-expanded="false">
+                                                                            <div class="d-flex align-items-center">
+                                                                                <span class="nav-link-text">- <?= $sub['nome'] ?></span>
+                                                                            </div>
+                                                                        </a>
+                                                                    </li>
+
+                                                            <?php }
+                                                            } ?>
+                                                        </ul>
                                                     </div>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
 
-                                </div>
+                                    <?php }
 
-                                <a class="nav-link label-1" href="<?= base_url('etiquetas')?>" role="button" data-bs-toggle="" aria-expanded="false">
-                                    <div class="d-flex align-items-center">
-                                        <span class="nav-link-icon">
-                                            <span class="uil-label-alt"></span>
-                                        </span>
-                                        <span class="nav-link-text-wrapper">
-                                            <span class="nav-link-text">Etiquetas</span>
-                                        </span>
-                                    </div>
-                                </a>
+                                        endif;
+                                    }
+                                endforeach; ?>
 
-                                <a class="nav-link label-1" href="<?= base_url('setores')?>" role="button" data-bs-toggle="" aria-expanded="false">
-                                    <div class="d-flex align-items-center">
-                                        <span class="nav-link-icon">
-                                            <span class="uil-create-dashboard"></span>
-                                        </span>
-                                        <span class="nav-link-text-wrapper">
-                                            <span class="nav-link-text">Setores</span>
-                                        </span>
-                                    </div>
-                                </a>
-
-                                <a class="nav-link label-1" href="<?= base_url('recipientes')?>" role="button" data-bs-toggle="" aria-expanded="false">
-                                    <div class="d-flex align-items-center">
-                                        <span class="nav-link-icon">
-                                            <span class="fas fa-boxes"></span>
-                                        </span>
-                                        <span class="nav-link-text-wrapper">
-                                            <span class="nav-link-text">Recipientes</span>
-                                        </span>
-                                    </div>
-                                </a>
-
-                                <a class="nav-link label-1" href="<?= base_url('residuos')?>" role="button" data-bs-toggle="" aria-expanded="false">
-                                    <div class="d-flex align-items-center">
-                                        <span class="nav-link-icon">
-                                            <span class="fas fa-recycle"></span>
-                                        </span>
-                                        <span class="nav-link-text-wrapper">
-                                            <span class="nav-link-text">Residuos</span>
-                                        </span>
-                                    </div>
-                                </a>
-
-                            </div>
+                                                </div>
 
                         </li>
                     </ul>
@@ -221,7 +140,7 @@
                     <a class="navbar-brand me-1 me-sm-3" href="<?= base_url('dashboard') ?>">
                         <div class="d-flex align-items-center">
                             <div class="d-flex align-items-center">
-                                <img src="" style="max-width: 180px;" class="img-fluid logo"/>
+                                <img src="" style="max-width: 180px;" class="img-fluid logo" />
                                 <!-- <p class="logo-text ms-2 d-none d-sm-block">phoenix</p> -->
                             </div>
                         </div>
@@ -259,14 +178,14 @@
                                 <hr class="text-200 my-0" />
                                 <h6 class="dropdown-header text-1000 fs--1 border-bottom border-200 py-2 lh-sm">Products</h6>
                                 <div class="py-2"><a class="dropdown-item py-2 d-flex align-items-center" href="apps/e-commerce/landing/product-details.html">
-                                        <div class="file-thumbnail me-2"><img class="h-100 w-100 fit-cover rounded-3" src="<?= base_url('')?>assets/img/products/60x60/3.png" alt="" /></div>
+                                        <div class="file-thumbnail me-2"><img class="h-100 w-100 fit-cover rounded-3" src="<?= base_url('') ?>assets/img/products/60x60/3.png" alt="" /></div>
                                         <div class="flex-1">
                                             <h6 class="mb-0 text-1000 title">MacBook Air - 13″</h6>
                                             <p class="fs--2 mb-0 d-flex text-700"><span class="fw-medium text-600">8GB Memory - 1.6GHz - 128GB Storage</span></p>
                                         </div>
                                     </a>
                                     <a class="dropdown-item py-2 d-flex align-items-center" href="apps/e-commerce/landing/product-details.html">
-                                        <div class="file-thumbnail me-2"><img class="img-fluid" src="<?= base_url('')?>assets/img/products/60x60/3.png" alt="" /></div>
+                                        <div class="file-thumbnail me-2"><img class="img-fluid" src="<?= base_url('') ?>assets/img/products/60x60/3.png" alt="" /></div>
                                         <div class="flex-1">
                                             <h6 class="mb-0 text-1000 title">MacBook Pro - 13″</h6>
                                             <p class="fs--2 mb-0 d-flex text-700"><span class="fw-medium text-600 ms-2">30 Sep at 12:30 PM</span></p>
@@ -316,7 +235,7 @@
                                 <h6 class="dropdown-header text-1000 fs--1 border-bottom border-200 py-2 lh-sm">Members</h6>
                                 <div class="py-2"><a class="dropdown-item py-2 d-flex align-items-center" href="pages/members.html">
                                         <div class="avatar avatar-l status-online  me-2 text-900">
-                                            <img class="rounded-circle " src="<?= base_url('')?>assets/img/team/40x40/10.webp" alt="" />
+                                            <img class="rounded-circle " src="<?= base_url('') ?>assets/img/team/40x40/10.webp" alt="" />
 
                                         </div>
                                         <div class="flex-1">
@@ -326,7 +245,7 @@
                                     </a>
                                     <a class="dropdown-item py-2 d-flex align-items-center" href="pages/members.html">
                                         <div class="avatar avatar-l  me-2 text-900">
-                                            <img class="rounded-circle " src="<?= base_url('')?>assets/img/team/40x40/12.webp" alt="" />
+                                            <img class="rounded-circle " src="<?= base_url('') ?>assets/img/team/40x40/12.webp" alt="" />
 
                                         </div>
                                         <div class="flex-1">
@@ -438,7 +357,7 @@
                                             <div class="px-2 px-sm-3 py-3 border-300 notification-card position-relative unread border-bottom">
                                                 <div class="d-flex align-items-center justify-content-between position-relative">
                                                     <div class="d-flex">
-                                                        <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="<?= base_url('')?>assets/img/team/40x40/57.webp" alt="" />
+                                                        <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="<?= base_url('') ?>assets/img/team/40x40/57.webp" alt="" />
                                                         </div>
                                                         <div class="flex-1 me-sm-3">
                                                             <h4 class="fs--1 text-black">Kiera Anderson</h4>
@@ -455,7 +374,7 @@
                                             <div class="px-2 px-sm-3 py-3 border-300 notification-card position-relative unread border-bottom">
                                                 <div class="d-flex align-items-center justify-content-between position-relative">
                                                     <div class="d-flex">
-                                                        <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="<?= base_url('')?>assets/img/team/40x40/59.webp" alt="" />
+                                                        <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="<?= base_url('') ?>assets/img/team/40x40/59.webp" alt="" />
                                                         </div>
                                                         <div class="flex-1 me-sm-3">
                                                             <h4 class="fs--1 text-black">Herman Carter</h4>
@@ -472,7 +391,7 @@
                                             <div class="px-2 px-sm-3 py-3 border-300 notification-card position-relative read ">
                                                 <div class="d-flex align-items-center justify-content-between position-relative">
                                                     <div class="d-flex">
-                                                        <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="<?= base_url('')?>assets/img/team/40x40/58.webp" alt="" />
+                                                        <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="<?= base_url('') ?>assets/img/team/40x40/58.webp" alt="" />
                                                         </div>
                                                         <div class="flex-1 me-sm-3">
                                                             <h4 class="fs--1 text-black">Benjamin Button</h4>
@@ -516,43 +435,43 @@
                                         <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('assets/img/nav-icons/behance.webp') ?>" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Behance</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('')?>assets/img/nav-icons/google-cloud.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/google-cloud.webp" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Cloud</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('')?>assets/img/nav-icons/slack.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/slack.webp" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Slack</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('')?>assets/img/nav-icons/gitlab.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/gitlab.webp" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Gitlab</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('')?>assets/img/nav-icons/bitbucket.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/bitbucket.webp" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">BitBucket</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('')?>assets/img/nav-icons/google-drive.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/google-drive.webp" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Drive</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('')?>assets/img/nav-icons/trello.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/trello.webp" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Trello</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('')?>assets/img/nav-icons/figma.webp" alt="" width="20" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/figma.webp" alt="" width="20" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Figma</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('')?>assets/img/nav-icons/twitter.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/twitter.webp" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Twitter</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('')?>assets/img/nav-icons/pinterest.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/pinterest.webp" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Pinterest</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('')?>assets/img/nav-icons/ln.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/ln.webp" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Linkedin</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('')?>assets/img/nav-icons/google-maps.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/google-maps.webp" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Maps</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('')?>assets/img/nav-icons/google-photos.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/google-photos.webp" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Photos</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('')?>assets/img/nav-icons/spotify.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/spotify.webp" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Spotify</p>
                                             </a></div>
                                     </div>
@@ -562,7 +481,7 @@
                     </li>
                     <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                             <div class="avatar avatar-l ">
-                                <img class="rounded-circle " src="<?= $this->session->userdata('foto_perfil') != '' ? base_url('uploads/usuarios/').$this->session->userdata('foto_perfil') : base_url('assets/img/icons/sem_foto.jpg') ?>" alt="" />
+                                <img class="rounded-circle " src="<?= $this->session->userdata('foto_perfil') != '' ? base_url('uploads/usuarios/') . $this->session->userdata('foto_perfil') : base_url('assets/img/icons/sem_foto.jpg') ?>" alt="" />
 
                             </div>
                         </a>
@@ -571,26 +490,26 @@
                                 <div class="card-body p-0">
                                     <div class="text-center pt-4 pb-3">
                                         <div class="avatar avatar-xl ">
-                                            <img class="rounded-circle " src="<?= $this->session->userdata('foto_perfil') != '' ? base_url('uploads/usuarios/').$this->session->userdata('foto_perfil') : base_url('assets/img/icons/sem_foto.jpg') ?>" alt="" />
+                                            <img class="rounded-circle " src="<?= $this->session->userdata('foto_perfil') != '' ? base_url('uploads/usuarios/') . $this->session->userdata('foto_perfil') : base_url('assets/img/icons/sem_foto.jpg') ?>" alt="" />
                                         </div>
                                         <h6 class="mt-2 text-black"><?= $this->session->userdata('nome_usuario'); ?></h6>
                                     </div>
-                                         
+
                                 </div>
-                                <div class="overflow-auto scrollbar" >
+                                <div class="overflow-auto scrollbar">
                                     <ul class="nav d-flex flex-column mb-2 pb-1">
-                                        <?php if($this->session->userdata("id_setor") != 0) { ?>
-                                            <li class="nav-item"><a class="nav-link px-3" href="<?= base_url('usuarios/formulario/' . $this->session->userdata("id_usuario"))?>"> <span class="me-2 text-900" data-feather="user"></span><span>Perfil</span></a></li>
+                                        <?php if ($this->session->userdata("id_setor") != 0) { ?>
+                                            <li class="nav-item"><a class="nav-link px-3" href="<?= base_url('usuarios/formulario/' . $this->session->userdata("id_usuario")) ?>"> <span class="me-2 text-900" data-feather="user"></span><span>Perfil</span></a></li>
                                             <li class="nav-item"><a class="nav-link px-3" href="https://api.whatsapp.com/send?l=pt_br&phone=5514997501274"> <span class="me-2 text-900" data-feather="help-circle"></span>Central de Ajuda</a></li>
                                         <?php } ?>
                                         <li class="nav-item"><a class="nav-link px-3" href="<?= base_url('dashboard') ?>"><span class="me-2 text-900" data-feather="pie-chart"></span>Painel Principal</a></li>
-                                        <li class="nav-item"><a class="nav-link px-3" href="<?= base_url('usuarios/formulario')?>"><span class="me-2 text-900" data-feather="user-plus"></span>Criar outra conta</a></li>
+                                        <li class="nav-item"><a class="nav-link px-3" href="<?= base_url('usuarios/formulario') ?>"><span class="me-2 text-900" data-feather="user-plus"></span>Criar outra conta</a></li>
                                         <!-- <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="settings"></span>Politica de Privacidade</a></li> -->
 
                                     </ul>
                                 </div>
                                 <div class="card-footer p-3 border-top">
-                                    <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="<?=base_url('login/sair')?>"> <span class="me-2" data-feather="log-out"> </span>Sair</a></div>
+                                    <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="<?= base_url('login/sair') ?>"> <span class="me-2" data-feather="log-out"> </span>Sair</a></div>
                                 </div>
                             </div>
                         </div>
