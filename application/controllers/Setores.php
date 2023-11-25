@@ -52,7 +52,6 @@ class Setores extends CI_Controller
 
 		$data['setor'] = $this->Setores_model->recebeSetor($id);
 
-
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/setores/cadastra-setor');
 		$this->load->view('admin/includes/painel/rodape');

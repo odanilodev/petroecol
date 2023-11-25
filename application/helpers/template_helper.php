@@ -201,7 +201,7 @@ function scriptsResiduoFooter()
 }
 
 
-// Pagina de etiquetas
+// Pagina forma pagamento
 function scriptsFormaPagamentoFooter()
 {
     return array(
