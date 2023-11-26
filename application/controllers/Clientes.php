@@ -59,10 +59,10 @@ class Clientes extends CI_Controller
 
         // recipientes
         $this->load->model('Recipientes_model');
-		$data['recipientes'] = $this->Recipientes_model->recebeTodosRecipientes();
+        $data['recipientes'] = $this->Recipientes_model->recebeTodosRecipientes();
 
         $this->load->model('RecipienteCliente_model');
-		$data['recipientesClientes'] = $this->RecipienteCliente_model->recebeRecipientesClientes();
+        $data['recipientesClientes'] = $this->RecipienteCliente_model->recebeRecipientesClientes();
 
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
@@ -96,7 +96,7 @@ class Clientes extends CI_Controller
 
         // etiquetas
         $this->load->model('EtiquetaCliente_model');
-        $data['etiquetas'] = $this->EtiquetaCliente_model-> recebeEtiquetaCliente($id);
+        $data['etiquetas'] = $this->EtiquetaCliente_model->recebeEtiquetaCliente($id);
 
         // residuos
         $this->load->model('ResiduoCliente_model');
