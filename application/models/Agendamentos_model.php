@@ -51,7 +51,7 @@ class Agendamentos_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function recebeClientesAgendados($dataColeta, $prioridade) 
+    public function recebeClientesAgendados($dataColeta, $prioridade)
     {
         $this->db->select('A.*, C.nome, C.rua, C.numero, C.cidade, C.telefone');
         $this->db->from('ci_agendamentos A');
@@ -63,10 +63,9 @@ class Agendamentos_model extends CI_Model
         $query = $this->db->get();
 
         return $query->result_array();
-
     }
 
-    public function recebeClienteAgendado($idCLiente, $dataColeta) 
+    public function recebeClienteAgendado($idCLiente, $dataColeta)
     {
         $this->db->where('data_coleta', $dataColeta);
         $this->db->where('id_cliente', $idCLiente);
@@ -74,7 +73,6 @@ class Agendamentos_model extends CI_Model
         $query = $this->db->get('ci_agendamentos');
 
         return $query->row_array();
-
     }
 
     public function cancelaAgendamentoCliente($idAgendamento)
@@ -88,6 +86,5 @@ class Agendamentos_model extends CI_Model
         }
 
         return $this->db->affected_rows() > 0;
-
     }
 }

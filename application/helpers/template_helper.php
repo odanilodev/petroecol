@@ -210,6 +210,17 @@ function scriptsResiduoFooter()
     );
 }
 
+
+// Pagina forma pagamento
+function scriptsFormaPagamentoFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/forma-pagamento/formulario-formapagamento.js') . '"></script>'
+
+    );
+}
+
 // pagina de agendamento
 function scriptsAgendamentoHead()
 {
