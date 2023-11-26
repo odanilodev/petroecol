@@ -128,8 +128,8 @@ class Clientes extends CI_Controller
 
         $data['cliente'] = $this->Clientes_model->recebeCliente($id);
 
-        $this->load->model('Frequencias_model');
-        $data['frequencia'] = $this->Frequencias_model->recebeFrequenciasColeta();
+        $this->load->model('FrequenciaColeta_model');
+        $data['frequencia'] = $this->FrequenciaColeta_model->recebeFrequenciasColeta();
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/cadastra-cliente');

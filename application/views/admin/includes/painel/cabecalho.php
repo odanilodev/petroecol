@@ -191,6 +191,16 @@
                                         </span>
                                     </div>
                                 </a>
+                                <a class="nav-link label-1" href="<?= base_url('frequenciacoleta')?>" role="button" data-bs-toggle="" aria-expanded="false">
+                                    <div class="d-flex align-items-center">
+                                        <span class="nav-link-icon">
+                                            <span class="uil-calendar-alt"></span>
+                                        </span>
+                                        <span class="nav-link-text-wrapper">
+                                            <span class="nav-link-text">Frequência de Coleta</span>
+                                        </span>
+                                    </div>
+                                </a>
 
                                 <a class="nav-link label-1" href="<?= base_url('recipientes')?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
