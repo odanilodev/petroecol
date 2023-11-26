@@ -53,6 +53,7 @@ class Usuarios_model extends CI_Model
     public function insereUsuario($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');
+        $dados['permissao'] = "[]";
         $this->db->insert('ci_usuarios', $dados);
 
         if ($this->db->affected_rows()) {

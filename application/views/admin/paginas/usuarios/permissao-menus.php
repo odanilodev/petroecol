@@ -46,7 +46,7 @@
 
                                     <!-- check de permissão -->
                                     <div class="form-check">
-                                        <input class="form-check-input" <?= $menu['link'] == null ? 'disabled' : '' ?> <?= in_array($menu['id'], $id_menu) ? 'checked' : '' ?> name="permissao" type="checkbox" value="<?= $menu['id'] ?>">
+                                        <input class="form-check-input" <?= in_array($menu['id'], $id_menu) ? 'checked' : '' ?> name="permissao" type="checkbox" value="<?= $menu['id'] ?>">
                                     </div>
                                 </td>
                             </tr>
