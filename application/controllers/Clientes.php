@@ -59,10 +59,10 @@ class Clientes extends CI_Controller
 
         // recipientes
         $this->load->model('Recipientes_model');
-		$data['recipientes'] = $this->Recipientes_model->recebeTodosRecipientes();
+        $data['recipientes'] = $this->Recipientes_model->recebeTodosRecipientes();
 
         $this->load->model('RecipienteCliente_model');
-		$data['recipientesClientes'] = $this->RecipienteCliente_model->recebeRecipientesClientes();
+        $data['recipientesClientes'] = $this->RecipienteCliente_model->recebeRecipientesClientes();
 
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
@@ -96,7 +96,7 @@ class Clientes extends CI_Controller
 
         // etiquetas
         $this->load->model('EtiquetaCliente_model');
-        $data['etiquetas'] = $this->EtiquetaCliente_model-> recebeEtiquetaCliente($id);
+        $data['etiquetas'] = $this->EtiquetaCliente_model->recebeEtiquetaCliente($id);
 
         // residuos
         $this->load->model('ResiduoCliente_model');
@@ -128,8 +128,8 @@ class Clientes extends CI_Controller
 
         $data['cliente'] = $this->Clientes_model->recebeCliente($id);
 
-        $this->load->model('Frequencias_model');
-        $data['frequencia'] = $this->Frequencias_model->recebeFrequenciasColeta();
+        $this->load->model('FrequenciaColeta_model');
+        $data['frequencia'] = $this->FrequenciaColeta_model->recebeFrequenciasColeta();
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/cadastra-cliente');
@@ -181,5 +181,28 @@ class Clientes extends CI_Controller
         $this->Clientes_model->deletaCliente($id);
 
         $this->Clientes_model->deletaEtiquetaCliente($id);
+    }
+
+    public function verificaRecipienteCliente() 
+    {
+        $id = $this->input->post('id');
+        $recipienteCliente = $this->Clientes_model->verificaRecipienteCliente($id);
+
+        if (!$recipienteCliente) {
+
+            $response = array(
+                'success' => true
+            );
+
+        } else {
+
+            $response = array(
+                'success' => false,
+                'message' => "Parece que não podemos excluir este cliente, pois há recipientes associados a ele. Por favor, solicite a coleta ou justifique uma perda de recipiente."
+            );
+        }
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
     }
 }
