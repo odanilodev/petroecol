@@ -225,14 +225,16 @@ class Usuarios extends CI_Controller
 	{
 		$id_usuario = $this->input->post('id_usuario');
 		$permissoes = $this->input->post('permissoes');
-		
+
 		$dados['permissao'] = json_encode($permissoes);
 
 		$retorno = $this->Usuarios_model->editaUsuario($id_usuario, $dados);
 
 		if ($retorno) { // editou
 
-			$this->session->set_userdata('permissao', json_decode($dados['permissao'], true));
+			if ($id_usuario == $this->session->userdata('id_usuario')) {
+				$this->session->set_userdata('permissao', json_decode($dados['permissao'], true));
+			}
 
 			$response = array(
 				'success' => true,
