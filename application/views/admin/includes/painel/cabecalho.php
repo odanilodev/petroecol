@@ -95,7 +95,7 @@
                                                     </a>
 
                                                     <div class="parent-wrapper label-1">
-                                                        <ul class="nav parent collapse show" data-bs-parent="#navbarVerticalCollapse" id="nv-faq">
+                                                        <ul class="nav parent collapse" data-bs-parent="#navbarVerticalCollapse" id="nv-faq">
 
                                                             <?php foreach ($v['sub_menus'] as $sub) { // Sub menu
 
