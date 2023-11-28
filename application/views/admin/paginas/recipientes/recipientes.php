@@ -63,7 +63,7 @@
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="#" class="btn btn-danger" onclick="deletarRecipiente(<?= $v['id'] ?>)">
+                                    <a href="#" class="btn btn-danger" onclick="deletaRecipiente(<?= $v['id'] ?>)">
                                         <span class="fas fa-trash ms-1"></span>
                                     </a>
                                 </td>
