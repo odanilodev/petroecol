@@ -29,6 +29,13 @@ class Usuarios_model extends CI_Model
         return $query->result_array();
     }
 
+    public function recebeTodosUsuarios()
+    {
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('ci_usuarios');
+
+        return $query->result_array();
+    }
     public function recebeUsuario($id)
     {
         $this->db->where('id', $id);

@@ -29,7 +29,7 @@ class Log extends CI_Controller
 
         $this->load->model('Usuarios_model');
 
-        $data['usuarios'] = $this->Usuarios_model->recebeUsuarios();
+        $data['usuarios'] = $this->Usuarios_model->recebeTodosUsuarios();
 
         if ($this->session->userdata('id_empresa') == 1) {
 
@@ -46,6 +46,7 @@ class Log extends CI_Controller
             $filtro['data-inicio'] = $this->input->post('data-inicio');
             $filtro['data-fim'] = $this->input->post('data-fim');
             $filtro['empresa'] = $this->input->post('empresa');
+
 
             $data['logs'] = $this->Log_model->recebeLogs($filtro);
 

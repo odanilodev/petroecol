@@ -99,27 +99,33 @@ class FormaPagamento extends CI_Controller
 	{
 		$id = $this->input->post('id');
 
+		$this->FormaPagamento_model->deletaFormaPagamento($id);
+
+		$response = array(
+			'success' => true,
+			'title' => "Sucesso!",
+			'message' => "Forma de pagamento deletada com sucesso!",
+			'type' => "success"
+		);
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function verificaFormaPagamentoCliente()
+	{
+		$id = $this->input->post('id');
+
 		// Verifica se a forma de pagamento esta vinculada a um cliente
 		$formaPagamentoVinculadaCliente = $this->FormaPagamento_model->verificaFormaPagamentoCliente($id);
 
 		if ($formaPagamentoVinculadaCliente) {
 			$response = array(
 				'success' => false,
-				'title' => "Algo deu errado!",
-				'message' => "Esta forma de pagamento está vinculada a um cliente, não é possível excluí-la.",
-				'type' => "error"
+				'message' => "Esta forma de pagamento está vinculada a um cliente, tem certeza que deseja excluí-la?",
 			);
-		} else {
-			$this->FormaPagamento_model->deletaFormaPagamento($id);
-
-			$response = array(
-				'success' => true,
-				'title' => "Sucesso!",
-				'message' => "Forma de pagamento deletada com sucesso!",
-				'type' => "success"
-			);
+			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 		}
 
-		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
 }
