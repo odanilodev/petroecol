@@ -122,7 +122,7 @@
                           <div class="invalid-feedback email-invalido">Preencha este campo corretamente</div>
                         </div>
 
-                        <div class="mb-2 mt-5 col-md-3">
+                        <div class="mb-2 mt-5 col-md-2">
                           <div class="mb-2">
                             <label class="form-label text-900">Frequência de coleta *</label>
                             <select required name="id_frequencia_coleta" class="form-select campo-empresa select-frequencia">
@@ -133,6 +133,7 @@
                               <?php }?>
 
                             </select>
+                            <div class="invalid-feedback">Preencha este campo</div>
                           </div>
                         </div>
 
@@ -150,15 +151,31 @@
                               <option value="Sabado" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Sabado') ? 'selected' : ''; ?>>Sábado</option>
                               
                             </select>
+                            <div class="invalid-feedback">Preencha este campo</div>
                           </div>
                         </div>
 
-                        <div class="mb-2 mt-5 col-md-3">
+                        <div class="mb-2 mt-5 col-md-2">
                           <label class="form-label">Dia de pagamento</label>
                           <input class="form-control campo-empresa" type="number" name="dia_pagamento" value="<?= $cliente['dia_pagamento'] ?? ''; ?>" placeholder="Dia de pagamento" />
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
+                          <div class="mb-2">
+                            <label class="form-label text-900">Forma de pagamento</label>
+                            <select required name="id_forma_pagamento" class="form-select campo-empresa select-forma-pagamento">
+                              <option value="" selected disabled>Selecione</option>
+
+                              <?php foreach($formapagamento as $v) { ?>
+                                <option value="<?= $v['id']?>" <?= (isset($cliente['id_forma_pagamento']) && $cliente['id_forma_pagamento'] == $v['id']) ? 'selected' : ''; ?>><?= $v['forma_pagamento'];?></option>
+                              <?php }?>
+
+                            </select>
+                            <div class="invalid-feedback">Preencha este campo</div>
+                          </div>
+                        </div>
+
+                        <div class="mb-2 mt-5 col-md-2">
                           <label class="form-label">Tipo de empresa</label>
                           <input class="form-control campo-empresa" type="text" name="tipo_negocio" value="<?= $cliente['tipo_negocio'] ?? ''; ?>" placeholder="Tipo de empresa" />
                         </div>
