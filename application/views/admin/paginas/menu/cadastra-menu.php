@@ -95,7 +95,7 @@
 
 
                                                     <div class="flex-1 text-end my-5">
-                                                        <button type="submit" class="btn btn-primary px-6 px-sm-6 btn-envia">Cadastrar
+                                                        <button type="submit" class="btn btn-primary px-6 px-sm-6 btn-envia"><?= $this->uri->segment(3) ? 'Editar' : 'CadastraR'; ?>
                                                             <span class="fas fa-chevron-right" data-fa-transform="shrink-3"> </span>
                                                         </button>
                                                         <div class="spinner-border text-primary load-form d-none" role="status"></div>

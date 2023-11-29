@@ -7,7 +7,9 @@
         <div class="card-header p-4 border-bottom border-300 bg-soft">
           <div class="row g-3 justify-content-between align-items-center">
             <div class="col-12 col-md">
-              <h4 class="text-900 mb-0" data-anchor="data-anchor" id="with-validation">Cadastro de Cliente<a class="anchorjs-link " aria-label="Anchor" style="padding-left: 0.375em;"></a></h4>
+              <h4 class="text-900 mb-0" data-anchor="data-anchor" id="with-validation"><?= $this->uri->segment(3) ? 'Editar Cliente' : 'Cadastrar Cliente'; ?>
+
+<a class="anchorjs-link " aria-label="Anchor" style="padding-left: 0.375em;"></a></h4>
             </div>
           </div>
         </div>
