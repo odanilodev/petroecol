@@ -32,6 +32,7 @@
 
                             <th class="sort align-middle" scope="col" data-sort="customer">Etiqueta</th>
                             <th class="sort align-middle pe-3">Editar</th>
+                            <th class="sort align-middle pe-3">Romaneio</th>
                             <th class="sort align-middle pe-3">Excluir</th>
                         </tr>
                     </thead>
@@ -54,6 +55,12 @@
                                 <td class="align-middle white-space-nowrap">
                                     <a href="<?= base_url('etiquetas/formulario/' . $v['id']) ?>" class="btn btn-info">
                                         <span class="fas fa-pencil ms-1"></span>
+                                    </a>
+                                </td>
+
+                                <td class="align-middle white-space-nowrap">
+                                    <a href="#" class="btn btn-success" onclick="gerarRomaneioEtiqueta(<?= $v['id']?>)">
+                                        <span class="fas fa-file ms-1"></span>
                                     </a>
                                 </td>
 

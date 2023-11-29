@@ -52,6 +52,16 @@ class EtiquetaCliente_model extends CI_Model
         return $query->row_array();
     }
 
+    public function recebeTotalEtiquetasId($id) //Funcao para trazer todas as etiquetas clientes atraves do id da etiqueta 
+    {
+        $this->db->select('id_cliente'); // Ajuste para trazer apenas a coluna id_cliente
+        $this->db->where('id_etiqueta', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('ci_etiqueta_cliente');
+
+        return $query->result_array();
+    }
+
     public function insereEtiquetaCliente($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');

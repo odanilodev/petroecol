@@ -165,7 +165,8 @@ function scriptsEtiquetaFooter()
 {
     return array(
 
-        '<script src="' . base_url('assets/js/etiquetas/formulario-etiqueta.js') . '"></script>'
+        '<script src="' . base_url('assets/js/etiquetas/formulario-etiqueta.js') . '"></script>',
+        '<script src="' . base_url('assets/js/etiquetas/romaneio-etiqueta.js') . '"></script>'
 
     );
 }
