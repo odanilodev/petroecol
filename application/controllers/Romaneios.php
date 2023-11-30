@@ -14,29 +14,34 @@ class Romaneios extends CI_Controller
 		// 	redirect('login/erro', 'refresh');
 		// }
 		// FIM controle sessão
+
+		require FCPATH . 'vendor/autoload.php';
 	}
 
 	public function gerarRomaneioEtiqueta()
-{
-    $this->load->model('EtiquetaCliente_model');
-    $this->load->model('Clientes_model');
+	{
+		$this->load->model('EtiquetaCliente_model');
+		$this->load->model('Clientes_model');
 
-    $idEtiqueta = $this->input->post('idEtiqueta');
+		$idEtiqueta = $this->uri->segment(3);
 
-    $etiquetas = $this->EtiquetaCliente_model->recebeTotalEtiquetasId($idEtiqueta);
-    
-    // Criar um array para armazenar os id_cliente
-    $idClientes = array();
+		$etiquetas = $this->EtiquetaCliente_model->recebeTotalEtiquetasId($idEtiqueta);
 
-    // Iterar sobre o array de etiquetas para coletar os id_cliente
-    foreach ($etiquetas as $etiqueta) {
-        $idClientes[] = $etiqueta['id_cliente'];
-    }
+		// Criar um array para armazenar os id_cliente
+		$idClientes = array();
 
-	$clientes = $this->Clientes_model->recebeClientesIds($idClientes);
+		// Iterar sobre o array de etiquetas para coletar os id_cliente
+		foreach ($etiquetas as $etiqueta) {
+			$idClientes[] = $etiqueta['id_cliente'];
+		}
 
-    print_r($clientes);
+		$data['clientes'] = $this->Clientes_model->recebeClientesIds($idClientes);
 
-}
+		$mpdf = new \Mpdf\Mpdf(['orientation' => 'L']); // 'L' indica paisagem
 
+        
+        $mpdf->WriteHTML($this->load->view('admin/romaneios/romaneio-etiquetas', $data, true));
+
+        $mpdf->Output();
+	}
 }
