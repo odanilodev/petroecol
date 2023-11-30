@@ -104,8 +104,14 @@ class Etiquetas extends CI_Controller
 	{
 		$id = $this->input->post('id');
 
+		$this->load->model('EtiquetaCliente_model');
+
 		$this->Etiquetas_model->deletaEtiqueta($id);
+
+		$this->EtiquetaCliente_model->deletaIdEtiquetaCliente($id);
 
 		redirect('etiquetas');
 	}
+
+
 }
