@@ -6,7 +6,7 @@
                 <div class="card-header p-4 border-bottom border-300 bg-soft">
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
-                            <h4 class="text-900 mb-0">Adicionar novo resíduo</h4>
+                            <h4 class="text-900 mb-0"><?=$this->uri->segment(3) ? 'Editar Residuo' : 'Cadastrar Novo Residuo';?></h4>
 
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                                                 </div>
 
                                                 <div class="flex-1 text-end my-4">
-                                                    <button class="btn btn-primary px-6 px-sm-6 btn-envia" onclick="cadastraResiduos()">Cadastrar
+                                                    <button class="btn btn-primary px-6 px-sm-6 btn-envia" onclick="cadastraResiduos()"><?=$this->uri->segment(3) ? 'Editar' : 'Cadastrar';?>
                                                         <span class="fas fa-chevron-right" data-fa-transform="shrink-3"> </span>
                                                     </button>
                                                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
