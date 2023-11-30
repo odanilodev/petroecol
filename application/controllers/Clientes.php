@@ -14,9 +14,8 @@ class Clientes extends CI_Controller
             redirect('login/erro', 'refresh');
         }
         // FIM controle sessão
-
         $this->load->model('Clientes_model');
-        $this->load->model('FormaPagamento_model');
+        
     }
 
     public function index($page = 1)
