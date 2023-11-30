@@ -5,6 +5,32 @@
     <title>Romaneio</title>
     <meta charset="utf-8">
 
+    <style>
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+            width: 30%;
+            color: #404040;
+        }
+
+        /* Estilo para ajustar a largura das tabelas individualmente (opcional) */
+        .tabela {
+            width: 48%;
+            /* Ajuste conforme necessário */
+        }
+    </style>
+
 
 </head>
 
@@ -14,8 +40,8 @@
     <!--Header-->
 
     <div style="width: 100%;">
-        <div style="background-color: #DBDBDB" align="center">
-            PETROECOL SOLUÇÕES AMBIENTAIS
+        <div style="padding: 5px" align="center">
+            <img src="<?= base_url('assets/img/icons/logo.jpg')?>" style="max-height: 30px;">
         </div>
 
         <div style="margin-top: 5px">
@@ -40,16 +66,6 @@
 
     </div>
 
-
-
-    <style>
-        td {
-            border-bottom: 0.5px solid #000;
-        }
-
-        ;
-    </style>
-
     <!--EndHeader-->
 
 
@@ -61,15 +77,14 @@
 
             <thead>
                 <tr style="font-size: 14px" align="left">
-                    <th style="padding-left: 22px">Código</th>
-                    <th style="padding-left: 22px">Nome Cliente</th>
-                    <th style="padding-left: 22px">Endereço</th>
-                    <th style="padding-left: 22px">Telefone</th>
-                    <th style="padding-left: 22px">Observação</th>
-                    <th style="padding-left: 22px">Forma de Pagto</th>
-                    <th style="padding-left: 22px">Ultima Coleta</th>
-                    <th style="padding-left: 22px">Qtde Retirado</th>
-                    <th style="padding-left: 22px">Valor Pago</th>
+                    <th>Nome Cliente</th>
+                    <th>Endereço</th>
+                    <th>Telefone</th>
+                    <th>Forma de Pagto</th>
+                    <th>Ultima Coleta</th>
+                    <th>Qtde Retirado</th>
+                    <th>Valor Pago</th>
+                    <th>Observação</th>
                 </tr>
             </thead>
 
@@ -80,15 +95,14 @@
 
 
                     <tr style="font-size: 11px" align="left">
-                        <td style="padding-left: 23px"><?= $v['codigo'] ?></td>
-                        <td style="padding-left: 23px"><?= $v['nome']; ?></td>
-                        <td style="padding-left: 23px"><?= "{$v['rua']}, {$v['numero']} {$v['bairro']}";?></td>
-                        <td style="padding-left: 23px"><?= $v['telefone']; ?></td>
-                        <td style="padding-left: 23px"><?= $v['observacao']; ?></td>
-                        <td style="padding-left: 23px">Dinheiro</td>
-                        <td style="padding-left: 23px">14/10/2021</td>
-                        <td style="padding-left: 23px">50kg</td>
-                        <td style="padding-left: 23px">5.000,00</td>
+                        <td><?= $v['nome']; ?></td>
+                        <td><?= "{$v['rua']}, {$v['numero']} {$v['bairro']}"; ?></td>
+                        <td><?= $v['telefone']; ?></td>
+                        <td>Dinheiro</td>
+                        <td>14/10/2021</td>
+                        <td>50kg</td>
+                        <td>5.000,00</td>
+                        <td><?= $v['observacao']; ?></td>
 
                     </tr>
 

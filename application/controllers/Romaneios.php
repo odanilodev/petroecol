@@ -39,9 +39,10 @@ class Romaneios extends CI_Controller
 
 		$mpdf = new \Mpdf\Mpdf(['orientation' => 'L']); // 'L' indica paisagem
 
-        
-        $mpdf->WriteHTML($this->load->view('admin/romaneios/romaneio-etiquetas', $data, true));
+		// Carregar a visualização no mPDF
+		$html = $this->load->view('admin/romaneios/romaneio-etiquetas', $data, true);
+		$mpdf->WriteHTML($html);
 
-        $mpdf->Output();
+		$mpdf->Output('romaneio-etiqueta.pdf', \Mpdf\Output\Destination::INLINE);
 	}
 }
