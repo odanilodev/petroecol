@@ -6,7 +6,6 @@
     <meta charset="utf-8">
 
     <style>
-
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
@@ -15,8 +14,8 @@
             flex-direction: column;
         }
 
-        td,
-        th {
+        th,
+        td {
             border: 1px solid #dddddd;
             text-align: left;
             padding: 8px;
@@ -30,18 +29,15 @@
             /* Ajuste conforme necessário */
         }
     </style>
-
-
 </head>
 
 <body>
-
 
     <!--Header-->
 
     <div style="width: 100%;">
         <div style="padding: 5px" align="center">
-            <img src="<?= base_url('assets/img/icons/logo.jpg')?>" style="max-height: 30px;">
+            <img src="<?= base_url('assets/img/icons/logo.jpg') ?>" style="max-height: 30px;">
         </div>
 
         <div style="margin-top: 5px">
@@ -53,70 +49,72 @@
         <div style="margin-top: 2px;">
             <nobr>
                 <span style="font-size: 13px; max-width: 25%;">Motorista:</span>
-                <span style="margin-left: 8%; font-size: 13px; max-width: 25%;">Ajudante:
-                </span>
+                <span style="margin-left: 8%; font-size: 13px; max-width: 25%;">Ajudante:</span>
                 <span style="margin-left: 8%; font-size: 13px; max-width: 25%;">Placa: </span>
-
-                <span style="margin-left: 8%; font-size: 13px; max-width: 25%;">Romaneio: 000122</span>
-
+                <span style="margin-left: 8%; font-size: 13px; max-width: 25%;">Romaneio: <?= $codigo ?></span>
             </nobr>
         </div>
         <hr style="font-size: 0.5px; margin-top: 5px;">
-
-
     </div>
 
     <!--EndHeader-->
 
-
-
     <div style="width: 100%;">
-        <h4 style="margin-top: 30px; margin-bottom: 5px"><b>Bauru</b></h4>
 
-        <table>
+        <?php
+        $currentCity = null;
+        $tableOpen = false;
 
-            <thead>
-                <tr style="font-size: 14px" align="left">
-                    <th>Nome Cliente</th>
-                    <th>Endereço</th>
-                    <th>Telefone</th>
-                    <th>Forma de Pagto</th>
-                    <th>Ultima Coleta</th>
-                    <th>Qtde Retirado</th>
-                    <th>Valor Pago</th>
-                    <th>Observação</th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-
-                <?php foreach ($clientes as $v) { ?>
-
-
-                    <tr style="font-size: 11px" align="left">
-                        <td><?= $v['nome']; ?></td>
-                        <td><?= "{$v['rua']}, {$v['numero']} {$v['bairro']}"; ?></td>
-                        <td><?= $v['telefone']; ?></td>
-                        <td>Dinheiro</td>
-                        <td>14/10/2021</td>
-                        <td>50kg</td>
-                        <td>5.000,00</td>
-                        <td><?= $v['observacao']; ?></td>
-
+        foreach ($clientes as $v) {
+            // Verifica se a cidade do cliente mudou
+            if ($v['cidade'] !== $currentCity) {
+                // Se sim, fecha a tabela anterior (se existir)
+                if ($tableOpen) {
+                    echo '</tbody></table>';
+                }
+                // Abre uma nova tabela
+                echo "<h4 style='margin-top: 30px; margin-bottom: 5px'><b>{$v['cidade']}</b></h4>";
+                echo '<table>';
+        ?>
+                <thead>
+                    <tr style="font-size: 14px" align="left">
+                        <th>Nome Cliente</th>
+                        <th>Endereço</th>
+                        <th>Telefone</th>
+                        <th>Forma de Pagto</th>
+                        <th>Ultima Coleta</th>
+                        <th>Qtde Retirado</th>
+                        <th>Valor Pago</th>
+                        <th>Observação</th>
                     </tr>
+                </thead>
 
-                <?php } ?>
+                <tbody>
+                <?php
+                $currentCity = $v['cidade'];
+                $tableOpen = true;
+            }
+                ?>
+                <tr style="font-size: 11px" align="left">
+                    <td><?= $v['nome']; ?></td>
+                    <td><?= "{$v['rua']}, {$v['numero']} {$v['bairro']}"; ?></td>
+                    <td><?= $v['telefone']; ?></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><?= $v['observacao']; ?></td>
+                </tr>
+            <?php
+        }
 
-
-            </tbody>
-
-        </table>
-
+        // Fecha a última tabela
+        if ($tableOpen) {
+            echo '</tbody></table>';
+        }
+            ?>
 
     </div>
-
-
 
 </body>
 

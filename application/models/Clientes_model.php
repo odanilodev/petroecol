@@ -60,6 +60,7 @@ class Clientes_model extends CI_Model
         $this->db->select('C.*, F.frequencia');
         $this->db->from('ci_clientes C');
         $this->db->join('ci_frequencia_coleta F', 'C.id_frequencia_coleta = F.id', 'inner');
+        $this->db->order_by('C.cidade');
         $this->db->where_in('C.id', $ids); // Use where_in para comparar com vários IDs
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('F.id_empresa', $this->session->userdata('id_empresa'));

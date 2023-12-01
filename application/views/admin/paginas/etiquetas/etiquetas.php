@@ -59,7 +59,7 @@
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="<?= base_url('romaneios/gerarRomaneioEtiqueta/' . $v['id']); ?>" class="btn btn-success">
+                                    <a href="<?= base_url('romaneios/gerarRomaneioEtiqueta/' . $v['id']); ?>" class="btn btn-success btn-romaneio" data-id="<?= $v['id']; ?>">
                                         <span class="fas fa-file ms-1"></span>
                                     </a>
                                 </td>
