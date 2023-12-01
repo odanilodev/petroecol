@@ -24,9 +24,11 @@ class Etiquetas extends CI_Controller
 
 		// scripts para etiquetas
 		$scriptsEtiquetaFooter = scriptsEtiquetaFooter();
+		$scriptsEtiquetaHead = scriptsEtiquetaHead();
 
-		add_scripts('header', array_merge($scriptsPadraoHead));
+		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsEtiquetaHead));
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsEtiquetaFooter));
+
 
 		$data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
 

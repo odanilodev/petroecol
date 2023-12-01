@@ -59,9 +59,9 @@
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="<?= base_url('romaneios/gerarRomaneioEtiqueta/' . $v['id']); ?>" class="btn btn-success btn-romaneio" data-id="<?= $v['id']; ?>">
+                                    <button data-bs-toggle="modal" data-bs-target="#modalRomaneio" class="btn btn-success btn-romaneio" data-id="<?= $v['id']; ?>">
                                         <span class="fas fa-file ms-1"></span>
-                                    </a>
+                                    </button>
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
@@ -86,6 +86,49 @@
                     <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
                     <ul class="mb-0 pagination"></ul>
                     <button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Romaneio-->
+    <div class="modal fade" id="modalRomaneio" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Gerar um Romaneio</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+
+                    <label>Selecioinar motorista</label>
+                    <select class="form-select w-50 mb-3 campo-obrigatorio" id="select-motorista">
+                        <option selected disabled value="">Selecione o motorista</option>
+                        <option value="1">Alexandre Mariano</option>
+                        <option value="2">Joao Pedro</option>
+                        <option value="3">Glayltton Luiz</option>
+                        <option value="4">Cristyan rafael</option>
+                    </select>
+
+                    <div class="flatpickr-input-container mb-3 mt-3">
+
+                        <label>Data do romaneio</label>
+                        <div class="form-floating">
+                            <input class="form-control datetimepicker data-romaneio campo-obrigatorio" id="eventStartDate" type="text" name="startDate" placeholder="yyyy/mm/dd hh:mm" data-options='{"disableMobile":true,"dateFormat":"Y-m-d"}' /><span class="uil uil-calendar-alt flatpickr-icon text-700"></span>
+                            <label class="ps-6" for="eventStartDate">Data do romaneio</label>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+
+                    <input type="hidden" class="input-id-etiqueta">
+
+                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                    <button type="button" class="btn btn-primary btn-salva-romaneio" onclick="exibirRomaneioEtiqueta()">Gerar Romaneio</button>
                 </div>
             </div>
         </div>

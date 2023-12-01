@@ -24,8 +24,11 @@ class Romaneios extends CI_Controller
 		$this->load->model('Clientes_model');
 		$this->load->model('Romaneios_model');
 
-
 		$idEtiqueta = $this->uri->segment(3);
+
+		$dados['id_motorista'] = $this->uri->segment(4);
+
+		$dados['data_romaneio'] = $this->uri->segment(5);
 
 		$etiquetas = $this->EtiquetaCliente_model->recebeTotalEtiquetasId($idEtiqueta);
 
@@ -42,6 +45,8 @@ class Romaneios extends CI_Controller
 		$dados['clientes'] = json_encode($data['clientes']);
 
 		$dados['codigo'] = date('ymd').$this->Romaneios_model->recebeUltimoIdCadastrado();
+
+		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 		
 		$data['codigo'] = $dados['codigo'];
 
