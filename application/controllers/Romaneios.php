@@ -18,46 +18,28 @@ class Romaneios extends CI_Controller
 		$this->load->model('EtiquetaCliente_model');
 		$this->load->model('Clientes_model');
 		$this->load->model('Romaneios_model');
-
+		$this->load->library('gerarromaneio');
 	}
 
 	public function gerarRomaneioEtiqueta()
 	{
 		$idEtiqueta = $this->uri->segment(3);
+		$idClientes = $this->EtiquetaCliente_model->recebeTotalEtiquetasId($idEtiqueta);
+		$codigo = time();
 
+		// dados para gravar no banco
 		$dados['id_motorista'] = $this->uri->segment(4);
-
 		$dados['data_romaneio'] = $this->uri->segment(5);
+		$dados['clientes'] = json_encode($idClientes);
+		$dados['codigo'] = $codigo;
+		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-		$etiquetas = $this->EtiquetaCliente_model->recebeTotalEtiquetasId($idEtiqueta);
+		$insereRomaneio = $this->Romaneios_model->insereRomaneio($dados); // grava no banco romaneio que foi gerado	
 
-		// Criar um array para armazenar os id_cliente
-		$idClientes = array();
-
-		// Iterar sobre o array de etiquetas para coletar os id_cliente
-		foreach ($etiquetas as $etiqueta) {
-			$idClientes[] = $etiqueta['id_cliente'];
+		if ($insereRomaneio) {
+			$this->gerarromaneio->gerarPdf($codigo);
 		}
 
-		$data['clientes'] = $this->Clientes_model->recebeClientesIds($idClientes);
-		
-		$dados['clientes'] = json_encode($data['clientes']);
-
-		$dados['codigo'] = date('ymd').$this->Romaneios_model->recebeUltimoIdCadastrado();
-
-		$dados['id_empresa'] = $this->session->userdata('id_empresa');
-		
-		$data['codigo'] = $dados['codigo'];
-
-		$this->Romaneios_model->insereRomaneio($dados);
-
-		$mpdf = new \Mpdf\Mpdf(['orientation' => 'L']); // 'L' indica paisagem
-
-		// Carregar a visualização no mPDF
-		$html = $this->load->view('admin/romaneios/romaneio-etiquetas', $data, true);
-		$mpdf->WriteHTML($html);
-
-		$mpdf->Output('romaneio-etiqueta.pdf', \Mpdf\Output\Destination::INLINE);
 	}
 
 	public function verificaRomaneioEtiqueta()
@@ -66,8 +48,8 @@ class Romaneios extends CI_Controller
 
 		$etiquetas = $this->EtiquetaCliente_model->recebeTotalEtiquetasId($idEtiqueta);
 
-		if(!$etiquetas) {
-			
+		if (!$etiquetas) {
+
 			$response = array(
 				'retorno' => false
 			);

@@ -23,6 +23,16 @@ class Romaneios_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
+    public function recebeRomaneioCod($codigo)
+    {
+        $this->db->where('codigo', $codigo);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+
+        $query = $this->db->get('ci_romaneios');
+
+        return $query->row_array();
+    }
+
     public function recebeUltimoIdCadastrado()
     {
         $this->db->select_max('id');
@@ -31,5 +41,4 @@ class Romaneios_model extends CI_Model
 
         return $row->id;
     }
-
 }

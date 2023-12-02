@@ -59,7 +59,10 @@ class EtiquetaCliente_model extends CI_Model
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_etiqueta_cliente');
 
-        return $query->result_array();
+        $result = $query->result_array();
+        $idClientes = array_column($result, 'id_cliente');
+
+        return $idClientes;
     }
 
     public function insereEtiquetaCliente($dados)
