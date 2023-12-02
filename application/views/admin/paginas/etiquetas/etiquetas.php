@@ -59,7 +59,7 @@
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <button data-bs-toggle="modal" data-bs-target="#modalRomaneio" class="btn btn-success btn-romaneio" data-id="<?= $v['id']; ?>">
+                                    <button disabled data-bs-toggle="modal" data-bs-target="#modalRomaneio" class="btn btn-success btn-romaneio" data-id="<?= $v['id']; ?>">
                                         <span class="fas fa-file ms-1"></span>
                                     </button>
                                 </td>

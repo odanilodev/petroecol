@@ -15,8 +15,8 @@ $(document).ready(function () {
             },
             success: function (data) {
 
-                if (data.retorno == false) {
-                    btnAtual.attr('disabled', true);
+                if (data.retorno != false) {
+                    btnAtual.attr('disabled', false);
                 }
 
             }
