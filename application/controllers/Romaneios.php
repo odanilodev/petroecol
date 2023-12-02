@@ -15,15 +15,14 @@ class Romaneios extends CI_Controller
 		}
 		// FIM controle sessão
 
-		require FCPATH . 'vendor/autoload.php';
-	}
-
-	public function gerarRomaneioEtiqueta()
-	{
 		$this->load->model('EtiquetaCliente_model');
 		$this->load->model('Clientes_model');
 		$this->load->model('Romaneios_model');
 
+	}
+
+	public function gerarRomaneioEtiqueta()
+	{
 		$idEtiqueta = $this->uri->segment(3);
 
 		$dados['id_motorista'] = $this->uri->segment(4);
@@ -63,8 +62,6 @@ class Romaneios extends CI_Controller
 
 	public function verificaRomaneioEtiqueta()
 	{
-		$this->load->model('EtiquetaCliente_model');
-
 		$idEtiqueta = $this->input->post('id');
 
 		$etiquetas = $this->EtiquetaCliente_model->recebeTotalEtiquetasId($idEtiqueta);
