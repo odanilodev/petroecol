@@ -8,6 +8,9 @@ application/cache/*
 application/logs/*
 !application/logs/index.html
 
+composer.lock
+package-lock.json
+
 !application/*/.htaccess
 
 tests/mocks/database/ci_test.sqlite
