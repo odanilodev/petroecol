@@ -10,8 +10,6 @@ application/logs/*
 
 !application/*/.htaccess
 
-composer.lock
-package-lock.json
 tests/mocks/database/ci_test.sqlite
 
 user_guide_src/build/*
