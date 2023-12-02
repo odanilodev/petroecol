@@ -129,7 +129,7 @@
                             <div class="col-sm-4">
                               <div class="mb-2 mb-sm-0">
                                 <label class="form-label text-900">Senha Antiga</label>
-                                <input class="input-senha-antiga inputs-redefine" type="password" name="senha-antiga" placeholder="Senha antiga">
+                                <input class="input-senha-antiga inputs-redefine form-control" type="password" name="senha-antiga" placeholder="Senha antiga">
                                 <div class="invalid-feedback senha-antiga-invalida">Senha incorreta.</div>
                               </div>
                             </div>
@@ -137,14 +137,14 @@
                             <div class="col-sm-4">
                               <div class="mb-2 mb-sm-0">
                                 <label class="form-label text-900">Senha*</label>
-                                <input class="input-nova-senha inputs-redefine" type="password" name="nova-senha" placeholder="Nova Senha">
+                                <input class="input-nova-senha inputs-redefine form-control" type="password" name="nova-senha" placeholder="Nova Senha">
                                 <div class="invalid-feedback aviso-nova-senha">Insira uma nova senha.</div>
                               </div>
                             </div>
                             <div class="col-sm-4">
                               <div class="mb-2">
                                 <label class="form-label text-900">Confirme a Nova Senha*</label>
-                                <input class="input-repete-nova-senha inputs-redefine" type="password" name="confirme-nova-senha" placeholder="Confirme a Nova Senha">
+                                <input class="input-repete-nova-senha inputs-redefine form-control" type="password" name="confirme-nova-senha" placeholder="Confirme a Nova Senha">
                                 <div class="invalid-feedback aviso-senha-diferente">As senhas precisam combinar.</div>
                               </div>
                             </div>
