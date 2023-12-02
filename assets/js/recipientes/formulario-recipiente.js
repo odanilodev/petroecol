@@ -65,7 +65,7 @@ const cadastraRecipiente = () => {
     }
 }
 
-const deletarRecipiente = (id) => {
+const deletaRecipiente = (id) => {
 
     Swal.fire({
         title: 'Você tem certeza?',
@@ -86,9 +86,11 @@ const deletarRecipiente = (id) => {
                 url: `${baseUrl}recipientes/deletaRecipiente`,
                 data: {
                     id: id
-                }, success: function () {
+                }, success: function (data) {   
 
-                    avisoRetorno('Sucesso!', 'Recipiente deletado com sucesso!', 'success', `${baseUrl}recipientes`);
+                    let redirect = data.type != 'error' ? `${baseUrl}recipientes` : '#';
+
+                    avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
                 }
             })

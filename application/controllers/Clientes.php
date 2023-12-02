@@ -14,8 +14,8 @@ class Clientes extends CI_Controller
             redirect('login/erro', 'refresh');
         }
         // FIM controle sessão
-
         $this->load->model('Clientes_model');
+        
     }
 
     public function index($page = 1)
@@ -129,7 +129,9 @@ class Clientes extends CI_Controller
         $data['cliente'] = $this->Clientes_model->recebeCliente($id);
 
         $this->load->model('FrequenciaColeta_model');
+        $this->load->model('FormaPagamento_model');
         $data['frequencia'] = $this->FrequenciaColeta_model->recebeFrequenciasColeta();
+        $data['formapagamento'] = $this->FormaPagamento_model->recebeFormasPagamento();
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/cadastra-cliente');

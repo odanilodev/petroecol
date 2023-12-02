@@ -116,8 +116,29 @@ class Recipientes extends CI_Controller
 	{
 		$id = $this->input->post('id');
 
-		$this->recipientes_model->deletaRecipiente($id);
+		// Verifica se o recipiente esta vinculado a um cliente
+		$recipienteVinculadoCliente = $this->recipientes_model->verificaRecipienteCliente($id);
 
-		redirect('recipientes');
+		if ($recipienteVinculadoCliente) {
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Este recipiente está vinculado a um cliente, não é possível excluí-lo.",
+				'type' => "error"
+			);
+		} else {
+			$this->recipientes_model->deletaRecipiente($id);
+
+			$response = array(
+				'success' => true,
+				'title' => "Sucesso!",
+				'message' => "Recipiente deletado com sucesso!",
+				'type' => "success"
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
+
 	}
 }
