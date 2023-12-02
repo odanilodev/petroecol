@@ -32,13 +32,4 @@ class Romaneios_model extends CI_Model
 
         return $query->row_array();
     }
-
-    public function recebeUltimoIdCadastrado()
-    {
-        $this->db->select_max('id');
-        $query = $this->db->get('ci_romaneios');
-        $row = $query->row();
-
-        return $row->id;
-    }
 }
