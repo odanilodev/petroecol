@@ -15,16 +15,32 @@ class Romaneios extends CI_Controller
 		}
 		// FIM controle sessão
 
+		$this->load->model('Etiquetas_model');
 		$this->load->model('EtiquetaCliente_model');
 		$this->load->model('Clientes_model');
 		$this->load->model('Romaneios_model');
 		$this->load->library('gerarromaneio');
 	}
 
+	public function index()
+	{
+		// scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
+
+		add_scripts('header', $scriptsPadraoHead);
+		add_scripts('footer', $scriptsPadraoFooter);
+
+		$data['ultimosRomaneios'] = $this->Romaneios_model->recebeUltimosRomaneios();
+
+		$this->load->view('admin/includes/painel/cabecalho', $data);
+		$this->load->view('admin/paginas/romaneio/romaneios');
+		$this->load->view('admin/includes/painel/rodape');
+	}
+
 	public function gerarRomaneioEtiqueta()
 	{
-		$idEtiqueta = $this->uri->segment(3);
-		$idClientes = $this->EtiquetaCliente_model->recebeTotalEtiquetasId($idEtiqueta);
+
 		$codigo = time();
 
 		// dados para gravar no banco
@@ -37,7 +53,42 @@ class Romaneios extends CI_Controller
 		$insereRomaneio = $this->Romaneios_model->insereRomaneio($dados); // grava no banco romaneio que foi gerado	
 
 		if ($insereRomaneio) {
-			$this->gerarromaneio->gerarPdf($codigo);
+			redirect('romaneios');
+		} else {
+			// tratar se deu erro na hora de gravar romaneio
 		}
+	}
+
+	public function gerarRomaneio()
+	{
+		$codigo = $this->uri->segment(3);
+		$this->gerarromaneio->gerarPdf($codigo);
+	}
+
+	public function formulario()
+	{
+		// scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
+
+		add_scripts('header', $scriptsPadraoHead);
+		add_scripts('footer', $scriptsPadraoFooter);
+
+		$data['cidades'] = $this->Clientes_model->recebeCidadesCliente();
+		$data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
+
+		$this->load->view('admin/includes/painel/cabecalho', $data);
+		$this->load->view('admin/paginas/romaneio/cadastra-romaneio');
+		$this->load->view('admin/includes/painel/rodape');
+	}
+
+	public function filtrarClientesRomaneio()
+	{
+		$dados['data_coleta'] = $this->input->post('data_coleta');
+		$dados['cidades'] = $this->input->post('cidades');
+		$dados['ids_etiquetas'] = $this->input->post('ids_etiquetas');
+
+		echo '<pre>';
+		print_r($dados);
 	}
 }

@@ -40,6 +40,17 @@ class Clientes_model extends CI_Model
         return $query->result_array();
     }
 
+    public function recebeCidadesCliente()
+    {
+        $this->db->select('cidade');
+        $this->db->where('status', 1);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->order_by('cidade');
+        $this->db->group_by('cidade');
+        $query = $this->db->get('ci_clientes');
+        return $query->result_array();
+    }
+
     public function recebeCliente($id)
     {
         $this->db->select('C.*, F.frequencia');
