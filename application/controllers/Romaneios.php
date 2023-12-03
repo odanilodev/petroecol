@@ -44,9 +44,9 @@ class Romaneios extends CI_Controller
 		$codigo = time();
 
 		// dados para gravar no banco
-		$dados['id_motorista'] = $this->uri->segment(4);
-		$dados['data_romaneio'] = $this->uri->segment(5);
-		$dados['clientes'] = json_encode($idClientes);
+		$dados['id_motorista'] = 'pegar por POST vindo';
+		$dados['data_romaneio'] = 'pegar por POST vindo';
+		$dados['clientes'] = 'pegar por POST vindo'; // Recebe um array e depois passar os dados por JSON
 		$dados['codigo'] = $codigo;
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
