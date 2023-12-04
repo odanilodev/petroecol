@@ -15,67 +15,80 @@ class Romaneios extends CI_Controller
 		}
 		// FIM controle sessão
 
-		require FCPATH . 'vendor/autoload.php';
+		$this->load->model('Etiquetas_model');
+		$this->load->model('EtiquetaCliente_model');
+		$this->load->model('Clientes_model');
+		$this->load->model('Romaneios_model');
+		$this->load->library('gerarromaneio');
+	}
+
+	public function index()
+	{
+		// scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
+
+		add_scripts('header', $scriptsPadraoHead);
+		add_scripts('footer', $scriptsPadraoFooter);
+
+		$data['ultimosRomaneios'] = $this->Romaneios_model->recebeUltimosRomaneios();
+
+		$this->load->view('admin/includes/painel/cabecalho', $data);
+		$this->load->view('admin/paginas/romaneio/romaneios');
+		$this->load->view('admin/includes/painel/rodape');
 	}
 
 	public function gerarRomaneioEtiqueta()
 	{
-		$this->load->model('EtiquetaCliente_model');
-		$this->load->model('Clientes_model');
-		$this->load->model('Romaneios_model');
 
-		$idEtiqueta = $this->uri->segment(3);
+		$codigo = time();
 
-		$dados['id_motorista'] = $this->uri->segment(4);
-
-		$dados['data_romaneio'] = $this->uri->segment(5);
-
-		$etiquetas = $this->EtiquetaCliente_model->recebeTotalEtiquetasId($idEtiqueta);
-
-		// Criar um array para armazenar os id_cliente
-		$idClientes = array();
-
-		// Iterar sobre o array de etiquetas para coletar os id_cliente
-		foreach ($etiquetas as $etiqueta) {
-			$idClientes[] = $etiqueta['id_cliente'];
-		}
-
-		$data['clientes'] = $this->Clientes_model->recebeClientesIds($idClientes);
-		
-		$dados['clientes'] = json_encode($data['clientes']);
-
-		$dados['codigo'] = date('ymd').$this->Romaneios_model->recebeUltimoIdCadastrado();
-
+		// dados para gravar no banco
+		$dados['id_motorista'] = 'pegar por POST vindo';
+		$dados['data_romaneio'] = 'pegar por POST vindo';
+		$dados['clientes'] = 'pegar por POST vindo'; // Recebe um array e depois passar os dados por JSON
+		$dados['codigo'] = $codigo;
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
-		
-		$data['codigo'] = $dados['codigo'];
 
-		$this->Romaneios_model->insereRomaneio($dados);
+		$insereRomaneio = $this->Romaneios_model->insereRomaneio($dados); // grava no banco romaneio que foi gerado	
 
-		$mpdf = new \Mpdf\Mpdf(['orientation' => 'L']); // 'L' indica paisagem
-
-		// Carregar a visualização no mPDF
-		$html = $this->load->view('admin/romaneios/romaneio-etiquetas', $data, true);
-		$mpdf->WriteHTML($html);
-
-		$mpdf->Output('romaneio-etiqueta.pdf', \Mpdf\Output\Destination::INLINE);
+		if ($insereRomaneio) {
+			redirect('romaneios');
+		} else {
+			// tratar se deu erro na hora de gravar romaneio
+		}
 	}
 
-	public function verificaRomaneioEtiqueta()
+	public function gerarRomaneio()
 	{
-		$this->load->model('EtiquetaCliente_model');
+		$codigo = $this->uri->segment(3);
+		$this->gerarromaneio->gerarPdf($codigo);
+	}
 
-		$idEtiqueta = $this->input->post('id');
+	public function formulario()
+	{
+		// scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
 
-		$etiquetas = $this->EtiquetaCliente_model->recebeTotalEtiquetasId($idEtiqueta);
+		add_scripts('header', $scriptsPadraoHead);
+		add_scripts('footer', $scriptsPadraoFooter);
 
-		if(!$etiquetas) {
-			
-			$response = array(
-				'retorno' => false
-			);
+		$data['cidades'] = $this->Clientes_model->recebeCidadesCliente();
+		$data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
 
-			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-		}
+		$this->load->view('admin/includes/painel/cabecalho', $data);
+		$this->load->view('admin/paginas/romaneio/cadastra-romaneio');
+		$this->load->view('admin/includes/painel/rodape');
+	}
+
+	public function filtrarClientesRomaneio()
+	{
+		$dados['data_coleta'] = $this->input->post('data_coleta');
+		$dados['cidades'] = $this->input->post('cidades');
+		$dados['ids_etiquetas'] = $this->input->post('ids_etiquetas');
+
+		echo '<pre>';
+		print_r($dados);
 	}
 }

@@ -6,7 +6,7 @@
                 <div class="card-header p-4 border-bottom border-300 bg-soft">
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
-                            <h4 class="text-900 mb-0"><?=$this->uri->segment(3) ? 'Editar Setor' : 'Cadastrar Setor';?>/h4>
+                            <h4 class="text-900 mb-0"><?=$this->uri->segment(3) ? 'Editar Setor' : 'Cadastrar Setor';?></h4>
 
                         </div>
                     </div>
