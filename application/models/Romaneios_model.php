@@ -45,4 +45,29 @@ class Romaneios_model extends CI_Model
 
         return $query->result_array();
     }
+
+    public function filtrarClientesRomaneio($dados)
+    {
+        $this->db->select('EC.*, C.nome as CLIENTE, C.id as ID_CLIENTE, C.cidade, A.data_coleta, E.nome as ETIQUETA');
+        $this->db->from('ci_etiqueta_cliente EC');
+        $this->db->join('ci_clientes C', 'C.id = EC.id_cliente', 'INNER');
+        $this->db->join('ci_agendamentos A', 'A.id_cliente = C.id', 'INNER');
+        $this->db->join('ci_etiquetas E', 'E.id = EC.id_etiqueta', 'INNER');
+
+        $this->db->where('EC.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('A.data_coleta', $dados['data_coleta']);
+
+        if ($dados['cidades']) {
+            $this->db->where_in('C.cidade', $dados['cidades']);
+        }
+
+        if ($dados['ids_etiquetas']) {
+            $this->db->where_in('EC.id_etiqueta', $dados['ids_etiquetas']);
+        }
+
+
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
 }
