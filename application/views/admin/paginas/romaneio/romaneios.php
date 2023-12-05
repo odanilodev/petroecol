@@ -19,11 +19,12 @@
                     <table class="table table-lg mb-0 table-hover">
                         <thead>
                             <tr>
-                                <th class="sort align-middle">Código</th>
-                                <th class="sort align-middle">Motorista</th>
-                                <th class="sort align-middle">Data</th>
-                                <th class="sort align-middle p-3">Gerar</th>
-                                <th class="sort align-middle p-3">Baixar</th>
+                                <th class="sort align-middle text-center">Código</th>
+                                <th class="sort align-middle text-center">Motorista</th>
+                                <th class="sort align-middle text-center">Data do Romaneio</th>
+                                <th class="sort align-middle text-center">Gerado em</th>
+                                <th class="sort align-middle p-3 text-center">Gerar</th>
+                                <th class="sort align-middle p-3 text-center">Concluir Romaneio</th>
                             </tr>
                         </thead>
 
@@ -33,25 +34,29 @@
 
                                 <tr class="hover-actions-trigger btn-reveal-trigger position-static">
 
-                                    <td class="email align-middle white-space-nowrap">
+                                    <td class="email align-middle white-space-nowrap text-center">
                                         <?= $v['codigo']; ?>
                                     </td>
 
-                                    <td class="mobile_number align-middle white-space-nowrap">
+                                    <td class="mobile_number align-middle white-space-nowrap text-center">
                                         <?= $v['MOTORISTA']; ?>
                                     </td>
 
-                                    <td class="mobile_number align-middle white-space-nowrap">
+                                    <td class="mobile_number align-middle white-space-nowrap text-center">
                                         <?= date('d/m/Y', strtotime($v['data_romaneio'])) ?>
                                     </td>
 
-                                    <td class="align-middle white-space-nowrap">
+                                    <td class="mobile_number align-middle white-space-nowrap text-center">
+                                        <?= date('d/m/Y H:i:s', strtotime($v['criado_em'])) ?>
+                                    </td>
+
+                                    <td class="align-middle white-space-nowrap text-center">
                                         <a target="_blank" href="<?=base_url('romaneios/gerarromaneio/'.$v['codigo'])?>" class="btn btn-info">
                                             <span class="fas fa-download ms-1"></span>
                                         </a>
                                     </td>
 
-                                    <td class="align-middle white-space-nowrap">
+                                    <td class="align-middle white-space-nowrap text-center">
                                         <a onclick="alert('Criar uma página ou modal listando todos os clientes vinculado a este romaneio, nessa página precisa ter os inputs dos dados que precisa ser preenchido para dar baixa no romaneio.. um ponto importante é que só vai dar baixa mudando o status desse romaneio se TODOS os inputs de TODOS os clientes forem preenchidos .. caso contrário nao dar baixa mantendo o icone cinzinha')" class="btn <?= $v['status'] != 1 ? 'btn-secondary' : 'btn-success'?>">
                                             <span class="fas ms-1 <?= $v['status'] != 1 ? 'fa-thumbs-down' : 'fa-thumbs-up'?>"></span>
                                         </a>
