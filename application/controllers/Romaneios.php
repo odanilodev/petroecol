@@ -41,6 +41,9 @@ class Romaneios extends CI_Controller
 
 	public function gerarRomaneioEtiqueta()
 	{
+		
+		$this->load->library('GerarRomaneio');
+
 		$codigo = time();
 
 		// dados para gravar no banco
@@ -53,6 +56,9 @@ class Romaneios extends CI_Controller
 		$insereRomaneio = $this->Romaneios_model->insereRomaneio($dados); // grava no banco romaneio que foi gerado	
 
 		if ($insereRomaneio) {
+
+			$this->gerarromaneio->gerarPdf($codigo);
+
 			redirect('romaneios');
 		} else {
 			// tratar se deu erro na hora de gravar romaneio
