@@ -17,7 +17,7 @@
                     <input type="hidden" class="id-cliente">
 
                     <label>Atribuir novas etiquetas</label>
-                    <select class="form-select w-100" id="select-etiqueta" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                    <select class="form-select w-100" id="select-etiqueta" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}' multiple>
 
                         <option value="">Selecione etiquetas</option>
                         <?php foreach ($etiquetas as $e) { ?>

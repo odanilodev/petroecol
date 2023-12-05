@@ -115,30 +115,21 @@ const gerarRomaneio = () => {
 
 }
 
-
-const acrescentarCliente = () => {
+$(document).on('click', '.add-cliente', function () {
 
     $('.div-select-modal').removeClass('d-none');
 
-    $('#select-cliente-modal').select2({
-        dropdownParent: "#modalRomaneio",
-        theme: 'bootstrap-5' // Aplicar o tema Bootstrap 4
-    });
-
-}
-
-$(document).ready(function () {
-    $('.select2').select2({
-        theme: 'bootstrap-5' // Aplicar o tema Bootstrap 4
-    });
 })
-
 
 $('#select-cliente-modal').change(function () {
 
     let cliente = $('#select-cliente-modal option:selected').text();
-    let idCliente = $('#select-cliente-modal option:selected').val();
-    let cidade = $('#select-cliente-modal option:selected').data('cidade');
+
+    let valSelectClienteModal = $('#select-cliente-modal option:selected').val().split('|');
+
+    let idCliente = valSelectClienteModal[0];
+
+    let cidade = valSelectClienteModal[1];
 
     $('.div-select-modal').addClass('d-none');
 

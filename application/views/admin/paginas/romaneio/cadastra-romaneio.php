@@ -25,7 +25,7 @@
 
                                             <div class="mb-2 col-md-4">
                                                 <label>Etiquetas</label>
-                                                <select id="select-etiquetas" class="form-seledct w-100 mb-3 select2" multiple="multiple">
+                                                <select id="select-etiquetas" class="form-seledct w-100 mb-3" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}' multiple>
 
                                                     <?php foreach ($etiquetas as $v) { ?>
                                                         <option value="<?= $v['id'] ?>"><?= $v['nome'] ?></option>
@@ -36,7 +36,7 @@
 
                                             <div class="mb-2 col-md-4">
                                                 <label>Cidades</label>
-                                                <select id="select-cidades" class="form-seledct w-100 mb-3 select2" multiple="multiple">
+                                                <select id="select-cidades" class="form-seledct w-100 mb-3" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}' multiple>
 
                                                     <?php foreach ($cidades as $v) { ?>
                                                         <option value="<?= $v['cidade'] ?>"><?= $v['cidade'] ?></option>
@@ -75,7 +75,7 @@
 
     <!-- Modal Romaneio-->
     <div class="modal fade" id="modalRomaneio" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Gerar um Romaneio</h5>
@@ -97,18 +97,18 @@
                             </tbody>
 
                         </table>
-                        <i onclick="acrescentarCliente()" class="fas fa-plus-square mt-2"></i>
+                        <i class="fas fa-plus-square mt-2 add-cliente " style="cursor: pointer;"></i>
 
                     </div>
 
                     <div class="div-select-modal d-none">
                         <label>Atribuir novo cliente ao romaneio</label>
-                        <select class="form-select w-100 mb-3" id="select-cliente-modal">
+                        <select class="form-select w-100 mb-3" id="select-cliente-modal" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
 
                             <option selected disabled value="">Selecione o cliente</option>
 
                             <?php foreach ($clientes as $v) { ?>
-                                <option data-cidade="<?= $v['cidade'] ?>" value="<?= $v['id'] ?>"><?= $v['nome'] ?></option>
+                                <option value="<?= $v['id'] ?> | <?= $v['cidade'] ?>"><?= $v['nome'] ?></option>
                             <?php } ?>
 
                         </select>
