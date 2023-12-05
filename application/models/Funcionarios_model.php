@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Motoristas_model extends CI_Model
+class Funcionarios_model extends CI_Model
 {
 
     public function __construct()
@@ -10,31 +10,31 @@ class Motoristas_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebeMotoristas()
+    public function recebeFuncionarios()
     {
         $this->db->order_by('nome', 'DESC');
         $this->db->where('status', 1);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         
-        $query = $this->db->get('ci_motoristas');
+        $query = $this->db->get('ci_funcionarios');
 
         return $query->result_array();
     }
 
-    public function recebeMotorista($id)
+    public function recebeFuncionario($id)
     {
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
 
-        $query = $this->db->get('ci_motoristas');
+        $query = $this->db->get('ci_funcionarios');
 
         return $query->row_array();
     }
 
-    public function insereMotorista($dados)
+    public function insereFuncionario($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');
-        $this->db->insert('ci_motoristas', $dados);
+        $this->db->insert('ci_funcionarios', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($this->db->insert_id());
@@ -43,12 +43,12 @@ class Motoristas_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function editaMotorista($id, $dados)
+    public function editaFuncionario($id, $dados)
     {
         $dados['editado_em'] = date('Y-m-d H:i:s');
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->update('ci_motoristas', $dados);
+        $this->db->update('ci_funcionarios', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLogSenha($id, $dados['id_empresa']);
@@ -57,12 +57,12 @@ class Motoristas_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function deletaMotorista($id)
+    public function deletaFuncionario($id)
     {
         $dados['status'] = 3;
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->update('ci_motoristas', $dados);
+        $this->db->update('ci_funcionarios', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);

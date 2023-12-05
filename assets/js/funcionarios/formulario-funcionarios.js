@@ -1,24 +1,49 @@
 var baseUrl = $('.base-url').val();
 
-const cadastraMotorista = () => {
+const cadastraFuncionario = () => {
 
     let id = $('.input-id').val();
     let nome = $('.input-nome').val();
     let telefone = $('.input-telefone').val();
     let cpf = $('.input-cpf').val();
+    let dataCnh = $('.input-data').val();
+    let data_nascimento = $('.input-data-nascimento').val();
+    let funcao = $('.input-funcao').val();
+    let residencia = $('.input-residencia').val();
+    let salario_base = $('.input-salario').val();
+
     let fotoPerfil = $('.inputFoto')[0].files[0];
     let fotoCnh = $('.inputCnh')[0].files[0];
-    let dataCnh = $('.input-data').val();
+    let fotoCpf = $('.inputCpf')[0].files[0];
+    let fotoAso = $('.inputAso')[0].files[0];
+    let fotoEpi = $('.inputEpi')[0].files[0];
+    let fotoRegistro = $('.inputRegistro')[0].files[0];
+    let fotoCarteira = $('.inputCarteira')[0].files[0];
+    let fotoVacinacao = $('.inputVacinacao')[0].files[0];
+    let fotoCertificados = $('.inputCertificados')[0].files[0];
+    let fotoOrdem = $('.inputOrdem')[0].files[0];
 
     // cria um FormData para enviar os dados e a imagem
     let formData = new FormData();
     formData.append('id', id);
     formData.append('nome', nome);
     formData.append('telefone', telefone);
+    formData.append('residencia',residencia);
+    formData.append('salario_base',salario_base);
+    formData.append('funcao', funcao);
     formData.append('cpf', cpf);
-    formData.append('foto_perfil', fotoPerfil);
-    formData.append('foto_cnh', fotoCnh);
+    formData.append('fotoCnh', fotoCnh);
     formData.append('data_cnh', dataCnh);
+    formData.append('data_nascimento', data_nascimento);
+    formData.append('foto_perfil', fotoPerfil);
+    formData.append('foto_cpf', fotoCpf);
+    formData.append('foto_aso', fotoAso);
+    formData.append('foto_epi', fotoEpi);
+    formData.append('foto_registro', fotoRegistro);
+    formData.append('foto_carteira', fotoCarteira);
+    formData.append('foto_vacinacao', fotoVacinacao);
+    formData.append('foto_certificados', fotoCertificados);
+    formData.append('foto_ordem', fotoOrdem);
 
     var permissao = false;
   
@@ -33,7 +58,7 @@ const cadastraMotorista = () => {
 
         $.ajax({
             type: "post",
-            url: `${baseUrl}motoristas/cadastraMotorista`,
+            url: `${baseUrl}funcionarios/cadastraFuncionario`,
             data: formData,
             contentType: false,
             processData: false,
@@ -48,7 +73,7 @@ const cadastraMotorista = () => {
 
                 if (data.success) {
 
-                    avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}motoristas`);
+                    avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}funcionarios`);
 
                 } else {
 
@@ -60,7 +85,7 @@ const cadastraMotorista = () => {
     }
 }
 
-const deletarMotorista = (id) => {
+const deletarFuncionario= (id) => {
 
     Swal.fire({
         title: 'Você tem certeza?',
@@ -78,12 +103,12 @@ const deletarMotorista = (id) => {
 
             $.ajax({
                 type: 'post',
-                url: `${baseUrl}motoristas/deletaMotorista`,
+                url: `${baseUrl}funcionarios/deletaFuncionario`,
                 data: {
                     id: id
                 }, success: function () {
 
-                    avisoRetorno('Sucesso!', 'Motorista deletado com sucesso!', 'success', `${baseUrl}motoristas`);
+                    avisoRetorno('Sucesso!', 'Funcionario deletado com sucesso!', 'success', `${baseUrl}funcionarios`);
 
                 }
             })

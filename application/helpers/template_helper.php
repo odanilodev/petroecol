@@ -108,8 +108,8 @@ function scriptsUsuarioFooter()
 }
 
 
-// pagina de motorista
-function scriptsMotoristaHead()
+// pagina de Funcionario
+function scriptsFuncionarioHead()
 {
     return array(
 
@@ -118,11 +118,11 @@ function scriptsMotoristaHead()
     );
 }
 
-function scriptsMotoristaFooter()
+function scriptsFuncionarioFooter()
 {
     return array(
 
-        '<script src="' . base_url('assets/js/motoristas/formulario-motoristas.js') . '"></script>',
+        '<script src="' . base_url('assets/js/funcionarios/formulario-funcionarios.js') . '"></script>',
         '<script src="' . base_url('assets/js/upload-imagem.js') . '"></script>',
         '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>',
         '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>'
