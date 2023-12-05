@@ -28,6 +28,7 @@ class Romaneios extends CI_Controller
 		$scriptsPadraoHead = scriptsPadraoHead();
 		$scriptsPadraoFooter = scriptsPadraoFooter();
 
+
 		add_scripts('header', $scriptsPadraoHead);
 		add_scripts('footer', $scriptsPadraoFooter);
 
@@ -40,13 +41,12 @@ class Romaneios extends CI_Controller
 
 	public function gerarRomaneioEtiqueta()
 	{
-
 		$codigo = time();
 
 		// dados para gravar no banco
-		$dados['id_motorista'] = 'pegar por POST vindo';
-		$dados['data_romaneio'] = 'pegar por POST vindo';
-		$dados['clientes'] = 'pegar por POST vindo'; // Recebe um array e depois passar os dados por JSON
+		$dados['id_motorista'] = $this->input->post('motorista');
+		$dados['data_romaneio'] = $this->input->post('data_coleta');
+		$dados['clientes'] = json_encode($this->input->post('clientes')); // Recebe um array e depois passar os dados por JSON
 		$dados['codigo'] = $codigo;
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
@@ -71,11 +71,16 @@ class Romaneios extends CI_Controller
 		$scriptsPadraoHead = scriptsPadraoHead();
 		$scriptsPadraoFooter = scriptsPadraoFooter();
 
-		add_scripts('header', $scriptsPadraoHead);
-		add_scripts('footer', $scriptsPadraoFooter);
+		// scripts romaneio
+		$scriptsRomaneioHead = scriptsRomaneioHead();
+		$scriptsRomaneioFooter = scriptsRomaneioFooter();
+
+		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsRomaneioHead));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsRomaneioFooter));
 
 		$data['cidades'] = $this->Clientes_model->recebeCidadesCliente();
 		$data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
+		$data['clientes'] = $this->Clientes_model->recebeTodosClientes();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/romaneio/cadastra-romaneio');
@@ -88,7 +93,13 @@ class Romaneios extends CI_Controller
 		$dados['cidades'] = $this->input->post('cidades');
 		$dados['ids_etiquetas'] = $this->input->post('ids_etiquetas');
 
-		echo '<pre>';
-		print_r($dados);
+		$res = $this->Romaneios_model->filtrarClientesRomaneio($dados);
+
+		$response = array(
+			'retorno' => $res,
+			'registros' => count($res)
+		);
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 }

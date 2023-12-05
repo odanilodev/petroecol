@@ -1,54 +1,81 @@
-<!-- REMOVER ESSE STYLE FOI SÓ PRA TESTES -->
-<style>
-    .gradient-border {
-        border: 1px solid transparent;
-        /* Borda mais fina e transparente */
-        padding: 10px;
-        /* Ajuste conforme necessário */
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-        /* Sombreado mais suave */
-    }
-</style>
 
 <div class="content">
-<h5>Apenas a data de agendamento é obrigatória <br>Deixar layout clean e tirar o style da view<br><br></h5>
-    <div id="members">
-        <div class="row">
-            <div class="col-md-4 col-6 gradient-border">
-                <h5>Etiquetas</h5>
-                <?php foreach ($etiquetas as $v) { ?>
-                    <div class="form-check mb-0">
-                        <?= $v['nome'] ?> <input class="form-check-input" value="<?= $v['id'] ?>" type="checkbox">
-                    </div>
-                <?php } ?>
-            </div>
+   
+    <div class="row mb-9">
 
-            <div class="col-md-4 col-6 gradient-border">
-                <h5>Cidades</h5>
-                <?php foreach ($cidades as $v) { ?>
-                    <div class="form-check mb-0">
-                        <?= $v['cidade'] ?> <input class="form-check-input" value="<?= $v['cidade'] ?>" type="checkbox">
+        <div class="col-12">
+            <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
+                <div class="card-header p-4 border-bottom border-300 bg-soft">
+                    <div class="row g-3 justify-content-between align-items-center">
+                        <div class="col-12 col-md">
+                            <h4 class="text-900 mb-0">Novo Romaneio</h4>
+                        </div>
                     </div>
-                <?php } ?>
+                </div>
+                <div class="card-body p-0">
+
+                    <div class="p-4 code-to-copy">
+                        <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
+
+                            <div class="card-body pt-4 pb-0">
+                                <div class="tab-pane row" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab2" id="bootstrap-wizard-validation-tab2">
+                                    <form method="post" class="needs-validation" novalidate="novalidate" data-wizard-form="1">
+
+                                        <div class="row">
+
+                                            <div class="mb-2 col-md-4">
+                                                <label>Etiquetas</label>
+                                                <select id="select-etiquetas" class="form-seledct w-100 mb-3 select2" multiple="multiple">
+
+                                                    <?php foreach ($etiquetas as $v) { ?>
+                                                        <option value="<?= $v['id'] ?>"><?= $v['nome'] ?></option>
+                                                    <?php } ?>
+
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-2 col-md-4">
+                                                <label>Cidades</label>
+                                                <select id="select-cidades" class="form-seledct w-100 mb-3 select2" multiple="multiple">
+
+                                                    <?php foreach ($cidades as $v) { ?>
+                                                        <option value="<?= $v['cidade'] ?>"><?= $v['cidade'] ?></option>
+                                                    <?php } ?>
+
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-4 mb-2">
+                                                <label>Data Agendamento</label>
+
+                                                <input class="form-control datetimepicker input-coleta" required name="data_coleta" type="text" placeholder="Data Agendamento" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
+                                            </div>
+
+                                            <div class="flex-1 text-end my-5">
+                                                <button class="btn px-3 btn-phoenix-secondary" onclick="filtrarClientesRomaneio()" type="button">
+                                                    Buscar Clientes <span class="fa-solid fa-filter text-primary" data-fa-transform="down-3"></span>
+                                                </button>
+                                                <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                                            </div>
+
+                                    </form>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-4 col-6 gradient-border">
-                <input class="form-control datetimepicker" required name="data_coleta" type="text" placeholder="Data Agendamento" data-options='{"disableMobile":true,"allowInput":true}' />
-            </div>
-
-            <div class="col-md-4 col-6 gradient-border">
-                <button class="btn px-3 btn-phoenix-secondary" onclick="alert('Usar a rota filtrarClientesRomaneio para exibir os dados no modal')" data-bs-toggle="modal" data-bs-target="#modalRomaneio" type="submit">
-                    Buscar Clientes <span class="fa-solid fa-filter text-primary" data-fa-transform="down-3"></span>
-                </button>
-            </div>
-        </div>
     </div>
+
 
     <!-- Modal Romaneio-->
     <div class="modal fade" id="modalRomaneio" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Gerar um Romaneio</h5>
@@ -65,42 +92,29 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody class="list" id="members-table-body">
-                                <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                    <!-- Cliente -->
-                                    <td class="align-middle white-space-nowrap">
-                                        Danilo Gonçalves de Oliveira
-                                    </td>
-                                    <td class="align-middle white-space-nowrap">
-                                        Zona Sul Teste 123 / Bauru das teste 123
-                                    </td>
-                                    <td class="align-middle white-space-nowrap pt-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" checked name="clientes" type="checkbox" value="">
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                    <!-- Cliente -->
-                                    <td class="align-middle white-space-nowrap">
-                                        Danilo
-                                    </td>
-                                    <td class="align-middle white-space-nowrap">
-                                        Zona Sul Teste 123
-                                    </td>
-                                    <td class="align-middle white-space-nowrap pt-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" checked name="clientes" type="checkbox" value="">
-                                        </div>
-                                    </td>
-                                </tr>
-
-
+                            <tbody class="list clientes-modal-romaneio" id="members-table-body">
+                                <!-- Manipulado JS -->
                             </tbody>
+
                         </table>
-                        <i onclick="alert('Criar uma busca para inserir nova linha de cliente')" class="fas fa-plus-square mt-2"></i>
+                        <i onclick="acrescentarCliente()" class="fas fa-plus-square mt-2"></i>
+
                     </div>
+
+                    <div class="div-select-modal d-none">
+                        <label>Atribuir novo cliente ao romaneio</label>
+                        <select class="form-select w-100 mb-3" id="select-cliente-modal">
+
+                            <option selected disabled value="">Selecione o cliente</option>
+
+                            <?php foreach ($clientes as $v) { ?>
+                                <option data-cidade="<?= $v['cidade'] ?>" value="<?= $v['id'] ?>"><?= $v['nome'] ?></option>
+                            <?php } ?>
+
+                        </select>
+                    </div>
+
+
 
                 </div>
                 <div class="modal-footer">
@@ -114,7 +128,7 @@
                     </select>
 
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
-                    <button type="button" class="btn btn-primary btn-salva-romaneio" onclick="alert('Enviar via json para rota gerarRomaneioEtiqueta, lembrando que precisa ter uma regra de pelo menos um cliente selecionado e precisa ter motorista e data de agendamento obrigatório')">Gerar Romaneio</button>
+                    <button type="button" class="btn btn-primary btn-salva-romaneio" onclick="gerarRomaneio()">Gerar Romaneio</button>
                 </div>
             </div>
         </div>
