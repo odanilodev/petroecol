@@ -37,6 +37,7 @@
 
                             <th class="sort align-middle" scope="col" data-sort="customer">Motorista</th>
                             <th class="sort align-middle" scope="col" data-sort="email">CPF</th>
+                            <th class="sort align-middle" scope="col" data-sort="email">Detalhes</th>
                             <th class="sort align-middle pe-3">Editar</th>
                             <th class="sort align-middle pe-3">Excluir</th>
                         </tr>
@@ -56,7 +57,7 @@
 
                             <td class="customer align-middle white-space-nowrap">
                                 <a class="d-flex align-items-center text-900"
-                                    href="<?= base_url('funcionarios/ver_funcionario/').$v['id'] ?>">
+                                    href="<?= base_url('funcionarios/detalhes/').$v['id'] ?>">
                                     <div class="avatar avatar-m">
                                         <img class="rounded-circle"
                                             src="<?= $v['foto_perfil'] ? base_url('uploads/funcionarios/perfil/' . ($v['foto_perfil'])) : base_url('assets/img/icons/sem_foto.jpg') ?>">
@@ -70,6 +71,11 @@
                                 <h6 class="fw-bold text-1100"><?= $v['cpf'] ?></h6>
                             </td>
 
+                            <td class="align-middle white-space-nowrap">
+                                <a href="<?= base_url('funcionarios/detalhes/' . $v['id']) ?>" class="btn btn-warning">
+                                    <span class="fas fa-eye ms-1"></span>
+                                </a>
+                            </td>
 
                             <td class="align-middle white-space-nowrap">
                                 <a href="<?= base_url('funcionarios/formulario/' . $v['id']) ?>" class="btn btn-info">

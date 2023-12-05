@@ -32,15 +32,16 @@
                                     <h3>Sobre o funcionário</h3>
                                 </div>
                                 <div class="mb-4">
-                                    <div class="d-flex align-items-center mb-1"><span class="me-2 uil uil-envelope-alt">
-                                        </span>
+                                    <div class="d-flex align-items-center mb-1">
+                                        <span class="me-2 uil uil-house-user"></span>
+
                                         <h5 class="text-1000 mb-0">Residência</h5>
                                     </div>
                                     <p class="mb-0 text-800"><?= $funcionario['residencia'] ?></p>
                                 </div>
 
                                 <div class="mb-4">
-                                    <div class="d-flex align-items-center mb-1"><span class="me-2 uil uil-envelope-alt">
+                                    <div class="d-flex align-items-center mb-1"><span class="me-2 uil uil-hourglass">
                                         </span>
                                         <h5 class="text-1000 mb-0">Validade da CNH</h5>
                                     </div>
@@ -76,7 +77,7 @@
 
                                 <div class="mb-4">
                                     <div class="d-flex align-items-center mb-1"><span
-                                            class="me-2 uil uil-dollar-alt"></span>
+                                            class="me-2 uil uil-calendar-alt"></span>
                                         <h5 class="text-1000 mb-0">Data de nascimento</h5>
                                     </div>
                                     <p class="mb-0 text-800">

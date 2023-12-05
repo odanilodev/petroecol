@@ -78,6 +78,10 @@ const cadastraFuncionario = () => {
                 } else {
 
                     avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
+                    
+                    if (data.message == 'Já existe um funcionário com este CPF!') {
+                        $('.input-cpf').addClass('invalido');
+                    }
 
                 }
             }

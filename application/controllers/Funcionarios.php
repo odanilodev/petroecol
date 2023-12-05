@@ -37,7 +37,7 @@ class Funcionarios extends CI_Controller
 		$this->load->view('admin/includes/painel/rodape');
 	}
 
-	public function ver_funcionario()
+	public function detalhes()
 	{
 		// scripts padrão
 		$scriptsPadraoHead = scriptsPadraoHead();
@@ -100,9 +100,20 @@ class Funcionarios extends CI_Controller
 		$dados['funcao'] = $this->input->post('funcao');
 		$dados['salario_base'] = $this->input->post('salario_base');
 
-
-
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
+
+		$cpfFuncionario = $this->Funcionarios_model->verificaCpfFuncionario($dados['cpf']); // verifica se ja existe o cpf no banco
+
+		if ($cpfFuncionario) {
+
+			$response = array(
+				'success' => false,
+				'message' => "Já existe um funcionário com este CPF!"
+			);
+
+			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
+		}
 
 		// Verifica se veio imagem
 		if (!empty($_FILES['foto_cnh']['name'])) {

@@ -76,7 +76,7 @@
                                             <div class="mb-2 col-md-4">
                                                 <label class="form-label" for="basic-form-dob">Data de
                                                     nascimento</label>
-                                                <input class="form-control input-data-nascimento datetimepicker"
+                                                <input class="form-control input-data-nascimento"
                                                     value="<?= isset($funcionario['data_nascimento']) ? $funcionario['data_nascimento'] : "" ?>"
                                                     placeholder="dd/mm/yyyy" id="basic-form-dob" type="date">
                                             </div>
@@ -92,7 +92,7 @@
 
                                             <div class="mb-2 col-md-4">
                                                 <div class="mb-2">
-                                                    <label class="form-label text-900">Função *</label>
+                                                    <label class="form-label text-900">Função</label>
                                                     <select name="funcao" class="form-select input-funcao">
                                                         <option value="" selected disabled>Selecione</option>
                                                         <option value="Serviços Gerais">
@@ -113,10 +113,10 @@
                                             <div class="mb-2 col-md-4">
                                                 <label class="form-label text-900"
                                                     for="bootstrap-wizard-validation-wizard-name">Salario Base</label>
-                                                <input required
+                                                <input
                                                     value="<?= isset($funcionario['salario_base']) ? $funcionario['salario_base'] : "" ?>"
-                                                    class="form-control input-salario" type="text" name="salario_base"
-                                                    placeholder="Digite o salário do funcionário"
+                                                    class="form-control input-salario mascara-dinheiro" type="text"
+                                                    name="salario_base" placeholder="Digite o salário do funcionário"
                                                     id="bootstrap-wizard-validation-wizard-name" />
                                                 <div class="invalid-feedback">Preencha este campo.</div>
                                             </div>
@@ -124,7 +124,7 @@
                                             <div class="mb-5 col-md-4">
                                                 <label class="form-label text-900"
                                                     for="bootstrap-wizard-validation-wizard-name">Residência</label>
-                                                <input required
+                                                <input
                                                     value="<?= isset($funcionario['residencia']) ? $funcionario['residencia'] : "" ?>"
                                                     class="form-control input-residencia" type="text" name="residencia"
                                                     placeholder="Digite o endereço do funcionário"
@@ -149,7 +149,7 @@
                                             <div class="mb-2 col-md-4">
                                                 <label class="form-label" for="basic-form-dob">Data de validade
                                                     (CNH)</label>
-                                                <input class="form-control input-data datetimepicker"
+                                                <input class="form-control input-data"
                                                     value="<?= isset($funcionario['data_cnh']) ? $funcionario['data_cnh'] : "" ?>"
                                                     placeholder="dd/mm/yyyy" id="basic-form-dob" type="date">
                                             </div>
