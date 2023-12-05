@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -41,8 +44,10 @@
         </div>
 
         <div style="margin-top: 5px">
+        <h3 style="font-weight: 100;">Romaneio: <span style="font-weight: bold;"><?= $codigo ?></span></h3>
+
             <div style="font-size: 14px" class="col-md-6">
-                Data: 01/10/2019
+                Data: <?= date("d/m/Y", strtotime($data_romaneio)); ?> 
             </div>
         </div>
 
@@ -51,7 +56,6 @@
                 <span style="font-size: 13px; max-width: 25%;">Motorista:</span>
                 <span style="margin-left: 8%; font-size: 13px; max-width: 25%;">Ajudante:</span>
                 <span style="margin-left: 8%; font-size: 13px; max-width: 25%;">Placa: </span>
-                <span style="margin-left: 8%; font-size: 13px; max-width: 25%;">Romaneio: <?= $codigo ?></span>
             </nobr>
         </div>
         <hr style="font-size: 0.5px; margin-top: 5px;">
@@ -59,7 +63,7 @@
 
     <!--EndHeader-->
 
-    <div style="width: 100%;">
+    <div style="width: 100%;"> 
 
         <?php
         $currentCity = null;

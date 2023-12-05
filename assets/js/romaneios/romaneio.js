@@ -104,13 +104,19 @@ const gerarRomaneio = () => {
             data_coleta: data_coleta
         },
         beforeSend: function () {
-
+            $('.load-form').removeClass('d-none');
+            $('.btn-salva-romaneio').addClass('d-none');
             console.log('carregando...');
 
         }, success: function (data) {
+            if (data.success) {
+                avisoRetorno('Sucesso!', data.message, 'success', `${baseUrl}romaneios/`);
+            }else{
+                avisoRetorno('Erro!', data.message, 'error', `${baseUrl}romaneios/formulario/`);
 
-            alert('deu bao')
+            }
         }
+
     })
 
 }

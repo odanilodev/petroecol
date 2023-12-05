@@ -25,15 +25,18 @@ class GerarRomaneio
 
 			$data['clientes'] = $this->CI->Clientes_model->recebeClientesIds($idClientes);
 			$data['codigo'] = $codigo;
+			$data['data_romaneio'] = $romaneio['data_romaneio'];
 
 			$mpdf = new Mpdf(['orientation' => 'L']);
-			$html = $this->CI->load->view('admin/romaneios/romaneio-etiquetas', $data, true);
+			$html = $this->CI->load->view('admin/paginas/romaneio/romaneio-pdf', $data, true);
 			$mpdf->WriteHTML($html);
-			$mpdf->Output('romaneio-etiqueta.pdf', \Mpdf\Output\Destination::INLINE);
-		} else {
 
+			// Retorna o conteúdo do PDF
+			return $mpdf->Output('', \Mpdf\Output\Destination::INLINE);
+		} else {
 			echo 'Criar uma view para romaneio não encontrado';
 			exit;
 		}
 	}
+
 }

@@ -39,8 +39,8 @@ class Romaneios_model extends CI_Model
         $this->db->from('ci_romaneios R');
         $this->db->join('ci_motoristas M', 'M.id = R.id_motorista', 'INNER');
         $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->limit(90);
-        $this->db->order_by('R.data_romaneio', 'DESC');
+        $this->db->limit(60);
+        $this->db->order_by('R.criado_em', 'DESC');
         $query = $this->db->get();
 
         return $query->result_array();
@@ -65,6 +65,7 @@ class Romaneios_model extends CI_Model
             $this->db->where_in('EC.id_etiqueta', $dados['ids_etiquetas']);
         }
 
+        $this->db->group_by('C.id');
 
         $query = $this->db->get();
 

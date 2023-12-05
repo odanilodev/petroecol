@@ -41,29 +41,34 @@ class Romaneios extends CI_Controller
 
 	public function gerarRomaneioEtiqueta()
 	{
-		
-		$this->load->library('GerarRomaneio');
-
 		$codigo = time();
 
 		// dados para gravar no banco
 		$dados['id_motorista'] = $this->input->post('motorista');
 		$dados['data_romaneio'] = $this->input->post('data_coleta');
-		$dados['clientes'] = json_encode($this->input->post('clientes')); // Recebe um array e depois passar os dados por JSON
+		$dados['clientes'] = json_encode($this->input->post('clientes')); // Recebe um array e depois passa os dados por JSON
 		$dados['codigo'] = $codigo;
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-		$insereRomaneio = $this->Romaneios_model->insereRomaneio($dados); // grava no banco romaneio que foi gerado	
+
+		$insereRomaneio = $this->Romaneios_model->insereRomaneio($dados); // grava no banco romaneio que foi gerado
 
 		if ($insereRomaneio) {
-
-			$this->gerarromaneio->gerarPdf($codigo);
-
-			redirect('romaneios');
+			$response = array(
+				'success' => true,
+				'message' => 'Romaneio gerado com sucesso.'
+			);
 		} else {
-			// tratar se deu erro na hora de gravar romaneio
+			$response = array(
+				'success' => false,
+				'message' => 'Falha ao cadastrar romaneio, tente novamente!'
+			);
 		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
 	}
+
 
 	public function gerarRomaneio()
 	{
