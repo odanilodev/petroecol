@@ -52,10 +52,10 @@
                                             </div>
 
                                             <div class="flex-1 text-end my-5">
-                                                <button class="btn px-3 btn-phoenix-secondary" onclick="filtrarClientesRomaneio()" type="button">
+                                                <button class="btn px-3 btn-phoenix-secondary btn-envia-romaneio" onclick="filtrarClientesRomaneio()" type="button">
                                                     Buscar Clientes <span class="fa-solid fa-filter text-primary" data-fa-transform="down-3"></span>
                                                 </button>
-                                                <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                                                <div class="spinner-border text-primary load-form d-none load-form-romaneio" role="status"></div>
                                             </div>
 
                                     </form>
@@ -127,7 +127,7 @@
                         <option value="4">Cristyan rafael</option>
                     </select>
 
-                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                    <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
                     <button type="button" class="btn btn-primary btn-salva-romaneio" onclick="gerarRomaneio()">Gerar Romaneio</button>
                 </div>
             </div>

@@ -29,8 +29,13 @@ const filtrarClientesRomaneio = () => {
         },
         beforeSend: function () {
             $('.clientes-modal-romaneio').html('');
+            $('.load-form-romaneio').removeClass('d-none');
+            $('.btn-envia-romaneio').addClass('d-none');
 
         }, success: function (data) {
+
+            $('.load-form-romaneio').addClass('d-none');
+            $('.btn-envia-romaneio').removeClass('d-none');
 
             if (data.registros < 1) {
 
@@ -104,9 +109,8 @@ const gerarRomaneio = () => {
             data_coleta: data_coleta
         },
         beforeSend: function () {
-            $('.load-form').removeClass('d-none');
+            $('.load-form-modal-romaneio').removeClass('d-none');
             $('.btn-salva-romaneio').addClass('d-none');
-            console.log('carregando...');
 
         }, success: function (data) {
             if (data.success) {
