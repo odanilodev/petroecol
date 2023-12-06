@@ -39,7 +39,7 @@ const filtrarClientesRomaneio = () => {
 
             if (data.registros < 1) {
 
-                avisoRetorno('Algo deu errado!', 'Não há nada para exibir aqui', 'error', '#');
+                avisoRetorno('Algo deu errado!', 'Não foi encontrado nada com essas informações!', 'error', '#');
 
             } else {
                 $('#modalRomaneio').modal('show');
