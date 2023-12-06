@@ -8,7 +8,7 @@ const cadastraFuncionario = () => {
     let cpf = $('.input-cpf').val();
     let dataCnh = $('.input-data').val();
     let data_nascimento = $('.input-data-nascimento').val();
-    let funcao = $('.input-funcao').val();
+    let id_cargo = $('.input-cargo').val();
     let residencia = $('.input-residencia').val();
     let salario_base = $('.input-salario').val();
 
@@ -30,7 +30,7 @@ const cadastraFuncionario = () => {
     formData.append('telefone', telefone);
     formData.append('residencia',residencia);
     formData.append('salario_base',salario_base);
-    formData.append('funcao', funcao);
+    formData.append('id_cargo', id_cargo);
     formData.append('cpf', cpf);
     formData.append('fotoCnh', fotoCnh);
     formData.append('data_cnh', dataCnh);
@@ -78,7 +78,7 @@ const cadastraFuncionario = () => {
                 } else {
 
                     avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
-                    
+
                     if (data.message == 'Já existe um funcionário com este CPF!') {
                         $('.input-cpf').addClass('invalido');
                     }

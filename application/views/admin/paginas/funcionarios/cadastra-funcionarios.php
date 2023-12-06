@@ -93,18 +93,11 @@
                                             <div class="mb-2 col-md-4">
                                                 <div class="mb-2">
                                                     <label class="form-label text-900">Função</label>
-                                                    <select name="funcao" class="form-select input-funcao">
+                                                    <select name="id_cargo" class="form-select input-cargo">
                                                         <option value="" selected disabled>Selecione</option>
-                                                        <option value="Serviços Gerais">
-                                                            Serviços Gerais</option>
-                                                        <option value="funcionario">
-                                                            funcionario</option>
-                                                        <option value="Supervisor">
-                                                            Supervisor</option>
-                                                        <option value="Auxiliar Administrativo">
-                                                            Auxiliar Administrativo</option>
-                                                        <option value="Técnico de Segurança">
-                                                            Técnico de Segurança</option>
+                                                        <?php foreach($cargos as $c){ ?>
+                                                        <option value="<?= $c['id'] ?>"><?= $c['nome'] ?></option>
+                                                        <?php } ?>
                                                     </select>
                                                     <div class="invalid-feedback">Preencha este campo</div>
                                                 </div>

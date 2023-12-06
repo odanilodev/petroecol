@@ -21,8 +21,11 @@
                                     </div>
                                     <div class="col-12 col-sm-auto flex-1">
                                         <h3 class="fw-bolder mb-2"><?= $funcionario['nome'] ?></h3>
-                                        <p class="mb-0"><?= $funcionario['funcao'] ?></p>
+                                        <p class="mb-0">
+                                            <?= empty($funcionario['funcao_nome']) ? 'Não Cadastrado' : $funcionario['funcao_nome']?>
+                                        </p>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -37,7 +40,9 @@
 
                                         <h5 class="text-1000 mb-0">Residência</h5>
                                     </div>
-                                    <p class="mb-0 text-800"><?= $funcionario['residencia'] ?></p>
+                                    <p class="mb-0 text-800">
+                                        <?= empty($funcionario['residencia']) ? 'Não Cadastrado' : $funcionario['residencia']?>
+                                    </p>
                                 </div>
 
                                 <div class="mb-4">
@@ -46,7 +51,15 @@
                                         <h5 class="text-1000 mb-0">Validade da CNH</h5>
                                     </div>
                                     <p class="mb-0 text-800">
-                                        <?= date('d/m/Y', strtotime($funcionario['data_cnh'])) ?>
+                                        <?php
+                                        $data_cnh = $funcionario['data_cnh'];
+
+                                        if (strtotime($data_cnh) !== false) {
+                                            echo date('d/m/Y', strtotime($data_cnh));
+                                        } else {
+                                            echo 'Não cadastrado';
+                                        }
+                                        ?>
                                     </p>
                                 </div>
 
@@ -55,7 +68,9 @@
                                         </span>
                                         <h5 class="text-1000 mb-0">Telefone</h5>
                                     </div>
-                                    <p class="mb-0 text-800"><?= $funcionario['telefone'] ?></p>
+                                    <p class="mb-0 text-800">
+                                        <?= empty($funcionario['telefone']) ? 'Não Cadastrado' : $funcionario['telefone']?>
+                                    </p>
 
                                 </div>
 
@@ -64,7 +79,9 @@
                                             class="me-2 uil uil-postcard"></span>
                                         <h5 class="text-1000 mb-0">CPF</h5>
                                     </div>
-                                    <p class="mb-0 text-800"><?= $funcionario['cpf'] ?></p>
+                                    <p class="mb-0 text-800">
+                                        <?= empty($funcionario['cpf']) ? 'Não Cadastrado' : $funcionario['cpf']?>
+                                    </p>
                                 </div>
 
                                 <div class="mb-4">
@@ -72,7 +89,9 @@
                                             class="me-2 uil uil-building"></span>
                                         <h5 class="text-1000 mb-0">Salario Base</h5>
                                     </div>
-                                    <p class="mb-0 text-800">R$<?= $funcionario['salario_base'] ?></p>
+                                    <p class="mb-0 text-800">
+                                        <?= empty($funcionario['salario_base']) ? 'Não Cadastrado' : 'R$'.$funcionario['salario_base']?>
+                                    </p>
                                 </div>
 
                                 <div class="mb-4">
@@ -80,8 +99,20 @@
                                             class="me-2 uil uil-calendar-alt"></span>
                                         <h5 class="text-1000 mb-0">Data de nascimento</h5>
                                     </div>
+
                                     <p class="mb-0 text-800">
-                                        <?= date('d/m/Y', strtotime($funcionario['salario_base']))  ?></p>
+                                        <?php
+                                        $data_nascimento = $funcionario['data_nascimento'];
+
+                                        if (empty($data_nascimento) && strtotime($data_nascimento) !== false) {
+                                            echo date('d/m/Y', strtotime($data_nascimento));
+                                        } else {
+                                            echo 'Não cadastrado';
+                                        }
+                                        ?>
+
+                                    </p>
+
                                 </div>
 
                             </div>

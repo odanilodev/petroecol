@@ -23,8 +23,15 @@ class Funcionarios_model extends CI_Model
 
     public function recebeFuncionario($id)
     {
-        $this->db->where('id', $id);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+
+        $this->db->select('ci_funcionarios.*, C.nome as funcao_nome');
+        $this->db->from('ci_funcionarios F');
+        $this->db->join('ci_cargos C', 'C.id = F.id_cargo', 'left');
+        $this->db->order_by('F.nome', 'DESC');
+        $this->db->where('F.id', $id);
+        $this->db->where('F.status', 1);
+        $this->db->where('F.id_empresa', $this->session->userdata('id_empresa'));
+
 
         $query = $this->db->get('ci_funcionarios');
 

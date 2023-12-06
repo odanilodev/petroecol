@@ -73,12 +73,17 @@ class Funcionarios extends CI_Controller
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsFuncionarioFooter));
 
 		$this->load->model('Empresas_model');
+		$this->load->model('Cargos_model');
+
 
 		$id = $this->uri->segment(3);
 
 		$data['funcionario'] = $this->Funcionarios_model->recebeFuncionario($id);
 
 		$data['empresas'] = $this->Empresas_model->recebeEmpresas();
+		
+		$data['cargos'] = $this->Cargos_model->recebeCargos();
+
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/funcionarios/cadastra-funcionarios');
@@ -94,26 +99,28 @@ class Funcionarios extends CI_Controller
 		$dados['data_cnh'] = $this->input->post('data_cnh');
 		$dados['telefone'] = $this->input->post('telefone');
 		$dados['cpf'] = $this->input->post('cpf');
-		$dados['funcao'] = $this->input->post('funcao');
+		$dados['id_cargo'] = $this->input->post('id_cargo');
 		$dados['data_nascimento'] = $this->input->post('data_nascimento');
 		$dados['residencia'] = $this->input->post('residencia');
-		$dados['funcao'] = $this->input->post('funcao');
 		$dados['salario_base'] = $this->input->post('salario_base');
 
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-		$cpfFuncionario = $this->Funcionarios_model->verificaCpfFuncionario($dados['cpf']); // verifica se ja existe o cpf no banco
 
-		if ($cpfFuncionario) {
+		// Se estiver cadastrando
+		if (!$id) {
+			$cpfFuncionario = $this->Funcionarios_model->verificaCpfFuncionario($dados['cpf']); // verifica se ja existe o cpf no banco
 
-			$response = array(
-				'success' => false,
-				'message' => "Já existe um funcionário com este CPF!"
-			);
+			if ($cpfFuncionario) {
+				$response = array(
+					'success' => false,
+					'message' => "Já existe um funcionário com este CPF!"
+				);
 
-			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-
+				return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+			}
 		}
+
 
 		// Verifica se veio imagem
 		if (!empty($_FILES['foto_cnh']['name'])) {
