@@ -4,7 +4,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Etiquetas</h5>
-                <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1"></span></button>
+                <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span
+                        class="fas fa-times fs--1"></span></button>
             </div>
             <div class="modal-body">
 
@@ -17,11 +18,12 @@
                     <input type="hidden" class="id-cliente">
 
                     <label>Atribuir novas etiquetas</label>
-                    <select class="form-select w-100" id="select-etiqueta" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                    <select class="form-select w-100" id="select-etiqueta" data-choices="data-choices"
+                        data-options='{"removeItemButton":true,"placeholder":true}'>
 
                         <option value="">Selecione etiquetas</option>
                         <?php foreach ($etiquetas as $e) { ?>
-                            <option value="<?= $e['id'] ?>"><?= $e['nome']; ?></option>
+                        <option value="<?= $e['id'] ?>"><?= $e['nome']; ?></option>
                         <?php } ?>
 
                     </select>
@@ -33,7 +35,8 @@
 
                 <div class="spinner-border text-primary load-form d-none" role="status"></div>
 
-                <button class="btn btn-success btn-salva-etiqueta btn-form" type="button" onclick="cadastraEtiquetaCliente()">Salvar</button>
+                <button class="btn btn-success btn-salva-etiqueta btn-form" type="button"
+                    onclick="cadastraEtiquetaCliente()">Salvar</button>
                 <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
             </div>
@@ -47,7 +50,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Residuos</h5>
-                <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1"></span></button>
+                <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span
+                        class="fas fa-times fs--1"></span></button>
             </div>
             <div class="modal-body">
 
@@ -60,11 +64,12 @@
                     <input type="hidden" class="id-cliente">
 
                     <label>Atribuir novos resíduos</label>
-                    <select class="form-select w-100" id="select-residuo" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                    <select class="form-select w-100" id="select-residuo" data-choices="data-choices"
+                        data-options='{"removeItemButton":true,"placeholder":true}'>
 
                         <option disabled selected value="">Selecione residuos</option>
                         <?php foreach ($residuos as $v) { ?>
-                            <option value="<?= $v['id'] ?>"><?= strtoupper($v['nome']); ?></option>
+                        <option value="<?= $v['id'] ?>"><?= strtoupper($v['nome']); ?></option>
                         <?php } ?>
 
                     </select>
@@ -76,7 +81,8 @@
 
                 <div class="spinner-border text-primary load-form d-none" role="status"></div>
 
-                <button class="btn btn-success btn-salva-residuo btn-form" type="button" onclick="cadastraResiduoCliente()">Salvar</button>
+                <button class="btn btn-success btn-salva-residuo btn-form" type="button"
+                    onclick="cadastraResiduoCliente()">Salvar</button>
                 <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
             </div>
@@ -91,7 +97,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Recipientes</h5>
-                <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1"></span></button>
+                <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span
+                        class="fas fa-times fs--1"></span></button>
             </div>
             <div class="modal-body">
 
@@ -104,16 +111,17 @@
                     <input type="hidden" class="id-cliente">
 
                     <label>Atribuir novos recipientes</label>
-                    <select class="form-select w-100 mb-3" id="select-recipiente" >
+                    <select class="form-select w-100 mb-3" id="select-recipiente">
 
                         <option selected disabled value="">Selecione recipientes</option>
                         <?php foreach ($recipientes as $v) { ?>
-                            <option value="<?= $v['id'] ?>"><?= strtoupper($v['nome_recipiente']); ?></option>
+                        <option value="<?= $v['id'] ?>"><?= strtoupper($v['nome_recipiente']); ?></option>
                         <?php } ?>
 
                     </select>
 
-                    <input type="number" class="w-100 form-control mt-4" id="quantidade-recipiente" placeholder="quantidade">
+                    <input type="number" class="w-100 form-control mt-4" id="quantidade-recipiente"
+                        placeholder="quantidade">
 
                 </div>
             </div>
@@ -122,7 +130,8 @@
 
                 <div class="spinner-border text-primary load-form d-none" role="status"></div>
 
-                <button class="btn btn-success btn-salva-recipiente btn-form" type="button" onclick="cadastraRecipienteCliente()">Salvar</button>
+                <button class="btn btn-success btn-salva-recipiente btn-form" type="button"
+                    onclick="cadastraRecipienteCliente()">Salvar</button>
                 <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
             </div>

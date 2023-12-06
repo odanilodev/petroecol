@@ -40,6 +40,30 @@ class Clientes_model extends CI_Model
         return $query->result_array();
     }
 
+    public function recebeClientesEtiquetas()
+    {
+        $this->db->select('C.nome, C.cidade, C.id, E.nome as ETIQUETA');
+        $this->db->from('ci_clientes C');
+        $this->db->join('ci_etiqueta_cliente EC', 'C.id = EC.id_cliente', 'LEFT');
+        $this->db->join('ci_etiquetas E', 'EC.id_etiqueta = E.id', 'LEFT');
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('C.status', 1);
+        $this->db->order_by('C.nome', 'DESC');
+        $query = $this->db->get();
+        return $query->result_array(); 
+    }
+
+    public function recebeCidadesCliente()
+    {
+        $this->db->select('cidade');
+        $this->db->where('status', 1);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->order_by('cidade');
+        $this->db->group_by('cidade');
+        $query = $this->db->get('ci_clientes');
+        return $query->result_array();
+    }
+
     public function recebeCliente($id)
     {
         $this->db->select('C.*, F.frequencia');
@@ -52,6 +76,21 @@ class Clientes_model extends CI_Model
 
         return $query->row_array();
 
+    }
+
+    //Recebe clientes com varios Ids selecionados
+    public function recebeClientesIds($ids) 
+    {
+        $this->db->select('C.*, F.frequencia');
+        $this->db->from('ci_clientes C');
+        $this->db->join('ci_frequencia_coleta F', 'C.id_frequencia_coleta = F.id', 'left');
+        $this->db->order_by('C.cidade');
+        $this->db->order_by('C.nome');
+        $this->db->where_in('C.id', $ids); // Use where_in para comparar com vários IDs
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get();
+
+        return $query->result_array(); // Use result_array() para obter vários resultados
     }
 
     public function insereCliente($dados)

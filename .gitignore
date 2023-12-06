@@ -8,10 +8,11 @@ application/cache/*
 application/logs/*
 !application/logs/index.html
 
-!application/*/.htaccess
-
 composer.lock
 package-lock.json
+
+!application/*/.htaccess
+
 tests/mocks/database/ci_test.sqlite
 
 user_guide_src/build/*
