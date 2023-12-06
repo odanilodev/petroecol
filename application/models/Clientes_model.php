@@ -40,6 +40,19 @@ class Clientes_model extends CI_Model
         return $query->result_array();
     }
 
+    public function recebeTodosClientesComEtiquetas()
+    {
+        $this->db->select('C.nome, C.cidade, EC.*, E.nome as ETIQUETA');
+        $this->db->from('ci_clientes C');
+        $this->db->join('ci_etiqueta_cliente EC', 'C.id = EC.id_cliente', 'LEFT');
+        $this->db->join('ci_etiquetas E', 'EC.id_etiqueta = E.id', 'LEFT');
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('C.status', 1);
+        $this->db->order_by('C.nome', 'DESC');
+        $query = $this->db->get();
+        return $query->result_array(); 
+    }
+
     public function recebeCidadesCliente()
     {
         $this->db->select('cidade');

@@ -137,6 +137,8 @@ $('#select-cliente-modal').change(function () {
 
     let cidade = valSelectClienteModal[1];
 
+    let etiqueta = valSelectClienteModal[2]
+
     $('.div-select-modal').addClass('d-none');
 
     let clientes = `
@@ -146,7 +148,7 @@ $('#select-cliente-modal').change(function () {
             </td>
 
             <td class="align-middle white-space-nowrap">
-                 / ${cidade}
+                ${etiqueta} / ${cidade}
             </td>
 
             <td class="align-middle white-space-nowrap pt-3">
@@ -157,6 +159,9 @@ $('#select-cliente-modal').change(function () {
         </tr>
     `;
 
-    $('.clientes-modal-romaneio').append(clientes);
+    if(idCliente.trim()){
+        $('.clientes-modal-romaneio').append(clientes);
+    }
+ 
 
 })

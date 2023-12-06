@@ -105,10 +105,10 @@
                         <label>Atribuir novo cliente ao romaneio</label>
                         <select class="form-select w-100 mb-3" id="select-cliente-modal" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
 
-                            <option selected disabled value="">Selecione o cliente</option>
+                            <option selected value="">Selecione o cliente</option>
 
                             <?php foreach ($clientes as $v) { ?>
-                                <option value="<?= $v['id'] ?> | <?= $v['cidade'] ?>"><?= $v['nome'] ?></option>
+                                <option value="<?= $v['id'] ?> | <?= $v['cidade'] ?> | <?= $v['ETIQUETA'] ?>"><?= $v['nome'] ?></option>
                             <?php } ?>
 
                         </select>
