@@ -86,6 +86,10 @@ class Clientes extends CI_Controller
 
         $id = $this->uri->segment(3);
 
+        $this->load->model('Coletas_model');
+
+        $data['coletas'] = $this->Coletas_model->recebeColetasCliente($id);
+        
         $data['cliente'] = $this->Clientes_model->recebeCliente($id);
 
         // verifica se existe cliente
