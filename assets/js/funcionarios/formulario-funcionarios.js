@@ -48,7 +48,7 @@ const cadastraFuncionario = () => {
     var permissao = false;
   
     // Valida se veio nome
-    if (nome != "") {
+    if (nome != "" && cpf != "") {
 
         permissao = true;
 

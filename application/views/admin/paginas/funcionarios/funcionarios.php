@@ -15,7 +15,7 @@
             <div class="col col-auto">
                 <div class="search-box">
                     <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                        <input class="form-control search-input search" type="search" placeholder="Buscar Motoristas"
+                        <input class="form-control search-input search" type="search" placeholder="Buscar Funcionarios"
                             aria-label="Search" />
                         <span class="fas fa-search search-box-icon"></span>
 
@@ -35,7 +35,7 @@
                                 </div>
                             </th>
 
-                            <th class="sort align-middle" scope="col" data-sort="customer">Motorista</th>
+                            <th class="sort align-middle" scope="col" data-sort="customer">Funcionario</th>
                             <th class="sort align-middle" scope="col" data-sort="email">CPF</th>
                             <th class="sort align-middle" scope="col" data-sort="email">Detalhes</th>
                             <th class="sort align-middle pe-3">Editar</th>

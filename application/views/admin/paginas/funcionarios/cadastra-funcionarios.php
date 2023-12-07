@@ -65,11 +65,12 @@
 
                                             <div class="mb-2 col-md-4">
                                                 <label class="form-label text-900"
-                                                    for="bootstrap-wizard-validation-wizard-cpf">CPF</label>
-                                                <input
+                                                    for="bootstrap-wizard-validation-wizard-cpf">CPF*</label>
+                                                <input required
                                                     value="<?= isset($funcionario['cpf']) ? $funcionario['cpf'] : "" ?>"
                                                     class="form-control input-cpf mascara-cpf" type="text" name="nome"
                                                     placeholder="Digite o CPF" />
+                                                    <div class="invalid-feedback">Preencha este campo.</div>
                                             </div>
 
 
@@ -92,11 +93,11 @@
 
                                             <div class="mb-2 col-md-4">
                                                 <div class="mb-2">
-                                                    <label class="form-label text-900">Função</label>
+                                                    <label class="form-label text-900">Cargo</label>
                                                     <select name="id_cargo" class="form-select input-cargo">
                                                         <option value="" selected disabled>Selecione</option>
                                                         <?php foreach($cargos as $c){ ?>
-                                                        <option value="<?= $c['id'] ?>"><?= $c['nome'] ?></option>
+                                                        <option <?= isset($funcionario['id_cargo']) && $funcionario['id_cargo'] == $c['id'] ? "selected" : "" ?> value="<?= $c['id'] ?>"><?= $c['nome'] ?></option>
                                                         <?php } ?>
                                                     </select>
                                                     <div class="invalid-feedback">Preencha este campo</div>
