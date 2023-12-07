@@ -455,85 +455,48 @@
 
             </div>
 
+            <?php foreach($coletas as $c){ ?>
+
+
+            <?php if($c['coletado'] == 1){ ?>
             <div class="border-bottom py-4">
               <div class="d-flex">
-                <div class="d-flex bg-primary-100 rounded-circle flex-center me-3 bg-primary-100" style="width:25px; height:25px"><span class="fa-solid text-primary-600 dark__text-primary-300 fs--1 fa-clipboard text-primary-600 dark__text-primary-300"></span></div>
+                <div class="d-flex bg-primary-100 rounded-circle flex-center me-3 bg-primary-100" style="width:25px; height:25px"><span class="fa-solid dark__text-primary-300 fs--1 fa-clipboard text-primary-600 dark__text-primary-300"></span></div>
                 <div class="flex-1">
                   <div class="d-flex justify-content-between flex-column flex-xl-row mb-2 mb-sm-0">
                     <div class="flex-1 me-2">
-                      <h5 class="text-1000 lh-sm">Assigned as a director for Project The Chewing Gum Attack</h5>
-                      <p class="fs--1 mb-0">by<a class="ms-1" href="#!">Jackson Pollock</a></p>
+                      <h5 class="text-1000 lh-sm">Coleta realizada</h5>
+                      <p class="fs--1 mb-0">Por<a class="ms-1" href="#!"><?= $c['nome_motorista'] ?></a></p>
                     </div>
-                    <div class="fs--1"><span class="fa-regular fa-calendar-days text-primary me-2"></span><span class="fw-semi-bold">22 September, 2022, 4:33 PM</span></div>
+                    <div class="fs--1"><span class="fa-regular fa-calendar-days text-primary me-2">
+                    </span><span class="fw-semi-bold"><?= date('d/m/Y', strtotime($c['data_coleta'])) ?>
+                    </span></div>
                   </div>
-                  <p class="fs--1 mb-0">Utilizing best practices to better leverage our assets, we must engage in black sky leadership thinking, not the usual band-aid solution. </p>
+                  <p class="fs--1 mb-0"><?= $c['observacao'] ?></p>
                 </div>
               </div>
             </div>
-
-            <div class="border-bottom py-4">
+            <?php }elseif($c['coletado'] == 0){ ?>
+              <div class="border-bottom py-4">
               <div class="d-flex">
-                <div class="d-flex bg-primary-100 rounded-circle flex-center me-3 bg-info-100" style="width:25px; height:25px"><span class="fa-solid text-primary-600 dark__text-primary-300 fs--1 fa-video text-info-600 dark__text-info-300"></span></div>
+                
+                <div class="d-flex bg-primary-100 rounded-circle flex-center me-3 bg-primary-100" style="width:25px; height:25px"><span class="fa-solid dark__text-danger-300 fs--1 fa-clipboard text-danger-600 dark__text-danger-300"></span></div>
                 <div class="flex-1">
                   <div class="d-flex justify-content-between flex-column flex-xl-row mb-2 mb-sm-0">
                     <div class="flex-1 me-2">
-                      <h5 class="text-1000 lh-sm">Onboarding Meeting</h5>
-                      <p class="fs--1 mb-0">by<a class="ms-1" href="#!">Jackson Pollock</a></p>
+                      <h5 class="text-1000 lh-sm">Coleta não realizada</h5>
+                      <p class="fs--1 mb-0">Por<a class="ms-1" href="#!"><?= $c['nome_motorista'] ?></a></p>
                     </div>
-                    <div class="fs--1"><span class="fa-regular fa-calendar-days text-primary me-2"></span><span class="fw-semi-bold">20 September, 2022, 5:31pm</span></div>
+                    <div class="fs--1"><span class="fa-regular fa-calendar-days text-primary me-2">
+                    </span><span class="fw-semi-bold"><?= date('d/m/Y', strtotime($c['data_coleta'])) ?>
+                    </span></div>
                   </div>
+                  <p class="fs--1 mb-0"><?= $c['observacao'] ?></p>
                 </div>
               </div>
             </div>
-
-            <div class="border-bottom py-4">
-              <div class="d-flex">
-                <div class="d-flex bg-primary-100 rounded-circle flex-center me-3 bg-success-100" style="width:25px; height:25px"><span class="fa-solid text-primary-600 dark__text-primary-300 fs--1 fa-square-check text-success-600 dark__text-success-300"></span></div>
-                <div class="flex-1">
-                  <div class="d-flex justify-content-between flex-column flex-xl-row mb-2 mb-sm-0">
-                    <div class="flex-1 me-2">
-                      <h5 class="text-1000 lh-sm">Designing the dungeon</h5>
-                      <p class="fs--1 mb-0">by<a class="ms-1" href="#!">Jackson Pollock</a></p>
-                    </div>
-                    <div class="fs--1"><span class="fa-regular fa-calendar-days text-primary me-2"></span><span class="fw-semi-bold">19 September, 2022, 4:39pm </span></div>
-                  </div>
-                  <p class="fs--1 mb-0">To get off the runway and paradigm shift, we should take brass tacks with above-the-board actionable analytics, ramp up with viral partnering, not the usual goat rodeo putting socks on an octopus. </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="border-bottom py-4">
-              <div class="d-flex">
-                <div class="d-flex bg-primary-100 rounded-circle flex-center me-3 bg-warning-100" style="width:25px; height:25px"><span class="fa-solid text-primary-600 dark__text-primary-300 fs--1 fa-phone-alt text-warning-600 dark__text-warning-300"></span></div>
-                <div class="flex-1">
-                  <div class="d-flex justify-content-between flex-column flex-xl-row mb-2 mb-sm-0">
-                    <div class="flex-1 me-2">
-                      <h5 class="text-1000 lh-sm">Purchasing-Related Vendors</h5>
-                      <p class="fs--1 mb-0">by<a class="ms-1" href="#!">Ansolo Lazinatov</a></p>
-                    </div>
-                    <div class="fs--1"><span class="fa-regular fa-calendar-days text-primary me-2"></span><span class="fw-semi-bold">22 September, 2022, 4:30pm</span></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="border-bottom py-4">
-              <div class="d-flex">
-                <div class="d-flex bg-primary-100 rounded-circle flex-center me-3 bg-danger-100" style="width:25px; height:25px"><span class="fa-solid text-primary-600 dark__text-primary-300 fs--1 fa-envelope text-danger-600 dark__text-danger-300"></span></div>
-                <div class="flex-1">
-                  <div class="d-flex justify-content-between flex-column flex-xl-row mb-2 mb-sm-0">
-                    <div class="flex-1 me-2">
-                      <h5 class="text-1000 lh-sm">Quary about purchased soccer socks</h5>
-                      <p class="fs--1 mb-0">by<a class="ms-1" href="#!">Ansolo Lazinatov</a></p>
-                    </div>
-                    <div class="fs--1"><span class="fa-regular fa-calendar-days text-primary me-2"></span><span class="fw-semi-bold">15 September, 2022, 3:33pm</span></div>
-                  </div>
-                  <p class="fs--1 mb-0">I’ve come across your posts and found some favorable deals on your page. I’ve added a load of products to the cart and I dont know the payment options you avail. Also, can you enlighten me about any discount.</p>
-                </div>
-              </div>
-            </div>
-
-
+              <?php } ?>
+            <?php } ?>
 
           </div>
 

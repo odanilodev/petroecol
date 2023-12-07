@@ -33,7 +33,8 @@ class Coletas extends CI_Controller
             $dados['valor_pago'] = $cliente['valor_pago'];
             $dados['observacao'] = $cliente['observacao'];
             $dados['data_coleta'] = $cliente['data_coleta'];
-    
+            $dados['coletado'] = $cliente['coletado'];
+
             $retorno = $this->Coletas_model->insereColeta($dados);
     
             if ($retorno) {
@@ -48,6 +49,8 @@ class Coletas extends CI_Controller
                 );
             }
         }
+
+
     
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }

@@ -42,15 +42,19 @@ class Coletas_model extends CI_Model
         return $query->row_array();
     }
 
-    public function recebeColetasCliente($idCliente) //Recebe todas as coletas de um unico cliente.
+    public function recebeColetasCliente($idCliente)
     {
-        $this->db->where('id_cliente', $idCliente);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-
-        $query = $this->db->get('ci_coletas');
-
+        $this->db->select('ci_coletas.*, ci_funcionarios.nome as nome_motorista');
+        $this->db->from('ci_coletas');
+        $this->db->join('ci_funcionarios', 'ci_coletas.id_motorista = ci_funcionarios.id', 'left');
+        $this->db->where('ci_coletas.id_cliente', $idCliente);
+        $this->db->where('ci_coletas.id_empresa', $this->session->userdata('id_empresa'));
+    
+        $query = $this->db->get();
+    
         return $query->result_array();
     }
+    
 
     
 }
