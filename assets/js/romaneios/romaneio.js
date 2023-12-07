@@ -224,26 +224,26 @@ function exibirDadosClientes(clientes, registros, residuos) {
                         <div class="col-md-3 mb-2">
 
                             <label class="form-label">Endereço</label>
-                            <input class="form-control input-endereco input-obrigatorio" type="text" placeholder="Digite o nome do resíduo" value="${clientes[i].rua} - ${clientes[i].numero} / ${clientes[i].cidade}">
+                            <input class="form-control input-endereco input-obrigatorio" type="text" placeholder="Endereço do cliente" value="${clientes[i].rua} - ${clientes[i].numero} / ${clientes[i].cidade}">
                         </div>
 
                         <div class="col-md-3 mb-2">
 
                             <label class="form-label">Telefone</label>
-                            <input class="form-control input-telefone input-obrigatorio" type="text" placeholder="Digite o nome do resíduo" value="${clientes[i].telefone}">
+                            <input class="form-control input-telefone input-obrigatorio" type="text" placeholder="Telefone" value="${clientes[i].telefone}">
 
                         </div>
 
                         <div class="col-md-3 mb-2">
 
                             <label class="form-label">Forma de Pagamento</label>
-                            <input class="form-control input-pagamento input-obrigatorio" type="text" placeholder="Digite o nome do resíduo" value="">
+                            <input class="form-control input-pagamento input-obrigatorio" type="text" placeholder="Forma de Pagamento" value="">
                         </div>
 
                         <div class="col-md-3 mb-2">
 
                             <label class="form-label">Valor Pago</label>
-                            <input class="form-control input-valor-pago input-obrigatorio" type="text" placeholder="Digite o nome do resíduo" value="">
+                            <input class="form-control input-valor-pago input-obrigatorio" type="text" placeholder="Valor pago" value="">
                         </div>
 
                         <div class="col-md-4 mb-2 div-residuos">
@@ -261,7 +261,7 @@ function exibirDadosClientes(clientes, registros, residuos) {
                         <div class="col-md-4 mb-2">
 
                             <label class="form-label">Quantidade Coletado</label>
-                            <input class="form-control input-qtd-coletado input-obrigatorio" type="text" placeholder="Digite o nome do resíduo" value="">
+                            <input class="form-control input-qtd-coletado input-obrigatorio" type="text" placeholder="Quantidade de resíduo coletado" value="">
                         </div>
 
                         <div class="col-md-4 mb-2 mt-4 row">
@@ -381,14 +381,10 @@ $(document).on('input', '.input-obs', function () {
 
         $('.aviso-msg').removeClass('d-none');
         $('.aviso-msg').html('Este campo precisa ter no mínimo 10 caracteres');
-        $('.btn-finaliza-romaneio').attr('disabled', true);
-        $('.accordion-button').attr('disabled', true);
-
-
+    
     } else {
 
         $('.aviso-msg').addClass('d-none');
-        $('.btn-finaliza-romaneio').attr('disabled', false);
 
     }
 })
