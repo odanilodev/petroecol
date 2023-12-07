@@ -216,6 +216,14 @@ function scriptsSetorFooter()
 
     );
 }
+function scriptsCargosFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/cargos/formulario-cargos.js') . '"></script>'
+
+    );
+}
 
 // Pagina de Frequencia coleta
 function scriptsFrequenciaColetaFooter()
