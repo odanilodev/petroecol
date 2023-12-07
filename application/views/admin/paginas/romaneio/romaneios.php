@@ -79,8 +79,8 @@
                                     </td>
 
                                     <td class="align-middle white-space-nowrap">
-                                        <a onclick="alert('Criar uma página ou modal listando todos os clientes vinculado a este romaneio, nessa página precisa ter os inputs dos dados que precisa ser preenchido para dar baixa no romaneio.. um ponto importante é que só vai dar baixa mudando o status desse romaneio se TODOS os inputs de TODOS os clientes forem preenchidos .. caso contrário nao dar baixa mantendo o icone cinzinha')" class="btn <?= $v['status'] != 1 ? 'btn-secondary' : 'btn-success' ?>">
-                                            <span class="fas ms-1 <?= $v['status'] != 1 ? 'fa-thumbs-down' : 'fa-thumbs-up' ?>"></span>
+                                        <a onclick='concluirRomaneio(<?= $v["codigo"] ?>, <?= $v["ID_MOTORISTA"]?>)' class="btn <?= $v['status'] != 1 ? 'btn-secondary' : 'btn-success' ?>">
+                                            <span class="ms-1" data-feather="check-circle"></span>
                                         </a>
                                     </td>
 
@@ -94,4 +94,36 @@
             </div>
 
         <?php } ?>
+    </div>
+
+    <!-- Modal Romaneio-->
+    <div class="modal fade" id="modalConcluirRomaneio" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollabe">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Concluir Romaneio</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+
+                    <div class="row">
+
+                        <div class="accordion dados-clientes-div" id="accordionExample">
+
+                            <!-- Manipulado JS -->
+                        </div>
+
+                    </div>
+
+                </div>
+                
+                <div class="modal-footer">
+
+                    <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
+                    <button type="button" class="btn btn-primary btn-finaliza-romaneio" onclick="finalizarRomaneio()">Gerar Romaneio</button>
+                    <input type="hidden" class="id_motorista">
+                </div>
+            </div>
+        </div>
     </div>

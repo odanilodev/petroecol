@@ -113,9 +113,10 @@ const gerarRomaneio = () => {
             $('.btn-salva-romaneio').addClass('d-none');
 
         }, success: function (data) {
+
             if (data.success) {
                 avisoRetorno('Sucesso!', data.message, 'success', `${baseUrl}romaneios/`);
-            }else{
+            } else {
                 avisoRetorno('Erro!', data.message, 'error', `${baseUrl}romaneios/formulario/`);
 
             }
@@ -163,9 +164,200 @@ $('#select-cliente-modal').change(function () {
         </tr>
     `;
 
-    if(idCliente.trim()){
+    if (idCliente.trim()) {
         $('.clientes-modal-romaneio').append(clientes);
     }
- 
+
 
 })
+
+
+const concluirRomaneio = (codRomaneio, idMotorista) => {
+
+    $('#modalConcluirRomaneio').modal('show');
+
+    $('.id_motorista').val(idMotorista);
+
+    if (codRomaneio) {
+
+        $.ajax({
+            type: 'post',
+            url: `${baseUrl}romaneios/recebeClientesRomaneios`,
+            data: {
+                codRomaneio: codRomaneio
+
+            }, beforeSend: function () {
+
+                $('.dados-clientes-div').html('');
+
+            }, success: function (data) {
+
+                exibirDadosClientes(data.retorno, data.registros, data.residuos);
+            }
+        })
+
+    }
+
+}
+
+function exibirDadosClientes(clientes, registros, residuos) {
+
+    for (let i = 0; i < registros; i++) {
+
+        let dadosClientes = `
+
+            <div class="accordion-item ">
+
+                <h2 class="accordion-header" id="heading${i}">
+                    <button class="accordion-button ${i != 0 ? 'collapsed' : ''}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
+                        ${clientes[i].nome}
+                    </button>
+                </h2>
+
+                <div class="accordion-collapse collapse ${i == 0 ? 'show' : ''}" id="collapse${i}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+
+                    <div class="accordion-body pt-0 row">
+
+                        <div class="col-md-4 mb-2">
+
+                            <label class="form-label">Endereço</label>
+                            <input class="form-control input-endereco input-obrigatorio" type="text" placeholder="Digite o nome do resíduo" value="${clientes[i].rua} - ${clientes[i].numero} / ${clientes[i].cidade}">
+                        </div>
+
+                        <div class="col-md-4 mb-2">
+
+                            <label class="form-label">Telefone</label>
+                            <input class="form-control input-telefone input-obrigatorio" type="text" placeholder="Digite o nome do resíduo" value="${clientes[i].telefone}">
+
+                        </div>
+
+                        <div class="col-md-4 mb-2">
+
+                            <label class="form-label">Forma de Pagamento</label>
+                            <input class="form-control input-pagamento input-obrigatorio" type="text" placeholder="Digite o nome do resíduo" value="">
+                        </div>
+
+                        <div class="col-md-4 mb-2">
+
+                            <label class="form-label">Resíduos Coletados</label>
+                            
+                            <select class="form-select select-residuo w-100" id="select-residuo" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+
+                                <option disabled selected value="">Selecione residuos</option>
+                                
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-4 mb-2">
+
+                            <label class="form-label">Quantidade Coletado</label>
+                            <input class="form-control input-qtd-coletado input-obrigatorio" type="text" placeholder="Digite o nome do resíduo" value="">
+                        </div>
+
+                        <div class="col-md-4 mb-2">
+
+                            <label class="form-label">Valor Pago</label>
+                            <input class="form-control input-valor-pago input-obrigatorio" type="text" placeholder="Digite o nome do resíduo" value="">
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Observação</label>
+                            <textarea class="form-control input-obs" id="exampleTextarea" rows="3"> </textarea>
+                            <div class="text-danger d-none aviso-msg">Preencha este campo.</div>
+                        </div>
+
+                        <div class="col-12 mt-4">
+                            
+                            <div class="form-check mb-0 fs-0">
+                                <input title="Preencha este campo caso não tenha coletado no cliente" class="form-check-input nao-coletado" id="checkbox-bulk-members-select" type="checkbox" data-bulk-select='{"body":"members-table-body"}' style="cursor: pointer"/>
+                                Não Coletado
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        `;
+
+        $('.dados-clientes-div').append(dadosClientes);
+
+        // residuos do cliente no select
+        let optionResiduos = `<option value="${residuos[i].id_residuo}">${residuos[i].nome}</option>`;
+
+        $('.select-residuo').append(optionResiduos);
+
+
+    }
+}
+
+$(document).on('change', '.select-residuo', function () {
+    alert($(this).val())
+})
+
+$(document).on('click', '.nao-coletado', function () {
+
+    if ($(this).is(':checked')) {
+
+        $('.aviso-msg').removeClass('d-none');
+        $('.aviso-msg').html('Preencha este campo');
+        $('.accordion-button').attr('disabled', true);
+        $('.btn-finaliza-romaneio').attr('disabled', true);
+
+    } else {
+
+        $('.aviso-msg').addClass('d-none');
+        $('.accordion-button').attr('disabled', false);
+        $('.btn-finaliza-romaneio').attr('disabled', false);
+
+    }
+
+})
+
+$(document).on('input', '.input-obs', function () {
+
+    if ($(this).val().length > 1 && $(this).val().length < 10) {
+
+        $('.aviso-msg').removeClass('d-none');
+        $('.aviso-msg').html('Este campo precisa ter no mínimo 10 caracteres');
+        $('.btn-finaliza-romaneio').attr('disabled', true);
+        $('.accordion-button').attr('disabled', true);
+
+
+    } else {
+
+        $('.aviso-msg').addClass('d-none');
+        $('.btn-finaliza-romaneio').attr('disabled', false);
+
+    }
+})
+
+function finalizarRomaneio() {
+
+    let dadosClientes = [];
+
+    let idMotorista = $('.id_motorista').val();
+
+    alert(idMotorista)
+
+    $('.accordion-item').each(function () {
+
+        let dadosCliente = {
+            nome: $(this).find('.input-nome').val(),
+            endereco: $(this).find('.input-endereco').val(),
+            pagamento: $(this).find('.input-pagamento').val(),
+            ultimaColeta: $(this).find('.input-ultima-coleta').val(),
+            qtdColetado: $(this).find('.input-qtd-coletado').val(),
+            valorPago: $(this).find('.input-valor-pago').val(),
+            obs: $(this).find('.input-obs').val(),
+            coletado: coletadoCheck,
+        };
+
+        dadosClientes.push(dadosCliente);
+    });
+
+
+    console.log(dadosClientes);
+
+}

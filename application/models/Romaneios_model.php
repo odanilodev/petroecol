@@ -35,7 +35,7 @@ class Romaneios_model extends CI_Model
 
     public function recebeUltimosRomaneios()
     {
-        $this->db->select('R.*, M.nome as MOTORISTA');
+        $this->db->select('R.*, M.nome as MOTORISTA, M.id as ID_MOTORISTA');
         $this->db->from('ci_romaneios R');
         $this->db->join('ci_motoristas M', 'M.id = R.id_motorista', 'INNER');
         $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
@@ -67,6 +67,26 @@ class Romaneios_model extends CI_Model
 
         $this->db->group_by('C.id');
 
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
+
+    public function recebeIdsClientesRomaneios($codRomaneio)
+    {
+        $this->db->select('R.clientes');
+        $this->db->from('ci_romaneios R');
+        $this->db->where('R.codigo', $codRomaneio);
+        $query = $this->db->get();
+
+        return $query->row_array();
+    }
+
+    public function recebeClientesRomaneio($idsClientes)
+    {
+        $this->db->select('C.nome, C.rua, C.telefone, C.cidade, C.numero, C.bairro');
+        $this->db->from('ci_clientes C');
+        $this->db->where_in('C.id', $idsClientes);
         $query = $this->db->get();
 
         return $query->result_array();
