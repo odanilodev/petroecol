@@ -56,7 +56,6 @@ class Romaneios_model extends CI_Model
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('A.id_empresa', $this->session->userdata('id_empresa'));
 
-        $this->db->where('EC.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('A.data_coleta', $dados['data_coleta']);
 
         if ($dados['cidades']) {
@@ -85,14 +84,4 @@ class Romaneios_model extends CI_Model
         return $query->row_array();
     }
 
-    public function recebeClientesRomaneio($idsClientes)
-    {
-        $this->db->select('C.id, C.nome, C.rua, C.telefone, C.cidade, C.numero, C.bairro');
-        $this->db->from('ci_clientes C');
-        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where_in('C.id', $idsClientes);
-        $query = $this->db->get();
-
-        return $query->result_array();
-    }
 }

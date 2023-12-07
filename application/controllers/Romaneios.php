@@ -125,7 +125,8 @@ class Romaneios extends CI_Controller
 
 		$idsClientes = json_decode($romaneio['clientes'], true);
 
-		$clientesRomaneio = $this->Romaneios_model->recebeClientesRomaneio($idsClientes);
+		$clientesRomaneio = $this->Clientes_model->recebeClientesRomaneio($idsClientes);
+
 
 		// residuos
         $this->load->model('ResiduoCliente_model');
