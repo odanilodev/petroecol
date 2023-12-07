@@ -92,6 +92,9 @@ class Funcionarios extends CI_Controller
 
 	public function cadastraFuncionario()
 	{
+		
+		$this->load->library('upload_imagem');
+
 		$id = $this->input->post('id');
 
 		$nome = $this->input->post('nome');
@@ -106,7 +109,6 @@ class Funcionarios extends CI_Controller
 
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-
 		// Se estiver cadastrando
 		if (!$id) {
 			$cpfFuncionario = $this->Funcionarios_model->verificaCpfFuncionario($dados['cpf']); // verifica se ja existe o cpf no banco
@@ -119,234 +121,35 @@ class Funcionarios extends CI_Controller
 
 				return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 			}
-		}
 
-
-		// Verifica se veio imagem
-		if (!empty($_FILES['foto_cnh']['name'])) {
-			$config['upload_path']   = './uploads/funcionarios/cnh';
-			$config['allowed_types'] = 'jpg|jpeg|png|';
-
-			$this->load->library('upload', $config);
-
-			$this->upload->initialize($config);
-
-			$imagemAntiga = $this->Funcionarios_model->recebeFuncionario($id);
-			
-			// Deleta a foto de perfil antiga do servidor
-			if ($id && $imagemAntiga['foto_cnh']) {
-				$caminho = './uploads/funcionarios/cnh/' . $imagemAntiga['foto_cnh'];
-				unlink($caminho);
-			}
-
-			if ($this->upload->do_upload('foto_cnh')) {
-				$dados_imagem = $this->upload->data();
-				$dados['foto_cnh'] = $dados_imagem['file_name'];
-			}
-
-			// Limpa a configuração para a próxima instância
-		}
-
-
-		// Verifica se veio imagem
-		if (!empty($_FILES['foto_perfil']['name'])) {
-			$config['upload_path']   = './uploads/funcionarios/perfil';
-			$config['allowed_types'] = 'jpg|jpeg|png|';
-
-			$this->load->library('upload', $config);
-
-			$this->upload->initialize($config);
-
-			$imagemAntiga = $this->Funcionarios_model->recebeFuncionario($id);
-			
-			if ($id && $imagemAntiga['foto_perfil']) {
-				$caminho = './uploads/funcionarios/perfil/' . $imagemAntiga['foto_perfil'];
-				unlink($caminho);
-			}
-
-			if ($this->upload->do_upload('foto_perfil')) {
-				$dados_imagem = $this->upload->data();
-				$dados['foto_perfil'] = $dados_imagem['file_name'];
-			}
-		}
-
+			$dados['foto_cnh'] = $this->upload_imagem->uploadImagem('foto_cnh', './uploads/funcionarios/cnh');
+			$dados['foto_perfil'] =  $this->upload_imagem->uploadImagem('foto_perfil', './uploads/funcionarios/perfil');
+			$dados['foto_cpf'] =  $this->upload_imagem->uploadImagem('foto_cpf', './uploads/funcionarios/cpf');
+			$dados['foto_aso'] =  $this->upload_imagem->uploadImagem('foto_aso', './uploads/funcionarios/aso');
+			$dados['foto_epi'] =  $this->upload_imagem->uploadImagem('foto_epi', './uploads/funcionarios/epi');
+			$dados['foto_registro'] =  $this->upload_imagem->uploadImagem('foto_registro', './uploads/funcionarios/registro');
+			$dados['foto_carteira'] =  $this->upload_imagem->uploadImagem('foto_carteira', './uploads/funcionarios/carteira');
+			$dados['foto_vacinacao'] =  $this->upload_imagem->uploadImagem('foto_vacinacao', './uploads/funcionarios/vacinacao');
+			$dados['foto_certificados'] =  $this->upload_imagem->uploadImagem('foto_certificados', './uploads/funcionarios/certificados');
+			$dados['foto_ordem'] =  $this->upload_imagem->uploadImagem('foto_ordem', './uploads/funcionarios/ordem');
 		
-		// Verifica se veio imagem
-		if (!empty($_FILES['foto_cpf']['name'])) {
-			$config['upload_path']   = './uploads/funcionarios/cpf';
-			$config['allowed_types'] = 'jpg|jpeg|png|';
-
-			$this->load->library('upload', $config);
-
-			$this->upload->initialize($config);
-
+		}else {
+			// Usando a função auxiliar para fazer o upload das imagens com imagem antiga
 			$imagemAntiga = $this->Funcionarios_model->recebeFuncionario($id);
-			
-			if ($id && $imagemAntiga['foto_cpf']) {
-				$caminho = './uploads/funcionarios/cpf/' . $imagemAntiga['foto_cpf'];
-				unlink($caminho);
-			}
-
-			if ($this->upload->do_upload('foto_cpf')) {
-				$dados_imagem = $this->upload->data();
-				$dados['foto_cpf'] = $dados_imagem['file_name'];
-			}
+		
+			$dados['foto_cnh'] = $this->upload_imagem->uploadEditarImagem('foto_cnh', './uploads/funcionarios/cnh', $imagemAntiga['foto_cnh']);
+			$dados['foto_perfil'] = $this->upload_imagem->uploadEditarImagem('foto_perfil', './uploads/funcionarios/perfil', $imagemAntiga['foto_perfil']);
+			$dados['foto_cpf'] =  $this->upload_imagem->uploadEditarImagem('foto_cpf', './uploads/funcionarios/cpf', $imagemAntiga['foto_cpf']);
+			$dados['foto_aso'] =  $this->upload_imagem->uploadEditarImagem('foto_aso', './uploads/funcionarios/aso', $imagemAntiga['foto_aso']);
+			$dados['foto_epi'] =  $this->upload_imagem->uploadEditarImagem('foto_epi', './uploads/funcionarios/epi', $imagemAntiga['foto_epi']);
+			$dados['foto_registro'] =  $this->upload_imagem->uploadEditarImagem('foto_registro', './uploads/funcionarios/registro', $imagemAntiga['foto_registro']);
+			$dados['foto_carteira'] =  $this->upload_imagem->uploadEditarImagem('foto_carteira', './uploads/funcionarios/carteira', $imagemAntiga['foto_carteira']);
+			$dados['foto_vacinacao'] =  $this->upload_imagem->uploadEditarImagem('foto_vacinacao', './uploads/funcionarios/vacinacao', $imagemAntiga['foto_vacinacao']);
+			$dados['foto_certificados'] =  $this->upload_imagem->uploadEditarImagem('foto_certificados', './uploads/funcionarios/certificados', $imagemAntiga['foto_certificados']);
+			$dados['foto_ordem'] =  $this->upload_imagem->uploadEditarImagem('foto_ordem', './uploads/funcionarios/ordem', $imagemAntiga['foto_ordem']);
+		
 		}
-
-		// Verifica se veio imagem
-		if (!empty($_FILES['foto_aso']['name'])) {
-			$config['upload_path']   = './uploads/funcionarios/aso';
-			$config['allowed_types'] = 'jpg|jpeg|png|';
-
-			$this->load->library('upload', $config);
-
-			$this->upload->initialize($config);
-
-			$imagemAntiga = $this->Funcionarios_model->recebeFuncionario($id);
-			
-			if ($id && $imagemAntiga['foto_aso']) {
-				$caminho = './uploads/funcionarios/aso/' . $imagemAntiga['foto_Aso'];
-				unlink($caminho);
-			}
-
-			if ($this->upload->do_upload('foto_aso')) {
-				$dados_imagem = $this->upload->data();
-				$dados['foto_aso'] = $dados_imagem['file_name'];
-			}
-		}
-
-		// Verifica se veio imagem
-		if (!empty($_FILES['foto_epi']['name'])) {
-			$config['upload_path']   = './uploads/funcionarios/epi';
-			$config['allowed_types'] = 'jpg|jpeg|png|';
-
-			$this->load->library('upload', $config);
-
-			$this->upload->initialize($config);
-
-			$imagemAntiga = $this->Funcionarios_model->recebeFuncionario($id);
-			
-			if ($id && $imagemAntiga['foto_epi']) {
-				$caminho = './uploads/funcionarios/epi/' . $imagemAntiga['foto_epi'];
-				unlink($caminho);
-			}
-
-			if ($this->upload->do_upload('foto_epi')) {
-				$dados_imagem = $this->upload->data();
-				$dados['foto_epi'] = $dados_imagem['file_name'];
-			}
-		}
-
-		// Verifica se veio imagem
-		if (!empty($_FILES['foto_registro']['name'])) {
-			$config['upload_path']   = './uploads/funcionarios/registro';
-			$config['allowed_types'] = 'jpg|jpeg|png|';
-
-			$this->load->library('upload', $config);
-
-			$this->upload->initialize($config);
-
-			$imagemAntiga = $this->Funcionarios_model->recebeFuncionario($id);
-			
-			if ($id && $imagemAntiga['foto_registro']) {
-				$caminho = './uploads/funcionarios/registro/' . $imagemAntiga['foto_registro'];
-				unlink($caminho);
-			}
-
-			if ($this->upload->do_upload('foto_registro')) {
-				$dados_imagem = $this->upload->data();
-				$dados['foto_registro'] = $dados_imagem['file_name'];
-			}
-		}
-
-		// Verifica se veio imagem
-		if (!empty($_FILES['foto_carteira']['name'])) {
-			$config['upload_path']   = './uploads/funcionarios/carteira';
-			$config['allowed_types'] = 'jpg|jpeg|png|';
-
-			$this->load->library('upload', $config);
-
-			$this->upload->initialize($config);
-
-			$imagemAntiga = $this->Funcionarios_model->recebeFuncionario($id);
-			
-			if ($id && $imagemAntiga['foto_carteira']) {
-				$caminho = './uploads/funcionarios/carteira/' . $imagemAntiga['fotoCarteira'];
-				unlink($caminho);
-			}
-
-			if ($this->upload->do_upload('foto_carteira')) {
-				$dados_imagem = $this->upload->data();
-				$dados['foto_carteira'] = $dados_imagem['file_name'];
-			}
-		}
-
-		// Verifica se veio imagem
-		if (!empty($_FILES['foto_vacinacao']['name'])) {
-			$config['upload_path']   = './uploads/funcionarios/vacinacao';
-			$config['allowed_types'] = 'jpg|jpeg|png|';
-
-			$this->load->library('upload', $config);
-
-			$this->upload->initialize($config);
-
-			$imagemAntiga = $this->Funcionarios_model->recebeFuncionario($id);
-			
-			if ($id && $imagemAntiga['foto_vacinacao']) {
-				$caminho = './uploads/funcionarios/vacinacao/' . $imagemAntiga['foto_vacinacao'];
-				unlink($caminho);
-			}
-
-			if ($this->upload->do_upload('foto_vacinacao')) {
-				$dados_imagem = $this->upload->data();
-				$dados['foto_vacinacao'] = $dados_imagem['file_name'];
-			}
-		}
-
-		// Verifica se veio imagem
-		if (!empty($_FILES['foto_certificados']['name'])) {
-			$config['upload_path']   = './uploads/funcionarios/certificados';
-			$config['allowed_types'] = 'jpg|jpeg|png|';
-
-			$this->load->library('upload', $config);
-
-			$this->upload->initialize($config);
-
-			$imagemAntiga = $this->Funcionarios_model->recebeFuncionario($id);
-			
-			if ($id && $imagemAntiga['foto_certificados']) {
-				$caminho = './uploads/funcionarios/certificados/' . $imagemAntiga['foto_certificados'];
-				unlink($caminho);
-			}
-
-			if ($this->upload->do_upload('foto_certificados')) {
-				$dados_imagem = $this->upload->data();
-				$dados['foto_certificados'] = $dados_imagem['file_name'];
-			}
-		}
-
-		// Verifica se veio imagem
-		if (!empty($_FILES['foto_ordem']['name'])) {
-			$config['upload_path']   = './uploads/funcionarios/ordem';
-			$config['allowed_types'] = 'jpg|jpeg|png|';
-
-			$this->load->library('upload', $config);
-
-			$this->upload->initialize($config);
-
-			$imagemAntiga = $this->Funcionarios_model->recebeFuncionario($id);
-			
-			if ($id && $imagemAntiga['foto_ordem']) {
-				$caminho = './uploads/funcionarios/ordem/' . $imagemAntiga['foto_ordem'];
-				unlink($caminho);
-			}
-
-			if ($this->upload->do_upload('foto_ordem')) {
-				$dados_imagem = $this->upload->data();
-				$dados['foto_ordem'] = $dados_imagem['file_name'];
-			}
-		}
-
+	
 		$retorno = $id ? $this->Funcionarios_model->editaFuncionario($id, $dados) : $this->Funcionarios_model->insereFuncionario($dados); // se tiver ID edita, se não INSERE
 
 		if ($retorno) { // inseriu ou editou
@@ -366,165 +169,32 @@ class Funcionarios extends CI_Controller
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
-	public function downloadCnh($id)
-    {
-        $this->load->helper('download'); 
+	public function downloadArquivo($tipo, $id)
+	{
+		$this->load->helper('download');
+		$this->load->model('Funcionarios_model');
 
-        $this->load->model('Funcionarios_model');
+		$funcionario = $this->Funcionarios_model->recebeFuncionario($id);
 
-        $funcionario = $this->Funcionarios_model->recebeFuncionario($id);
+		// Verifica se o tipo de arquivo solicitado existe no registro do funcionário
+		$nomeCampo = 'foto_' . $tipo;
+		if (!isset($funcionario[$nomeCampo]) || empty($funcionario[$nomeCampo])) {
+			// Arquivo não existe no banco, redireciona para a página de detalhes
+			redirect('funcionarios/detalhes/' . $id);
+		}
 
-		$path =  './uploads/funcionarios/cnh/'.$funcionario['foto_cnh'] ;
+		$path = "./uploads/funcionarios/{$tipo}/{$funcionario[$nomeCampo]}";
 
-		$arquivoPath = base_url($path);
-
-		$data = file_get_contents($path); 
-		
-		force_download($arquivoPath, $data);
-
-		redirect('funcionarios');
-		
-    }
-
-	public function downloadAso($id)
-    {
-        $this->load->helper('download'); 
-
-        $this->load->model('Funcionarios_model');
-
-        $funcionario = $this->Funcionarios_model->recebeFuncionario($id);
-
-		$path =  './uploads/funcionarios/aso/'.$funcionario['foto_aso'] ;
-
-		$arquivoPath = base_url($path);
-
-		$data = file_get_contents($path); 
-		
-		force_download($arquivoPath, $data);
-
-		redirect('funcionarios');
-		
-    }
-
-	public function downloadEpi($id)
-    {
-        $this->load->helper('download'); 
-
-        $this->load->model('Funcionarios_model');
-
-        $funcionario = $this->Funcionarios_model->recebeFuncionario($id);
-
-		$path =  './uploads/funcionarios/epi/'.$funcionario['foto_epi'] ;
-
-		$arquivoPath = base_url($path);
-
-		$data = file_get_contents($path); 
-		
-		force_download($arquivoPath, $data);
-
-		redirect('funcionarios');
-		
-    }
-
-	public function downloadRegistro($id)
-    {
-        $this->load->helper('download'); 
-
-        $this->load->model('Funcionarios_model');
-
-        $funcionario = $this->Funcionarios_model->recebeFuncionario($id);
-
-		$path =  './uploads/funcionarios/registro/'.$funcionario['foto_registro'] ;
-
-		$arquivoPath = base_url($path);
-
-		$data = file_get_contents($path); 
-		
-		force_download($arquivoPath, $data);
-
-		redirect('funcionarios');
-		
-    }
-
-	public function downloadCarteiraTrabalho($id)
-    {
-        $this->load->helper('download'); 
-
-        $this->load->model('Funcionarios_model');
-
-        $funcionario = $this->Funcionarios_model->recebeFuncionario($id);
-
-		$path =  './uploads/funcionarios/carteira/'.$funcionario['foto_carteira'] ;
-
-		$arquivoPath = base_url($path);
-
-		$data = file_get_contents($path); 
-		
-		force_download($arquivoPath, $data);
-
-		redirect('funcionarios');
-		
-    }
-
-	public function downloadCarteiraVacinacao($id)
-    {
-        $this->load->helper('download'); 
-
-        $this->load->model('Funcionarios_model');
-
-        $funcionario = $this->Funcionarios_model->recebeFuncionario($id);
-
-		$path =  './uploads/funcionarios/vacinacao/'.$funcionario['foto_vacinacao'] ;
-
-		$arquivoPath = base_url($path);
-
-		$data = file_get_contents($path); 
-		
-		force_download($arquivoPath, $data);
-
-		redirect('funcionarios');
-		
-    }
-
-	public function downloadCertificado($id)
-    {
-        $this->load->helper('download'); 
-
-        $this->load->model('Funcionarios_model');
-
-        $funcionario = $this->Funcionarios_model->recebeFuncionario($id);
-
-		$path =  './uploads/funcionarios/certificado/'.$funcionario['foto_certificado'] ;
-
-		$arquivoPath = base_url($path);
-
-		$data = file_get_contents($path); 
-		
-		force_download($arquivoPath, $data);
-
-		redirect('funcionarios');
-		
-    }
-
-	public function downloadOrdem($id)
-    {
-        $this->load->helper('download'); 
-
-        $this->load->model('Funcionarios_model');
-
-        $funcionario = $this->Funcionarios_model->recebeFuncionario($id);
-
-		$path =  './uploads/funcionarios/ordem/'.$funcionario['foto_ordem'] ;
-
-		$arquivoPath = base_url($path);
-
-		$data = file_get_contents($path); 
-		
-		force_download($arquivoPath, $data);
-
-		redirect('funcionarios');
-		
-    }
+		// Verifica se o arquivo físico existe
+		if (file_exists($path)) {
+			$arquivoPath = base_url($path);
+			$data = file_get_contents($path);
+			force_download($arquivoPath, $data);
+		} else {
+			// Arquivo físico não existe, redireciona para a página de detalhes
+			redirect('funcionarios/detalhes/' . $id);
+		}
+	}
 
 
 	public function deletaFuncionario()

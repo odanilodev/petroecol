@@ -145,6 +145,21 @@
                                         </tr>
                                     </thead>
                                     <tbody class="list" id="lead-details-table-body">
+
+                                        <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+
+                                            <td class="dealName align-middle white-space-nowrap py-2 ps-0"><a
+                                                    class="fw-semi-bold text-primary">CNH</a>
+                                            </td>
+
+                                            <!-- Exemplo para o botão de download do CPF -->
+                                            <td class="type align-middle fw-semi-bold py-2 text-end">
+                                                <a href="<?= base_url('funcionarios/downloadArquivo/cnh/'). $funcionario['id'] ?>"
+                                                    class="badge badge-phoenix fs--2 badge-phoenix-info">Download</a>
+                                            </td>
+
+                                        </tr>
+
                                         <tr class="hover-actions-trigger btn-reveal-trigger position-static">
 
                                             <td class="dealName align-middle white-space-nowrap py-2 ps-0"><a
@@ -153,7 +168,7 @@
 
                                             <!-- Exemplo para o botão de download do CPF -->
                                             <td class="type align-middle fw-semi-bold py-2 text-end">
-                                                <a href="<?= base_url('funcionarios/downloadCpf/'). $funcionario['id'] ?>"
+                                                <a href="<?= base_url('funcionarios/downloadArquivo/cpf/'). $funcionario['id'] ?>"
                                                     class="badge badge-phoenix fs--2 badge-phoenix-info">Download</a>
                                             </td>
 
@@ -166,8 +181,9 @@
                                             </td>
 
                                             <td class="type align-middle fw-semi-bold py-2 text-end">
-                                                <a href="<?= base_url('funcionarios/downloadAso/'). $funcionario['id'] ?>"
-                                                    class="badge badge-phoenix fs--2 badge-phoenix-info">Download</a>
+                                            <a href="<?= base_url('funcionarios/downloadArquivo/aso/'). $funcionario['id'] ?>"
+                                                class="badge badge-phoenix fs--2 badge-phoenix-info">Download</a>
+
                                             </td>
 
                                         </tr>
@@ -179,7 +195,7 @@
                                             </td>
 
                                             <td class="type align-middle fw-semi-bold py-2 text-end">
-                                                <a href="<?= base_url('funcionarios/downloadEpi/'). $funcionario['id'] ?>"
+                                                <a href="<?= base_url('funcionarios/downloadArquivo/epi/'). $funcionario['id'] ?>"
                                                     class="badge badge-phoenix fs--2 badge-phoenix-info">Download</a>
                                             </td>
 
@@ -193,7 +209,7 @@
                                             </td>
 
                                             <td class="type align-middle fw-semi-bold py-2 text-end">
-                                                <a href="<?= base_url('funcionarios/downloadRegistro/') . $funcionario['id'] ?>"
+                                                <a href="<?= base_url('funcionarios/downloadArquivo/registro/') . $funcionario['id'] ?>"
                                                     class="badge badge-phoenix fs--2 badge-phoenix-info">Download</a>
                                             </td>
 
@@ -206,7 +222,7 @@
                                             </td>
 
                                             <td class="type align-middle fw-semi-bold py-2 text-end">
-                                                <a href="<?= base_url('funcionarios/downloadCarteiraTrabalho/'). $funcionario['id'] ?>"
+                                                <a href="<?= base_url('funcionarios/downloadArquivo/carteira/'). $funcionario['id'] ?>"
                                                     class="badge badge-phoenix fs--2 badge-phoenix-info">Download</a>
                                             </td>
 
@@ -221,7 +237,7 @@
                                             </td>
 
                                             <td class="type align-middle fw-semi-bold py-2 text-end">
-                                                <a href="<?= base_url('funcionarios/downloadCarteiraVacinacao/'). $funcionario['id'] ?>"
+                                                <a href="<?= base_url('funcionarios/downloadArquivo/vacinacao/'). $funcionario['id'] ?>"
                                                     class="badge badge-phoenix fs--2 badge-phoenix-info">Download</a>
                                             </td>
 
@@ -234,7 +250,7 @@
                                             </td>
 
                                             <td class="type align-middle fw-semi-bold py-2 text-end">
-                                                <a href="<?= base_url('funcionarios/downloadCertificado/') . $funcionario['id'] ?>"
+                                                <a href="<?= base_url('funcionarios/downloadArquivo/certificados/') . $funcionario['id'] ?>"
                                                     class="badge badge-phoenix fs--2 badge-phoenix-info">Download</a>
                                             </td>
 
@@ -247,7 +263,7 @@
                                             </td>
 
                                             <td class="type align-middle fw-semi-bold py-2 text-end">
-                                                <a href="<?= base_url('funcionarios/downloadOrdem/'). $funcionario['id'] ?>"
+                                                <a href="<?= base_url('funcionarios/downloadArquivo/ordem/'). $funcionario['id'] ?>"
                                                     class="badge badge-phoenix fs--2 badge-phoenix-info">Download</a>
                                             </td>
 

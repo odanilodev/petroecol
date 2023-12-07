@@ -32,9 +32,9 @@ const cadastraFuncionario = () => {
     formData.append('salario_base',salario_base);
     formData.append('id_cargo', id_cargo);
     formData.append('cpf', cpf);
-    formData.append('fotoCnh', fotoCnh);
     formData.append('data_cnh', dataCnh);
     formData.append('data_nascimento', data_nascimento);
+    formData.append('foto_cnh', fotoCnh);
     formData.append('foto_perfil', fotoPerfil);
     formData.append('foto_cpf', fotoCpf);
     formData.append('foto_aso', fotoAso);
