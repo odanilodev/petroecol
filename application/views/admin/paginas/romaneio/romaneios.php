@@ -117,12 +117,13 @@
                     </div>
 
                 </div>
-                
+
                 <div class="modal-footer">
 
                     <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
                     <button type="button" class="btn btn-primary btn-finaliza-romaneio" onclick="finalizarRomaneio()">Gerar Romaneio</button>
                     <input type="hidden" class="id_motorista">
+                    <input type="hidden" class="code_romaneio">
                 </div>
             </div>
         </div>

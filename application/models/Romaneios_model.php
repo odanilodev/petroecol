@@ -53,6 +53,8 @@ class Romaneios_model extends CI_Model
         $this->db->join('ci_agendamentos A', 'A.id_cliente = C.id', 'inner');
         $this->db->join('ci_etiqueta_cliente EC', 'EC.id_cliente = C.id', 'left');
         $this->db->join('ci_etiquetas E', 'EC.id_etiqueta = E.id', 'left');    
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('A.id_empresa', $this->session->userdata('id_empresa'));
 
         $this->db->where('EC.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('A.data_coleta', $dados['data_coleta']);
@@ -76,6 +78,7 @@ class Romaneios_model extends CI_Model
     {
         $this->db->select('R.clientes');
         $this->db->from('ci_romaneios R');
+        $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('R.codigo', $codRomaneio);
         $query = $this->db->get();
 
@@ -84,8 +87,9 @@ class Romaneios_model extends CI_Model
 
     public function recebeClientesRomaneio($idsClientes)
     {
-        $this->db->select('C.nome, C.rua, C.telefone, C.cidade, C.numero, C.bairro');
+        $this->db->select('C.id, C.nome, C.rua, C.telefone, C.cidade, C.numero, C.bairro');
         $this->db->from('ci_clientes C');
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where_in('C.id', $idsClientes);
         $query = $this->db->get();
 

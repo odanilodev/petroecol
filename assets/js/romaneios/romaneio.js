@@ -177,6 +177,7 @@ const concluirRomaneio = (codRomaneio, idMotorista) => {
     $('#modalConcluirRomaneio').modal('show');
 
     $('.id_motorista').val(idMotorista);
+    $('.code_romaneio').val(codRomaneio);
 
     if (codRomaneio) {
 
@@ -216,30 +217,38 @@ function exibirDadosClientes(clientes, registros, residuos) {
 
                 <div class="accordion-collapse collapse ${i == 0 ? 'show' : ''}" id="collapse${i}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
 
+                    <input type="hidden" value="${clientes[i].id}" class="input-id-cliente">
+
                     <div class="accordion-body pt-0 row">
 
-                        <div class="col-md-4 mb-2">
+                        <div class="col-md-3 mb-2">
 
                             <label class="form-label">Endereço</label>
                             <input class="form-control input-endereco input-obrigatorio" type="text" placeholder="Digite o nome do resíduo" value="${clientes[i].rua} - ${clientes[i].numero} / ${clientes[i].cidade}">
                         </div>
 
-                        <div class="col-md-4 mb-2">
+                        <div class="col-md-3 mb-2">
 
                             <label class="form-label">Telefone</label>
                             <input class="form-control input-telefone input-obrigatorio" type="text" placeholder="Digite o nome do resíduo" value="${clientes[i].telefone}">
 
                         </div>
 
-                        <div class="col-md-4 mb-2">
+                        <div class="col-md-3 mb-2">
 
                             <label class="form-label">Forma de Pagamento</label>
                             <input class="form-control input-pagamento input-obrigatorio" type="text" placeholder="Digite o nome do resíduo" value="">
                         </div>
 
-                        <div class="col-md-4 mb-2">
+                        <div class="col-md-3 mb-2">
 
-                            <label class="form-label">Resíduos Coletados</label>
+                            <label class="form-label">Valor Pago</label>
+                            <input class="form-control input-valor-pago input-obrigatorio" type="text" placeholder="Digite o nome do resíduo" value="">
+                        </div>
+
+                        <div class="col-md-4 mb-2 div-residuos">
+
+                            <label class="form-label">Resíduo Coletado</label>
                             
                             <select class="form-select select-residuo w-100" id="select-residuo" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
 
@@ -255,26 +264,32 @@ function exibirDadosClientes(clientes, registros, residuos) {
                             <input class="form-control input-qtd-coletado input-obrigatorio" type="text" placeholder="Digite o nome do resíduo" value="">
                         </div>
 
-                        <div class="col-md-4 mb-2">
+                        <div class="col-md-4 mb-2 mt-4 row">
 
-                            <label class="form-label">Valor Pago</label>
-                            <input class="form-control input-valor-pago input-obrigatorio" type="text" placeholder="Digite o nome do resíduo" value="">
+                            <button class="btn btn-info duplicar-residuo w-25">+</button>
+
                         </div>
 
-                        <div class="col-12">
-                            <label class="form-label">Observação</label>
-                            <textarea class="form-control input-obs" id="exampleTextarea" rows="3"> </textarea>
-                            <div class="text-danger d-none aviso-msg">Preencha este campo.</div>
-                        </div>
+                        <div class="div-obs antiga-obs">
 
-                        <div class="col-12 mt-4">
-                            
-                            <div class="form-check mb-0 fs-0">
-                                <input title="Preencha este campo caso não tenha coletado no cliente" class="form-check-input nao-coletado" id="checkbox-bulk-members-select" type="checkbox" data-bulk-select='{"body":"members-table-body"}' style="cursor: pointer"/>
-                                Não Coletado
+                            <div class="col-12">
+                                <label class="form-label">Observação</label>
+                                <textarea class="form-control input-obs" id="exampleTextarea" rows="3"> </textarea>
+                                <div class="text-danger d-none aviso-msg">Preencha este campo.</div>
+                            </div>
+
+                            <div class="col-12 mt-4">
+                                
+                                <div class="form-check mb-0 fs-0">
+                                    <input title="Preencha este campo caso não tenha coletado no cliente" class="form-check-input nao-coletado" id="checkbox-bulk-members-select" type="checkbox" data-bulk-select='{"body":"members-table-body"}' style="cursor: pointer"/>
+                                    Não Coletado
+                                </div>
+
                             </div>
 
                         </div>
+
+                        <div class="nova-obs row div-obs"></div>
 
                     </div>
                 </div>
@@ -284,6 +299,7 @@ function exibirDadosClientes(clientes, registros, residuos) {
         $('.dados-clientes-div').append(dadosClientes);
 
         // residuos do cliente no select
+        
         let optionResiduos = `<option value="${residuos[i].id_residuo}">${residuos[i].nome}</option>`;
 
         $('.select-residuo').append(optionResiduos);
@@ -292,9 +308,53 @@ function exibirDadosClientes(clientes, registros, residuos) {
     }
 }
 
-$(document).on('change', '.select-residuo', function () {
-    alert($(this).val())
-})
+
+$(document).on('click', '.duplicar-residuo', function () {
+    // Pega os options do select
+    let optionsResiduo = $(this).closest('.accordion-item').find('.select-residuo').html();
+
+    let divObs = $(this).closest('.accordion-item').find('.div-obs').html();
+
+    let selectResiduos = `
+        <div class="col-md-4 mb-2 div-residuos">
+            <label class="form-label">Resíduo Coletado</label>
+            <select class="form-select select-residuo w-100" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                <option disabled selected value="">Selecione resíduos</option>
+                ${optionsResiduo}
+            </select>
+        </div>
+    `;
+
+    let qtdResiduos = `
+        <div class="col-md-4 mb-2">
+            <label class="form-label">Quantidade Coletada</label>
+            <input class="form-control input-qtd-coletado input-obrigatorio" type="text" placeholder="Digite a quantidade" value="">
+        </div>
+    `;
+
+    // Cria uma nova div com a classe 'row' para cada conjunto de elementos duplicados
+    let newRow = $('<div class="row"></div>');
+
+    // Adiciona os novos elementos dentro da nova div
+    newRow.append(selectResiduos);
+    newRow.append(qtdResiduos);
+
+    // Identifica o elemento pai do botão clicado (accordion-item)
+    let parentAccordionItem = $(this).closest('.accordion-item');
+
+    // Adiciona a nova div dentro do accordion-item
+    parentAccordionItem.find('.accordion-body').append(newRow);
+
+    $(this).closest('.accordion-item').find('.div-obs').remove();
+
+    let novaObs = `<div class="div-obs">${divObs}</div>`;
+    
+    parentAccordionItem.find('.accordion-body').append(novaObs);
+
+});
+
+
+
 
 $(document).on('click', '.nao-coletado', function () {
 
@@ -338,26 +398,48 @@ function finalizarRomaneio() {
     let dadosClientes = [];
 
     let idMotorista = $('.id_motorista').val();
-
-    alert(idMotorista)
+    let codRomaneio = $('.code_romaneio').val();
 
     $('.accordion-item').each(function () {
 
+        let residuosSelecionados = [];
+
+        $(this).find('.select-residuo option:selected').each(function () {
+            residuosSelecionados.push($(this).val());
+        });
+
+        let qtdResiduos = [];
+
+        $(this).find('.input-qtd-coletado').each(function () {
+            qtdResiduos.push($(this).val());
+        });
+
         let dadosCliente = {
-            nome: $(this).find('.input-nome').val(),
+            idCliente: $(this).find('.input-id-cliente').val(),
             endereco: $(this).find('.input-endereco').val(),
             pagamento: $(this).find('.input-pagamento').val(),
             ultimaColeta: $(this).find('.input-ultima-coleta').val(),
-            qtdColetado: $(this).find('.input-qtd-coletado').val(),
             valorPago: $(this).find('.input-valor-pago').val(),
-            obs: $(this).find('.input-obs').val(),
-            coletado: coletadoCheck,
+            residuos: residuosSelecionados,
+            qtdColetado: qtdResiduos,
+            obs: $(this).find('.input-obs').val()
         };
 
         dadosClientes.push(dadosCliente);
     });
 
+    
+    $.ajax({
+        type: "POST",
+        url: `${baseUrl}coletas/cadastraColeta`,
+        data: {
+            clientes: dadosClientes,
+            idMotorista: idMotorista,
+            codRomaneio: codRomaneio
+        }, success: function () {
+            alert('deu bom')
+        } 
 
-    console.log(dadosClientes);
+    })
 
 }
