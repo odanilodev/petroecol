@@ -33,7 +33,7 @@ class ResiduoCliente_model extends CI_Model
         $this->db->where('RC.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('RC.id_cliente', $id);
+        $this->db->where_in('RC.id_cliente', $id);
         $query = $this->db->get();
 
         return $query->result_array();

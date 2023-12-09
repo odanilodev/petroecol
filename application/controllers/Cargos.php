@@ -50,7 +50,7 @@
 
 			$id = $this->uri->segment(3);
 
-			$data['cargos'] = $this->Cargos_model->recebeCargo($id);
+			$data['cargo'] = $this->Cargos_model->recebeCargo($id);
 
 			$this->load->view('admin/includes/painel/cabecalho', $data);
 			$this->load->view('admin/paginas/cargos/cadastra-cargos');
@@ -61,8 +61,7 @@
 		{
 			$id = $this->input->post('id');
 
-			$nome = $this->input->post('nome');
-			$dados['nome'] = mb_convert_case($nome, MB_CASE_TITLE, 'UTF-8');
+			$dados['nome'] = mb_convert_case($this->input->post('nome'), MB_CASE_TITLE, 'UTF-8');
 			$dados['id_empresa'] = $this->session->userdata('id_empresa');
 			$dados['responsavel_agendamento'] = $this->input->post('responsavelAgendamento');
 
@@ -104,7 +103,5 @@
 			$id = $this->input->post('id');
 
 			$this->Cargos_model->deletaCargo($id);
-
-			redirect('cargos');
 		}
 	}

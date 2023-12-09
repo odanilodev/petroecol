@@ -13,7 +13,7 @@ class Cargos_model extends CI_Model
 
     public function recebeCargos()
     {
-        // $this->db->order_by('responsavel_agendamento', 'DESC');
+        $this->db->order_by('responsavel_agendamento', 'DESC');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_cargos');
 

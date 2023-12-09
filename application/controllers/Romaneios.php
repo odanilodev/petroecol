@@ -28,9 +28,12 @@ class Romaneios extends CI_Controller
 		$scriptsPadraoHead = scriptsPadraoHead();
 		$scriptsPadraoFooter = scriptsPadraoFooter();
 
+		// scripts romaneio
+		$scriptsRomaneioHead = scriptsRomaneioHead();
+		$scriptsRomaneioFooter = scriptsRomaneioFooter();
 
-		add_scripts('header', $scriptsPadraoHead);
-		add_scripts('footer', $scriptsPadraoFooter);
+		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsRomaneioHead));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsRomaneioFooter));
 
 		$data['ultimosRomaneios'] = $this->Romaneios_model->recebeUltimosRomaneios();
 
@@ -109,6 +112,46 @@ class Romaneios extends CI_Controller
 		$response = array(
 			'retorno' => $res,
 			'registros' => count($res)
+		);
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function recebeClientesRomaneios()
+	{
+		$codRomaneio = $this->input->post('codRomaneio');
+
+		$romaneio = $this->Romaneios_model->recebeIdsClientesRomaneios($codRomaneio);
+
+		$idsClientes = json_decode($romaneio['clientes'], true);
+
+		$clientesRomaneio = $this->Clientes_model->recebeClientesRomaneio($idsClientes);
+
+
+		// residuos
+        $this->load->model('ResiduoCliente_model');
+
+        $residuos = $this->ResiduoCliente_model->recebeResiduoCliente($idsClientes);
+
+		$response = array(
+			'retorno' => $clientesRomaneio,
+			'residuos' => $residuos,
+			'registros' => count($clientesRomaneio)
+		);
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+	
+
+	public function recebeTodosResiduos()
+	{
+		// residuos
+        $this->load->model('Residuos_model');
+
+        $residuos = $this->Residuos_model->recebeTodosResiduos();
+
+		$response = array(
+			'residuos' => $residuos
 		);
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));

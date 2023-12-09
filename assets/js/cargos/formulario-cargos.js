@@ -1,18 +1,5 @@
 var baseUrl = $('.base-url').val();
 
-// const alternarCheckMark = (responsavelAgendamento) => {
-
-//     if (responsavelAgendamento) {
-//         $.ajax({
-//             type: "post",
-//             url: `${baseUrl}cargos/cadastraCargos`,
-//             data: {
-//                 responsavelAgendamento: responsavelAgendamento
-//             },
-//         })
-//     }
-// }
-
 const cadastraCargo = () => {
 
     let nome = $('.input-nome').val();
@@ -30,10 +17,6 @@ const cadastraCargo = () => {
     if (nome != "") {
 
         permissao = true;
-
-    } else {
-
-        permissao = false;
 
     }
 

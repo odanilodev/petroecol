@@ -153,4 +153,15 @@ class Clientes_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+    public function recebeClientesRomaneio($idsClientes)
+    {
+        $this->db->select('C.id, C.nome, C.rua, C.telefone, C.cidade, C.numero, C.bairro');
+        $this->db->from('ci_clientes C');
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where_in('C.id', $idsClientes);
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
 }
