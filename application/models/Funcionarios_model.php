@@ -12,10 +12,10 @@ class Funcionarios_model extends CI_Model
 
     public function recebeFuncionarios()
     {
-        $this->db->order_by('nome', 'DESC');
         $this->db->where('status', 1);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        
+        $this->db->order_by('nome', 'DESC');
+
         $query = $this->db->get('ci_funcionarios');
 
         return $query->result_array();
@@ -36,6 +36,24 @@ class Funcionarios_model extends CI_Model
             return $query->row_array();
         }
 
+    public function recebeResponsavelAgendamento()
+    {
+        $this->db->select('F.nome, F.id_cargo, C.responsavel_agendamento, C.nome as CARGO');
+
+        $this->db->from('ci_funcionarios F');
+
+        $this->db->join('ci_cargos C', 'C.id = F.id_cargo', 'left');
+
+        $this->db->where('C.responsavel_agendamento', 1);
+        $this->db->where('F.status', 1);
+        $this->db->where('F.id_empresa', $this->session->userdata('id_empresa'));
+        
+        $this->db->order_by('C.nome', 'DESC');
+
+        $query = $this->db->get();
+        
+        return $query->result_array();
+    }
 
     public function insereFuncionario($dados)
     {

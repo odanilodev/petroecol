@@ -1,6 +1,5 @@
-
 <div class="content">
-   
+
     <div class="row mb-9">
 
         <div class="col-12">
@@ -114,19 +113,22 @@
                         </select>
                     </div>
 
-
-
                 </div>
                 <div class="modal-footer">
 
-                    <select class="form-select w-50 campo-obrigatorio" id="select-motorista">
-                        <option selected disabled value="">Selecione o motorista</option>
-                        <option value="1">Alexandre Mariano</option>
-                        <option value="2">Joao Pedro</option>
-                        <option value="3">Glayltton Luiz</option>
-                        <option value="4">Cristyan rafael</option>
-                    </select>
+                    <select class="form-select w-60 campo-obrigatorio" id="select-motorista">
+                        <option selected disabled>Selecione o responsável</option>
+                        <?php
+                        echo empty($responsaveis)
+                            ? '<option selected disabled>Nenhum responsável cadastrado</option>'
+                            : '';
 
+                        foreach ($responsaveis as $v) {
+                            echo '<option class="text-align-left">' . $v['nome'] . ' | ' .  $v['CARGO'] . '</option>';
+                        }
+                        ?>
+                    </select>
+                    
                     <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
                     <button type="button" class="btn btn-primary btn-salva-romaneio" onclick="gerarRomaneio()">Gerar Romaneio</button>
                 </div>
