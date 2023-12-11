@@ -20,6 +20,8 @@ class Coletas extends CI_Controller
 
     public function cadastraColeta()
     {
+        $this->load->model('Romaneios_model');
+
         $payload = $this->input->post('clientes');
         $codRomaneio = $this->input->post('codRomaneio');
         $idMotorista = $this->input->post('idMotorista');
@@ -38,12 +40,16 @@ class Coletas extends CI_Controller
                 'coletado' => $cliente['coletado'],
                 'data_coleta' => date('Y-m-d H:i:s'), 
                 'cod_romaneio' => $codRomaneio, 
-                'id_empresa' = $this->session->userdata('id_empresa');
+                'id_empresa' => $this->session->userdata('id_empresa'),
 
             );
     
             $retorno = $this->Coletas_model->insereColeta($dados);
-    
+            
+            $data['status'] = 1;
+
+            $this->Romaneios_model->editaRomaneioCodigo($codRomaneio, $data);
+
             if (!$retorno) {
                 $response[] = array(
                     'success' => false,
