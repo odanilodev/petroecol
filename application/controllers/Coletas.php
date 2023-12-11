@@ -21,7 +21,7 @@ class Coletas extends CI_Controller
 
     public function cadastraColeta()
     {
-        $clientes = $this->input->post('cliente'); // Recebe a lista de clientes
+        $clientes = $this->input->post('clientes'); // Recebe a lista de clientes
     
         $response = array();
     

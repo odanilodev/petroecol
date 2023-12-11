@@ -129,9 +129,11 @@ class Romaneios extends CI_Controller
 
 
 		// residuos
-        $this->load->model('ResiduoCliente_model');
+        $this->load->model('Residuos_model');
 
-        $residuos = $this->ResiduoCliente_model->recebeResiduoCliente($idsClientes);
+        $residuos = $this->Residuos_model->recebeTodosResiduos();
+
+		// echo "<pre>"; print_r($residuos); exit;
 
 		$response = array(
 			'retorno' => $clientesRomaneio,
