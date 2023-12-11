@@ -68,10 +68,9 @@ class Clientes_model extends CI_Model
     {
         $this->db->select('C.*, F.frequencia');
         $this->db->from('ci_clientes C');
-        $this->db->join('ci_frequencia_coleta F', 'C.id_frequencia_coleta = F.id', 'inner');
+        $this->db->join('ci_frequencia_coleta F', 'C.id_frequencia_coleta = F.id', 'left');
         $this->db->where('C.id', $id);
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('F.id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get();
 
         return $query->row_array();
@@ -162,6 +161,18 @@ class Clientes_model extends CI_Model
         $this->db->where_in('C.id', $idsClientes);
         $query = $this->db->get();
 
+        return $query->result_array();
+    }
+
+    public function recebeClientesAprovacaoInativacao() {
+        $this->db->select('C.nome, C.id, C.criado_em AS CLIENTE_CRIADO_EM, CI.criado_em AS ULTIMA_COLETA');
+        $this->db->from('ci_clientes AS C');
+        $this->db->join('(SELECT id_cliente, MAX(criado_em) AS criado_em FROM ci_coletas WHERE coletado = 1 GROUP BY id_cliente) AS CI', 'CI.id_cliente = C.id', 'left');
+        $this->db->where('C.STATUS', 1);
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('((CI.criado_em < DATE_SUB(NOW(), INTERVAL 3 MONTH) AND CI.criado_em IS NOT NULL) OR (CI.criado_em IS NULL AND C.criado_em < DATE_SUB(NOW(), INTERVAL 3 MONTH)))', null, false);
+    
+        $query = $this->db->get();
         return $query->result_array();
     }
 }
