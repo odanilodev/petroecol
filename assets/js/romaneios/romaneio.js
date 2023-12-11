@@ -281,7 +281,7 @@ function exibirDadosClientes(clientes, registros, residuos) {
                             <div class="col-12 mt-4">
                                 
                                 <div class="form-check mb-0 fs-0">
-                                    <input title="Preencha este campo caso não tenha coletado no cliente" class="form-check-input nao-coletado" id="checkbox-bulk-members-select" type="checkbox" data-bulk-select='{"body":"members-table-body"}' style="cursor: pointer"/>
+                                    <input title="Preencha este campo caso não tenha coletado no cliente" class="form-check-input nao-coletado" type="checkbox" data-bulk-select='{"body":"members-table-body"}' style="cursor: pointer"/>
                                     Não Coletado
                                 </div>
 
@@ -308,7 +308,7 @@ function exibirDadosClientes(clientes, registros, residuos) {
 
     for (c = 0; c < residuos.length; c++) {
 
-        var optionResiduos = `<option value="${residuos[c].id_residuo}">${residuos[c].nome}</option>`;
+        var optionResiduos = `<option value="${residuos[c].id}">${residuos[c].nome}</option>`;
         $('.select-residuo').append(optionResiduos);
     }
 }
@@ -385,10 +385,14 @@ $(document).on('input', '.input-obs', function () {
 
         $('.aviso-msg').removeClass('d-none');
         $('.aviso-msg').html('Este campo precisa ter no mínimo 10 caracteres');
+        $('.accordion-button').attr('disabled', true);
+        $('.btn-finaliza-romaneio').attr('disabled', true);
 
     } else {
 
         $('.aviso-msg').addClass('d-none');
+        $('.accordion-button').attr('disabled', false);
+        $('.btn-finaliza-romaneio').attr('disabled', false);
 
     }
 })
@@ -421,6 +425,14 @@ function finalizarRomaneio() {
 
     $('.accordion-item').each(function () {
 
+        if($(this).find('.nao-coletado').is(':checked')){
+
+            var coletado = 0;
+
+        }else{
+            var coletado = 1;
+        }
+
         let residuosSelecionados = [];
 
         $(this).find('.select-residuo option:selected').each(function () {
@@ -439,6 +451,7 @@ function finalizarRomaneio() {
             pagamento: $(this).find('.input-pagamento').val(),
             ultimaColeta: $(this).find('.input-ultima-coleta').val(),
             valorPago: $(this).find('.input-valor-pago').val(),
+            coletado: coletado,
             residuos: residuosSelecionados,
             qtdColetado: qtdResiduos,
             obs: $(this).find('.input-obs').val()
@@ -456,8 +469,8 @@ function finalizarRomaneio() {
                 clientes: dadosClientes,
                 idMotorista: idMotorista,
                 codRomaneio: codRomaneio
-            }, success: function () {
-                alert('deu bom')
+            }, success: function (data) {
+                console.log(data)
             }
 
         })
