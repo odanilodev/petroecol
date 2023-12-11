@@ -38,6 +38,8 @@ class Coletas extends CI_Controller
                 'coletado' => $cliente['coletado'],
                 'data_coleta' => date('Y-m-d H:i:s'), 
                 'cod_romaneio' => $codRomaneio, 
+                'id_empresa' = $this->session->userdata('id_empresa');
+
             );
     
             $retorno = $this->Coletas_model->insereColeta($dados);
