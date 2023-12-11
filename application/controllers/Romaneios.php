@@ -81,6 +81,7 @@ class Romaneios extends CI_Controller
 
 	public function formulario()
 	{
+		$this->load->model('Funcionarios_model');
 		// scripts padrão
 		$scriptsPadraoHead = scriptsPadraoHead();
 		$scriptsPadraoFooter = scriptsPadraoFooter();
@@ -95,6 +96,7 @@ class Romaneios extends CI_Controller
 		$data['cidades'] = $this->Clientes_model->recebeCidadesCliente();
 		$data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
 		$data['clientes'] = $this->Clientes_model->recebeClientesEtiquetas();
+		$data['responsaveis'] = $this->Funcionarios_model->recebeResponsavelAgendamento();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/romaneio/cadastra-romaneio');
