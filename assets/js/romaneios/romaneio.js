@@ -250,7 +250,7 @@ function exibirDadosClientes(clientes, registros, residuos) {
 
                             <label class="form-label">Resíduo Coletado</label>
                             
-                            <select class="form-select select-residuo w-100" id="select-residuo" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                            <select class="form-select select-residuo w-100 input-obrigatorio" id="select-residuo" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
 
                                 <option disabled selected value="">Selecione residuos</option>
                                 
@@ -299,12 +299,17 @@ function exibirDadosClientes(clientes, registros, residuos) {
         $('.dados-clientes-div').append(dadosClientes);
 
         // residuos do cliente no select
-        
-        let optionResiduos = `<option value="${residuos[i].id_residuo}">${residuos[i].nome}</option>`;
 
+
+
+
+
+    }
+
+    for (c = 0; c < residuos.length; c++) {
+
+        var optionResiduos = `<option value="${residuos[c].id_residuo}">${residuos[c].nome}</option>`;
         $('.select-residuo').append(optionResiduos);
-
-
     }
 }
 
@@ -319,7 +324,6 @@ $(document).on('click', '.duplicar-residuo', function () {
         <div class="col-md-4 mb-2 div-residuos">
             <label class="form-label">Resíduo Coletado</label>
             <select class="form-select select-residuo w-100" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
-                <option disabled selected value="">Selecione resíduos</option>
                 ${optionsResiduo}
             </select>
         </div>
@@ -328,7 +332,7 @@ $(document).on('click', '.duplicar-residuo', function () {
     let qtdResiduos = `
         <div class="col-md-4 mb-2">
             <label class="form-label">Quantidade Coletada</label>
-            <input class="form-control input-qtd-coletado input-obrigatorio" type="text" placeholder="Digite a quantidade" value="">
+            <input class="form-control input-qtd-coletado" type="text" placeholder="Digite a quantidade" value="">
         </div>
     `;
 
@@ -348,7 +352,7 @@ $(document).on('click', '.duplicar-residuo', function () {
     $(this).closest('.accordion-item').find('.div-obs').remove();
 
     let novaObs = `<div class="div-obs">${divObs}</div>`;
-    
+
     parentAccordionItem.find('.accordion-body').append(novaObs);
 
 });
@@ -381,7 +385,7 @@ $(document).on('input', '.input-obs', function () {
 
         $('.aviso-msg').removeClass('d-none');
         $('.aviso-msg').html('Este campo precisa ter no mínimo 10 caracteres');
-    
+
     } else {
 
         $('.aviso-msg').addClass('d-none');
@@ -390,6 +394,25 @@ $(document).on('input', '.input-obs', function () {
 })
 
 function finalizarRomaneio() {
+
+    var permissao = true;
+
+    $('.input-obrigatorio').each(function () {
+
+        if (!$(this).val()) {
+
+            avisoRetorno('Oopss', 'Você precisa preencher todos os campos para concluir o romaneio', 'error', '#');
+
+            $(this).addClass('invalido');
+
+            permissao = false;
+
+        } else {
+            $(this).removeClass('invalido');
+
+        }
+        
+    })
 
     let dadosClientes = [];
 
@@ -424,18 +447,20 @@ function finalizarRomaneio() {
         dadosClientes.push(dadosCliente);
     });
 
-    
-    $.ajax({
-        type: "POST",
-        url: `${baseUrl}coletas/cadastraColeta`,
-        data: {
-            clientes: dadosClientes,
-            idMotorista: idMotorista,
-            codRomaneio: codRomaneio
-        }, success: function () {
-            alert('deu bom')
-        } 
+    if (permissao) {
 
-    })
+        $.ajax({
+            type: "POST",
+            url: `${baseUrl}coletas/cadastraColeta`,
+            data: {
+                clientes: dadosClientes,
+                idMotorista: idMotorista,
+                codRomaneio: codRomaneio
+            }, success: function () {
+                alert('deu bom')
+            }
+
+        })
+    }
 
 }
