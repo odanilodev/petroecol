@@ -48,9 +48,9 @@ class Romaneios_model extends CI_Model
 
     public function recebeUltimosRomaneios()
     {
-        $this->db->select('R.*, M.nome as MOTORISTA, M.id as ID_MOTORISTA');
+        $this->db->select('R.*, F.nome as MOTORISTA, F.id as ID_MOTORISTA');
         $this->db->from('ci_romaneios R');
-        $this->db->join('ci_motoristas M', 'M.id = R.id_motorista', 'INNER');
+        $this->db->join('ci_funcionarios F', 'F.id = R.id_motorista', 'INNER');
         $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->limit(60);
         $this->db->order_by('R.criado_em', 'DESC');

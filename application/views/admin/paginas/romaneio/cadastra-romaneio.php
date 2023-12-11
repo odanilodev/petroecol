@@ -119,14 +119,10 @@
                     <select class="form-select w-60 campo-obrigatorio" id="select-motorista">
                         <option selected disabled>Selecione o responsável</option>
                         <?php
-                        echo empty($responsaveis)
-                            ? '<option selected disabled>Nenhum responsável cadastrado</option>'
-                            : '';
 
-                        foreach ($responsaveis as $v) {
-                            echo '<option class="text-align-left">' . $v['nome'] . ' | ' .  $v['CARGO'] . '</option>';
-                        }
-                        ?>
+                        foreach ($responsaveis as $v) { ?>
+                        <option value="<?= $v['IDFUNCIONARIO']?>"> <?= $v['nome'] ?> | <?= $v['CARGO']?></option>
+                        <?php }  ?>
                     </select>
                     
                     <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>

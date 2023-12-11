@@ -38,7 +38,7 @@ class Funcionarios_model extends CI_Model
 
     public function recebeResponsavelAgendamento()
     {
-        $this->db->select('F.nome, F.id_cargo, C.responsavel_agendamento, C.nome as CARGO');
+        $this->db->select('F.nome, F.id as IDFUNCIONARIO, F.id_cargo, C.responsavel_agendamento, C.nome as CARGO');
 
         $this->db->from('ci_funcionarios F');
 
