@@ -30,7 +30,7 @@ class Romaneios_model extends CI_Model
         $this->db->update('ci_romaneios', $dados);
 
         if ($this->db->affected_rows()) {
-            $this->Log_model->insereLog($id);
+            $this->Log_model->insereLog($codigo);
         }
 
         return $this->db->affected_rows() > 0;

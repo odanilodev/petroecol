@@ -8,11 +8,11 @@ class Coletas extends CI_Controller
         parent::__construct();
 
         //INICIO controle sessão
-        $this->load->library('Controle_sessao');
-        $res = $this->controle_sessao->controle();
-        if ($res == 'erro') {
-            redirect('login/erro', 'refresh');
-        }
+        //$this->load->library('Controle_sessao');
+        //$res = $this->controle_sessao->controle();
+       // if ($res == 'erro') {
+        //    redirect('login/erro', 'refresh');
+       // }
         // FIM controle sessão
         $this->load->model('Coletas_model');
         
