@@ -79,9 +79,9 @@
                                     </td>
 
                                     <td class="align-middle white-space-nowrap">
-                                        <a onclick='concluirRomaneio(<?= $v["codigo"] ?>, <?= $v["ID_MOTORISTA"]?>)' class="btn <?= $v['status'] != 1 ? 'btn-secondary' : 'btn-success' ?>">
+                                        <button <?= $v['status'] == 1 ? 'disabled' : '' ?> type="button" onclick='concluirRomaneio(<?= $v["codigo"] ?>, <?= $v["ID_MOTORISTA"] ?>)' class="btn <?= $v['status'] != 1 ? 'btn-secondary' : 'btn-success' ?>">
                                             <span class="ms-1" data-feather="check-circle"></span>
-                                        </a>
+                                        </button>
                                     </td>
 
                                 </tr>

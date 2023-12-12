@@ -469,8 +469,19 @@ function finalizarRomaneio() {
                 clientes: dadosClientes,
                 idMotorista: idMotorista,
                 codRomaneio: codRomaneio
+
+            }, beforeSend: function () {
+
+                $('.btn-finaliza-romaneio').addClass('d-none');
+                $('.load-form-modal-romaneio').removeClass('d-none');
+
             }, success: function (data) {
-                console.log(data)
+
+                if (data.success) {
+
+                    avisoRetorno('Sucesso!', 'O romaneio foi concluído com sucesso', 'success', `${baseUrl}romaneios`);
+
+                }
             }
 
         })

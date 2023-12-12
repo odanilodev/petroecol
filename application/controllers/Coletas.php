@@ -26,8 +26,6 @@ class Coletas extends CI_Controller
         $codRomaneio = $this->input->post('codRomaneio');
         $idMotorista = $this->input->post('idMotorista');
     
-        $response = array(); 
-    
         foreach ($payload as $cliente) {
             $dados = array(
                 'id_cliente' => $cliente['idCliente'],
@@ -51,7 +49,7 @@ class Coletas extends CI_Controller
             $this->Romaneios_model->editaRomaneioCodigo($codRomaneio, $data);
 
             if (!$retorno) {
-                $response[] = array(
+                $response = array(
                     'success' => false,
                     'message' => 'Erro ao cadastrar a coleta.'
                 );
@@ -59,7 +57,7 @@ class Coletas extends CI_Controller
         }
     
         if (empty($response)) {
-            $response[] = array(
+            $response = array(
                 'success' => true,
                 'message' => 'Coleta(s) cadastrada(s) com sucesso.'
             );
