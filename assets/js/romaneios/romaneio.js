@@ -363,7 +363,17 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, label) {
 
     } else {
 
-        $(btnClicado).closest('.accordion-item').find('.accordion-body').append(novaLinha);
+        // div do textarea de obs
+        let divObs = $(btnClicado).closest('.accordion-item').find('.div-obs').html();
+
+        let novaObs = `<div class="div-obs">${divObs}</div>`; // salva a div obs
+
+        $(btnClicado).closest('.accordion-item').find('.div-obs').remove(); // remove a div obs antiga
+
+        $(btnClicado).closest('.accordion-item').find('.accordion-body').append(novaLinha); // imprime os novos inputs
+
+        $(btnClicado).closest('.accordion-body').append(novaObs); // imprime nova div de obs
+
 
     }
 
@@ -372,13 +382,6 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, label) {
 $(document).on('click', '.duplicar-residuo', function () {
 
     duplicarElemento(this, 'residuo', 'quantidade coletada', 'Resíduo Coletado');
-
-    // remover a div de obs
-    $(this).closest('.accordion-item').find('.div-obs').remove();
-
-    // adiciona div obs dnv
-    let divObs = $(this).closest('.accordion-item').find('.div-obs').clone();
-    $(btnClicado).closest('.accordion-item').find('.accordion-body').append(divObs);
 
 });
 
@@ -455,11 +458,11 @@ function finalizarRomaneio() {
 
     $('.accordion-item').each(function () {
 
-        if($(this).find('.nao-coletado').is(':checked')){
+        if ($(this).find('.nao-coletado').is(':checked')) {
 
             var coletado = 0;
 
-        }else{
+        } else {
             var coletado = 1;
         }
 
