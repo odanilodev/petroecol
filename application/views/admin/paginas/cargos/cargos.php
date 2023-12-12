@@ -31,7 +31,7 @@
                                 </th>
 
                                 <th class="sort align-middle" scope="col" data-sort="customer">Cargo</th>
-                                <th class="sort align-middle pe-3">Responsavel Agendamento</th>
+                                <th class="sort align-middle pe-3">Responsável Agendamento</th>
                                 <th class="sort align-middle pe-3">Editar</th>
                                 <th class="sort align-middle pe-3">Excluir</th>
                             </tr>

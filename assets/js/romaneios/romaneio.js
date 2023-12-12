@@ -85,16 +85,16 @@ const gerarRomaneio = () => {
 
     })
 
-    let motorista = $('#select-motorista').val();
+    let responsavel = $('#select-responsavel').val();
 
-    if (!motorista) {
+    if (!responsavel) {
 
-        $('#select-motorista').addClass('invalido');
+        $('#select-responsavel').addClass('invalido');
         return;
 
     } else {
 
-        $('#select-motorista').removeClass('invalido');
+        $('#select-responsavel').removeClass('invalido');
 
     }
 
@@ -105,7 +105,7 @@ const gerarRomaneio = () => {
         url: `${baseUrl}romaneios/gerarRomaneioEtiqueta`,
         data: {
             clientes: clientes,
-            motorista: motorista,
+            responsavel: responsavel,
             data_coleta: data_coleta
         },
         beforeSend: function () {
@@ -172,11 +172,11 @@ $('#select-cliente-modal').change(function () {
 })
 
 
-const concluirRomaneio = (codRomaneio, idMotorista) => {
+const concluirRomaneio = (codRomaneio, idResponsavel) => {
 
     $('#modalConcluirRomaneio').modal('show');
 
-    $('.id_motorista').val(idMotorista);
+    $('.id_responsavel').val(idResponsavel);
     $('.code_romaneio').val(codRomaneio);
 
     if (codRomaneio) {
@@ -420,7 +420,7 @@ function finalizarRomaneio() {
 
     let dadosClientes = [];
 
-    let idMotorista = $('.id_motorista').val();
+    let idResponsavel = $('.id_responsavel').val();
     let codRomaneio = $('.code_romaneio').val();
 
     $('.accordion-item').each(function () {
@@ -467,7 +467,7 @@ function finalizarRomaneio() {
             url: `${baseUrl}coletas/cadastraColeta`,
             data: {
                 clientes: dadosClientes,
-                idMotorista: idMotorista,
+                idResponsavel: idResponsavel,
                 codRomaneio: codRomaneio
 
             }, beforeSend: function () {
