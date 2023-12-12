@@ -298,6 +298,44 @@
                         </table>
                       </div>
 
+                      <div class="col-sm-12 col-xxl-12 border-bottom py-3">
+                        <table class="w-100 table-stats">
+                          <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                          <tr>
+                            <td class="py-2">
+                              <div class="d-flex align-items-center">
+                                <div class="d-flex bg-warning-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                  <span class="text-warning-600 dark__text-warning-300" data-feather="clock" style="width:16px; height:16px"></span>
+                                </div>
+                                <p class="fw-bold mb-0">Comodato</p>
+                              </div>
+                            </td>
+                            <?php if (!empty($cliente['comodato'])) : ?>
+                              <td class="py-2">
+                                <!-- Botão de Download -->
+                                <a href="<?= base_url('clientes/downloadComodato/'.$cliente['id']) ?>" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
+                                    <span class="fa-solid fa-download me-sm-2"></span>
+                                    <span class="d-none d-sm-inline">Download</span>
+                                </a>
+                              </td>
+                            <?php endif; ?>
+                            <td class="py-2">
+                            <!-- Botão de Upload -->
+                            <a data-bs-toggle="modal" data-bs-target=".modal-comodato" href="#" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
+                                <span class="fa-solid fa-upload me-sm-2"></span>
+                                <span class="d-none d-sm-inline">Cadastrar</span>
+                            </a>
+                            </td>
+                        </td>
+
+                          </tr>
+                        </table>
+                      </div>
+
                       <?php if ($cliente['observacao']) { ?>
                         <div class="col-sm-12 col-xxl-12 py-3">
                           <table class="w-100 table-stats">
@@ -505,3 +543,31 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal cadastro comodato -->
+  <div class="modal fade modal-comodato" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">Anexar arquivo de comodato</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <p>Caso já contenha um arquivo cadastrado, ele será substituído.</p>
+                  <form action="<?php echo base_url('clientes/cadastraComodato'); ?>" method="post" enctype="multipart/form-data" id="comodatoForm">
+                      <div class="mb-3">
+                          <label for="fileInput" class="form-label">Escolha um arquivo:</label>
+                          <input type="file" class="form-control" id="fileInput" name="comodato">
+                          <input type="hidden" class="form-control" value='<?= $cliente['id'] ?>' name="id">
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                          <button type="submit" class="btn btn-primary">Enviar</button>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+
+

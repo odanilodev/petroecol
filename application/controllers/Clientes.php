@@ -173,6 +173,61 @@ class Clientes extends CI_Controller
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
+    public function cadastraComodato()
+    {
+        $this->load->library('upload_imagem');
+
+        $comodato = $this->input->post('comodato');
+        $id = $this->input->post('id');
+
+        $dados['comodato'] = $this->upload_imagem->uploadImagem('comodato', './uploads/clientes/comodato');
+
+        $retorno = $this->Clientes_model->editaCliente($id, $dados);
+
+		if ($retorno) { // inseriu ou editou
+
+			$response = array(
+				'success' => true,
+				'message' => 'Comodato cadastrado com sucesso!'
+			);	
+		} else { // erro ao inserir ou editar
+
+			$response = array(
+				'success' => false,
+				'message' => 'Erro ao cadastrar o comodato!'
+			);
+		}
+        
+
+        redirect('clientes/detalhes/'.$id);
+    }
+
+
+    public function downloadComodato($id)
+    {
+        $this->load->helper('download');
+
+        $cliente = $this->Clientes_model->recebeCliente($id);
+
+        // Verifica se o comodato existe no registro do cliente
+        if (!isset($cliente['comodato']) || empty($cliente['comodato'])) {
+            // Comodato não existe no banco, redireciona para a página de detalhes
+            redirect('clientes/detalhes/' . $id);
+        }
+
+        $path = "./uploads/clientes/comodato/{$cliente['comodato']}";
+
+        // Verifica se o arquivo físico existe
+        if (file_exists($path)) {
+            $arquivoPath = base_url($path);
+            $data = file_get_contents($path);
+            force_download($arquivoPath, $data);
+        } else {
+            // Arquivo físico não existe, redireciona para a página de detalhes
+            redirect('clientes/detalhes/'.$id);
+        }
+    }
+
     public function insereSql()
     {
         $this->load->view('admin/paginas/clientes/sql-cliente');

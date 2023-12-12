@@ -106,6 +106,7 @@ class Clientes_model extends CI_Model
 
     public function editaCliente($id, $dados)
     {
+
         $dados['editado_em'] = date('Y-m-d H:i:s');
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
