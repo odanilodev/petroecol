@@ -24,12 +24,12 @@ class Coletas extends CI_Controller
 
         $payload = $this->input->post('clientes');
         $codRomaneio = $this->input->post('codRomaneio');
-        $idMotorista = $this->input->post('idMotorista');
+        $idResponsavel = $this->input->post('idResponsavel');
     
         foreach ($payload as $cliente) {
             $dados = array(
                 'id_cliente' => $cliente['idCliente'],
-                'id_motorista' => $idMotorista,
+                'id_responsavel' => $idResponsavel,
                 'residuos_coletados' => json_encode($cliente['residuos']),
                 'forma_pagamento' => $cliente['pagamento'],
                 'quantidade_coletada' => json_encode($cliente['qtdColetado']),
