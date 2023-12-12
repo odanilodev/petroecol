@@ -129,17 +129,20 @@ class Romaneios extends CI_Controller
 
 		$clientesRomaneio = $this->Clientes_model->recebeClientesRomaneio($idsClientes);
 
-
 		// residuos
         $this->load->model('Residuos_model');
 
         $residuos = $this->Residuos_model->recebeTodosResiduos();
 
-		// echo "<pre>"; print_r($residuos); exit;
+		// formas de pagamentos
+        $this->load->model('FormaPagamento_model');
+
+        $formas_pagamentos = $this->FormaPagamento_model->recebeFormasPagamento();
 
 		$response = array(
 			'retorno' => $clientesRomaneio,
 			'residuos' => $residuos,
+			'pagamentos' => $formas_pagamentos,
 			'registros' => count($clientesRomaneio)
 		);
 
