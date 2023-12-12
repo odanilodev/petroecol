@@ -405,7 +405,7 @@ function finalizarRomaneio() {
 
         if (!$(this).val()) {
 
-            avisoRetorno('Oopss', 'Você precisa preencher todos os campos para concluir o romaneio', 'error', '#');
+            avisoRetorno('Algo deu errado.', 'Você precisa preencher todos os campos para concluir o romaneio', 'error', '#');
 
             $(this).addClass('invalido');
 
