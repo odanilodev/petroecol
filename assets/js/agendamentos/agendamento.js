@@ -292,7 +292,8 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
         if (!cliente || !data) {
           permissao = false;
 
-          alert('campos vazios'); return;
+          avisoRetorno('Algo deu errado', 'Preencha os campos obrigatórios', 'error', '#');
+          return;
         }
 
         if (permissao) {
