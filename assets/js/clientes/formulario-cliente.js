@@ -42,6 +42,14 @@ const verificaCampos = () => {
         }
     });
 
+    if ($('.select-dia-fixo').attr('required')) {
+        
+        if($('.select-dia-fixo').val() == null) {
+
+            permissao = false;
+
+        }
+    }
 
     if (camposVazios.length) {
 
@@ -58,9 +66,13 @@ const verificaCampos = () => {
 $(document).on('change', '.select-frequencia', function () {
 
     if ($('.select-frequencia option:selected').text() == "Fixo") {
+
         $('.fixo-coleta').removeClass('d-none');
         $('.select-dia-fixo').attr('required', true);
+
     } else {
+
+        $('.select-dia-fixo').val('');
         $('.fixo-coleta').addClass('d-none');
         $('.select-dia-fixo').attr('required', false);
     }
