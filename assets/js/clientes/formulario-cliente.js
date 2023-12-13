@@ -244,3 +244,15 @@ const verificaRecipienteCliente = (id) => {
     })
 
 }
+
+$(document).ready(function(){
+
+    var alerta = $('.alerta-comodato').val();
+
+    if(alerta == 'success'){
+        avisoRetorno('Sucesso!', 'Comodato cadastrado com sucesso!', 'success', '#');
+    }else if(alerta == 'error'){
+        avisoRetorno('Erro!', 'Comodato não cadastrado!', 'error', '#');
+    }
+
+})

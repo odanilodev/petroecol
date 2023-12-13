@@ -9,7 +9,7 @@ class Upload_imagem {
     {
         if (!empty($_FILES[$nomeCampo]['name'])) {
             $config['upload_path'] = $diretorio;
-            $config['allowed_types'] = 'jpg|jpeg|png|';
+            $config['allowed_types'] = 'jpg|jpeg|png|pdf|docx';
 
             $CI = &get_instance(); // Obtém uma referência à instância do CodeIgniter
 
@@ -31,7 +31,7 @@ class Upload_imagem {
         // Verifica se veio imagem
         if (!empty($_FILES[$nomeCampo]['name'])) {
             $config['upload_path'] = $diretorio;
-            $config['allowed_types'] = 'jpg|jpeg|png|';
+            $config['allowed_types'] = 'jpg|jpeg|png|pdf|docx';
 
             $CI = &get_instance(); // Obtém uma referência à instância do CodeIgniter
 

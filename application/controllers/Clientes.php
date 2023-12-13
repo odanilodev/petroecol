@@ -177,27 +177,23 @@ class Clientes extends CI_Controller
     {
         $this->load->library('upload_imagem');
 
-        $comodato = $this->input->post('comodato');
         $id = $this->input->post('id');
 
-        $dados['comodato'] = $this->upload_imagem->uploadImagem('comodato', './uploads/clientes/comodato');
+        $cliente = $this->Clientes_model->recebeCliente($id);
+
+        if(empty($cliente['comodato'])){
+            $dados['comodato'] = $this->upload_imagem->uploadImagem('comodato', './uploads/clientes/comodato');
+        }else{
+            $dados['comodato'] = $this->upload_imagem->uploadEditarImagem('comodato', './uploads/clientes/comodato', $cliente['comodato']);
+        }
 
         $retorno = $this->Clientes_model->editaCliente($id, $dados);
 
-		if ($retorno) { // inseriu ou editou
-
-			$response = array(
-				'success' => true,
-				'message' => 'Comodato cadastrado com sucesso!'
-			);	
-		} else { // erro ao inserir ou editar
-
-			$response = array(
-				'success' => false,
-				'message' => 'Erro ao cadastrar o comodato!'
-			);
-		}
-        
+		if ($retorno) {
+            $this->session->set_flashdata('aviso-comodato', 'success');
+        } else {
+            $this->session->set_flashdata('aviso-comodato', 'error');
+        }
 
         redirect('clientes/detalhes/'.$id);
     }

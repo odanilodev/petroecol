@@ -308,10 +308,11 @@
                           <tr>
                             <td class="py-2">
                               <div class="d-flex align-items-center">
-                                <div class="d-flex bg-warning-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                  <span class="text-warning-600 dark__text-warning-300" data-feather="clock" style="width:16px; height:16px"></span>
+                                <div class="d-flex bg-success-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                  <span class="text-success-600 dark__text-success-300" data-feather="inbox" style="width:16px; height:16px"></span>
                                 </div>
                                 <p class="fw-bold mb-0">Comodato</p>
+                                <input type='hidden' class='alerta-comodato' value="<?= $this->session->flashdata('aviso-comodato') ?>">
                               </div>
                             </td>
                             <?php if (!empty($cliente['comodato'])) : ?>
@@ -554,7 +555,7 @@
               </div>
               <div class="modal-body">
                   <p>Caso já contenha um arquivo cadastrado, ele será substituído.</p>
-                  <form action="<?php echo base_url('clientes/cadastraComodato'); ?>" method="post" enctype="multipart/form-data" id="comodatoForm">
+                  <form action="<?= base_url('clientes/cadastraComodato'); ?>" method="post" enctype="multipart/form-data" id="comodatoForm">
                       <div class="mb-3">
                           <label for="fileInput" class="form-label">Escolha um arquivo:</label>
                           <input type="file" class="form-control" id="fileInput" name="comodato">
@@ -569,5 +570,6 @@
           </div>
       </div>
   </div>
+
 
 
