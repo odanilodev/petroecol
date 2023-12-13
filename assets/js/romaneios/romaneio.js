@@ -247,7 +247,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
                         <div class="col-md-4 mb-2 div-pagamento">
 
                             <label class="form-label">Valor Pago</label>
-                            <input class="form-control input-pagamento input-obrigatorio" type="text" placeholder="Valor pago" value="">
+                            <input class="form-control input-pagamento input-obrigatorio" type="text" placeholder="Digite valor pago" value="">
                         </div>
 
                         <div class="col-md-4 mb-2 mt-4 row">
@@ -273,7 +273,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
                         <div class="col-md-4 mb-2">
 
                             <label class="form-label">Quantidade Coletada</label>
-                            <input class="form-control input-residuo input-obrigatorio" type="text" placeholder="Digite a quantidade" value="">
+                            <input class="form-control input-residuo input-obrigatorio" type="text" placeholder="Digite quantidade coletada" value="">
                         </div>
 
                         <div class="col-md-4 mb-2 mt-4 row">
@@ -282,7 +282,9 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
 
                         </div>
 
-                        <div class="div-obs antiga-obs">
+                        <div class="residuos-duplicados"></div>
+
+                        <div class="div-obs">
 
                             <div class="col-12">
                                 <label class="form-label">Observação</label>
@@ -300,8 +302,6 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
                             </div>
 
                         </div>
-
-                        <div class="nova-obs row div-obs"></div>
 
                     </div>
                 </div>
@@ -329,14 +329,13 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
 
 
 // duplica forma de pagamento e residuos
-function duplicarElemento(btnClicado, novoElemento, novoInput, label) {
+function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
 
     // Pega os options do select
     let options = $(btnClicado).closest('.accordion-item').find('.select-' + novoElemento).html();
 
     let selectHtml = `
         <div class="col-md-4 mb-2 div-${novoElemento}">
-            <label class="form-label">${label}</label>
             <select class="form-select select-${novoElemento} w-100" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
                 ${options}
             </select>
@@ -345,8 +344,7 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, label) {
 
     let inputHtml = `
         <div class="col-md-4 mb-2 div-${novoElemento}">
-            <label class="form-label">${novoInput}</label>
-            <input class="form-control input-${novoElemento}" type="text" placeholder="Digite a quantidade" value="">
+            <input class="form-control input-${novoElemento}" type="text" placeholder="Digite ${novoInput}" value="">
         </div>
     `;
 
@@ -357,40 +355,21 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, label) {
     novaLinha.append(selectHtml);
     novaLinha.append(inputHtml);
 
-    if (novoElemento == 'pagamento') {
-
-        $(btnClicado).closest('.accordion-item').find('.pagamentos-duplicados').append(novaLinha);
-
-    } else {
-
-        // div do textarea de obs
-        let divObs = $(btnClicado).closest('.accordion-item').find('.div-obs').html();
-
-        let novaObs = `<div class="div-obs">${divObs}</div>`; // salva a div obs
-
-        $(btnClicado).closest('.accordion-item').find('.div-obs').remove(); // remove a div obs antiga
-
-        $(btnClicado).closest('.accordion-item').find('.accordion-body').append(novaLinha); // imprime os novos inputs
-
-        $(btnClicado).closest('.accordion-body').append(novaObs); // imprime nova div de obs
-
-
-    }
+    $(btnClicado).closest('.accordion-item').find(`.${classe}`).append(novaLinha);
 
 }
 
 $(document).on('click', '.duplicar-residuo', function () {
 
-    duplicarElemento(this, 'residuo', 'quantidade coletada', 'Resíduo Coletado');
+    duplicarElemento(this, 'residuo', 'quantidade coletada', 'residuos-duplicados');
 
 });
 
 $(document).on('click', '.duplicar-pagamento', function () {
 
-    duplicarElemento(this, 'pagamento', 'valor pago', 'Forma de Pagamento');
+    duplicarElemento(this, 'pagamento', 'valor pago', 'pagamentos-duplicados');
 
 });
-
 
 
 $(document).on('click', '.nao-coletado', function () {
@@ -490,7 +469,6 @@ function finalizarRomaneio() {
 
         $(this).find('.div-pagamento .input-pagamento').each(function () {
 
-            console.log('aqui')
             valorPagamento.push($(this).val());
         });
 
