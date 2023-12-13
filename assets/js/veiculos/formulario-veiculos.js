@@ -4,19 +4,26 @@ const cadastraNovoVeiculo = () => {
 	let modeloInput = $(".input-modelo").val();
 	let placaInput = $(".input-placa").val();
 	let id = $(".input-id").val();
-
-	let permissao = true;
-
-	// cadastra um veículo novo
-
 	let documentoInput = $("#documentoInput")[0].files[0];
 	let fotoCarro = $("#fotoCarro")[0].files[0];
 	let formData = new FormData();
+
 	formData.append("documento", documentoInput);
 	formData.append("modelo", modeloInput);
 	formData.append("placa", placaInput);
 	formData.append("fotoCarro", fotoCarro);
 	formData.append("id", id);
+
+	let permissao = true;
+
+	$('.input-obrigatorio').each(function(){
+		if($(this).val() == "" || $(this).val() == null) {
+				$(this).addClass('invalido')
+				permissao = false;
+		}else{
+				$(this).removeClass('invalido')
+		}
+})
 
 	if (permissao) {
 		$.ajax({
