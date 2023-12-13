@@ -76,6 +76,20 @@
 
             </div>
 
+            <div class="mb-3">
+
+              <select class="form-select w-100 periodo-agendamento">
+
+                <option disabled selected value="">Período de Coleta (opcional)</option>
+
+                  <option value="Manhã">Manhã</option>
+                  <option value="Tarde">Tarde</option>
+                  <option value="Noite">Noite</option>
+                
+              </select>
+
+            </div>
+
             <div class="form-floating my-5">
               <textarea class="form-control obs-agendamento" id="eventDescription" placeholder="Leave a comment here" name="observacao" style="height: 128px"></textarea>
               <label for="eventDescription">Observação</label>

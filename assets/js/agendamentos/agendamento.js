@@ -283,7 +283,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
       });
 
       // adiciona um novo agendamento
-      const salvaAgendamento = (cliente, data, horario, obs, id) => {
+      const salvaAgendamento = (cliente, data, horario, periodo, obs, id) => {
 
         let dataNova = data;
 
@@ -311,6 +311,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
               cliente: cliente,
               data: dataNova,
               horario: horario,
+              periodo: periodo,
               obs: obs,
               id: id
             },
@@ -319,6 +320,8 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
               $('.btn-envia').addClass('d-none');
             },
             success: function (data) {
+
+              $('.periodo-agendamento').val('');
 
               $('.load-form').addClass('d-none');
               $('.btn-envia').removeClass('d-none');
@@ -355,11 +358,12 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
         let cliente = $('.cliente-agendamento').val();
         let data = $('.data-agendamento').val();
         let horario = $('.horario-agendamento').val();
+        let periodo = $('.periodo-agendamento').val();
         let obs = $('.obs-agendamento').val();
 
         let id = $('.input-id').val();
 
-        salvaAgendamento(cliente, data, horario, obs, id);
+        salvaAgendamento(cliente, data, horario, periodo, obs, id);
 
       })
 
