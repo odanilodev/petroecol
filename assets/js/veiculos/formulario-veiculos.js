@@ -18,25 +18,6 @@ const cadastraNovoVeiculo = () => {
 	formData.append("fotoCarro", fotoCarro);
 	formData.append("id", id);
 
-	$('.input-obrigatorio').each(function(){
-		if($(this).val() == "" || $(this).val() == null) {
-				$(this).addClass('invalido')
-				permissao = false;
-		}else{
-				$(this).removeClass('invalido')
-		}
-})
-
-	if (camposVazios.length) {
-
-			permissao = false;
-
-	}
-
-	if (permissao) {
-			cadastraCliente(dadosEmpresa, dadosEndereco, dadosResponsavel);
-	}
-
 	if (permissao) {
 		$.ajax({
 			type: "post",
