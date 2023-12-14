@@ -99,8 +99,8 @@ class Funcionarios_model extends CI_Model
     {
         $this->db->where('cpf', $cpf);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->get('ci_funcionarios');
-
-        return $this->db->affected_rows() > 0;
+        $query = $this->db->get('ci_funcionarios');
+        
+        return $query->row_array();
     }
 }
