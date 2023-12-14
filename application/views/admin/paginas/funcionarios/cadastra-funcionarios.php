@@ -31,7 +31,7 @@
                                                 class="dz-preview-cover d-flex align-items-center justify-content-center mb-2 mb-md-0 col-md-auto">
                                                 <div class="icon-box div-preview avatar avatar-4xl">
                                                     <img class=" image-preview rounded-circle avatar-placeholder"
-                                                        src="<?= base_url((isset($funcionario['foto_perfil']) ? 'uploads/funcionarios/perfil/'.$funcionario['foto_perfil'] : 'assets/img/icons/sem_foto.jpg')) ?>"
+                                                        src="<?= base_url_upload((isset($funcionario['foto_perfil']) ? 'funcionarios/perfil/'.$funcionario['foto_perfil'] : 'assets/img/icons/sem_foto.jpg')) ?>"
                                                         data-dz-thumbnail="data-dz-thumbnail">
                                                 </div>
                                             </div>
@@ -126,6 +126,14 @@
                                                 <div class="invalid-feedback">Preencha este campo.</div>
                                             </div>
 
+                                            <div class="mb-2 col-md-4">
+                                                <label class="form-label" for="basic-form-dob">Data de validade
+                                                    (CNH)</label>
+                                                <input class="form-control input-data"
+                                                    value="<?= isset($funcionario['data_cnh']) ? $funcionario['data_cnh'] : "" ?>"
+                                                    placeholder="dd/mm/yyyy" id="basic-form-dob" type="date">
+                                            </div>
+
 
                                             <!-- Cadastro de documentos -->
 
@@ -138,14 +146,6 @@
                                             <div class="mb-2 col-md-4">
                                                 <label class="form-label">Upload CNH</label>
                                                 <input accept="image/*" id="" class="form-control inputCnh" type="file">
-                                            </div>
-
-                                            <div class="mb-2 col-md-4">
-                                                <label class="form-label" for="basic-form-dob">Data de validade
-                                                    (CNH)</label>
-                                                <input class="form-control input-data"
-                                                    value="<?= isset($funcionario['data_cnh']) ? $funcionario['data_cnh'] : "" ?>"
-                                                    placeholder="dd/mm/yyyy" id="basic-form-dob" type="date">
                                             </div>
 
                                             <div class="mb-2 col-md-4">
