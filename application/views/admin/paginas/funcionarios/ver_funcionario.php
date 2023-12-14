@@ -114,12 +114,12 @@
 
                     <div class="mb-8">
                         <div class="d-flex justify-content-between align-items-center mb-4" id="scrollspyDeals">
-                        <h3>Documentos</h3>
-                            <a href="<?=base_url('funcionarios/formulario/'. $this->uri->segment(3))?>" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
+                            <h3>Documentos</h3>
+                            <a href="<?= base_url('funcionarios/formulario/' . $this->uri->segment(3)) ?>" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
                                 <span class="fa-solid fa-edit me-sm-2"></span>
                                 <span class="d-none d-sm-inline">Editar </span>
                             </a>
-                            
+
                         </div>
 
                         <div class="border-top border-bottom border-200" id="leadDetailsTable">
@@ -135,8 +135,9 @@
                                                     <td>
                                                         <h5><?= strtoupper($v) ?></h5>
                                                     </td>
-                                                    <td class="type align-middle fw-semi-bold py-2 text-end">
-                                                        <a download href="<?= base_url_upload('funcionarios/') . $v . '/' . $funcionario[$coluna] ?>"><span class="me-5 uil uil-file-download h1"></span></a>
+                                                    <td class="type align-right fw-semi-bold py-2 text-end">
+                                                        <a download href="<?= base_url_upload('funcionarios/') . $v . '/' . $funcionario[$coluna] ?>"><span class="me-5 uil uil-file-download h1 text-success"></span></a>
+                                                        <a href="#" class="" onclick="deletaDocumentoFuncionario(<?= $funcionario['id'] ?>, '<?= $funcionario[$coluna] ?>', '<?= $coluna ?>')"><span class="me-5 uil uil-ban h1 text-danger"></span></a>
                                                     </td>
                                                 </tr>
                                         <?php }
@@ -144,13 +145,12 @@
 
                                     </tbody>
                                 </table>
+                                <div class="">
+                                    <a href="#" onclick="deletaDocumentosFuncionario(<?= $funcionario['id'] ?>, '<?= $funcionario[$coluna] ?>', '<?= $coluna ?>')"><span class="btn btn-danger">Excluir todos</span></a>
+                                </div>
                             </div>
-
                         </div>
                     </div>
-
-
-
                 </div>
             </div>
         </div>

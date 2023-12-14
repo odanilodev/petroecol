@@ -57,6 +57,7 @@ class Funcionarios extends CI_Controller
 		$data['funcionario'] = $this->Funcionarios_model->recebeFuncionario($id);
 		$data['documentos'] = ['cnh', 'cpf', 'aso', 'epi', 'registro', 'carteira', 'vacinacao', 'certificados', 'ordem'];
 
+
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/funcionarios/ver_funcionario');
 		$this->load->view('admin/includes/painel/rodape');
@@ -178,7 +179,62 @@ class Funcionarios extends CI_Controller
 		}
 
 		$this->Funcionarios_model->deletaFuncionario($id);
+	}
 
-		redirect('funcionarios');
+	public function deletaDocumentoFuncionario()
+	{
+		$documento = $this->input->post('documento');
+		$id = $this->input->post('id');
+		$coluna = $this->input->post('coluna');
+
+		$retorno = $this->Funcionarios_model->deletaDocumentoFuncionario($id, $documento, $coluna);
+
+		if ($retorno) { // inseriu ou editou
+
+			$response = array(
+				'success' => true,
+				'message' => 'Documento deletado com sucesso!',
+				'type' => "success",
+				'title' => "Sucesso!"
+			);
+		} else { // erro ao inserir ou editar
+
+			$response = array(
+				'success' => false,
+				'message' => "Erro ao excluir o documento!",
+				'type' => "error",
+				'title' => "Algo deu errado!"
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+	public function deletaDocumentosFuncionario()
+	{
+		$documento = $this->input->post('documento');
+		$id = $this->input->post('id');
+		$coluna = $this->input->post('coluna');
+
+		$retorno = $this->Funcionarios_model->deletaDocumentosFuncionario($id, $documento, $coluna);
+
+		if ($retorno) {
+
+			$response = array(
+				'success' => true,
+				'message' => 'Documentos deletados com sucesso!',
+				'type' => "success",
+				'title' => "Sucesso!"
+			);
+		} else {
+
+			$response = array(
+				'success' => false,
+				'message' => "Erro ao excluir os documentos!",
+				'type' => "error",
+				'title' => "Algo deu errado!"
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 }
