@@ -50,20 +50,20 @@ const cadastraRecipienteCliente = () => {
                     return;
                 }
 
-                // adiciona um novo
-                if (data.success && !data.aviso) {
+
+                if (data.success) {
 
                     $('.div-recipientes').append(data.message);
 
-                } else if (data.message == undefined && !data.aviso) {
-
-                    avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação`, 'error', '#');
-
-                } else {
+                } else if (data.message != undefined) {
 
                     avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
 
+                } else {
+                    avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação`, 'error', '#');
+
                 }
+
 
             }
         })

@@ -39,9 +39,13 @@ const cadastraEtiqueta = () => {
 
                     avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}etiquetas`);
 
-                } else {
+                } else if (data.message != undefined) {
 
                     avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
+
+                } else {
+                    
+                    avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação`, 'error', '#');
 
                 }
             }
