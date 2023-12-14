@@ -44,9 +44,9 @@ class Coletas_model extends CI_Model
 
     public function recebeColetasCliente($idCliente)
     {
-        $this->db->select('ci_coletas.*, ci_funcionarios.nome as nome_motorista');
+        $this->db->select('ci_coletas.*, ci_funcionarios.nome as nome_responsavel');
         $this->db->from('ci_coletas');
-        $this->db->join('ci_funcionarios', 'ci_coletas.id_motorista = ci_funcionarios.id', 'left');
+        $this->db->join('ci_funcionarios', 'ci_coletas.id_responsavel = ci_funcionarios.id', 'left');
         $this->db->where('ci_coletas.id_cliente', $idCliente);
         $this->db->where('ci_coletas.id_empresa', $this->session->userdata('id_empresa'));
     

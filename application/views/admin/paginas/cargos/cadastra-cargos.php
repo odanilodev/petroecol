@@ -32,7 +32,7 @@
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label class="form-label">Responsavel Agendamento</label>
+                                                    <label class="form-label">Responsável Agendamento</label>
                                                     <input class="input-responsavelagendamento" type="checkbox"<?= isset($cargo['responsavel_agendamento']) && $cargo['responsavel_agendamento'] ? 'checked' : '' ?>>
                                                 </div>
 
