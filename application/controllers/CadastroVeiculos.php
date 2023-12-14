@@ -81,12 +81,18 @@ class CadastroVeiculos extends CI_Controller
 			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 		}
 
-		if (!empty($_FILES['documento']['name'])) {
+		if (!empty($_FILES['documento']['name']) && !$id) {
 			$dados['documento'] =  $this->upload_imagem->uploadImagem('documento', './uploads/veiculos/documento');
+		} else {
+			$imagemAntiga = $this->CadastroVeiculos_model->recebeVeiculo($id);
+			$dados['documento'] = $this->upload_imagem->uploadEditarImagem('documento', './uploads/veiculos/documento', $imagemAntiga['documento']);
 		}
 
 		if (!empty($_FILES['fotoCarro']['name'])) {
 			$dados['fotocarro'] =  $this->upload_imagem->uploadImagem('fotoCarro', './uploads/veiculos/fotocarro');
+		}else {
+			$imagemAntiga = $this->CadastroVeiculos_model->recebeVeiculo($id);
+			$dados['fotocarro'] = $this->upload_imagem->uploadEditarImagem('fotoCarro', './uploads/veiculos/fotocarro', $imagemAntiga['fotocarro']);
 		}
 
 		$retorno = $id ? $this->CadastroVeiculos_model->editaVeiculo($id, $dados) : $this->CadastroVeiculos_model->insereNovoVeiculo($dados); // se tiver ID edita se não INSERE
