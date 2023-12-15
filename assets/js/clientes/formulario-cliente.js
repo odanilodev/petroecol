@@ -42,13 +42,10 @@ const verificaCampos = () => {
         }
     });
 
-    if ($('.select-dia-fixo').attr('required')) {
-        
-        if($('.select-dia-fixo').val() == null) {
+    if ($('.select-dia-fixo').attr('required') && !$('.select-dia-fixo').val()) {
 
-            permissao = false;
+        permissao = false;
 
-        }
     }
 
     if (camposVazios.length) {
@@ -240,9 +237,9 @@ const verificaRecipienteCliente = (id) => {
                     data: {
                         id: id
                     }, success: function () {
-    
+
                         avisoRetorno('Sucesso!', 'Cliente deletado com sucesso!', 'success', `${baseUrl}clientes`);
-    
+
                     }
                 })
 

@@ -137,7 +137,7 @@
                           </div>
                         </div>
 
-                        <div class="mb-2 mt-5 col-md-3 fixo-coleta <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] || isset($cliente['frequencia']) && $cliente['frequencia'] == "Fixo") ? "d-block" : "d-none"?>  ">
+                        <div class="mb-2 mt-5 col-md-3 fixo-coleta <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo']) || isset($cliente['frequencia']) && $cliente['frequencia'] == "Fixo" ? "d-block" : "d-none"?>  ">
                           <div class="mb-2">
                             <label class="form-label text-900">Dia da Semana *</label>
                             <select name="dia_coleta_fixo" class="form-select campo-empresa select-dia-fixo">
