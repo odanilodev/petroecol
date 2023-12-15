@@ -166,18 +166,6 @@ class Funcionarios extends CI_Controller
 	{
 		$id = $this->input->post('id');
 
-		$imagemAntiga = $this->Funcionarios_model->recebeFuncionario($id);
-
-		if ($imagemAntiga['foto_perfil']) {
-			$caminho = './uploads/funcionarios/perfil' . $imagemAntiga['foto_perfil'];
-			unlink($caminho);
-		}
-
-		if ($imagemAntiga['foto_cnh']) {
-			$caminho = './uploads/funcionarios/cnh' . $imagemAntiga['foto_cnh'];
-			unlink($caminho);
-		}
-
 		$this->Funcionarios_model->deletaFuncionario($id);
 	}
 
