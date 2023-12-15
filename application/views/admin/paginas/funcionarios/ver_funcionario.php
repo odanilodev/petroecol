@@ -141,8 +141,8 @@
                                                         <h5><?= strtoupper($v) ?></h5>
                                                     </td>
                                                     <td class="type align-right fw-semi-bold py-2 text-end">
-                                                        <a download href="<?= base_url_upload('funcionarios/') . $v . '/' . $funcionario[$coluna] ?>"><span class="me-5 uil uil-file-download h2 text-dark"></span></a>
-                                                        <a href="#" class="" onclick="deletaDocumentoFuncionario(<?= $funcionario['id'] ?>, '<?= htmlspecialchars(json_encode($col_arquivos), ENT_QUOTES, 'UTF-8') ?>')"><span class="me-5 uil uil-ban h2 text-danger"></span></a>
+                                                        <a download title="Download do documento" href="<?= base_url_upload('funcionarios/') . $v . '/' . $funcionario[$coluna] ?>"><span class="me-5 uil uil-file-download h2 text-dark"></span></a>
+                                                        <a href="#" class="" title="Excluir documento" onclick="deletaDocumentoFuncionario(<?= $funcionario['id'] ?>, '<?= htmlspecialchars(json_encode($col_arquivos), ENT_QUOTES, 'UTF-8') ?>')"><span class="me-5 uil uil-ban h2 text-danger"></span></a>
                                                     </td>
                                                 </tr>
                                         <?php }
@@ -151,7 +151,7 @@
                                     </tbody>
                                 </table>
                                 <?php if ($btn_excluir_todos) { ?>
-                                    <a onclick="deletaDocumentoFuncionario(<?= $funcionario['id'] ?>, '<?= htmlspecialchars(json_encode($col_arquivos), ENT_QUOTES, 'UTF-8') ?>')"><span class="btn btn-danger">Excluir todos</span></a>
+                                    <a class="my-2" style="margin-right:15px; display:flex; float:right" onclick="deletaDocumentoFuncionario(<?= $funcionario['id'] ?>, '<?= htmlspecialchars(json_encode($col_arquivos), ENT_QUOTES, 'UTF-8') ?>')"><span class="btn btn-danger">Excluir todos</span></a>
                                 <?php } ?>
                             </div>
                         </div>
