@@ -104,40 +104,11 @@ class Funcionarios_model extends CI_Model
         return $query->row_array();
     }
 
-    public function deletaDocumentoFuncionario($id, $documento, $coluna)
-    {
-        $this->db->where('id', $id);
-        $this->db->where($coluna, $documento);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $data = array(
-            $coluna => null
-        );
-        $this->db->update('ci_funcionarios', $data);
-
-        if ($this->db->affected_rows()) {
-            $this->Log_model->insereLog($id);
-        }
-
-        return $this->db->affected_rows() > 0;
-    }
-    public function deletaDocumentosFuncionario($id)
+    public function deletaDocumentoFuncionario($id, $dados)
     {
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-
-        $data = array(
-            'foto_cnh' => null,
-            'foto_cpf' => null,
-            'foto_aso' => null,
-            'foto_epi' => null,
-            'foto_carteira' => null,
-            'foto_registro' => null,
-            'foto_vacinacao' => null,
-            'foto_certificados' => null,
-            'foto_ordem' => null,
-        );
-
-        $this->db->update('ci_funcionarios', $data);
+        $this->db->update('ci_funcionarios', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);

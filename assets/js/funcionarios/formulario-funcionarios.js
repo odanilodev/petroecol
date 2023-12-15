@@ -123,7 +123,7 @@ const deletarFuncionario= (id) => {
 
 }
 
-const deletaDocumentoFuncionario = (id, documento, coluna) => {
+const deletaDocumentoFuncionario = (id, coluna) => {
 
     Swal.fire({
         title: 'Você tem certeza?',
@@ -144,7 +144,6 @@ const deletaDocumentoFuncionario = (id, documento, coluna) => {
                 url: `${baseUrl}funcionarios/deletaDocumentoFuncionario`,
                 data: {
                     id: id,
-                    documento: documento,
                     coluna: coluna
                 }, success: function (data) {
 

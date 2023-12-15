@@ -183,53 +183,39 @@ class Funcionarios extends CI_Controller
 
 	public function deletaDocumentoFuncionario()
 	{
-		$documento = $this->input->post('documento');
 		$id = $this->input->post('id');
 		$coluna = $this->input->post('coluna');
+		$coluna_array = json_decode($coluna, true);
 
-		$retorno = $this->Funcionarios_model->deletaDocumentoFuncionario($id, $documento, $coluna);
+		$funcionario = $this->Funcionarios_model->recebeFuncionario($id);
+		$deletou = false;
 
-		if ($retorno) { // inseriu ou editou
+		foreach ($coluna_array as $coluna) {
+
+			$dados[$coluna] = null;
+			$retorno = $this->Funcionarios_model->deletaDocumentoFuncionario($id, $dados);
+			$pasta = explode('_', $coluna);
+
+			if ($retorno) {
+				$caminho = './uploads/' . $this->session->userdata('id_empresa') . '/' . 'funcionarios/' . $pasta[1] . '/' . $funcionario[$coluna];
+				unlink($caminho);
+				$deletou = true;
+			}
+		}
+
+		if ($deletou) { // deletou
 
 			$response = array(
 				'success' => true,
-				'message' => 'Documento deletado com sucesso!',
+				'message' => 'Documento(s) deletado com sucesso!',
 				'type' => "success",
 				'title' => "Sucesso!"
 			);
-		} else { // erro ao inserir ou editar
+		} else { // erro ao deletar
 
 			$response = array(
 				'success' => false,
 				'message' => "Erro ao excluir o documento!",
-				'type' => "error",
-				'title' => "Algo deu errado!"
-			);
-		}
-
-		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-	}
-	public function deletaDocumentosFuncionario()
-	{
-		$documento = $this->input->post('documento');
-		$id = $this->input->post('id');
-		$coluna = $this->input->post('coluna');
-
-		$retorno = $this->Funcionarios_model->deletaDocumentosFuncionario($id, $documento, $coluna);
-
-		if ($retorno) {
-
-			$response = array(
-				'success' => true,
-				'message' => 'Documentos deletados com sucesso!',
-				'type' => "success",
-				'title' => "Sucesso!"
-			);
-		} else {
-
-			$response = array(
-				'success' => false,
-				'message' => "Erro ao excluir os documentos!",
 				'type' => "error",
 				'title' => "Algo deu errado!"
 			);
