@@ -112,15 +112,9 @@ const deletarFuncionario= (id) => {
                     id: id
                 }, success: function (data) {  
 
-                    if (data.success) {
+                    let redirect = data.type != 'error' ? `${baseUrl}funcionarios/` : '#';
 
-                        avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${baseUrl}funcionarios`);
-
-                    } else {
-                        
-                        avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${baseUrl}funcionarios`);
-
-                    }
+                    avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
                 }
             })
