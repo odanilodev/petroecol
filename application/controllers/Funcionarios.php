@@ -57,6 +57,7 @@ class Funcionarios extends CI_Controller
 		$data['funcionario'] = $this->Funcionarios_model->recebeFuncionario($id);
 		$data['documentos'] = ['cnh', 'cpf', 'aso', 'epi', 'registro', 'carteira', 'vacinacao', 'certificados', 'ordem'];
 
+
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/funcionarios/ver_funcionario');
 		$this->load->view('admin/includes/painel/rodape');
@@ -165,20 +166,49 @@ class Funcionarios extends CI_Controller
 	{
 		$id = $this->input->post('id');
 
-		$imagemAntiga = $this->Funcionarios_model->recebeFuncionario($id);
-
-		if ($imagemAntiga['foto_perfil']) {
-			$caminho = './uploads/funcionarios/perfil' . $imagemAntiga['foto_perfil'];
-			unlink($caminho);
-		}
-
-		if ($imagemAntiga['foto_cnh']) {
-			$caminho = './uploads/funcionarios/cnh' . $imagemAntiga['foto_cnh'];
-			unlink($caminho);
-		}
-
 		$this->Funcionarios_model->deletaFuncionario($id);
+	}
 
-		redirect('funcionarios');
+	public function deletaDocumentoFuncionario()
+	{
+		$id = $this->input->post('id');
+		$coluna = $this->input->post('coluna');
+		$coluna_array = json_decode($coluna, true);
+
+		$funcionario = $this->Funcionarios_model->recebeFuncionario($id);
+		$deletou = false;
+
+		foreach ($coluna_array as $coluna) {
+
+			$dados[$coluna] = null;
+			$retorno = $this->Funcionarios_model->deletaDocumentoFuncionario($id, $dados);
+			$pasta = explode('_', $coluna);
+
+			if ($retorno) {
+				$caminho = './uploads/' . $this->session->userdata('id_empresa') . '/' . 'funcionarios/' . $pasta[1] . '/' . $funcionario[$coluna];
+				unlink($caminho);
+				$deletou = true;
+			}
+		}
+
+		if ($deletou) { // deletou
+
+			$response = array(
+				'success' => true,
+				'message' => 'Documento(s) deletado com sucesso!',
+				'type' => "success",
+				'title' => "Sucesso!"
+			);
+		} else { // erro ao deletar
+
+			$response = array(
+				'success' => false,
+				'message' => "Erro ao excluir o documento!",
+				'type' => "error",
+				'title' => "Algo deu errado!"
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 }
