@@ -110,9 +110,17 @@ const deletarFuncionario= (id) => {
                 url: `${baseUrl}funcionarios/deletaFuncionario`,
                 data: {
                     id: id
-                }, success: function () {
+                }, success: function (data) {  
 
-                    avisoRetorno('Sucesso!', 'Funcionario deletado com sucesso!', 'success', `${baseUrl}funcionarios`);
+                    if (data.success) {
+
+                        avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${baseUrl}funcionarios`);
+
+                    } else {
+                        
+                        avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${baseUrl}funcionarios`);
+
+                    }
 
                 }
             })
