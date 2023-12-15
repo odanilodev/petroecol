@@ -372,24 +372,24 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
 
       $(document).on('change', '.data-modal', function () {
 
-        changeValuesModal('.data-modal', 'data');
+        alteraMomentoColeta('.data-modal', 'data');
 
       })
 
       $(document).on('change', '.hora-modal', function () {
 
-        changeValuesModal('.hora-modal', 'hora');
+        alteraMomentoColeta('.hora-modal', 'hora');
 
       })
 
       $(document).on('change', '.periodo-modal', function () {
 
-        changeValuesModal('.periodo-modal', 'periodo');
+        alteraMomentoColeta('.periodo-modal', 'periodo');
 
       })
 
 
-      function changeValuesModal(classe, atributo) {
+      function alteraMomentoColeta(classe, atributo) {
 
         let momentoColeta = $(classe).data(atributo); // data ou hora ou periodo atual
 
