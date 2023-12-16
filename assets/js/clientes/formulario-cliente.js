@@ -42,6 +42,11 @@ const verificaCampos = () => {
         }
     });
 
+    if ($('.select-dia-fixo').attr('required') && !$('.select-dia-fixo').val()) {
+
+        permissao = false;
+
+    }
 
     if (camposVazios.length) {
 
@@ -58,9 +63,13 @@ const verificaCampos = () => {
 $(document).on('change', '.select-frequencia', function () {
 
     if ($('.select-frequencia option:selected').text() == "Fixo") {
+
         $('.fixo-coleta').removeClass('d-none');
         $('.select-dia-fixo').attr('required', true);
+
     } else {
+
+        $('.select-dia-fixo').val('');
         $('.fixo-coleta').addClass('d-none');
         $('.select-dia-fixo').attr('required', false);
     }
@@ -228,9 +237,9 @@ const verificaRecipienteCliente = (id) => {
                     data: {
                         id: id
                     }, success: function () {
-    
+
                         avisoRetorno('Sucesso!', 'Cliente deletado com sucesso!', 'success', `${baseUrl}clientes`);
-    
+
                     }
                 })
 
