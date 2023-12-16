@@ -193,7 +193,7 @@ const concluirRomaneio = (codRomaneio, idResponsavel) => {
 
             }, success: function (data) {
 
-                exibirDadosClientes(data.retorno, data.registros, data.residuos);
+                exibirDadosClientes(data.retorno, data.registros, data.residuos, data.pagamentos);
             }
         })
 
@@ -201,7 +201,7 @@ const concluirRomaneio = (codRomaneio, idResponsavel) => {
 
 }
 
-function exibirDadosClientes(clientes, registros, residuos) {
+function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
 
     for (let i = 0; i < registros; i++) {
 
@@ -221,38 +221,50 @@ function exibirDadosClientes(clientes, registros, residuos) {
 
                     <div class="accordion-body pt-0 row">
 
-                        <div class="col-md-3 mb-2">
+                        <div class="col-md-6 mb-2">
 
                             <label class="form-label">Endereço</label>
                             <input class="form-control input-endereco input-obrigatorio" type="text" placeholder="Endereço do cliente" value="${clientes[i].rua} - ${clientes[i].numero} / ${clientes[i].cidade}">
                         </div>
 
-                        <div class="col-md-3 mb-2">
+                        <div class="col-md-6 mb-2">
 
                             <label class="form-label">Telefone</label>
                             <input class="form-control input-telefone input-obrigatorio" type="text" placeholder="Telefone" value="${clientes[i].telefone}">
 
                         </div>
 
-                        <div class="col-md-3 mb-2">
+                        <div class="col-md-4 mb-2 div-pagamento">
 
                             <label class="form-label">Forma de Pagamento</label>
-                            <input class="form-control input-pagamento input-obrigatorio" type="text" placeholder="Forma de Pagamento" value="">
+                            <select class="form-select select-pagamento w-100 input-obrigatorio" id="select-pagamento" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+
+                                <option disabled selected value="">Selecione</option>
+                                
+                            </select>
                         </div>
 
-                        <div class="col-md-3 mb-2">
+                        <div class="col-md-4 mb-2 div-pagamento">
 
                             <label class="form-label">Valor Pago</label>
-                            <input class="form-control input-valor-pago input-obrigatorio" type="text" placeholder="Valor pago" value="">
+                            <input class="form-control input-pagamento input-obrigatorio" type="text" placeholder="Digite valor pago" value="">
                         </div>
 
-                        <div class="col-md-4 mb-2 div-residuos">
+                        <div class="col-md-4 mb-2 mt-4 row">
+
+                            <button class="btn btn-info duplicar-pagamento w-25">+</button>
+
+                        </div>
+
+                        <div class="pagamentos-duplicados"></div>
+
+                        <div class="col-md-4 mb-2 div-residuo">
 
                             <label class="form-label">Resíduo Coletado</label>
                             
                             <select class="form-select select-residuo w-100 input-obrigatorio" id="select-residuo" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
 
-                                <option disabled selected value="">Selecione residuos</option>
+                                <option disabled selected value="">Selecione</option>
                                 
                             </select>
 
@@ -260,8 +272,8 @@ function exibirDadosClientes(clientes, registros, residuos) {
 
                         <div class="col-md-4 mb-2">
 
-                            <label class="form-label">Quantidade Coletado</label>
-                            <input class="form-control input-qtd-coletado input-obrigatorio" type="text" placeholder="Quantidade de resíduo coletado" value="">
+                            <label class="form-label">Quantidade Coletada</label>
+                            <input class="form-control input-residuo input-obrigatorio" type="text" placeholder="Digite quantidade coletada" value="">
                         </div>
 
                         <div class="col-md-4 mb-2 mt-4 row">
@@ -270,7 +282,9 @@ function exibirDadosClientes(clientes, registros, residuos) {
 
                         </div>
 
-                        <div class="div-obs antiga-obs">
+                        <div class="residuos-duplicados"></div>
+
+                        <div class="div-obs">
 
                             <div class="col-12">
                                 <label class="form-label">Observação</label>
@@ -289,8 +303,6 @@ function exibirDadosClientes(clientes, registros, residuos) {
 
                         </div>
 
-                        <div class="nova-obs row div-obs"></div>
-
                     </div>
                 </div>
             </div>
@@ -298,66 +310,66 @@ function exibirDadosClientes(clientes, registros, residuos) {
 
         $('.dados-clientes-div').append(dadosClientes);
 
-        // residuos do cliente no select
-
-
-
-
-
     }
 
+    // residuos no select
     for (c = 0; c < residuos.length; c++) {
 
         var optionResiduos = `<option value="${residuos[c].id}">${residuos[c].nome}</option>`;
         $('.select-residuo').append(optionResiduos);
     }
+
+    // formas de pagamento no select
+    for (c = 0; c < pagamentos.length; c++) {
+
+        var optionPagamentos = `<option value="${pagamentos[c].id}">${pagamentos[c].forma_pagamento}</option>`;
+        $('.select-pagamento').append(optionPagamentos);
+    }
 }
 
 
-$(document).on('click', '.duplicar-residuo', function () {
+// duplica forma de pagamento e residuos
+function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
+
     // Pega os options do select
-    let optionsResiduo = $(this).closest('.accordion-item').find('.select-residuo').html();
+    let options = $(btnClicado).closest('.accordion-item').find('.select-' + novoElemento).html();
 
-    let divObs = $(this).closest('.accordion-item').find('.div-obs').html();
-
-    let selectResiduos = `
-        <div class="col-md-4 mb-2 div-residuos">
-            <label class="form-label">Resíduo Coletado</label>
-            <select class="form-select select-residuo w-100" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
-                ${optionsResiduo}
+    let selectHtml = `
+        <div class="col-md-4 mb-2 div-${novoElemento}">
+            <select class="form-select select-${novoElemento} w-100" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                ${options}
             </select>
         </div>
     `;
 
-    let qtdResiduos = `
-        <div class="col-md-4 mb-2">
-            <label class="form-label">Quantidade Coletada</label>
-            <input class="form-control input-qtd-coletado" type="text" placeholder="Digite a quantidade" value="">
+    let inputHtml = `
+        <div class="col-md-4 mb-2 div-${novoElemento}">
+            <input class="form-control input-${novoElemento}" type="text" placeholder="Digite ${novoInput}" value="">
         </div>
     `;
 
-    // Cria uma nova div com a classe 'row' para cada conjunto de elementos duplicados
-    let newRow = $('<div class="row"></div>');
+    // div com row para cada grupo ficar em row diferente
+    let novaLinha = $('<div class="row"></div>');
 
-    // Adiciona os novos elementos dentro da nova div
-    newRow.append(selectResiduos);
-    newRow.append(qtdResiduos);
+    // imprime os elementos dentro da div row
+    novaLinha.append(selectHtml);
+    novaLinha.append(inputHtml);
 
-    // Identifica o elemento pai do botão clicado (accordion-item)
-    let parentAccordionItem = $(this).closest('.accordion-item');
+    $(btnClicado).closest('.accordion-item').find(`.${classe}`).append(novaLinha);
 
-    // Adiciona a nova div dentro do accordion-item
-    parentAccordionItem.find('.accordion-body').append(newRow);
+}
 
-    $(this).closest('.accordion-item').find('.div-obs').remove();
+$(document).on('click', '.duplicar-residuo', function () {
 
-    let novaObs = `<div class="div-obs">${divObs}</div>`;
-
-    parentAccordionItem.find('.accordion-body').append(novaObs);
+    duplicarElemento(this, 'residuo', 'quantidade coletada', 'residuos-duplicados');
 
 });
 
+$(document).on('click', '.duplicar-pagamento', function () {
 
+    duplicarElemento(this, 'pagamento', 'valor pago', 'pagamentos-duplicados');
+
+});
 
 
 $(document).on('click', '.nao-coletado', function () {
@@ -415,7 +427,7 @@ function finalizarRomaneio() {
             $(this).removeClass('invalido');
 
         }
-        
+
     })
 
     let dadosClientes = [];
@@ -425,14 +437,15 @@ function finalizarRomaneio() {
 
     $('.accordion-item').each(function () {
 
-        if($(this).find('.nao-coletado').is(':checked')){
+        if ($(this).find('.nao-coletado').is(':checked')) {
 
             var coletado = 0;
 
-        }else{
+        } else {
             var coletado = 1;
         }
 
+        // valores resíduos 
         let residuosSelecionados = [];
 
         $(this).find('.select-residuo option:selected').each(function () {
@@ -441,19 +454,32 @@ function finalizarRomaneio() {
 
         let qtdResiduos = [];
 
-        $(this).find('.input-qtd-coletado').each(function () {
+        $(this).find('.input-residuo').each(function () {
             qtdResiduos.push($(this).val());
+        });
+
+        // valores pagamentos
+        let formaPagamentoSelecionados = [];
+
+        $(this).find('.div-pagamento .select-pagamento option:selected').each(function () {
+            formaPagamentoSelecionados.push($(this).val());
+        });
+
+        let valorPagamento = [];
+
+        $(this).find('.div-pagamento .input-pagamento').each(function () {
+
+            valorPagamento.push($(this).val());
         });
 
         let dadosCliente = {
             idCliente: $(this).find('.input-id-cliente').val(),
             endereco: $(this).find('.input-endereco').val(),
-            pagamento: $(this).find('.input-pagamento').val(),
-            ultimaColeta: $(this).find('.input-ultima-coleta').val(),
-            valorPago: $(this).find('.input-valor-pago').val(),
-            coletado: coletado,
             residuos: residuosSelecionados,
             qtdColetado: qtdResiduos,
+            pagamento: formaPagamentoSelecionados,
+            valor: valorPagamento,
+            coletado: coletado,
             obs: $(this).find('.input-obs').val()
         };
 
