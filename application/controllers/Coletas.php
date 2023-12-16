@@ -11,11 +11,15 @@ class Coletas extends CI_Controller
         $this->load->library('Controle_sessao');
         $res = $this->controle_sessao->controle();
         if ($res == 'erro') {
-            redirect('login/erro', 'refresh');
+            if ($this->input->is_ajax_request()) {
+                $this->output->set_status_header(403);
+                exit();
+            } else {
+                redirect('login/erro', 'refresh');
+            }
         }
         // FIM controle sessão
         $this->load->model('Coletas_model');
-        
     }
 
     public function cadastraColeta()
@@ -25,7 +29,7 @@ class Coletas extends CI_Controller
         $payload = $this->input->post('clientes');
         $codRomaneio = $this->input->post('codRomaneio');
         $idResponsavel = $this->input->post('idResponsavel');
-    
+
         foreach ($payload as $cliente) {
             $dados = array(
                 'id_cliente' => $cliente['idCliente'],
@@ -36,14 +40,14 @@ class Coletas extends CI_Controller
                 'valor_pago' => $cliente['valorPago'],
                 'observacao' => $cliente['obs'],
                 'coletado' => $cliente['coletado'],
-                'data_coleta' => date('Y-m-d H:i:s'), 
-                'cod_romaneio' => $codRomaneio, 
+                'data_coleta' => date('Y-m-d H:i:s'),
+                'cod_romaneio' => $codRomaneio,
                 'id_empresa' => $this->session->userdata('id_empresa'),
 
             );
-    
+
             $retorno = $this->Coletas_model->insereColeta($dados);
-            
+
             $data['status'] = 1;
 
             $this->Romaneios_model->editaRomaneioCodigo($codRomaneio, $data);
@@ -55,17 +59,14 @@ class Coletas extends CI_Controller
                 );
             }
         }
-    
+
         if (empty($response)) {
             $response = array(
                 'success' => true,
                 'message' => 'Coleta(s) cadastrada(s) com sucesso.'
             );
         }
-    
+
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
-    
-    
-
 }

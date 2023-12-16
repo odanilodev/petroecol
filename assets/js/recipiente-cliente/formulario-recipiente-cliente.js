@@ -50,21 +50,23 @@ const cadastraRecipienteCliente = () => {
                     return;
                 }
 
-
                 if (data.success) {
 
                     $('.div-recipientes').append(data.message);
 
-                } else if (data.message != undefined) {
+                } else {
 
                     avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
 
-                } else {
-                    avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação`, 'error', '#');
-
                 }
 
+            }, error: function (xhr, status, error) {
 
+                $('.load-form').addClass('d-none');
+                $('.btn-form').removeClass('d-none');
+                if (xhr.status === 403) {
+                    avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação..`, 'error', '#');
+                }
             }
         })
     }

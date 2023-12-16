@@ -481,17 +481,17 @@ function finalizarRomaneio() {
                 $('.load-form-modal-romaneio').addClass('d-none');
 
                 if (data.success) {
-
                     avisoRetorno('Sucesso!', 'O romaneio foi concluído com sucesso', 'success', `${baseUrl}romaneios`);
-
-
-                } else if (data.message != undefined) {
-
-                    avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
-
                 } else {
-                    avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação`, 'error', '#');
+                    avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
+                }
 
+            },  error: function (xhr, status, error) {
+                
+                $('.btn-finaliza-romaneio').removeClass('d-none');
+                $('.load-form-modal-romaneio').addClass('d-none');
+                if (xhr.status === 403) {
+                    avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação..`, 'error', '#');
                 }
             }
 
