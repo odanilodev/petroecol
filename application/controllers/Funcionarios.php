@@ -171,7 +171,25 @@ class Funcionarios extends CI_Controller
 	{
 		$id = $this->input->post('id');
 
-		$this->Funcionarios_model->deletaFuncionario($id);
+		$retorno = $this->Funcionarios_model->deletaFuncionario($id);
+		
+		if ($retorno) {
+			$response = array(
+				'success' => true,
+				'title' => "Sucesso!",
+				'message' => "Funcionário deletado com sucesso!",
+				'type' => "success"
+			);
+		} else {
+		
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Não foi possivel deletar o funcionário!",
+				'type' => "error"
+			);
+		}
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
 	public function deletaDocumentoFuncionario()
