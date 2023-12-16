@@ -48,7 +48,7 @@
 
               <select class="form-select w-100 cliente-agendamento" id="select-cliente" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
 
-                <option disabled selected value="">Selecione o Cliente</option>
+                <option disabled selected value="">Selecione o Cliente *</option>
                 <?php foreach ($clientes as $v) { ?>
                   <option value="<?= $v['id'] ?>"><?= strtoupper($v['nome']); ?></option>
                 <?php } ?>
@@ -61,7 +61,7 @@
 
               <div class="form-floating">
                 <input class="form-control datetimepicker data-agendamento" id="eventStartDate" type="text" name="startDate" placeholder="yyyy/mm/dd hh:mm" data-options='{"disableMobile":true,"dateFormat":"Y-m-d"}' /><span class="uil uil-calendar-alt flatpickr-icon text-700"></span>
-                <label class="ps-6" for="eventStartDate">Data de Coleta</label>
+                <label class="ps-6" for="eventStartDate">Data de Coleta *</label>
               </div>
 
             </div>
@@ -73,6 +73,20 @@
                 <span class="uil uil-clock flatpickr-icon text-700"></span>
                 <label class="ps-6" for="timepicker1">Horário</label>
               </div>
+
+            </div>
+
+            <div class="mb-3">
+
+              <select class="form-select w-100 periodo-agendamento">
+
+                <option disabled selected value="">Período de Coleta (opcional)</option>
+
+                  <option value="Manhã">Manhã</option>
+                  <option value="Tarde">Tarde</option>
+                  <option value="Noite">Noite</option>
+                
+              </select>
 
             </div>
 

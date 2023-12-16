@@ -111,6 +111,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
                   <th scope="col">Telefone</th>
                   <th scope="col">Data</th>
                   <th scope="col">Hora</th>
+                  <th scope="col">Período</th>
                   <th scope="col"></th>
                   <th scope="col"></th>
                 </tr>
@@ -283,7 +284,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
       });
 
       // adiciona um novo agendamento
-      const salvaAgendamento = (cliente, data, horario, obs, id) => {
+      const salvaAgendamento = (cliente, data, horario, periodo, obs, id) => {
 
         let dataNova = data;
 
@@ -292,7 +293,8 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
         if (!cliente || !data) {
           permissao = false;
 
-          alert('campos vazios'); return;
+          avisoRetorno('Algo deu errado', 'Preencha os campos obrigatórios', 'error', '#');
+          return;
         }
 
         if (permissao) {
@@ -311,6 +313,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
               cliente: cliente,
               data: dataNova,
               horario: horario,
+              periodo: periodo,
               obs: obs,
               id: id
             },
@@ -319,6 +322,8 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
               $('.btn-envia').addClass('d-none');
             },
             success: function (data) {
+
+              $('.periodo-agendamento').val('');
 
               $('.load-form').addClass('d-none');
               $('.btn-envia').removeClass('d-none');
@@ -355,69 +360,56 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
         let cliente = $('.cliente-agendamento').val();
         let data = $('.data-agendamento').val();
         let horario = $('.horario-agendamento').val();
+        let periodo = $('.periodo-agendamento').val();
         let obs = $('.obs-agendamento').val();
 
         let id = $('.input-id').val();
 
-        salvaAgendamento(cliente, data, horario, obs, id);
+        salvaAgendamento(cliente, data, horario, periodo, obs, id);
 
       })
 
 
       $(document).on('change', '.data-modal', function () {
 
-        let dataColetaAtual = $(this).data('data');
-        let idCliente = $(this).data('id');
-        let obs = $(this).data('obs');
-        let idAgendamento = $(this).data('agendamento');
-        let horaColeta = $(`.hora-modal-${idCliente}`).val();
-
-        if (dataColetaAtual != $(this).val()) {
-
-          $(`.detalhes-modal-${idCliente}`).addClass('d-none');
-          $(`.salva-modal-${idCliente}`).removeClass('d-none');
-
-          let data = $(this).val().split('/');
-
-          let dataFormatada = `${data[2]}-${data[1]}-${data[0]}`;
-
-          $(`.salva-modal-${idCliente}`).attr('data-cliente', idCliente);
-          $(`.salva-modal-${idCliente}`).attr('data-data', dataFormatada);
-          $(`.salva-modal-${idCliente}`).attr('data-hora', horaColeta);
-          $(`.salva-modal-${idCliente}`).attr('data-obs', obs);
-          $(`.salva-modal-${idCliente}`).attr('data-agendamento', idAgendamento);
-
-        } else {
-
-          $(`.detalhes-modal-${idCliente}`).removeClass('d-none');
-          $(`.salva-modal-${idCliente}`).addClass('d-none');
-
-        }
+        alteraMomentoColeta('.data-modal', 'data');
 
       })
 
       $(document).on('change', '.hora-modal', function () {
 
-        let horaColetaAtual = $(this).data('hora');
-        let idCliente = $(this).data('id');
-        let obs = $(this).data('obs');
-        let idAgendamento = $(this).data('agendamento');
+        alteraMomentoColeta('.hora-modal', 'hora');
+
+      })
+
+      $(document).on('change', '.periodo-modal', function () {
+
+        alteraMomentoColeta('.periodo-modal', 'periodo');
+
+      })
+
+
+      function alteraMomentoColeta(classe, atributo) {
+
+        let momentoColeta = $(classe).data(atributo); // data ou hora ou periodo atual
+
+        let idCliente = $(classe).data('id');
+        let obs = $(classe).data('obs');
+        let idAgendamento = $(classe).data('agendamento');
 
         let data = $(`.data-modal-${idCliente}`).val().split('/');
-
         let dataFormatada = `${data[2]}-${data[1]}-${data[0]}`;
 
-        if (horaColetaAtual != $(this).val()) {
+        if (momentoColeta != $(classe).val()) {
 
           $(`.detalhes-modal-${idCliente}`).addClass('d-none');
           $(`.salva-modal-${idCliente}`).removeClass('d-none');
-
-          $(`.salva-modal-${idCliente}`).attr('data-hora', $(this).val());
-
           $(`.salva-modal-${idCliente}`).attr('data-cliente', idCliente);
-          $(`.salva-modal-${idCliente}`).attr('data-data', dataFormatada);
-          $(`.salva-modal-${idCliente}`).attr('data-agendamento', idAgendamento);
+          $(`.salva-modal-${idCliente}`).attr('data-hora', $('.hora-modal').val());
+          $(`.salva-modal-${idCliente}`).attr('data-periodo', $('.periodo-modal').val());
           $(`.salva-modal-${idCliente}`).attr('data-obs', obs);
+          $(`.salva-modal-${idCliente}`).attr('data-agendamento', idAgendamento);
+          $(`.salva-modal-${idCliente}`).attr('data-data', dataFormatada);
 
         } else {
 
@@ -426,18 +418,20 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
 
         }
 
-      })
+
+      }
+
 
       $(document).on('click', '.btn-salva-modal', function () {
 
         let idCliente = $(this).data('cliente');
         let dataNova = $(this).data('data');
-
+        let periodoNovo = $(this).data('periodo');
         let horaNova = $(this).data('hora');
         let idAgendamento = $(this).data('agendamento');
         let obs = $(this).data('obs');
 
-        salvaAgendamento(idCliente, dataNova, horaNova, obs, idAgendamento);
+        salvaAgendamento(idCliente, dataNova, horaNova, periodoNovo, obs, idAgendamento);
 
       })
 
@@ -769,6 +763,21 @@ const exibirClientesAgendados = (dataColeta, prioridade) => {
             <td>
            
             <input class="form-control datetimepicker2 flatpickr-input hora-modal hora-modal-${cliente.id_cliente}" id="timepicker1" type="text" placeholder="hora : minuto" data-options="{&quot;noCalendar&quot;:true,&quot;dateFormat&quot;:&quot;H:i&quot;,&quot;disableMobile&quot;:true}" readonly="readonly" value="${cliente.hora_coleta}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
+
+        
+            </td>
+
+            <td>
+           
+              <select class="form-select w-100 periodo-modal periodo-modal-${cliente.id_cliente}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
+
+                <option disabled selected value="">Período de Coleta</option>
+
+                <option ${cliente.periodo_coleta == "Manhã" ? "selected" : ""} value="Manhã">Manhã</option>
+                <option ${cliente.periodo_coleta == "Tarde" ? "selected" : ""} value="Tarde">Tarde</option>
+                <option ${cliente.periodo_coleta == "Noite" ? "selected" : ""} value="Noite">Noite</option>
+                
+              </select>
 
         
             </td>
