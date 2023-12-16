@@ -306,32 +306,42 @@
                             <th></th>
                           </tr>
                           <tr>
-                            <td class="py-2">
+
+                          <td class="py-2">
                               <div class="d-flex align-items-center">
-                                <div class="d-flex bg-success-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                  <span class="text-success-600 dark__text-success-300" data-feather="inbox" style="width:16px; height:16px"></span>
-                                </div>
-                                <p class="fw-bold mb-0">Comodato</p>
-                                <input type='hidden' class='alerta-comodato' value="<?= $this->session->flashdata('aviso-comodato') ?>">
+                                  <div class="d-flex bg-success-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                      <span class="text-success-600 dark__text-success-300" data-feather="inbox" style="width:16px; height:16px"></span>
+                                  </div>
+                                  <p class="fw-bold mb-0">Comodato</p>
+                                  <input type='hidden' class='alerta-comodato' value="<?= $this->session->flashdata('aviso-comodato') ?>">
+                                  <input type='hidden' class='alerta-comodato-deletado' value="<?= $this->session->flashdata('aviso-comodato-deletado') ?>">
                               </div>
-                            </td>
-                            <?php if (!empty($cliente['comodato'])) : ?>
+                          </td>
+
+                          <?php if (!empty($cliente['comodato'])) : ?>
                               <td class="py-2">
-                                <!-- Botão de Download -->
-                                <a href="<?= base_url('clientes/downloadComodato/'.$cliente['id']) ?>" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
-                                    <span class="fa-solid fa-download me-sm-2"></span>
-                                    <span class="d-none d-sm-inline">Download</span>
-                                </a>
+                                  <!-- Botão de Download -->
+                                  <a href="<?= base_url_upload('clientes/comodato/'.$cliente['comodato']) ?>" download class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
+                                      <span class="fa-solid fa-download me-sm-2"></span>
+                                      <span class="d-none d-sm-inline">Download</span>
+                                  </a>
                               </td>
-                            <?php endif; ?>
-                            <td class="py-2">
-                            <!-- Botão de Upload -->
-                            <a data-bs-toggle="modal" data-bs-target=".modal-comodato" href="#" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
-                                <span class="fa-solid fa-upload me-sm-2"></span>
-                                <span class="d-none d-sm-inline">Cadastrar</span>
-                            </a>
-                            </td>
-                        </td>
+                          <?php endif; ?>
+
+                          <td class="py-2">
+                              <!-- Botão de Upload/Modificar -->
+                              <?php if (!empty($cliente['comodato'])) : ?>
+                                  <a data-bs-toggle="modal" data-bs-target=".modal-comodato" href="#" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
+                                      <span class="fa-solid fa-upload me-sm-2"></span>
+                                      <span class="d-none d-sm-inline">Modificar</span>
+                                  </a>
+                              <?php else : ?>
+                                  <a data-bs-toggle="modal" data-bs-target=".modal-comodato" href="#" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
+                                      <span class="fa-solid fa-upload me-sm-2"></span>
+                                      <span class="d-none d-sm-inline">Cadastrar</span>
+                                  </a>
+                              <?php endif; ?>
+                          </td>
 
                           </tr>
                         </table>
@@ -496,7 +506,6 @@
 
             <?php foreach($coletas as $c){ ?>
 
-
             <?php if($c['coletado'] == 1){ ?>
             <div class="border-bottom py-4">
               <div class="d-flex">
@@ -563,6 +572,10 @@
                       </div>
                       <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                          <?php if (!empty($cliente['comodato'])) : ?>
+                              <!-- Botão de Deletar -->
+                              <a href="<?= base_url('clientes/deletaComodato/'.$cliente['id'].'/'.urlencode($cliente['comodato'])) ?>" class="btn btn-danger">Deletar</a>
+                          <?php endif; ?>
                           <button type="submit" class="btn btn-primary">Enviar</button>
                       </div>
                   </form>
@@ -570,6 +583,3 @@
           </div>
       </div>
   </div>
-
-
-

@@ -7103,3 +7103,23 @@ function alteraTema() {
 
   }
 }
+
+// Cria alerta com flashdata
+$(document).ready(function(){
+
+  let tipo_alerta = $('.retorno-funcao').val();
+
+  let texto_alerta =  $('.retorno-funcao').data('texto');
+
+  let titulo_alerta =  $('.retorno-funcao').data('titulo');
+
+  let redirect_alerta =  $('.retorno-funcao').data('redirect');
+
+  if (tipo_alerta) {
+
+      avisoRetorno(titulo_alerta, texto_alerta, tipo_alerta, redirect_alerta);
+      
+  }
+
+
+})

@@ -186,47 +186,55 @@ class Clientes extends CI_Controller
 
         $cliente = $this->Clientes_model->recebeCliente($id);
 
-        if(empty($cliente['comodato'])){
-            $dados['comodato'] = $this->upload_imagem->uploadImagem('comodato', './uploads/clientes/comodato');
-        }else{
-            $dados['comodato'] = $this->upload_imagem->uploadEditarImagem('comodato', './uploads/clientes/comodato', $cliente['comodato']);
-        }
+        $arrayUpload = [
+			'comodato' => ['clientes/comodato', $cliente['comodato'] ?? null],
+		];
+
+		$dados = $this->upload_imagem->uploadImagem($arrayUpload);
 
         $retorno = $this->Clientes_model->editaCliente($id, $dados);
 
 		if ($retorno) {
-            $this->session->set_flashdata('aviso-comodato', 'success');
+            $this->session->set_flashdata('tipo_retorno_funcao', 'success');
+            $this->session->set_flashdata('redirect_retorno_funcao', '#');
+            $this->session->set_flashdata('titulo_retorno_funcao', 'Cadastrado com sucesso!');
+            $this->session->set_flashdata('texto_retorno_funcao', 'Comodato cadastrado com sucesso!');
         } else {
-            $this->session->set_flashdata('aviso-comodato', 'error');
+         
+           $this->session->set_flashdata('tipo_retorno_funcao', 'error');
+           $this->session->set_flashdata('redirect_retorno_funcao', '#');
+           $this->session->set_flashdata('titulo_retorno_funcao', 'Não foi possivel deletar!');
+           $this->session->set_flashdata('texto_retorno_funcao', 'O comodato nao pode ser deletado no momento!');
         }
 
         redirect('clientes/detalhes/'.$id);
     }
 
-
-    public function downloadComodato($id)
+    public function  deletaComodato()
     {
-        $this->load->helper('download');
+        $id = $this->uri->segment(3);
 
-        $cliente = $this->Clientes_model->recebeCliente($id);
+        $nome_arquivo = urldecode($this->uri->segment(4));
 
-        // Verifica se o comodato existe no registro do cliente
-        if (!isset($cliente['comodato']) || empty($cliente['comodato'])) {
-            // Comodato não existe no banco, redireciona para a página de detalhes
-            redirect('clientes/detalhes/' . $id);
-        }
+        $dados['comodato'] = null;
+        $retorno = $this->Clientes_model->editaCliente($id, $dados);
 
-        $path = "./uploads/clientes/comodato/{$cliente['comodato']}";
-
-        // Verifica se o arquivo físico existe
-        if (file_exists($path)) {
-            $arquivoPath = base_url($path);
-            $data = file_get_contents($path);
-            force_download($arquivoPath, $data);
+        if ($retorno) {
+            $caminho = './uploads/' . $this->session->userdata('id_empresa') . '/' . 'clientes/comodato/' . $nome_arquivo;
+            unlink($caminho);
+            $deletou = true;
+            $this->session->set_flashdata('tipo_retorno_funcao', 'success');
+            $this->session->set_flashdata('redirect_retorno_funcao', '#');
+            $this->session->set_flashdata('texto_retorno_funcao', 'Deletado com sucesso!');
+            $this->session->set_flashdata('titulo_retorno_funcao', 'Sucesso!');
         } else {
-            // Arquivo físico não existe, redireciona para a página de detalhes
-            redirect('clientes/detalhes/'.$id);
+            $this->session->set_flashdata('tipo_retorno_funcao', 'error');
+            $this->session->set_flashdata('redirect_retorno_funcao', '#');
+            $this->session->set_flashdata('texto_retorno_funcao', 'Não foi possivel deletar o comodato!');
+            $this->session->set_flashdata('titulo_retorno_funcao', 'Algo deu errado!');
         }
+
+        redirect('clientes/detalhes/'.$id);
     }
 
     public function insereSql()
