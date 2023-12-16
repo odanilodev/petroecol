@@ -178,6 +178,65 @@ class Clientes extends CI_Controller
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
+    public function cadastraComodato()
+    {
+        $this->load->library('upload_imagem');
+
+        $id = $this->input->post('id');
+
+        $cliente = $this->Clientes_model->recebeCliente($id);
+
+        $arrayUpload = [
+			'comodato' => ['clientes/comodato', $cliente['comodato'] ?? null],
+		];
+
+		$dados = $this->upload_imagem->uploadImagem($arrayUpload);
+
+        $retorno = $this->Clientes_model->editaCliente($id, $dados);
+
+		if ($retorno) {
+            $this->session->set_flashdata('tipo_retorno_funcao', 'success');
+            $this->session->set_flashdata('redirect_retorno_funcao', '#');
+            $this->session->set_flashdata('titulo_retorno_funcao', 'Cadastrado com sucesso!');
+            $this->session->set_flashdata('texto_retorno_funcao', 'Comodato cadastrado com sucesso!');
+        } else {
+         
+           $this->session->set_flashdata('tipo_retorno_funcao', 'error');
+           $this->session->set_flashdata('redirect_retorno_funcao', '#');
+           $this->session->set_flashdata('titulo_retorno_funcao', 'Não foi possivel deletar!');
+           $this->session->set_flashdata('texto_retorno_funcao', 'O comodato nao pode ser deletado no momento!');
+        }
+
+        redirect('clientes/detalhes/'.$id);
+    }
+
+    public function  deletaComodato()
+    {
+        $id = $this->uri->segment(3);
+
+        $nome_arquivo = urldecode($this->uri->segment(4));
+
+        $dados['comodato'] = null;
+        $retorno = $this->Clientes_model->editaCliente($id, $dados);
+
+        if ($retorno) {
+            $caminho = './uploads/' . $this->session->userdata('id_empresa') . '/' . 'clientes/comodato/' . $nome_arquivo;
+            unlink($caminho);
+            $deletou = true;
+            $this->session->set_flashdata('tipo_retorno_funcao', 'success');
+            $this->session->set_flashdata('redirect_retorno_funcao', '#');
+            $this->session->set_flashdata('texto_retorno_funcao', 'Deletado com sucesso!');
+            $this->session->set_flashdata('titulo_retorno_funcao', 'Sucesso!');
+        } else {
+            $this->session->set_flashdata('tipo_retorno_funcao', 'error');
+            $this->session->set_flashdata('redirect_retorno_funcao', '#');
+            $this->session->set_flashdata('texto_retorno_funcao', 'Não foi possivel deletar o comodato!');
+            $this->session->set_flashdata('titulo_retorno_funcao', 'Algo deu errado!');
+        }
+
+        redirect('clientes/detalhes/'.$id);
+    }
+
     public function insereSql()
     {
         $this->load->view('admin/paginas/clientes/sql-cliente');

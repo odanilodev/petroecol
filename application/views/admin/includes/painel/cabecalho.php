@@ -37,7 +37,7 @@
 
     <input type="hidden" value="<?= base_url(); ?>" class="base-url">
 
-    <input type="hidden" value="<?= $this->session->flashdata('retorno_funcao'); ?>" class="retorno-funcao">
+    <input type="hidden" value="<?= $this->session->flashdata('tipo_retorno_funcao'); ?>" class="retorno-funcao" data-texto="<?= $this->session->flashdata('texto_retorno_funcao'); ?>" data-titulo="<?= $this->session->flashdata('titulo_retorno_funcao'); ?>" data-redirect="<?= $this->session->flashdata('redirect_retorno_funcao'); ?>">
 
     <main class="main" id="top">
 
