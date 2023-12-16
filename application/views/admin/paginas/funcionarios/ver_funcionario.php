@@ -130,11 +130,12 @@
                                         <?php
                                         $col_arquivos = [];
                                         $btn_excluir_todos = false;
+                                        $i = 1;
                                         foreach ($documentos as $v) {
                                             $coluna = "foto_$v";
                                             if ($funcionario[$coluna]) {
                                                 $col_arquivos[] = trim($coluna);
-                                                $btn_excluir_todos = true;
+                                                $btn_excluir_todos = $i > 1 ? true : false ;
                                         ?>
                                                 <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                                     <td>
@@ -142,10 +143,10 @@
                                                     </td>
                                                     <td class="type align-right fw-semi-bold py-2 text-end">
                                                         <a download title="Download do documento" href="<?= base_url_upload('funcionarios/') . $v . '/' . $funcionario[$coluna] ?>"><span class="me-5 uil uil-file-download h2 text-dark"></span></a>
-                                                        <a href="#" class="" title="Excluir documento" onclick="deletaDocumentoFuncionario(<?= $funcionario['id'] ?>, '<?= htmlspecialchars(json_encode($col_arquivos), ENT_QUOTES, 'UTF-8') ?>')"><span class="me-5 uil uil-ban h2 text-danger"></span></a>
+                                                        <a href="#" class="" title="Excluir documento" onclick="deletaDocumentoFuncionario(<?= $funcionario['id'] ?>, '<?= htmlspecialchars(json_encode([$coluna]), ENT_QUOTES, 'UTF-8') ?>')"><span class="me-5 uil uil-ban h2 text-danger"></span></a>
                                                     </td>
                                                 </tr>
-                                        <?php }
+                                        <?php $i++; }
                                         } ?>
 
                                     </tbody>

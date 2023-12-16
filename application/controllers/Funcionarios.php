@@ -167,7 +167,7 @@ class Funcionarios extends CI_Controller
 		$id = $this->input->post('id');
 
 		$retorno = $this->Funcionarios_model->deletaFuncionario($id);
-
+		
 		if ($retorno) {
 			$response = array(
 				'success' => true,
@@ -176,6 +176,7 @@ class Funcionarios extends CI_Controller
 				'type' => "success"
 			);
 		} else {
+		
 			$response = array(
 				'success' => false,
 				'title' => "Algo deu errado!",

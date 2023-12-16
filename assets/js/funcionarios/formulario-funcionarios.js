@@ -116,7 +116,8 @@ const deletarFuncionario= (id) => {
 
                     avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
-                }
+                },
+        
             })
 
         }
