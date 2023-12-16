@@ -7,10 +7,17 @@ class Recipientes extends CI_Controller
 	{
 		parent::__construct();
 
-		// INICIO controle sessão
+		//INICIO controle sessão
         $this->load->library('Controle_sessao');
         $res = $this->controle_sessao->controle();
-        if($res == 'erro'){ redirect('login/erro', 'refresh');}
+        if ($res == 'erro') {
+            if ($this->input->is_ajax_request()) {
+                $this->output->set_status_header(403);
+                exit();
+            } else {
+                redirect('login/erro', 'refresh');
+            }
+        }
         // FIM controle sessão
 
 		$this->load->model('recipientes_model');

@@ -50,14 +50,9 @@ const cadastraRecipienteCliente = () => {
                     return;
                 }
 
-                // adiciona um novo
-                if (data.success && !data.aviso) {
+                if (data.success) {
 
                     $('.div-recipientes').append(data.message);
-
-                } else if (data.message == undefined && !data.aviso) {
-
-                    avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação`, 'error', '#');
 
                 } else {
 
@@ -65,6 +60,13 @@ const cadastraRecipienteCliente = () => {
 
                 }
 
+            }, error: function (xhr, status, error) {
+
+                $('.load-form').addClass('d-none');
+                $('.btn-form').removeClass('d-none');
+                if (xhr.status === 403) {
+                    avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação..`, 'error', '#');
+                }
             }
         })
     }

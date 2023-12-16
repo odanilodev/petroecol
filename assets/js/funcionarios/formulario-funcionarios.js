@@ -28,8 +28,8 @@ const cadastraFuncionario = () => {
     formData.append('id', id);
     formData.append('nome', nome);
     formData.append('telefone', telefone);
-    formData.append('residencia',residencia);
-    formData.append('salario_base',salario_base);
+    formData.append('residencia', residencia);
+    formData.append('salario_base', salario_base);
     formData.append('id_cargo', id_cargo);
     formData.append('cpf', cpf);
     formData.append('data_cnh', dataCnh);
@@ -46,7 +46,7 @@ const cadastraFuncionario = () => {
     formData.append('foto_ordem', fotoOrdem);
 
     var permissao = false;
-  
+
     // Valida se veio nome
     if (nome != "" && cpf != "") {
 
@@ -84,12 +84,20 @@ const cadastraFuncionario = () => {
                     }
 
                 }
+
+            },  error: function (xhr, status, error) {
+                
+                $('.load-form').addClass('d-none');
+                $('.btn-envia').removeClass('d-none');
+                if (xhr.status === 403) {
+                    avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação..`, 'error', '#');
+                }
             }
         });
     }
 }
 
-const deletarFuncionario= (id) => {
+const deletarFuncionario = (id) => {
 
     Swal.fire({
         title: 'Você tem certeza?',
