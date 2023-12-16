@@ -36,7 +36,7 @@
                                 </th>
 
                                 <th class="sort align-middle">Código</th>
-                                <th class="sort align-middle">Motorista</th>
+                                <th class="sort align-middle">Responsável</th>
                                 <th class="sort align-middle">Data Romaneio</th>
                                 <th class="sort align-middle">Gerado em</th>
                                 <th class="sort align-middle p-3">Gerar</th>
@@ -61,7 +61,7 @@
                                     </td>
 
                                     <td class="mobile_number align-middle white-space-nowrap">
-                                        <?= $v['MOTORISTA']; ?>
+                                        <?= $v['RESPONSAVEL']; ?>
                                     </td>
 
                                     <td class="mobile_number align-middle white-space-nowrap">
@@ -79,9 +79,9 @@
                                     </td>
 
                                     <td class="align-middle white-space-nowrap">
-                                        <a onclick='concluirRomaneio(<?= $v["codigo"] ?>, <?= $v["ID_MOTORISTA"]?>)' class="btn <?= $v['status'] != 1 ? 'btn-secondary' : 'btn-success' ?>">
+                                        <button <?= $v['status'] == 1 ? 'disabled' : '' ?> type="button" onclick='concluirRomaneio(<?= $v["codigo"] ?>, <?= $v["ID_RESPONSAVEL"] ?>)' class="btn <?= $v['status'] != 1 ? 'btn-secondary' : 'btn-success' ?>">
                                             <span class="ms-1" data-feather="check-circle"></span>
-                                        </a>
+                                        </button>
                                     </td>
 
                                 </tr>
@@ -122,7 +122,7 @@
 
                     <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
                     <button type="button" class="btn btn-primary btn-finaliza-romaneio" onclick="finalizarRomaneio()">Gerar Romaneio</button>
-                    <input type="hidden" class="id_motorista">
+                    <input type="hidden" class="id_responsavel">
                     <input type="hidden" class="code_romaneio">
                 </div>
             </div>

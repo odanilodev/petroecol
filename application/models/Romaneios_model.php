@@ -23,6 +23,19 @@ class Romaneios_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
+    public function editaRomaneioCodigo($codigo, $dados)
+    {
+        $this->db->where('codigo', $codigo);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->update('ci_romaneios', $dados);
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($codigo);
+        }
+
+        return $this->db->affected_rows() > 0;
+    }
+
     public function recebeRomaneioCod($codigo)
     {
         $this->db->where('codigo', $codigo);
@@ -35,9 +48,9 @@ class Romaneios_model extends CI_Model
 
     public function recebeUltimosRomaneios()
     {
-        $this->db->select('R.*, F.nome as MOTORISTA, F.id as ID_MOTORISTA');
+        $this->db->select('R.*, F.nome as RESPONSAVEL, F.id as ID_RESPONSAVEL');
         $this->db->from('ci_romaneios R');
-        $this->db->join('ci_funcionarios F', 'F.id = R.id_motorista', 'INNER');
+        $this->db->join('ci_funcionarios F', 'F.id = R.id_responsavel', 'INNER');
         $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->limit(60);
         $this->db->order_by('R.criado_em', 'DESC');

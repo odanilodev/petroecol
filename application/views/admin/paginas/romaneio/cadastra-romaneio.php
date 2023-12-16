@@ -116,7 +116,7 @@
                 </div>
                 <div class="modal-footer">
 
-                    <select class="form-select w-60 campo-obrigatorio" id="select-motorista">
+                    <select class="form-select w-60 campo-obrigatorio" id="select-responsavel">
                         <option selected disabled>Selecione o responsável</option>
                         <?php
 

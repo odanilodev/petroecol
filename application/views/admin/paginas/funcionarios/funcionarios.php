@@ -60,7 +60,7 @@
                                     href="<?= base_url('funcionarios/detalhes/').$v['id'] ?>">
                                     <div class="avatar avatar-m">
                                         <img class="rounded-circle"
-                                            src="<?= $v['foto_perfil'] ? base_url('uploads/funcionarios/perfil/' . ($v['foto_perfil'])) : base_url('assets/img/icons/sem_foto.jpg') ?>">
+                                            src="<?= $v['foto_perfil'] ? base_url_upload('funcionarios/perfil/' . ($v['foto_perfil'])) : base_url('assets/img/icons/sem_foto.jpg') ?>">
                                     </div>
                                     <h6 class="mb-0 ms-3 fw-semi-bold"><?= $v['nome'] ?></h6>
                                 </a>

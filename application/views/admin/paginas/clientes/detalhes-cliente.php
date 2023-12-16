@@ -505,7 +505,7 @@
                   <div class="d-flex justify-content-between flex-column flex-xl-row mb-2 mb-sm-0">
                     <div class="flex-1 me-2">
                       <h5 class="text-1000 lh-sm">Coleta realizada</h5>
-                      <p class="fs--1 mb-0">Por<a class="ms-1" href="#!"><?= $c['nome_motorista'] ?></a></p>
+                      <p class="fs--1 mb-0">Por<a class="ms-1" href="#!"><?= $c['nome_responsavel'] ?></a></p>
                     </div>
                     <div class="fs--1"><span class="fa-regular fa-calendar-days text-primary me-2">
                     </span><span class="fw-semi-bold"><?= date('d/m/Y', strtotime($c['data_coleta'])) ?>
@@ -524,7 +524,7 @@
                   <div class="d-flex justify-content-between flex-column flex-xl-row mb-2 mb-sm-0">
                     <div class="flex-1 me-2">
                       <h5 class="text-1000 lh-sm">Coleta não realizada</h5>
-                      <p class="fs--1 mb-0">Por<a class="ms-1" href="#!"><?= $c['nome_motorista'] ?></a></p>
+                      <p class="fs--1 mb-0">Por<a class="ms-1" href="#!"><?= $c['nome_responsavel'] ?></a></p>
                     </div>
                     <div class="fs--1"><span class="fa-regular fa-calendar-days text-primary me-2">
                     </span><span class="fw-semi-bold"><?= date('d/m/Y', strtotime($c['data_coleta'])) ?>

@@ -7,13 +7,18 @@ class Romaneios extends CI_Controller
 	{
 		parent::__construct();
 
-		// INICIO controle sessão
-		$this->load->library('Controle_sessao');
-		$res = $this->controle_sessao->controle();
-		if ($res == 'erro') {
-			redirect('login/erro', 'refresh');
-		}
-		// FIM controle sessão
+		//INICIO controle sessão
+        $this->load->library('Controle_sessao');
+        $res = $this->controle_sessao->controle();
+        if ($res == 'erro') {
+            if ($this->input->is_ajax_request()) {
+                $this->output->set_status_header(403);
+                exit();
+            } else {
+                redirect('login/erro', 'refresh');
+            }
+        }
+        // FIM controle sessão
 
 		$this->load->model('Etiquetas_model');
 		$this->load->model('EtiquetaCliente_model');
@@ -47,7 +52,7 @@ class Romaneios extends CI_Controller
 		$codigo = time();
 
 		// dados para gravar no banco
-		$dados['id_motorista'] = $this->input->post('motorista');
+		$dados['id_responsavel'] = $this->input->post('responsavel');
 		$dados['data_romaneio'] = $this->input->post('data_coleta');
 		$dados['clientes'] = json_encode($this->input->post('clientes')); // Recebe um array e depois passa os dados por JSON
 		$dados['codigo'] = $codigo;
@@ -129,17 +134,20 @@ class Romaneios extends CI_Controller
 
 		$clientesRomaneio = $this->Clientes_model->recebeClientesRomaneio($idsClientes);
 
-
 		// residuos
         $this->load->model('Residuos_model');
 
         $residuos = $this->Residuos_model->recebeTodosResiduos();
 
-		// echo "<pre>"; print_r($residuos); exit;
+		// formas de pagamentos
+        $this->load->model('FormaPagamento_model');
+
+        $formas_pagamentos = $this->FormaPagamento_model->recebeFormasPagamento();
 
 		$response = array(
 			'retorno' => $clientesRomaneio,
 			'residuos' => $residuos,
+			'pagamentos' => $formas_pagamentos,
 			'registros' => count($clientesRomaneio)
 		);
 

@@ -1,58 +1,53 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Upload_imagem {
+class Upload_imagem
+{
     protected $CI;
 
 
-    function uploadImagem($nomeCampo, $diretorio)
+    function uploadImagem(array $arrayUpload, string $type = '*', $size = null): array
     {
-        if (!empty($_FILES[$nomeCampo]['name'])) {
-            $config['upload_path'] = $diretorio;
-            $config['allowed_types'] = 'jpg|jpeg|png|pdf|docx';
+        $CI = &get_instance();
 
-            $CI = &get_instance(); // Obtém uma referência à instância do CodeIgniter
+        if ($arrayUpload) {
+            $dados = [];
+            foreach ($arrayUpload as $nomeCampo => $option) { //$option[0] => caminho,  $option[1] => Imagem antiga
 
-            $CI->load->library('upload', $config);
-            $CI->upload->initialize($config);
+                if (!empty($_FILES[$nomeCampo]['name'])) {
 
-            if ($CI->upload->do_upload($nomeCampo)) {
-                $dados_imagem = $CI->upload->data();
-                return $dados_imagem['file_name'];
+                    $config['upload_path'] = './uploads/' . $CI->session->userdata('id_empresa') . '/' . $option[0];
+                    $config['allowed_types'] = $type;
+
+                    if ($size) {
+                        $config['max_size'] = $size;
+                    }
+
+                    // Verifica se a pasta existe, se não, cria
+                    if (!is_dir($config['upload_path'])) {
+                        mkdir($config['upload_path'], 0777, true);
+                    }
+
+                    // Deleta a imagem antiga do servidor
+                    if ($option[1] && file_exists($config['upload_path'] . '/' . $option[1])) {
+                        unlink($config['upload_path'] . '/' . $option[1]);
+                    }
+
+                    $CI->load->library('upload', $config);
+                    $CI->upload->initialize($config);
+
+                    if ($CI->upload->do_upload($nomeCampo)) {
+                        $dados_imagem = $CI->upload->data();
+                        $dados[$nomeCampo] = $dados_imagem['file_name'];
+                    } else {
+                        echo $CI->upload->display_errors();
+                        exit;
+                    }
+                }
             }
+            return $dados;
         }
 
-        return null;
+        return [];
     }
-
-
-    function uploadEditarImagem($nomeCampo, $diretorio, $imagemAntiga)
-    {
-        // Verifica se veio imagem
-        if (!empty($_FILES[$nomeCampo]['name'])) {
-            $config['upload_path'] = $diretorio;
-            $config['allowed_types'] = 'jpg|jpeg|png|pdf|docx';
-
-            $CI = &get_instance(); // Obtém uma referência à instância do CodeIgniter
-
-            $CI->load->library('upload', $config);
-            $CI->upload->initialize($config);
-
-            // Deleta a imagem antiga do servidor
-            if ($imagemAntiga && file_exists($diretorio . '/' . $imagemAntiga)) {
-                unlink($diretorio . '/' . $imagemAntiga);
-            }
-
-            if ($CI->upload->do_upload($nomeCampo)) {
-                $dados_imagem = $CI->upload->data();
-                return $dados_imagem['file_name'];
-            }
-        } else {
-            // Se não veio imagem, mantém a imagem antiga
-            return $imagemAntiga;
-        }
-
-        return null;
-    }
-
 }

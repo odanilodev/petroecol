@@ -53,7 +53,7 @@
 
         <div style="margin-top: 2px;">
             <nobr>
-                <span style="font-size: 13px; max-width: 25%;">Motorista:</span>
+                <span style="font-size: 13px; max-width: 25%;">Responsavel:</span>
                 <span style="margin-left: 8%; font-size: 13px; max-width: 25%;">Ajudante:</span>
                 <span style="margin-left: 8%; font-size: 13px; max-width: 25%;">Placa: </span>
             </nobr>

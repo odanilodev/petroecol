@@ -44,6 +44,13 @@ const cadastraEtiqueta = () => {
                     avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
 
                 }
+            },  error: function (xhr, status, error) {
+                
+                $('.load-form').addClass('d-none');
+                $('.btn-envia').removeClass('d-none');
+                if (xhr.status === 403) {
+                    avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação..`, 'error', '#');
+                }
             }
         });
     }

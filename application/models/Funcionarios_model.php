@@ -22,19 +22,19 @@ class Funcionarios_model extends CI_Model
     }
 
     public function recebeFuncionario($id)
-        {
-            $this->db->select('F.*, C.nome as funcao_nome');
-            $this->db->from('ci_funcionarios F');
-            $this->db->join('ci_cargos C', 'C.id = F.id_cargo', 'left');
-            $this->db->where('F.id', $id);
-            $this->db->where('F.status', 1);
-            $this->db->where('F.id_empresa', $this->session->userdata('id_empresa'));
-            $this->db->limit(1);
+    {
+        $this->db->select('F.*, C.nome as funcao_nome');
+        $this->db->from('ci_funcionarios F');
+        $this->db->join('ci_cargos C', 'C.id = F.id_cargo', 'left');
+        $this->db->where('F.id', $id);
+        $this->db->where('F.status', 1);
+        $this->db->where('F.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->limit(1);
 
-            $query = $this->db->get();
-            
-            return $query->row_array();
-        }
+        $query = $this->db->get();
+
+        return $query->row_array();
+    }
 
     public function recebeResponsavelAgendamento()
     {
@@ -47,11 +47,11 @@ class Funcionarios_model extends CI_Model
         $this->db->where('C.responsavel_agendamento', 1);
         $this->db->where('F.status', 1);
         $this->db->where('F.id_empresa', $this->session->userdata('id_empresa'));
-        
+
         $this->db->order_by('C.nome', 'DESC');
 
         $query = $this->db->get();
-        
+
         return $query->result_array();
     }
 
@@ -99,7 +99,20 @@ class Funcionarios_model extends CI_Model
     {
         $this->db->where('cpf', $cpf);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->get('ci_funcionarios');
+        $query = $this->db->get('ci_funcionarios');
+
+        return $query->row_array();
+    }
+
+    public function deletaDocumentoFuncionario($id, $dados)
+    {
+        $this->db->where('id', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->update('ci_funcionarios', $dados);
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id);
+        }
 
         return $this->db->affected_rows() > 0;
     }

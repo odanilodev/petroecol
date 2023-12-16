@@ -7,53 +7,66 @@ class Coletas extends CI_Controller
     {
         parent::__construct();
 
-        // INICIO controle sessão
+        //INICIO controle sessão
         $this->load->library('Controle_sessao');
         $res = $this->controle_sessao->controle();
         if ($res == 'erro') {
-            redirect('login/erro', 'refresh');
+            if ($this->input->is_ajax_request()) {
+                $this->output->set_status_header(403);
+                exit();
+            } else {
+                redirect('login/erro', 'refresh');
+            }
         }
         // FIM controle sessão
         $this->load->model('Coletas_model');
-        
     }
-
 
     public function cadastraColeta()
     {
-        $clientes = $this->input->post('clientes'); // Recebe a lista de clientes
-    
-        $response = array();
-    
-        foreach ($clientes as $cliente) {
-            $dados['id_cliente'] = $cliente['id_cliente'];
-            $dados['residuos_coletados'] = $cliente['residuos_coletados'];
-            $dados['forma_pagamento'] = $cliente['forma_pagamento'];
-            $dados['quantidade_coletada'] = $cliente['quantidade_coletada'];
-            $dados['valor_pago'] = $cliente['valor_pago'];
-            $dados['observacao'] = $cliente['observacao'];
-            $dados['data_coleta'] = $cliente['data_coleta'];
-            $dados['coletado'] = $cliente['coletado'];
+        $this->load->model('Romaneios_model');
+
+        $payload = $this->input->post('clientes');
+        $codRomaneio = $this->input->post('codRomaneio');
+        $idResponsavel = $this->input->post('idResponsavel');
+
+        foreach ($payload as $cliente) {
+            $dados = array(
+                'id_cliente' => $cliente['idCliente'],
+                'id_responsavel' => $idResponsavel,
+                'residuos_coletados' => json_encode($cliente['residuos']),
+                'forma_pagamento' => json_encode($cliente['pagamento']),
+                'quantidade_coletada' => json_encode($cliente['qtdColetado']),
+                'valor_pago' => json_encode($cliente['valor']),
+                'observacao' => $cliente['obs'],
+                'coletado' => $cliente['coletado'],
+                'data_coleta' => date('Y-m-d H:i:s'),
+                'cod_romaneio' => $codRomaneio,
+                'id_empresa' => $this->session->userdata('id_empresa'),
+
+            );
 
             $retorno = $this->Coletas_model->insereColeta($dados);
-    
-            if ($retorno) {
-                $response[] = array(
-                    'success' => true,
-                    'message' => 'Coleta cadastrada com sucesso.'
-                );
-            } else {
-                $response[] = array(
+
+            $data['status'] = 1;
+
+            $this->Romaneios_model->editaRomaneioCodigo($codRomaneio, $data);
+
+            if (!$retorno) {
+                $response = array(
                     'success' => false,
                     'message' => 'Erro ao cadastrar a coleta.'
                 );
             }
         }
 
+        if (empty($response)) {
+            $response = array(
+                'success' => true,
+                'message' => 'Coleta(s) cadastrada(s) com sucesso.'
+            );
+        }
 
-    
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
-    
-
 }
