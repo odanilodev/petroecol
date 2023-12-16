@@ -299,7 +299,7 @@ function scriptsLoginFooter()
     );
 }
 
-function scriptsCadastroVeiculosFooter()
+function scriptsVeiculosFooter()
 {
     return array(
 
@@ -310,7 +310,7 @@ function scriptsCadastroVeiculosFooter()
     );
 }
 
-function scriptsCadastroVeiculosHead()
+function scriptsVeiculosHead()
 {
     return array(
         

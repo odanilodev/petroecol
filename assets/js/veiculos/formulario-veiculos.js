@@ -28,7 +28,7 @@ const cadastraNovoVeiculo = () => {
 	if (permissao) {
 		$.ajax({
 			type: "post",
-			url: `${baseUrl}cadastroveiculos/cadastraVeiculo`,
+			url: `${baseUrl}veiculos/cadastraVeiculo`,
 			contentType: false,
 			processData: false,
 			data: formData,
@@ -45,7 +45,7 @@ const cadastraNovoVeiculo = () => {
 						"Sucesso!",
 						`${data.message}`,
 						"success",
-						`${baseUrl}cadastroveiculos`
+						`${baseUrl}veiculos`
 					);
 				} else {
 					avisoRetorno("Algo deu errado!", `${data.message}`, "error", "#");
@@ -69,7 +69,7 @@ const deletaVeiculo = (id) => {
 		if (result.isConfirmed) {
 			$.ajax({
 				type: "post",
-				url: `${baseUrl}cadastroveiculos/deletaVeiculo`,
+				url: `${baseUrl}veiculos/deletaVeiculo`,
 				data: {
 					id: id,
 				},
@@ -78,7 +78,7 @@ const deletaVeiculo = (id) => {
 						"Sucesso!",
 						"Veículo deletado com sucesso!",
 						"success",
-						`${baseUrl}cadastroveiculos`
+						`${baseUrl}veiculos`
 					);
 				},
 			});

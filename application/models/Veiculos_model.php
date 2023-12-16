@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class CadastroVeiculos_model extends CI_Model
+class Veiculos_model extends CI_Model
 {
 
     public function __construct()
@@ -37,7 +37,7 @@ class CadastroVeiculos_model extends CI_Model
         return $query->row_array();
     }
 
-    public function insereNovoVeiculo($dados)
+    public function insereVeiculo($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');
 

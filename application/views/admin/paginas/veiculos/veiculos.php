@@ -5,7 +5,7 @@
             <div class="col-auto">
                 <div class="d-flex align-items-center">
                     <button class="btn btn-link text-900 me-4 px-0 d-none"><span class="fa-solid fa-file-export fs--1 me-2"></span>Export</button>
-                    <a href="<?= base_url("cadastroveiculos/formulario") ?>" class="btn btn-primary"><span class="fas fa-plus me-2"></span>Adicionar Veículo</a>
+                    <a href="<?= base_url("veiculos/formulario") ?>" class="btn btn-primary"><span class="fas fa-plus me-2"></span>Adicionar Veículo</a>
                 </div>
             </div>
 
@@ -24,6 +24,7 @@
 
                             <th class="sort align-middle" scope="col" data-sort="customer">Modelo</th>
                             <th class="sort align-middle" scope="col" data-sort="customer">Placa</th>
+                            <th class="sort align-middle pe-3">Detalhes</th>
                             <th class="sort align-middle pe-3">Editar</th>
                             <th class="sort align-middle pe-3">Excluir</th>
                         </tr>
@@ -49,7 +50,13 @@
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="<?= base_url('cadastroveiculos/formulario/' . $v['id']) ?>" class="btn btn-info">
+                                <a href="<?= base_url('veiculos/detalhes/' . $v['id']) ?>" class="btn btn-warning">
+                                    <span class="fas fa-eye ms-1"></span>
+                                </a>
+                            </td>
+
+                                <td class="align-middle white-space-nowrap">
+                                    <a href="<?= base_url('veiculos/formulario/' . $v['id']) ?>" class="btn btn-info">
                                         <span class="fas fa-pencil ms-1"></span>
                                     </a>
                                 </td>
