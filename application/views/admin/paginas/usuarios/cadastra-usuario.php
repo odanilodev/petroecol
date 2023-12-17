@@ -24,7 +24,7 @@
 
                       <div class="dz-preview-cover d-flex align-items-center justify-content-center mb-2 mb-md-0 col-md-auto">
                         <div class="icon-box div-preview avatar avatar-4xl">
-                          <img class=" image-preview rounded-circle avatar-placeholder" src="<?= base_url('uploads/usuarios/' . (isset($usuario['foto_perfil']) ? $usuario['foto_perfil'] : 'sem_foto.jpg')) ?>" data-dz-thumbnail="data-dz-thumbnail">
+                          <img class=" image-preview rounded-circle avatar-placeholder" src="<?= base_url_upload('usuarios/' . (isset($usuario['foto_perfil']) ? $usuario['foto_perfil'] : 'sem_foto.jpg')) ?>" data-dz-thumbnail="data-dz-thumbnail">
                         </div>
                       </div>
 

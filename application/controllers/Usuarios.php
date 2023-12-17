@@ -75,6 +75,8 @@ class Usuarios extends CI_Controller
 
 	public function cadastraUsuario()
 	{
+		$this->load->library('upload_imagem');
+
 		$id = $this->input->post('id');
 
 		$nome = $this->input->post('nome');
@@ -102,31 +104,14 @@ class Usuarios extends CI_Controller
 			$dados['senha'] = password_hash($this->input->post('senha'), PASSWORD_DEFAULT);
 		}
 
-		// Verifica se veio imagem
-		if (!empty($_FILES['imagem']['name'])) {
-			$config['upload_path']   = './uploads/usuarios';
-			$config['allowed_types'] = '*';
+		$imagemAntiga = $this->Usuarios_model->imagemAntiga($id);
 
-			$this->load->library('upload', $config);
+		$arrayUpload = [
+			'foto_perfil'       => ['usuarios', $imagemAntiga['foto_perfil'] ?? null]
+		];
 
-			$imagemAntiga = $this->Usuarios_model->imagemAntiga($id);
-
-			// Deleta a foto de perfil antiga do servidor
-			if ($id && $imagemAntiga['foto_perfil']) {
-
-				$caminho = './uploads/usuarios/' . $imagemAntiga['foto_perfil'];
-
-				if (file_exists($caminho)) {
-
-					unlink($caminho);
-				}
-			}
-
-			if ($this->upload->do_upload('imagem')) {
-				$dados_imagem = $this->upload->data();
-				$dados['foto_perfil'] = $dados_imagem['file_name'];
-			}
-		}
+		$retornoDados = $this->upload_imagem->uploadImagem($arrayUpload);
+		$dados = array_merge($dados, $retornoDados);
 
 		if ($id && $this->input->post('novaSenha')) {
 			$dados['senha'] = password_hash($this->input->post('novaSenha'), PASSWORD_DEFAULT);
@@ -182,13 +167,6 @@ class Usuarios extends CI_Controller
 	public function deletaUsuario()
 	{
 		$id = $this->input->post('id');
-
-		$imagemAntiga = $this->Usuarios_model->imagemAntiga($id);
-
-		if ($imagemAntiga['foto_perfil']) {
-			$caminho = './uploads/usuarios/' . $imagemAntiga['foto_perfil'];
-			unlink($caminho);
-		}
 
 		$this->Usuarios_model->deletaUsuario($id);
 

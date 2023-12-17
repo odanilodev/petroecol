@@ -20,7 +20,7 @@ const cadastraUsuario = () => {
     formData.append('setor', setor);
     formData.append('senha', senha);
     formData.append('id_empresa', empresa.val());
-    formData.append('imagem', imagemInput);
+    formData.append('foto_perfil', imagemInput);
 
     var permissao = true;
 
