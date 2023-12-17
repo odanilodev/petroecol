@@ -24,7 +24,7 @@ class Romaneios extends CI_Controller
 		$this->load->model('EtiquetaCliente_model');
 		$this->load->model('Clientes_model');
 		$this->load->model('Romaneios_model');
-		$this->load->library('gerarromaneio');
+		$this->load->library('gerarRomaneio');
 	}
 
 	public function index()
