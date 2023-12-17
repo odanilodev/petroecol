@@ -9,7 +9,7 @@ const cadastraFormaPagamento = () => {
 	if (permissao) {
 		$.ajax({
 			type: "post",
-			url: `${baseUrl}formapagamento/cadastraFormaPagamento`,
+			url: `${baseUrl}formaPagamento/cadastraFormaPagamento`,
 			data: {
 				formaPagamento: formaPagamento,
 				id: id,
@@ -27,7 +27,7 @@ const cadastraFormaPagamento = () => {
 						"Sucesso!",
 						`${data.message}`,
 						"success",
-						`${baseUrl}formapagamento`
+						`${baseUrl}formaPagamento`
 					);
 				} else {
 					avisoRetorno("Algo deu errado!", `${data.message}`, "error", "#");
@@ -41,7 +41,7 @@ const deletaFormaPagamento = (id) => {
 
 	$.ajax({
 		type: "post",
-		url: `${baseUrl}formapagamento/verificaformapagamentocliente`,
+		url: `${baseUrl}formaPagamento/verificaFormaPagamentoCliente`,
 		data: {
 			id: id,
 		},
@@ -64,13 +64,13 @@ const deletaFormaPagamento = (id) => {
 				if (result.isConfirmed) {
 					$.ajax({
 						type: "post",
-						url: `${baseUrl}formapagamento/deletaFormaPagamento`,
+						url: `${baseUrl}formaPagamento/deletaFormaPagamento`,
 						data: {
 							id: id,
 						},
 						success: function (data) {
 							let redirect =
-								data.type != "error" ? `${baseUrl}formapagamento` : "#";
+								data.type != "error" ? `${baseUrl}formaPagamento` : "#";
 
 							avisoRetorno(
 								`${data.title}`,
