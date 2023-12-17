@@ -357,7 +357,7 @@
                     </li>
                     <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                             <div class="avatar avatar-l ">
-                                <img class="rounded-circle " src="<?= $this->session->userdata('foto_perfil') != '' ? base_url('uploads/usuarios/') . $this->session->userdata('foto_perfil') : base_url('assets/img/icons/sem_foto.jpg') ?>" alt="" />
+                                <img class="rounded-circle " src="<?= $this->session->userdata('foto_perfil') != '' ? base_url_upload('usuarios/') . $this->session->userdata('foto_perfil') : base_url('assets/img/icons/sem_foto.jpg') ?>" alt="" />
 
                             </div>
                         </a>
@@ -366,7 +366,7 @@
                                 <div class="card-body p-0">
                                     <div class="text-center pt-4 pb-3">
                                         <div class="avatar avatar-xl ">
-                                            <img class="rounded-circle " src="<?= $this->session->userdata('foto_perfil') != '' ? base_url('uploads/usuarios/') . $this->session->userdata('foto_perfil') : base_url('assets/img/icons/sem_foto.jpg') ?>" alt="" />
+                                            <img class="rounded-circle " src="<?= $this->session->userdata('foto_perfil') != '' ? base_url_upload('usuarios/') . $this->session->userdata('foto_perfil') : base_url('assets/img/icons/sem_foto.jpg') ?>" alt="" />
                                         </div>
                                         <h6 class="mt-2 text-black"><?= $this->session->userdata('nome_usuario'); ?></h6>
                                     </div>
