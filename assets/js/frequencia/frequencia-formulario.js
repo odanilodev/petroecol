@@ -21,7 +21,7 @@ const cadastraFrequenciaColeta = () => {
 
         $.ajax({
             type: "post",
-            url: `${baseUrl}frequenciacoleta/cadastraFrequenciaColeta`,
+            url: `${baseUrl}frequenciaColeta/cadastraFrequenciaColeta`,
             data: {
                 frequenciaColeta: frequenciaColeta,
                 diaColeta: diaColeta,
@@ -38,7 +38,7 @@ const cadastraFrequenciaColeta = () => {
 
                 if (data.success) {
 
-                    avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}frequenciacoleta`);
+                    avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}frequenciaColeta`);
 
                 } else {
 
@@ -68,12 +68,12 @@ const deletaFrequenciaColeta = (id) => {
 
             $.ajax({
                 type: 'post',
-                url: `${baseUrl}frequenciacoleta/deletaFrequenciaColeta`,
+                url: `${baseUrl}frequenciaColeta/deletaFrequenciaColeta`,
                 data: {
                     id: id
                 }, success: function (data) {
 
-                    let redirect = data.type != 'error' ? `${baseUrl}frequenciacoleta` : '#';
+                    let redirect = data.type != 'error' ? `${baseUrl}frequenciaColeta` : '#';
 
                     avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
