@@ -127,7 +127,10 @@ class Usuarios_model extends CI_Model
     {
         $dados['status'] = 3;
         $this->db->where('id', $id);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        
+        if($this->session->userdata('id_empresa') > 1){
+            $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        }
         $this->db->update('ci_usuarios', $dados);
 
         if ($this->db->affected_rows()) {
