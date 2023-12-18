@@ -11,22 +11,35 @@ class Clientes_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebeClientes($limit, $page, $count = null)
+    public function recebeClientes($cookie_filtro_clientes, $limit, $page, $count = null)
     {
-        if ($count) {
-            $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-            $this->db->where('status', 1);
+        $filtro = json_decode($cookie_filtro_clientes, true);
 
-            $query = $this->db->get('ci_clientes');
-            return $query->num_rows();
+        $this->db->order_by('nome', 'DESC');
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+
+        if (($filtro['status'] ?? false) && $filtro['status'] != 'all') {
+            $this->db->where('status', $filtro['status']);
         }
 
-        $offset = ($page - 1) * $limit;
-        $this->db->order_by('nome', 'DESC');
-        $this->db->where('status', 1);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->limit($limit, $offset);
+        if (($filtro['cidade'] ?? false) && $filtro['cidade'] != 'all') {
+            $this->db->where('cidade', $filtro['cidade']);
+        }
+
+        if ($filtro['nome'] ?? false) {
+            $this->db->like('nome', $filtro['nome']);
+        }
+
+        if (!$count) {
+            $offset = ($page - 1) * $limit;
+            $this->db->limit($limit, $offset);
+        }
+  
         $query = $this->db->get('ci_clientes');
+
+        if ($count) {
+            return $query->num_rows();
+        }
 
         return $query->result_array();
     }
@@ -50,7 +63,7 @@ class Clientes_model extends CI_Model
         $this->db->where('C.status', 1);
         $this->db->order_by('C.nome', 'DESC');
         $query = $this->db->get();
-        return $query->result_array(); 
+        return $query->result_array();
     }
 
     public function recebeCidadesCliente()
@@ -74,11 +87,10 @@ class Clientes_model extends CI_Model
         $query = $this->db->get();
 
         return $query->row_array();
-
     }
 
     //Recebe clientes com varios Ids selecionados
-    public function recebeClientesIds($ids) 
+    public function recebeClientesIds($ids)
     {
         $this->db->select('C.*, F.frequencia');
         $this->db->from('ci_clientes C');
@@ -165,14 +177,15 @@ class Clientes_model extends CI_Model
         return $query->result_array();
     }
 
-    public function recebeClientesAprovacaoInativacao() {
+    public function recebeClientesAprovacaoInativacao()
+    {
         $this->db->select('C.nome, C.id, C.criado_em AS CLIENTE_CRIADO_EM, CI.criado_em AS ULTIMA_COLETA');
         $this->db->from('ci_clientes AS C');
         $this->db->join('(SELECT id_cliente, MAX(criado_em) AS criado_em FROM ci_coletas WHERE coletado = 1 GROUP BY id_cliente) AS CI', 'CI.id_cliente = C.id', 'left');
         $this->db->where('C.STATUS', 1);
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('((CI.criado_em < DATE_SUB(NOW(), INTERVAL 3 MONTH) AND CI.criado_em IS NOT NULL) OR (CI.criado_em IS NULL AND C.criado_em < DATE_SUB(NOW(), INTERVAL 3 MONTH)))', null, false);
-    
+
         $query = $this->db->get();
         return $query->result_array();
     }
