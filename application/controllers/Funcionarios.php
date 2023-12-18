@@ -8,17 +8,17 @@ class Funcionarios extends CI_Controller
 		parent::__construct();
 
 		//INICIO controle sessão
-        $this->load->library('Controle_sessao');
-        $res = $this->controle_sessao->controle();
-        if ($res == 'erro') {
-            if ($this->input->is_ajax_request()) {
-                $this->output->set_status_header(403);
-                exit();
-            } else {
-                redirect('login/erro', 'refresh');
-            }
-        }
-        // FIM controle sessão
+		$this->load->library('Controle_sessao');
+		$res = $this->controle_sessao->controle();
+		if ($res == 'erro') {
+			if ($this->input->is_ajax_request()) {
+				$this->output->set_status_header(403);
+				exit();
+			} else {
+				redirect('login/erro', 'refresh');
+			}
+		}
+		// FIM controle sessão
 
 		$this->load->model('Funcionarios_model');
 		date_default_timezone_set('America/Sao_Paulo');
@@ -61,7 +61,7 @@ class Funcionarios extends CI_Controller
 
 		$data['funcionario'] = $this->Funcionarios_model->recebeFuncionario($id);
 
-		$data['documentos'] = ['perfil','cnh', 'cpf', 'aso', 'epi', 'registro', 'carteira', 'vacinacao', 'certificados', 'ordem'];
+		$data['documentos'] = ['cnh', 'cpf', 'aso', 'epi', 'registro', 'carteira', 'vacinacao', 'certificados', 'ordem'];
 
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
@@ -89,7 +89,7 @@ class Funcionarios extends CI_Controller
 		$id = $this->uri->segment(3);
 
 		$data['funcionario'] = $this->Funcionarios_model->recebeFuncionario($id);
-		
+
 		$data['empresas'] = $this->Empresas_model->recebeEmpresas();
 
 		$data['cargos'] = $this->Cargos_model->recebeCargos();
@@ -173,7 +173,7 @@ class Funcionarios extends CI_Controller
 		$id = $this->input->post('id');
 
 		$retorno = $this->Funcionarios_model->deletaFuncionario($id);
-		
+
 		if ($retorno) {
 			$response = array(
 				'success' => true,
@@ -182,7 +182,7 @@ class Funcionarios extends CI_Controller
 				'type' => "success"
 			);
 		} else {
-		
+
 			$response = array(
 				'success' => false,
 				'title' => "Algo deu errado!",
@@ -219,7 +219,8 @@ class Funcionarios extends CI_Controller
 
 			$response = array(
 				'success' => true,
-				'message' => 'Documento(s) deletado com sucesso!',
+				'message' => $coluna != 'foto_perfil' ? 'Documento(s) deletado com sucesso!' : 'Foto de perfil deletada com sucesso!',
+				'documento' => $coluna, 
 				'type' => "success",
 				'title' => "Sucesso!"
 			);
@@ -227,7 +228,8 @@ class Funcionarios extends CI_Controller
 
 			$response = array(
 				'success' => false,
-				'message' => "Erro ao excluir o documento!",
+				'message' => $coluna != 'foto_perfil' ? 'Erro ao deletar Documento(s)' : 'Erro ao deletar foto de perfil!',
+				'documento' => $coluna,
 				'type' => "error",
 				'title' => "Algo deu errado!"
 			);

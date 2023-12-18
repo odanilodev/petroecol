@@ -8,17 +8,17 @@ class Usuarios extends CI_Controller
 		parent::__construct();
 
 		//INICIO controle sessão
-        $this->load->library('Controle_sessao');
-        $res = $this->controle_sessao->controle();
-        if ($res == 'erro') {
-            if ($this->input->is_ajax_request()) {
-                $this->output->set_status_header(403);
-                exit();
-            } else {
-                redirect('login/erro', 'refresh');
-            }
-        }
-        // FIM controle sessão
+		$this->load->library('Controle_sessao');
+		$res = $this->controle_sessao->controle();
+		if ($res == 'erro') {
+			if ($this->input->is_ajax_request()) {
+				$this->output->set_status_header(403);
+				exit();
+			} else {
+				redirect('login/erro', 'refresh');
+			}
+		}
+		// FIM controle sessão
 		$this->load->model('Usuarios_model');
 		date_default_timezone_set('America/Sao_Paulo');
 	}
@@ -232,4 +232,45 @@ class Usuarios extends CI_Controller
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
+	public function deletaFotoPerfil()
+{
+    $id = $this->input->post('id');
+    $coluna = 'foto_perfil';
+
+    $usuario = $this->Usuarios_model->recebeUsuario($id);
+    $deletou = false;
+
+    if (isset($usuario['foto_perfil'])) {
+        $dados['foto_perfil'] = null;
+        $retorno = $this->Usuarios_model->deletaFotoPerfil($id, $dados);
+
+        if ($retorno) {
+            $caminho = './uploads/' . $this->session->userdata('id_empresa') . '/usuarios/' . $usuario[$coluna];
+            
+            if (file_exists($caminho)) {
+                unlink($caminho);
+                $deletou = true;
+            }
+        }
+    }
+
+    if ($deletou) { // deletou
+        $response = array(
+            'success' => true,
+            'message' => 'Foto de perfil deletada com sucesso!',
+            'type' => 'success',
+            'title' => 'Sucesso!'
+        );
+    } else { // erro ao deletar
+        $response = array(
+            'success' => false,
+            'message' => 'Erro ao deletar foto de perfil!',
+            'type' => 'error',
+            'title' => 'Algo deu errado!'
+        );
+    }
+
+    return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+}
 }

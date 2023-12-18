@@ -45,6 +45,7 @@ class Clientes extends CI_Controller
             $cookie_filtro_clientes = count($this->input->post()) > 0 ? json_encode($this->input->post()) : $this->input->cookie('filtro_clientes');
         }else{
             $page = 1;
+            delete_cookie('filtro_clientes');
             $cookie_filtro_clientes = json_encode([]);
         }
 
