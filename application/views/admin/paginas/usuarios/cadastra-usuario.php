@@ -6,7 +6,7 @@
         <div class="card-header p-4 border-bottom border-300 bg-soft">
           <div class="row g-3 justify-content-between align-items-center">
             <div class="col-12 col-md">
-              <h4 class="text-900 mb-0"><?=$this->uri->segment(3) ? 'Editar Usuário' : 'Cadastrar Novo Usuário';?></h4>
+              <h4 class="text-900 mb-0"><?= $this->uri->segment(3) ? 'Editar Usuário' : 'Cadastrar Novo Usuário'; ?></h4>
             </div>
           </div>
         </div>
@@ -31,9 +31,11 @@
                       <div class="form-group col-md">
                         <div class="image-input">
                           <input type="file" accept="image/*" id="imageInput" name="capa">
-                          <label for="imageInput" class="image-button">
-                            <h5 class="mb-2"><span class="fa-solid fa-upload me-2"></span>Carregar foto de perfil</h5>
-                          </label>
+                          <?php if ($this->session->userdata('id_empresa') != '1') { ?>
+                            <label for="imageInput" class="image-button">
+                              <h5 class="mb-2"><span class="fa-solid fa-upload me-2"></span>Carregar foto de perfil</h5>
+                            </label>
+                          <?php } ?>
 
                         </div>
                       </div>
@@ -61,20 +63,20 @@
                       </div>
 
                       <div class="mb-2 col-md-6">
-                          <div class="mb-2">
-                            <label class="form-label text-900">Setor</label>
-                            <select name='setor' class="select-validation select-setor">
-                              <option selected disabled>Selecione</option>
-                                <?php if ($this->session->userdata('id_empresa') == 1) { ?>
-                                  <option selected value="0">N/A</option>
-                                <?php } ?>
-                              <?php foreach($setores as $s){ ?>
+                        <div class="mb-2">
+                          <label class="form-label text-900">Setor</label>
+                          <select name='setor' class="select-validation select-setor">
+                            <option selected disabled>Selecione</option>
+                            <?php if ($this->session->userdata('id_empresa') == 1) { ?>
+                              <option selected value="0">N/A</option>
+                            <?php } ?>
+                            <?php foreach ($setores as $s) { ?>
                               <option value="<?= $s['id'] ?>" <?= (isset($usuario['id_setor']) && $usuario['id_setor'] == $s['id']) ? 'selected' : ''; ?>><?= $s['nome'] ?></option>
-                              <?php } ?>
+                            <?php } ?>
                           </select>
                           <div class="invalid-feedback">Preencha este campo.</div>
-                          </div>
                         </div>
+                      </div>
 
                       <div class="col-sm-6 <?= isset($usuario['id']) ? "d-none" : "" ?>">
                         <div class="mb-2 mb-sm-0">
@@ -101,7 +103,7 @@
                               <option value="" selected disabled>Selecione</option>
 
                               <?php foreach ($empresas as $v) { ?>
-                                <option value="<?= $v['id'] ?>" <?= (isset($usuario['id_empresa'])) && $usuario['id_empresa'] == $v['id'] ? "selected" : ""?>>
+                                <option value="<?= $v['id'] ?>" <?= (isset($usuario['id_empresa'])) && $usuario['id_empresa'] == $v['id'] ? "selected" : "" ?>>
                                   <?= $v['nome']; ?>
                                 </option>
                               <?php } ?>
@@ -156,7 +158,7 @@
 
 
                     <div class="flex-1 text-end my-5">
-                      <button class="btn btn-primary px-6 px-sm-6 btn-envia" onclick="cadastraUsuario()"><?=$this->uri->segment(3) ? 'Editar' : 'Cadastrar';?>
+                      <button class="btn btn-primary px-6 px-sm-6 btn-envia" onclick="cadastraUsuario()"><?= $this->uri->segment(3) ? 'Editar' : 'Cadastrar'; ?>
                         <span class="fas fa-chevron-right ms-1" data-fa-transform="shrink-3"> </span>
                       </button>
                       <div class="spinner-border text-primary load-form d-none" role="status"></div>

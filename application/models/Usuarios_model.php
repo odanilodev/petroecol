@@ -50,7 +50,6 @@ class Usuarios_model extends CI_Model
 
     public function recebeUsuarioEmail($email)
     {
-        $this->db->where('status', 1);
         $this->db->where('email', $email);
         $query = $this->db->get('ci_usuarios');
 
