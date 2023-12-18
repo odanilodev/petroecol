@@ -26,7 +26,7 @@
 
                         <div class="hoverbox avatar-4xl">
                           <?php if (isset($usuario['foto_perfil'])) { ?>
-                            <a href="#" onclick="deletaFotoPerfil(<?= $usuario['id'] ?>, '<?= htmlspecialchars(json_encode(['foto_perfil']), ENT_QUOTES, 'UTF-8') ?>')">
+                            <a href="#" onclick="deletaFotoPerfil(<?= $usuario['id'] ?>, '<?= urlencode($usuario['foto_perfil'])?>')">
 
                               <div class="hoverbox-content bg-black rounded-circle d-flex flex-center z-index-1" style="--phoenix-bg-opacity: .56;">
                                 <span class="fa-solid fa-trash fs-3 text-100 light"></span>

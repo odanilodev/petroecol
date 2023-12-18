@@ -234,43 +234,35 @@ class Usuarios extends CI_Controller
 	}
 
 	public function deletaFotoPerfil()
-{
-    $id = $this->input->post('id');
-    $coluna = 'foto_perfil';
+	{
+		$id = $this->input->post('id');
+		$arquivo = urldecode($this->input->post('arquivo'));
+		$dados['foto_perfil'] = null;
 
-    $usuario = $this->Usuarios_model->recebeUsuario($id);
-    $deletou = false;
+		$retorno = $this->Usuarios_model->deletaFotoPerfil($id, $dados);
 
-    if (isset($usuario['foto_perfil'])) {
-        $dados['foto_perfil'] = null;
-        $retorno = $this->Usuarios_model->deletaFotoPerfil($id, $dados);
+		if ($retorno) {
+			$caminho = './uploads/' . $this->session->userdata('id_empresa') . '/usuarios/' . $arquivo;
 
-        if ($retorno) {
-            $caminho = './uploads/' . $this->session->userdata('id_empresa') . '/usuarios/' . $usuario[$coluna];
-            
-            if (file_exists($caminho)) {
-                unlink($caminho);
-                $deletou = true;
-            }
-        }
-    }
+			if (file_exists($caminho)) {
+				unlink($caminho);
+			}
 
-    if ($deletou) { // deletou
-        $response = array(
-            'success' => true,
-            'message' => 'Foto de perfil deletada com sucesso!',
-            'type' => 'success',
-            'title' => 'Sucesso!'
-        );
-    } else { // erro ao deletar
-        $response = array(
-            'success' => false,
-            'message' => 'Erro ao deletar foto de perfil!',
-            'type' => 'error',
-            'title' => 'Algo deu errado!'
-        );
-    }
+			$response = array(
+				'success' => true,
+				'message' => 'Foto de perfil deletada com sucesso!',
+				'type' => 'success',
+				'title' => 'Sucesso!'
+			);
+		} else {
+			$response = array(
+				'success' => false,
+				'message' => 'Erro ao deletar foto de perfil!',
+				'type' => 'error',
+				'title' => 'Algo deu errado!'
+			);
+		}
 
-    return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-}
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
 }

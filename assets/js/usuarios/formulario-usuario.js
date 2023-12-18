@@ -237,7 +237,7 @@ const atualizaPermissoesUsuario = (id) => {
         }
     });
 }
-const deletaFotoPerfil = (id, coluna) => {
+const deletaFotoPerfil = (id, arquivo) => {
 
     Swal.fire({
         title: 'Você tem certeza?',
@@ -258,7 +258,7 @@ const deletaFotoPerfil = (id, coluna) => {
                 url: `${baseUrl}usuarios/deletaFotoPerfil`,
                 data: {
                     id: id,
-                    coluna: coluna
+                    arquivo: arquivo
                 }, success: function (data) {
 
                     var redirect = data.type != 'error' ? `${baseUrl}usuarios/formulario/${id}` : '#';
