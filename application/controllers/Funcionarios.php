@@ -60,7 +60,8 @@ class Funcionarios extends CI_Controller
 		$id = $this->uri->segment(3);
 
 		$data['funcionario'] = $this->Funcionarios_model->recebeFuncionario($id);
-		$data['documentos'] = ['cnh', 'cpf', 'aso', 'epi', 'registro', 'carteira', 'vacinacao', 'certificados', 'ordem'];
+
+		$data['documentos'] = ['perfil','cnh', 'cpf', 'aso', 'epi', 'registro', 'carteira', 'vacinacao', 'certificados', 'ordem'];
 
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
@@ -88,7 +89,7 @@ class Funcionarios extends CI_Controller
 		$id = $this->uri->segment(3);
 
 		$data['funcionario'] = $this->Funcionarios_model->recebeFuncionario($id);
-
+		
 		$data['empresas'] = $this->Empresas_model->recebeEmpresas();
 
 		$data['cargos'] = $this->Cargos_model->recebeCargos();

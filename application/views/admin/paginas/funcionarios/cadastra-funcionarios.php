@@ -31,7 +31,7 @@
                                                 class="dz-preview-cover d-flex align-items-center justify-content-center mb-2 mb-md-0 col-md-auto">
                                                 <div class="icon-box div-preview avatar avatar-4xl">
                                                     <img class=" image-preview rounded-circle avatar-placeholder"
-                                                        src="<?= base_url_upload((isset($funcionario['foto_perfil']) ? 'funcionarios/perfil/'.$funcionario['foto_perfil'] : 'assets/img/icons/sem_foto.jpg')) ?>"
+                                                        src="<?= isset($funcionario['foto_perfil']) ? base_url_upload('funcionarios/perfil/' . $funcionario['foto_perfil']) : base_url('assets/img/icons/sem_foto.jpg')?>"
                                                         data-dz-thumbnail="data-dz-thumbnail">
                                                 </div>
                                             </div>
