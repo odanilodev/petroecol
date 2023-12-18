@@ -20,7 +20,6 @@ class Clientes extends CI_Controller
         }
         // FIM controle sessão
         $this->load->model('Clientes_model');
-        
     }
 
     public function index($page = 1)
@@ -36,17 +35,36 @@ class Clientes extends CI_Controller
         add_scripts('header', array_merge($scriptsPadraoHead, $scriptsClienteHead));
         add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsClienteFooter));
 
+        $this->load->helper('cookie');
+
+        if ($this->input->post()) {
+            $this->input->set_cookie('filtro_clientes', json_encode($this->input->post()), 3600);
+        }
+
+        if (is_numeric($page)) {
+            $cookie_filtro_clientes = count($this->input->post()) > 0 ? json_encode($this->input->post()) : $this->input->cookie('filtro_clientes');
+        }else{
+            $page = 1;
+            $cookie_filtro_clientes = json_encode([]);
+        }
+
+        $data['cookie_filtro_clientes'] = json_decode($cookie_filtro_clientes, true);
+
         // >>>> PAGINAÇÃO <<<<<
         $limit = 12; // Número de clientes por página
         $this->load->library('pagination');
         $config['base_url'] = base_url('clientes/index');
-        $config['total_rows'] = $this->Clientes_model->recebeClientes($limit, $page, true); // true para contar
+        $config['total_rows'] = $this->Clientes_model->recebeClientes($cookie_filtro_clientes, $limit, $page, true); // true para contar
         $config['per_page'] = $limit;
         $config['use_page_numbers'] = TRUE; // Usar números de página em vez de offset
         $this->pagination->initialize($config);
         // >>>> FIM PAGINAÇÃO <<<<<
 
-        $data['clientes'] = $this->Clientes_model->recebeClientes($limit, $page);
+        //clientes
+        $data['clientes'] = $this->Clientes_model->recebeClientes($cookie_filtro_clientes, $limit, $page);
+
+        // cidades
+        $data['cidades'] = $this->Clientes_model->recebeCidadesCliente();
 
         // etiquetas 
         $this->load->model('Etiquetas_model');
@@ -94,7 +112,7 @@ class Clientes extends CI_Controller
         $this->load->model('Coletas_model');
 
         $data['coletas'] = $this->Coletas_model->recebeColetasCliente($id);
-        
+
         $data['cliente'] = $this->Clientes_model->recebeCliente($id);
 
         // verifica se existe cliente
@@ -187,27 +205,27 @@ class Clientes extends CI_Controller
         $cliente = $this->Clientes_model->recebeCliente($id);
 
         $arrayUpload = [
-			'comodato' => ['clientes/comodato', $cliente['comodato'] ?? null],
-		];
+            'comodato' => ['clientes/comodato', $cliente['comodato'] ?? null],
+        ];
 
-		$dados = $this->upload_imagem->uploadImagem($arrayUpload);
+        $dados = $this->upload_imagem->uploadImagem($arrayUpload);
 
         $retorno = $this->Clientes_model->editaCliente($id, $dados);
 
-		if ($retorno) {
+        if ($retorno) {
             $this->session->set_flashdata('tipo_retorno_funcao', 'success');
             $this->session->set_flashdata('redirect_retorno_funcao', '#');
             $this->session->set_flashdata('titulo_retorno_funcao', 'Cadastrado com sucesso!');
             $this->session->set_flashdata('texto_retorno_funcao', 'Comodato cadastrado com sucesso!');
         } else {
-         
-           $this->session->set_flashdata('tipo_retorno_funcao', 'error');
-           $this->session->set_flashdata('redirect_retorno_funcao', '#');
-           $this->session->set_flashdata('titulo_retorno_funcao', 'Não foi possivel deletar!');
-           $this->session->set_flashdata('texto_retorno_funcao', 'O comodato nao pode ser deletado no momento!');
+
+            $this->session->set_flashdata('tipo_retorno_funcao', 'error');
+            $this->session->set_flashdata('redirect_retorno_funcao', '#');
+            $this->session->set_flashdata('titulo_retorno_funcao', 'Não foi possivel deletar!');
+            $this->session->set_flashdata('texto_retorno_funcao', 'O comodato nao pode ser deletado no momento!');
         }
 
-        redirect('clientes/detalhes/'.$id);
+        redirect('clientes/detalhes/' . $id);
     }
 
     public function  deletaComodato()
@@ -234,7 +252,7 @@ class Clientes extends CI_Controller
             $this->session->set_flashdata('titulo_retorno_funcao', 'Algo deu errado!');
         }
 
-        redirect('clientes/detalhes/'.$id);
+        redirect('clientes/detalhes/' . $id);
     }
 
     public function insereSql()
@@ -251,7 +269,7 @@ class Clientes extends CI_Controller
         $this->Clientes_model->deletaEtiquetaCliente($id);
     }
 
-    public function verificaRecipienteCliente() 
+    public function verificaRecipienteCliente()
     {
         $id = $this->input->post('id');
         $recipienteCliente = $this->Clientes_model->verificaRecipienteCliente($id);
@@ -261,7 +279,6 @@ class Clientes extends CI_Controller
             $response = array(
                 'success' => true
             );
-
         } else {
 
             $response = array(
@@ -271,6 +288,5 @@ class Clientes extends CI_Controller
         }
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-
     }
 }
