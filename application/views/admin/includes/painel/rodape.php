@@ -131,7 +131,7 @@
                 </div>
                 <div class="col-6">
                     <input class="btn-check" id="navbarPositionTopDouble" name="navigation-type" type="radio" value="dual-nav" data-theme-control="phoenixNavbarPosition" data-page-url="documentation/layouts/dual-nav.html" />
-                    <label class="btn d-inline-block btn-navbar-style fs--1" for="navbarPositionTopDouble"> <span class="mb-2 rounded d-block"><img class="img-fluid img-prototype d-dark-none" src="=#" alt="" /><img class="img-fluid img-prototype d-light-none" src="#" alt="" /></span><span class="label-text"> Dual nav</span></label>
+                    <label class="btn d-inline-block btn-navbar-style fs--1" for="navbarPositionTopDouble"> <span class="mb-2 rounded d-block"><img class="img-fluid img-prototype d-dark-none" src="#" alt="" /><img class="img-fluid img-prototype d-light-none" src="#" alt="" /></span><span class="label-text"> Dual nav</span></label>
                 </div>
             </div>
         </div>
