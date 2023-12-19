@@ -105,15 +105,13 @@
               </div>
             </div>
           </div>
-          <div class="card">
+          <div class="card scroller-detalhes-clientes">
             <div class="card-body">
               <h4 class="mb-3">Outras informações</h4>
               <div class="row g-3">
                 <div class="col-12">
-
                   <div class="mb-7">
                     <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
-
                       <div class="col-sm-12 col-xxl-12 border-bottom py-3">
                         <table class="w-100 table-stats">
                           <tr>
@@ -349,27 +347,24 @@
                           </tr>
                         </table>
                       </div>
-
-                      <?php if ($cliente['observacao']) { ?>
+                      <?php
+                      if ($cliente['observacao']) {
+                        $observacao_formatada = wordwrap($cliente['observacao'], 45, "<br>", true);
+                      ?>
                         <div class="col-sm-12 col-xxl-12 py-3">
                           <table class="w-100 table-stats">
                             <tr>
                               <th>
                                 <div class="d-flex align-items-center">
-
                                   <p class="fw-bold mb-0">Observações:
-                                    <span class="fw-semi-bold mb-0"><?= $cliente['observacao'] ?></span>
+                                    <span class="justificado fw-semi-bold mb-0" style="text-justify"><?= $observacao_formatada ?></span>
                                   </p>
-
                                 </div>
                               </th>
-
                             </tr>
                           </table>
                         </div>
-
                       <?php } ?>
-
                     </div>
                   </div>
 
