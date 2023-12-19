@@ -290,4 +290,33 @@ class Clientes extends CI_Controller
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
+
+    public function alteraStatusCliente()
+    {
+        $id = $this->input->post('id');
+        $dados['status'] = $this->input->post('status');
+
+        $retorno = $this->Clientes_model->alteraStatusCliente($id, $dados);
+
+        if ($retorno) { // alterou status
+
+            $response = array(
+                'success' => true,
+                'message' => 'Status alterado com sucesso!',
+                'type' => "success",
+                'title' => "Sucesso!"
+            );
+
+        } else { // erro ao deletar
+
+            $response = array(
+                'success' => false,
+                'message' => 'Erro ao alterar status',
+                'type' => "error",
+                'title' => "Algo deu errado!"
+            );
+        }
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
 }

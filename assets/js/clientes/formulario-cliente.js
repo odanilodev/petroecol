@@ -254,3 +254,22 @@ const verificaRecipienteCliente = (id) => {
 
 }
 
+const alteraStatusCliente = (id) => {
+
+
+    let status =  $('.select-status').val();
+    
+        $.ajax({
+            type: 'post',
+            url: `${baseUrl}clientes/alteraStatusCliente`,
+            data: {
+                    id: id,
+                    status: status
+                }, success: function (data) {
+
+                    avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${baseUrl}clientes/detalhes/${id}`);
+
+                }
+            })
+}
+

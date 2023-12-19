@@ -34,7 +34,7 @@ class Clientes_model extends CI_Model
             $offset = ($page - 1) * $limit;
             $this->db->limit($limit, $offset);
         }
-  
+
         $query = $this->db->get('ci_clientes');
 
         if ($count) {
@@ -188,5 +188,18 @@ class Clientes_model extends CI_Model
 
         $query = $this->db->get();
         return $query->result_array();
+    }
+    public function alteraStatusCliente($id, $dados)
+    {
+        $this->db->where('id', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        
+        $this->db->update('ci_clientes', $dados);
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id);
+        }
+
+        return $this->db->affected_rows() > 0;
     }
 }

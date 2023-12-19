@@ -76,24 +76,27 @@
                   <p class="fs--1 fw-semi-bold text-900 text mb-4 w-50">
                     <?php echo "{$cliente['rua']}, {$cliente['numero']} {$cliente['bairro']} - {$cliente['cidade']} / {$cliente['estado']}"; ?>
                   </p>
-
                   <div class="d-md-flex d-xl-block align-items-center justify-content-between mb-5">
+                    <div class="col-md-4">
+                      <label for="select" class="form-label">Status</label>
+                      <select id="" class="form-select select-status me-2" onchange="alteraStatusCliente(<?= $cliente['id'] ?>)" style="width: 100%; height: 35px;">
+                        <option value="" <?php echo !isset($cliente['status']) ? 'selected' : ''; ?> disabled>Selecione</option>
+                        <option value="1" <?php echo isset($cliente['status']) && $cliente['status'] == 1 ? 'selected' : ''; ?>>Ativo</option>
+                        <option value="3" <?php echo isset($cliente['status']) && $cliente['status'] == 3 ? 'selected' : ''; ?>>Inativo</option>
+                      </select>
+                    </div>
 
                     <div>
-
                       <?php foreach ($etiquetas as $v) { ?>
-
                         <span class="badge badge-phoenix badge-phoenix-secondary me-2"><?= $v['nome']; ?></span>
-
                       <?php } ?>
                     </div>
 
                   </div>
 
-                  <div class="d-flex align-items-center justify-content-between">
-                    <p class="mb-0"> Próxima Coleta</p>
+                  <div class="d-flex align-items-center">
+                    <p class="mb-0 me-2"> Próxima Coleta</p>
                     <div>
-
                       <span class="d-inline-block lh-sm me-1" data-feather="clock" style="height:16px;width:16px;"></span>
                       <span class="d-inline-block lh-sm"> 25/10/2023</span>
                     </div>
@@ -307,41 +310,41 @@
                           </tr>
                           <tr>
 
-                          <td class="py-2">
+                            <td class="py-2">
                               <div class="d-flex align-items-center">
-                                  <div class="d-flex bg-success-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                      <span class="text-success-600 dark__text-success-300" data-feather="inbox" style="width:16px; height:16px"></span>
-                                  </div>
-                                  <p class="fw-bold mb-0">Comodato</p>
-                                  <input type='hidden' class='alerta-comodato' value="<?= $this->session->flashdata('aviso-comodato') ?>">
-                                  <input type='hidden' class='alerta-comodato-deletado' value="<?= $this->session->flashdata('aviso-comodato-deletado') ?>">
+                                <div class="d-flex bg-success-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                  <span class="text-success-600 dark__text-success-300" data-feather="inbox" style="width:16px; height:16px"></span>
+                                </div>
+                                <p class="fw-bold mb-0">Comodato</p>
+                                <input type='hidden' class='alerta-comodato' value="<?= $this->session->flashdata('aviso-comodato') ?>">
+                                <input type='hidden' class='alerta-comodato-deletado' value="<?= $this->session->flashdata('aviso-comodato-deletado') ?>">
                               </div>
-                          </td>
+                            </td>
 
-                          <?php if (!empty($cliente['comodato'])) : ?>
+                            <?php if (!empty($cliente['comodato'])) : ?>
                               <td class="py-2">
-                                  <!-- Botão de Download -->
-                                  <a href="<?= base_url_upload('clientes/comodato/'.$cliente['comodato']) ?>" download class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
-                                      <span class="fa-solid fa-download me-sm-2"></span>
-                                      <span class="d-none d-sm-inline">Download</span>
-                                  </a>
+                                <!-- Botão de Download -->
+                                <a href="<?= base_url_upload('clientes/comodato/' . $cliente['comodato']) ?>" download class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
+                                  <span class="fa-solid fa-download me-sm-2"></span>
+                                  <span class="d-none d-sm-inline">Download</span>
+                                </a>
                               </td>
-                          <?php endif; ?>
+                            <?php endif; ?>
 
-                          <td class="py-2">
+                            <td class="py-2">
                               <!-- Botão de Upload/Modificar -->
                               <?php if (!empty($cliente['comodato'])) : ?>
-                                  <a data-bs-toggle="modal" data-bs-target=".modal-comodato" href="#" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
-                                      <span class="fa-solid fa-upload me-sm-2"></span>
-                                      <span class="d-none d-sm-inline">Modificar</span>
-                                  </a>
+                                <a data-bs-toggle="modal" data-bs-target=".modal-comodato" href="#" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
+                                  <span class="fa-solid fa-upload me-sm-2"></span>
+                                  <span class="d-none d-sm-inline">Modificar</span>
+                                </a>
                               <?php else : ?>
-                                  <a data-bs-toggle="modal" data-bs-target=".modal-comodato" href="#" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
-                                      <span class="fa-solid fa-upload me-sm-2"></span>
-                                      <span class="d-none d-sm-inline">Cadastrar</span>
-                                  </a>
+                                <a data-bs-toggle="modal" data-bs-target=".modal-comodato" href="#" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
+                                  <span class="fa-solid fa-upload me-sm-2"></span>
+                                  <span class="d-none d-sm-inline">Cadastrar</span>
+                                </a>
                               <?php endif; ?>
-                          </td>
+                            </td>
 
                           </tr>
                         </table>
@@ -504,45 +507,45 @@
 
             </div>
 
-            <?php foreach($coletas as $c){ ?>
+            <?php foreach ($coletas as $c) { ?>
 
-            <?php if($c['coletado'] == 1){ ?>
-            <div class="border-bottom py-4">
-              <div class="d-flex">
-                <div class="d-flex bg-primary-100 rounded-circle flex-center me-3 bg-primary-100" style="width:25px; height:25px"><span class="fa-solid dark__text-primary-300 fs--1 fa-clipboard text-primary-600 dark__text-primary-300"></span></div>
-                <div class="flex-1">
-                  <div class="d-flex justify-content-between flex-column flex-xl-row mb-2 mb-sm-0">
-                    <div class="flex-1 me-2">
-                      <h5 class="text-1000 lh-sm">Coleta realizada</h5>
-                      <p class="fs--1 mb-0">Por<a class="ms-1" href="#!"><?= $c['nome_responsavel'] ?></a></p>
+              <?php if ($c['coletado'] == 1) { ?>
+                <div class="border-bottom py-4">
+                  <div class="d-flex">
+                    <div class="d-flex bg-primary-100 rounded-circle flex-center me-3 bg-primary-100" style="width:25px; height:25px"><span class="fa-solid dark__text-primary-300 fs--1 fa-clipboard text-primary-600 dark__text-primary-300"></span></div>
+                    <div class="flex-1">
+                      <div class="d-flex justify-content-between flex-column flex-xl-row mb-2 mb-sm-0">
+                        <div class="flex-1 me-2">
+                          <h5 class="text-1000 lh-sm">Coleta realizada</h5>
+                          <p class="fs--1 mb-0">Por<a class="ms-1" href="#!"><?= $c['nome_responsavel'] ?></a></p>
+                        </div>
+                        <div class="fs--1"><span class="fa-regular fa-calendar-days text-primary me-2">
+                          </span><span class="fw-semi-bold"><?= date('d/m/Y', strtotime($c['data_coleta'])) ?>
+                          </span></div>
+                      </div>
+                      <p class="fs--1 mb-0"><?= $c['observacao'] ?></p>
                     </div>
-                    <div class="fs--1"><span class="fa-regular fa-calendar-days text-primary me-2">
-                    </span><span class="fw-semi-bold"><?= date('d/m/Y', strtotime($c['data_coleta'])) ?>
-                    </span></div>
                   </div>
-                  <p class="fs--1 mb-0"><?= $c['observacao'] ?></p>
                 </div>
-              </div>
-            </div>
-            <?php }elseif($c['coletado'] == 0){ ?>
-              <div class="border-bottom py-4">
-              <div class="d-flex">
-                
-                <div class="d-flex bg-primary-100 rounded-circle flex-center me-3 bg-primary-100" style="width:25px; height:25px"><span class="fa-solid dark__text-danger-300 fs--1 fa-clipboard text-danger-600 dark__text-danger-300"></span></div>
-                <div class="flex-1">
-                  <div class="d-flex justify-content-between flex-column flex-xl-row mb-2 mb-sm-0">
-                    <div class="flex-1 me-2">
-                      <h5 class="text-1000 lh-sm">Coleta não realizada</h5>
-                      <p class="fs--1 mb-0">Por<a class="ms-1" href="#!"><?= $c['nome_responsavel'] ?></a></p>
+              <?php } elseif ($c['coletado'] == 0) { ?>
+                <div class="border-bottom py-4">
+                  <div class="d-flex">
+
+                    <div class="d-flex bg-primary-100 rounded-circle flex-center me-3 bg-primary-100" style="width:25px; height:25px"><span class="fa-solid dark__text-danger-300 fs--1 fa-clipboard text-danger-600 dark__text-danger-300"></span></div>
+                    <div class="flex-1">
+                      <div class="d-flex justify-content-between flex-column flex-xl-row mb-2 mb-sm-0">
+                        <div class="flex-1 me-2">
+                          <h5 class="text-1000 lh-sm">Coleta não realizada</h5>
+                          <p class="fs--1 mb-0">Por<a class="ms-1" href="#!"><?= $c['nome_responsavel'] ?></a></p>
+                        </div>
+                        <div class="fs--1"><span class="fa-regular fa-calendar-days text-primary me-2">
+                          </span><span class="fw-semi-bold"><?= date('d/m/Y', strtotime($c['data_coleta'])) ?>
+                          </span></div>
+                      </div>
+                      <p class="fs--1 mb-0"><?= $c['observacao'] ?></p>
                     </div>
-                    <div class="fs--1"><span class="fa-regular fa-calendar-days text-primary me-2">
-                    </span><span class="fw-semi-bold"><?= date('d/m/Y', strtotime($c['data_coleta'])) ?>
-                    </span></div>
                   </div>
-                  <p class="fs--1 mb-0"><?= $c['observacao'] ?></p>
                 </div>
-              </div>
-            </div>
               <?php } ?>
             <?php } ?>
 
@@ -556,30 +559,30 @@
 
   <!-- Modal cadastro comodato -->
   <div class="modal fade modal-comodato" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <h5 class="modal-title">Anexar arquivo de comodato</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                  <p>Caso já contenha um arquivo cadastrado, ele será substituído.</p>
-                  <form action="<?= base_url('clientes/cadastraComodato'); ?>" method="post" enctype="multipart/form-data" id="comodatoForm">
-                      <div class="mb-3">
-                          <label for="fileInput" class="form-label">Escolha um arquivo:</label>
-                          <input type="file" class="form-control" id="fileInput" name="comodato">
-                          <input type="hidden" class="form-control" value='<?= $cliente['id'] ?>' name="id">
-                      </div>
-                      <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                          <?php if (!empty($cliente['comodato'])) : ?>
-                              <!-- Botão de Deletar -->
-                              <a href="<?= base_url('clientes/deletaComodato/'.$cliente['id'].'/'.urlencode($cliente['comodato'])) ?>" class="btn btn-danger">Deletar</a>
-                          <?php endif; ?>
-                          <button type="submit" class="btn btn-primary">Enviar</button>
-                      </div>
-                  </form>
-              </div>
-          </div>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Anexar arquivo de comodato</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Caso já contenha um arquivo cadastrado, ele será substituído.</p>
+          <form action="<?= base_url('clientes/cadastraComodato'); ?>" method="post" enctype="multipart/form-data" id="comodatoForm">
+            <div class="mb-3">
+              <label for="fileInput" class="form-label">Escolha um arquivo:</label>
+              <input type="file" class="form-control" id="fileInput" name="comodato">
+              <input type="hidden" class="form-control" value='<?= $cliente['id'] ?>' name="id">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+              <?php if (!empty($cliente['comodato'])) : ?>
+                <!-- Botão de Deletar -->
+                <a href="<?= base_url('clientes/deletaComodato/' . $cliente['id'] . '/' . urlencode($cliente['comodato'])) ?>" class="btn btn-danger">Deletar</a>
+              <?php endif; ?>
+              <button type="submit" class="btn btn-primary">Enviar</button>
+            </div>
+          </form>
+        </div>
       </div>
+    </div>
   </div>
