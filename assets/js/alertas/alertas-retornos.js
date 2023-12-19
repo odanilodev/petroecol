@@ -1,4 +1,3 @@
-
 const avisoRetorno = (titulo, texto, icone, redirect) => {
 
     Swal.fire({
