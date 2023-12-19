@@ -220,6 +220,7 @@ class Funcionarios extends CI_Controller
 			$response = array(
 				'success' => true,
 				'message' => $coluna != 'foto_perfil' ? 'Documento(s) deletado com sucesso!' : 'Foto de perfil deletada com sucesso!',
+				'caminho' => $coluna != 'foto_perfil' ? 'formulario' : 'detalhes',
 				'documento' => $coluna, 
 				'type' => "success",
 				'title' => "Sucesso!"

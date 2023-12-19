@@ -158,16 +158,8 @@ const deletaDocumentoFuncionario = (id, coluna) => {
                     coluna: coluna
                 }, success: function (data) {
 
-                    if(data.documento == 'foto_perfil') {
-
-                        var redirect = data.type != 'error' ? `${baseUrl}funcionarios/formulario/${id}` : '#';
-
-                    } else {
-                        
-                        var redirect = data.type != 'error' ? `${baseUrl}funcionarios/detalhes/${id}` : '#';
-
-                    }
-                    
+                        var redirect = data.type != 'error' ? `${baseUrl}funcionarios/${data.caminho}/${id}` : '#';
+          
                     avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
                 }
