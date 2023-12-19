@@ -20,8 +20,8 @@
   <link rel="icon" type="image/png" sizes="32x32" href="#">
   <link rel="icon" type="image/png" sizes="16x16" href="#">
   <link rel="shortcut icon" type="image/x-icon" href="#">
-  <link rel="manifest" href="<?= base_url('assets/img/favicons/manifest.json') ?>">
-  <meta name="msapplication-TileImage" content="<?= base_url('assets/img/favicons/mstile-150x150.png') ?>">
+  <link rel="manifest" href="#">
+  <meta name="msapplication-TileImage" content="#">
   <meta name="theme-color" content="#ffffff">
   <script src="<?= base_url('vendors/imagesloaded/imagesloaded.pkgd.min.js') ?>"></script>
   <script src="<?= base_url('vendors/simplebar/simplebar.min.js') ?>"></script>
