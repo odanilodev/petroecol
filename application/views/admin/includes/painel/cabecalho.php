@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="msapplication-TileImage" content="assets/img/favicons/mstile-150x150.png">
+    <meta name="msapplication-TileImage" content="#">
     <meta name="theme-color" content="#ffffff">
 
     <title>Petroecol</title>
@@ -178,14 +178,14 @@
                                 <hr class="text-200 my-0" />
                                 <h6 class="dropdown-header text-1000 fs--1 border-bottom border-200 py-2 lh-sm">Products</h6>
                                 <div class="py-2"><a class="dropdown-item py-2 d-flex align-items-center" href="apps/e-commerce/landing/product-details.html">
-                                        <div class="file-thumbnail me-2"><img class="h-100 w-100 fit-cover rounded-3" src="<?= base_url('') ?>assets/img/products/60x60/3.png" alt="" /></div>
+                                        <div class="file-thumbnail me-2"><img class="h-100 w-100 fit-cover rounded-3" src="#" alt="" /></div>
                                         <div class="flex-1">
                                             <h6 class="mb-0 text-1000 title">MacBook Air - 13″</h6>
                                             <p class="fs--2 mb-0 d-flex text-700"><span class="fw-medium text-600">8GB Memory - 1.6GHz - 128GB Storage</span></p>
                                         </div>
                                     </a>
                                     <a class="dropdown-item py-2 d-flex align-items-center" href="apps/e-commerce/landing/product-details.html">
-                                        <div class="file-thumbnail me-2"><img class="img-fluid" src="<?= base_url('') ?>assets/img/products/60x60/3.png" alt="" /></div>
+                                        <div class="file-thumbnail me-2"><img class="img-fluid" src="#" alt="" /></div>
                                         <div class="flex-1">
                                             <h6 class="mb-0 text-1000 title">MacBook Pro - 13″</h6>
                                             <p class="fs--2 mb-0 d-flex text-700"><span class="fw-medium text-600 ms-2">30 Sep at 12:30 PM</span></p>
@@ -235,7 +235,7 @@
                                 <h6 class="dropdown-header text-1000 fs--1 border-bottom border-200 py-2 lh-sm">Members</h6>
                                 <div class="py-2"><a class="dropdown-item py-2 d-flex align-items-center" href="pages/members.html">
                                         <div class="avatar avatar-l status-online  me-2 text-900">
-                                            <img class="rounded-circle " src="<?= base_url('') ?>assets/img/team/40x40/10.webp" alt="" />
+                                            <img class="rounded-circle " src="#" alt="" />
 
                                         </div>
                                         <div class="flex-1">
@@ -245,7 +245,7 @@
                                     </a>
                                     <a class="dropdown-item py-2 d-flex align-items-center" href="pages/members.html">
                                         <div class="avatar avatar-l  me-2 text-900">
-                                            <img class="rounded-circle " src="<?= base_url('') ?>assets/img/team/40x40/12.webp" alt="" />
+                                            <img class="rounded-circle " src="#" alt="" />
 
                                         </div>
                                         <div class="flex-1">
@@ -308,46 +308,46 @@
                             <div class="card bg-white position-relative border-0">
                                 <div class="card-body pt-3 px-3 pb-0 overflow-auto scrollbar" style="height: 20rem;">
                                     <div class="row text-center align-items-center gx-0 gy-0">
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('assets/img/nav-icons/behance.webp') ?>" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="#" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Behance</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/google-cloud.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="#" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Cloud</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/slack.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="#" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Slack</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/gitlab.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="#" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Gitlab</p>
                                             </a></div>
                                         <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/bitbucket.webp" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">BitBucket</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/google-drive.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="#" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Drive</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/trello.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="#" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Trello</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/figma.webp" alt="" width="20" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="#" alt="" width="20" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Figma</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/twitter.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="#" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Twitter</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/pinterest.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="#" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Pinterest</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/ln.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="#" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Linkedin</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/google-maps.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="#" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Maps</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/google-photos.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="#" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Photos</p>
                                             </a></div>
-                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="<?= base_url('') ?>assets/img/nav-icons/spotify.webp" alt="" width="30" />
+                                        <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="#" alt="" width="30" />
                                                 <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Spotify</p>
                                             </a></div>
                                     </div>
