@@ -19,8 +19,8 @@
                 <!--/.bg-holder-->
 
                 <div class="position-relative z-index--1 mb-6 d-none d-md-block text-center mt-md-5">
-                  <img class="auth-title-box-img d-dark-none" src="#" alt="" />
-                  <img class="auth-title-box-img d-light-none" src="#" alt="" />
+                  <img class="auth-title-box-img d-dark-none" src="<?= base_url('assets/img/spot-illustrations/logo-sys.png') ?>" alt="" />
+                  <img class="auth-title-box-img d-light-none" src="<?= base_url('assets/img/spot-illustrations/logo-sys.png') ?>" alt="" />
                 </div>
 
               </div>

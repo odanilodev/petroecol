@@ -87,8 +87,8 @@
                   <!--/.bg-holder-->
 
                   <div class="position-relative z-index--1 mb-6 d-none d-md-block text-center">
-                    <img class="auth-title-box-img d-dark-none " src="" alt="" />
-                    <img class="auth-title-box-img d-light-none " src="" alt="" />
+                    <img class="auth-title-box-img d-dark-none " src="<?= base_url() ?>assets/img/spot-illustrations/logo-sys.png" alt="" />
+                    <img class="auth-title-box-img d-light-none " src="<?= base_url() ?>assets/img/spot-illustrations/logo-sys.png" alt="" />
                   </div>
                 </div>
                 <div class="col mx-auto">
@@ -183,7 +183,7 @@
                 </a>
               </div>
               <div class="text-center mt-auto">
-                <div class="avatar avatar-3xl status-online"><img class="rounded-circle border border-3 border-white" src="#" alt="" /></div>
+                <div class="avatar avatar-3xl status-online"><img class="rounded-circle border border-3 border-white" src="" alt="" /></div>
                 <h5 class="mt-2 mb-3">Eric</h5>
                 <p class="text-center text-black mb-0">Ask us anything – we’ll get back to you here or by email within 24 hours.</p>
               </div>
