@@ -46,8 +46,6 @@ function scriptsPadraoHead()
         '<link href="' . base_url('vendors/flatpickr/flatpickr.min.css') . '" rel="stylesheet">',
         '<link href="' . base_url('vendors/dropzone/dropzone.min.css') . '" rel="stylesheet">',
         '<link href="' . base_url('vendors/prism/prism-okaidia.css') . '" rel="stylesheet">',
-        // '<link rel="preconnect" href="https://fonts.googleapis.com">',
-        // '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">',
         '<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet">',
         '<link href="' . base_url('vendors/simplebar/simplebar.min.css') . '" rel="stylesheet">',
         '<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">',
@@ -71,7 +69,6 @@ function scriptsPadraoFooter()
         '<script src="' . base_url('vendors/fontawesome/all.min.js') . '"></script>',
         '<script src="' . base_url('vendors/lodash/lodash.min.js') . '"></script>',
         '<script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>',
-        '<script src="' . base_url('vendors/list.js/list.min.js') . '"></script>',
         '<script src="' . base_url('vendors/feather-icons/feather.min.js') . '"></script>',
         '<script src="' . base_url('vendors/dayjs/dayjs.min.js') . '"></script>',
         '<script src="' . base_url('vendors/dropzone/dropzone.min.js') . '"></script>',
@@ -179,7 +176,6 @@ function scriptsClienteFooter()
         '<script src="' . base_url('assets/js/etiqueta-cliente/formulario-etiqueta-cliente.js') . '"></script>',
         '<script src="' . base_url('assets/js/recipiente-cliente/formulario-recipiente-cliente.js') . '"></script>',
         '<script src="' . base_url('assets/js/residuo-cliente/formulario-residuo-cliente.js') . '"></script>',
-        '<script src="' . base_url('assets/js/alertas/alertas-retornos.js') . '"></script>',
         '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>'
 
     );
