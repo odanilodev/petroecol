@@ -34,14 +34,14 @@
                 <hr class="text-200 my-0" />
                 <h6 class="dropdown-header text-1000 fs--1 border-bottom border-200 py-2 lh-sm">Products</h6>
                 <div class="py-2"><a class="dropdown-item py-2 d-flex align-items-center" href="../apps/e-commerce/landing/product-details.html">
-                    <div class="file-thumbnail me-2"><img class="h-100 w-100 fit-cover rounded-3" src="../assets/img/products/60x60/3.png" alt="" /></div>
+                    <div class="file-thumbnail me-2"><img class="h-100 w-100 fit-cover rounded-3" src="#" alt="" /></div>
                     <div class="flex-1">
                       <h6 class="mb-0 text-1000 title">MacBook Air - 13″</h6>
                       <p class="fs--2 mb-0 d-flex text-700"><span class="fw-medium text-600">8GB Memory - 1.6GHz - 128GB Storage</span></p>
                     </div>
                   </a>
                   <a class="dropdown-item py-2 d-flex align-items-center" href="../apps/e-commerce/landing/product-details.html">
-                    <div class="file-thumbnail me-2"><img class="img-fluid" src="../assets/img/products/60x60/3.png" alt="" /></div>
+                    <div class="file-thumbnail me-2"><img class="img-fluid" src="#" alt="" /></div>
                     <div class="flex-1">
                       <h6 class="mb-0 text-1000 title">MacBook Pro - 13″</h6>
                       <p class="fs--2 mb-0 d-flex text-700"><span class="fw-medium text-600 ms-2">30 Sep at 12:30 PM</span></p>
@@ -91,7 +91,7 @@
                 <h6 class="dropdown-header text-1000 fs--1 border-bottom border-200 py-2 lh-sm">Members</h6>
                 <div class="py-2"><a class="dropdown-item py-2 d-flex align-items-center" href="../pages/members.html">
                     <div class="avatar avatar-l status-online  me-2 text-900">
-                      <img class="rounded-circle " src="../assets/img/team/40x40/10.webp" alt="" />
+                      <img class="rounded-circle " src="#" alt="" />
 
                     </div>
                     <div class="flex-1">
@@ -101,7 +101,7 @@
                   </a>
                   <a class="dropdown-item py-2 d-flex align-items-center" href="../pages/members.html">
                     <div class="avatar avatar-l  me-2 text-900">
-                      <img class="rounded-circle " src="../assets/img/team/40x40/12.webp" alt="" />
+                      <img class="rounded-circle " src="#" alt="" />
 
                     </div>
                     <div class="flex-1">
@@ -139,5 +139,3 @@
   </div>
 </div>
 <div class="content">
-  
-  
