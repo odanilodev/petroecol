@@ -158,8 +158,8 @@ const deletaDocumentoFuncionario = (id, coluna) => {
                     coluna: coluna
                 }, success: function (data) {
 
-                    let redirect = data.type != 'error' ? `${baseUrl}funcionarios/detalhes/${id}` : '#';
-
+                        var redirect = data.type != 'error' ? `${baseUrl}funcionarios/${data.caminho}/${id}` : '#';
+          
                     avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
                 }
@@ -167,4 +167,11 @@ const deletaDocumentoFuncionario = (id, coluna) => {
 
         }
     })
+}
+
+
+const deletaFotoPerfil = (id, coluna) => {
+
+    deletaDocumentoFuncionario(id, coluna);
+
 }
