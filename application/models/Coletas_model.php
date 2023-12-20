@@ -26,7 +26,7 @@ class Coletas_model extends CI_Model
     {
         $this->db->order_by('data_coleta', 'DESC');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        
+
         $query = $this->db->get('ci_coletas');
 
         return $query->result_array();
@@ -49,12 +49,25 @@ class Coletas_model extends CI_Model
         $this->db->join('ci_funcionarios', 'ci_coletas.id_responsavel = ci_funcionarios.id', 'left');
         $this->db->where('ci_coletas.id_cliente', $idCliente);
         $this->db->where('ci_coletas.id_empresa', $this->session->userdata('id_empresa'));
-    
+
         $query = $this->db->get();
-    
+
         return $query->result_array();
     }
-    
+
+    public function recebeColetasClienteResiduos($idCliente)
+    {
+        $this->db->select('ci_coletas.*, GROUP_CONCAT(ci_residuos.nome) as nomes_residuos, GROUP_CONCAT(ci_residuos.unidade_medida) as unidade_medida');
+        $this->db->from('ci_coletas');
+        $this->db->join('ci_residuos', "JSON_SEARCH(ci_coletas.residuos_coletados, 'one', ci_residuos.id) IS NOT NULL", 'left');
+        $this->db->where('ci_coletas.id_cliente', $idCliente);
+        $this->db->where('ci_coletas.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->group_by('ci_coletas.id');
+
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
 
     
 }

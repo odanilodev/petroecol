@@ -504,46 +504,42 @@
 
             </div>
 
-            <?php foreach($coletas as $c){ ?>
+            <?php foreach ($coletas as $c) { ?>
 
-            <?php if($c['coletado'] == 1){ ?>
-            <div class="border-bottom py-4">
-              <div class="d-flex">
-                <div class="d-flex bg-primary-100 rounded-circle flex-center me-3 bg-primary-100" style="width:25px; height:25px"><span class="fa-solid dark__text-primary-300 fs--1 fa-clipboard text-primary-600 dark__text-primary-300"></span></div>
-                <div class="flex-1">
-                  <div class="d-flex justify-content-between flex-column flex-xl-row mb-2 mb-sm-0">
-                    <div class="flex-1 me-2">
-                      <h5 class="text-1000 lh-sm">Coleta realizada</h5>
-                      <p class="fs--1 mb-0">Por<a class="ms-1" href="#!"><?= $c['nome_responsavel'] ?></a></p>
-                    </div>
-                    <div class="fs--1"><span class="fa-regular fa-calendar-days text-primary me-2">
-                    </span><span class="fw-semi-bold"><?= date('d/m/Y', strtotime($c['data_coleta'])) ?>
-                    </span></div>
-                  </div>
-                  <p class="fs--1 mb-0"><?= $c['observacao'] ?></p>
-                </div>
-              </div>
-            </div>
-            <?php }elseif($c['coletado'] == 0){ ?>
               <div class="border-bottom py-4">
-              <div class="d-flex">
-                
-                <div class="d-flex bg-primary-100 rounded-circle flex-center me-3 bg-primary-100" style="width:25px; height:25px"><span class="fa-solid dark__text-danger-300 fs--1 fa-clipboard text-danger-600 dark__text-danger-300"></span></div>
-                <div class="flex-1">
-                  <div class="d-flex justify-content-between flex-column flex-xl-row mb-2 mb-sm-0">
-                    <div class="flex-1 me-2">
-                      <h5 class="text-1000 lh-sm">Coleta não realizada</h5>
-                      <p class="fs--1 mb-0">Por<a class="ms-1" href="#!"><?= $c['nome_responsavel'] ?></a></p>
-                    </div>
-                    <div class="fs--1"><span class="fa-regular fa-calendar-days text-primary me-2">
-                    </span><span class="fw-semi-bold"><?= date('d/m/Y', strtotime($c['data_coleta'])) ?>
-                    </span></div>
+
+                <div class="d-flex">
+                  <div class="d-flex bg-primary-100 rounded-circle flex-center me-3 bg-primary-100" style="width:25px; height:25px">
+                    <span class="fa-solid <?= $c['coletado'] == 1 ? "dark__text-primary-300 text-primary-600" : "dark__text-danger-300 text-danger-600" ?>  fs--1 fa-clipboard text-primary-600"></span>
                   </div>
-                  <p class="fs--1 mb-0"><?= $c['observacao'] ?></p>
+
+                  <div class="flex-1">
+
+                    <div class="d-flex justify-content-between flex-column flex-xl-row mb-2 mb-sm-0">
+
+                      <div class="flex-1 me-2">
+                        <h5 class="text-1000 lh-sm"><?= $c['coletado'] == 1 ? "Coleta realizada" : "Coleta não realizada" ?>
+                          | <span class="fw-semi-bold fs--1"><?= date('d/m/Y', strtotime($c['data_coleta'])) ?></span>
+                        </h5>
+
+                        <p class="fs--1 mb-0">Por<a class="ms-1" href="#!"><?= $c['nome_responsavel'] ?></a></p>
+                      </div>
+
+                      <div class="cursor-pointer">
+                        <a target="_blank" class="btn btn-phoenix-primary" href="<?= base_url('coletas/certificadoColeta/' . $cliente['id'])?>" title="Baixar Certificado">
+                          <span class="fas fa-file-download text-primary"></span>
+                        </a>
+                      </div>
+
+                    </div>
+                    
+                    <p class="fs--1 mb-0"><?= $c['observacao'] ?></p>
+                  </div>
+
                 </div>
+
               </div>
-            </div>
-              <?php } ?>
+
             <?php } ?>
 
           </div>
