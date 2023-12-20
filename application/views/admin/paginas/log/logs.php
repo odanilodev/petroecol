@@ -69,7 +69,7 @@
                                 <th class="sort align-middle p-3">Item</th>
                                 <th class="sort align-middle">Classe</th>
                                 <th class="sort align-middle p-3">Método</th>
-                                <th class="sort align-middle p-3">Data</th>
+                                <th class="sort align-middle p-3">Data e Hora</th>
                             </tr>
                         </thead>
 
@@ -96,7 +96,7 @@
                                     </td>
 
                                     <td class="mobile_number align-middle white-space-nowrap">
-                                        <?= date('d/m/Y', strtotime($v['criado_em'])) ?>
+                                        <?= date('d/m/Y | H:i:s', strtotime($v['criado_em'])) ?>
                                     </td>
                                 </tr>
 
