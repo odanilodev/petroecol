@@ -34,30 +34,32 @@ class AgendarFrequencia
         $dados['prioridade'] = 0; // define como prioridade comum
         $dados['id_empresa'] = $this->CI->session->userdata('id_empresa');
 
+		$retorno = $this->CI->Agendamentos_model->insereAgendamento($dados);
+
         $clienteAgendado = $this->CI->Agendamentos_model->recebeClienteAgendado($dados['id_cliente'], $dados['data_coleta']);
 
 		$agendamentosCliente = $this->CI->Agendamentos_model->recebeAgendamentosCliente($dados['id_cliente'], $data_coleta); 
 
 		if($agendamentosCliente){
-
+			
 			foreach($agendamentosCliente as $a){
 
-				if($status == 0){
-					$dados['status'] = 2;
+				if($a['status'] == 0){
+					
+			
+					$data['status'] = 2;
+					$this->CI->Agendamentos_model->editaAgendamento($a['id'], $data);
+					
 				}
-
-				$this->CI->Agendamentos_model->editaAgendamento($a['id'], $dados);
-
+				
 			}
-
+			
 		}
 
 		if ($clienteAgendado) {
 			return $this->retornoErro('Este cliente já está agendado para este dia.');
 		}
-	
-		$retorno = $this->CI->Agendamentos_model->insereAgendamento($dados);
-	
+		
 		if ($retorno) {
 			return $this->retornoSucesso();
 		}

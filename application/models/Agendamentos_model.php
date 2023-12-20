@@ -69,21 +69,22 @@ class Agendamentos_model extends CI_Model
 
     public function editaAgendamentoData($id_cliente, $data_agendamento, $status)
     {
+
         $dados['editado_em'] = date('Y-m-d H:i:s');
         $this->db->where('id_cliente', $id_cliente);
         $this->db->where('data_coleta', $data_agendamento);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-    
+
         // Atualiza a coluna status com o valor fornecido
         $this->db->update('ci_agendamentos', ['status' => $status] + $dados);
-    
+
         if ($this->db->affected_rows()) {
-            $this->Log_model->insereLog($id_cliente);
+            $this->Log_model->insereLog($id_cliente); // Corrigi para usar $id_cliente em vez de $id
         }
-    
+
         return $this->db->affected_rows() > 0;
     }
-    
+
 
     public function recebeClientesAgendados($dataColeta, $prioridade)
     {

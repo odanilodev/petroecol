@@ -49,14 +49,14 @@ class Coletas extends CI_Controller
                 'cod_romaneio' => $codRomaneio,
                 'id_empresa' => $this->session->userdata('id_empresa'),
             );
-    
-            $this->agendarfrequencia->cadastraAgendamentoFrequencia($cliente['idCliente'], $romaneio['data_romaneio'], null, $periodo, $cliente['coletado']);
 
             if($cliente['coletado'] == 1){
                 $this->Agendamentos_model->editaAgendamentoData($cliente['idCliente'], $romaneio['data_romaneio'], $cliente['coletado']);
             }
 
             $retorno = $this->Coletas_model->insereColeta($dados);
+
+            $this->agendarfrequencia->cadastraAgendamentoFrequencia($cliente['idCliente'], $romaneio['data_romaneio'], null, $periodo, $cliente['coletado']);
     
             $data['status'] = 1;
     
