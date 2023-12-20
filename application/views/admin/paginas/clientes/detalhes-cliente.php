@@ -77,12 +77,11 @@
                     <?php echo "{$cliente['rua']}, {$cliente['numero']} {$cliente['bairro']} - {$cliente['cidade']} / {$cliente['estado']}"; ?>
                   </p>
                   <div class="d-md-flex d-xl-block align-items-center justify-content-between mb-5">
-                    <div class="col-md-4">
-                      <label for="select" class="form-label">Status</label>
-                      <select id="" class="form-select select-status me-2" onchange="alteraStatusCliente(<?= $cliente['id'] ?>)" style="width: 100%; height: 35px;">
+                    <div class="col-md-3 float-end">
+                      <select id="" class="form-select select-status me-2 <?= $cliente['status'] == 1 ? 'select-status-ativo' : 'select-status-inativo'; ?>" onchange="alteraStatusCliente(<?= $cliente['id'] ?>)" style="width: 100%; height: 35px;">
                         <option value="" selected disabled>Selecione</option>
-                        <option value="1" <?= ($cliente['status'] ?? 'false') == 1 ? 'selected' : ''; ?>>Ativo</option>
-                        <option value="3" <?= ($cliente['status'] ?? 'false') == 3 ? 'selected' : ''; ?>>Inativo</option>
+                        <option value="1" <?= $cliente['status'] == 1 ? 'selected' : ''; ?>>Ativo</option>
+                        <option value="3" <?= $cliente['status'] == 3 ? 'selected' : ''; ?>>Inativo</option>
                       </select>
                     </div>
 
