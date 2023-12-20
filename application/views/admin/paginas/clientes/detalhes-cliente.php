@@ -80,9 +80,9 @@
                     <div class="col-md-4">
                       <label for="select" class="form-label">Status</label>
                       <select id="" class="form-select select-status me-2" onchange="alteraStatusCliente(<?= $cliente['id'] ?>)" style="width: 100%; height: 35px;">
-                        <option value="" <?php echo !isset($cliente['status']) ? 'selected' : ''; ?> disabled>Selecione</option>
-                        <option value="1" <?php echo isset($cliente['status']) && $cliente['status'] == 1 ? 'selected' : ''; ?>>Ativo</option>
-                        <option value="3" <?php echo isset($cliente['status']) && $cliente['status'] == 3 ? 'selected' : ''; ?>>Inativo</option>
+                        <option value="" selected disabled>Selecione</option>
+                        <option value="1" <?= ($cliente['status'] ?? 'false') == 1 ? 'selected' : ''; ?>>Ativo</option>
+                        <option value="3" <?= ($cliente['status'] ?? 'false') == 3 ? 'selected' : ''; ?>>Inativo</option>
                       </select>
                     </div>
 
@@ -105,7 +105,7 @@
               </div>
             </div>
           </div>
-          <div class="card scroller-detalhes-clientes">
+          <div class="card">
             <div class="card-body">
               <h4 class="mb-3">Outras informações</h4>
               <div class="row g-3">
@@ -125,7 +125,7 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <a class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-900" href="tel:<?= $cliente['telefone'] ?>">
+                              <a class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-900 text-break" href="tel:<?= $cliente['telefone'] ?>">
                                 <?= $cliente['telefone'] ?>
                               </a>
                             </td>
@@ -142,7 +142,7 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <a class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-900 w-100" href="mailto:<?= $cliente['email'] ?>"><?= $cliente['email'] ?></a>
+                              <a class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-900 w-100 text-break" href="mailto:<?= $cliente['email'] ?>"><?= $cliente['email'] ?></a>
                             </td>
                           </tr>
 
@@ -158,7 +158,7 @@
                               </td>
                               <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                               <td class="py-2">
-                                <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0"><?= $cliente['cnpj']; ?></div>
+                                <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0 text-break"><?= $cliente['cnpj']; ?></div>
                               </td>
                             </tr>
                           <?php } ?>
@@ -189,7 +189,7 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0">Dia <?= $cliente['dia_pagamento']; ?></div>
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0 ">Dia <?= $cliente['dia_pagamento']; ?></div>
                             </td>
                           </tr>
 
@@ -214,7 +214,7 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0"><?= ucfirst($cliente['nome_responsavel']); ?></div>
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break"><?= ucfirst($cliente['nome_responsavel']); ?></div>
                             </td>
                           </tr>
                           <tr>
@@ -228,7 +228,7 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0"><?= ucfirst($cliente['funcao_responsavel']); ?></div>
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break"><?= ucfirst($cliente['funcao_responsavel']); ?></div>
                             </td>
                           </tr>
 
@@ -243,7 +243,7 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <a class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-900" href="tel:<?= $cliente['telefone_responsavel'] ?>">
+                              <a class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-900 text-break" href="tel:<?= $cliente['telefone_responsavel'] ?>">
                                 <?= $cliente['telefone_responsavel'] ?>
                               </a>
                             </td>
@@ -347,24 +347,19 @@
                           </tr>
                         </table>
                       </div>
-                      <?php
-                      if ($cliente['observacao']) {
-                        $observacao_formatada = wordwrap($cliente['observacao'], 45, "<br>", true);
-                      ?>
-                        <div class="col-sm-12 col-xxl-12 py-3">
-                          <table class="w-100 table-stats">
-                            <tr>
-                              <th>
-                                <div class="d-flex align-items-center">
-                                  <p class="fw-bold mb-0">Observações:
-                                    <span class="justificado fw-semi-bold mb-0" style="text-justify"><?= $observacao_formatada ?></span>
-                                  </p>
-                                </div>
-                              </th>
-                            </tr>
-                          </table>
-                        </div>
-                      <?php } ?>
+                      <div class="col-sm-12 col-xxl-12 py-3">
+                        <table class="w-100 table-stats">
+                          <tr>
+                            <th>
+                              <div class="d-flex align-items-center">
+                                <p class="fw-bold mb-0">Observações:
+                                  <span class="justificado fw-semi-bold mb-0 text-break" style="text-justify"><?= $cliente['observacao'] ?></span>
+                                </p>
+                              </div>
+                            </th>
+                          </tr>
+                        </table>
+                      </div>
                     </div>
                   </div>
 

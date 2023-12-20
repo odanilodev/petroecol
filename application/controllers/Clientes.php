@@ -296,7 +296,7 @@ class Clientes extends CI_Controller
         $id = $this->input->post('id');
         $dados['status'] = $this->input->post('status');
 
-        $retorno = $this->Clientes_model->alteraStatusCliente($id, $dados);
+        $retorno = $this->Clientes_model->editaCliente($id, $dados);
 
         if ($retorno) { // alterou status
 
