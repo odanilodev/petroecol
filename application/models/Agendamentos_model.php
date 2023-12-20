@@ -12,14 +12,30 @@ class Agendamentos_model extends CI_Model
 
     public function recebeAgendamentos($anoAtual, $mesAtual, $prioridade)
     {
-        $this->db->select('data_coleta, prioridade, COUNT(*) AS total_agendamento');
+        $this->db->select('data_coleta, status, prioridade, COUNT(*) AS total_agendamento');
         $this->db->from('ci_agendamentos');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('YEAR(data_coleta)', $anoAtual);
         $this->db->where('MONTH(data_coleta)', $mesAtual);
         $this->db->where('prioridade', $prioridade);
         $this->db->group_by('data_coleta');
+        $this->db->group_by('status');
         $this->db->group_by('prioridade'); // Adiciona prioridade ao agrupamento se necessário
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function recebeAgendamentosCliente($id_cliente, $data_coleta)
+    {
+        $this->db->select('id, data_coleta, status');
+        $this->db->from('ci_agendamentos');
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('id_cliente', $id_cliente); // Adiciona a condição para o id_cliente
+        $this->db->where('status', 0); // Adiciona a condição para o status igual a 0
+        $this->db->where('data_coleta <', $data_coleta);
+        $this->db->group_by('id');
+        $this->db->group_by('data_coleta');
+        $this->db->group_by('status');
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -50,6 +66,24 @@ class Agendamentos_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+    public function editaAgendamentoData($id_cliente, $data_agendamento, $status)
+    {
+        $dados['editado_em'] = date('Y-m-d H:i:s');
+        $this->db->where('id_cliente', $id_cliente);
+        $this->db->where('data_coleta', $data_agendamento);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+    
+        // Atualiza a coluna status com o valor fornecido
+        $this->db->update('ci_agendamentos', ['status' => $status] + $dados);
+    
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id_cliente);
+        }
+    
+        return $this->db->affected_rows() > 0;
+    }
+    
 
     public function recebeClientesAgendados($dataColeta, $prioridade)
     {

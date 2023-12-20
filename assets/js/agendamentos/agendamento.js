@@ -675,9 +675,20 @@ function exibirAgendamentos(currentYear, currentMonth) {
 
       var obj = JSON.parse(jsonString);
 
+      // status 1 = `coletado ` status 2 = reagendado
+
       for (var i = 0; i < obj.length; i++) {
 
-        let titulo = obj[i].data_coleta < dataAtualFormatada ? " Atrasado(s)" : " Agendado(s)";
+        var titulo = obj[i].data_coleta < dataAtualFormatada ? " Atrasado(s)" : " Agendado(s)";
+
+        if (obj[i].status == 1) {
+
+          var titulo = ' coletado';
+          
+        } else if (obj[i].status == 2) {
+
+          var titulo = ' reagendado';
+        }
 
         let tipo = obj[i].data_coleta < dataAtualFormatada ? "text-danger" : 'text-success';
 
