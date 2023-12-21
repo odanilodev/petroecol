@@ -57,8 +57,9 @@ class Coletas_model extends CI_Model
 
     public function recebeColetasClienteResiduos($idCliente)
     {
-        $this->db->select('ci_coletas.*, GROUP_CONCAT(ci_residuos.nome) as nomes_residuos, GROUP_CONCAT(ci_residuos.unidade_medida) as unidade_medida');
+        $this->db->select('ci_coletas.*, GROUP_CONCAT(ci_residuos.nome) as nomes_residuos, GROUP_CONCAT(ci_residuos.unidade_medida) as unidade_medida, C.*, GROUP_CONCAT(C.nome) as CLIENTE');
         $this->db->from('ci_coletas');
+        $this->db->join('ci_clientes C', 'ci_coletas.id_cliente = C.id', 'left');
         $this->db->join('ci_residuos', "JSON_SEARCH(ci_coletas.residuos_coletados, 'one', ci_residuos.id) IS NOT NULL", 'left');
         $this->db->where('ci_coletas.id_cliente', $idCliente);
         $this->db->where('ci_coletas.id_empresa', $this->session->userdata('id_empresa'));

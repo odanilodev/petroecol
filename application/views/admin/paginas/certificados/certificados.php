@@ -1,11 +1,4 @@
-<?php
 
-$residuos_coletados = explode(',', $coletas[0]['nomes_residuos']);
-$quantidade_residuos_coletados = json_decode($coletas[0]['quantidade_coletada'], true);
-$medida_residuos_coletados =  explode(',', $coletas[0]['unidade_medida']);
-// echo "<pre>"; print_r($medida_residuos_coletados); exit;
-
-?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -31,11 +24,8 @@ $medida_residuos_coletados =  explode(',', $coletas[0]['unidade_medida']);
             width: 50%;
             color: #404040;
         }
-
-        /* Estilo para ajustar a largura das tabelas individualmente (opcional) */
         .tabela {
             width: 50%;
-            /* Ajuste conforme necessário */
         }
 
         body {
@@ -66,7 +56,7 @@ $medida_residuos_coletados =  explode(',', $coletas[0]['unidade_medida']);
 
 
             <div style="font-size: 14px" class="col-md-6">
-                Data: <strong><?= date('d/m/Y', strtotime($coletas[0]['data_coleta'])); ?></strong> <br>
+                Data: <strong><?= date('d/m/Y', strtotime($clientes_coletas[0]['data_coleta'])); ?></strong> <br>
             </div>
 
         </div>
@@ -78,34 +68,34 @@ $medida_residuos_coletados =  explode(',', $coletas[0]['unidade_medida']);
 
                     <tr>
                         <td colspan="3">
-                            <strong>Gerador:</strong> <?= $cliente['nome'] ?>
+                            <strong>Gerador:</strong> <?= $clientes_coletas[0]['CLIENTE'] ?>
                         </td>
                     </tr>
 
                     <tr>
                         <td colspan="3">
-                            <strong>RAZÃO SOCIAL: </strong> <?= $cliente['razao_social'] ? $cliente['razao_social'] : "Não informado."; ?>
+                            <strong>RAZÃO SOCIAL: </strong> <?= $clientes_coletas[0]['razao_social'] ? $clientes_coletas[0]['razao_social'] : "Não informado."; ?>
                         </td>
                     </tr>
 
                     <tr>
 
                         <td scope="col" style="width: 280px;">
-                            <strong>CNPJ: </strong> <?= $cliente['cnpj'] ? $cliente['cnpj'] : "Não informado." ?>
+                            <strong>CNPJ: </strong> <?= $clientes_coletas[0]['cnpj'] ? $clientes_coletas[0]['cnpj'] : "Não informado." ?>
                         </td>
 
                         <td scope="col" style="width: 150px;">
-                            <strong>UF: </strong> <span><?= $cliente['estado'] ? $cliente['estado'] : "Não informado." ?></span>
+                            <strong>UF: </strong> <span><?= $clientes_coletas[0]['estado'] ? $clientes_coletas[0]['estado'] : "Não informado." ?></span>
                         </td>
 
                         <td scope="col" style="width: 280px;">
-                            <strong>Telefone: </strong> <?= $cliente['telefone'] ? $cliente['telefone'] : "Não informado." ?>
+                            <strong>Telefone: </strong> <?= $clientes_coletas[0]['telefone'] ? $clientes_coletas[0]['telefone'] : "Não informado." ?>
                         </td>
                     </tr>
 
                     <tr>
                         <td colspan="3">
-                            <strong>Endereço: </strong> <?= "{$cliente['rua']}, {$cliente['numero']} {$cliente['bairro']} - {$cliente['cidade']} / {$cliente['estado']}" ?>
+                            <strong>Endereço: </strong> <?= "{$clientes_coletas[0]['rua']}, {$clientes_coletas[0]['numero']} {$clientes_coletas[0]['bairro']} - {$clientes_coletas[0]['cidade']} / {$clientes_coletas[0]['estado']}" ?>
                         </td>
                     </tr>
 
@@ -131,10 +121,10 @@ $medida_residuos_coletados =  explode(',', $coletas[0]['unidade_medida']);
 
                     <?php for ($i = 0; $i < count($residuos_coletados); $i++) { ?>
                         <tr>
-                            <td style="width: 15px;"><?= $coletas[0]['cod_romaneio'] ?></td>
+                            <td style="width: 15px;"><?= $clientes_coletas[0]['cod_romaneio'] ?></td>
                             <td style="width: 15px;"><?= $residuos_coletados[$i] ?> </td>
                             <td style="width: 15px;"><?= $quantidade_residuos_coletados[$i] . $medida_residuos_coletados[$i] ?></td>
-                            <td style="width: 15px;"><?= date('d/m/Y', strtotime($coletas[0]['data_coleta'])); ?></td>
+                            <td style="width: 15px;"><?= date('d/m/Y', strtotime($clientes_coletas[0]['data_coleta'])); ?></td>
                         </tr>
                     <?php } ?>
 

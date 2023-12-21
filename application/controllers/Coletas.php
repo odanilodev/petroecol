@@ -72,11 +72,17 @@ class Coletas extends CI_Controller
 
     public function certificadoColeta()
     {
-		$this->load->library('GerarCertificadoColeta');
+        // scripts padrão
+        $scriptsPadraoHead = scriptsPadraoHead();
+        $scriptsPadraoFooter = scriptsPadraoFooter();
+
+        add_scripts('header', $scriptsPadraoHead);
+        add_scripts('footer', $scriptsPadraoFooter);
+
+        $this->load->library('GerarCertificadoColeta');
 
         $idCliente = $this->uri->segment(3);
 
         $this->gerarcertificadocoleta->gerarPdf($idCliente);
-
     }
 }
