@@ -17,7 +17,7 @@ class GerarCertificadoColeta
 
 	public function gerarPdf($idCliente)
 	{
-		$data['clientes_coletas'] = $this->CI->Coletas_model->recebeColetasClienteResiduos($idCliente);
+		$data['clientes_coletas'] = $this->CI->Coletas_model->recebeColetasCliente($idCliente);
 
 		if ($data['clientes_coletas']) {
 
@@ -33,6 +33,13 @@ class GerarCertificadoColeta
 			// Retorna o conteúdo do PDF
 			return $mpdf->Output('', \Mpdf\Output\Destination::INLINE);
 		} else {
+
+			// scripts padrão
+			$scriptsPadraoHead = scriptsPadraoHead();
+			$scriptsPadraoFooter = scriptsPadraoFooter();
+
+			add_scripts('header', $scriptsPadraoHead);
+			add_scripts('footer', $scriptsPadraoFooter);
 
 			$data['titulo'] = "Certificado não encontrado!";
 			$data['descricao'] = "Não foi possível localizar um certificado de coleta para este cliente!";

@@ -34,9 +34,18 @@ class GerarRomaneio
 			// Retorna o conteúdo do PDF
 			return $mpdf->Output('', \Mpdf\Output\Destination::INLINE);
 		} else {
-			echo 'Criar uma view para romaneio não encontrado';
-			exit;
+
+			// scripts padrão
+			$scriptsPadraoHead = scriptsPadraoHead();
+			$scriptsPadraoFooter = scriptsPadraoFooter();
+
+			add_scripts('header', $scriptsPadraoHead);
+			add_scripts('footer', $scriptsPadraoFooter);
+
+			$data['titulo'] = "Romaneio não encontrado!";
+			$data['descricao'] = "Não foi possível localizar um romaneio!";
+
+			$this->CI->load->view('admin/erros/erro-pdf', $data);
 		}
 	}
-
 }

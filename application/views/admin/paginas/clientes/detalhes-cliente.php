@@ -529,7 +529,6 @@
 
                     </div>
                     
-                    <p class="fs--1 mb-0"><?= $coleta['observacao'] ?></p>
                   </div>
 
                 </div>
