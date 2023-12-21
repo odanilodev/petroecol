@@ -15,27 +15,37 @@ class Clientes_model extends CI_Model
     {
         $filtro = json_decode($cookie_filtro_clientes, true);
 
-        $this->db->order_by('nome', 'DESC');
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->select('C.*');
+        $this->db->from('ci_clientes C');
+        $this->db->join('ci_recipiente_cliente RC', 'RC.id_cliente = C.id', 'left');
+        $this->db->join('ci_recipientes R', 'RC.id_recipiente = R.id', 'left');
+
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->order_by('C.nome', 'DESC');
 
         if (($filtro['status'] ?? false) && $filtro['status'] != 'all') {
-            $this->db->where('status', $filtro['status']);
+            $this->db->where('C.status', $filtro['status']);
         }
 
         if (($filtro['cidade'] ?? false) && $filtro['cidade'] != 'all') {
-            $this->db->where('cidade', $filtro['cidade']);
+            $this->db->where('C.cidade', $filtro['cidade']);
         }
 
         if ($filtro['nome'] ?? false) {
-            $this->db->like('nome', $filtro['nome']);
+            $this->db->like('C.nome', $filtro['nome']);
+        }
+
+        if (($filtro['id_recipiente'] ?? false) && $filtro['id_recipiente'] != 'all') {
+            $this->db->where('R.id', $filtro['id_recipiente']);
         }
 
         if (!$count) {
             $offset = ($page - 1) * $limit;
             $this->db->limit($limit, $offset);
         }
+        $this->db->group_by('C.id');
 
-        $query = $this->db->get('ci_clientes');
+        $query = $this->db->get();
 
         if ($count) {
             return $query->num_rows();
