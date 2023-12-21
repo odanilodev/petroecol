@@ -45,6 +45,7 @@ class Clientes extends CI_Controller
             $cookie_filtro_clientes = count($this->input->post()) > 0 ? json_encode($this->input->post()) : $this->input->cookie('filtro_clientes');
         }else{
             $page = 1;
+            delete_cookie('filtro_clientes');
             $cookie_filtro_clientes = json_encode([]);
         }
 
@@ -284,6 +285,35 @@ class Clientes extends CI_Controller
             $response = array(
                 'success' => false,
                 'message' => "Parece que não podemos excluir este cliente, pois há recipientes associados a ele. Por favor, solicite a coleta ou justifique uma perda de recipiente."
+            );
+        }
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
+
+    public function alteraStatusCliente()
+    {
+        $id = $this->input->post('id');
+        $dados['status'] = $this->input->post('status');
+
+        $retorno = $this->Clientes_model->editaCliente($id, $dados);
+
+        if ($retorno) { // alterou status
+
+            $response = array(
+                'success' => true,
+                'message' => 'Status alterado com sucesso!',
+                'type' => "success",
+                'title' => "Sucesso!"
+            );
+
+        } else { // erro ao deletar
+
+            $response = array(
+                'success' => false,
+                'message' => 'Erro ao alterar status',
+                'type' => "error",
+                'title' => "Algo deu errado!"
             );
         }
 

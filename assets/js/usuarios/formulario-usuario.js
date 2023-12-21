@@ -237,3 +237,37 @@ const atualizaPermissoesUsuario = (id) => {
         }
     });
 }
+const deletaFotoPerfil = (id, arquivo) => {
+
+    Swal.fire({
+        title: 'Você tem certeza?',
+        text: "Esta ação não poderá ser revertida",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Sim, deletar'
+
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+
+            $.ajax({
+                type: 'post',
+                url: `${baseUrl}usuarios/deletaFotoPerfil`,
+                data: {
+                    id: id,
+                    arquivo: arquivo
+                }, success: function (data) {
+
+                    var redirect = data.type != 'error' ? `${baseUrl}usuarios/formulario/${id}` : '#';
+
+                    avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
+
+                }
+            })
+
+        }
+    })
+}

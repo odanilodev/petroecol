@@ -16,12 +16,12 @@
   <!-- ===============================================-->
   <!--    Favicons-->
   <!-- ===============================================-->
-  <link rel="apple-touch-icon" sizes="180x180" href="<?= base_url('assets/img/favicons/apple-touch-icon.png') ?>">
-  <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url('assets/img/favicons/favicon-32x32.png') ?>">
-  <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('assets/img/favicons/favicon-16x16.png') ?>">
-  <link rel="shortcut icon" type="image/x-icon" href="<?= base_url('assets/img/favicons/favicon.ico') ?>">
-  <link rel="manifest" href="<?= base_url('assets/img/favicons/manifest.json') ?>">
-  <meta name="msapplication-TileImage" content="<?= base_url('assets/img/favicons/mstile-150x150.png') ?>">
+  <link rel="apple-touch-icon" sizes="180x180" href="#">
+  <link rel="icon" type="image/png" sizes="32x32" href="#">
+  <link rel="icon" type="image/png" sizes="16x16" href="#">
+  <link rel="shortcut icon" type="image/x-icon" href="#">
+  <link rel="manifest" href="#">
+  <meta name="msapplication-TileImage" content="#">
   <meta name="theme-color" content="#ffffff">
   <script src="<?= base_url('vendors/imagesloaded/imagesloaded.pkgd.min.js') ?>"></script>
   <script src="<?= base_url('vendors/simplebar/simplebar.min.js') ?>"></script>
@@ -145,7 +145,7 @@
                       <div class="row flex-between-center mb-7">
 
                         <div class="col-auto">
-                          <a class="fs--1 fw-semi-bold text-1100" href="<?= base_url('login/esqueceusenha') ?>" style="color: #013738;">Esqueceu a Senha?</a>
+                          <a class="fs--1 fw-semi-bold text-1100" href="<?= base_url('login/esqueceuSenha') ?>" style="color: #013738;">Esqueceu a Senha?</a>
                         </div>
                       </div>
 
@@ -183,7 +183,7 @@
                 </a>
               </div>
               <div class="text-center mt-auto">
-                <div class="avatar avatar-3xl status-online"><img class="rounded-circle border border-3 border-white" src="<?= base_url() ?>assets/img/team/30.webp" alt="" /></div>
+                <div class="avatar avatar-3xl status-online"><img class="rounded-circle border border-3 border-white" src="" alt="" /></div>
                 <h5 class="mt-2 mb-3">Eric</h5>
                 <p class="text-center text-black mb-0">Ask us anything – we’ll get back to you here or by email within 24 hours.</p>
               </div>

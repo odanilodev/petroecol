@@ -34,7 +34,7 @@ class Clientes_model extends CI_Model
             $offset = ($page - 1) * $limit;
             $this->db->limit($limit, $offset);
         }
-  
+
         $query = $this->db->get('ci_clientes');
 
         if ($count) {

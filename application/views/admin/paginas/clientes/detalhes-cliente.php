@@ -76,24 +76,30 @@
                   <p class="fs--1 fw-semi-bold text-900 text mb-4 w-50">
                     <?php echo "{$cliente['rua']}, {$cliente['numero']} {$cliente['bairro']} - {$cliente['cidade']} / {$cliente['estado']}"; ?>
                   </p>
-
                   <div class="d-md-flex d-xl-block align-items-center justify-content-between mb-5">
 
+
+                    <?php if (permissaoComponentes('select-status-clientes')) { ?>
+                      <div class="col-md-3 float-end">
+                        <select id="" class="form-select select-status me-2 <?= $cliente['status'] == 1 ? 'select-status-ativo' : 'select-status-inativo'; ?>" onchange="alteraStatusCliente(<?= $cliente['id'] ?>)" style="width: 100%; height: 35px;">
+                          <option value="1" <?= $cliente['status'] == 1 ? 'selected' : ''; ?>>Ativo</option>
+                          <option value="3" <?= $cliente['status'] == 3 ? 'selected' : ''; ?>>Inativo</option>
+                        </select>
+                      </div>
+
+                    <?php } ?>
+
                     <div>
-
                       <?php foreach ($etiquetas as $v) { ?>
-
                         <span class="badge badge-phoenix badge-phoenix-secondary me-2"><?= $v['nome']; ?></span>
-
                       <?php } ?>
                     </div>
 
                   </div>
 
-                  <div class="d-flex align-items-center justify-content-between">
-                    <p class="mb-0"> Próxima Coleta</p>
+                  <div class="d-flex align-items-center">
+                    <p class="mb-0 me-2"> Próxima Coleta</p>
                     <div>
-
                       <span class="d-inline-block lh-sm me-1" data-feather="clock" style="height:16px;width:16px;"></span>
                       <span class="d-inline-block lh-sm"> 25/10/2023</span>
                     </div>
@@ -107,10 +113,8 @@
               <h4 class="mb-3">Outras informações</h4>
               <div class="row g-3">
                 <div class="col-12">
-
                   <div class="mb-7">
                     <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
-
                       <div class="col-sm-12 col-xxl-12 border-bottom py-3">
                         <table class="w-100 table-stats">
                           <tr>
@@ -124,7 +128,7 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <a class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-900" href="tel:<?= $cliente['telefone'] ?>">
+                              <a class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-900 text-break" href="tel:<?= $cliente['telefone'] ?>">
                                 <?= $cliente['telefone'] ?>
                               </a>
                             </td>
@@ -141,7 +145,7 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <a class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-900 w-100" href="mailto:<?= $cliente['email'] ?>"><?= $cliente['email'] ?></a>
+                              <a class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-900 w-100 text-break" href="mailto:<?= $cliente['email'] ?>"><?= $cliente['email'] ?></a>
                             </td>
                           </tr>
 
@@ -157,7 +161,7 @@
                               </td>
                               <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                               <td class="py-2">
-                                <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0"><?= $cliente['cnpj']; ?></div>
+                                <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0 text-break"><?= $cliente['cnpj']; ?></div>
                               </td>
                             </tr>
                           <?php } ?>
@@ -188,7 +192,7 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0">Dia <?= $cliente['dia_pagamento']; ?></div>
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0 ">Dia <?= $cliente['dia_pagamento']; ?></div>
                             </td>
                           </tr>
 
@@ -213,7 +217,7 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0"><?= ucfirst($cliente['nome_responsavel']); ?></div>
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break"><?= ucfirst($cliente['nome_responsavel']); ?></div>
                             </td>
                           </tr>
                           <tr>
@@ -227,7 +231,7 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0"><?= ucfirst($cliente['funcao_responsavel']); ?></div>
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break"><?= ucfirst($cliente['funcao_responsavel']); ?></div>
                             </td>
                           </tr>
 
@@ -242,7 +246,7 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <a class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-900" href="tel:<?= $cliente['telefone_responsavel'] ?>">
+                              <a class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-900 text-break" href="tel:<?= $cliente['telefone_responsavel'] ?>">
                                 <?= $cliente['telefone_responsavel'] ?>
                               </a>
                             </td>
@@ -307,66 +311,58 @@
                           </tr>
                           <tr>
 
-                          <td class="py-2">
+                            <td class="py-2">
                               <div class="d-flex align-items-center">
-                                  <div class="d-flex bg-success-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                      <span class="text-success-600 dark__text-success-300" data-feather="inbox" style="width:16px; height:16px"></span>
-                                  </div>
-                                  <p class="fw-bold mb-0">Comodato</p>
-                                  <input type='hidden' class='alerta-comodato' value="<?= $this->session->flashdata('aviso-comodato') ?>">
-                                  <input type='hidden' class='alerta-comodato-deletado' value="<?= $this->session->flashdata('aviso-comodato-deletado') ?>">
+                                <div class="d-flex bg-success-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                  <span class="text-success-600 dark__text-success-300" data-feather="inbox" style="width:16px; height:16px"></span>
+                                </div>
+                                <p class="fw-bold mb-0">Comodato</p>
+                                <input type='hidden' class='alerta-comodato' value="<?= $this->session->flashdata('aviso-comodato') ?>">
+                                <input type='hidden' class='alerta-comodato-deletado' value="<?= $this->session->flashdata('aviso-comodato-deletado') ?>">
                               </div>
-                          </td>
+                            </td>
 
-                          <?php if (!empty($cliente['comodato'])) : ?>
+                            <?php if (!empty($cliente['comodato'])) : ?>
                               <td class="py-2">
-                                  <!-- Botão de Download -->
-                                  <a href="<?= base_url_upload('clientes/comodato/'.$cliente['comodato']) ?>" download class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
-                                      <span class="fa-solid fa-download me-sm-2"></span>
-                                      <span class="d-none d-sm-inline">Download</span>
-                                  </a>
+                                <!-- Botão de Download -->
+                                <a href="<?= base_url_upload('clientes/comodato/' . $cliente['comodato']) ?>" download class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
+                                  <span class="fa-solid fa-download me-sm-2"></span>
+                                  <span class="d-none d-sm-inline">Download</span>
+                                </a>
                               </td>
-                          <?php endif; ?>
+                            <?php endif; ?>
 
-                          <td class="py-2">
+                            <td class="py-2">
                               <!-- Botão de Upload/Modificar -->
                               <?php if (!empty($cliente['comodato'])) : ?>
-                                  <a data-bs-toggle="modal" data-bs-target=".modal-comodato" href="#" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
-                                      <span class="fa-solid fa-upload me-sm-2"></span>
-                                      <span class="d-none d-sm-inline">Modificar</span>
-                                  </a>
+                                <a data-bs-toggle="modal" data-bs-target=".modal-comodato" href="#" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
+                                  <span class="fa-solid fa-upload me-sm-2"></span>
+                                  <span class="d-none d-sm-inline">Modificar</span>
+                                </a>
                               <?php else : ?>
-                                  <a data-bs-toggle="modal" data-bs-target=".modal-comodato" href="#" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
-                                      <span class="fa-solid fa-upload me-sm-2"></span>
-                                      <span class="d-none d-sm-inline">Cadastrar</span>
-                                  </a>
+                                <a data-bs-toggle="modal" data-bs-target=".modal-comodato" href="#" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
+                                  <span class="fa-solid fa-upload me-sm-2"></span>
+                                  <span class="d-none d-sm-inline">Cadastrar</span>
+                                </a>
                               <?php endif; ?>
-                          </td>
+                            </td>
 
                           </tr>
                         </table>
                       </div>
-
-                      <?php if ($cliente['observacao']) { ?>
-                        <div class="col-sm-12 col-xxl-12 py-3">
-                          <table class="w-100 table-stats">
-                            <tr>
-                              <th>
-                                <div class="d-flex align-items-center">
-
-                                  <p class="fw-bold mb-0">Observações:
-                                    <span class="fw-semi-bold mb-0"><?= $cliente['observacao'] ?></span>
-                                  </p>
-
-                                </div>
-                              </th>
-
-                            </tr>
-                          </table>
-                        </div>
-
-                      <?php } ?>
-
+                      <div class="col-sm-12 col-xxl-12 py-3">
+                        <table class="w-100 table-stats">
+                          <tr>
+                            <th>
+                              <div class="d-flex align-items-center">
+                                <p class="fw-bold mb-0">Observações:
+                                  <span class="justificado fw-semi-bold mb-0 text-break" style="text-justify"><?= $cliente['observacao'] ?></span>
+                                </p>
+                              </div>
+                            </th>
+                          </tr>
+                        </table>
+                      </div>
                     </div>
                   </div>
 
@@ -552,30 +548,30 @@
 
   <!-- Modal cadastro comodato -->
   <div class="modal fade modal-comodato" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <h5 class="modal-title">Anexar arquivo de comodato</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                  <p>Caso já contenha um arquivo cadastrado, ele será substituído.</p>
-                  <form action="<?= base_url('clientes/cadastraComodato'); ?>" method="post" enctype="multipart/form-data" id="comodatoForm">
-                      <div class="mb-3">
-                          <label for="fileInput" class="form-label">Escolha um arquivo:</label>
-                          <input type="file" class="form-control" id="fileInput" name="comodato">
-                          <input type="hidden" class="form-control" value='<?= $cliente['id'] ?>' name="id">
-                      </div>
-                      <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                          <?php if (!empty($cliente['comodato'])) : ?>
-                              <!-- Botão de Deletar -->
-                              <a href="<?= base_url('clientes/deletaComodato/'.$cliente['id'].'/'.urlencode($cliente['comodato'])) ?>" class="btn btn-danger">Deletar</a>
-                          <?php endif; ?>
-                          <button type="submit" class="btn btn-primary">Enviar</button>
-                      </div>
-                  </form>
-              </div>
-          </div>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Anexar arquivo de comodato</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Caso já contenha um arquivo cadastrado, ele será substituído.</p>
+          <form action="<?= base_url('clientes/cadastraComodato'); ?>" method="post" enctype="multipart/form-data" id="comodatoForm">
+            <div class="mb-3">
+              <label for="fileInput" class="form-label">Escolha um arquivo:</label>
+              <input type="file" class="form-control" id="fileInput" name="comodato">
+              <input type="hidden" class="form-control" value='<?= $cliente['id'] ?>' name="id">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+              <?php if (!empty($cliente['comodato'])) : ?>
+                <!-- Botão de Deletar -->
+                <a href="<?= base_url('clientes/deletaComodato/' . $cliente['id'] . '/' . urlencode($cliente['comodato'])) ?>" class="btn btn-danger">Deletar</a>
+              <?php endif; ?>
+              <button type="submit" class="btn btn-primary">Enviar</button>
+            </div>
+          </form>
+        </div>
       </div>
+    </div>
   </div>
