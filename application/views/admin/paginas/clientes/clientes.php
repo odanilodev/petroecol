@@ -43,28 +43,28 @@
                                                     </select>
                                                 </div>
                                                 <div class="mb-3"><label class="fw-bold mb-2 text-1000" for="createDate">Cidades</label>
-                                                    <select name="cidade" class="form-select" id="createDate">
+                                                    <select name="cidade" class="form-select" id="createDate" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
                                                         <option value="all" selected="selected">Todos</option>
                                                         <?php foreach ($cidades as $v) { ?>
-                                                            <option <?= ($cookie_filtro_clientes['cidade'] ?? null) == $v['cidade'] ? 'selected' : '' ?> value="<?=$v['cidade']?>"><?=$v['cidade']?></option>
+                                                            <option <?= ($cookie_filtro_clientes['cidade'] ?? null) == $v['cidade'] ? 'selected' : '' ?> value="<?= $v['cidade'] ?>"><?= $v['cidade'] ?></option>
                                                         <?php } ?>
                                                     </select>
                                                 </div>
 
                                                 <div class="mb-3"><label class="fw-bold mb-2 text-1000" for="createDate">Recipientes</label>
-                                                    <select name="id_recipiente" class="form-select" id="createDate">
+                                                    <select name="id_recipiente" class="form-select" id="createDate" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
                                                         <option value="all" selected="selected">Nenhum selecionado</option>
                                                         <?php foreach ($recipientes as $v) { ?>
-                                                            <option <?= ($cookie_filtro_clientes['id_recipiente'] ?? null) == $v['id'] ? 'selected' : '' ?> value="<?=$v['id']?>"><?=$v['nome_recipiente']?></option>
+                                                            <option <?= ($cookie_filtro_clientes['id_recipiente'] ?? null) == $v['id'] ? 'selected' : '' ?> value="<?= $v['id'] ?>"><?= $v['nome_recipiente'] ?></option>
                                                         <?php } ?>
                                                     </select>
                                                 </div>
 
                                                 <div class="mb-3"><label class="fw-bold mb-2 text-1000" for="createDate">Residuos</label>
-                                                    <select name="id_residuo" class="form-select" id="createDate">
+                                                    <select name="id_residuo" class="form-select" id="createDate" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
                                                         <option value="all" selected="selected">Nenhum selecionado</option>
                                                         <?php foreach ($residuos as $v) { ?>
-                                                            <option <?= ($cookie_filtro_clientes['id_residuo'] ?? null) == $v['id'] ? 'selected' : '' ?> value="<?=$v['id']?>"><?=$v['nome']?></option>
+                                                            <option <?= ($cookie_filtro_clientes['id_residuo'] ?? null) == $v['id'] ? 'selected' : '' ?> value="<?= $v['id'] ?>"><?= $v['nome'] ?></option>
                                                         <?php } ?>
                                                     </select>
                                                 </div>
