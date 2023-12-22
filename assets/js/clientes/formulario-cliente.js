@@ -285,21 +285,42 @@ const detalhesHistoricoColeta = (idColeta) => {
 
             if (data.success) {
 
+
                 let valorPago = JSON.parse(data.historicoColeta['valor_pago']);
+
+                let residuosColetados = data.historicoColeta['nomes_residuos'].split(',');
+
+                let formaPagamento = data.historicoColeta['nome_pagamento'].split(',');
+
+                
 
                 let partesData = data.historicoColeta['data_coleta'].split('-');
 
                 let dataFormatada = partesData[2] + '/' + partesData[1] + '/' + partesData[0];
 
-                $('.data-coleta').html(dataFormatada);
-                $('.responsavel-coleta').html(data.historicoColeta['nome_responsavel']);
-                $('.pagamento-coleta').html(data.historicoColeta['nomes_pagamentos'] + ' | ' + valorPago);
-                $('.residuos-coletados').html(data.historicoColeta['nomes_residuos']);
+                
+
+
+                for(let i = 0; i < valorPago.length; i++) {
+
+                    let historicoColeta = `
+                    <tr>
+                        <td>${dataFormatada}</td>
+                        <td>${data.historicoColeta['nome_responsavel']} </td>
+                        <td>${formaPagamento[i]}</td>
+                        <td>${valorPago[i]}</td>
+                        <td>${residuosColetados[i]}</td>
+                        <td>33kg</td>
+                    </tr>
+                    `;
+
+                    $('.tabela-historico-coleta').append(historicoColeta);
+                }
 
             } else {
 
                 avisoRetorno('Algo deu errado', 'Não foi possível encontrar um histórico de coleta para este cliente!', 'error', '#');
-                
+
             }
 
 
