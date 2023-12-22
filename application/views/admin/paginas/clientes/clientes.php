@@ -60,6 +60,15 @@
                                                     </select>
                                                 </div>
 
+                                                <div class="mb-3"><label class="fw-bold mb-2 text-1000" for="createDate">Residuos</label>
+                                                    <select name="id_residuo" class="form-select" id="createDate">
+                                                        <option value="all" selected="selected">Nenhum selecionado</option>
+                                                        <?php foreach ($residuos as $v) { ?>
+                                                            <option <?= ($cookie_filtro_clientes['id_residuo'] ?? null) == $v['id'] ? 'selected' : '' ?> value="<?=$v['id']?>"><?=$v['nome']?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </div>
+
                                             </div>
                                             <div class="modal-footer d-flex justify-content-end align-items-center px-4 pb-4 border-0 pt-3">
                                                 <button class="btn btn-sm btn-primary px-9 fs--2 my-0" type="submit">Buscar clientes</button>
