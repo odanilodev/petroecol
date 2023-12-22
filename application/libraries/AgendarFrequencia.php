@@ -13,24 +13,24 @@ class AgendarFrequencia
         $this->CI->load->model('Clientes_model');
 	}
 
-	public function cadastraAgendamentoFrequencia(string $id_cliente, string $data_coleta, string $hora_coleta = null, string $periodo_coleta = null, string $status)
+	public function cadastraAgendamentoFrequencia(int $id_cliente, $data_coleta)
     {
 
         $dias_coleta = $this->CI->Clientes_model->recebeClienteFrequenciaColeta($id_cliente);
-
-		// Convertendo a string $data_coleta para um objeto DateTime
-		$data_coleta_obj = new DateTime($data_coleta);
-
-		// Adicionando os dias da frequência
-		$data_coleta_obj->modify('+' . $dias_coleta['dia'] . ' days');
 	
-		// Obtendo a data modificada
+		$ultimoAgendamentoCliente = $this->CI->Agendamentos_model->recebeUltimoAgendamentoCliente($id_cliente);
+
+        $periodo_ultima_coleta = $ultimoAgendamentoCliente['periodo_coleta'];
+		$hora_ultima_coleta = $ultimoAgendamentoCliente['hora_coleta'];
+
+		$data_coleta_obj = new DateTime($data_coleta);
+		$data_coleta_obj->modify('+' . $dias_coleta['dia'] . ' days'); // add dias 
 		$nova_data_coleta = $data_coleta_obj->format('Y-m-d');
 
         $dados['id_cliente'] = $id_cliente;
         $dados['data_coleta'] = $nova_data_coleta;
-        $dados['hora_coleta'] = $hora_coleta;
-        $dados['periodo_coleta'] = $periodo_coleta;
+        $dados['hora_coleta'] = $hora_ultima_coleta ?? null;
+        $dados['periodo_coleta'] = $periodo_ultima_coleta ?? null;
         $dados['prioridade'] = 0; // define como prioridade comum
         $dados['id_empresa'] = $this->CI->session->userdata('id_empresa');
 

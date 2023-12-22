@@ -89,12 +89,12 @@ class Clientes_model extends CI_Model
         return $query->row_array();
     }
 
-    public function recebeClienteFrequenciaColeta($id)
+    public function recebeClienteFrequenciaColeta($id_cliente)
     {
-        $this->db->select('C.id_frequencia_coleta, F.dia');
+        $this->db->select('F.dia');
         $this->db->from('ci_clientes C');
         $this->db->join('ci_frequencia_coleta F', 'C.id_frequencia_coleta = F.id', 'left');
-        $this->db->where('C.id', $id);
+        $this->db->where('C.id', $id_cliente);
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get();
 

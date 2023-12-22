@@ -172,12 +172,13 @@ $('#select-cliente-modal').change(function () {
 })
 
 
-const concluirRomaneio = (codRomaneio, idResponsavel) => {
+const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio) => {
 
     $('#modalConcluirRomaneio').modal('show');
 
     $('.id_responsavel').val(idResponsavel);
     $('.code_romaneio').val(codRomaneio);
+    $('.data_romaneio').val(dataRomaneio);
 
     if (codRomaneio) {
 
@@ -434,6 +435,7 @@ function finalizarRomaneio() {
 
     let idResponsavel = $('.id_responsavel').val();
     let codRomaneio = $('.code_romaneio').val();
+    let dataRomaneio = $('.data_romaneio').val();
 
     $('.accordion-item').each(function () {
 
@@ -494,7 +496,8 @@ function finalizarRomaneio() {
             data: {
                 clientes: dadosClientes,
                 idResponsavel: idResponsavel,
-                codRomaneio: codRomaneio
+                codRomaneio: codRomaneio,
+                dataRomaneio: dataRomaneio
 
             }, beforeSend: function () {
 
