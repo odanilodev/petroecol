@@ -19,9 +19,11 @@ class Clientes_model extends CI_Model
         $this->db->from('ci_clientes C');
         $this->db->join('ci_recipiente_cliente RC', 'RC.id_cliente = C.id', 'left');
         $this->db->join('ci_recipientes R', 'RC.id_recipiente = R.id', 'left');
+        $this->db->join('ci_etiqueta_cliente EC', 'EC.id_cliente = C.id', 'left');
+        $this->db->join('ci_etiquetas E', 'EC.id_etiqueta = E.id', 'left');
 
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->order_by('C.nome', 'DESC');
+        $this->db->order_by('C.nome', 'ASC');
 
         if (($filtro['status'] ?? false) && $filtro['status'] != 'all') {
             $this->db->where('C.status', $filtro['status']);
@@ -37,6 +39,10 @@ class Clientes_model extends CI_Model
 
         if (($filtro['id_recipiente'] ?? false) && $filtro['id_recipiente'] != 'all') {
             $this->db->where('R.id', $filtro['id_recipiente']);
+        }
+        
+        if (($filtro['id_etiqueta'] ?? false) && $filtro['id_etiqueta'] != 'all') {
+            $this->db->where('E.id', $filtro['id_etiqueta']);
         }
 
         if (!$count) {
