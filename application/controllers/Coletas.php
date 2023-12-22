@@ -74,8 +74,33 @@ class Coletas extends CI_Controller
     {
         $this->load->library('GerarCertificadoColeta');
 
-        $idCliente = $this->uri->segment(3);
+        $idColeta = $this->uri->segment(3);
 
-        $this->gerarcertificadocoleta->gerarPdf($idCliente);
+        $this->gerarcertificadocoleta->gerarPdf($idColeta);
+    }
+
+    public function detalhesHistoricoColeta()
+    {
+        $idColeta = $this->input->post('idColeta');
+
+        $this->load->model('Coletas_model');
+		$historicoColeta = $this->Coletas_model->recebeColetasClienteResiduos($idColeta);
+
+        if ($historicoColeta) {
+
+            $response = array(
+                'success' => true,
+                'historicoColeta' => $historicoColeta
+            );
+        } else {
+
+            $response = array(
+                'success' => false,
+                'message' => "Erro ao editar o cliente!"
+            );
+        }
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
     }
 }

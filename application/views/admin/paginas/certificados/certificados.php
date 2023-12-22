@@ -56,7 +56,7 @@
 
 
             <div style="font-size: 14px" class="col-md-6">
-                Data: <strong><?= date('d/m/Y', strtotime($clientes_coletas[0]['data_coleta'])); ?></strong> <br>
+                Data: <strong><?= date('d/m/Y', strtotime($clientes_coletas['data_coleta'])); ?></strong> <br>
             </div>
 
         </div>
@@ -68,34 +68,34 @@
 
                     <tr>
                         <td colspan="3">
-                            <strong>Gerador:</strong> <?= $clientes_coletas[0]['CLIENTE'] ?>
+                            <strong>Gerador:</strong> <?= $clientes_coletas['CLIENTE'] ?>
                         </td>
                     </tr>
 
                     <tr>
                         <td colspan="3">
-                            <strong>RAZÃO SOCIAL: </strong> <?= $clientes_coletas[0]['razao_social'] ? $clientes_coletas[0]['razao_social'] : "Não informado."; ?>
+                            <strong>RAZÃO SOCIAL: </strong> <?= $clientes_coletas['razao_social'] ? $clientes_coletas['razao_social'] : "Não informado."; ?>
                         </td>
                     </tr>
 
                     <tr>
 
                         <td scope="col" style="width: 280px;">
-                            <strong>CNPJ: </strong> <?= $clientes_coletas[0]['cnpj'] ? $clientes_coletas[0]['cnpj'] : "Não informado." ?>
+                            <strong>CNPJ: </strong> <?= $clientes_coletas['cnpj'] ? $clientes_coletas['cnpj'] : "Não informado." ?>
                         </td>
 
                         <td scope="col" style="width: 150px;">
-                            <strong>UF: </strong> <span><?= $clientes_coletas[0]['estado'] ? $clientes_coletas[0]['estado'] : "Não informado." ?></span>
+                            <strong>UF: </strong> <span><?= $clientes_coletas['estado'] ? $clientes_coletas['estado'] : "Não informado." ?></span>
                         </td>
 
                         <td scope="col" style="width: 280px;">
-                            <strong>Telefone: </strong> <?= $clientes_coletas[0]['telefone'] ? $clientes_coletas[0]['telefone'] : "Não informado." ?>
+                            <strong>Telefone: </strong> <?= $clientes_coletas['telefone'] ? $clientes_coletas['telefone'] : "Não informado." ?>
                         </td>
                     </tr>
 
                     <tr>
                         <td colspan="3">
-                            <strong>Endereço: </strong> <?= "{$clientes_coletas[0]['rua']}, {$clientes_coletas[0]['numero']} {$clientes_coletas[0]['bairro']} - {$clientes_coletas[0]['cidade']} / {$clientes_coletas[0]['estado']}" ?>
+                            <strong>Endereço: </strong> <?= "{$clientes_coletas['rua']}, {$clientes_coletas['numero']} {$clientes_coletas['bairro']} - {$clientes_coletas['cidade']} / {$clientes_coletas['estado']}" ?>
                         </td>
                     </tr>
 
@@ -121,10 +121,10 @@
 
                     <?php for ($i = 0; $i < count($residuos_coletados); $i++) { ?>
                         <tr>
-                            <td style="width: 15px;"><?= $clientes_coletas[0]['cod_romaneio'] ?></td>
+                            <td style="width: 15px;"><?= $clientes_coletas['cod_romaneio'] ?></td>
                             <td style="width: 15px;"><?= $residuos_coletados[$i] ?> </td>
                             <td style="width: 15px;"><?= $quantidade_residuos_coletados[$i] . $medida_residuos_coletados[$i] ?></td>
-                            <td style="width: 15px;"><?= date('d/m/Y', strtotime($clientes_coletas[0]['data_coleta'])); ?></td>
+                            <td style="width: 15px;"><?= date('d/m/Y', strtotime($clientes_coletas['data_coleta'])); ?></td>
                         </tr>
                     <?php } ?>
 

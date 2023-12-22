@@ -521,14 +521,20 @@
                         <p class="fs--1 mb-0">Por<a class="ms-1" href="#!"><?= $coleta['nome_responsavel'] ?></a></p>
                       </div>
 
+                      <div class="cursor-pointer" style="margin-right: 10px;">
+                        <button onclick="detalhesHistoricoColeta(<?= $coleta['ID_COLETA']?>)" class="btn btn-phoenix-warning" href="#" title="Ver Detalhes" data-bs-toggle="modal" data-bs-target=".modal-historico-coleta">
+                          <span class="fas fa-eye text-warning"></span>
+                        </button>
+                      </div>
+
                       <div class="cursor-pointer">
-                        <a target="_blank" class="btn btn-phoenix-primary" href="<?= base_url('coletas/certificadoColeta/' . $cliente['id'])?>" title="Baixar Certificado">
+                        <a target="_blank" class="btn btn-phoenix-primary" href="<?= base_url('coletas/certificadoColeta/' . $coleta['ID_COLETA']) ?>" title="Baixar Certificado">
                           <span class="fas fa-file-download text-primary"></span>
                         </a>
                       </div>
 
                     </div>
-                    
+
                   </div>
 
                 </div>
@@ -570,6 +576,119 @@
               <button type="submit" class="btn btn-primary">Enviar</button>
             </div>
           </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal detalhes histórico de coleta -->
+  <div class="modal fade modal-historico-coleta" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Histórico de Coleta</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <div class="card">
+            <div class="card-body">
+              <div class="row g-3">
+                <div class="col-12">
+                  <div class="mb-7">
+                    <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+
+                      <div class="col-sm-12 col-xxl-12 border-bottom py-3">
+                        <table class="w-100 table-stats">
+                          <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                          <tr>
+                            <td class="py-2">
+                              <div class="d-inline-flex align-items-center">
+                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                  <span class="text-info-600 dark__text-info-300" data-feather="calendar" style="width:16px; height:16px"></span>
+                                </div>
+                                <p class="fw-bold mb-0">Data da coleta</p>
+                              </div>
+                            </td>
+                            <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                            <td class="py-2">
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break data-coleta">
+                                <!-- JS -->
+                              </div>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="py-2">
+                              <div class="d-inline-flex align-items-center">
+                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                  <span class="text-info-600 dark__text-info-300" data-feather="users" style="width:16px; height:16px"></span>
+                                </div>
+                                <p class="fw-bold mb-0">Responsável</p>
+                              </div>
+                            </td>
+                            <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                            <td class="py-2">
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break responsavel-coleta">
+                                <!-- JS -->
+                              </div>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="py-2">
+                              <div class="d-flex align-items-center">
+                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                  <span class="text-info-600 dark__text-info-300" data-feather="edit" style="width:16px; height:16px"></span>
+                                </div>
+                                <p class="fw-bold mb-0">Forma de Pagamento</p>
+                              </div>
+                            </td>
+                            <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                            <td class="py-2">
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break pagamento-coleta">
+                                <!-- JS -->
+                              </div>
+                            </td>
+                          </tr>
+                          
+
+                          <tr>
+                            <td class="py-2">
+                              <div class="d-inline-flex align-items-center">
+                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                  <span class="text-info-600 dark__text-info-300" data-feather="phone" style="width:16px; height:16px"></span>
+                                </div>
+                                <p class="fw-bold mb-0">Resíduos Coletados</p>
+                              </div>
+                            </td>
+                            <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                            <td class="py-2">
+
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break residuos-coletados">
+                                <!-- JS -->
+                              </div>
+
+                            </td>
+                          </tr>
+                          
+                        </table>
+                      </div>
+
+                      
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

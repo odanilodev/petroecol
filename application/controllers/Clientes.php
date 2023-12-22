@@ -43,7 +43,7 @@ class Clientes extends CI_Controller
 
         if (is_numeric($page)) {
             $cookie_filtro_clientes = count($this->input->post()) > 0 ? json_encode($this->input->post()) : $this->input->cookie('filtro_clientes');
-        }else{
+        } else {
             $page = 1;
             delete_cookie('filtro_clientes');
             $cookie_filtro_clientes = json_encode([]);
@@ -113,6 +113,11 @@ class Clientes extends CI_Controller
         $this->load->model('Coletas_model');
 
         $data['coletas'] = $this->Coletas_model->recebeColetasCliente($id);
+
+        // echo "<pre>"; print_r($data['coletas']);
+
+        $data['quantidade_residuos_coletados'] = json_decode($data['coletas'][0]['quantidade_coletada'], true);
+        $data['medida_residuos_coletados'] =  explode(',', $data['coletas'][0]['unidade_medida']);
 
         $data['cliente'] = $this->Clientes_model->recebeCliente($id);
 
@@ -306,7 +311,6 @@ class Clientes extends CI_Controller
                 'type' => "success",
                 'title' => "Sucesso!"
             );
-
         } else { // erro ao deletar
 
             $response = array(

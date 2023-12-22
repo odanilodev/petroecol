@@ -257,19 +257,54 @@ const verificaRecipienteCliente = (id) => {
 const alteraStatusCliente = (id) => {
 
 
-    let status =  $('.select-status').val();
-    
-        $.ajax({
-            type: 'post',
-            url: `${baseUrl}clientes/alteraStatusCliente`,
-            data: {
-                    id: id,
-                    status: status
-                }, success: function (data) {
+    let status = $('.select-status').val();
 
-                    avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${baseUrl}clientes/detalhes/${id}`);
+    $.ajax({
+        type: 'post',
+        url: `${baseUrl}clientes/alteraStatusCliente`,
+        data: {
+            id: id,
+            status: status
+        }, success: function (data) {
 
-                }
-            })
+            avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${baseUrl}clientes/detalhes/${id}`);
+
+        }
+    })
 }
 
+
+const detalhesHistoricoColeta = (idColeta) => {
+
+    $.ajax({
+        type: 'post',
+        url: `${baseUrl}coletas/detalhesHistoricoColeta`,
+        data: {
+            idColeta: idColeta,
+        }, success: function (data) {
+
+            if (data.success) {
+
+                let valorPago = JSON.parse(data.historicoColeta['valor_pago']);
+
+                let partesData = data.historicoColeta['data_coleta'].split('-');
+
+                let dataFormatada = partesData[2] + '/' + partesData[1] + '/' + partesData[0];
+
+                $('.data-coleta').html(dataFormatada);
+                $('.responsavel-coleta').html(data.historicoColeta['nome_responsavel']);
+                $('.pagamento-coleta').html(data.historicoColeta['nomes_pagamentos'] + ' | ' + valorPago);
+                $('.residuos-coletados').html(data.historicoColeta['nomes_residuos']);
+
+            } else {
+
+                avisoRetorno('Algo deu errado', 'Não foi possível encontrar um histórico de coleta para este cliente!', 'error', '#');
+                
+            }
+
+
+
+        }
+    })
+
+}
