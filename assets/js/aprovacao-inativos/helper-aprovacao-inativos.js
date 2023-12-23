@@ -25,9 +25,16 @@ const inativaCliente = (id) => {
 
                         let qtdClientes = parseInt($('.icon-indicator-number').text());
 
-                        if (qtdClientes > 1) {
+                        if (qtdClientes >= 99) {
+
+                            $('.icon-indicator-number').text('99+');
+
+                        } else if (qtdClientes > 1) {
+
                             $('.icon-indicator-number').text(qtdClientes - 1);
+
                         } else {
+                            
                             $(".btn-aprovacao-inativacao").animate({
                                 opacity: 0,
                                 height: 0
