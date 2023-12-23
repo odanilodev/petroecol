@@ -58,7 +58,7 @@
                                                         <option value="all" selected="selected">--</option>
                                                         <?php foreach ($recipientes as $v) { ?>
                                                             <option <?= ($cookie_filtro_clientes['id_recipiente'] ?? null) == $v['id'] ? 'selected' : '' ?> value="<?= $v['id'] ?>"><?= $v['nome_recipiente'] ?></option>
-                                                            - Todos <?php } ?>
+                                                        <?php } ?>
                                                     </select>
                                                 </div>
 
