@@ -31217,10 +31217,10 @@ a[href].bg-200:hover, a[href].bg-200:focus {
 .icon-indicator::before {
   position: absolute;
   content: "";
-  right: -3px;
-  top: 1px;
-  height: 19px;
-  width: 19px;
+  right: -6px;
+  top: 0px;
+  height: 23px;
+  width: 27px;
   border-radius: 50%;
 }
 .icon-indicator-sm::before {
