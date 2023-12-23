@@ -82,10 +82,10 @@
 
                 <option disabled selected value="">Período de Coleta (opcional)</option>
 
-                  <option value="Manhã">Manhã</option>
-                  <option value="Tarde">Tarde</option>
-                  <option value="Noite">Noite</option>
-                
+                <option value="Manhã">Manhã</option>
+                <option value="Tarde">Tarde</option>
+                <option value="Noite">Noite</option>
+
               </select>
 
             </div>
@@ -95,6 +95,8 @@
               <label for="eventDescription">Observação</label>
             </div>
           </div>
+
+          <input type="hidden" class="prioridade-agendamento" value="1">
 
           <div class="modal-footer d-flex justify-content-between align-items-center border-0">
 

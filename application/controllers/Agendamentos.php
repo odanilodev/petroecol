@@ -50,7 +50,7 @@ class Agendamentos extends CI_Controller
         $dados['hora_coleta'] = $this->input->post('horario');
         $dados['periodo_coleta'] = $this->input->post('periodo');
         $dados['observacao'] = $this->input->post('obs');
-        $dados['prioridade'] = 1; // define como prioridade
+        $dados['prioridade'] = $this->input->post('prioridade');
         $dados['id_empresa'] = $this->session->userdata('id_empresa');
         $id = $this->input->post('id');
 

@@ -284,7 +284,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
       });
 
       // adiciona um novo agendamento
-      const salvaAgendamento = (cliente, data, horario, periodo, obs, id) => {
+      const salvaAgendamento = (cliente, data, horario, periodo, obs, id, prioridade) => {
 
         let dataNova = data;
 
@@ -315,7 +315,8 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
               horario: horario,
               periodo: periodo,
               obs: obs,
-              id: id
+              id: id,
+              prioridade: prioridade
             },
             beforeSend: function () {
               $('.load-form').removeClass('d-none');
@@ -355,6 +356,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
         }
       }
 
+      // novo agendamento
       $(document).on('click', '.btn-salva-agendamento', function () {
 
         let cliente = $('.cliente-agendamento').val();
@@ -362,29 +364,30 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
         let horario = $('.horario-agendamento').val();
         let periodo = $('.periodo-agendamento').val();
         let obs = $('.obs-agendamento').val();
+        let prioridade = $('.prioridade-agendamento').val();
 
         let id = $('.input-id').val();
 
-        salvaAgendamento(cliente, data, horario, periodo, obs, id);
+        salvaAgendamento(cliente, data, horario, periodo, obs, id, prioridade);
 
       })
 
 
       $(document).on('change', '.data-modal', function () {
 
-        alteraMomentoColeta('.data-modal', 'data');
+        alteraMomentoColeta(this, 'data');
 
       })
 
       $(document).on('change', '.hora-modal', function () {
 
-        alteraMomentoColeta('.hora-modal', 'hora');
+        alteraMomentoColeta(this, 'hora');
 
       })
 
       $(document).on('change', '.periodo-modal', function () {
 
-        alteraMomentoColeta('.periodo-modal', 'periodo');
+        alteraMomentoColeta(this, 'periodo');
 
       })
 
@@ -405,8 +408,9 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
           $(`.detalhes-modal-${idCliente}`).addClass('d-none');
           $(`.salva-modal-${idCliente}`).removeClass('d-none');
           $(`.salva-modal-${idCliente}`).attr('data-cliente', idCliente);
-          $(`.salva-modal-${idCliente}`).attr('data-hora', $('.hora-modal').val());
-          $(`.salva-modal-${idCliente}`).attr('data-periodo', $('.periodo-modal').val());
+          $(`.salva-modal-${idCliente}`).attr('data-hora', $(`.hora-modal-${idCliente}`).val());
+          $(`.salva-modal-${idCliente}`).attr('data-periodo', $(`.periodo-modal-${idCliente}`).val());
+          $(`.salva-modal-${idCliente}`).attr('data-prioridade', $(`.prioridade-modal-${idCliente}`).val());
           $(`.salva-modal-${idCliente}`).attr('data-obs', obs);
           $(`.salva-modal-${idCliente}`).attr('data-agendamento', idAgendamento);
           $(`.salva-modal-${idCliente}`).attr('data-data', dataFormatada);
@@ -430,8 +434,9 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
         let horaNova = $(this).data('hora');
         let idAgendamento = $(this).data('agendamento');
         let obs = $(this).data('obs');
+        let prioridade = $(this).data('prioridade');
 
-        salvaAgendamento(idCliente, dataNova, horaNova, periodoNovo, obs, idAgendamento);
+        salvaAgendamento(idCliente, dataNova, horaNova, periodoNovo, obs, idAgendamento, prioridade);
 
       })
 
@@ -783,6 +788,9 @@ const exibirClientesAgendados = (dataColeta, prioridade) => {
             </td>
 
             <td style="text-align: center">
+
+            <input type="hidden" value="${cliente.prioridade}" class="prioridade-modal-${cliente.id_cliente}">
+
               <a class="detalhes-modal-${cliente.id_cliente}" href="${baseUrl}clientes/detalhes/${cliente.id_cliente}" title="Mais detalhes">
                 <span class="fas fa-eye fs-1"></span>
               </a>
