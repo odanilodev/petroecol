@@ -56,13 +56,13 @@
                                                         <option value="all" selected="selected">Nenhum selecionado</option>
                                                         <?php foreach ($recipientes as $v) { ?>
                                                             <option <?= ($cookie_filtro_clientes['id_recipiente'] ?? null) == $v['id'] ? 'selected' : '' ?> value="<?=$v['id']?>"><?=$v['nome_recipiente']?></option>
-                                                        <?php } ?>
+- Todos                                                        <?php } ?>
                                                     </select>
                                                 </div>
 
                                                 <div class="mb-3"><label class="fw-bold mb-2 text-1000" for="createDate">Etiquetas</label>
-                                                    <select name="id_etiqueta" class="form-select" id="createDate">
-                                                        <option value="all" selected="selected">Nenhuma selecionada</option>
+                                                    <select name="id_etiqueta" class="form-select" id="createDate" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                                                        <option value="all" selected="selected">--</option>
                                                         <?php foreach ($etiquetas as $v) { ?>
                                                             <option <?= ($cookie_filtro_clientes['id_etiqueta'] ?? null) == $v['id'] ? 'selected' : '' ?> value="<?=$v['id']?>"><?=$v['nome']?></option>
                                                         <?php } ?>
