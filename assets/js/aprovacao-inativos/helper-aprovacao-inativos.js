@@ -25,7 +25,7 @@ const inativaCliente = (id) => {
 
                         let qtdClientes = parseInt($('.icon-indicator-number').text());
 
-                        if (qtdClientes >= 99) {
+                        if (qtdClientes > 99) {
 
                             $('.icon-indicator-number').text('99+');
 
