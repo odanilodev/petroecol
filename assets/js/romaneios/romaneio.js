@@ -15,6 +15,14 @@ const filtrarClientesRomaneio = () => {
 
     }
 
+    var dataColeta = new Date(data_coleta + "T00:00:00");
+    var hoje = new Date();
+   
+    if (dataColeta < new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate())) {
+        avisoRetorno('Algo deu errado!', 'A data selecionada é anterior à data de hoje!', 'error', '#');
+        return;
+    }
+
     let etiquetas = $('#select-etiquetas').val();
 
     let cidades = $('#select-cidades').val();
@@ -515,8 +523,8 @@ function finalizarRomaneio() {
                     avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
                 }
 
-            },  error: function (xhr, status, error) {
-                
+            }, error: function (xhr, status, error) {
+
                 $('.btn-finaliza-romaneio').removeClass('d-none');
                 $('.load-form-modal-romaneio').addClass('d-none');
                 if (xhr.status === 403) {
