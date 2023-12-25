@@ -24,7 +24,7 @@ class Coletas extends CI_Controller
 
     public function cadastraColeta()
     {
-        $this->load->library('agendarfrequencia');
+        $this->load->library('agendarFrequencia');
         $this->load->model('Romaneios_model');
         $this->load->model('Agendamentos_model');
 
