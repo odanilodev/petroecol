@@ -51,4 +51,9 @@ class Dicionario_model extends CI_Model
 
         return $dicionario_empresa;
     }
+
+    private function limparCacheDicionario() {
+        $this->load->driver('cache', array('adapter' => 'file'));
+        $this->cache->clean();
+    }
 }

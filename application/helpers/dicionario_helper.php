@@ -2,7 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 if (!function_exists('chave')) {
-    function chave($chave)
+    function chave(string $chave): string
     {
         $CI = &get_instance();
         $CI->load->model('Dicionario_model');
