@@ -50,10 +50,10 @@
 
               <img class="img-fluid mb-6 w-50 w-lg-75 d-light-none" src="<?= base_url('assets/img/spot-illustrations/dark_404.png'); ?>" alt="" />
 
-              <h2 class="text-800 fw-bolder mb-3">Acesso Negado!</h2>
-              <p class="text-900 mb-5">Esta página não existe!</p>
+              <h2 class="text-800 fw-bolder mb-3">Página não encontrada!</h2>
+              <p class="text-900 mb-5">Talvez esta página não exista.</p>
               
-              <a class="btn btn-lg btn-primary w-100" href="javascript:history.go(-1);">Voltar ao Início</a>
+              <a class="btn btn-lg btn-primary w-100" href="javascript:history.go(-1);">Retornar à página anterior</a>
             </div>
           </div>
         </div>
