@@ -293,6 +293,7 @@ const detalhesHistoricoColeta = (idColeta) => {
 
             if (data.success) {
 
+
                 let valorPago = JSON.parse(data.historicoColeta['valor_pago']);
                 let formaPagamento = data.historicoColeta['nomes_pagamentos'].split(',');
 
@@ -306,6 +307,12 @@ const detalhesHistoricoColeta = (idColeta) => {
 
                     $('.total-pago').append(totalPago)
                 }
+
+                let residuosColetados = data.historicoColeta['nomes_residuos'].split(',');
+
+                let formaPagamento = data.historicoColeta['nome_pagamento'].split(',');
+
+                
 
                 let partesData = data.historicoColeta['data_coleta'].split('-');
 
