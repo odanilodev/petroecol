@@ -15,6 +15,7 @@ class Dicionario_model extends CI_Model
     {
         $filtro = json_decode($cookie_filtro_dicionario, true);
 
+        //para filtrar de maneira mais abrangente sem precisar ser um valor exato - LOWER para ficar case-insensitive em SQL e strtolower para transformar a pesquisa realizada
         if ($filtro['chave'] ?? false) {
             $this->db->like('LOWER(chave)', strtolower($filtro['chave']), 'none');
         }

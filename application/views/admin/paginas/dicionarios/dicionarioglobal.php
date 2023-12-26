@@ -13,7 +13,7 @@
                 <div class="d-flex mb-3">
                     <div class="search-box me-2">
                         <form action="<?= base_url('dicionario/chavesGlobais') ?>" method="POST" class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                            <input name="nome" value="<?= $cookie_filtro_dicionario['chave'] ?? null ?>" class="form-control search-input search" type="search" placeholder="Buscar Chave" aria-label="Search">
+                            <input name="chave" value="<?= $cookie_filtro_dicionario['chave'] ?? null ?>" class="form-control search-input search" type="search" placeholder="Buscar Chave" aria-label="Search">
                             <span class="fas fa-search search-box-icon"></span>
                         </form>
                     </div>
