@@ -88,9 +88,8 @@ class Agendamentos extends CI_Controller
     {
         $anoAtual = $this->input->post('anoAtual');
         $mesAtual = $this->input->post('mesAtual');
-        $prioridade = $this->input->post('prioridade'); 
 
-        $agendamentos = $this->Agendamentos_model->recebeAgendamentos($anoAtual, $mesAtual, $prioridade);
+        $agendamentos = $this->Agendamentos_model->recebeAgendamentos($anoAtual, $mesAtual);
 
         $data = array(
             'agendamentos' => $agendamentos

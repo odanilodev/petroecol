@@ -615,81 +615,69 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
 }));
 //# sourceMappingURL=calendar.js.mapv
 
-// busca os agendamentos feitos manuais (prioridades)
-function exibirAgendamentosManuais(currentYear, currentMonth) {
 
-  events = [];
-
-  $.ajax({
-    url: baseUrl + 'agendamentos/exibirAgendamentos',
-    method: 'POST',
-    async: false,
-    data: {
-      anoAtual: currentYear,
-      mesAtual: currentMonth,
-      prioridade: 1
-    },
-    success: function (data) {
-
-      let jsonString = JSON.stringify(data.agendamentos);
-
-      var obj = JSON.parse(jsonString);
-
-      for (var i = 0; i < obj.length; i++) {
-
-        let titulo = obj[i].data_coleta < dataAtualFormatada ? " Atrasado(s)" : " Prioridade(s)";
-
-        let tipo = obj[i].data_coleta < dataAtualFormatada ? "text-danger" : 'text-warning';
-
-        var event = {
-          title: obj[i].total_agendamento + titulo,
-          start: obj[i].data_coleta,
-          className: `${tipo} agendamento dataClicada-${obj[i].data_coleta} prioridade`
-        };
-
-        events.push(event);
-
-      }
-
-    }
-
-
-  });
-
-  return events;
-
-}
-
-
+// exibe os agendamentos no calendário
 function exibirAgendamentos(currentYear, currentMonth) {
 
-  exibirAgendamentosManuais(currentYear, currentMonth); // exibe os agendamentos manuais (prioridades) no calendario
-
   $.ajax({
     url: baseUrl + 'agendamentos/exibirAgendamentos',
     method: 'POST',
     async: false,
     data: {
       anoAtual: currentYear,
-      mesAtual: currentMonth,
-      prioridade: 0
+      mesAtual: currentMonth
     },
     success: function (data) {
 
       let jsonString = JSON.stringify(data.agendamentos);
 
-      var obj = JSON.parse(jsonString);
+      var obj = JSON.parse(jsonString); // transforma os agendamentos em obj
 
       for (var i = 0; i < obj.length; i++) {
 
-        let titulo = obj[i].data_coleta < dataAtualFormatada ? " Atrasado(s)" : " Agendado(s)";
+        // verifica o status do agendamento
+        switch (true) {
+          case obj[i].status == 1 && obj[i].prioridade == 0:
+            var titulo = " Coletado(s)";
+            var tipo = "text-success";
+            break;
 
-        let tipo = obj[i].data_coleta < dataAtualFormatada ? "text-danger" : 'text-success';
+          case obj[i].status == 2:
+            var titulo = " Reagendado(s)";
+            var tipo = "text-primary";
+            break;
 
+          case obj[i].status == 1 && obj[i].prioridade == 1:
+            var titulo = " Coletado(s)";
+            var tipo = "text-warning";
+            break;
+
+          case obj[i].status == 0 && obj[i].prioridade == 1:
+            var titulo = " Prioridade(s)";
+            var tipo = "text-warning";
+            break;
+
+          default:
+            var titulo = " Agendado(s)";
+            var tipo = "text-info";
+            break;
+        }
+
+
+        // verifica se o agendamento está atrasado
+        if (obj[i].data_coleta < dataAtualFormatada && obj[i].status == 0) {
+
+          var titulo = " Atrasado(s)";
+          var tipo = "text-danger";
+
+        }
+        
+
+        // se for prioridade adiciona a classe "prioridade"
         var event = {
           title: obj[i].total_agendamento + titulo,
           start: obj[i].data_coleta,
-          className: `${tipo} agendamento dataClicada-${obj[i].data_coleta}`
+          className: `${tipo} agendamento dataClicada-${obj[i].data_coleta} ${obj[i].prioridade == 1 ? "prioridade" : ""}`
         };
 
         events.push(event);

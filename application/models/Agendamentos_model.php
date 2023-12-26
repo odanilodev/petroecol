@@ -10,16 +10,14 @@ class Agendamentos_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebeAgendamentos($anoAtual, $mesAtual, $prioridade)
+    public function recebeAgendamentos($anoAtual, $mesAtual)
     {
-        $this->db->select('data_coleta, prioridade, COUNT(*) AS total_agendamento');
+        $this->db->select('data_coleta, prioridade, status, COUNT(*) AS total_agendamento');
         $this->db->from('ci_agendamentos');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('YEAR(data_coleta)', $anoAtual);
         $this->db->where('MONTH(data_coleta)', $mesAtual);
-        $this->db->where('prioridade', $prioridade);
-        $this->db->group_by('data_coleta');
-        $this->db->group_by('prioridade'); // Adiciona prioridade ao agrupamento se necessário
+        $this->db->group_by('data_coleta, prioridade, status');
         $query = $this->db->get();
         return $query->result_array();
     }
