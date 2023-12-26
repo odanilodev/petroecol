@@ -17,7 +17,7 @@
   <!--    Favicons-->
   <!-- ===============================================-->
   <link rel="apple-touch-icon" sizes="180x180" href="#">
-  <link rel="icon" type="image/png" sizes="32x32" href="#">
+  <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url('assets\img\favicons\icone4.png')?>">
   <link rel="icon" type="image/png" sizes="16x16" href="#">
   <link rel="shortcut icon" type="image/x-icon" href="#">
   <link rel="manifest" href="#">

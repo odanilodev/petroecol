@@ -15,27 +15,45 @@ class Clientes_model extends CI_Model
     {
         $filtro = json_decode($cookie_filtro_clientes, true);
 
-        $this->db->order_by('nome', 'DESC');
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->select('C.*');
+        $this->db->from('ci_clientes C');
+        $this->db->join('ci_recipiente_cliente RC', 'RC.id_cliente = C.id', 'left');
+        $this->db->join('ci_etiqueta_cliente EC', 'EC.id_cliente = C.id', 'left');
+        $this->db->join('ci_residuo_cliente RSC', 'RSC.id_cliente = C.id', 'left');
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->order_by('C.nome', 'ASC');
 
         if (($filtro['status'] ?? false) && $filtro['status'] != 'all') {
-            $this->db->where('status', $filtro['status']);
+            $this->db->where('C.status', $filtro['status']);
         }
 
         if (($filtro['cidade'] ?? false) && $filtro['cidade'] != 'all') {
-            $this->db->where('cidade', $filtro['cidade']);
+            $this->db->where('C.cidade', $filtro['cidade']);
         }
 
         if ($filtro['nome'] ?? false) {
-            $this->db->like('nome', $filtro['nome']);
+            $this->db->like('C.nome', $filtro['nome']);
+        }
+
+        if (($filtro['id_recipiente'] ?? false) && $filtro['id_recipiente'] != 'all') {
+            $this->db->where('RC.id_recipiente', $filtro['id_recipiente']);
+        }
+        
+        if (($filtro['id_residuo'] ?? false) && $filtro['id_residuo'] != 'all') {
+            $this->db->where('RSC.id_residuo', $filtro['id_residuo']);
+        }
+        
+        if (($filtro['id_etiqueta'] ?? false) && $filtro['id_etiqueta'] != 'all') {
+            $this->db->where('EC.id_etiqueta', $filtro['id_etiqueta']);
         }
 
         if (!$count) {
             $offset = ($page - 1) * $limit;
             $this->db->limit($limit, $offset);
         }
+        $this->db->group_by('C.id');
 
-        $query = $this->db->get('ci_clientes');
+        $query = $this->db->get();
 
         if ($count) {
             return $query->num_rows();
@@ -88,6 +106,19 @@ class Clientes_model extends CI_Model
 
         return $query->row_array();
     }
+
+    public function recebeClienteFrequenciaColeta($id_cliente)
+    {
+        $this->db->select('F.dia');
+        $this->db->from('ci_clientes C');
+        $this->db->join('ci_frequencia_coleta F', 'C.id_frequencia_coleta = F.id', 'left');
+        $this->db->where('C.id', $id_cliente);
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get();
+
+        return $query->row_array();
+    }
+
 
     //Recebe clientes com varios Ids selecionados
     public function recebeClientesIds($ids)
