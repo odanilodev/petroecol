@@ -77,7 +77,7 @@ class Etiquetas extends CI_Controller
 
 		$etiqueta = $this->Etiquetas_model->recebeEtiquetaNome($dados['nome']); // verifica se já existe a etiqueta
 
-		// Verifica se a etiqueta já existe e se não é a etiqueta que está sendo editada
+		// Verifica se a etiqueta já existe e se não é a etiqueta que está sendo editada!
 		if ($etiqueta && $etiqueta['id'] != $id) {
 
 			$response = array(
