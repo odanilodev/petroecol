@@ -17,9 +17,11 @@ class Clientes_model extends CI_Model
 
         $this->db->select('C.*');
         $this->db->from('ci_clientes C');
+
         $this->db->join('ci_recipiente_cliente RC', 'RC.id_cliente = C.id', 'left');
         $this->db->join('ci_etiqueta_cliente EC', 'EC.id_cliente = C.id', 'left');
         $this->db->join('ci_residuo_cliente RSC', 'RSC.id_cliente = C.id', 'left');
+
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->order_by('C.nome', 'ASC');
 
@@ -51,6 +53,7 @@ class Clientes_model extends CI_Model
             $offset = ($page - 1) * $limit;
             $this->db->limit($limit, $offset);
         }
+        
         $this->db->group_by('C.id');
 
         $query = $this->db->get();

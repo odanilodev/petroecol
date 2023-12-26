@@ -314,7 +314,7 @@ function scriptsVeiculosHead()
     );
 }
 
-// Pagina de etiquetas
+// Pagina Dicionario
 function scriptsDicionarioHead()
 {
     return array(
