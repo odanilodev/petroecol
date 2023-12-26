@@ -522,7 +522,7 @@
                       </div>
 
                       <div class="cursor-pointer" style="margin-right: 10px;">
-                        <button onclick="detalhesHistoricoColeta(<?= $coleta['ID_COLETA']?>)" class="btn btn-phoenix-warning" href="#" title="Ver Detalhes" data-bs-toggle="modal" data-bs-target=".modal-historico-coleta">
+                        <button onclick="detalhesHistoricoColeta(<?= $coleta['ID_COLETA'] ?>)" class="btn btn-phoenix-warning" href="#" title="Ver Detalhes" data-bs-toggle="modal" data-bs-target=".modal-historico-coleta">
                           <span class="fas fa-eye text-warning"></span>
                         </button>
                       </div>
@@ -595,7 +595,7 @@
             <div class="card-body">
               <div class="row g-3">
                 <div class="col-12">
-                  <div class="mb-7">
+                  <div class="mb-3">
                     <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
 
                       <div class="col-sm-12 col-xxl-12 border-bottom py-3">
@@ -655,7 +655,7 @@
                               </div>
                             </td>
                           </tr>
-                          
+
 
                           <tr>
                             <td class="py-2">
@@ -675,14 +675,35 @@
 
                             </td>
                           </tr>
-                          
+
+                          <tr>
+                            <td class="py-2">
+                              <div class="d-inline-flex align-items-center">
+                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                  <span class="text-info-600 dark__text-info-300 fas fa-money-check-alt" style="width:16px; height:16px"></span>
+                                </div>
+                                <p class="fw-bold mb-0">Total Pago</p>
+                              </div>
+                            </td>
+                            <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                            <td class="py-2">
+
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break total-pago">
+                                <!-- JS -->
+                              </div>
+
+                            </td>
+                          </tr>
+
                         </table>
                       </div>
 
-                      
 
                     </div>
+
+
                   </div>
+
 
                 </div>
               </div>
