@@ -120,7 +120,7 @@
 
                       <?php if ($this->session->userdata('id_empresa') == 1) { ?>
 
-                        <div class="col-sm-6 mt-3">
+                        <div class="col-sm-6 col-md-4">
                           <div class="mb-2">
                             <label class="form-label text-900">Empresa</label>
                             <select class="select-empresa select-validation">
