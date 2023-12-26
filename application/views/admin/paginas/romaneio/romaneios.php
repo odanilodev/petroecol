@@ -79,7 +79,7 @@
                                     </td>
 
                                     <td class="align-middle white-space-nowrap">
-                                        <button <?= $v['status'] == 1 ? 'disabled' : '' ?> type="button" onclick='concluirRomaneio(<?= $v["codigo"] ?>, <?= $v["ID_RESPONSAVEL"] ?>)' class="btn <?= $v['status'] != 1 ? 'btn-secondary' : 'btn-success' ?>">
+                                        <button <?= $v['status'] == 1 ? 'disabled' : '' ?> type="button" onclick='concluirRomaneio(<?= $v["codigo"] ?>, <?= $v["ID_RESPONSAVEL"] ?>, "<?= $v["data_romaneio"] ?>")' class="btn <?= $v['status'] != 1 ? 'btn-secondary' : 'btn-success' ?>">
                                             <span class="ms-1" data-feather="check-circle"></span>
                                         </button>
                                     </td>
@@ -121,9 +121,10 @@
                 <div class="modal-footer">
 
                     <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
-                    <button type="button" class="btn btn-primary btn-finaliza-romaneio" onclick="finalizarRomaneio()">Gerar Romaneio</button>
+                    <button type="button" class="btn btn-primary btn-finaliza-romaneio" onclick="finalizarRomaneio()">Finalizar Romaneio</button>
                     <input type="hidden" class="id_responsavel">
                     <input type="hidden" class="code_romaneio">
+                    <input type="hidden" class="data_romaneio">
                 </div>
             </div>
         </div>

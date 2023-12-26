@@ -31244,12 +31244,12 @@ a[href].bg-200:hover, a[href].bg-200:focus {
   top: 3.5px;
   height: 1rem;
   width: 1rem;
-  font-size: 0.8rem;
+  font-size: 0.5rem;
   color: #fff;
   font-weight: 700;
 }
 .icon-indicator-primary::before {
-  background-color: #3874ff;
+  background-color: #ed2000;
 }
 .icon-indicator-secondary::before {
   background-color: #31374a;

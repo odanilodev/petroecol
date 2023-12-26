@@ -159,7 +159,6 @@ $(document).on('click', '.btn-proximo', function () {
         $('.email-invalido').css('display', 'block');
 
         permissao = false;
-
         return;
 
     } else {

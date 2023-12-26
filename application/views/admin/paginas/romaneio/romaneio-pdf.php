@@ -71,7 +71,7 @@
 
         foreach ($clientes as $v) {
             // Verifica se a cidade do cliente mudou
-            if ($v['cidade'] !== $currentCity) {
+            if (trim(strtolower($v['cidade'])) !== $currentCity) {
                 // Se sim, fecha a tabela anterior (se existir)
                 if ($tableOpen) {
                     echo '</tbody></table>';
@@ -95,7 +95,7 @@
 
                 <tbody>
                 <?php
-                $currentCity = $v['cidade'];
+                $currentCity = trim(strtolower($v['cidade']));
                 $tableOpen = true;
             }
                 ?>
