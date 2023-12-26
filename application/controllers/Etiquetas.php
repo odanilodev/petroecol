@@ -50,7 +50,7 @@ class Etiquetas extends CI_Controller
 		$scriptsPadraoHead = scriptsPadraoHead();
 		$scriptsPadraoFooter = scriptsPadraoFooter();
 
-		// scripts para etiquetas
+		// scripts para etiquetas!
 		$scriptsEtiquetaFooter = scriptsEtiquetaFooter();
 
 		add_scripts('header', array_merge($scriptsPadraoHead));
