@@ -77,8 +77,8 @@
                       <div class="mb-2 col-md-4">
                         <div class="mb-2">
                           <label class="form-label text-900">Setor</label>
-                          <select name='setor' class="select-validation select-setor">
-                            <option selected disabled>Selecione</option>
+                          <select name='setor' class="select-validation select-setor" required>
+                            <option selected disabled value=''>Selecione</option>
                             <?php if ($this->session->userdata('id_empresa') == 1) { ?>
                               <option selected value="0">N/A</option>
                             <?php } ?>
@@ -108,8 +108,8 @@
                       <div class="mb-2 col-md-4">
                         <div class="mb-2">
                           <label class="form-label text-900">Idioma*</label>
-                          <select name='idioma' class="select-validation select-idioma">
-                            <option selected disabled>Selecione</option>
+                          <select name='idioma' class="select-validation select-idioma" required>
+                            <option selected disabled value=''>Selecione</option>
                               <option value="ptbr" <?= (isset($usuario['idioma']) && $usuario['idioma'] == 'ptbr') ? 'selected' : ''; ?>>Português - BR</option>
                               <option value="en" <?= (isset($usuario['idioma']) && $usuario['idioma'] == 'en') ? 'selected' : ''; ?>>English - EN</option>
                           </select>
