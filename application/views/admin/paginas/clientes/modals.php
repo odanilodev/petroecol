@@ -69,7 +69,7 @@
 
                         <option disabled selected value="">Selecione residuos</option>
                         <?php foreach ($residuos as $v) { ?>
-                        <option value="<?= $v['id'] ?>"><?= strtoupper($v['nome']); ?></option>
+                        <option value="<?= $v['id'] ?>"><?= $v['nome']; ?></option>
                         <?php } ?>
 
                     </select>
@@ -115,13 +115,13 @@
 
                         <option selected disabled value="">Selecione recipientes</option>
                         <?php foreach ($recipientes as $v) { ?>
-                        <option value="<?= $v['id'] ?>"><?= strtoupper($v['nome_recipiente']); ?></option>
+                        <option value="<?= $v['id'] ?>"><?= $v['nome_recipiente']; ?></option>
                         <?php } ?>
 
                     </select>
 
                     <input type="number" class="w-100 form-control mt-4" id="quantidade-recipiente"
-                        placeholder="quantidade">
+                        placeholder="Quantidade">
 
                 </div>
             </div>

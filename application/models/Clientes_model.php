@@ -18,10 +18,10 @@ class Clientes_model extends CI_Model
         $this->db->select('C.*');
         $this->db->from('ci_clientes C');
         $this->db->join('ci_recipiente_cliente RC', 'RC.id_cliente = C.id', 'left');
-        $this->db->join('ci_recipientes R', 'RC.id_recipiente = R.id', 'left');
-
+        $this->db->join('ci_etiqueta_cliente EC', 'EC.id_cliente = C.id', 'left');
+        $this->db->join('ci_residuo_cliente RSC', 'RSC.id_cliente = C.id', 'left');
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->order_by('C.nome', 'DESC');
+        $this->db->order_by('C.nome', 'ASC');
 
         if (($filtro['status'] ?? false) && $filtro['status'] != 'all') {
             $this->db->where('C.status', $filtro['status']);
@@ -36,7 +36,15 @@ class Clientes_model extends CI_Model
         }
 
         if (($filtro['id_recipiente'] ?? false) && $filtro['id_recipiente'] != 'all') {
-            $this->db->where('R.id', $filtro['id_recipiente']);
+            $this->db->where('RC.id_recipiente', $filtro['id_recipiente']);
+        }
+        
+        if (($filtro['id_residuo'] ?? false) && $filtro['id_residuo'] != 'all') {
+            $this->db->where('RSC.id_residuo', $filtro['id_residuo']);
+        }
+        
+        if (($filtro['id_etiqueta'] ?? false) && $filtro['id_etiqueta'] != 'all') {
+            $this->db->where('EC.id_etiqueta', $filtro['id_etiqueta']);
         }
 
         if (!$count) {
@@ -98,6 +106,19 @@ class Clientes_model extends CI_Model
 
         return $query->row_array();
     }
+
+    public function recebeClienteFrequenciaColeta($id_cliente)
+    {
+        $this->db->select('F.dia');
+        $this->db->from('ci_clientes C');
+        $this->db->join('ci_frequencia_coleta F', 'C.id_frequencia_coleta = F.id', 'left');
+        $this->db->where('C.id', $id_cliente);
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get();
+
+        return $query->row_array();
+    }
+
 
     //Recebe clientes com varios Ids selecionados
     public function recebeClientesIds($ids)

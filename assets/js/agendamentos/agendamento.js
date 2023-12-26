@@ -633,6 +633,8 @@ function exibirAgendamentos(currentYear, currentMonth) {
 
       var obj = JSON.parse(jsonString); // transforma os agendamentos em obj
 
+      // status 1 = `coletado ` status 2 = reagendado
+
       for (var i = 0; i < obj.length; i++) {
 
         // verifica o status do agendamento

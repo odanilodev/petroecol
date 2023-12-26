@@ -15,6 +15,14 @@ const filtrarClientesRomaneio = () => {
 
     }
 
+    var dataColeta = new Date(data_coleta + "T00:00:00");
+    var hoje = new Date();
+   
+    if (dataColeta < new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate())) {
+        avisoRetorno('Algo deu errado!', 'A data selecionada é anterior à data de hoje!', 'error', '#');
+        return;
+    }
+
     let etiquetas = $('#select-etiquetas').val();
 
     let cidades = $('#select-cidades').val();
@@ -172,12 +180,13 @@ $('#select-cliente-modal').change(function () {
 })
 
 
-const concluirRomaneio = (codRomaneio, idResponsavel) => {
+const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio) => {
 
     $('#modalConcluirRomaneio').modal('show');
 
     $('.id_responsavel').val(idResponsavel);
     $('.code_romaneio').val(codRomaneio);
+    $('.data_romaneio').val(dataRomaneio);
 
     if (codRomaneio) {
 
@@ -434,6 +443,7 @@ function finalizarRomaneio() {
 
     let idResponsavel = $('.id_responsavel').val();
     let codRomaneio = $('.code_romaneio').val();
+    let dataRomaneio = $('.data_romaneio').val();
 
     $('.accordion-item').each(function () {
 
@@ -494,7 +504,8 @@ function finalizarRomaneio() {
             data: {
                 clientes: dadosClientes,
                 idResponsavel: idResponsavel,
-                codRomaneio: codRomaneio
+                codRomaneio: codRomaneio,
+                dataRomaneio: dataRomaneio
 
             }, beforeSend: function () {
 
@@ -512,8 +523,8 @@ function finalizarRomaneio() {
                     avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
                 }
 
-            },  error: function (xhr, status, error) {
-                
+            }, error: function (xhr, status, error) {
+
                 $('.btn-finaliza-romaneio').removeClass('d-none');
                 $('.load-form-modal-romaneio').addClass('d-none');
                 if (xhr.status === 403) {
