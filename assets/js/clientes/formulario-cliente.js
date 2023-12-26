@@ -298,9 +298,6 @@ const detalhesHistoricoColeta = (idColeta) => {
 
                 for (let i = 0; i < valorPago.length; i++) {
 
-                    console.log(valorPago[i]);
-                    console.log(formaPagamento[i]);
-
                     let totalPago = `
                     <span class="nome-forma-pagamento mb-0">${formaPagamento[i]}: ${valorPago[i]}</span><br>`;
 
