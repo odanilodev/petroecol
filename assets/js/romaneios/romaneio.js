@@ -345,7 +345,7 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
 
     let selectHtml = `
         <div class="col-md-4 mb-2 div-${novoElemento}">
-            <select class="form-select select-${novoElemento} w-100" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+            <select class="form-select select-${novoElemento} w-100 input-obrigatorio" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
                 ${options}
             </select>
         </div>
@@ -353,7 +353,7 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
 
     let inputHtml = `
         <div class="col-md-4 mb-2 div-${novoElemento}">
-            <input class="form-control input-${novoElemento}" type="text" placeholder="Digite ${novoInput}" value="">
+            <input class="form-control input-${novoElemento} input-obrigatorio" type="text" placeholder="Digite ${novoInput}" value="">
         </div>
     `;
 
@@ -363,6 +363,22 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
     // imprime os elementos dentro da div row
     novaLinha.append(selectHtml);
     novaLinha.append(inputHtml);
+
+    // botão para remover os elementos duplicados
+    let btnRemove = $(`
+    <div class="col-md-4 mb-2 mt-1 row">
+
+        <button class="btn btn-danger remover-${novoElemento} w-25">-</button>
+
+    </div>`);
+
+    novaLinha.append(btnRemove); // imprime o botão para remover os elementos duplicados
+
+    //remove a linha duplicada
+    btnRemove.find(`.remover-${novoElemento}`).on('click', function () {
+        
+        novaLinha.remove();
+    });
 
     $(btnClicado).closest('.accordion-item').find(`.${classe}`).append(novaLinha);
 
