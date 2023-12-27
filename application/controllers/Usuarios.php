@@ -85,6 +85,7 @@ class Usuarios extends CI_Controller
 		$dados['email'] = $this->input->post('email');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa') > 1 ? $this->session->userdata('id_empresa') : $this->input->post('id_empresa'); // Se for usuário master pela valor do input
 		$dados['id_setor'] = $this->input->post('setor');
+		$dados['idioma'] = $this->input->post('idioma');
 
 		$usuario = $this->Usuarios_model->recebeUsuarioEmail($dados['email']); // Verifica se já existe o email
 
