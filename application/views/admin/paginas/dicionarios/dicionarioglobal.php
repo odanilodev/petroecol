@@ -62,7 +62,7 @@
                                     </td>
 
                                     <td class="align-middle white-space-nowrap">
-                                        <a href="<?= base_url('dicionario/formulario/' . $v['id']) ?>" class="btn btn-info">
+                                        <a href="#" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalDicionario" onclick="editarDicionarioGlobal(<?= $v['id'] ?>)">
                                             <span class="fas fa-pencil ms-1"></span>
                                         </a>
                                     </td>
@@ -87,6 +87,54 @@
                                 <?= $this->pagination->create_links(); ?>
                             </ul>
                         </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Dicionarios(edição) -->
+
+        <div class="modal fade" id="modalDicionario" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Dicionário</h5>
+                        <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1"></span></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" id="form-dicionario">
+                            <input type="hidden" class="input-id" value="">
+
+                            <div class="row campos-dicionario">
+                                <div class="col-md-4 mb-3 duplica-dicionario">
+                                    <label class="form-label">Chave</label>
+                                    <input required class="form-control input-chave input-obrigatorio" required name="chave[]" type="text" placeholder="Chave de pesquisa" value="">
+                                </div>
+
+                                <div class="col-md-4 mb-3 duplica-dicionario">
+                                    <label class="form-label">Valor PT-BR</label>
+                                    <input required class="form-control input-valor-ptbr input-obrigatorio" name="valor-ptbr[]" type="text" placeholder="Texto em Português" value="">
+                                </div>
+
+                                <div class="col-md-4 mb-3 duplica-dicionario" style="position: relative;">
+                                    <label class="form-label">Valor EN</label>
+                                    <div class="input-group">
+                                        <input required class="form-control input-valor-en input-obrigatorio" name="valor-en[]" type="text" placeholder="Texto em Inglês" value="">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <div class="spinner-border text-primary load-form d-none" role="status"></div>
+
+                        <button class="btn btn-success btn-salva-residuo btn-form" type="button" onclick="cadastraDicionarioGlobal()">Salvar</button>
+                        <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+
                     </div>
                 </div>
             </div>

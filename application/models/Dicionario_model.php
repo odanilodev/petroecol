@@ -46,9 +46,9 @@ class Dicionario_model extends CI_Model
     public function recebeDicionarioGlobalChave($chave)
     {
         $this->db->where('chave', $chave);
-        $query = $this->db->get('ci_dicionario');
+        $this->db->get('ci_dicionario');
 
-        return $query->row_array();
+        return $this->db->affected_rows() > 0;
     }
 
     public function insereDicionarioGlobal($dados)

@@ -19,24 +19,22 @@
                         <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
 
                             <div class="card-body pt-4 pb-0">
-                                <form id="form-categoria" class="" method="post">
-
-                                    <input type="hidden" class="input-id" value="<?= $dicionarioGlobal['id'] ?? ''; ?>">
+                                <form id="form-dicionario" class="" method="post">                                    
                                     <div class="row campos-dicionario">
                                         <div class="col-md-4 mb-3 duplica-dicionario">
                                             <label class="form-label">Chave</label>
-                                            <input required class="form-control input-chave input-obrigatorio" required name="chave" type="text" placeholder="Chave de pesquisa" value="<?= $dicionarioGlobal['chave'] ?? "" ?>">
+                                            <input required class="form-control input-chave input-obrigatorio" required name="chave[]" type="text" placeholder="Chave de pesquisa" value="<?= $dicionarioGlobal['chave'] ?? "" ?>">
                                         </div>
 
                                         <div class="col-md-4 mb-3 duplica-dicionario">
                                             <label class="form-label">Valor PT-BR</label>
-                                            <input required class="form-control input-valor-ptbr input-obrigatorio" name="valor-ptbr" type="text" placeholder="Texto em Português" value="<?= $dicionarioGlobal['valor_ptbr'] ?? "" ?>">
+                                            <input required class="form-control input-valor-ptbr input-obrigatorio" name="valor-ptbr[]" type="text" placeholder="Texto em Português" value="<?= $dicionarioGlobal['valor_ptbr'] ?? "" ?>">
                                         </div>
 
                                         <div class="col-md-3 mb-3 duplica-dicionario" style="position: relative;">
                                             <label class="form-label">Valor EN</label>
                                             <div class="input-group">
-                                                <input required class="form-control input-valor-en input-obrigatorio" name="valor-en" type="text" placeholder="Texto em Inglês" value="<?= $dicionarioGlobal['valor_en'] ?? "" ?>">
+                                                <input required class="form-control input-valor-en input-obrigatorio" name="valor-en[]" type="text" placeholder="Texto em Inglês" value="<?= $dicionarioGlobal['valor_en'] ?? "" ?>">
                                             </div>
                                         </div>
                                         <div class="col-md-1 mt-4">
@@ -47,11 +45,11 @@
                                     </div>
 
                                     <div class="campos-duplicados row">
-
+                                        <!-- tratamento js -->
                                     </div>
 
                                     <div class="flex-1 text-end my-5">
-                                        <button type="button" class="btn btn-primary px-6 px-sm-6 btn-envia" onclick="cadastraDicionarioGlobal()"><?= $this->uri->segment(3) ? 'Editar ' : 'Cadastrar'; ?>
+                                        <button type="button" class="btn btn-primary px-6 px-sm-6 btn-envia" onclick="cadastraDicionarioGlobal()">Cadastrar
                                             <span class="fas fa-chevron-right" data-fa-transform="shrink-3"> </span>
                                         </button>
                                         <div class="spinner-border text-primary load-form d-none" role="status"></div>

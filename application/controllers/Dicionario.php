@@ -92,39 +92,55 @@ class Dicionario extends CI_Controller
 
   public function cadastraDicionarioGlobal()
   {
-    $id = $this->input->post('id');
-    $dados['chave'] = $this->input->post('chave');
-    $dados['valor_ptbr'] = $this->input->post('valor_ptbr');
-    $dados['valor_en'] = $this->input->post('valor_en');
+    $id = $this->input->post('id') ?? null;
+    //recebe e transforma as informações do js.serialize e as compila em arrays
+    parse_str($this->input->post('dadosDicionario'), $array);
 
-    $dicionarioGlobalChave = $this->Dicionario_model->recebeDicionarioGlobalChave($dados['chave']); // verifica se já existe a Dicionario
+    //abre um array para receber informações
+    $duplicadas = [];
 
-    // Verifica se a Dicionario já existe e se não é a Dicionario que está sendo editada
-    if ($dicionarioGlobalChave && $dicionarioGlobalChave['id'] != $id) {
+    //percorre cada valor no array criado pelo serialize e caso ele exista no banco preenche o array deuRuim com seu(s) valor(es).
+    foreach ($array['chave'] as $chave) {
 
+      $retorno = $this->Dicionario_model->recebeDicionarioGlobalChave($chave);
+
+      if ($retorno) {
+        $duplicadas[] = $chave;
+      }
+    }
+
+    //caso encontre valores já existentes -> retorna os valores repetidos para tratamento no front
+    if (count($duplicadas) > 0) {
       $response = array(
         'success' => false,
-        'message' => "Este Dicionario já existe! Tente cadastrar uma diferente."
+        'message' => "Erro! Este Dicionario já existe!",
+        'duplicadas' => json_encode($duplicadas)
       );
 
       return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
-    $retorno = $id ? $this->Dicionario_model->editaDicionarioGlobal($id, $dados) : $this->Dicionario_model->insereDicionarioGlobal($dados); // se tiver ID edita se não INSERE
 
-    if ($retorno) { // inseriu ou editou
+    //percorre e grava cada valor simultaneamente no banco caso não estejam repetidos
+    for ($i = 0; $i < count($array['valor-ptbr']); $i++) {
 
-      $response = array(
-        'success' => true,
-        'message' => $id ? 'Dicionario editado com sucesso!' : 'Dicionario cadastrado com sucesso!'
-      );
-    } else { // erro ao inserir ou editar
+      $dados['chave'] = $array['chave'][$i];
+      $dados['valor_ptbr'] = $array['valor-ptbr'][$i];
+      $dados['valor_en'] = $array['valor-en'][$i];
 
-      $response = array(
-        'success' => false,
-        'message' => $id ? "Erro ao editar Dicionario!" : "Erro ao cadastrar Dicionario!"
-      );
+      if (!$id) {
+
+        $this->Dicionario_model->insereDicionarioGlobal($dados);
+      } else {
+
+        $this->Dicionario_model->editaDicionarioGlobal($id, $dados);
+      }
     }
+
+    $response = array(
+      'success' => true,
+      'message' => $id ? "Dicionário editado com sucesso" : "Dicionário cadastrado com sucesso! "
+    );
 
     return $this->output->set_content_type('application/json')->set_output(json_encode($response));
   }
@@ -133,8 +149,18 @@ class Dicionario extends CI_Controller
   {
     $id = $this->input->post('id');
 
-    $this->load->model('Dicionario_model');
-
     $this->Dicionario_model->deletaDicionarioGlobal($id);
+  }
+
+  public function recebeIdDicionarioGlobal()
+  {
+    $id = $this->input->post('id');
+    $dicionario = $this->Dicionario_model->recebeIdDicionarioGlobal($id);
+
+    $response = array(
+      'dicionario' => $dicionario
+    );
+
+    return $this->output->set_content_type('application/json')->set_output(json_encode($response));
   }
 }

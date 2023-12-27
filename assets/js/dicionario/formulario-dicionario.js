@@ -2,16 +2,12 @@ var baseUrl = $(".base-url").val();
 
 const cadastraDicionarioGlobal = () => {
 	let id = $(".input-id").val();
-	let chave = $(".input-chave").val();
-	let valor_ptbr = $(".input-valor-ptbr").val();
-	let valor_en = $(".input-valor-en").val();
 
-	let permissao = false;
+	let dadosDicionario = $("#form-dicionario").serialize();
+
+	let permissao = true;
 
 	// cadastra um dicionario nova
-	if (chave != "" && valor_ptbr != "" && valor_en != "") {
-		permissao = true;
-	}
 
 	if (permissao) {
 		$.ajax({
@@ -19,9 +15,7 @@ const cadastraDicionarioGlobal = () => {
 			url: `${baseUrl}dicionario/cadastraDicionarioGlobal`,
 			data: {
 				id: id,
-				chave: chave,
-				valor_ptbr: valor_ptbr,
-				valor_en: valor_en,
+				dadosDicionario: dadosDicionario,
 			},
 			beforeSend: function () {
 				$(".load-form").removeClass("d-none");
@@ -30,7 +24,6 @@ const cadastraDicionarioGlobal = () => {
 			success: function (data) {
 				$(".load-form").addClass("d-none");
 				$(".btn-envia").removeClass("d-none");
-
 				if (data.success) {
 					avisoRetorno(
 						"Sucesso!",
@@ -90,12 +83,30 @@ const deletarDicionarioGlobal = (id) => {
 };
 
 function duplicarDicionario() {
-    // Clone o último grupo de campos dentro de .teste
-    let clone = $(".campos-dicionario .duplica-dicionario").clone();
+	// Clone o último grupo de campos dentro de .teste
+	let clone = $(".campos-dicionario .duplica-dicionario").clone();
 
-    // Limpe os valores dos campos clonados
-    clone.find('input').val('');
+	// Limpe os valores dos campos clonados
+	clone.find("input").val("");
 
-    // Adicione o grupo clonado a .teste2
-    $(".campos-duplicados").append(clone);
+	// Adicione o grupo clonado a .teste2
+	$(".campos-duplicados").append(clone);
 }
+
+const editarDicionarioGlobal = (id) => {
+	$.ajax({
+		type: "POST",
+		url: `${baseUrl}dicionario/recebeIdDicionarioGlobal`,
+		data: {
+			id: id,
+		},
+		success: function (data) {
+
+			$(".input-chave").val(data["dicionario"].chave);
+			$(".input-valor-ptbr").val(data["dicionario"].valor_ptbr);
+			$(".input-valor-en").val(data["dicionario"].valor_en);
+			$(".input-id").val(id);
+
+		},
+	});
+};
