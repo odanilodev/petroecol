@@ -98,10 +98,6 @@ class Coletas extends CI_Controller
     public function detalhesHistoricoColeta()
     {
         $idColeta = $this->input->post('idColeta');
-
-        $this->load->model('Coletas_model');
-        $this->load->model('FormaPagamento_model');
-        $this->load->model('Residuos_model');
         $this->load->library('detalhesColeta');
 
         $historicoColeta = $this->detalhescoleta->detalheColeta($idColeta);
