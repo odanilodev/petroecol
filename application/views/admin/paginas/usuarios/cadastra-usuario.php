@@ -56,29 +56,29 @@
 
                     <div class="row">
 
-                      <div class="mb-2 col-md-6">
+                      <div class="mb-2 col-md-4">
                         <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-name">Nome*</label>
                         <input required value="<?= isset($usuario['nome']) ? $usuario['nome'] : "" ?>" class="form-control input-nome" type="text" name="nome" placeholder="Nome do Usuário" id="bootstrap-wizard-validation-wizard-name" />
                         <div class="invalid-feedback">Preencha este campo.</div>
                       </div>
 
-                      <div class="mb-2 col-md-6">
+                      <div class="mb-2 col-md-4">
                         <label class="form-label" for="bootstrap-wizard-validation-wizard-phone">Telefone*</label>
                         <input value="<?= isset($usuario['telefone']) ? $usuario['telefone'] : "" ?>" required class="form-control input-telefone mascara-tel" type="text" name="telefone" placeholder="Telefone" id="bootstrap-wizard-validation-wizard-phone" />
                         <div class="invalid-feedback">Preencha este campo.</div>
                       </div>
 
-                      <div class="mb-2 col-md-6">
+                      <div class="mb-2 col-md-4">
                         <label class="form-label" for="bootstrap-wizard-validation-wizard-email">Email*</label>
                         <input value="<?= isset($usuario['email']) ? $usuario['email'] : "" ?>" required class="form-control input-email" type="email" name="email" placeholder="Email address" pattern="^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$" id="bootstrap-wizard-validation-wizard-email" />
                         <div class="invalid-feedback">Preencha este campo.</div>
                       </div>
 
-                      <div class="mb-2 col-md-6">
+                      <div class="mb-2 col-md-4">
                         <div class="mb-2">
                           <label class="form-label text-900">Setor</label>
-                          <select name='setor' class="select-validation select-setor">
-                            <option selected disabled>Selecione</option>
+                          <select name='setor' class="select-validation select-setor" required>
+                            <option selected disabled value=''>Selecione</option>
                             <?php if ($this->session->userdata('id_empresa') == 1) { ?>
                               <option selected value="0">N/A</option>
                             <?php } ?>
@@ -90,14 +90,14 @@
                         </div>
                       </div>
 
-                      <div class="col-sm-6 <?= isset($usuario['id']) ? "d-none" : "" ?>">
+                      <div class="col-md-4 <?= isset($usuario['id']) ? "d-none" : "" ?>">
                         <div class="mb-2 mb-sm-0">
                           <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-password">Senha*</label>
                           <input required class="form-control input-senha" type="password" name="senha" placeholder="Senha" id="bootstrap-wizard-validation-wizard-password" data-wizard-password="true" />
                           <div class="invalid-feedback">Preencha este campo.</div>
                         </div>
-                      </div>
-                      <div class="col-sm-6 <?= isset($usuario['id']) ? "d-none" : "" ?>">
+                      </div>  
+                      <div class="col-md-4 <?= isset($usuario['id']) ? "d-none" : "" ?>">
                         <div class="mb-2">
                           <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-confirm-password">Confirme a Senha*</label>
                           <input required class="form-control input-repete-senha" type="password" name="confirme-senha" placeholder="Confirme a Senha" id="bootstrap-wizard-validation-wizard-confirm-password" data-wizard-confirm-password="true" />
@@ -105,10 +105,22 @@
                         </div>
                       </div>
 
+                      <div class="mb-2 col-md-4">
+                        <div class="mb-2">
+                          <label class="form-label text-900">Idioma*</label>
+                          <select name='idioma' class="select-validation select-idioma" required>
+                            <option selected disabled value=''>Selecione</option>
+                              <option value="ptbr" <?= (isset($usuario['idioma']) && $usuario['idioma'] == 'ptbr') ? 'selected' : ''; ?>>Português - BR</option>
+                              <option value="en" <?= (isset($usuario['idioma']) && $usuario['idioma'] == 'en') ? 'selected' : ''; ?>>English - EN</option>
+                          </select>
+                          <div class="invalid-feedback">Preencha este campo.</div>
+                        </div>
+                      </div>
+
 
                       <?php if ($this->session->userdata('id_empresa') == 1) { ?>
 
-                        <div class="col-sm-6 mt-3">
+                        <div class="col-sm-6 col-md-4">
                           <div class="mb-2">
                             <label class="form-label text-900">Empresa</label>
                             <select class="select-empresa select-validation">

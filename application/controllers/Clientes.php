@@ -43,7 +43,7 @@ class Clientes extends CI_Controller
 
         if (is_numeric($page)) {
             $cookie_filtro_clientes = count($this->input->post()) > 0 ? json_encode($this->input->post()) : $this->input->cookie('filtro_clientes');
-        }else{
+        } else {
             $page = 1;
             delete_cookie('filtro_clientes');
             $cookie_filtro_clientes = json_encode([]);
@@ -306,7 +306,6 @@ class Clientes extends CI_Controller
                 'type' => "success",
                 'title' => "Sucesso!"
             );
-
         } else { // erro ao deletar
 
             $response = array(

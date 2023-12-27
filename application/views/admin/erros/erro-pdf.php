@@ -44,16 +44,16 @@
         <div class="col-12 col-xl-10 col-xxl-8">
           <div class="row justify-content-center align-items-center g-5">
 
-            <div class="col-12 col-lg-6 text-center text-lg-start">
+            <div class="col-12 col-lg-6 text-center">
 
-              <img class="img-fluid mb-6 w-50 w-lg-75 d-dark-none" src="<?= base_url('assets/img/spot-illustrations/404.png'); ?>" alt="" />
+              <img class="img-fluid mb-6 w-100 w-lg-75 d-dark-none" src="<?= base_url('assets/img/icons/error-azul.png'); ?>" alt="" />
 
-              <img class="img-fluid mb-6 w-50 w-lg-75 d-light-none" src="<?= base_url('assets/img/spot-illustrations/dark_404.png'); ?>" alt="" />
+              <img class="img-fluid mb-6 w-100 w-lg-75 d-light-none" src="<?= base_url('assets/img/icons/error-azul.png'); ?>" alt="" />
 
-              <h2 class="text-800 fw-bolder mb-3">Página não encontrada!</h2>
-              <p class="text-900 mb-5">Talvez esta página não exista.</p>
-              
-              <a class="btn btn-lg btn-primary w-100" href="javascript:history.go(-1);">Retornar à página anterior</a>
+              <h2 class="text-800 fw-bolder mb-3"><?= $titulo; ?></h2>
+              <p class="text-900 mb-5"><?= $descricao; ?></p>
+
+              <a class="btn btn-lg btn-primary w-100 cursor-pointer" onclick="history.go(-1)">Voltar</a>
             </div>
           </div>
         </div>

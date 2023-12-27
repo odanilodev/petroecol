@@ -11,6 +11,7 @@ const cadastraUsuario = () => {
     let imagemInput = $('#imageInput')[0].files[0];
     let id = $('.input-id').val();
     let empresa = $('.select-empresa'); // se for usuario master
+    let idioma = $('.select-idioma').val();
 
     // cria um FormData para enviar os dados e a imagem
     let formData = new FormData();
@@ -21,6 +22,7 @@ const cadastraUsuario = () => {
     formData.append('senha', senha);
     formData.append('id_empresa', empresa.val());
     formData.append('foto_perfil', imagemInput);
+    formData.append('idioma', idioma);
 
     var permissao = true;
 
@@ -57,8 +59,21 @@ const cadastraUsuario = () => {
         $('.select-setor').removeClass('select-validation-invalido');
     }
 
+    // Verifica se o select idioma está vazio
+    if (idioma == null) {
+
+        $('.select-idioma').addClass('select-validation-invalido');
+        $('.select-idioma').removeClass('form-control');
+
+        permissao = false;
+
+    } else {
+        $('.select-idioma').addClass('form-control');
+        $('.select-idioma').removeClass('select-validation-invalido');
+    }
+
     // cadastra um usuario novo
-    if (id == "" && nome != "" && telefone != "" && email != "" && setor != null) {
+    if (id == "" && nome != "" && telefone != "" && email != "" && setor != null && idioma != null) {
 
         if (!validaEmail(email)) {
             permissao = false;

@@ -484,98 +484,207 @@
           <div class="tab-pane fade active show" id="tab-activity" role="tabpanel" aria-labelledby="activity-tab">
             <h2 class="mb-4">Histórico de Coleta</h2>
             <div class="row align-items-center g-3 justify-content-between justify-content-start">
-              <div class="col-12 col-sm-auto">
+              <div class="col-9 col-sm-auto">
                 <div class="search-box mb-2 mb-sm-0">
                   <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                    <input class="form-control search-input search" type="search" placeholder="Buscar" aria-label="Search" />
+                    <input class="form-control search-input search" type="search" placeholder="" aria-label="Search" />
                     <span class="fas fa-search search-box-icon"></span>
-
                   </form>
                 </div>
               </div>
 
-              <div class="col-auto">
-                <button class="btn btn-phoenix-primary px-6">Add Activity</button>
+              <div class="col-3 col-sm-auto">
+                <div class="search-box mb-2 mb-sm-0">
+                  <button class="btn btn-phoenix-primary px-6">Buscar</button>
+                </div>
+
+                <div class="col-auto">
+
+                </div>
+
               </div>
 
+              <?php foreach ($coletas as $coleta) { ?>
+
+                <div class="border-bottom py-4">
+
+                  <div class="d-flex">
+                    <div class="d-flex bg-primary-100 rounded-circle flex-center me-3 bg-primary-100" style="width:25px; height:25px">
+                      <span class="fa-solid <?= $coleta['coletado'] == 1 ? "dark__text-primary-300 text-primary-600" : "dark__text-danger-300 text-danger-600" ?>  fs--1 fa-clipboard text-primary-600"></span>
+                    </div>
+
+                    <div class="flex-1">
+
+                      <div class="d-flex justify-content-between flex-column flex-xl-row mb-2 mb-sm-0">
+
+                        <div class="flex-1 me-2">
+                          <h5 class="text-1000 lh-sm"><?= $coleta['coletado'] == 1 ? "Coleta realizada" : "Coleta não realizada" ?>
+                            | <span class="fw-semi-bold fs--1"><?= date('d/m/Y', strtotime($coleta['data_coleta'])) ?></span>
+                          </h5>
+
+                          <p class="fs--1 mb-0">Por<a class="ms-1" href="#!"><?= $coleta['nome_responsavel'] ?></a></p>
+                        </div>
+
+                        <div class="cursor-pointer" style="margin-right: 10px;">
+                          <button onclick="detalhesHistoricoColeta(<?= $coleta['ID_COLETA'] ?>)" class="btn btn-phoenix-warning" href="#" title="Ver Detalhes" data-bs-toggle="modal" data-bs-target=".modal-historico-coleta">
+                            <span class="fas fa-eye text-warning"></span>
+                          </button>
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              <?php } ?>
+
             </div>
 
-            <?php foreach ($coletas as $c) { ?>
-
-              <?php if ($c['coletado'] == 1) { ?>
-                <div class="border-bottom py-4">
-                  <div class="d-flex">
-                    <div class="d-flex bg-primary-100 rounded-circle flex-center me-3 bg-primary-100" style="width:25px; height:25px"><span class="fa-solid dark__text-primary-300 fs--1 fa-clipboard text-primary-600 dark__text-primary-300"></span></div>
-                    <div class="flex-1">
-                      <div class="d-flex justify-content-between flex-column flex-xl-row mb-2 mb-sm-0">
-                        <div class="flex-1 me-2">
-                          <h5 class="text-1000 lh-sm">Coleta realizada</h5>
-                          <p class="fs--1 mb-0">Por<a class="ms-1" href="#!"><?= $c['nome_responsavel'] ?></a></p>
-                        </div>
-                        <div class="fs--1"><span class="fa-regular fa-calendar-days text-primary me-2">
-                          </span><span class="fw-semi-bold"><?= date('d/m/Y', strtotime($c['data_coleta'])) ?>
-                          </span></div>
-                      </div>
-                      <p class="fs--1 mb-0"><?= $c['observacao'] ?></p>
-                    </div>
-                  </div>
-                </div>
-              <?php } elseif ($c['coletado'] == 0) { ?>
-                <div class="border-bottom py-4">
-                  <div class="d-flex">
-
-                    <div class="d-flex bg-primary-100 rounded-circle flex-center me-3 bg-primary-100" style="width:25px; height:25px"><span class="fa-solid dark__text-danger-300 fs--1 fa-clipboard text-danger-600 dark__text-danger-300"></span></div>
-                    <div class="flex-1">
-                      <div class="d-flex justify-content-between flex-column flex-xl-row mb-2 mb-sm-0">
-                        <div class="flex-1 me-2">
-                          <h5 class="text-1000 lh-sm">Coleta não realizada</h5>
-                          <p class="fs--1 mb-0">Por<a class="ms-1" href="#!"><?= $c['nome_responsavel'] ?></a></p>
-                        </div>
-                        <div class="fs--1"><span class="fa-regular fa-calendar-days text-primary me-2">
-                          </span><span class="fw-semi-bold"><?= date('d/m/Y', strtotime($c['data_coleta'])) ?>
-                          </span></div>
-                      </div>
-                      <p class="fs--1 mb-0"><?= $c['observacao'] ?></p>
-                    </div>
-                  </div>
-                </div>
-              <?php } ?>
-            <?php } ?>
 
           </div>
-
-
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Modal cadastro comodato -->
-  <div class="modal fade modal-comodato" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Anexar arquivo de comodato</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Caso já contenha um arquivo cadastrado, ele será substituído.</p>
-          <form action="<?= base_url('clientes/cadastraComodato'); ?>" method="post" enctype="multipart/form-data" id="comodatoForm">
-            <div class="mb-3">
-              <label for="fileInput" class="form-label">Escolha um arquivo:</label>
-              <input type="file" class="form-control" id="fileInput" name="comodato">
-              <input type="hidden" class="form-control" value='<?= $cliente['id'] ?>' name="id">
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-              <?php if (!empty($cliente['comodato'])) : ?>
-                <!-- Botão de Deletar -->
-                <a href="<?= base_url('clientes/deletaComodato/' . $cliente['id'] . '/' . urlencode($cliente['comodato'])) ?>" class="btn btn-danger">Deletar</a>
-              <?php endif; ?>
-              <button type="submit" class="btn btn-primary">Enviar</button>
-            </div>
-          </form>
+    <!-- Modal cadastro comodato -->
+    <div class="modal fade modal-comodato" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Anexar arquivo de comodato</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Caso já contenha um arquivo cadastrado, ele será substituído.</p>
+            <form action="<?= base_url('clientes/cadastraComodato'); ?>" method="post" enctype="multipart/form-data" id="comodatoForm">
+              <div class="mb-3">
+                <label for="fileInput" class="form-label">Escolha um arquivo:</label>
+                <input type="file" class="form-control" id="fileInput" name="comodato">
+                <input type="hidden" class="form-control" value='<?= $cliente['id'] ?>' name="id">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <?php if (!empty($cliente['comodato'])) : ?>
+                  <!-- Botão de Deletar -->
+                  <a href="<?= base_url('clientes/deletaComodato/' . $cliente['id'] . '/' . urlencode($cliente['comodato'])) ?>" class="btn btn-danger">Deletar</a>
+                <?php endif; ?>
+                <button type="submit" class="btn btn-primary">Enviar</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+
+    <!-- Modal detalhes histórico de coleta -->
+    <div class="modal fade modal-historico-coleta" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Histórico de Coleta</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+
+            <div class="card">
+              <div class="card-body">
+                <div class="row g-3">
+                  <div class="col-12">
+                    <div class="mb-3">
+                      <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+                        <div class="col-sm-12 col-xxl-12 border-bottom py-3">
+                          <table class="w-100 table-stats">
+                            <tr>
+                              <td class="py-2">
+                                <div class="d-inline-flex align-items-center">
+                                  <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                    <span class="text-info-600 dark__text-info-300" data-feather="calendar" style="width:16px; height:16px"></span>
+                                  </div>
+                                  <p class="fw-bold mb-0">Data da coleta</p>
+                                </div>
+                              </td>
+                              <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                              <td class="py-2">
+                                <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break data-coleta html-clean">
+                                  <!-- JS -->
+                                </div>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td class="py-2">
+                                <div class="d-inline-flex align-items-center">
+                                  <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                    <span class="text-info-600 dark__text-info-300" data-feather="users" style="width:16px; height:16px"></span>
+                                  </div>
+                                  <p class="fw-bold mb-0">Responsável</p>
+                                </div>
+                              </td>
+                              <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                              <td class="py-2">
+                                <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break responsavel-coleta html-clean">
+                                  <!-- JS -->
+                                </div>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td class="py-2">
+                                <div class="d-inline-flex align-items-center">
+                                  <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                    <span class="text-info-600 dark__text-info-300" data-feather="phone" style="width:16px; height:16px"></span>
+                                  </div>
+                                  <p class="fw-bold mb-0">Resíduos Coletados</p>
+                                </div>
+                              </td>
+                              <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                              <td class="py-2">
+
+                                <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break residuos-coletados html-clean">
+                                  <!-- JS -->
+                                </div>
+
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td class="py-2">
+                                <div class="d-inline-flex align-items-center">
+                                  <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                    <span class="text-info-600 dark__text-info-300 fas fa-money-check-alt" style="width:16px; height:16px"></span>
+                                  </div>
+                                  <p class="fw-bold mb-0">Total Pago</p>
+                                </div>
+                              </td>
+                              <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                              <td class="py-2">
+
+                                <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break total-pago html-clean">
+                                  <!-- JS -->
+                                </div>
+
+                              </td>
+                            </tr>
+
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+
+            <button class="btn btn-success btn-salva-etiqueta btn-form btn-gerar-certificado" modelo="oleo" coleta="" type="button">Gerar Certificado</button>
+            <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+
+          </div>
+        </div>
+      </div>
+    </div>

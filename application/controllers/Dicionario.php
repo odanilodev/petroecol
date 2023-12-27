@@ -113,7 +113,7 @@ class Dicionario extends CI_Controller
     if (count($duplicadas) > 0) {
       $response = array(
         'success' => false,
-        'message' => "Erro! Este Dicionario já existe!",
+        'message' => "Erro! Uma ou mais destas chaves já existe!",
         'duplicadas' => json_encode($duplicadas)
       );
 
@@ -139,7 +139,7 @@ class Dicionario extends CI_Controller
 
     $response = array(
       'success' => true,
-      'message' => $id ? "Dicionário editado com sucesso" : "Dicionário cadastrado com sucesso! "
+      'message' => $id ? "Chave editada com sucesso" : "Chave cadastrada com sucesso! "
     );
 
     return $this->output->set_content_type('application/json')->set_output(json_encode($response));

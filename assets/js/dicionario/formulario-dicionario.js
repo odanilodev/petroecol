@@ -7,7 +7,19 @@ const cadastraDicionarioGlobal = () => {
 
 	let permissao = true;
 
-	// cadastra um dicionario nova
+	$("#form-dicionario input").each(function () {
+		// Verifica se o valor do input atual está vazio
+		if ($(this).val().trim() === "") {
+			permissao = false;
+			avisoRetorno(
+				"Algo deu errado!",
+				`Preencha todos os campos!`,
+				"error",
+				"#"
+			);
+
+		}
+	});
 
 	if (permissao) {
 		$.ajax({
@@ -29,7 +41,7 @@ const cadastraDicionarioGlobal = () => {
 						"Sucesso!",
 						`${data.message}`,
 						"success",
-						`${baseUrl}dicionario/chavesGlobais`
+						`${baseUrl}dicionario/chavesGlobais/all`
 					);
 				} else {
 					avisoRetorno("Algo deu errado!", `${data.message}`, "error", "#");
@@ -72,9 +84,9 @@ const deletarDicionarioGlobal = (id) => {
 				success: function () {
 					avisoRetorno(
 						"Sucesso!",
-						"Dicionario deletado com sucesso!",
+						"Chave deletada com sucesso!",
 						"success",
-						`${baseUrl}dicionario/chavesGlobais`
+						`${baseUrl}dicionario/chavesGlobais/all`
 					);
 				},
 			});
@@ -101,12 +113,10 @@ const editarDicionarioGlobal = (id) => {
 			id: id,
 		},
 		success: function (data) {
-
 			$(".input-chave").val(data["dicionario"].chave);
 			$(".input-valor-ptbr").val(data["dicionario"].valor_ptbr);
 			$(".input-valor-en").val(data["dicionario"].valor_en);
 			$(".input-id").val(id);
-
 		},
 	});
 };

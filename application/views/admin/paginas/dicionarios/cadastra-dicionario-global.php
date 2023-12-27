@@ -19,7 +19,7 @@
                         <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
 
                             <div class="card-body pt-4 pb-0">
-                                <form id="form-dicionario" class="" method="post">                                    
+                                <form id="form-dicionario" class="" method="post">
                                     <div class="row campos-dicionario">
                                         <div class="col-md-4 mb-3 duplica-dicionario">
                                             <label class="form-label">Chave</label>
@@ -31,11 +31,11 @@
                                             <input required class="form-control input-valor-ptbr input-obrigatorio" name="valor-ptbr[]" type="text" placeholder="Texto em Português" value="<?= $dicionarioGlobal['valor_ptbr'] ?? "" ?>">
                                         </div>
 
-                                        <div class="col-md-3 mb-3 duplica-dicionario" style="position: relative;">
+                                        <div class="col-md-3 mb-3 duplica-dicionario">
                                             <label class="form-label">Valor EN</label>
-                                            <div class="input-group">
-                                                <input required class="form-control input-valor-en input-obrigatorio" name="valor-en[]" type="text" placeholder="Texto em Inglês" value="<?= $dicionarioGlobal['valor_en'] ?? "" ?>">
-                                            </div>
+
+                                            <input required class="form-control input-valor-en input-obrigatorio" name="valor-en[]" type="text" placeholder="Texto em Inglês" value="<?= $dicionarioGlobal['valor_en'] ?? "" ?>">
+
                                         </div>
                                         <div class="col-md-1 mt-4">
                                             <button type="button" class="btn btn-sm btn-primary btn-adicionar-campo" style="margin-left: 8px;" onclick="duplicarDicionario()">

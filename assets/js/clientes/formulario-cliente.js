@@ -159,7 +159,6 @@ $(document).on('click', '.btn-proximo', function () {
         $('.email-invalido').css('display', 'block');
 
         permissao = false;
-
         return;
 
     } else {
@@ -257,19 +256,80 @@ const verificaRecipienteCliente = (id) => {
 const alteraStatusCliente = (id) => {
 
 
-    let status =  $('.select-status').val();
-    
-        $.ajax({
-            type: 'post',
-            url: `${baseUrl}clientes/alteraStatusCliente`,
-            data: {
-                    id: id,
-                    status: status
-                }, success: function (data) {
+    let status = $('.select-status').val();
 
-                    avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${baseUrl}clientes/detalhes/${id}`);
+    $.ajax({
+        type: 'post',
+        url: `${baseUrl}clientes/alteraStatusCliente`,
+        data: {
+            id: id,
+            status: status
+        }, success: function (data) {
 
-                }
-            })
+            avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${baseUrl}clientes/detalhes/${id}`);
+
+        }
+    })
 }
 
+
+const detalhesHistoricoColeta = (idColeta) => {
+
+    $.ajax({
+        type: 'post',
+        url: `${baseUrl}coletas/detalhesHistoricoColeta`,
+        data: {
+            idColeta: idColeta,
+        }, beforeSend: function () {
+
+            $('.html-clean').html('');
+
+        }, success: function (data) {
+
+            if (data.success) {
+                $('.btn-gerar-certificado').attr('coleta', idColeta);
+
+                let valorPago = JSON.parse(data.coleta['valor_pago']);
+                let qtdColeta = JSON.parse(data.coleta['quantidade_coletada']);
+                let formaPag = JSON.parse(data.coleta['forma_pagamento']);
+                let residuos = JSON.parse(data.coleta['residuos_coletados']);
+
+                for (let i = 0; i < valorPago.length; i++) {
+                    let totalPago = `<span class="mb-0">${valorPago[i]} em ${data.formasPagamento[formaPag[i]]}</span><br>`;
+                    $('.total-pago').append(totalPago)
+                }
+
+                for (let i = 0; i < qtdColeta.length; i++) {
+                    let quantidadeColetada = `<span class="mb-0">${qtdColeta[i]}${data.residuosColetados[residuos[i]]}</span><br>`;
+                    $('.residuos-coletados').append(quantidadeColetada)
+                }
+
+                $('.data-coleta').html(data.dataColeta);
+                $('.responsavel-coleta').html(data.coleta.nome_responsavel);
+
+            } else {
+                avisoRetorno('Algo deu errado', 'Não foi possível encontrar a coleta para este cliente!', 'error', '#')
+
+            }
+
+
+
+        }
+    })
+
+}
+
+
+$(document).on('click', '.btn-gerar-certificado', function () {
+
+    const modelo = $(this).attr('modelo');
+    const coleta = $(this).attr('coleta');
+
+    if (modelo && coleta) {
+        var redirect = `${baseUrl}coletas/certificadoColeta/${coleta}/${modelo}`
+        window.open(redirect, '_blank');
+    } else {
+        avisoRetorno('Algo deu errado!', 'Tratar mensagem de erro...', 'error', `#`);
+    }
+
+});
