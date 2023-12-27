@@ -58,6 +58,8 @@ class Dicionario_model extends CI_Model
         $this->db->insert('ci_dicionario', $dados);
 
         if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($this->db->insert_id());
+            $this->limparCacheDicionario();
         }
 
         return $this->db->affected_rows() > 0;
@@ -72,6 +74,7 @@ class Dicionario_model extends CI_Model
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($this->db->insert_id());
+            $this->limparCacheDicionario();
         }
 
         return $this->db->affected_rows() > 0;

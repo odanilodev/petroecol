@@ -19,28 +19,35 @@
                         <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
 
                             <div class="card-body pt-4 pb-0">
-                                <form id="form-categoria" class="row" method="post">
+                                <form id="form-categoria" class="" method="post">
 
                                     <input type="hidden" class="input-id" value="<?= $dicionarioGlobal['id'] ?? ''; ?>">
+                                    <div class="row campos-dicionario">
+                                        <div class="col-md-4 mb-3 duplica-dicionario">
+                                            <label class="form-label">Chave</label>
+                                            <input required class="form-control input-chave input-obrigatorio" required name="chave" type="text" placeholder="Chave de pesquisa" value="<?= $dicionarioGlobal['chave'] ?? "" ?>">
+                                        </div>
 
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">Chave</label>
-                                        <input required class="form-control input-chave input-obrigatorio" required name="chave" type="text" placeholder="Chave de pesquisa" value="<?= $dicionarioGlobal['chave'] ?? "" ?>">
-                                    </div>
+                                        <div class="col-md-4 mb-3 duplica-dicionario">
+                                            <label class="form-label">Valor PT-BR</label>
+                                            <input required class="form-control input-valor-ptbr input-obrigatorio" name="valor-ptbr" type="text" placeholder="Texto em Português" value="<?= $dicionarioGlobal['valor_ptbr'] ?? "" ?>">
+                                        </div>
 
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">Valor PT-BR</label>
-                                        <input required class="form-control input-valor-ptbr input-obrigatorio" name="valor-ptbr" type="text" placeholder="Texto em Português" value="<?= $dicionarioGlobal['valor_ptbr'] ?? "" ?>">
-                                    </div>
-
-                                    <div class="col-md-4 mb-3" style="position: relative;">
-                                        <label class="form-label">Valor EN</label>
-                                        <div class="input-group">
-                                            <input required class="form-control input-valor-en input-obrigatorio" name="valor-en" type="text" placeholder="Texto em Inglês" value="<?= $dicionarioGlobal['valor_en'] ?? "" ?>">
-                                            <button type="button" class="btn btn-sm btn-primary btn-adicionar-campo" style="margin-left: 8px;">
+                                        <div class="col-md-3 mb-3 duplica-dicionario" style="position: relative;">
+                                            <label class="form-label">Valor EN</label>
+                                            <div class="input-group">
+                                                <input required class="form-control input-valor-en input-obrigatorio" name="valor-en" type="text" placeholder="Texto em Inglês" value="<?= $dicionarioGlobal['valor_en'] ?? "" ?>">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1 mt-4">
+                                            <button type="button" class="btn btn-sm btn-primary btn-adicionar-campo" style="margin-left: 8px;" onclick="duplicarDicionario()">
                                                 <span class="fas fa-plus"></span>
                                             </button>
                                         </div>
+                                    </div>
+
+                                    <div class="campos-duplicados row">
+
                                     </div>
 
                                     <div class="flex-1 text-end my-5">
