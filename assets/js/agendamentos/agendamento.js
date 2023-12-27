@@ -407,13 +407,17 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
 
           $(`.detalhes-modal-${idCliente}`).addClass('d-none');
           $(`.salva-modal-${idCliente}`).removeClass('d-none');
-          $(`.salva-modal-${idCliente}`).attr('data-cliente', idCliente);
-          $(`.salva-modal-${idCliente}`).attr('data-hora', $(`.hora-modal-${idCliente}`).val());
-          $(`.salva-modal-${idCliente}`).attr('data-periodo', $(`.periodo-modal-${idCliente}`).val());
-          $(`.salva-modal-${idCliente}`).attr('data-prioridade', $(`.prioridade-modal-${idCliente}`).val());
-          $(`.salva-modal-${idCliente}`).attr('data-obs', obs);
-          $(`.salva-modal-${idCliente}`).attr('data-agendamento', idAgendamento);
-          $(`.salva-modal-${idCliente}`).attr('data-data', dataFormatada);
+
+          const modalSelector = `.salva-modal-${idCliente}`;
+          $(modalSelector).data({
+            cliente: idCliente,
+            hora: $(`.hora-modal-${idCliente}`).val(),
+            periodo: $(`.periodo-modal-${idCliente}`).val(),
+            prioridade: $(`.prioridade-modal-${idCliente}`).val(),
+            obs: obs,
+            agendamento: idAgendamento,
+            data: dataFormatada
+          });
 
         } else {
 
@@ -673,7 +677,7 @@ function exibirAgendamentos(currentYear, currentMonth) {
           var tipo = "text-danger";
 
         }
-        
+
 
         // se for prioridade adiciona a classe "prioridade"
         var event = {
