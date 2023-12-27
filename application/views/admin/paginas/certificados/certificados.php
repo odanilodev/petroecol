@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Certificado</title>
 
     <style>
         table {
@@ -68,7 +68,7 @@
 
                     <tr>
                         <td colspan="3">
-                            <strong>Gerador:</strong> <?= $clientes_coletas['CLIENTE'] ?>
+                            <strong>Gerador:</strong> <?= $clientes_coletas['nome'] ?>
                         </td>
                     </tr>
 
@@ -111,20 +111,16 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th style="width: 15px;" scope="col">Atendimento</th>
-                        <th style="width: 15px;" scope="col">Tipo do resíduo</th>
-                        <th scope="col" style="width: 15px;">Quantidade</th>
+                        <th style="width: 15px;" scope="col">Qtd / Tipo do resíduo</th>
                         <th style="width: 15px;" scope="col">Data</th>
                     </tr>
                 </thead>
                 <tbody>
 
-                    <?php for ($i = 0; $i < count($residuos_coletados); $i++) { ?>
+                    <?php for ($i = 0; $i < count($quantidade_coletada); $i++) { ?>
                         <tr>
-                            <td style="width: 15px;"><?= $clientes_coletas['cod_romaneio'] ?></td>
-                            <td style="width: 15px;"><?= $residuos_coletados[$i] ?> </td>
-                            <td style="width: 15px;"><?= $quantidade_residuos_coletados[$i] . $medida_residuos_coletados[$i] ?></td>
-                            <td style="width: 15px;"><?= date('d/m/Y', strtotime($clientes_coletas['data_coleta'])); ?></td>
+                            <td style="width: 15px;"><?=$quantidade_coletada[$i]?><?=$residuosColetatos[$residuos[$i]]?></td>
+                            <td style="width: 15px;"><?=$dataColeta?></td>
                         </tr>
                     <?php } ?>
 

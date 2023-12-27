@@ -82,9 +82,17 @@ class Coletas extends CI_Controller
     {
         $this->load->library('GerarCertificadoColeta');
 
-        $idColeta = $this->uri->segment(3);
+        $idColeta = $this->uri->segment(3) ?? null;
+        $modelo = $this->uri->segment(4) ?? null;
 
-        $this->gerarcertificadocoleta->gerarPdf($idColeta);
+        if($modelo == 'oleo'){
+            $this->gerarcertificadocoleta->gerarPdfOleo($idColeta);
+        }
+
+        if($modelo == 'reciclagem'){
+            $this->gerarcertificadocoleta->gerarPdfReciclagem($idColeta); 
+        }
+        
     }
 
     public function detalhesHistoricoColeta()
@@ -92,23 +100,29 @@ class Coletas extends CI_Controller
         $idColeta = $this->input->post('idColeta');
 
         $this->load->model('Coletas_model');
-		$historicoColeta = $this->Coletas_model->recebeColetasClienteResiduos($idColeta);
+        $this->load->model('FormaPagamento_model');
+        $this->load->model('Residuos_model');
+        $this->load->library('detalhesColeta');
+
+        $historicoColeta = $this->detalhescoleta->detalheColeta($idColeta);
 
         if ($historicoColeta) {
+            $dataColeta = date('d/m/Y', strtotime($historicoColeta['coleta']['data_coleta']));
 
             $response = array(
                 'success' => true,
-                'historicoColeta' => $historicoColeta
+                'coleta' => $historicoColeta['coleta'],
+                'dataColeta' => $dataColeta,
+                'formasPagamento' => $historicoColeta['formasPagamento'] ?? null,
+                'residuosColetados' => $historicoColeta['residuos'] ?? null
             );
         } else {
 
             $response = array(
-                'success' => false,
-                'message' => "Erro ao editar o cliente!"
+                'success' => false
             );
         }
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-
     }
 }

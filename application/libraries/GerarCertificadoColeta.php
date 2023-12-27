@@ -15,16 +15,18 @@ class GerarCertificadoColeta
 		$this->CI->load->model('Coletas_model');
 	}
 
-	public function gerarPdf($idColeta)
+	public function gerarPdfOleo($idColeta)
 	{
-		$data['clientes_coletas'] = $this->CI->Coletas_model->recebeColetasClienteResiduos($idColeta);
+		$this->CI->load->library('detalhesColeta');
+		$historicoColeta = $this->CI->detalhescoleta->detalheColeta($idColeta);
+
+		$data['clientes_coletas'] = $this->CI->Coletas_model->recebeColetaCliente($idColeta);
+		$data['dataColeta'] = date('d/m/Y', strtotime($historicoColeta['coleta']['data_coleta']));
+		$data['residuosColetatos'] = $historicoColeta['residuos'];
+		$data['residuos'] = json_decode($historicoColeta['coleta']['residuos_coletados'], true);
+		$data['quantidade_coletada'] = json_decode($historicoColeta['coleta']['quantidade_coletada'], true);
 
 		if ($data['clientes_coletas']) {
-
-			$data['residuos_coletados'] = explode(',', $data['clientes_coletas']['nomes_residuos']);
-			$data['quantidade_residuos_coletados'] = json_decode($data['clientes_coletas']['quantidade_coletada'], true);
-			$data['medida_residuos_coletados'] =  explode(',', $data['clientes_coletas']['unidade_medida']);
-
 
 			$mpdf = new Mpdf;
 			$html = $this->CI->load->view('admin/paginas/certificados/certificados', $data, true);

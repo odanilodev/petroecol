@@ -282,39 +282,33 @@ const detalhesHistoricoColeta = (idColeta) => {
             idColeta: idColeta,
         }, beforeSend: function () {
 
-            $('.total-pago').html('');
-            $('.data-coleta').html('');
-            $('.responsavel-coleta').html('');
-            $('.pagamento-coleta').html('');
-            $('.residuos-coletados').html('');
+            $('.html-clean').html('');
 
         }, success: function (data) {
 
             if (data.success) {
+                $('.btn-gerar-certificado').attr('coleta', idColeta);
 
-                let valorPago = JSON.parse(data.historicoColeta['valor_pago']);
-                let formaPagamento = data.historicoColeta['nomes_pagamentos'].split(',');
+                let valorPago = JSON.parse(data.coleta['valor_pago']);
+                let qtdColeta = JSON.parse(data.coleta['quantidade_coletada']);
+                let formaPag = JSON.parse(data.coleta['forma_pagamento']);
+                let residuos = JSON.parse(data.coleta['residuos_coletados']);
 
                 for (let i = 0; i < valorPago.length; i++) {
-
-                    let totalPago = `
-                    <span class="nome-forma-pagamento mb-0">${formaPagamento[i]}: ${valorPago[i]}</span><br>`;
-
+                    let totalPago = `<span class="mb-0">${valorPago[i]} em ${data.formasPagamento[formaPag[i]]}</span><br>`;
                     $('.total-pago').append(totalPago)
                 }
 
-                let partesData = data.historicoColeta['data_coleta'].split('-');
+                for (let i = 0; i < qtdColeta.length; i++) {
+                    let quantidadeColetada = `<span class="mb-0">${qtdColeta[i]}${data.residuosColetados[residuos[i]]}</span><br>`;
+                    $('.residuos-coletados').append(quantidadeColetada)
+                }
 
-                let dataFormatada = partesData[2] + '/' + partesData[1] + '/' + partesData[0];
-
-                $('.data-coleta').html(dataFormatada);
-                $('.responsavel-coleta').html(data.historicoColeta['nome_responsavel']);
-                $('.pagamento-coleta').html(data.historicoColeta['nomes_pagamentos']);
-                $('.residuos-coletados').html(data.historicoColeta['nomes_residuos']);
+                $('.data-coleta').html(data.dataColeta);
+                $('.responsavel-coleta').html(data.coleta.nome_responsavel);
 
             } else {
-
-                avisoRetorno('Algo deu errado', 'Não foi possível encontrar um histórico de coleta para este cliente!', 'error', '#');
+                avisoRetorno('Algo deu errado', 'Não foi possível encontrar a coleta para este cliente!', 'error', '#')
 
             }
 
@@ -324,3 +318,18 @@ const detalhesHistoricoColeta = (idColeta) => {
     })
 
 }
+
+
+$(document).on('click', '.btn-gerar-certificado', function () {
+
+    const modelo = $(this).attr('modelo');
+    const coleta = $(this).attr('coleta');
+
+    if (modelo && coleta) {
+        var redirect = `${baseUrl}coletas/certificadoColeta/${coleta}/${modelo}`
+        window.open(redirect, '_blank');
+    } else {
+        avisoRetorno('Algo deu errado!', 'Tratar mensagem de erro...', 'error', `#`);
+    }
+
+});
