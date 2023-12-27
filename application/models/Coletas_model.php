@@ -26,7 +26,7 @@ class Coletas_model extends CI_Model
     {
         $this->db->order_by('data_coleta', 'DESC');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        
+
         $query = $this->db->get('ci_coletas');
 
         return $query->result_array();
@@ -44,17 +44,33 @@ class Coletas_model extends CI_Model
 
     public function recebeColetasCliente($idCliente)
     {
-        $this->db->select('ci_coletas.*, ci_funcionarios.nome as nome_responsavel');
+        $this->db->select('ci_coletas.*, ci_coletas.id as ID_COLETA, ci_funcionarios.nome as nome_responsavel');
         $this->db->from('ci_coletas');
         $this->db->join('ci_funcionarios', 'ci_coletas.id_responsavel = ci_funcionarios.id', 'left');
         $this->db->where('ci_coletas.id_cliente', $idCliente);
         $this->db->where('ci_coletas.id_empresa', $this->session->userdata('id_empresa'));
-    
+        $this->db->group_by('ci_coletas.id');
+
         $query = $this->db->get();
-    
+
         return $query->result_array();
     }
-    
+
+    public function recebeColetaCliente($idColeta)
+    {
+       
+        $this->db->select('CO.*, C.*, FU.nome as nome_responsavel');
+        $this->db->from('ci_coletas as CO');
+        $this->db->join('ci_clientes C', 'CO.id_cliente = C.id', 'left');
+        $this->db->join('ci_funcionarios FU', 'CO.id_responsavel = FU.id', 'left');
+        $this->db->where('CO.id', $idColeta);
+        
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+
+        $query = $this->db->get();
+
+        return $query->row_array();
+    }
 
     
 }

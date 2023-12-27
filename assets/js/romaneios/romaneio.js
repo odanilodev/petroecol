@@ -494,6 +494,7 @@ function finalizarRomaneio() {
         };
 
         dadosClientes.push(dadosCliente);
+        
     });
 
     if (permissao) {

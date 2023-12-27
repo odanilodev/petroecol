@@ -77,4 +77,48 @@ class Coletas extends CI_Controller
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
+
+    public function certificadoColeta()
+    {
+        $this->load->library('GerarCertificadoColeta');
+
+        $idColeta = $this->uri->segment(3) ?? null;
+        $modelo = $this->uri->segment(4) ?? null;
+
+        if($modelo == 'oleo'){
+            $this->gerarcertificadocoleta->gerarPdfOleo($idColeta);
+        }
+
+        if($modelo == 'reciclagem'){
+            $this->gerarcertificadocoleta->gerarPdfReciclagem($idColeta); 
+        }
+        
+    }
+
+    public function detalhesHistoricoColeta()
+    {
+        $idColeta = $this->input->post('idColeta');
+        $this->load->library('detalhesColeta');
+
+        $historicoColeta = $this->detalhescoleta->detalheColeta($idColeta);
+
+        if ($historicoColeta) {
+            $dataColeta = date('d/m/Y', strtotime($historicoColeta['coleta']['data_coleta']));
+
+            $response = array(
+                'success' => true,
+                'coleta' => $historicoColeta['coleta'],
+                'dataColeta' => $dataColeta,
+                'formasPagamento' => $historicoColeta['formasPagamento'] ?? null,
+                'residuosColetados' => $historicoColeta['residuos'] ?? null
+            );
+        } else {
+
+            $response = array(
+                'success' => false
+            );
+        }
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
 }
