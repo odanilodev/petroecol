@@ -284,7 +284,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
       });
 
       // adiciona um novo agendamento
-      const salvaAgendamento = (cliente, data, horario, periodo, obs, id) => {
+      const salvaAgendamento = (cliente, data, horario, periodo, obs, id, prioridade) => {
 
         let dataNova = data;
 
@@ -315,7 +315,8 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
               horario: horario,
               periodo: periodo,
               obs: obs,
-              id: id
+              id: id,
+              prioridade: prioridade
             },
             beforeSend: function () {
               $('.load-form').removeClass('d-none');
@@ -355,6 +356,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
         }
       }
 
+      // novo agendamento
       $(document).on('click', '.btn-salva-agendamento', function () {
 
         let cliente = $('.cliente-agendamento').val();
@@ -362,29 +364,30 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
         let horario = $('.horario-agendamento').val();
         let periodo = $('.periodo-agendamento').val();
         let obs = $('.obs-agendamento').val();
+        let prioridade = $('.prioridade-agendamento').val();
 
         let id = $('.input-id').val();
 
-        salvaAgendamento(cliente, data, horario, periodo, obs, id);
+        salvaAgendamento(cliente, data, horario, periodo, obs, id, prioridade);
 
       })
 
 
       $(document).on('change', '.data-modal', function () {
 
-        alteraMomentoColeta('.data-modal', 'data');
+        alteraMomentoColeta(this, 'data');
 
       })
 
       $(document).on('change', '.hora-modal', function () {
 
-        alteraMomentoColeta('.hora-modal', 'hora');
+        alteraMomentoColeta(this, 'hora');
 
       })
 
       $(document).on('change', '.periodo-modal', function () {
 
-        alteraMomentoColeta('.periodo-modal', 'periodo');
+        alteraMomentoColeta(this, 'periodo');
 
       })
 
@@ -404,12 +407,17 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
 
           $(`.detalhes-modal-${idCliente}`).addClass('d-none');
           $(`.salva-modal-${idCliente}`).removeClass('d-none');
-          $(`.salva-modal-${idCliente}`).attr('data-cliente', idCliente);
-          $(`.salva-modal-${idCliente}`).attr('data-hora', $('.hora-modal').val());
-          $(`.salva-modal-${idCliente}`).attr('data-periodo', $('.periodo-modal').val());
-          $(`.salva-modal-${idCliente}`).attr('data-obs', obs);
-          $(`.salva-modal-${idCliente}`).attr('data-agendamento', idAgendamento);
-          $(`.salva-modal-${idCliente}`).attr('data-data', dataFormatada);
+
+          const modalSelector = `.salva-modal-${idCliente}`;
+          $(modalSelector).data({
+            cliente: idCliente,
+            hora: $(`.hora-modal-${idCliente}`).val(),
+            periodo: $(`.periodo-modal-${idCliente}`).val(),
+            prioridade: $(`.prioridade-modal-${idCliente}`).val(),
+            obs: obs,
+            agendamento: idAgendamento,
+            data: dataFormatada
+          });
 
         } else {
 
@@ -430,8 +438,9 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
         let horaNova = $(this).data('hora');
         let idAgendamento = $(this).data('agendamento');
         let obs = $(this).data('obs');
+        let prioridade = $(this).data('prioridade');
 
-        salvaAgendamento(idCliente, dataNova, horaNova, periodoNovo, obs, idAgendamento);
+        salvaAgendamento(idCliente, dataNova, horaNova, periodoNovo, obs, idAgendamento, prioridade);
 
       })
 
@@ -610,92 +619,71 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
 }));
 //# sourceMappingURL=calendar.js.mapv
 
-// busca os agendamentos feitos manuais (prioridades)
-function exibirAgendamentosManuais(currentYear, currentMonth) {
 
-  events = [];
-
-  $.ajax({
-    url: baseUrl + 'agendamentos/exibirAgendamentos',
-    method: 'POST',
-    async: false,
-    data: {
-      anoAtual: currentYear,
-      mesAtual: currentMonth,
-      prioridade: 1
-    },
-    success: function (data) {
-
-      let jsonString = JSON.stringify(data.agendamentos);
-
-      var obj = JSON.parse(jsonString);
-
-      for (var i = 0; i < obj.length; i++) {
-
-        let titulo = obj[i].data_coleta < dataAtualFormatada ? " Atrasado(s)" : " Prioridade(s)";
-
-        let tipo = obj[i].data_coleta < dataAtualFormatada ? "text-danger" : 'text-warning';
-
-        var event = {
-          title: obj[i].total_agendamento + titulo,
-          start: obj[i].data_coleta,
-          className: `${tipo} agendamento dataClicada-${obj[i].data_coleta} prioridade`
-        };
-
-        events.push(event);
-
-      }
-
-    }
-
-
-  });
-
-  return events;
-
-}
-
-
+// exibe os agendamentos no calendário
 function exibirAgendamentos(currentYear, currentMonth) {
 
-  exibirAgendamentosManuais(currentYear, currentMonth); // exibe os agendamentos manuais (prioridades) no calendario
-
   $.ajax({
     url: baseUrl + 'agendamentos/exibirAgendamentos',
     method: 'POST',
     async: false,
     data: {
       anoAtual: currentYear,
-      mesAtual: currentMonth,
-      prioridade: 0
+      mesAtual: currentMonth
     },
     success: function (data) {
 
       let jsonString = JSON.stringify(data.agendamentos);
 
-      var obj = JSON.parse(jsonString);
+      var obj = JSON.parse(jsonString); // transforma os agendamentos em obj
 
       // status 1 = `coletado ` status 2 = reagendado
 
       for (var i = 0; i < obj.length; i++) {
 
-        var titulo = obj[i].data_coleta < dataAtualFormatada ? " Atrasado(s)" : " Agendado(s)";
+        // verifica o status do agendamento
+        switch (true) {
+          case obj[i].status == 1 && obj[i].prioridade == 0:
+            var titulo = " Coletado(s)";
+            var tipo = "text-success";
+            break;
 
-        if (obj[i].status == 1) {
+          case obj[i].status == 2:
+            var titulo = " Reagendado(s)";
+            var tipo = "text-primary";
+            break;
 
-          var titulo = ' coletado';
-          
-        } else if (obj[i].status == 2) {
+          case obj[i].status == 1 && obj[i].prioridade == 1:
+            var titulo = " Coletado(s)";
+            var tipo = "text-warning";
+            break;
 
-          var titulo = ' reagendado';
+          case obj[i].status == 0 && obj[i].prioridade == 1:
+            var titulo = " Prioridade(s)";
+            var tipo = "text-warning";
+            break;
+
+          default:
+            var titulo = " Agendado(s)";
+            var tipo = "text-info";
+            break;
         }
 
-        let tipo = obj[i].data_coleta < dataAtualFormatada ? "text-danger" : 'text-success';
 
+        // verifica se o agendamento está atrasado
+        if (obj[i].data_coleta < dataAtualFormatada && obj[i].status == 0) {
+
+          var titulo = " Atrasado(s)";
+          var tipo = "text-danger";
+
+        }
+
+
+        // se for prioridade adiciona a classe "prioridade"
         var event = {
           title: obj[i].total_agendamento + titulo,
           start: obj[i].data_coleta,
-          className: `${tipo} agendamento dataClicada-${obj[i].data_coleta}`
+          className: `${tipo} agendamento dataClicada-${obj[i].data_coleta} ${obj[i].prioridade == 1 ? "prioridade" : ""}`
         };
 
         events.push(event);
@@ -794,6 +782,9 @@ const exibirClientesAgendados = (dataColeta, prioridade) => {
             </td>
 
             <td style="text-align: center">
+
+            <input type="hidden" value="${cliente.prioridade}" class="prioridade-modal-${cliente.id_cliente}">
+
               <a class="detalhes-modal-${cliente.id_cliente}" href="${baseUrl}clientes/detalhes/${cliente.id_cliente}" title="Mais detalhes">
                 <span class="fas fa-eye fs-1"></span>
               </a>
