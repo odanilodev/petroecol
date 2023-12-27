@@ -357,14 +357,6 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
         </div>
     `;
 
-    // div com row para cada grupo ficar em row diferente
-    let novaLinha = $('<div class="row"></div>');
-
-    // imprime os elementos dentro da div row
-    novaLinha.append(selectHtml);
-    novaLinha.append(inputHtml);
-
-    // botão para remover os elementos duplicados
     let btnRemove = $(`
     <div class="col-md-4 mb-2 mt-1 row">
 
@@ -372,8 +364,14 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
 
     </div>`);
 
-    novaLinha.append(btnRemove); // imprime o botão para remover os elementos duplicados
+    // div com row para cada grupo ficar em row diferente
+    let novaLinha = $('<div class="row"></div>');
 
+    // imprime os elementos dentro da div row
+    novaLinha.append(selectHtml);
+    novaLinha.append(inputHtml);
+    novaLinha.append(btnRemove);
+    
     //remove a linha duplicada
     btnRemove.find(`.remover-${novoElemento}`).on('click', function () {
         
