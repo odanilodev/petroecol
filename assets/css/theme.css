@@ -34452,3 +34452,11 @@ a[href].bg-200:hover, a[href].bg-200:focus {
   box-shadow: 0px 0px 10px rgba(0, 128, 0, 0.7);
 
 }
+
+/* Para campos obrigatorios */
+.aviso-obrigatorio {
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 75%;
+  color: #ed2000;
+}

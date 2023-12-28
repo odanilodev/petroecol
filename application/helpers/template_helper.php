@@ -313,3 +313,13 @@ function scriptsVeiculosHead()
         '<script src="' . base_url('vendors/dropzone/dropzone.min.css') . '"></script>'
     );
 }
+
+// Pagina Certificado
+function scriptsCertificadosFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/certificados/formulario-certificados.js') . '"></script>'
+
+    );
+}
