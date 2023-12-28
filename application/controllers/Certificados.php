@@ -29,7 +29,7 @@ class Certificados extends CI_Controller
 		$scriptsPadraoHead = scriptsPadraoHead();
 		$scriptsPadraoFooter = scriptsPadraoFooter();
 
-		// scripts para etiquetas
+		// scripts para Certificados
 		$scriptsCertificadosFooter = scriptsCertificadosFooter();
 
 		add_scripts('header', array_merge($scriptsPadraoHead));
@@ -48,7 +48,7 @@ class Certificados extends CI_Controller
 		$scriptsPadraoHead = scriptsPadraoHead();
 		$scriptsPadraoFooter = scriptsPadraoFooter();
 
-		// scripts para etiquetas
+		// scripts para Certificados
 		$scriptsCertificadosFooter = scriptsCertificadosFooter();
 
 		add_scripts('header', array_merge($scriptsPadraoHead));
