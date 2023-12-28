@@ -319,11 +319,6 @@ const detalhesHistoricoColeta = (idColeta) => {
 
 }
 
-$(document).on('change', '.select-modelo-certificado', function () {
-
-    $('.btn-gerar-certificado').attr('data-modelo', $(this).val());
-})
-
 $(document).on('click', '.btn-gerar-certificado', function () {
 
     let modeloCertificado = $('.select-modelo-certificado').val();
@@ -334,7 +329,7 @@ $(document).on('click', '.btn-gerar-certificado', function () {
         return;
     }
 
-    const modelo = $(this).data('modelo');
+    const modelo = modeloCertificado;
     const coleta = $(this).data('coleta');
 
     if (modelo && coleta) {
