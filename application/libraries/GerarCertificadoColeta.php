@@ -29,7 +29,7 @@ class GerarCertificadoColeta
 		if ($data['clientes_coletas']) {
 
 			$mpdf = new Mpdf;
-			$html = $this->CI->load->view('admin/paginas/certificado-pdf/certificados', $data, true);
+			$html = $this->CI->load->view('admin/paginas/certificados/certificado-pdf', $data, true);
 			$mpdf->WriteHTML($html);
 
 			// Retorna o conteúdo do PDF
