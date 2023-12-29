@@ -74,6 +74,7 @@ function scriptsPadraoFooter()
         '<script src="' . base_url('vendors/dropzone/dropzone.min.js') . '"></script>',
         '<script src="' . base_url('vendors/prism/prism.js') . '"></script>',
         '<script src="' . base_url('assets/js/phoenix.js') . '"></script>',
+        '<script src="' . base_url('vendors/list.js/list.min.js') . '"></script>',
         '<script src="' . base_url('node_modules/sweetalert2/dist/sweetalert2.all.min.js') . '"></script>',
         '<script src="' . base_url('assets/js/alertas/alertas-retornos.js') . '"></script>',
         '<script src="' . base_url('assets/js/aprovacao-inativos/helper-aprovacao-inativos.js') . '"></script>'
