@@ -1,66 +1,88 @@
 var baseUrl = $(".base-url").val();
 
 const cadastraDicionarioGlobal = () => {
-	let id = $(".input-id").val();
+    let id = $(".input-id").val();
 
-	let dadosDicionario = $("#form-dicionario").serialize();
+    let dadosDicionario = $("#form-dicionario").serialize();
 
-	let permissao = true;
+    let permissao = true;
 
-	$("#form-dicionario input").each(function () {
-		// Verifica se o valor do input atual está vazio
-		if ($(this).val().trim() === "") {
-			permissao = false;
-			avisoRetorno(
-				"Algo deu errado!",
-				`Preencha todos os campos!`,
-				"error",
-				"#"
-			);
+    // Array para armazenar chaves duplicadas
+    let duplicadas = [];
 
-		}
-	});
+    $("#form-dicionario input[name='chave']").each(function () {
+        // Verifica se o valor do input atual está vazio
+        if ($(this).val().trim() === "") {
+            permissao = false;
+            avisoRetorno(
+                "Algo deu errado!",
+                "Preencha todos os campos!",
+                "error",
+                "#"
+            );
+            return false; // Encerra o loop se houver campo vazio
+        }
 
-	if (permissao) {
-		$.ajax({
-			type: "post",
-			url: `${baseUrl}dicionario/cadastraDicionarioGlobal`,
-			data: {
-				id: id,
-				dadosDicionario: dadosDicionario,
-			},
-			beforeSend: function () {
-				$(".load-form").removeClass("d-none");
-				$(".btn-envia").addClass("d-none");
-			},
-			success: function (data) {
-				$(".load-form").addClass("d-none");
-				$(".btn-envia").removeClass("d-none");
-				if (data.success) {
-					avisoRetorno(
-						"Sucesso!",
-						`${data.message}`,
-						"success",
-						`${baseUrl}dicionario/chavesGlobais/all`
-					);
-				} else {
-					avisoRetorno("Algo deu errado!", `${data.message}`, "error", "#");
-				}
-			},
-			error: function (xhr, status, error) {
-				$(".load-form").addClass("d-none");
-				$(".btn-envia").removeClass("d-none");
-				if (xhr.status === 403) {
-					avisoRetorno(
-						"Algo deu errado!",
-						`Você não tem permissão para esta ação..`,
-						"error",
-						"#"
-					);
-				}
-			},
-		});
-	}
+        // Verifica se a chave já existe no array duplicadas
+        if (duplicadas.includes($(this).val())) {
+            permissao = false;
+            avisoRetorno(
+                "Algo deu errado!",
+                "Chave duplicada encontrada!",
+                "error",
+                "#"
+            );
+            return false; // Encerra o loop se houver chave duplicada
+        }
+
+        duplicadas.push($(this).val());
+    });
+
+    if (permissao) {
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}dicionario/cadastraDicionarioGlobal`,
+            data: {
+                id: id,
+                dadosDicionario: dadosDicionario,
+            },
+            beforeSend: function () {
+                $(".load-form").removeClass("d-none");
+                $(".btn-envia").addClass("d-none");
+            },
+            success: function (data) {
+                $(".load-form").addClass("d-none");
+                $(".btn-envia").removeClass("d-none");
+                if (data.success) {
+                    avisoRetorno(
+                        "Sucesso!",
+                        `${data.message}`,
+                        "success",
+                        `${baseUrl}dicionario/chavesGlobais/all`
+                    );
+                } else {
+                    avisoRetorno(
+                        "Algo deu errado!",
+                        `${data.message}`,
+                        "error",
+                        "#"
+                    );
+                }
+            },
+            error: function (xhr, status, error) {
+                $(".load-form").addClass("d-none");
+                $(".btn-envia").removeClass("d-none");
+                if (xhr.status === 403) {
+                    avisoRetorno(
+                        "Algo deu errado!",
+                        `Você não tem permissão para esta ação..`,
+                        "error",
+                        "#"
+                    );
+                }
+            },
+        });
+    }
 };
 
 const deletarDicionarioGlobal = (id) => {

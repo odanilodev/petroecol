@@ -81,11 +81,7 @@ class Dicionario extends CI_Controller
     add_scripts('header', array_merge($scriptsPadraoHead));
     add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsDicionarioFooter));
 
-    $id = $this->uri->segment(3);
-
-    $data['dicionarioGlobal'] = $this->Dicionario_model->recebeIdDicionarioGlobal($id);
-
-    $this->load->view('admin/includes/painel/cabecalho', $data);
+    $this->load->view('admin/includes/painel/cabecalho');
     $this->load->view('admin/paginas/dicionarios/cadastra-dicionario-global');
     $this->load->view('admin/includes/painel/rodape');
   }
@@ -99,10 +95,10 @@ class Dicionario extends CI_Controller
     //abre um array para receber informações
     $duplicadas = [];
 
-    //percorre cada valor no array criado pelo serialize e caso ele exista no banco preenche o array deuRuim com seu(s) valor(es).
+    //percorre cada valor na  $array criado pelo serialize e caso ele exista no banco, preenche o array 'duplicada' com seu(s) valor(es).
     foreach ($array['chave'] as $chave) {
 
-      $retorno = $this->Dicionario_model->recebeDicionarioGlobalChave($chave);
+      $retorno = $this->Dicionario_model->recebeDicionarioGlobalChave($chave, $id);
 
       if ($retorno) {
         $duplicadas[] = $chave;
@@ -110,31 +106,23 @@ class Dicionario extends CI_Controller
     }
 
     //caso encontre valores já existentes -> retorna os valores repetidos para tratamento no front
-    if (count($duplicadas) > 0) {
+    if (count($duplicadas)) {
       $response = array(
         'success' => false,
-        'message' => "Erro! Uma ou mais destas chaves já existe!",
-        'duplicadas' => json_encode($duplicadas)
+        'message' => count($duplicadas) > 1 ? implode(', ', $duplicadas) . ' já existem' : $duplicadas[0] . ' já existe'
       );
 
       return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
-
-    //percorre e grava cada valor simultaneamente no banco caso não estejam repetidos
-    for ($i = 0; $i < count($array['valor-ptbr']); $i++) {
+    //percorre de acordo com o numero de chaves no array e grava cada valor simultaneamente no banco caso não estejam repetidos
+    for ($i = 0; $i < count($array['chave']); $i++) {
 
       $dados['chave'] = $array['chave'][$i];
       $dados['valor_ptbr'] = $array['valor-ptbr'][$i];
       $dados['valor_en'] = $array['valor-en'][$i];
 
-      if (!$id) {
-
-        $this->Dicionario_model->insereDicionarioGlobal($dados);
-      } else {
-
-        $this->Dicionario_model->editaDicionarioGlobal($id, $dados);
-      }
+      !$id ? $this->Dicionario_model->insereDicionarioGlobal($dados) : $this->Dicionario_model->editaDicionarioGlobal($id, $dados);
     }
 
     $response = array(
@@ -149,8 +137,27 @@ class Dicionario extends CI_Controller
   {
     $id = $this->input->post('id');
 
-    $this->Dicionario_model->deletaDicionarioGlobal($id);
-  }
+    $retorno = $this->Dicionario_model->deletaDicionarioGlobal($id);
+
+     if ($retorno) {
+       $response = array(
+         'success' => true,
+         'title' => "Sucesso!",
+         'message' => "Dicionário deletado com sucesso!",
+         'type' => "success"
+       );
+       
+     } else {
+ 
+       $response = array(
+         'success' => false,
+         'title' => "Algo deu errado!",
+         'message' => "Não foi possivel deletar o Dicionário!",
+         'type' => "error"
+       );
+     }
+     return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+   }
 
   public function recebeIdDicionarioGlobal()
   {

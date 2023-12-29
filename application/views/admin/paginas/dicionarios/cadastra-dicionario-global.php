@@ -6,7 +6,7 @@
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
                             <h4 class="text-900 mb-0">
-                                <?= $this->uri->segment(3) ? "Editar Dicionário" : "Adicionar novo Dicionário" ?>
+                               Adicionar novo Dicionário
                             </h4>
 
                         </div>
@@ -23,18 +23,18 @@
                                     <div class="row campos-dicionario">
                                         <div class="col-md-4 mb-3 duplica-dicionario">
                                             <label class="form-label">Chave</label>
-                                            <input required class="form-control input-chave input-obrigatorio" required name="chave[]" type="text" placeholder="Chave de pesquisa" value="<?= $dicionarioGlobal['chave'] ?? "" ?>">
+                                            <input required class="form-control input-chave input-obrigatorio" required name="chave[]" type="text" placeholder="Chave de pesquisa">
                                         </div>
 
                                         <div class="col-md-4 mb-3 duplica-dicionario">
                                             <label class="form-label">Valor PT-BR</label>
-                                            <input required class="form-control input-valor-ptbr input-obrigatorio" name="valor-ptbr[]" type="text" placeholder="Texto em Português" value="<?= $dicionarioGlobal['valor_ptbr'] ?? "" ?>">
+                                            <input required class="form-control input-valor-ptbr input-obrigatorio" name="valor-ptbr[]" type="text" placeholder="Texto em Português">
                                         </div>
 
                                         <div class="col-md-3 mb-3 duplica-dicionario">
                                             <label class="form-label">Valor EN</label>
 
-                                            <input required class="form-control input-valor-en input-obrigatorio" name="valor-en[]" type="text" placeholder="Texto em Inglês" value="<?= $dicionarioGlobal['valor_en'] ?? "" ?>">
+                                            <input required class="form-control input-valor-en input-obrigatorio" name="valor-en[]" type="text" placeholder="Texto em Inglês">
 
                                         </div>
                                         <div class="col-md-1 mt-4">
