@@ -12,7 +12,7 @@
             <div class="col col-auto">
                 <div class="d-flex mb-3">
                     <div class="search-box me-2">
-                        <form action="<?= base_url('dicionario/chavesGlobais') ?>" method="POST" class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                        <form  method="POST" class="position-relative" data-bs-toggle="search" data-bs-display="static">
                             <input name="chave" value="<?= $cookie_filtro_dicionario['chave'] ?? null ?>" class="form-control search-input search" type="search" placeholder="Buscar Chave" aria-label="Search">
                             <span class="fas fa-search search-box-icon"></span>
                         </form>
@@ -132,9 +132,7 @@
 
                         <div class="spinner-border text-primary load-form d-none" role="status"></div>
 
-                        <button class="btn btn-success btn-salva-residuo btn-form" type="button" onclick="cadastraDicionarioGlobal()">Salvar</button>
-                        <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
-
+                        <button class="btn btn-success btn-salva-residuo btn-envia" type="button" onclick="cadastraDicionarioGlobal()">Salvar</button>
                     </div>
                 </div>
             </div>

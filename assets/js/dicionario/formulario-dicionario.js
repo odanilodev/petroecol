@@ -1,88 +1,69 @@
 var baseUrl = $(".base-url").val();
 
 const cadastraDicionarioGlobal = () => {
-    let id = $(".input-id").val();
 
-    let dadosDicionario = $("#form-dicionario").serialize();
+	let id = $(".input-id").val();
 
-    let permissao = true;
+	let dadosDicionario = $("#form-dicionario").serialize();
 
-    // Array para armazenar chaves duplicadas
-    let duplicadas = [];
+	let permissao = true;
 
-    $("#form-dicionario input[name='chave']").each(function () {
-        // Verifica se o valor do input atual está vazio
-        if ($(this).val().trim() === "") {
-            permissao = false;
-            avisoRetorno(
-                "Algo deu errado!",
-                "Preencha todos os campos!",
-                "error",
-                "#"
-            );
-            return false; // Encerra o loop se houver campo vazio
+	$("#form-dicionario input").each(function () {
+		// Verifica se o valor do input atual está vazio
+		if ($(this).val().trim() === "") {
+
+            $(this).addClass('invalido');
+            $(this).next().removeClass('d-none');
+
+			permissao = false;
+		} else {
+
+            $(this).removeClass('invalido');
+            $(this).next().addClass('d-none');
         }
+	});
 
-        // Verifica se a chave já existe no array duplicadas
-        if (duplicadas.includes($(this).val())) {
-            permissao = false;
-            avisoRetorno(
-                "Algo deu errado!",
-                "Chave duplicada encontrada!",
-                "error",
-                "#"
-            );
-            return false; // Encerra o loop se houver chave duplicada
-        }
+	if (permissao) {
+		$.ajax({
+			type: "post",
+			url: `${baseUrl}dicionario/cadastraDicionarioGlobal`,
+			data: {
+				id: id,
+				dadosDicionario: dadosDicionario,
+			},
+			beforeSend: function () {
+				$(".load-form").removeClass("d-none");
+				$(".btn-envia").addClass("d-none");
+			},
+			success: function (data) {
+				$(".load-form").addClass("d-none");
+				$(".btn-envia").removeClass("d-none");
 
-        duplicadas.push($(this).val());
-    });
-
-    if (permissao) {
-        $.ajax({
-            type: "post",
-            url: `${baseUrl}dicionario/cadastraDicionarioGlobal`,
-            data: {
-                id: id,
-                dadosDicionario: dadosDicionario,
-            },
-            beforeSend: function () {
-                $(".load-form").removeClass("d-none");
-                $(".btn-envia").addClass("d-none");
-            },
-            success: function (data) {
-                $(".load-form").addClass("d-none");
-                $(".btn-envia").removeClass("d-none");
-                if (data.success) {
-                    avisoRetorno(
-                        "Sucesso!",
-                        `${data.message}`,
-                        "success",
-                        `${baseUrl}dicionario/chavesGlobais/all`
-                    );
-                } else {
-                    avisoRetorno(
-                        "Algo deu errado!",
-                        `${data.message}`,
-                        "error",
-                        "#"
-                    );
-                }
-            },
-            error: function (xhr, status, error) {
-                $(".load-form").addClass("d-none");
-                $(".btn-envia").removeClass("d-none");
-                if (xhr.status === 403) {
-                    avisoRetorno(
-                        "Algo deu errado!",
-                        `Você não tem permissão para esta ação..`,
-                        "error",
-                        "#"
-                    );
-                }
-            },
-        });
-    }
+				if (data.success) {
+					avisoRetorno(
+						"Sucesso!",
+						`${data.message}`,
+						"success",
+						`${baseUrl}dicionario/chavesGlobais/all`
+					);
+				} else {
+					avisoRetorno("Algo deu errado!", `${data.message}`, "error", "#");
+				}
+			},
+			error: function (xhr, status, error) {
+				$(".load-form").addClass("d-none");
+				$(".btn-envia").removeClass("d-none");
+				if (xhr.status === 403) {
+					avisoRetorno(
+						"Algo deu errado!",
+						`Você não tem permissão para esta ação..`,
+						"error",
+						"#"
+					);
+				}
+			},
+		});
+	}
 };
 
 const deletarDicionarioGlobal = (id) => {
@@ -123,11 +104,31 @@ function duplicarDicionario() {
 	// Limpe os valores dos campos clonados
 	clone.find("input").val("");
 
-	// Adicione o grupo clonado a .teste2
-	$(".campos-duplicados").append(clone);
+	let btnRemove = `
+        <div class="col-md-2 mt-4">            
+            <button type="button" class="btn btn-sm btn-danger deleta-dicionario" >
+                <span class="fas fa-minus"></span>
+            </button>
+        </div>
+    `;
+    //por padrão row vem com margin e padding - classes retiram
+    let novaLinha = $('<div class="row m-0 p-0"></div>');
+
+    // imprime os elementos dentro da div row
+    novaLinha.append(clone);
+    novaLinha.append(btnRemove);
+
+    $(novaLinha).find(`.deleta-dicionario`).on('click', function () {
+
+        novaLinha.remove();
+    });
+
+    $(".campos-duplicados").append(novaLinha);
+
 }
 
 const editarDicionarioGlobal = (id) => {
+
 	$.ajax({
 		type: "POST",
 		url: `${baseUrl}dicionario/recebeIdDicionarioGlobal`,
@@ -135,6 +136,7 @@ const editarDicionarioGlobal = (id) => {
 			id: id,
 		},
 		success: function (data) {
+
 			$(".input-chave").val(data["dicionario"].chave);
 			$(".input-valor-ptbr").val(data["dicionario"].valor_ptbr);
 			$(".input-valor-en").val(data["dicionario"].valor_en);
