@@ -34453,8 +34453,7 @@ a[href].bg-200:hover, a[href].bg-200:focus {
 
 }
 
-/* Adicione este CSS ao seu estilo existente */
-
+/* Preloader */
 #preloader {
   position: fixed;
   top: 0;
@@ -34541,3 +34540,10 @@ a[href].bg-200:hover, a[href].bg-200:focus {
 }
 
 
+/* Para campos obrigatorios */
+.aviso-obrigatorio {
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 75%;
+  color: #ed2000;
+}
