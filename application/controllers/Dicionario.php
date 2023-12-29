@@ -118,9 +118,9 @@ class Dicionario extends CI_Controller
     //percorre de acordo com o numero de chaves no array e grava cada valor simultaneamente no banco caso não estejam repetidos
     for ($i = 0; $i < count($array['chave']); $i++) {
 
-      $dados['chave'] = $array['chave'][$i];
-      $dados['valor_ptbr'] = $array['valor-ptbr'][$i];
-      $dados['valor_en'] = $array['valor-en'][$i];
+      $dados['chave'] = mb_strtolower($array['chave'][$i]);
+      $dados['valor_ptbr'] = mb_strtolower($array['valor-ptbr'][$i]);
+      $dados['valor_en'] = mb_strtolower($array['valor-en'][$i]);
 
       !$id ? $this->Dicionario_model->insereDicionarioGlobal($dados) : $this->Dicionario_model->editaDicionarioGlobal($id, $dados);
     }
@@ -139,25 +139,24 @@ class Dicionario extends CI_Controller
 
     $retorno = $this->Dicionario_model->deletaDicionarioGlobal($id);
 
-     if ($retorno) {
-       $response = array(
-         'success' => true,
-         'title' => "Sucesso!",
-         'message' => "Dicionário deletado com sucesso!",
-         'type' => "success"
-       );
-       
-     } else {
- 
-       $response = array(
-         'success' => false,
-         'title' => "Algo deu errado!",
-         'message' => "Não foi possivel deletar o Dicionário!",
-         'type' => "error"
-       );
-     }
-     return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-   }
+    if ($retorno) {
+      $response = array(
+        'success' => true,
+        'title' => "Sucesso!",
+        'message' => "Dicionário deletado com sucesso!",
+        'type' => "success"
+      );
+    } else {
+
+      $response = array(
+        'success' => false,
+        'title' => "Algo deu errado!",
+        'message' => "Não foi possivel deletar o Dicionário!",
+        'type' => "error"
+      );
+    }
+    return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+  }
 
   public function recebeIdDicionarioGlobal()
   {

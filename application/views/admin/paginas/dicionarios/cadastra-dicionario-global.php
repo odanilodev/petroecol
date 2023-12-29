@@ -6,7 +6,7 @@
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
                             <h4 class="text-900 mb-0">
-                                <?= $this->uri->segment(3) ? "Editar Dicionário" : "Adicionar novo Dicionário" ?>
+                                Adicionar novo Dicionário
                             </h4>
 
                         </div>
