@@ -106,7 +106,25 @@
 		public function deletaCargos()
 		{
 			$id = $this->input->post('id');
-
-			$this->Cargos_model->deletaCargo($id);
+	
+			$retorno = $this->Cargos_model->deletaCargo($id);
+	
+			if ($retorno) {
+				$response = array(
+					'success' => true,
+					'title' => "Sucesso!",
+					'message' => "Cargo deletado com sucesso!",
+					'type' => "success"
+				);
+			} else {
+	
+				$response = array(
+					'success' => false,
+					'title' => "Algo deu errado!",
+					'message' => "Não foi possivel deletar o cargo!",
+					'type' => "error"
+				);
+			}
+			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 		}
 	}
