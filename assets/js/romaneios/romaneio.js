@@ -233,20 +233,20 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
                         <div class="col-md-6 mb-2">
 
                             <label class="form-label">Endereço</label>
-                            <input class="form-control input-endereco input-obrigatorio" type="text" placeholder="Endereço do cliente" value="${clientes[i].rua} - ${clientes[i].numero} / ${clientes[i].cidade}">
+                            <input class="form-control input-endereco input-obrigatorio campos-form-${clientes[i].id}" type="text" placeholder="Endereço do cliente" value="${clientes[i].rua} - ${clientes[i].numero} / ${clientes[i].cidade}">
                         </div>
 
                         <div class="col-md-6 mb-2">
 
                             <label class="form-label">Telefone</label>
-                            <input class="form-control input-telefone input-obrigatorio" type="text" placeholder="Telefone" value="${clientes[i].telefone}">
+                            <input class="form-control input-telefone input-obrigatorio campos-form-${clientes[i].id}" type="text" placeholder="Telefone" value="${clientes[i].telefone}">
 
                         </div>
 
                         <div class="col-md-4 mb-2 div-pagamento">
 
                             <label class="form-label">Forma de Pagamento</label>
-                            <select class="form-select select-pagamento w-100 input-obrigatorio" id="select-pagamento" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                            <select class="form-select select-pagamento w-100 input-obrigatorio campos-form-${clientes[i].id}" id="select-pagamento" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
 
                                 <option disabled selected value="">Selecione</option>
                                 
@@ -256,7 +256,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
                         <div class="col-md-4 mb-2 div-pagamento">
 
                             <label class="form-label">Valor Pago</label>
-                            <input class="form-control input-pagamento input-obrigatorio" type="text" placeholder="Digite valor pago" value="">
+                            <input class="form-control input-pagamento input-obrigatorio campos-form-${clientes[i].id}" type="text" placeholder="Digite valor pago" value="">
                         </div>
 
                         <div class="col-md-4 mb-2 mt-4 row">
@@ -271,7 +271,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
 
                             <label class="form-label">Resíduo Coletado</label>
                             
-                            <select class="form-select select-residuo w-100 input-obrigatorio" id="select-residuo" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                            <select class="form-select select-residuo w-100 input-obrigatorio campos-form-${clientes[i].id}" id="select-residuo" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
 
                                 <option disabled selected value="">Selecione</option>
                                 
@@ -282,7 +282,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
                         <div class="col-md-4 mb-2">
 
                             <label class="form-label">Quantidade Coletada</label>
-                            <input class="form-control input-residuo input-obrigatorio" type="text" placeholder="Digite quantidade coletada" value="">
+                            <input class="form-control input-residuo input-obrigatorio campos-form-${clientes[i].id}" type="text" placeholder="Digite quantidade coletada" value="">
                         </div>
 
                         <div class="col-md-4 mb-2 mt-4 row">
@@ -297,14 +297,14 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
 
                             <div class="col-12">
                                 <label class="form-label">Observação</label>
-                                <textarea class="form-control input-obs" id="exampleTextarea" rows="3"> </textarea>
+                                <textarea class="form-control input-obs input-ons-${clientes[i].id}" id="exampleTextarea" rows="3"> </textarea>
                                 <div class="text-danger d-none aviso-msg">Preencha este campo.</div>
                             </div>
 
                             <div class="col-12 mt-4">
                                 
                                 <div class="form-check mb-0 fs-0">
-                                    <input title="Preencha este campo caso não tenha coletado no cliente" class="form-check-input nao-coletado" type="checkbox" data-bulk-select='{"body":"members-table-body"}' style="cursor: pointer"/>
+                                    <input data-id="${clientes[i].id}" title="Preencha este campo caso não tenha coletado no cliente" class="form-check-input nao-coletado" type="checkbox" data-bulk-select='{"body":"members-table-body"}' style="cursor: pointer"/>
                                     Não Coletado
                                 </div>
 
@@ -345,7 +345,7 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
 
     let selectHtml = `
         <div class="col-md-4 mb-2 div-${novoElemento}">
-            <select class="form-select select-${novoElemento} w-100" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+            <select class="form-select select-${novoElemento} w-100 input-obrigatorio" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
                 ${options}
             </select>
         </div>
@@ -353,9 +353,16 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
 
     let inputHtml = `
         <div class="col-md-4 mb-2 div-${novoElemento}">
-            <input class="form-control input-${novoElemento}" type="text" placeholder="Digite ${novoInput}" value="">
+            <input class="form-control input-${novoElemento} input-obrigatorio" type="text" placeholder="Digite ${novoInput}" value="">
         </div>
     `;
+
+    let btnRemove = $(`
+    <div class="col-md-4 mb-2 mt-1 row">
+
+        <button class="btn btn-danger remover-${novoElemento} w-25">-</button>
+
+    </div>`);
 
     // div com row para cada grupo ficar em row diferente
     let novaLinha = $('<div class="row"></div>');
@@ -363,6 +370,13 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
     // imprime os elementos dentro da div row
     novaLinha.append(selectHtml);
     novaLinha.append(inputHtml);
+    novaLinha.append(btnRemove);
+    
+    //remove a linha duplicada
+    btnRemove.find(`.remover-${novoElemento}`).on('click', function () {
+        
+        novaLinha.remove();
+    });
 
     $(btnClicado).closest('.accordion-item').find(`.${classe}`).append(novaLinha);
 
@@ -383,7 +397,12 @@ $(document).on('click', '.duplicar-pagamento', function () {
 
 $(document).on('click', '.nao-coletado', function () {
 
+    let idCliente = $(this).data('id');
+
     if ($(this).is(':checked')) {
+
+        $('.campos-form-' + idCliente).removeClass('input-obrigatorio');
+        $('.campos-form-' + idCliente).removeClass('invalido');
 
         $('.aviso-msg').removeClass('d-none');
         $('.aviso-msg').html('Preencha este campo');
@@ -392,6 +411,7 @@ $(document).on('click', '.nao-coletado', function () {
 
     } else {
 
+        $('.campos-form-' + idCliente).addClass('input-obrigatorio');
         $('.aviso-msg').addClass('d-none');
         $('.accordion-button').attr('disabled', false);
         $('.btn-finaliza-romaneio').attr('disabled', false);

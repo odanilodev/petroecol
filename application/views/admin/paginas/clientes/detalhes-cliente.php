@@ -681,7 +681,19 @@
 
           <div class="modal-footer">
 
-            <button class="btn btn-success btn-salva-etiqueta btn-form btn-gerar-certificado" modelo="oleo" coleta="" type="button">Gerar Certificado</button>
+            <div class="col-sm-12 col-xxl-12 border-bottom py-3">
+              <div class="mb-2">
+                <label class="form-label text-900">Modelo do Certificado</label>
+                <select name="modelo-certificado" class="form-select select-modelo-certificado">
+                  <option value="" selected disabled>Selecione</option>
+                  <option value="oleo">Óleo</option>
+                  <option value="reciclagem">Reciclagem</option>
+                </select>
+                <div class="invalid-feedback">Preencha este campo</div>
+              </div>
+            </div>
+
+            <button class="btn btn-success btn-salva-etiqueta btn-form btn-gerar-certificado" type="button">Gerar Certificado</button>
             <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
           </div>
