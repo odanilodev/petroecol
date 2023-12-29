@@ -32,12 +32,6 @@
                           <div class="aviso-obrigatorio d-none">Preencha este campo</div>
                         </div>
 
-                        <div class="col-md-12 mb-3">
-                          <label class="form-label">Modelo</label>
-                          <input class="form-control input-nome input-obrigatorio" type="text" placeholder="Nome do Modelo" value="<?= $certificado['modelo'] ?? ''; ?>">
-                          <div class="aviso-obrigatorio d-none">Preencha este campo</div>
-                        </div>
-
                         <div class="flex-1 text-end my-5">
                           <button class="btn btn-primary px-6 px-sm-6 btn-envia" onclick="cadastraCertificado()"><?= $this->uri->segment(3) ? 'Editar' : 'Cadastrar'; ?>
                             <span class="fas fa-chevron-right" data-fa-transform="shrink-3"> </span>

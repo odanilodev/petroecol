@@ -64,16 +64,16 @@ class Certificados extends CI_Controller
 	}
 	public function cadastraCertificado()
 	{
-		$id = $this->input->post('id');
+		$id = $this->input->post('id') ?? null;
 		$modelo = $this->input->post('modeloCertificado');
 		
 		$dados['modelo'] = mb_convert_case($modelo, MB_CASE_TITLE, 'UTF-8');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-		$certificado_modelo = $this->Certificados_model->recebeCertificadoModelo($dados['modelo']); // verifica se já existe o certificado
+		$certificado_modelo = $this->Certificados_model->recebeCertificadoModelo($dados['modelo'], $id); // verifica se já existe o certificado
 
 		// Verifica se o certificado já existe e se não é o certificado que está sendo editada
-		if ($certificado_modelo && $certificado_modelo['id'] != $id) {
+		if ($certificado_modelo) {
 
 			$response = array(
 				'success' => false,

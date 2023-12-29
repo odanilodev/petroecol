@@ -28,9 +28,10 @@ class Certificados_model extends CI_Model
         return $query->row_array();
     }
 
-    public function recebeCertificadoModelo($modelo)
+    public function recebeCertificadoModelo($modelo, $id)
     {
         $this->db->where('modelo', $modelo);
+        $this->db->where('id <>', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_certificados');
 
