@@ -8,19 +8,22 @@ const cadastraDicionarioGlobal = () => {
 
 	let permissao = true;
 
-	$("#form-dicionario input").each(function () {
+	$(".campos-formulario input").each(function () {
+
 		// Verifica se o valor do input atual está vazio
 		if ($(this).val().trim() === "") {
 
-            $(this).addClass('invalido');
-            $(this).next().removeClass('d-none');
+			$(this).addClass('invalido');
+			$(this).next().removeClass('d-none');
 
 			permissao = false;
+			return;
+
 		} else {
 
-            $(this).removeClass('invalido');
-            $(this).next().addClass('d-none');
-        }
+			$(this).removeClass('invalido');
+			$(this).next().addClass('d-none');
+		}
 	});
 
 	if (permissao) {
@@ -128,6 +131,9 @@ function duplicarDicionario() {
 }
 
 const editarDicionarioGlobal = (id) => {
+
+	$('.campos-dicionario input').removeClass('invalido');
+	$('.campos-dicionario input').next().addClass('d-none');
 
 	$.ajax({
 		type: "POST",

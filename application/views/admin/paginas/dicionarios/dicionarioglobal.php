@@ -12,7 +12,7 @@
             <div class="col col-auto">
                 <div class="d-flex mb-3">
                     <div class="search-box me-2">
-                        <form  method="POST" class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                        <form method="POST" action="<?=base_url('dicionario/chavesGlobais')?>" class="position-relative" data-bs-toggle="search" data-bs-display="static">
                             <input name="chave" value="<?= $cookie_filtro_dicionario['chave'] ?? null ?>" class="form-control search-input search" type="search" placeholder="Buscar Chave" aria-label="Search">
                             <span class="fas fa-search search-box-icon"></span>
                         </form>
@@ -105,21 +105,25 @@
                         <form method="post" id="form-dicionario">
                             <input type="hidden" class="input-id" value="">
 
-                            <div class="row campos-dicionario">
+                            <div class="row campos-dicionario campos-formulario">
                                 <div class="col-md-4 mb-3 duplica-dicionario">
                                     <label class="form-label">Chave</label>
                                     <input required class="form-control input-chave input-obrigatorio" required name="chave[]" type="text" placeholder="Chave de pesquisa" value="">
+                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                 </div>
 
                                 <div class="col-md-4 mb-3 duplica-dicionario">
                                     <label class="form-label">Valor PT-BR</label>
                                     <input required class="form-control input-valor-ptbr input-obrigatorio" name="valor-ptbr[]" type="text" placeholder="Texto em Português" value="">
+                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                                 </div>
 
                                 <div class="col-md-4 mb-3 duplica-dicionario" style="position: relative;">
                                     <label class="form-label">Valor EN</label>
                                     <div class="input-group">
                                         <input required class="form-control input-valor-en input-obrigatorio" name="valor-en[]" type="text" placeholder="Texto em Inglês" value="">
+                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                                     </div>
                                 </div>
                             </div>

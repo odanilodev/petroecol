@@ -98,7 +98,7 @@ class Dicionario extends CI_Controller
     //percorre cada valor na  $array criado pelo serialize e caso ele exista no banco, preenche o array 'duplicada' com seu(s) valor(es).
     foreach ($array['chave'] as $chave) {
 
-      $retorno = $this->Dicionario_model->recebeDicionarioGlobalChave($chave, $id);
+      $retorno = $this->Dicionario_model->recebeDicionarioGlobalChave(mb_strtolower($chave), $id);
 
       if ($retorno) {
         $duplicadas[] = $chave;

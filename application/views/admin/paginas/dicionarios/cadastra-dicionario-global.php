@@ -20,7 +20,7 @@
 
                             <div class="card-body pt-4 pb-0">
                                 <form id="form-dicionario" class="" method="post">
-                                    <div class="row campos-dicionario">
+                                    <div class="row campos-dicionario campos-formulario">
                                         
                                         <div class="col-md-4 mb-3 duplica-dicionario">
                                             <label class="form-label">Chave</label>
@@ -45,7 +45,7 @@
 
                                     </div>
 
-                                    <div class="campos-duplicados row">
+                                    <div class="campos-duplicados row campos-formulario">
                                         <!-- tratamento js -->
                                     </div>
 
