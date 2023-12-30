@@ -77,9 +77,11 @@ const deletarEtiqueta = (id) => {
                 url: `${baseUrl}etiquetas/deletaEtiqueta`,
                 data: {
                     id: id
-                }, success: function () {
+                }, success: function (data) {
 
-                    avisoRetorno('Sucesso!', 'Etiqueta deletada com sucesso!', 'success', `${baseUrl}etiquetas`);
+                    let redirect = data.type != 'error' ? `${baseUrl}etiquetas` : '#';
+
+                    avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
                 }
             })

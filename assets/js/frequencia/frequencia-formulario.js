@@ -36,15 +36,10 @@ const cadastraFrequenciaColeta = () => {
                 $('.load-form').addClass('d-none');
                 $('.btn-envia').removeClass('d-none');
 
-                if (data.success) {
+                let redirect = data.type != 'error' ? `${baseUrl}frequenciaColeta` : '#';
 
-                    avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}frequenciaColeta`);
+                avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
-                } else {
-
-                    avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
-
-                }
             }
         });
     }

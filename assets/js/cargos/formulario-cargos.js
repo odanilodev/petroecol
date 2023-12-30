@@ -86,9 +86,11 @@ const deletaCargos = (id) => {
                 url: `${baseUrl}cargos/deletaCargos`,
                 data: {
                     id: id
-                }, success: function () {
+                }, success: function (data) {
 
-                    avisoRetorno('Sucesso!', 'Cargo deletado com sucesso!', 'success', `${baseUrl}cargos`);
+                    let redirect = data.type != 'error' ? `${baseUrl}cargos` : '#';
+
+                    avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
                 }
             })

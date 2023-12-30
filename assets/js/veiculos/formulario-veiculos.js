@@ -73,14 +73,13 @@ const deletaVeiculo = (id) => {
 				data: {
 					id: id,
 				},
-				success: function () {
-					avisoRetorno(
-						"Sucesso!",
-						"Veículo deletado com sucesso!",
-						"success",
-						`${baseUrl}veiculos`
-					);
-				},
+				success: function (data) {
+
+					let redirect = data.type != 'error' ? `${baseUrl}veiculos` : '#';
+
+					avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
+
+			},
 			});
 		}
 	});

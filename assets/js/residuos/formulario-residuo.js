@@ -75,9 +75,11 @@ const deletarResiduo = (id) => {
                 url: `${baseUrl}residuos/deletaResiduo`,
                 data: {
                     id: id
-                }, success: function () {
+                }, success: function (data) {
 
-                    avisoRetorno('Sucesso!', 'Residuo deletado com sucesso!', 'success', `${baseUrl}residuos`);
+                    let redirect = data.type != 'error' ? `${baseUrl}residuos` : '#';
+
+                    avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
                 }
             })
