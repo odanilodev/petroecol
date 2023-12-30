@@ -28,15 +28,14 @@
 
                                                 <div class="col-md-6 mb-3">
                                                     <label class="form-label">Modelo:</label>
-                                                    <input class="form-control input-modelo input-obrigatorio campo-obrigatorio" type="text" placeholder="Digite o nome do modelo" value="<?= $veiculo['modelo'] ?? ''; ?>">
-                                                    <div class="text-danger m-1 msg-invalido d-none">Preencha este campo</div>
+                                                    <input class="form-control input-modelo input-obrigatorio " type="text" placeholder="Digite o nome do modelo" value="<?= $veiculo['modelo'] ?? ''; ?>">
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                                                 </div>
 
                                                 <div class="col-md-6 mb-3">
                                                     <label class="form-label">Placa:</label>
-                                                    <input class="form-control input-placa input-obrigatorio campo-obrigatorio mascara-placa" type="text" placeholder="000-0000" value="<?= $veiculo['placa'] ?? ''; ?>">
-
-                                                    <div class="text-danger m-1 msg-invalido co-one d-none">Preencha este campo</div>
+                                                    <input class="form-control input-placa input-obrigatorio mascara-placa" type="text" placeholder="000-0000" value="<?= $veiculo['placa'] ?? ''; ?>">
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                                                 </div>
 
                                                 <div class="mb-2 col-md-6">

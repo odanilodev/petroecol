@@ -29,6 +29,7 @@
                                                 <div class="col-md-4 mb-3">
                                                     <label class="form-label">Nome</label>
                                                     <input class="form-control input-nome input-obrigatorio" type="text" placeholder="Digite o nome do resíduo" value="<?= $residuo['nome'] ?? ''; ?>">
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                                                 </div>
 
                                                 <div class="col-sm-4">
@@ -44,6 +45,8 @@
                                                             <?php } ?>
                                                             
                                                         </select>
+                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                                     </div>
                                                 </div>
 
@@ -59,6 +62,7 @@
 
                                                             <option value="unidade" <?= (isset ($residuo['unidade_medida']) && $residuo['unidade_medida'] == 'unidade') ? "selected" : "" ?>>UNIDADE</option>
                                                         </select>
+                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                                                     </div>
                                                 </div>
 

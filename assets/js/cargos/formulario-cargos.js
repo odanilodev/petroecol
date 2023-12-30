@@ -2,23 +2,36 @@ var baseUrl = $('.base-url').val();
 
 const cadastraCargo = () => {
 
-    let nome = $('.input-nome').val();
+    let nome = $('.input-cargo').val();
     let id = $('.input-id').val();
 
     if ($('.input-responsavelagendamento').is(':checked')) {
+
         var responsavelAgendamento = 1;
+
     } else {
+
         var responsavelAgendamento = 0;
     }
 
-    let permissao = false;
+    //Verificação de campo vazio e permissao para cadastrar
+    let permissao = true
 
-    // cadastra um cargo novo
-    if (nome != "") {
+	$(".input-obrigatorio").each(function () {
+		// Verifica se o valor do input atual está vazio
+		if ($(this).val().trim() === "") {
 
-        permissao = true;
+            $(this).addClass('invalido');
+            $(this).next().removeClass('d-none');
 
-    }
+			permissao = false;
+
+		} else {
+
+            $(this).removeClass('invalido');
+            $(this).next().addClass('d-none');
+        }
+	});
 
     if (permissao) {
 

@@ -28,7 +28,8 @@
 
                                                 <div class="col-md-12 mb-3">
                                                     <label class="form-label">Nome</label>
-                                                    <input class="form-control input-nome" type="text" placeholder="Nome do Cargo" value="<?= $cargo['nome'] ?? ''; ?>">
+                                                    <input class="form-control input-cargo input-obrigatorio" type="text" placeholder="Nome do Cargo" value="<?= $cargo['nome'] ?? ''; ?>">
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
