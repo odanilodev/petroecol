@@ -11,7 +11,6 @@ const cadastraCargo = () => {
         var responsavelAgendamento = 0;
     }
 
-    let permissao = false
 
 
     if (permissao) {
