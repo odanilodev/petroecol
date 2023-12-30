@@ -6,31 +6,13 @@ const cadastraCargo = () => {
     let id = $('.input-id').val();
 
     if ($('.input-responsavelagendamento').is(':checked')) {
-
         var responsavelAgendamento = 1;
-
     } else {
-
         var responsavelAgendamento = 0;
     }
 
-    let permissao = true
+    let permissao = false
 
-	$(".input-nome").each(function () {
-		// Verifica se o valor do input atual está vazio
-		if ($(this).val().trim() === "") {
-
-            $(this).addClass('invalido');
-            $(this).next().removeClass('d-none');
-
-			permissao = false;
-
-		} else {
-
-            $(this).removeClass('invalido');
-            $(this).next().addClass('d-none');
-        }
-	});
 
     if (permissao) {
 
