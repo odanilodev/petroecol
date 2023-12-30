@@ -28,7 +28,9 @@
 
                                                 <div class="col-md-12 mb-3">
                                                     <label class="form-label">Nome</label>
-                                                    <input class="form-control input-nome campo-obrigado" type="text" placeholder="Nome da Forma de Pagamento" value="<?= $forma_pagamento['forma_pagamento'] ?? ''; ?>">
+                                                    <input class="form-control input-formapagamento input-obrigatorio" type="text" placeholder="Nome da Forma de Pagamento" value="<?= $forma_pagamento['forma_pagamento'] ?? ''; ?>">
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                                 </div>
 
                                                 <div class="flex-1 text-end my-5">

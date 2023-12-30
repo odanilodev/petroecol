@@ -3,32 +3,31 @@ var baseUrl = $('.base-url').val();
 const cadastraRecipiente = () => {
     let nome_recipiente = $('.input-nome').val();
     let volume_suportado = $('.input-volume').val();
+
     let quantidade = $('.input-quantidade').val();
     let unidade_peso = $('.input-unidade').val();
 
-    let permissao = false;
+    //Verificação de campo vazio e permissao para cadastrar
+    let permissao = true
 
-    $('.input-obrigatorio').each(function(){
-        if($(this).val() == "" || $(this).val() == null) {
-            $(this).addClass('invalido')
-            permissao = false;
-        }else{
-            $(this).removeClass('invalido')
+	$(".input-obrigatorio").each(function () {
+
+		// Verifica se o valor do input atual está vazio
+		if ($(this).val() === "" || $(this).val() === null) {
+
+            $(this).addClass('invalido');
+            $(this).next().removeClass('d-none');
+
+			permissao = false;
+
+		} else {
+
+            $(this).removeClass('invalido');
+            $(this).next().addClass('d-none');
         }
-    })
+	});
 
     let id = $('.input-id').val();
-
-    // cadastra um setor novo
-    if (nome_recipiente != "" && volume_suportado != "" && quantidade != "" && unidade_peso != null) {
-
-        permissao = true;
-
-    } else {
-
-        permissao = false;
-
-    }
 
     if (permissao) {
 

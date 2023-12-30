@@ -1,59 +1,67 @@
 var baseUrl = $(".base-url").val();
 
 const cadastraEtiqueta = () => {
-	let nome = $(".input-nome").val();
-	let id = $(".input-id").val();
-	let permissao = false;
 
-	// cadastra uma etiqueta nova
-	if (nome != "") {
-		permissao = true;
-	} else {
-		permissao = false;
-	}
+    let nome = $('.input-etiqueta').val();
+    let id = $('.input-id').val();
 
-	if (permissao) {
-		$.ajax({
-			type: "post",
-			url: `${baseUrl}etiquetas/cadastraEtiqueta`,
-			data: {
-				nome: nome,
-				id: id,
-			},
-			beforeSend: function () {
-				$(".load-form").removeClass("d-none");
-				$(".btn-envia").addClass("d-none");
-			},
-			success: function (data) {
-				$(".load-form").addClass("d-none");
-				$(".btn-envia").removeClass("d-none");
+    //Verificação de campo vazio e permissao para cadastrar
+    let permissao = true
 
-				if (data.success) {
-					avisoRetorno(
-						"Sucesso!",
-						`${data.message}`,
-						"success",
-						`${baseUrl}etiquetas`
-					);
-				} else {
-					avisoRetorno("Algo deu errado!", `${data.message}`, "error", "#");
-				}
-			},
-			error: function (xhr, status, error) {
-				$(".load-form").addClass("d-none");
-				$(".btn-envia").removeClass("d-none");
-				if (xhr.status === 403) {
-					avisoRetorno(
-						"Algo deu errado!",
-						`Você não tem permissão para esta ação..`,
-						"error",
-						"#"
-					);
-				}
-			},
-		});
-	}
-};
+	$(".input-obrigatorio").each(function () {
+		// Verifica se o valor do input atual está vazio
+		if ($(this).val().trim() === "") {
+
+            $(this).addClass('invalido');
+            $(this).next().removeClass('d-none');
+
+			permissao = false;
+
+		} else {
+
+            $(this).removeClass('invalido');
+            $(this).next().addClass('d-none');
+        }
+	});
+
+    if (permissao) {
+
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}etiquetas/cadastraEtiqueta`,
+            data: {
+                nome: nome,
+                id: id
+            },
+            beforeSend: function () {
+                $('.load-form').removeClass('d-none');
+                $('.btn-envia').addClass('d-none');
+            },
+            success: function (data) {
+
+                $('.load-form').addClass('d-none');
+                $('.btn-envia').removeClass('d-none');
+
+                if (data.success) {
+
+                    avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}etiquetas`);
+
+                } else {
+
+                    avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
+
+                }
+            },  error: function (xhr, status, error) {
+                
+                $('.load-form').addClass('d-none');
+                $('.btn-envia').removeClass('d-none');
+                if (xhr.status === 403) {
+                    avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação..`, 'error', '#');
+                }
+            }
+        });
+    }
+}
 
 const deletarEtiqueta = (id) => {
 	Swal.fire({
