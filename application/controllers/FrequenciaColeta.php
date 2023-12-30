@@ -8,17 +8,17 @@ class FrequenciaColeta extends CI_Controller
 		parent::__construct();
 
 		//INICIO controle sessão
-        $this->load->library('Controle_sessao');
-        $res = $this->controle_sessao->controle();
-        if ($res == 'erro') {
-            if ($this->input->is_ajax_request()) {
-                $this->output->set_status_header(403);
-                exit();
-            } else {
-                redirect('login/erro', 'refresh');
-            }
-        }
-        // FIM controle sessão
+		$this->load->library('Controle_sessao');
+		$res = $this->controle_sessao->controle();
+		if ($res == 'erro') {
+			if ($this->input->is_ajax_request()) {
+				$this->output->set_status_header(403);
+				exit();
+			} else {
+				redirect('login/erro', 'refresh');
+			}
+		}
+		// FIM controle sessão
 
 		$this->load->model('FrequenciaColeta_model');
 	}
@@ -117,14 +117,28 @@ class FrequenciaColeta extends CI_Controller
 				'type' => "error"
 			);
 		} else {
-			$this->FrequenciaColeta_model->deletaFrequenciaColeta($id);
 
-			$response = array(
-				'success' => true,
-				'title' => "Sucesso!",
-				'message' => "Frequência deletada com sucesso!",
-				'type' => "success"
-			);
+			$retorno = $this->FrequenciaColeta_model->deletaFrequenciaColeta($id);
+
+			if ($retorno) {
+
+				$response = array(
+					'success' => true,
+					'title' => "Sucesso!",
+					'message' => "Frequência deletada com sucesso!",
+					'type' => "success"
+				);
+
+			} else {
+				
+				$response = array(
+					'success' => false,
+					'title' => "Algo deu errado!",
+					'message' => "Não foi possível deletar esta frequência de coleta.",
+					'type' => "error"
+				);
+
+			}
 		}
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
