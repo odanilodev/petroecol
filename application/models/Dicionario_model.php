@@ -11,6 +11,76 @@ class Dicionario_model extends CI_Model
         $this->load->model('Log_model');
     }
 
+    public function recebeDicionarioGlobal($cookie_filtro_dicionario, $limit, $page, $count = null)
+    {
+        $filtro = json_decode($cookie_filtro_dicionario, true);
+
+        //para filtrar de maneira mais abrangente sem precisar ser um valor exato - LOWER para ficar case-insensitive em SQL e strtolower para transformar a pesquisa realizada
+        if ($filtro['chave'] ?? false) {
+            $this->db->like('LOWER(chave)', strtolower($filtro['chave']), 'none');
+        }
+
+        if (!$count) {
+            $offset = ($page - 1) * $limit;
+            $this->db->limit($limit, $offset);
+        }
+
+        $query = $this->db->get('ci_dicionario');
+
+        if ($count) {
+            return $query->num_rows();
+        }
+
+        return $query->result_array();
+    }
+
+
+    public function recebeIdDicionarioGlobal($id)
+    {
+        $this->db->where('id', $id);
+        $query = $this->db->get('ci_dicionario');
+
+        return $query->row_array();
+    }
+
+    public function recebeDicionarioGlobalChave($chave, $id)
+    {
+        $this->db->where('chave', $chave);
+        $this->db->where('id <>',  $id);
+        $this->db->get('ci_dicionario');
+
+        return $this->db->affected_rows() > 0;
+    }
+
+    public function insereDicionarioGlobal($dados)
+    {
+        $dados['criado_em'] = date('Y-m-d H:i:s');
+
+        $this->db->insert('ci_dicionario', $dados);
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($this->db->insert_id());
+            $this->limparCacheDicionario();
+        }
+
+        return $this->db->affected_rows() > 0;
+    }
+
+    public function editaDicionarioGlobal($id, $dados)
+    {
+        $dados['editado_em'] = date('Y-m-d H:i:s');
+
+        $this->db->where('id', $id);
+        $this->db->update('ci_dicionario', $dados);
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($this->db->insert_id());
+            $this->limparCacheDicionario();
+        }
+
+        return $this->db->affected_rows() > 0;
+    }
+
     public function recebeDicionario($chave)
     {
         $this->load->driver('cache', array('adapter' => 'file'));
@@ -52,8 +122,30 @@ class Dicionario_model extends CI_Model
         return $dicionario_empresa;
     }
 
-    private function limparCacheDicionario() {
+    private function limparCacheDicionario()
+    {
         $this->load->driver('cache', array('adapter' => 'file'));
-        $this->cache->clean();
+
+        $caminho_cache = $this->config->item('cache_path');
+        $files = glob($caminho_cache . '/*');
+
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                unlink($file);
+            }
+        }
+    }
+
+    public function deletaDicionarioGlobal($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('ci_dicionario');
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id);
+            $this->limparCacheDicionario();
+        }
+
+        return $this->db->affected_rows() > 0;
     }
 }
