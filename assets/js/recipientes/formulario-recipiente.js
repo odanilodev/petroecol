@@ -10,22 +10,22 @@ const cadastraRecipiente = () => {
     //Verificação de campo vazio e permissao para cadastrar
     let permissao = true
 
-	$(".input-obrigatorio").each(function () {
+    $(".input-obrigatorio").each(function () {
 
-		// Verifica se o valor do input atual está vazio
-		if ($(this).val() === "" || $(this).val() === null) {
+        // Verifica se o valor do input atual está vazio
+        if ($(this).val() === "" || $(this).val() === null) {
 
             $(this).addClass('invalido');
             $(this).next().removeClass('d-none');
 
-			permissao = false;
+            permissao = false;
 
-		} else {
+        } else {
 
             $(this).removeClass('invalido');
             $(this).next().addClass('d-none');
         }
-	});
+    });
 
     let id = $('.input-id').val();
 
@@ -85,11 +85,16 @@ const deletaRecipiente = (id) => {
                 url: `${baseUrl}recipientes/deletaRecipiente`,
                 data: {
                     id: id
-                }, success: function (data) {   
+                }, success: function (data) {
 
-                    let redirect = data.type != 'error' ? `${baseUrl}recipientes` : '#';
+                    let redirect = data.type != 'error' ? `${baseUrl}recipientes` : `${baseUrl}clientes`;
 
-                    avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
+                    if (data.id_vinculado) {
+                        avisoRetornoFilter(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`, data.id_vinculado, 'id_recipiente');
+                    }else{
+                        avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
+                    }
+
 
                 }
             })

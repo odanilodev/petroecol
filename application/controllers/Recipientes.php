@@ -130,6 +130,7 @@ class Recipientes extends CI_Controller
 			$response = array(
 				'success' => false,
 				'title' => "Algo deu errado!",
+				'id_vinculado' => $id,
 				'message' => "Este recipiente está vinculado a um cliente, não é possível excluí-lo.",
 				'type' => "error"
 			);
