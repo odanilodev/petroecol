@@ -78,9 +78,11 @@ const deletarSetor = (id) => {
                 url: `${baseUrl}setores/deletaSetor`,
                 data: {
                     id: id
-                }, success: function () {
+                }, success: function (data) {
 
-                    avisoRetorno('Sucesso!', 'Setor deletado com sucesso!', 'success', `${baseUrl}setores`);
+                    let redirect = data.type != 'error' ? `${baseUrl}setores` : '#';
+
+                    avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
                 }
             })

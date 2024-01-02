@@ -87,16 +87,12 @@ const deletaFormaPagamento = (id) => {
 							id: id,
 						},
 						success: function (data) {
-							let redirect =
-								data.type != "error" ? `${baseUrl}formaPagamento` : "#";
 
-							avisoRetorno(
-								`${data.title}`,
-								`${data.message}`,
-								`${data.type}`,
-								`${redirect}`
-							);
-						},
+							let redirect = data.type != 'error' ? `${baseUrl}formaPagamento` : '#';
+
+							avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
+
+					},
 					});
 				}
 			});
