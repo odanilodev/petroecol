@@ -109,8 +109,25 @@ class Setores extends CI_Controller
 	{
 		$id = $this->input->post('id');
 
-		$this->Setores_model->deletaSetor($id);
+		$retorno = $this->Setores_model->deletaSetor($id);
 
-		redirect('setores');
+		if ($retorno) {
+
+			$response = array(
+				'success' => true,
+				'title' => "Sucesso!",
+				'message' => "Setor deletado com sucesso!",
+				'type' => "success"
+			);
+		} else {
+
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Não foi possivel deletar o setor!",
+				'type' => "error"
+			);
+		}
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 }

@@ -90,9 +90,13 @@ const deletaRecipiente = (id) => {
                     let redirect = data.type != 'error' ? `${baseUrl}recipientes` : `${baseUrl}clientes`;
 
                     if (data.id_vinculado) {
+
                         avisoRetornoFilter(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`, data.id_vinculado, 'id_recipiente');
+
                     }else{
+
                         avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
+                        
                     }
 
 

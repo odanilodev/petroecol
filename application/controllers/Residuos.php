@@ -124,8 +124,40 @@ class Residuos extends CI_Controller
 	{
 		$id = $this->input->post('id');
 
-		$this->Residuos_model->deletaResiduo($id);
+		// Verifica se o residuo esta vinculado a um cliente
+		$residuoVinculadoCliente = $this->Residuos_model->verificaResiduoCliente($id);
 
-		redirect('residuos');
+		if ($residuoVinculadoCliente) {
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'id_vinculado' => $id,
+				'message' => "Este residuo está vinculado a um cliente, não é possível excluí-lo.",
+				'type' => "error"
+			);
+			
+		} else {
+
+			$retorno = $this->Residuos_model->deletaResiduo($id);
+
+			if ($retorno) {
+				$response = array(
+					'success' => true,
+					'title' => "Sucesso!",
+					'message' => "Resíduo deletado com sucesso!",
+					'type' => "success"
+				);
+			} else {
+
+				$response = array(
+					'success' => false,
+					'title' => "Algo deu errado!",
+					'message' => "Não foi possivel deletar o resíduo!",
+					'type' => "error"
+				);
+			}
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 }

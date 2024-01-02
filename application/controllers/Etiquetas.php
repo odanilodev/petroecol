@@ -113,13 +113,45 @@ class Etiquetas extends CI_Controller
 	{
 		$id = $this->input->post('id');
 
-		$this->load->model('EtiquetaCliente_model');
+		// Verifica se a etiqueta esta vinculada a um cliente
+		$etiquetaVinculadaCliente = $this->Etiquetas_model->verificaEtiquetaCliente($id);
 
-		$this->Etiquetas_model->deletaEtiqueta($id);
+		if ($etiquetaVinculadaCliente) {
 
-		$this->EtiquetaCliente_model->deletaIdEtiquetaCliente($id);
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'id_vinculado' => $id,
+				'message' => "Esta etiqueta está vinculada a um cliente, não é possível excluí-la.",
+				'type' => "error"
+			);
 
-		redirect('etiquetas');
+		} else {
+
+			$retornoEtiqueta = $this->Etiquetas_model->deletaEtiqueta($id);
+
+			if ($retornoEtiqueta) {
+
+				$response = array(
+					'success' => true,
+					'title' => "Sucesso!",
+					'message' => "Etiqueta deletada com sucesso!",
+					'type' => "success"
+				);
+
+			} else {
+
+				$response = array(
+					'success' => false,
+					'title' => "Algo deu errado!",
+					'message' => "Não foi possivel deletar a etiqueta!",
+					'type' => "error"
+				);
+
+			}
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
 

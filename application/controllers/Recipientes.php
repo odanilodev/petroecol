@@ -118,7 +118,6 @@ class Recipientes extends CI_Controller
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
-
 	public function deletaRecipiente()
 	{
 		$id = $this->input->post('id');
@@ -127,6 +126,7 @@ class Recipientes extends CI_Controller
 		$recipienteVinculadoCliente = $this->recipientes_model->verificaRecipienteCliente($id);
 
 		if ($recipienteVinculadoCliente) {
+
 			$response = array(
 				'success' => false,
 				'title' => "Algo deu errado!",
@@ -134,19 +134,32 @@ class Recipientes extends CI_Controller
 				'message' => "Este recipiente está vinculado a um cliente, não é possível excluí-lo.",
 				'type' => "error"
 			);
-		} else {
-			$this->recipientes_model->deletaRecipiente($id);
 
-			$response = array(
-				'success' => true,
-				'title' => "Sucesso!",
-				'message' => "Recipiente deletado com sucesso!",
-				'type' => "success"
-			);
+		} else {
+
+			$retornoRecipiente = $this->recipientes_model->deletaRecipiente($id);
+
+			if ($retornoRecipiente) {
+
+				$response = array(
+					'success' => true,
+					'title' => "Sucesso!",
+					'message' => "Recipiente deletado com sucesso!",
+					'type' => "success"
+				);
+
+			} else {
+
+				$response = array(
+					'success' => false,
+					'title' => "Algo deu errado!",
+					'message' => "Não foi possivel deletar o recipiente!",
+					'type' => "error"
+				);
+
+			}
 		}
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-
-
 	}
 }
