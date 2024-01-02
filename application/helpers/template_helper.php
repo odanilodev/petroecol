@@ -74,6 +74,7 @@ function scriptsPadraoFooter()
         '<script src="' . base_url('vendors/dropzone/dropzone.min.js') . '"></script>',
         '<script src="' . base_url('vendors/prism/prism.js') . '"></script>',
         '<script src="' . base_url('assets/js/phoenix.js') . '"></script>',
+        '<script src="' . base_url('vendors/list.js/list.min.js') . '"></script>',
         '<script src="' . base_url('node_modules/sweetalert2/dist/sweetalert2.all.min.js') . '"></script>',
         '<script src="' . base_url('assets/js/alertas/alertas-retornos.js') . '"></script>',
         '<script src="' . base_url('assets/js/aprovacao-inativos/helper-aprovacao-inativos.js') . '"></script>'
@@ -313,3 +314,33 @@ function scriptsVeiculosHead()
         '<script src="' . base_url('vendors/dropzone/dropzone.min.css') . '"></script>'
     );
 }
+
+// Pagina Dicionario
+function scriptsDicionarioHead()
+{
+    return array(
+
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />'
+
+    );
+}
+
+function scriptsDicionarioFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/dicionario/formulario-dicionario.js') . '"></script>',
+
+    );
+}
+
+// Pagina Certificado
+function scriptsCertificadosFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/certificados/formulario-certificados.js') . '"></script>'
+
+    );
+}
+

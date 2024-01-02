@@ -28,7 +28,8 @@
 
                                                 <div class="col-md-12 mb-3">
                                                     <label class="form-label">Nome</label>
-                                                    <input class="form-control input-nome" type="text" placeholder="Nome do Setor" value="<?= $setor['nome'] ?? ''; ?>">
+                                                    <input class="form-control input-setor input-obrigatorio" type="text" placeholder="Nome do Setor" value="<?= $setor['nome'] ?? ''; ?>">
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                                                 </div>
 
                                                 <div class="flex-1 text-end my-5">

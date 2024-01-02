@@ -1,21 +1,28 @@
-var baseUrl = $('.base-url').val();
+var baseUrl = $(".base-url").val();
 
 const cadastraEtiqueta = () => {
 
-    let nome = $('.input-nome').val();
+    let nome = $('.input-etiqueta').val();
     let id = $('.input-id').val();
-    let permissao = false;
 
-    // cadastra uma etiqueta nova
-    if (nome != "") {
+    //Verificação de campo vazio e permissao para cadastrar
+    let permissao = true
 
-        permissao = true;
+	$(".input-obrigatorio").each(function () {
+		// Verifica se o valor do input atual está vazio
+		if ($(this).val().trim() === "") {
 
-    } else {
+            $(this).addClass('invalido');
+            $(this).next().removeClass('d-none');
 
-        permissao = false;
+			permissao = false;
 
-    }
+		} else {
+
+            $(this).removeClass('invalido');
+            $(this).next().addClass('d-none');
+        }
+	});
 
     if (permissao) {
 

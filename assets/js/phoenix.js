@@ -7123,3 +7123,14 @@ $(document).ready(function(){
 
 
 })
+
+$(document).ready(function () {
+  // Aguarde até que a página inteira seja carregada
+  $(window).on('load', function () {
+      // Esconde o preloader
+      $('#preloader').fadeOut('fast', function () {
+          // Mostra o conteúdo da página
+          $('#content').fadeIn('fast');
+      });
+  });
+});

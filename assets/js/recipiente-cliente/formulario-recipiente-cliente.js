@@ -92,12 +92,12 @@ $(document).ready(function () {
 
 const exibirRecipientesCliente = (idCliente) => {
 
+    $('#select-recipiente').val('').trigger('change');
+
     $('#select-recipiente').select2({
         dropdownParent: "#modalRecipiente",
         theme: 'bootstrap-5' // Aplicar o tema Bootstrap 4
     });
-
-    $('#select-recipiente').val('');
 
     $('#quantidade-recipiente').val('');
 

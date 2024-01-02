@@ -2,20 +2,28 @@ var baseUrl = $('.base-url').val();
 
 const cadastraSetor = () => {
 
-    let nome = $('.input-nome').val();
+    let nome = $('.input-setor').val();
     let id = $('.input-id').val();
-    let permissao = false;
 
-    // cadastra um setor novo
-    if (nome != "") {
 
-        permissao = true;
+    //Verificação de campo vazio e permissao para cadastrar
+    let permissao = true
 
-    } else {
+	$(".input-setor").each(function () {
+		// Verifica se o valor do input atual está vazio
+		if ($(this).val().trim() === "") {
 
-        permissao = false;
+            $(this).addClass('invalido');
+            $(this).next().removeClass('d-none');
 
-    }
+			permissao = false;
+
+		} else {
+
+            $(this).removeClass('invalido');
+            $(this).next().addClass('d-none');
+        }
+	});
 
     if (permissao) {
 
