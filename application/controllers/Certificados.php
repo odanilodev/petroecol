@@ -64,6 +64,8 @@ class Certificados extends CI_Controller
 	}
 	public function cadastraCertificado()
 	{
+		$this->load->library('upload_imagem');
+
 		$id = $this->input->post('id') ?? null;
 		$modelo = $this->input->post('modeloCertificado');
 		
@@ -82,6 +84,17 @@ class Certificados extends CI_Controller
 
 			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 		}
+
+		$imagemAntiga = $this->Certificados_model->recebeCertificadoId($id);
+
+		$arrayUpload = [
+			'logo'          => ['certificados/logos', $imagemAntiga['logo'] ?? null],
+			'carimbo'       => ['certificados/carimbos', $imagemAntiga['carimbo'] ?? null],
+			'assinatura'    => ['certificados/assinaturas', $imagemAntiga['assinatura'] ?? null],
+		];
+
+		$retornoDados = $this->upload_imagem->uploadImagem($arrayUpload);
+		$dados = array_merge($dados, $retornoDados);
 
 		$retorno = $id ? $this->Certificados_model->editaCertificado($id, $dados) : $this->Certificados_model->insereCertificado($dados); // se tiver ID edita se não INSERE
 

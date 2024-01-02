@@ -32,6 +32,24 @@
                           <div class="aviso-obrigatorio d-none">Preencha este campo</div>
                         </div>
 
+                        <div class="col-md-4 mb-3">
+                          <label class="form-label">Logo</label>
+                          <input class="form-control input-logo input-obrigatorio" type="file" value="<?= $certificado['logo'] ?? ''; ?>">
+                          <div class="aviso-obrigatorio d-none">Preencha este campo</div>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                          <label class="form-label">Carimbo</label>
+                          <input class="form-control input-carimbo" type="file" value="<?= $certificado['carimbo'] ?? ''; ?>">
+                          <div class="aviso-obrigatorio d-none">Preencha este campo</div>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                          <label class="form-label">Assinatura</label>
+                          <input class="form-control input-assinatura" type="file" value="<?= $certificado['assinatura'] ?? ''; ?>">
+                          <div class="aviso-obrigatorio d-none">Preencha este campo</div>
+                        </div>
+
                         <div class="flex-1 text-end my-5">
                           <button class="btn btn-primary px-6 px-sm-6 btn-envia" onclick="cadastraCertificado()"><?= $this->uri->segment(3) ? 'Editar' : 'Cadastrar'; ?>
                             <span class="fas fa-chevron-right" data-fa-transform="shrink-3"> </span>

@@ -122,6 +122,10 @@ class Clientes extends CI_Controller
             redirect('clientes');
         }
 
+        // modelos dos certificados
+        $this->load->model('Certificados_model');
+        $data['modelos_certificado'] = $this->Certificados_model->recebeCertificados();
+
         // etiquetas
         $this->load->model('EtiquetaCliente_model');
         $data['etiquetas'] = $this->EtiquetaCliente_model->recebeEtiquetaCliente($id);

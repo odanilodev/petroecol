@@ -686,8 +686,10 @@
                 <label class="form-label text-900">Modelo do Certificado</label>
                 <select name="modelo-certificado" class="form-select select-modelo-certificado">
                   <option value="" selected disabled>Selecione</option>
-                  <option value="oleo">Óleo</option>
-                  <option value="reciclagem">Reciclagem</option>
+
+                  <?php foreach($modelos_certificado as $modelo) { ?>
+                    <option data-personalizado="<?= $modelo['personalizado']?>" value="<?= $modelo['id']?>"><?= $modelo['modelo']?></option>
+                  <?php }?>
                 </select>
                 <div class="invalid-feedback">Preencha este campo</div>
               </div>

@@ -1,4 +1,7 @@
 <?php
+
+use PhpParser\Node\Stmt\Break_;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Coletas extends CI_Controller
@@ -83,16 +86,36 @@ class Coletas extends CI_Controller
         $this->load->library('GerarCertificadoColeta');
 
         $idColeta = $this->uri->segment(3) ?? null;
-        $modelo = $this->uri->segment(4) ?? null;
+        $idModelo = $this->uri->segment(4) ?? null;
+        $personalizado = $this->uri->segment(5) ?? null;
 
-        if($modelo == 'oleo'){
-            $this->gerarcertificadocoleta->gerarPdfOleo($idColeta);
-        }
+        if ($personalizado) {
 
-        if($modelo == 'reciclagem'){
-            $this->gerarcertificadocoleta->gerarPdfReciclagem($idColeta); 
+            switch ($idModelo) {
+                case '2':
+                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo); // alterar a função para cada cliente personalizado
+                    break;
+                case '1':
+                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo); // alterar a função para cada cliente personalizado
+                    break;
+                default:
+
+                    // scripts padrão
+                    $scriptsPadraoHead = scriptsPadraoHead();
+                    $scriptsPadraoFooter = scriptsPadraoFooter();
+
+                    add_scripts('header', $scriptsPadraoHead);
+                    add_scripts('footer', $scriptsPadraoFooter);
+
+                    $data['titulo'] = "Certificado não encontrado!";
+                    $data['descricao'] = "Não foi possível localizar um certificado de coleta para este cliente!";
+
+                    $this->load->view('admin/erros/erro-pdf', $data);
+            }
+        } else {
+
+            $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo);
         }
-        
     }
 
     public function detalhesHistoricoColeta()
