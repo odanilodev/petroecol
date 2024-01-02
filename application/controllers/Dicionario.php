@@ -65,7 +65,7 @@ class Dicionario extends CI_Controller
     $data['dicionarioGlobal'] = $this->Dicionario_model->recebeDicionarioGlobal($cookie_filtro_dicionario, $limit, $page);
 
     $this->load->view('admin/includes/painel/cabecalho', $data);
-    $this->load->view('admin/paginas/dicionarios/dicionarioglobal');
+    $this->load->view('admin/paginas/dicionarios/dicionario-global');
     $this->load->view('admin/includes/painel/rodape');
   }
 
