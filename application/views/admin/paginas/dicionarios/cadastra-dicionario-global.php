@@ -21,20 +21,26 @@
                             <div class="card-body pt-4 pb-0">
                                 <form id="form-dicionario" class="" method="post">
                                     <div class="row campos-dicionario campos-formulario">
-                                        
+
                                         <div class="col-md-4 mb-3 duplica-dicionario">
                                             <label class="form-label">Chave</label>
                                             <input required class="form-control input-chave input-obrigatorio" required name="chave[]" type="text" placeholder="Chave de pesquisa" value="<?= $dicionarioGlobal['chave'] ?? "" ?>">
+                                            <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                         </div>
 
                                         <div class="col-md-3 mb-3 duplica-dicionario">
                                             <label class="form-label">Valor PT-BR</label>
                                             <input required class="form-control input-valor-ptbr input-obrigatorio" name="valor-ptbr[]" type="text" placeholder="Texto em Português" value="<?= $dicionarioGlobal['valor_ptbr'] ?? "" ?>">
+                                            <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                         </div>
 
                                         <div class="col-md-3 mb-3 duplica-dicionario">
                                             <label class="form-label">Valor EN</label>
                                             <input required class="form-control input-valor-en input-obrigatorio" name="valor-en[]" type="text" placeholder="Texto em Inglês" value="<?= $dicionarioGlobal['valor_en'] ?? "" ?>">
+                                            <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                         </div>
 
                                         <div class="col-md-2 mt-4">
