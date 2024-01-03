@@ -66,8 +66,8 @@ class FrequenciaColeta extends CI_Controller
 		$id = $this->input->post('id');
 		$frequencia = $this->input->post('frequenciaColeta');
 
-		$dados['dia'] = $this->input->post('diaColeta');
-		$dados['frequencia'] = mb_convert_case($frequencia, MB_CASE_TITLE, 'UTF-8');
+		$dados['dia'] = trim($this->input->post('diaColeta'));
+		$dados['frequencia'] = mb_convert_case(trim($frequencia), MB_CASE_TITLE, 'UTF-8');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
 		$frequencia = $this->FrequenciaColeta_model->recebeFrequenciaColetaNome($dados['frequencia'], $dados['dia']); // verifica se já existe a frenquencia

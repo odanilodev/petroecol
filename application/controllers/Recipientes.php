@@ -79,7 +79,7 @@ class Recipientes extends CI_Controller
 		$id = $this->input->post('id');
 
 		$nome = $this->input->post('nome_recipiente');
-		$dados['nome_recipiente'] = mb_convert_case($nome, MB_CASE_TITLE, 'UTF-8');
+		$dados['nome_recipiente'] = mb_convert_case(trim($nome), MB_CASE_TITLE, 'UTF-8');
 		$dados['quantidade'] = $this->input->post('quantidade');
 		$dados['volume_suportado'] = $this->input->post('volume_suportado');
 		$dados['unidade_peso'] = $this->input->post('unidade_peso');

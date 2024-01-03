@@ -66,7 +66,7 @@
 		{
 			$id = $this->input->post('id');
 
-			$dados['nome'] = mb_convert_case($this->input->post('nome'), MB_CASE_TITLE, 'UTF-8');
+			$dados['nome'] = trim(mb_convert_case($this->input->post('nome'), MB_CASE_TITLE, 'UTF-8'));
 			$dados['id_empresa'] = $this->session->userdata('id_empresa');
 			$dados['responsavel_agendamento'] = $this->input->post('responsavelAgendamento');
 

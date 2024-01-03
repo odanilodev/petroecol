@@ -82,7 +82,7 @@ class Residuos extends CI_Controller
 		$id = $this->input->post('id');
 
 		$nome = $this->input->post('residuo');
-		$dados['nome'] = mb_convert_case($nome, MB_CASE_TITLE, 'UTF-8');
+		$dados['nome'] = mb_convert_case(trim($nome), MB_CASE_TITLE, 'UTF-8');
 		$dados['id_grupo'] = $this->input->post('grupo');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 		$dados['unidade_medida'] = $this->input->post('unidade');

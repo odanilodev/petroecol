@@ -72,7 +72,7 @@ class Etiquetas extends CI_Controller
 	{
 		$id = $this->input->post('id');
 		$nome = $this->input->post('nome');
-		$dados['nome'] = mb_convert_case($nome, MB_CASE_TITLE, 'UTF-8');
+		$dados['nome'] = mb_convert_case(trim($nome), MB_CASE_TITLE, 'UTF-8');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
 		$etiqueta = $this->Etiquetas_model->recebeEtiquetaNome($dados['nome']); // verifica se já existe a etiqueta
