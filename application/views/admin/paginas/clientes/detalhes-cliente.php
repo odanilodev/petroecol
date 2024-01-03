@@ -635,7 +635,7 @@
                               <td class="py-2">
                                 <div class="d-inline-flex align-items-center">
                                   <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                    <span class="text-info-600 dark__text-info-300" data-feather="phone" style="width:16px; height:16px"></span>
+                                    <span class="fas fa-recycle text-info-600 dark__text-info-300" style="width:16px; height:16px"></span>
                                   </div>
                                   <p class="fw-bold mb-0">Resíduos Coletados</p>
                                 </div>
