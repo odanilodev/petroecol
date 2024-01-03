@@ -158,7 +158,7 @@ const deletaDocumentoFuncionario = (id, coluna) => {
                     coluna: coluna
                 }, success: function (data) {
 
-                        var redirect = data.type != 'error' ? `${baseUrl}funcionarios/${data.caminho}/${id}` : '#';
+                    var redirect = data.type != 'error' ? `${baseUrl}funcionarios/${data.caminho}/${id}` : '#';
           
                     avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 

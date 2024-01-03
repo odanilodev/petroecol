@@ -128,9 +128,9 @@ class Etiquetas extends CI_Controller
 
 		} else {
 
-			$retornoEtiqueta = $this->Etiquetas_model->deletaEtiqueta($id);
+			$retorno = $this->Etiquetas_model->deletaEtiqueta($id);
 
-			if ($retornoEtiqueta) {
+			if ($retorno) {
 
 				$response = array(
 					'success' => true,

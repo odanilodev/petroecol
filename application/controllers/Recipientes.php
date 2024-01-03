@@ -137,9 +137,9 @@ class Recipientes extends CI_Controller
 
 		} else {
 
-			$retornoRecipiente = $this->recipientes_model->deletaRecipiente($id);
+			$retorno = $this->recipientes_model->deletaRecipiente($id);
 
-			if ($retornoRecipiente) {
+			if ($retorno) {
 
 				$response = array(
 					'success' => true,
