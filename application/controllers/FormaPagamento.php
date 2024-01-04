@@ -65,7 +65,7 @@ class FormaPagamento extends CI_Controller
 	{
 		$id = $this->input->post('id');
 		$forma_pagamento = $this->input->post('formaPagamento');
-		$dados['forma_pagamento'] = mb_convert_case($forma_pagamento, MB_CASE_TITLE, 'UTF-8');
+		$dados['forma_pagamento'] = mb_convert_case(trim($forma_pagamento), MB_CASE_TITLE, 'UTF-8');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
 		$formaPagamento = $this->FormaPagamento_model->recebeFormaPagamentoNome($dados['forma_pagamento']); // verifica se já existe a forma de pagamento

@@ -69,7 +69,7 @@ class Setores extends CI_Controller
 		$id = $this->input->post('id');
 
 		$nome = $this->input->post('nome');
-		$dados['nome'] = mb_convert_case($nome, MB_CASE_TITLE, 'UTF-8');
+		$dados['nome'] = trim(mb_convert_case($nome, MB_CASE_TITLE, 'UTF-8'));
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
 		$setor = $this->Setores_model->recebeSetorNome($dados['nome']); // verifica se já existe o setor
