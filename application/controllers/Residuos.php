@@ -124,8 +124,24 @@ class Residuos extends CI_Controller
 	{
 		$id = $this->input->post('id');
 
-		$this->Residuos_model->deletaResiduo($id);
+		$retorno = $this->Residuos_model->deletaResiduo($id);
 
-		redirect('residuos');
+		if ($retorno) {
+			$response = array(
+				'success' => true,
+				'title' => "Sucesso!",
+				'message' => "Resíduo deletado com sucesso!",
+				'type' => "success"
+			);
+		} else {
+
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Não foi possivel deletar o resíduo!",
+				'type' => "error"
+			);
+		}
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 }

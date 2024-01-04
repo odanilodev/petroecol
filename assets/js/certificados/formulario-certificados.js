@@ -4,17 +4,25 @@ const cadastraCertificado = () => {
 
 	let id = $(".input-id").val();
 	let modeloCertificado = $(".input-modelo").val();
+	let tituloCertificado = $(".input-titulo").val();
+	let descricaoCertificado = $(".input-descricao").val();
+	let declaracaoCertificado = $(".input-declaracao").val();
 	let logo = $('.input-logo')[0].files[0];
 	let carimbo = $('.input-carimbo')[0].files[0];
 	let assinatura = $('.input-assinatura')[0].files[0];
+	let marcaAgua = $('.input-marca-agua')[0].files[0];
 
 
 	let formData = new FormData();
     formData.append('id', id);
     formData.append('modeloCertificado', modeloCertificado);
+    formData.append('tituloCertificado', tituloCertificado);
+    formData.append('descricaoCertificado', descricaoCertificado);
+    formData.append('declaracaoCertificado', declaracaoCertificado);
     formData.append('logo', logo);
     formData.append('carimbo', carimbo);
     formData.append('assinatura', assinatura);
+    formData.append('marca_agua', marcaAgua);
 
 
 	let permissao = true;

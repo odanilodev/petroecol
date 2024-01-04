@@ -1,10 +1,28 @@
 var baseUrl = $(".base-url").val();
 
 const cadastraFormaPagamento = () => {
-	let formaPagamento = $(".input-nome").val();
 
+	let formaPagamento = $(".input-formapagamento").val();
 	let id = $(".input-id").val();
-	let permissao = true;
+
+    //Verificação de campo vazio e permissao para cadastrar
+    let permissao = true
+
+	$(".input-obrigatorio").each(function () {
+		// Verifica se o valor do input atual está vazio
+		if ($(this).val().trim() === "") {
+
+            $(this).addClass('invalido');
+            $(this).next().removeClass('d-none');
+
+			permissao = false;
+
+		} else {
+
+            $(this).removeClass('invalido');
+            $(this).next().addClass('d-none');
+        }
+	});
 
 	if (permissao) {
 		$.ajax({
@@ -69,16 +87,12 @@ const deletaFormaPagamento = (id) => {
 							id: id,
 						},
 						success: function (data) {
-							let redirect =
-								data.type != "error" ? `${baseUrl}formaPagamento` : "#";
 
-							avisoRetorno(
-								`${data.title}`,
-								`${data.message}`,
-								`${data.type}`,
-								`${redirect}`
-							);
-						},
+							let redirect = data.type != 'error' ? `${baseUrl}formaPagamento` : '#';
+
+							avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
+
+					},
 					});
 				}
 			});

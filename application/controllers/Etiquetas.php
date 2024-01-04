@@ -115,11 +115,28 @@ class Etiquetas extends CI_Controller
 
 		$this->load->model('EtiquetaCliente_model');
 
-		$this->Etiquetas_model->deletaEtiqueta($id);
+		$retorno = $this->Etiquetas_model->deletaEtiqueta($id);
 
 		$this->EtiquetaCliente_model->deletaIdEtiquetaCliente($id);
 
-		redirect('etiquetas');
+
+		if ($retorno) {
+			$response = array(
+				'success' => true,
+				'title' => "Sucesso!",
+				'message' => "Etiqueta deletada com sucesso!",
+				'type' => "success"
+			);
+		} else {
+
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Não foi possivel deletar a etiqueta!",
+				'type' => "error"
+			);
+		}
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
 

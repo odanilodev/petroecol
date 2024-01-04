@@ -4,18 +4,25 @@ const cadastraFrequenciaColeta = () => {
 
     let frequenciaColeta = $('.input-frequencia').val();
     let diaColeta = $('.input-dias').val();
-
     let id = $('.input-id').val();
+
     let permissao = true;
 
-    $('.campo-obrigatorio').each(function(){
-        if (!$(this).val()) {
-            $(this).addClass('invalido');
-           $(this).next('.msg-invalido').removeClass('d-none');
+	$(".input-obrigatorio").each(function () {
+		// Verifica se o valor do input atual está vazio
+		if ($(this).val().trim() === "") {
 
-            permissao = false;
-        } 
-    });
+            $(this).addClass('invalido');
+            $(this).next().removeClass('d-none');
+
+			permissao = false;
+
+		} else {
+
+            $(this).removeClass('invalido');
+            $(this).next().addClass('d-none');
+        }
+	});
 
     if (permissao) {
 
@@ -36,15 +43,10 @@ const cadastraFrequenciaColeta = () => {
                 $('.load-form').addClass('d-none');
                 $('.btn-envia').removeClass('d-none');
 
-                if (data.success) {
+                let redirect = data.type != 'error' ? `${baseUrl}frequenciaColeta` : '#';
 
-                    avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}frequenciaColeta`);
+                avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
-                } else {
-
-                    avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
-
-                }
             }
         });
     }

@@ -104,15 +104,24 @@ class FormaPagamento extends CI_Controller
 	{
 		$id = $this->input->post('id');
 
-		$this->FormaPagamento_model->deletaFormaPagamento($id);
+		$retorno = $this->FormaPagamento_model->deletaFormaPagamento($id);
 
-		$response = array(
-			'success' => true,
-			'title' => "Sucesso!",
-			'message' => "Forma de pagamento deletada com sucesso!",
-			'type' => "success"
-		);
+		if ($retorno) {
+			$response = array(
+				'success' => true,
+				'title' => "Sucesso!",
+				'message' => "Forma de pagamento deletada com sucesso!",
+				'type' => "success"
+			);
+		} else {
 
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Não foi possivel deletar a forma de pagamento!",
+				'type' => "error"
+			);
+		}
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 

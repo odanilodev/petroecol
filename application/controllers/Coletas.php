@@ -87,9 +87,10 @@ class Coletas extends CI_Controller
 
         $idColeta = $this->uri->segment(3) ?? null;
         $idModelo = $this->uri->segment(4) ?? null;
-        $personalizado = $this->uri->segment(5) ?? null;
 
-        if ($personalizado) {
+        $modeloCertificado =  $this->Certificados_model->recebeCertificadoId($idModelo);
+
+        if ($modeloCertificado['personalizado']) {
 
             switch ($idModelo) {
                 case '2':

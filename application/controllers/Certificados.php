@@ -70,6 +70,9 @@ class Certificados extends CI_Controller
 		$modelo = $this->input->post('modeloCertificado');
 		
 		$dados['modelo'] = mb_convert_case($modelo, MB_CASE_TITLE, 'UTF-8');
+		$dados['titulo'] = $this->input->post('tituloCertificado');
+		$dados['descricao'] = $this->input->post('descricaoCertificado');
+		$dados['declaracao'] = $this->input->post('declaracaoCertificado');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
 		$certificado_modelo = $this->Certificados_model->recebeCertificadoModelo($dados['modelo'], $id); // verifica se já existe o certificado
@@ -91,9 +94,10 @@ class Certificados extends CI_Controller
 			'logo'          => ['certificados/logos', $imagemAntiga['logo'] ?? null],
 			'carimbo'       => ['certificados/carimbos', $imagemAntiga['carimbo'] ?? null],
 			'assinatura'    => ['certificados/assinaturas', $imagemAntiga['assinatura'] ?? null],
+			'marca_agua'    => ['certificados/marcas-agua', $imagemAntiga['marca_agua'] ?? null],
 		];
 
-		$retornoDados = $this->upload_imagem->uploadImagem($arrayUpload);
+		$retornoDados = $this->upload_imagem->uploadImagem($arrayUpload, 'jpg');
 		$dados = array_merge($dados, $retornoDados);
 
 		$retorno = $id ? $this->Certificados_model->editaCertificado($id, $dados) : $this->Certificados_model->insereCertificado($dados); // se tiver ID edita se não INSERE

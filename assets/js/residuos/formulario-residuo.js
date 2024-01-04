@@ -7,18 +7,26 @@ const cadastraResiduos = () => {
     let id = $('.input-id').val();
     let uni = $('.input-medida').val();
 
+    //Verificação de campo vazio e permissao para cadastrar
+    let permissao = true
 
-    let permissao = true;
+	$(".input-obrigatorio").each(function () {
 
-    $('.input-obrigatorio').each(function () {
+		// Verifica se o valor do input atual está vazio
+		if ($(this).val() === "" || $(this).val() === null) {
 
-        if ($(this).val() == "" || $(this).val() == null) {
             $(this).addClass('invalido');
-            permissao = false;
-        } else {
+            $(this).next().removeClass('d-none');
+
+			permissao = false;
+
+		} else {
+
             $(this).removeClass('invalido');
+            $(this).next().addClass('d-none');
         }
-    })
+	});
+
 
     if (permissao) {
 
@@ -75,9 +83,11 @@ const deletarResiduo = (id) => {
                 url: `${baseUrl}residuos/deletaResiduo`,
                 data: {
                     id: id
-                }, success: function () {
+                }, success: function (data) {
 
-                    avisoRetorno('Sucesso!', 'Residuo deletado com sucesso!', 'success', `${baseUrl}residuos`);
+                    let redirect = data.type != 'error' ? `${baseUrl}residuos` : '#';
+
+                    avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
                 }
             })

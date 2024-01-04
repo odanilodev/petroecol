@@ -34,17 +34,25 @@ class GerarCertificadoColeta
 
 			$mpdf = new Mpdf;
 
-			if ($data['modelo_certificado']['personalizado'] == 1) {
+			if ($data['modelo_certificado']['orientacao'] == 'horizontal') {
 
 				$mpdf->AddPage('L');
-				$html = $this->CI->load->view('admin/paginas/certificados/certificado-paisagem', $data, true);
-
+				$html = $this->CI->load->view('admin/paginas/certificados/certificado-horizontal', $data, true);
 			} else {
-				
+
 				$html = $this->CI->load->view('admin/paginas/certificados/certificado-pdf', $data, true);
 			}
 
 			$mpdf->WriteHTML($html);
+
+			// marca d'água no PDF
+			if ($data['modelo_certificado']['marca_agua']) {
+				$marcaDagua = base_url_upload('certificados/marcas-agua/' . $data['modelo_certificado']['marca_agua']);
+				$rotacao = 45;
+				$mpdf->SetWatermarkImage($marcaDagua);
+				$mpdf->showWatermarkImage = true;
+			}
+
 
 			// Retorna o conteúdo do PDF
 			return $mpdf->Output('', \Mpdf\Output\Destination::INLINE, "L");
