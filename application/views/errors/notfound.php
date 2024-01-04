@@ -7,10 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-  <!-- ===============================================-->
-  <!--    Document Title-->
-  <!-- ===============================================-->
-  <title>Petroecol</title>
+  <title>Página não encontrada</title>
 
   <!-- Links header -->
   <?php header_scripts(); ?>

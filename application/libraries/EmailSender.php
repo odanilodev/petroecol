@@ -7,6 +7,7 @@ class EmailSender {
     public function __construct() {
         $this->CI =& get_instance();
         $this->CI->load->library('email');
+        $this->CI->load->helper('config_master_helper');
     }
 
     public function enviarEmail($template, $email, $assunto, $codigo = null) {
@@ -19,12 +20,10 @@ class EmailSender {
                 $html =  $this->templatePadrao();
         }
 
-        $emailCopia = 'victor@petroecol.com.br';
 
         // Define remetente e destinatário
-        $this->CI->email->from('contato@petroecol.eco.br', 'Petroecol Site'); // Remetente
+        $this->CI->email->from(emailMaster(), 'Petroecol Site'); // Remetente
         $this->CI->email->to($email); // Destinatário
-        $this->CI->email->reply_to($emailCopia);
 
         // Define o assunto do email
         $this->CI->email->subject($assunto);

@@ -9,7 +9,7 @@
     <meta name="msapplication-TileImage" content="#">
     <meta name="theme-color" content="#ffffff">
 
-    <title>Petroecol</title>
+    <title><?= $this->session->userdata('nome_empresa') ?? 'Login'; ?></title>
 
     <!-- Links header -->
     <?php header_scripts(); ?>

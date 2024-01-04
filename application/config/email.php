@@ -1,7 +1,7 @@
 <?php
 
  //Configuração mail
- $config['smtp_host'] = 'mail.petroecol.eco.br';
+ $config['smtp_host'] = 'mail.centrodainteligencia.com.br';
  $config['smtp_port'] = '587';
  $config['smtp_user'] = 'contato@petroecol.eco.br';
  $config['smtp_pass'] = '@@123contato';
