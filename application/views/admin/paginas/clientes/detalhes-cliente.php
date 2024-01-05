@@ -79,7 +79,12 @@
             <div class="card-body">
               <div class="row align-items-center g-3">
                 <div class="col-12 col-sm-auto flex-1">
-                  <h3 class="fw-bolder mb-2 line-clamp-1"><?= ucfirst($cliente['nome']) ?? ""; ?></h3>
+                  <h3 class="fw-bolder mb-2 line-clamp-1">
+                      <?php if(isset($cliente['cor'])){ ?>
+                          <span class="fas fa-certificate pb-1" style="width:16px; height:16px; color: <?= $cliente['cor'] ?>"></span>
+                      <?php } ?>
+                      <?= ucfirst($cliente['nome']) ?? ""; ?>
+                  </h3>
                   <p class="fs--1 fw-semi-bold text-900 text mb-4 w-50">
                     <?php echo "{$cliente['rua']}, {$cliente['numero']} {$cliente['bairro']} - {$cliente['cidade']} / {$cliente['estado']}"; ?>
                   </p>
