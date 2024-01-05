@@ -1,2 +1,2 @@
 <div class="content">
-    <?=chave('nome')?>
+    <?=chave('seja-bem-vindo')?>
