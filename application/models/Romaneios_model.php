@@ -38,10 +38,15 @@ class Romaneios_model extends CI_Model
 
     public function recebeRomaneioCod($codigo)
     {
-        $this->db->where('codigo', $codigo);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->select('R.*, F.nome as RESPONSAVEL, V.placa');
+        $this->db->from('ci_romaneios R');
+        $this->db->join('ci_funcionarios F', 'F.id = R.id_responsavel', 'left');
+        $this->db->join('ci_veiculos V', 'V.id = R.id_veiculo', 'left');
+        $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('R.codigo', $codigo);
 
-        $query = $this->db->get('ci_romaneios');
+        $query = $this->db->get();
+
 
         return $query->row_array();
     }

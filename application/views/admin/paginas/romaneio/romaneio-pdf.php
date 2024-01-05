@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -9,15 +6,19 @@
     <meta charset="utf-8">
 
     <style>
+        body {
+            font-family: 'arial, sans-serif';
+        }
+
         table {
-            font-family: arial, sans-serif;
+            font-family: 'arial, sans-serif';
             border-collapse: collapse;
             width: 55%;
             display: flex;
             flex-direction: column;
         }
 
-        th,
+        th, 
         td {
             border: 1px solid #dddddd;
             text-align: left;
@@ -31,6 +32,8 @@
             width: 48%;
             /* Ajuste conforme necessário */
         }
+
+
     </style>
 </head>
 
@@ -40,22 +43,22 @@
 
     <div style="width: 100%;">
         <div style="padding: 5px" align="center">
-            <img src="<?= base_url('assets/img/icons/logo.jpg') ?>" style="max-height: 30px;">
+            <img src="<?= base_url('assets/img/icons/logo-slogan.jpg') ?>" style="max-height: 30px;">
         </div>
 
         <div style="margin-top: 5px">
-        <h3 style="font-weight: 100;">Romaneio: <span style="font-weight: bold;"><?= $codigo ?></span></h3>
+            <h3 style="font-weight: 100;">Romaneio: <span style="font-weight: bold;"><?= $codigo ?></span></h3>
 
             <div style="font-size: 14px" class="col-md-6">
-                Data: <?= date("d/m/Y", strtotime($data_romaneio)); ?> 
+                <strong> Data: </strong><?= date("d/m/Y", strtotime($data_romaneio)); ?>
             </div>
         </div>
 
         <div style="margin-top: 2px;">
             <nobr>
-                <span style="font-size: 13px; max-width: 25%;">Responsavel:</span>
-                <span style="margin-left: 8%; font-size: 13px; max-width: 25%;">Ajudante:</span>
-                <span style="margin-left: 8%; font-size: 13px; max-width: 25%;">Placa: </span>
+                <span style="font-size: 13px; max-width: 25%;"><strong> Responsavel: </strong> <?= $responsavel ?></span><br>
+                <!-- <span style="margin-left: 8%; font-size: 13px; max-width: 25%;"><strong> Ajudante: </strong> <?= $ajudante ?></span><br> -->
+                <span style="margin-left: 8%; font-size: 13px; max-width: 25%;"><strong> Placa: </strong><?= strtoupper($placa) ?> </span>
             </nobr>
         </div>
         <hr style="font-size: 0.5px; margin-top: 5px;">
@@ -63,30 +66,30 @@
 
     <!--EndHeader-->
 
-    <div style="width: 100%;"> 
+    <div style="width: 100%;">
 
         <?php
         $currentCity = null;
         $tableOpen = false;
 
         foreach ($clientes as $v) {
+            
             // Verifica se a cidade do cliente mudou
             if (trim(strtolower($v['cidade'])) !== $currentCity) {
                 // Se sim, fecha a tabela anterior (se existir)
                 if ($tableOpen) {
                     echo '</tbody></table>';
                 }
-                // Abre uma nova tabela
-                echo "<h4 style='margin-top: 30px; margin-bottom: 5px'><b>{$v['cidade']}</b></h4>";
-                echo '<table>';
-        ?>
+                    // Abre uma nova tabela
+                    echo "<h4 style='margin-top: 30px; margin-bottom: 5px'><b>{$v['cidade']}</b> </h4>";
+                    echo '<table>';
+                ?>
                 <thead>
-                    <tr style="font-size: 14px" align="left">
+                    <tr style="font-size: 14px;" align="left">
                         <th>Nome Cliente</th>
                         <th>Endereço</th>
                         <th>Telefone</th>
                         <th>Forma de Pagto</th>
-                        <th>Ultima Coleta</th>
                         <th>Qtde Retirado</th>
                         <th>Valor Pago</th>
                         <th>Observação</th>
@@ -99,11 +102,10 @@
                 $tableOpen = true;
             }
                 ?>
-                <tr style="font-size: 11px" align="left">
-                    <td><?= $v['nome']; ?></td>
+                <tr style="font-size: 11px;" align="left">
+                    <td><?= $v['nome']; ?> <?= $v['prioridade'] == 1 ? '<span style="font-weight: bold; font-size: 20px">*</span>' : ''?></td>
                     <td><?= "{$v['rua']}, {$v['numero']} {$v['bairro']}"; ?></td>
                     <td><?= $v['telefone']; ?></td>
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>

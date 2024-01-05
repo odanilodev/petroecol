@@ -23,9 +23,12 @@ class GerarRomaneio
 
 			$idClientes = json_decode($romaneio['clientes'], true);
 
-			$data['clientes'] = $this->CI->Clientes_model->recebeClientesIds($idClientes);
+			$data['clientes'] = $this->CI->Clientes_model->recebeClientesIds($idClientes, $romaneio['data_romaneio']);
+
 			$data['codigo'] = $codigo;
 			$data['data_romaneio'] = $romaneio['data_romaneio'];
+			$data['responsavel'] = $romaneio['RESPONSAVEL'];
+			$data['placa'] = $romaneio['placa'];
 
 			$mpdf = new Mpdf(['orientation' => 'L']);
 			$html = $this->CI->load->view('admin/paginas/romaneio/romaneio-pdf', $data, true);

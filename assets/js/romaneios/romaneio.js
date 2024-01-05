@@ -62,7 +62,7 @@ const filtrarClientesRomaneio = () => {
                         </td>
 
                         <td class="align-middle white-space-nowrap">
-                            ${data.retorno[i].ETIQUETA} / ${data.retorno[i].cidade}
+                            ${data.retorno[i].ETIQUETA ?? "Sem etiqueta"} / ${data.retorno[i].cidade}
                         </td>
 
                         <td class="align-middle white-space-nowrap pt-3">
@@ -82,6 +82,26 @@ const filtrarClientesRomaneio = () => {
 
 const gerarRomaneio = () => {
 
+    let permissao = true;
+
+    $(".input-obrigatorio").each(function () {
+
+		// Verifica se o valor do input atual está vazio
+		if ($(this).val() === "" || $(this).val() === null) {
+
+            $(this).addClass('invalido');
+            $(this).next().removeClass('d-none');
+
+			permissao = false;
+
+		} else {
+
+            $(this).removeClass('invalido');
+            $(this).next().addClass('d-none');
+        }
+	});
+
+    // novo clientes para gerar romaneio
     let clientes = [];
     $('.check-clientes-modal').each(function () {
 
@@ -94,43 +114,36 @@ const gerarRomaneio = () => {
     })
 
     let responsavel = $('#select-responsavel').val();
-
-    if (!responsavel) {
-
-        $('#select-responsavel').addClass('invalido');
-        return;
-
-    } else {
-
-        $('#select-responsavel').removeClass('invalido');
-
-    }
-
+    let veiculo = $('#select-veiculo').val();
     let data_coleta = $('.input-coleta').val();
 
-    $.ajax({
-        type: "POST",
-        url: `${baseUrl}romaneios/gerarRomaneioEtiqueta`,
-        data: {
-            clientes: clientes,
-            responsavel: responsavel,
-            data_coleta: data_coleta
-        },
-        beforeSend: function () {
-            $('.load-form-modal-romaneio').removeClass('d-none');
-            $('.btn-salva-romaneio').addClass('d-none');
+    if (permissao) { 
+ 
+        $.ajax({
+            type: "POST",
+            url: `${baseUrl}romaneios/gerarRomaneioEtiqueta`,
+            data: {
+                clientes: clientes,
+                responsavel: responsavel,
+                veiculo: veiculo,
+                data_coleta: data_coleta
+            },
+            beforeSend: function () {
+                $('.load-form-modal-romaneio').removeClass('d-none');
+                $('.btn-salva-romaneio').addClass('d-none');
 
-        }, success: function (data) {
+            }, success: function (data) {
 
-            if (data.success) {
-                avisoRetorno('Sucesso!', data.message, 'success', `${baseUrl}romaneios/`);
-            } else {
-                avisoRetorno('Erro!', data.message, 'error', `${baseUrl}romaneios/formulario/`);
+                if (data.success) {
+                    avisoRetorno('Sucesso!', data.message, 'success', `${baseUrl}romaneios/`);
+                } else {
+                    avisoRetorno('Erro!', data.message, 'error', `${baseUrl}romaneios/formulario/`);
 
+                }
             }
-        }
 
-    })
+        })
+    }
 
 }
 

@@ -53,11 +53,11 @@ class Romaneios extends CI_Controller
 
 		// dados para gravar no banco
 		$dados['id_responsavel'] = $this->input->post('responsavel');
+		$dados['id_veiculo'] = $this->input->post('veiculo');
 		$dados['data_romaneio'] = $this->input->post('data_coleta');
 		$dados['clientes'] = json_encode($this->input->post('clientes')); // Recebe um array e depois passa os dados por JSON
 		$dados['codigo'] = $codigo;
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
-
 
 		$insereRomaneio = $this->Romaneios_model->insereRomaneio($dados); // grava no banco romaneio que foi gerado
 
@@ -87,6 +87,7 @@ class Romaneios extends CI_Controller
 	public function formulario()
 	{
 		$this->load->model('Funcionarios_model');
+		$this->load->model('Veiculos_model');
 		// scripts padrão
 		$scriptsPadraoHead = scriptsPadraoHead();
 		$scriptsPadraoFooter = scriptsPadraoFooter();
@@ -102,6 +103,7 @@ class Romaneios extends CI_Controller
 		$data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
 		$data['clientes'] = $this->Clientes_model->recebeClientesEtiquetas();
 		$data['responsaveis'] = $this->Funcionarios_model->recebeResponsavelAgendamento();
+		$data['veiculos'] = $this->Veiculos_model->recebeVeiculos();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/romaneio/cadastra-romaneio');
