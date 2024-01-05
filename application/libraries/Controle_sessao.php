@@ -24,7 +24,7 @@ class Controle_sessao
 			if ($perm) {
 				foreach ($permissao as $v) {
 					$menu_liberado = $CI->Menu_model->recebeMenu($v);
-					$format_link = explode('/', $menu_liberado['link']);
+					$format_link = explode('/', $menu_liberado['link'] ?? '');
 					$array_menu[] = $format_link[0];
 				}
 			}

@@ -344,3 +344,11 @@ function scriptsCertificadosFooter()
     );
 }
 
+function scriptsPermissaoFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/permissao/componentes.js') . '"></script>',
+    );
+}
+

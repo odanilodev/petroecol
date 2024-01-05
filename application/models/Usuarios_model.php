@@ -32,6 +32,7 @@ class Usuarios_model extends CI_Model
     public function recebeTodosUsuarios()
     {
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->order_by('nome');
         $query = $this->db->get('ci_usuarios');
 
         return $query->result_array();
