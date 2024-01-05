@@ -200,11 +200,7 @@
                           </div>
                         </div>
 
-                        <div class="mb-2 mt-5 col-md-3">
-                          <label class="form-label">Grupo de negócio</label>
-                          <input class="form-control campo-empresa" type="text" name="grupo_negocio" value="<?= $cliente['grupo_negocio'] ?? ''; ?>" placeholder="Grupo de negócio" />
-                        </div>
-
+                       
                         <div class="mb-2 col-md-12 mt-5">
                           <label class="form-label">Observação</label>
                           <textarea class="form-control campo-empresa" rows="4" name="observacao" value="<?= $cliente['observacao'] ?? ''; ?>"><?= $cliente['observacao'] ?? ''; ?></textarea>
