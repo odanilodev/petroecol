@@ -88,12 +88,16 @@ class FrequenciaColeta extends CI_Controller
 		if ($retorno) { // inseriu ou editou
 
 			$response = array(
+				'title' => "Sucesso!",
+				'type' => "success",
 				'success' => true,
 				'message' => $id ? 'Frequência editada com sucesso!' : 'Frequência cadastrada com sucesso!'
 			);
 		} else { // erro ao inserir ou editar
 
 			$response = array(
+				'title' => "Algo deu errado!",
+				'type' => "error",
 				'success' => false,
 				'message' => $id ? "Erro ao editar a frequência!" : "Erro ao cadastrar a frequência!"
 			);
