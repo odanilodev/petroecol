@@ -19,7 +19,7 @@
         td {
             border: 1px solid #dddddd;
             text-align: left;
-            padding: 8px;
+            padding: 5px;
             width: 50%;
             color: #404040;
         }
@@ -43,8 +43,8 @@
 
     <div style="width: 100%;">
 
-        <div style="padding: 5px" align="center">
-            <img src="<?= base_url_upload('certificados/logos/' . $modelo_certificado['logo']) ?>" style="max-width: 200px; max-height: 100px;">
+        <div align="center">
+            <img src="<?= base_url_upload('certificados/logos/' . $modelo_certificado['logo']) ?>" style="max-height: 60px;">
 
             <p align="center" style="font-size: 12px;">
                 <?= $modelo_certificado['descricao']; ?>
@@ -62,7 +62,7 @@
 
         </div>
 
-        <div style="margin-top: 45px;">
+        <div style="margin-top: 25px;">
 
             <table class="table">
                 <thead>
@@ -107,7 +107,7 @@
 
         </div>
 
-        <div style="margin-top: 45px;">
+        <div style="margin-top: 25px;">
 
             <table class="table">
                 <thead>
@@ -137,7 +137,7 @@
     <?php if ($modelo_certificado['declaracao']) { ?>
 
         <h4 style="font-weight: bold; margin-top: 50px;">
-            <?= chave('declaracao')?>
+            DECLARAÇÃO
             <hr style="font-size: 0.5px;">
             <p style="font-weight: 100; font-size: 11px">
                 <?= $modelo_certificado['declaracao']; ?>
@@ -147,7 +147,7 @@
     <?php } ?>
 
 
-    <div style="width: 100%; display: flex; flex-wrap: wrap; margin-top: 40px">
+    <div style="width: 100%; display: flex; flex-wrap: wrap;">
         <div align="center">
 
             <?php if ($modelo_certificado['assinatura']) { ?>
@@ -157,6 +157,7 @@
             <?php if ($modelo_certificado['carimbo']) { ?>
                 <img style="width: 30%; display: block; margin: 15px" src="<?= base_url_upload('certificados/carimbos/' . $modelo_certificado['carimbo']) ?>">
             <?php } ?>
+
         </div>
 
     </div>

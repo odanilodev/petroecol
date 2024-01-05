@@ -28,15 +28,16 @@ class Upload_imagem
                         mkdir($config['upload_path'], 0777, true);
                     }
 
-                    // Deleta a imagem antiga do servidor
-                    if ($option[1] && file_exists($config['upload_path'] . '/' . $option[1])) {
-                        unlink($config['upload_path'] . '/' . $option[1]);
-                    }
-
                     $CI->load->library('upload', $config);
                     $CI->upload->initialize($config);
 
                     if ($CI->upload->do_upload($nomeCampo)) {
+
+                        // Deleta a imagem antiga do servidor
+                        if ($option[1] && file_exists($config['upload_path'] . '/' . $option[1])) {
+                            unlink($config['upload_path'] . '/' . $option[1]);
+                        }
+
                         $dados_imagem = $CI->upload->data();
                         $dados[$nomeCampo] = $dados_imagem['file_name'];
                     } else {

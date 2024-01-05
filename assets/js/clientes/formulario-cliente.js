@@ -329,11 +329,11 @@ $(document).on('click', '.btn-gerar-certificado', function () {
         return;
     }
 
-    const modelo = modeloCertificado;
+    const idModelo = modeloCertificado;
     const coleta = $(this).data('coleta');
 
-    if (modelo && coleta) {
-        var redirect = `${baseUrl}coletas/certificadoColeta/${coleta}/${modelo}`
+    if (idModelo && coleta) {
+        var redirect = `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}`
         window.open(redirect, '_blank');
     } else {
         avisoRetorno('Algo deu errado!', 'Não foi possível encontrar o certificado de coleta.', 'error', `#`);

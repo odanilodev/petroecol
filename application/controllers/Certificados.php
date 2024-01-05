@@ -64,10 +64,15 @@ class Certificados extends CI_Controller
 	}
 	public function cadastraCertificado()
 	{
+		$this->load->library('upload_imagem');
+
 		$id = $this->input->post('id') ?? null;
 		$modelo = $this->input->post('modeloCertificado');
 		
 		$dados['modelo'] = mb_convert_case($modelo, MB_CASE_TITLE, 'UTF-8');
+		$dados['titulo'] = $this->input->post('tituloCertificado');
+		$dados['descricao'] = $this->input->post('descricaoCertificado');
+		$dados['declaracao'] = $this->input->post('declaracaoCertificado');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
 		$certificado_modelo = $this->Certificados_model->recebeCertificadoModelo($dados['modelo'], $id); // verifica se já existe o certificado
@@ -82,6 +87,19 @@ class Certificados extends CI_Controller
 
 			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 		}
+
+		$imagemAntiga = $this->Certificados_model->recebeCertificadoId($id);
+
+		$arrayUpload = [
+			'logo'          => ['certificados/logos', $imagemAntiga['logo'] ?? null],
+			'carimbo'       => ['certificados/carimbos', $imagemAntiga['carimbo'] ?? null],
+			'assinatura'    => ['certificados/assinaturas', $imagemAntiga['assinatura'] ?? null],
+			'marca_agua'    => ['certificados/marcas-agua', $imagemAntiga['marca_agua'] ?? null],
+		];
+
+		$retornoDados = $this->upload_imagem->uploadImagem($arrayUpload, 'jpg');
+
+		$dados = array_merge($dados, $retornoDados);
 
 		$retorno = $id ? $this->Certificados_model->editaCertificado($id, $dados) : $this->Certificados_model->insereCertificado($dados); // se tiver ID edita se não INSERE
 
@@ -107,14 +125,51 @@ class Certificados extends CI_Controller
 	{
 		$id = $this->input->post('id');
 
-		$this->Certificados_model->deletaCertificado($id);
+		$certificado = $this->Certificados_model->recebeCertificadoId($id);
 
-		$response = array(
-			'success' => true,
-			'title' => "Sucesso!",
-			'message' => "Certificado deletado com sucesso!",
-			'type' => "success"
-		);
+		
+		$retorno = $this->Certificados_model->deletaCertificado($id);
+
+		
+		if ($retorno) { // deletou
+
+			if ($certificado['logo']) {
+				$link_certificado = './uploads/' . $this->session->userdata('id_empresa') . '/certificados/logos/' . $certificado['logo'];
+				unlink($link_certificado);
+			}
+
+			if ($certificado['carimbo']) {
+				$link_carimbo = './uploads/' . $this->session->userdata('id_empresa') . '/certificados/carimbos/' . $certificado['carimbo'];
+				unlink($link_carimbo);
+			}
+
+			
+			if ($certificado['assinatura']) {
+				$link_assinatura = './uploads/' . $this->session->userdata('id_empresa') . '/certificados/assinaturas/' . $certificado['assinatura'];
+				unlink($link_assinatura);
+			}
+			
+			if ($certificado['marca_agua']) {
+				$link_marca_agua = './uploads/' . $this->session->userdata('id_empresa') . '/certificados/marcas-agua/' . $certificado['marca_agua'];
+				unlink($link_marca_agua);
+			}
+
+			$response = array(
+				'success' => true,
+				'title' => "Sucesso!",
+				'message' => "Certificado deletado com sucesso!",
+				'type' => "success"
+			);
+
+		} else { // erro ao deletar
+
+			$response = array(
+				'success' => false,
+				'message' => "Erro ao deletar o certificado!"
+			);
+		}
+		
+		
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}

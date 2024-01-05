@@ -13,9 +13,10 @@ class GerarCertificadoColeta
 		$this->CI = &get_instance();
 		$this->CI->load->model('Clientes_model');
 		$this->CI->load->model('Coletas_model');
+		$this->CI->load->model('Certificados_model');
 	}
 
-	public function gerarPdfOleo($idColeta)
+	public function gerarPdfPadrao($idColeta, $idModelo)
 	{
 		$this->CI->load->library('detalhesColeta');
 		$historicoColeta = $this->CI->detalhescoleta->detalheColeta($idColeta);
@@ -26,14 +27,35 @@ class GerarCertificadoColeta
 		$data['residuos'] = json_decode($historicoColeta['coleta']['residuos_coletados'], true);
 		$data['quantidade_coletada'] = json_decode($historicoColeta['coleta']['quantidade_coletada'], true);
 
+		// modelo do certificado
+		$data['modelo_certificado'] = $this->CI->Certificados_model->recebeCertificadoId($idModelo);
+
 		if ($data['clientes_coletas']) {
 
 			$mpdf = new Mpdf;
-			$html = $this->CI->load->view('admin/paginas/certificados/certificado-pdf', $data, true);
+
+			if ($data['modelo_certificado']['orientacao'] == 'horizontal') {
+
+				$mpdf->AddPage('L');
+				$html = $this->CI->load->view('admin/paginas/certificados/certificado-horizontal', $data, true);
+			} else {
+
+				$html = $this->CI->load->view('admin/paginas/certificados/certificado-pdf', $data, true);
+			}
+
 			$mpdf->WriteHTML($html);
 
+			// marca d'água no PDF
+			if ($data['modelo_certificado']['marca_agua']) {
+				$marcaDagua = base_url_upload('certificados/marcas-agua/' . $data['modelo_certificado']['marca_agua']);
+				$rotacao = 45;
+				$mpdf->SetWatermarkImage($marcaDagua);
+				$mpdf->showWatermarkImage = true;
+			}
+
+
 			// Retorna o conteúdo do PDF
-			return $mpdf->Output('', \Mpdf\Output\Destination::INLINE);
+			return $mpdf->Output('', \Mpdf\Output\Destination::INLINE, "L");
 		} else {
 
 			// scripts padrão
