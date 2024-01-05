@@ -122,7 +122,7 @@
                           <div class="invalid-feedback email-invalido">Preencha este campo corretamente</div>
                         </div>
 
-                        <div class="mb-2 mt-5 col-md-2">
+                        <div class="mb-2 mt-5 col-md-3">
                           <div class="mb-2">
                             <label class="form-label text-900">Frequência de coleta *</label>
                             <select required name="id_frequencia_coleta" class="form-select campo-empresa select-frequencia">
@@ -155,7 +155,7 @@
                           </div>
                         </div>
 
-                        <div class="mb-2 mt-5 col-md-2">
+                        <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">Dia de pagamento</label>
                           <input class="form-control campo-empresa" type="number" name="dia_pagamento" value="<?= $cliente['dia_pagamento'] ?? ''; ?>" placeholder="Dia de pagamento" />
                         </div>
@@ -175,9 +175,29 @@
                           </div>
                         </div>
 
-                        <div class="mb-2 mt-5 col-md-2">
+                        <div class="mb-2 mt-5 col-md-3">
+                          <label class="form-label">Grupo de negócio</label>
+                          <input class="form-control campo-empresa" type="text" name="grupo_negocio" value="<?= $cliente['grupo_negocio'] ?? ''; ?>" placeholder="Grupo de negócio" />
+                        </div>
+
+                        <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">Tipo de empresa</label>
                           <input class="form-control campo-empresa" type="text" name="tipo_negocio" value="<?= $cliente['tipo_negocio'] ?? ''; ?>" placeholder="Tipo de empresa" />
+                        </div>
+
+                        
+                        <div class="mb-2 mt-5 col-md-3">
+                          <div class="mb-2">
+                            <label class="form-label text-900">Classificação da empresa</label>
+                            <select name="id_classificacao_empresa" class="form-select campo-empresa">
+                              <option value="" selected>Selecione</option>
+
+                              <?php foreach($classificacoes as $classificacao) { ?>
+                                <option value="<?= $classificacao['id']?>" <?= (isset($cliente['id_classificacao_empresa']) && $cliente['id_classificacao_empresa'] == $classificacao['id']) ? 'selected' : ''; ?>><?= $classificacao['nome'];?></option>
+                              <?php }?>
+
+                            </select>
+                          </div>
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
