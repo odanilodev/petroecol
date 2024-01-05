@@ -25,7 +25,6 @@ class GerarRomaneio
 
 			$data['clientes'] = $this->CI->Clientes_model->recebeClientesIds($idClientes, $romaneio['data_romaneio']);
 
-			// echo "<pre>"; print_r($data['clientes']); exit;
 			$data['codigo'] = $codigo;
 			$data['data_romaneio'] = $romaneio['data_romaneio'];
 			$data['responsavel'] = $romaneio['RESPONSAVEL'];
