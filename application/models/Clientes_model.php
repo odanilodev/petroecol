@@ -9,6 +9,7 @@ class Clientes_model extends CI_Model
     {
         parent::__construct();
         $this->load->model('Log_model');
+        $this->load->helper('cache_helper');
     }
 
     public function recebeClientes($cookie_filtro_clientes, $limit, $page, $count = null)
@@ -160,6 +161,7 @@ class Clientes_model extends CI_Model
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);
+            limparCache('clientesinativar');
         }
 
         return $this->db->affected_rows() > 0;
@@ -174,6 +176,7 @@ class Clientes_model extends CI_Model
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);
+            limparCache('clientesinativar');
         }
 
         return $this->db->affected_rows() > 0;
@@ -223,6 +226,7 @@ class Clientes_model extends CI_Model
             $this->db->where('C.STATUS', 1);
             $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
             $this->db->where('((CI.criado_em < DATE_SUB(NOW(), INTERVAL 3 MONTH) AND CI.criado_em IS NOT NULL) OR (CI.criado_em IS NULL AND C.criado_em < DATE_SUB(NOW(), INTERVAL 3 MONTH)))', null, false);
+            $this->db->limit(200);
 
             $query = $this->db->get();
             $clientesParaInativar = $query->result_array();
