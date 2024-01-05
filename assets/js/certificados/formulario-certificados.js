@@ -56,6 +56,7 @@ const cadastraCertificado = () => {
 				$(".btn-envia").addClass("d-none");
 			},
 			success: function (data) {
+				
 				$(".load-form").addClass("d-none");
 				$(".btn-envia").removeClass("d-none");
 
@@ -67,7 +68,7 @@ const cadastraCertificado = () => {
 						`${baseUrl}certificados`
 					);
 				} else {
-					avisoRetorno("Algo deu errado!", `${data.message}`, "error", "#");
+					avisoRetorno("Algo deu errado!", `Não foi possível completar esta ação`, "error", "#");
 				}
 			},
 			error: function (xhr, status, error) {
