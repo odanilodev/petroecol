@@ -40,11 +40,11 @@ class Clientes_model extends CI_Model
         if (($filtro['id_recipiente'] ?? false) && $filtro['id_recipiente'] != 'all') {
             $this->db->where('RC.id_recipiente', $filtro['id_recipiente']);
         }
-        
+
         if (($filtro['id_residuo'] ?? false) && $filtro['id_residuo'] != 'all') {
             $this->db->where('RSC.id_residuo', $filtro['id_residuo']);
         }
-        
+
         if (($filtro['id_etiqueta'] ?? false) && $filtro['id_etiqueta'] != 'all') {
             $this->db->where('EC.id_etiqueta', $filtro['id_etiqueta']);
         }
@@ -53,7 +53,7 @@ class Clientes_model extends CI_Model
             $offset = ($page - 1) * $limit;
             $this->db->limit($limit, $offset);
         }
-        
+
         $this->db->group_by('C.id');
 
         $query = $this->db->get();
@@ -213,14 +213,24 @@ class Clientes_model extends CI_Model
 
     public function recebeClientesAprovacaoInativacao()
     {
-        $this->db->select('C.nome, C.id, C.criado_em AS CLIENTE_CRIADO_EM, CI.criado_em AS ULTIMA_COLETA');
-        $this->db->from('ci_clientes AS C');
-        $this->db->join('(SELECT id_cliente, MAX(criado_em) AS criado_em FROM ci_coletas WHERE coletado = 1 GROUP BY id_cliente) AS CI', 'CI.id_cliente = C.id', 'left');
-        $this->db->where('C.STATUS', 1);
-        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('((CI.criado_em < DATE_SUB(NOW(), INTERVAL 3 MONTH) AND CI.criado_em IS NOT NULL) OR (CI.criado_em IS NULL AND C.criado_em < DATE_SUB(NOW(), INTERVAL 3 MONTH)))', null, false);
+        $this->load->driver('cache', array('adapter' => 'file'));
+        $clientesParaInativar = $this->cache->get('clientesinativar/clientes_para_inativar_empresa_' . $this->session->userdata('id_empresa'));
 
-        $query = $this->db->get();
-        return $query->result_array();
+        if ($clientesParaInativar === FALSE) {
+            $this->db->select('C.nome, C.id, C.criado_em AS CLIENTE_CRIADO_EM, CI.criado_em AS ULTIMA_COLETA');
+            $this->db->from('ci_clientes AS C');
+            $this->db->join('(SELECT id_cliente, MAX(criado_em) AS criado_em FROM ci_coletas WHERE coletado = 1 GROUP BY id_cliente) AS CI', 'CI.id_cliente = C.id', 'left');
+            $this->db->where('C.STATUS', 1);
+            $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+            $this->db->where('((CI.criado_em < DATE_SUB(NOW(), INTERVAL 3 MONTH) AND CI.criado_em IS NOT NULL) OR (CI.criado_em IS NULL AND C.criado_em < DATE_SUB(NOW(), INTERVAL 3 MONTH)))', null, false);
+
+            $query = $this->db->get();
+            $clientesParaInativar = $query->result_array();
+
+            if ($clientesParaInativar) {
+                $this->cache->save('clientesinativar/clientes_para_inativar_empresa_' . $this->session->userdata('id_empresa'), $clientesParaInativar, 43200); // 12 horas
+            }
+        }
+        return $clientesParaInativar;
     }
 }

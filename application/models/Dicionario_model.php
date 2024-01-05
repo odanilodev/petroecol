@@ -9,6 +9,7 @@ class Dicionario_model extends CI_Model
     {
         parent::__construct();
         $this->load->model('Log_model');
+        $this->load->helper('cache_helper');
     }
 
     public function recebeDicionarioGlobal($cookie_filtro_dicionario, $limit, $page, $count = null)
@@ -60,7 +61,7 @@ class Dicionario_model extends CI_Model
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($this->db->insert_id());
-            $this->limparCacheDicionario();
+            limparCache('chaves');
         }
 
         return $this->db->affected_rows() > 0;
@@ -75,7 +76,7 @@ class Dicionario_model extends CI_Model
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($this->db->insert_id());
-            $this->limparCacheDicionario();
+            limparCache('chaves');
         }
 
         return $this->db->affected_rows() > 0;
@@ -85,7 +86,7 @@ class Dicionario_model extends CI_Model
     {
         $this->load->driver('cache', array('adapter' => 'file'));
 
-        $dicionario = $this->cache->get('chave_' . $chave);
+        $dicionario = $this->cache->get('chaves/chave_' . $chave);
 
         if ($dicionario === FALSE) {
             $this->db->select('valor_ptbr, valor_en');
@@ -93,7 +94,7 @@ class Dicionario_model extends CI_Model
             $query = $this->db->get('ci_dicionario');
             $dicionario = $query->row_array();
             if ($dicionario) {
-                $this->cache->save('chave_' . $chave, $dicionario, 864000); // 10 dias
+                $this->cache->save('chaves/chave_' . $chave, $dicionario, 864000); // 10 dias
             }
         }
 
@@ -105,7 +106,7 @@ class Dicionario_model extends CI_Model
     {
         $this->load->driver('cache', array('adapter' => 'file'));
 
-        $dicionario_empresa = $this->cache->get('chave_' . $chave . '_empresa_' . $this->session->userdata('id_empresa'));
+        $dicionario_empresa = $this->cache->get('chaves/chave_' . $chave . '_empresa_' . $this->session->userdata('id_empresa'));
 
         if ($dicionario_empresa === FALSE) {
             $this->db->select('valor_ptbr, valor_en');
@@ -115,25 +116,11 @@ class Dicionario_model extends CI_Model
             $dicionario_empresa = $query->row_array();
 
             if ($dicionario_empresa) {
-                $this->cache->save('chave_' . $chave . '_empresa_' . $this->session->userdata('id_empresa'), $dicionario_empresa, 864000); // 10 dias
+                $this->cache->save('chaves/chave_' . $chave . '_empresa_' . $this->session->userdata('id_empresa'), $dicionario_empresa, 864000); // 10 dias
             }
         }
 
         return $dicionario_empresa;
-    }
-
-    private function limparCacheDicionario()
-    {
-        $this->load->driver('cache', array('adapter' => 'file'));
-
-        $caminho_cache = $this->config->item('cache_path');
-        $files = glob($caminho_cache . '/*');
-
-        foreach ($files as $file) {
-            if (is_file($file)) {
-                unlink($file);
-            }
-        }
     }
 
     public function deletaDicionarioGlobal($id)
@@ -143,7 +130,7 @@ class Dicionario_model extends CI_Model
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);
-            $this->limparCacheDicionario();
+            limparCache('chaves');
         }
 
         return $this->db->affected_rows() > 0;

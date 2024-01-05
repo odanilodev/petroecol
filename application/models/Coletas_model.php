@@ -17,6 +17,8 @@ class Coletas_model extends CI_Model
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($this->db->insert_id());
+            $this->load->helper('cache_helper');
+            limparCache('clientesinativar');
         }
 
         return $this->db->affected_rows() > 0;
