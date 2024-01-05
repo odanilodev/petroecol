@@ -117,7 +117,7 @@
 			$response = array(
 				'success' => false,
 				'title' => "Algo deu errado!",
-				'message' => "Este cargo está vinculado a um cliente, não é possível excluí-lo.",
+				'message' => "Este cargo está vinculado a um funcionário, não é possível excluí-lo.",
 				'type' => "error"
 			);
 
