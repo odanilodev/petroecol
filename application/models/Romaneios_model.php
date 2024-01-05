@@ -40,8 +40,8 @@ class Romaneios_model extends CI_Model
     {
         $this->db->select('R.*, F.nome as RESPONSAVEL, V.placa');
         $this->db->from('ci_romaneios R');
-        $this->db->join('ci_funcionarios F', 'F.id = R.id_responsavel', 'INNER');
-        $this->db->join('ci_veiculos V', 'V.id = R.id_veiculo', 'INNER');
+        $this->db->join('ci_funcionarios F', 'F.id = R.id_responsavel', 'left');
+        $this->db->join('ci_veiculos V', 'V.id = R.id_veiculo', 'left');
         $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('R.codigo', $codigo);
 
