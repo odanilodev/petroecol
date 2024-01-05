@@ -103,4 +103,13 @@ class Residuos_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
+    public function verificaResiduoCliente($id)
+    {
+        $this->db->where('id_residuo', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->get('ci_residuo_cliente');
+
+        return $this->db->affected_rows() > 0;
+    }
+
 }

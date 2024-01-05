@@ -8,17 +8,17 @@ class FormaPagamento extends CI_Controller
 		parent::__construct();
 
 		//INICIO controle sessão
-        $this->load->library('Controle_sessao');
-        $res = $this->controle_sessao->controle();
-        if ($res == 'erro') {
-            if ($this->input->is_ajax_request()) {
-                $this->output->set_status_header(403);
-                exit();
-            } else {
-                redirect('login/erro', 'refresh');
-            }
-        }
-        // FIM controle sessão
+		$this->load->library('Controle_sessao');
+		$res = $this->controle_sessao->controle();
+		if ($res == 'erro') {
+			if ($this->input->is_ajax_request()) {
+				$this->output->set_status_header(403);
+				exit();
+			} else {
+				redirect('login/erro', 'refresh');
+			}
+		}
+		// FIM controle sessão
 
 		$this->load->model('FormaPagamento_model');
 	}
@@ -102,44 +102,44 @@ class FormaPagamento extends CI_Controller
 
 	public function deletaFormaPagamento()
 	{
+		$this->load->model('Clientes_model');
+
 		$id = $this->input->post('id');
 
-		$retorno = $this->FormaPagamento_model->deletaFormaPagamento($id);
+		// Verifica se a forma de pagamento esta vinculada a um cliente
+		$formaPagamentoVinculadaCliente = $this->Clientes_model->verificaFormaPagamentoCliente($id);
 
-		if ($retorno) {
-			$response = array(
-				'success' => true,
-				'title' => "Sucesso!",
-				'message' => "Forma de pagamento deletada com sucesso!",
-				'type' => "success"
-			);
-		} else {
+		if ($formaPagamentoVinculadaCliente) {
 
 			$response = array(
 				'success' => false,
 				'title' => "Algo deu errado!",
-				'message' => "Não foi possivel deletar a forma de pagamento!",
+				'message' => "Esta forma de pagamento está vinculada a um cliente, não é possível excluí-la.",
 				'type' => "error"
 			);
+		} else {
+
+			$retorno = $this->FormaPagamento_model->deletaFormaPagamento($id);
+
+			if ($retorno) {
+
+				$response = array(
+					'success' => true,
+					'title' => "Sucesso!",
+					'message' => "Forma de pagamento deletada com sucesso!",
+					'type' => "success"
+				);
+			} else {
+
+				$response = array(
+					'success' => false,
+					'title' => "Algo deu errado!",
+					'message' => "Não foi possivel deletar a forma de pagamento!",
+					'type' => "error"
+				);
+			}
 		}
+
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
-
-	public function verificaFormaPagamentoCliente()
-	{
-		$id = $this->input->post('id');
-
-		// Verifica se a forma de pagamento esta vinculada a um cliente
-		$formaPagamentoVinculadaCliente = $this->FormaPagamento_model->verificaFormaPagamentoCliente($id);
-
-		if ($formaPagamentoVinculadaCliente) {
-			$response = array(
-				'success' => false,
-				'message' => "Esta forma de pagamento está vinculada a um cliente, tem certeza que deseja excluí-la?",
-			);
-			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-		}
-
-	}
-
 }

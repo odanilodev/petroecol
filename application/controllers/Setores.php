@@ -8,20 +8,19 @@ class Setores extends CI_Controller
 		parent::__construct();
 
 		//INICIO controle sessão
-        $this->load->library('Controle_sessao');
-        $res = $this->controle_sessao->controle();
-        if ($res == 'erro') {
-            if ($this->input->is_ajax_request()) {
-                $this->output->set_status_header(403);
-                exit();
-            } else {
-                redirect('login/erro', 'refresh');
-            }
-        }
-        // FIM controle sessão
+		$this->load->library('Controle_sessao');
+		$res = $this->controle_sessao->controle();
+		if ($res == 'erro') {
+			if ($this->input->is_ajax_request()) {
+				$this->output->set_status_header(403);
+				exit();
+			} else {
+				redirect('login/erro', 'refresh');
+			}
+		}
+		// FIM controle sessão
 
 		$this->load->model('Setores_model');
-
 	}
 
 	public function index()
@@ -107,27 +106,45 @@ class Setores extends CI_Controller
 
 	public function deletaSetor()
 	{
+		$this->load->model('Usuarios_model');
+
 		$id = $this->input->post('id');
 
-		$retorno = $this->Setores_model->deletaSetor($id);
+		// Verifica se o Cargo esta vinculada a um funcionario
+		$setorVinculadoUsuario = $this->Usuarios_model->verificaSetorUsuario($id);
 
-		if ($retorno) {
-
-			$response = array(
-				'success' => true,
-				'title' => "Sucesso!",
-				'message' => "Setor deletado com sucesso!",
-				'type' => "success"
-			);
-		} else {
+		if ($setorVinculadoUsuario) {
 
 			$response = array(
 				'success' => false,
 				'title' => "Algo deu errado!",
-				'message' => "Não foi possivel deletar o setor!",
+				'message' => "Um usuário está vinculado a este setor, não é possível excluí-lo.",
 				'type' => "error"
 			);
+		} else {
+
+			$retorno = $this->Setores_model->deletaSetor($id);
+
+			if ($retorno) {
+
+				$response = array(
+					'success' => true,
+					'title' => "Sucesso!",
+					'message' => "Setor deletado com sucesso!",
+					'type' => "success"
+				);
+			} else {
+
+				$response = array(
+					'success' => false,
+					'title' => "Algo deu errado!",
+					'message' => "Não foi possivel deletar o setor!",
+					'type' => "error"
+				);
+			}
 		}
+
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
 	}
 }

@@ -105,19 +105,37 @@
 
 		public function deletaCargos()
 		{
+			$this->load->model('Funcionarios_model');
+
 			$id = $this->input->post('id');
-	
+
+		// Verifica se o Cargo esta vinculada a um funcionario
+		$cargoVinculadoFuncionario = $this->Funcionarios_model->verificaCargoFuncionario($id);
+
+		if ($cargoVinculadoFuncionario) {
+
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Este cargo está vinculado a um funcionário, não é possível excluí-lo.",
+				'type' => "error"
+			);
+
+		} else {
+
 			$retorno = $this->Cargos_model->deletaCargo($id);
 	
 			if ($retorno) {
+
 				$response = array(
 					'success' => true,
 					'title' => "Sucesso!",
 					'message' => "Cargo deletado com sucesso!",
 					'type' => "success"
 				);
+
 			} else {
-	
+						
 				$response = array(
 					'success' => false,
 					'title' => "Algo deu errado!",
@@ -125,6 +143,9 @@
 					'type' => "error"
 				);
 			}
-			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 		}
+		
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
 	}
+}

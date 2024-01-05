@@ -233,4 +233,13 @@ class Clientes_model extends CI_Model
         }
         return $clientesParaInativar;
     }
+
+    public function verificaFormaPagamentoCliente($id)
+    {
+        $this->db->where('id_forma_pagamento', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->get('ci_clientes');
+
+        return $this->db->affected_rows() > 0;
+    }
 }

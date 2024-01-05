@@ -126,23 +126,28 @@ class Recipientes extends CI_Controller
 		$recipienteVinculadoCliente = $this->recipientes_model->verificaRecipienteCliente($id);
 
 		if ($recipienteVinculadoCliente) {
+
 			$response = array(
 				'success' => false,
 				'title' => "Algo deu errado!",
+				'id_vinculado' => $id,
 				'message' => "Este recipiente está vinculado a um cliente, não é possível excluí-lo.",
 				'type' => "error"
 			);
+
 		} else {
 
 			$retorno = $this->recipientes_model->deletaRecipiente($id);
 
 			if ($retorno) {
+
 				$response = array(
 					'success' => true,
 					'title' => "Sucesso!",
 					'message' => "Recipiente deletado com sucesso!",
 					'type' => "success"
 				);
+
 			} else {
 
 				$response = array(
@@ -151,6 +156,7 @@ class Recipientes extends CI_Controller
 					'message' => "Não foi possivel deletar o recipiente!",
 					'type' => "error"
 				);
+
 			}
 		}
 

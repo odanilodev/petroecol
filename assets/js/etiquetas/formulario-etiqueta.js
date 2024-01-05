@@ -86,9 +86,18 @@ const deletarEtiqueta = (id) => {
                     id: id
                 }, success: function (data) {
 
-                    let redirect = data.type != 'error' ? `${baseUrl}etiquetas` : '#';
+                    let redirect = data.type != 'error' ? `${baseUrl}etiquetas` : `${baseUrl}clientes`;
 
-                    avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
+                    if (data.id_vinculado) {
+
+                        avisoRetornoFilter(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`, data.id_vinculado, 'id_etiqueta');
+
+                    }else{
+
+                        avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
+                        
+                    }
+
 
                 }
             })

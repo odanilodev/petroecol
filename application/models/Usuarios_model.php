@@ -151,4 +151,13 @@ class Usuarios_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+    public function verificaSetorUsuario($id)
+    {
+        $this->db->where('id_setor', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->get('ci_usuarios');
+
+        return $this->db->affected_rows() > 0;
+    }
 }
