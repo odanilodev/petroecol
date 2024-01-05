@@ -9,8 +9,12 @@
     <meta charset="utf-8">
 
     <style>
+
+        body {
+            font-family: 'arial, sans-serif';
+        }
         table {
-            font-family: arial, sans-serif;
+            font-family: 'arial, sans-serif';
             border-collapse: collapse;
             width: 55%;
             display: flex;
@@ -47,15 +51,15 @@
         <h3 style="font-weight: 100;">Romaneio: <span style="font-weight: bold;"><?= $codigo ?></span></h3>
 
             <div style="font-size: 14px" class="col-md-6">
-                Data: <?= date("d/m/Y", strtotime($data_romaneio)); ?> 
+                <strong> Data: </strong><?= date("d/m/Y", strtotime($data_romaneio)); ?> 
             </div>
         </div>
 
         <div style="margin-top: 2px;">
             <nobr>
-                <span style="font-size: 13px; max-width: 25%;">Responsavel:</span>
-                <span style="margin-left: 8%; font-size: 13px; max-width: 25%;">Ajudante:</span>
-                <span style="margin-left: 8%; font-size: 13px; max-width: 25%;">Placa: </span>
+                <span style="font-size: 13px; max-width: 25%;"><strong> Responsavel: </strong> <?= $responsavel?></span><br>
+                <!-- <span style="margin-left: 8%; font-size: 13px; max-width: 25%;"><strong> Ajudante: </strong> <?= $ajudante?></span><br> -->
+                <span style="margin-left: 8%; font-size: 13px; max-width: 25%;"><strong> Placa: </strong><?= strtoupper($placa)?> </span>
             </nobr>
         </div>
         <hr style="font-size: 0.5px; margin-top: 5px;">
@@ -86,7 +90,6 @@
                         <th>Endereço</th>
                         <th>Telefone</th>
                         <th>Forma de Pagto</th>
-                        <th>Ultima Coleta</th>
                         <th>Qtde Retirado</th>
                         <th>Valor Pago</th>
                         <th>Observação</th>
@@ -103,7 +106,6 @@
                     <td><?= $v['nome']; ?></td>
                     <td><?= "{$v['rua']}, {$v['numero']} {$v['bairro']}"; ?></td>
                     <td><?= $v['telefone']; ?></td>
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
