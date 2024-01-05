@@ -340,3 +340,51 @@ $(document).on('click', '.btn-gerar-certificado', function () {
     }
 
 });
+
+const exibirAlertasCliente = (idCliente) => {
+    $('.id-cliente').val(idCliente);
+}
+
+const enviarAlertaCliente = () => {
+
+    let idCliente = $('.id-cliente').val();
+
+    let idAlerta = $('#select-alertas').val();
+
+    permissao = true;
+
+    if (!idAlerta) {
+        permissao = false;
+    }
+
+    if (permissao) {
+
+        $.ajax({
+            type: "POST",
+            url: `${baseUrl}clientes/enviaAlertaCliente`,
+            data: {
+                id_cliente: idCliente,
+                id_alerta: idAlerta
+            },
+            beforeSend: function () {
+
+                $('.load-form').removeClass('d-none');
+                $('.btn-form').addClass('d-none');
+
+            },
+            success: function (data) {
+
+                $('.load-form').addClass('d-none');
+                $('.btn-form').removeClass('d-none');
+
+                if (data.success) {
+                    avisoRetorno('Sucesso!', `${data.message}`, 'success', '#');
+                    $("#modalAlertas").modal('hide');
+                }
+            }
+        })
+    } else {
+        avisoRetorno('Algo deu errado!', 'Selecione uma notificação', 'error', '#');
+    }
+
+}
