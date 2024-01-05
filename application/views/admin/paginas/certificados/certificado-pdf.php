@@ -137,7 +137,7 @@
     <?php if ($modelo_certificado['declaracao']) { ?>
 
         <h4 style="font-weight: bold; margin-top: 50px;">
-            <?= chave('declaracao')?>
+            <?= strtoupper(chave('declaracao'))?>
             <hr style="font-size: 0.5px;">
             <p style="font-weight: 100; font-size: 11px">
                 <?= $modelo_certificado['declaracao']; ?>
