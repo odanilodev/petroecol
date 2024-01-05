@@ -261,6 +261,23 @@ class Clientes extends CI_Controller
         $this->load->view('admin/paginas/clientes/sql-cliente');
     }
 
+    public function enviaAlertaCliente()
+    {
+        $id_cliente = $this->input->post('id_cliente');
+        $id_alerta = $this->input->post('id_alerta');
+
+        $this->load->library('NotificacaoZap');
+        $notificacao = new NotificacaoZap();
+        $notificacao->enviarTexto($id_cliente,$id_alerta);
+        
+        $response = array(
+            'success' => true,
+            'message' => "Alerta enviado com sucesso!"
+        );
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
+
     public function deletaCliente()
     {
         $id = $this->input->post('id');

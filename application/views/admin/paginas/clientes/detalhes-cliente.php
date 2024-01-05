@@ -47,6 +47,13 @@
             </li>
 
             <li>
+              <a class="dropdown-item" href="#" onclick="exibirAlertasCliente(<?= $cliente['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalAlertas">
+                <span class="text-900 uil-message"></span>
+                <span class="text-900"> Alertas</span>
+              </a>
+            </li>
+
+            <li>
               <a class="dropdown-item text-danger" href="<?= base_url('clientes/formulario/' . $cliente['id']) ?>">
                 <span class="text-900 uil uil-pen"></span>
                 <span class="text-900"> Editar</span>
