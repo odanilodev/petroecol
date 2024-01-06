@@ -56,14 +56,14 @@
 
                                         <div class="row">
                                             <div class="mb-2 col-md-4">
-                                                <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-name">Nome*</label>
-                                                <input required value="<?= isset($funcionario['nome']) ? $funcionario['nome'] : "" ?>" class="form-control input-nome" type="text" name="nome" placeholder="Nome do funcionario" id="bootstrap-wizard-validation-wizard-name" />
+                                                <label class="form-label text-900 " for="bootstrap-wizard-validation-wizard-name">Nome*</label>
+                                                <input required value="<?= isset($funcionario['nome']) ? $funcionario['nome'] : "" ?>" class="form-control input-obrigatorio input-nome" type="text" name="nome" placeholder="Nome do funcionario" id="bootstrap-wizard-validation-wizard-name" />
                                                 <div class="invalid-feedback">Preencha este campo.</div>
                                             </div>
 
                                             <div class="mb-2 col-md-4">
-                                                <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-cpf">CPF*</label>
-                                                <input required value="<?= isset($funcionario['cpf']) ? $funcionario['cpf'] : "" ?>" class="form-control input-cpf mascara-cpf" type="text" name="nome" placeholder="Digite o CPF" />
+                                                <label class="form-label text-900 " for="bootstrap-wizard-validation-wizard-cpf">CPF*</label>
+                                                <input required value="<?= isset($funcionario['cpf']) ? $funcionario['cpf'] : "" ?>" class="form-control input-obrigatorio input-cpf mascara-cpf" type="text" name="nome" placeholder="Digite o CPF" />
                                                 <div class="invalid-feedback">Preencha este campo.</div>
                                             </div>
 
@@ -82,13 +82,13 @@
                                             <div class="mb-2 col-md-4">
                                                 <div class="mb-2">
                                                     <label class="form-label text-900">Cargo</label>
-                                                    <select name="id_cargo" class="form-select input-cargo">
+                                                    <select required name="id_cargo" class="form-select input-cargo input-obrigatorio">
                                                         <option value="" selected disabled>Selecione</option>
                                                         <?php foreach ($cargos as $c) { ?>
                                                             <option <?= isset($funcionario['id_cargo']) && $funcionario['id_cargo'] == $c['id'] ? "selected" : "" ?> value="<?= $c['id'] ?>"><?= $c['nome'] ?></option>
                                                         <?php } ?>
                                                     </select>
-                                                    <div class="invalid-feedback">Preencha este campo</div>
+                                                    <div class="invalid-feedback">Preencha este campo.</div>
                                                 </div>
                                             </div>
 
