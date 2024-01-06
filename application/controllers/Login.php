@@ -175,6 +175,8 @@ class Login extends CI_Controller
                 $dados_empresa = $this->Empresas_model->recebeEmpresa($this->session->userdata('id_empresa'));
                 $this->session->set_userdata('nome_empresa', $dados_empresa['nome']);
                 $this->session->set_userdata('email_empresa', $dados_empresa['email']);
+                $this->session->set_userdata('senha_empresa', $dados_empresa['senha']);
+                $this->session->set_userdata('dominio_empresa', $dados_empresa['dominio']);
 
                 $url_redirecionamento = explode('login/index/', $redirecionamento);
 
