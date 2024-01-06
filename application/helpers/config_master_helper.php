@@ -2,14 +2,27 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 if (!function_exists('emailMaster')) {
-    function emailMaster(): string
+    function emailSenhaMaster(): array
     {
         $CI = &get_instance();
         $CI->load->model('Empresas_model');
         
-        $dadosMaster = $CI->Empresas_model->recebeEmpresa(1);
-        $emailMaster = $dadosMaster['email'];
+        $dados = $CI->Empresas_model->recebeEmpresaMaster();
 
-        return $emailMaster;
+        return array(
+            'email' => $dados['email'],
+            'senha' => $dados['senha']
+        );
+    }
+
+}
+
+if (!function_exists('nomeMaster')) {
+    function nomeMaster(): string
+    {
+        $CI = &get_instance();
+        $CI->load->model('Empresas_model');
+
+        return $CI->Empresas_model->recebeEmpresaMaster()['nome'] ?? '';
     }
 }

@@ -20,9 +20,10 @@ class EmailSender {
                 $html =  $this->templatePadrao();
         }
 
-
+        $emailRemetente = $this->CI->session->userdata('email_empresa') ?? emailSenhaMaster()['email'];
+        $nomeRemetente = $this->CI->session->userdata('nome_empresa') ?? nomeMaster();
         // Define remetente e destinatário
-        $this->CI->email->from(emailMaster(), 'Petroecol Site'); // Remetente
+        $this->CI->email->from($emailRemetente, $nomeRemetente .' Site'); // Remetente
         $this->CI->email->to($email); // Destinatário
 
         // Define o assunto do email
