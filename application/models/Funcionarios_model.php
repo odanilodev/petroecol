@@ -75,7 +75,7 @@ class Funcionarios_model extends CI_Model
         $this->db->update('ci_funcionarios', $dados);
 
         if ($this->db->affected_rows()) {
-            $this->Log_model->insereLogSenha($id, $dados['id_empresa']);
+            $this->Log_model->insereLog($id);
         }
 
         return $this->db->affected_rows() > 0;

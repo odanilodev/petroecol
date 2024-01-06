@@ -45,14 +45,24 @@ const cadastraFuncionario = () => {
     formData.append('foto_certificados', fotoCertificados);
     formData.append('foto_ordem', fotoOrdem);
 
-    var permissao = false;
+    var permissao = true;
 
     // Valida se veio nome
-    if (nome != "" && cpf != "") {
+    $('.input-obrigatorio').each(function () {
+        
+        if ($(this).val().trim() === "") {
 
-        permissao = true;
+            $(this).addClass('invalido');
+            $(this).next().removeClass('d-none');
 
-    }
+			permissao = false;
+
+		} else {
+
+            $(this).removeClass('invalido');
+            $(this).next().addClass('d-none');
+        }
+    })
 
     if (permissao) {
 

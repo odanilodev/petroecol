@@ -122,7 +122,7 @@ class Login extends CI_Controller
             $dados['senha'] = $novaSenhaHash;
             $dados['id_empresa'] = $usuario['id_empresa'];
             
-            $resultado = $this->Usuarios_model->editaUsuario($id, $dados);
+            $resultado = $this->Usuarios_model->redefinirSenha($id, $dados);
 
             // Verifica se aletrou a senha
             if ($resultado) {
