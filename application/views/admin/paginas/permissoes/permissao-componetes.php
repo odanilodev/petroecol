@@ -21,7 +21,9 @@
                         <tr>
                             <!-- Cabeçalho da tabela -->
                             <th class="align-middle" scope="col">Usuário</th>
-                            <th class="sort pe-3">Liberar?</th>
+                            <th class="sort pe-3" title="Liberar Todos"> 
+                                <input class="check-all-element cursor-pointer form-check-input" type="checkbox">
+                            </th>
                         </tr>
                     </thead>
                     <tbody class="list" id="members-table-body">
@@ -34,7 +36,7 @@
 
                                     <!-- check de permissão -->
                                     <div class="form-check">
-                                        <input class="form-check-input" <?= in_array($usuario['id'], $id_usuarios) ? 'checked' : '' ?> name="permissao" type="checkbox" value="<?=$usuario['id']?>">
+                                        <input class="check-element cursor-pointer form-check-input" <?= in_array($usuario['id'], $id_usuarios) ? 'checked' : '' ?> name="permissao" type="checkbox" value="<?=$usuario['id']?>">
                                     </div>
                                 </td>
                             </tr>

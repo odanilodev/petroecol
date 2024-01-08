@@ -366,7 +366,7 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
 
     let inputHtml = `
         <div class="col-md-4 mb-2 div-${novoElemento}">
-            <input class="form-control input-${novoElemento} input-obrigatorio" type="text" placeholder="Digite ${novoInput}" value="">
+            <input class="form-control input-${novoElemento}" type="text" placeholder="Digite ${novoInput}" value="">
         </div>
     `;
 
