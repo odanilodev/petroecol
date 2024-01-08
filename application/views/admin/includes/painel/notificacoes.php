@@ -1,7 +1,12 @@
 <?php $dataAtualObj = new DateTime();
 if (aprovacaoInativacao() && permissaoComponentes('btn-notificacao-cabecalio')) { ?>
     <li class="nav-item dropdown btn-aprovacao-inativacao">
-        <a class="nav-link px-2 icon-indicator icon-indicator-primary" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-auto-close="outside"><span data-feather="bell" style="height:20px;width:20px;"></span><span class="icon-indicator-number"><?= count(aprovacaoInativacao()) >= 100 ? '99+' : count(aprovacaoInativacao()) ?></span></a>
+        <a class="nav-link px-2 icon-indicator icon-indicator-primary" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-auto-close="outside">
+            <span data-feather="bell" style="height:20px;width:20px;"></span>
+            <span class="icon-indicator-number"><?= count(aprovacaoInativacao()) >= 100 ? '99+' : count(aprovacaoInativacao()) ?></span>
+        </a>
+        <input type="hidden" class="quantidade-notificacao" value="<?=count(aprovacaoInativacao())?>">
+
 
         <div class="dropdown-menu dropdown-menu-end notification-dropdown-menu py-0 shadow border border-300 navbar-dropdown-caret" id="navbarDropdownNotfication" aria-labelledby="navbarDropdownNotfication">
             <div class="card position-relative border-0">

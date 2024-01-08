@@ -18,27 +18,25 @@ const inativaCliente = (id) => {
                         id: id
                     }, success: function () {
 
-                        $(".notificacao-" + id).animate({
-                            opacity: 0,
-                            height: 0
-                        }, 200);
+                        let qtdClientes = $('.quantidade-notificacao').val();
 
-                        let qtdClientes = parseInt($('.icon-indicator-number').text());
+                        $(".notificacao-" + id).remove();
 
-                        if (qtdClientes > 99) {
+                        $('.quantidade-notificacao').val(qtdClientes - 1);
+
+                        let qtdClientesAtualizado = qtdClientes - 1;
+
+                        if (qtdClientesAtualizado > 99) {
 
                             $('.icon-indicator-number').text('99+');
 
                         } else if (qtdClientes > 1) {
 
-                            $('.icon-indicator-number').text(qtdClientes - 1);
+                            $('.icon-indicator-number').text(qtdClientesAtualizado);
 
                         } else {
                             
-                            $(".btn-aprovacao-inativacao").animate({
-                                opacity: 0,
-                                height: 0
-                            }, 200);
+                            $(".btn-aprovacao-inativacao").remove();
                         }
                     }
                 })
