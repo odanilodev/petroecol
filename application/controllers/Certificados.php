@@ -73,6 +73,7 @@ class Certificados extends CI_Controller
 		$dados['titulo'] = $this->input->post('tituloCertificado');
 		$dados['descricao'] = $this->input->post('descricaoCertificado');
 		$dados['declaracao'] = $this->input->post('declaracaoCertificado');
+		$dados['orientacao'] = $this->input->post('orientacaoCertificado');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
 		$certificado_modelo = $this->Certificados_model->recebeCertificadoModelo($dados['modelo'], $id); // verifica se já existe o certificado

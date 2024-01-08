@@ -7,6 +7,7 @@ const cadastraCertificado = () => {
 	let tituloCertificado = $(".input-titulo").val();
 	let descricaoCertificado = $(".input-descricao").val();
 	let declaracaoCertificado = $(".input-declaracao").val();
+	let orientacaoCertificado = $(".select-orientacao").val();
 	let logo = $('.input-logo')[0].files[0];
 	let carimbo = $('.input-carimbo')[0].files[0];
 	let assinatura = $('.input-assinatura')[0].files[0];
@@ -19,6 +20,7 @@ const cadastraCertificado = () => {
     formData.append('tituloCertificado', tituloCertificado);
     formData.append('descricaoCertificado', descricaoCertificado);
     formData.append('declaracaoCertificado', declaracaoCertificado);
+    formData.append('orientacaoCertificado', orientacaoCertificado);
     formData.append('logo', logo);
     formData.append('carimbo', carimbo);
     formData.append('assinatura', assinatura);
