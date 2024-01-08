@@ -127,17 +127,17 @@ class Clientes_model extends CI_Model
 
 
     //Recebe clientes com varios Ids selecionados
-    public function recebeClientesIds($ids, $data_coleta)
+    public function recebeClientesIds($ids)
     {
-        $this->db->select('C.*, F.frequencia, A.prioridade');
+        $this->db->select('C.*, F.frequencia, MAX(A.prioridade) AS prioridade');
         $this->db->from('ci_clientes C');
         $this->db->join('ci_frequencia_coleta F', 'C.id_frequencia_coleta = F.id', 'left');
         $this->db->join('ci_agendamentos A', 'A.id_cliente = C.id', 'left');
-        $this->db->order_by('C.cidade');
-        $this->db->order_by('C.nome');
-        $this->db->where('A.data_coleta', $data_coleta);
         $this->db->where_in('C.id', $ids); // Use where_in para comparar com vários IDs
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->group_by('C.id, C.cidade, C.nome, F.frequencia');
+        $this->db->order_by('C.cidade, C.nome');
+
         $query = $this->db->get();
 
         return $query->result_array(); // Use result_array() para obter vários resultados

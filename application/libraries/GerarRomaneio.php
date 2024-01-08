@@ -23,7 +23,7 @@ class GerarRomaneio
 
 			$idClientes = json_decode($romaneio['clientes'], true);
 
-			$data['clientes'] = $this->CI->Clientes_model->recebeClientesIds($idClientes, $romaneio['data_romaneio']);
+			$data['clientes'] = $this->CI->Clientes_model->recebeClientesIds($idClientes);
 
 			$data['codigo'] = $codigo;
 			$data['data_romaneio'] = $romaneio['data_romaneio'];
