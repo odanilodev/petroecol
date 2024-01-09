@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class ClassificacaoEmpresa_model extends CI_Model
+class ClassificacaoCliente_model extends CI_Model
 {
 
     public function __construct()
@@ -13,7 +13,7 @@ class ClassificacaoEmpresa_model extends CI_Model
     public function recebeClassificacoes()
     {
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('ci_classificacao_empresa');
+        $query = $this->db->get('ci_classificacao_cliente');
 
         return $query->result_array();
     }
@@ -22,14 +22,14 @@ class ClassificacaoEmpresa_model extends CI_Model
     {
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('ci_classificacao_empresa');
+        $query = $this->db->get('ci_classificacao_cliente');
 
         return $query->row_array();
     }
 
     public function insereClassificacao($dados)
     {
-        $this->db->insert('ci_classificacao_empresa', $dados);
+        $this->db->insert('ci_classificacao_cliente', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($this->db->insert_id());
@@ -44,7 +44,7 @@ class ClassificacaoEmpresa_model extends CI_Model
 
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->update('ci_classificacao_empresa', $dados);
+        $this->db->update('ci_classificacao_cliente', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);
@@ -57,7 +57,7 @@ class ClassificacaoEmpresa_model extends CI_Model
     {
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->delete('ci_classificacao_empresa');
+        $this->db->delete('ci_classificacao_cliente');
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);
