@@ -269,7 +269,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
                         <div class="col-md-4 mb-2 div-pagamento">
 
                             <label class="form-label">Valor Pago</label>
-                            <input class="form-control input-pagamento input-obrigatorio campos-form-${clientes[i].id}" type="text" placeholder="Digite valor pago" value="">
+                            <input class="form-control input-pagamento campos-form-${clientes[i].id}" type="text" placeholder="Digite valor pago" value="">
                         </div>
 
                         <div class="col-md-4 mb-2 mt-4 row">
@@ -366,7 +366,7 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
 
     let inputHtml = `
         <div class="col-md-4 mb-2 div-${novoElemento}">
-            <input class="form-control input-${novoElemento} input-obrigatorio" type="text" placeholder="Digite ${novoInput}" value="">
+            <input class="form-control input-${novoElemento}" type="text" placeholder="Digite ${novoInput}" value="">
         </div>
     `;
 

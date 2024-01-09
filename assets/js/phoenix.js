@@ -7134,3 +7134,65 @@ $(document).ready(function () {
       });
   });
 });
+
+
+
+$(document).ready(function () {
+
+  let elementsChecked = [];
+
+  // clique para selecionar todos os checkboxes
+  $('.check-all-element').on('change', function () {
+    if ($(this).prop('checked')) {
+      $('.check-element').prop("checked", true);
+
+      $('.check-element').each(function () {
+        elementsChecked.push($(this).val());
+      });
+    } else {
+      // desmarca todos se o checkbox de selecionar todos estiver desmarcado
+      $('.check-element').prop("checked", false);
+      elementsChecked = []; // deixa o array vazio novamente
+    }
+  });
+
+  // clique para selecionar um por um
+  $('.check-element').on('change', function () {
+    let value = $(this).val();
+
+    if ($(this).prop('checked')) {
+      // adiciona no array se ainda não estiver, não deixando duplicar valores no array
+      if (!elementsChecked.includes(value)) {
+        elementsChecked.push(value);
+      }
+
+    } else {
+      // remove o elemento clicado e recria o array sem o elemento que foi removido
+      elementsChecked = elementsChecked.filter(item => item !== value);
+    }
+
+    // Verifica se todos os checkboxes individuais estão marcados
+    verificaTodosCheckbox();
+  });
+
+  // verifica os checkbox quando carrega a pagina
+  $(window).on('load', function () {
+    verificaTodosCheckbox();
+  });
+
+  // verifica se todos estão checked
+  function verificaTodosCheckbox() {
+
+    // se todos estiverem checked, deixa o checkbox que seleciona todos checked também
+    if ($('.check-element:checked').length == $('.check-element').length) {
+
+      $('.check-all-element').prop('checked', true);
+
+    } else {
+
+      $('.check-all-element').prop('checked', false);
+    }
+  }
+
+});
+
