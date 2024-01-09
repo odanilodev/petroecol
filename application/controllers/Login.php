@@ -171,7 +171,6 @@ class Login extends CI_Controller
                 $this->session->set_userdata('idioma', $usuario['idioma']);
                 $this->session->set_userdata('permissao', json_decode($usuario['permissao'], true));
 
-                //Recebe os dados da empresa logada para exibir pelo programa
                 $dados_empresa = $this->Empresas_model->recebeEmpresa($this->session->userdata('id_empresa'));
                 $this->session->set_userdata('nome_empresa', $dados_empresa['nome']);
                 $this->session->set_userdata('email_empresa', $dados_empresa['email']);

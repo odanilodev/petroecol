@@ -23,7 +23,7 @@ class EmailSender {
         $emailRemetente = $this->CI->session->userdata('email_empresa') ?? dadosEmpresa('email');;
         $nomeRemetente = $this->CI->session->userdata('nome_empresa') ?? dadosEmpresa('nome');;
         // Define remetente e destinatário
-        $this->CI->email->from($emailRemetente, $nomeRemetente .' Site'); // Remetente
+        $this->CI->email->from($emailRemetente, $nomeRemetente); // Remetente
         $this->CI->email->to($email); // Destinatário
 
         // Define o assunto do email
