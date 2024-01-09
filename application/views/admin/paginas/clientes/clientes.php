@@ -80,15 +80,6 @@
                                                     </select>
                                                 </div>
 
-                                                <div class="mb-3"><label class="fw-bold mb-2 text-1000" for="priority">Classificação</label>
-                                                    <select name="classificacao" class="form-select" id="priority" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
-                                                        <option value="all" selected="selected">--</option>
-                                                        <option <?= ($cookie_filtro_clientes['classificacao'] ?? null) == '1' ? 'selected' : '' ?> value="1">Bronze</option>
-                                                        <option <?= ($cookie_filtro_clientes['classificacao'] ?? null) == '2' ? 'selected' : '' ?> value="2">Prata</option>
-                                                        <option <?= ($cookie_filtro_clientes['classificacao'] ?? null) == '3' ? 'selected' : '' ?> value="3">Ouro</option>
-                                                    </select>
-                                                </div>
-
                                             </div>
                                             <div class="modal-footer d-flex justify-content-end align-items-center px-4 pb-4 border-0 pt-3">
                                                 <button class="btn btn-sm btn-primary px-9 fs--2 my-0" type="submit">Buscar clientes</button>
