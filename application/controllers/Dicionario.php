@@ -119,8 +119,8 @@ class Dicionario extends CI_Controller
     for ($i = 0; $i < count($array['chave']); $i++) {
 
       $dados['chave'] = mb_strtolower($array['chave'][$i]);
-      $dados['valor_ptbr'] = mb_strtolower($array['valor-ptbr'][$i]);
-      $dados['valor_en'] = mb_strtolower($array['valor-en'][$i]);
+      $dados['valor_ptbr'] = $array['valor-ptbr'][$i];
+      $dados['valor_en'] = $array['valor-en'][$i];
 
       !$id ? $this->Dicionario_model->insereDicionarioGlobal($dados) : $this->Dicionario_model->editaDicionarioGlobal($id, $dados);
     }
