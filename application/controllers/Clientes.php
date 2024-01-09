@@ -28,7 +28,7 @@ class Clientes extends CI_Controller
         $scriptsPadraoHead = scriptsPadraoHead();
         $scriptsPadraoFooter = scriptsPadraoFooter();
 
-        // scripts para clientes
+        // Scripts para clientes
         $scriptsClienteHead = scriptsClienteHead();
         $scriptsClienteFooter = scriptsClienteFooter();
 
