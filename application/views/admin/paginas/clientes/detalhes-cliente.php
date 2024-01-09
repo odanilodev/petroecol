@@ -41,8 +41,15 @@
 
             <li>
               <a class="dropdown-item" href="#" onclick="exibirResiduoCliente(<?= $cliente['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalResiduo">
-                <span class="text-900 uil-pricetag-alt"></span>
+                <span class="text-900 fas fa-recycle"></span>
                 <span class="text-900"> Resíduos</span>
+              </a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="#" onclick="exibirRecipientesCliente(<?= $cliente['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalRecipiente">
+                <span class="text-900 fas fa-boxes"></span>
+                <span class="text-900"> Recipientes</span>
               </a>
             </li>
 
@@ -102,7 +109,7 @@
                     <?php } ?>
 
                     <div>
-                      <?php foreach ($etiquetas as $v) { ?>
+                      <?php foreach ($etiquetas_cliente as $v) { ?>
                         <span class="badge badge-phoenix badge-phoenix-secondary me-2"><?= $v['nome']; ?></span>
                       <?php } ?>
                     </div>
