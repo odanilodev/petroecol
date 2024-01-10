@@ -100,4 +100,19 @@ class EtiquetaCliente extends CI_Controller
 			</span>';
 		}
 	}
+
+	public function recebeClientesEtiqueta ()
+	{
+		$id_etiqueta = $this->input->post('id_etiqueta');
+
+		$clientesEtiqueta = $this->EtiquetaCliente_model->recebeClientesEtiqueta($id_etiqueta);
+
+		$response = array(
+			'success' => true,
+			'clientesEtiqueta' => $clientesEtiqueta
+		);
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
+	}
 }

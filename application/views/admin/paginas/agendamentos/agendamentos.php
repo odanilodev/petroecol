@@ -46,14 +46,30 @@
 
             <div class="mb-3">
 
-              <select class="form-select w-100 cliente-agendamento" id="select-cliente" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+              <select class="form-select w-100 cliente-agendamento select2-single" id="select-cliente">
 
-                <option disabled selected value="">Selecione o Cliente *</option>
+                <option disabled selected value="">Selecione o Cliente</option>
                 <?php foreach ($clientes as $v) { ?>
                   <option value="<?= $v['id'] ?>"><?= strtoupper($v['nome']); ?></option>
                 <?php } ?>
 
               </select>
+              
+
+            </div>
+
+            <div class="mb-3">
+
+              <select class="form-select w-100 cliente-etiqueta-agendamento select2-single" id="select-cliente-etiqueta">
+
+                <option disabled selected value="">Clientes por etiqueta</option>
+                <?php foreach ($etiquetas as $etiqueta) { ?>
+                  <option value="<?= $etiqueta['id_etiqueta'] ?>"><?= strtoupper($etiqueta['nome']); ?></option>
+                <?php } ?>
+
+              </select>
+
+              <input type="hidden" class="ids-clientes"> 
 
             </div>
 
@@ -100,7 +116,6 @@
 
           <div class="modal-footer d-flex justify-content-between align-items-center border-0">
 
-            <!-- <button class="btn btn-primary px-4" type="submit">Save</button> -->
             <button class="btn btn-primary px-4 btn-envia btn-salva-agendamento" type="button" onclick="salvaAgendamento()">Salvar</button>
             <div class="spinner-border text-primary load-form d-none" role="status"></div>
           </div>
