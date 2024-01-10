@@ -126,16 +126,21 @@ class Clientes extends CI_Controller
         $this->load->model('Certificados_model');
         $data['modelos_certificado'] = $this->Certificados_model->recebeCertificados();
 
-        // etiquetas
+        // etiquetas do cliente
         $this->load->model('EtiquetaCliente_model');
-        $data['etiquetas'] = $this->EtiquetaCliente_model->recebeEtiquetaCliente($id);
+        $data['etiquetas_cliente'] = $this->EtiquetaCliente_model->recebeEtiquetaCliente($id);
 
-        // residuos
-        $this->load->model('ResiduoCliente_model');
-        $data['residuos'] = $this->ResiduoCliente_model->recebeResiduoCliente($id);
+        // todos residuos
+        $this->load->model('Residuos_model');
+        $data['residuos'] = $this->Residuos_model->recebeTodosResiduos();
 
-        $this->load->model('ResiduoCliente_model');
-        $data['residuosClientes'] = $this->ResiduoCliente_model->recebeResiduosClientes();
+        // todos recipientes
+        $this->load->model('Recipientes_model');
+        $data['recipientes'] = $this->Recipientes_model->recebeTodosRecipientes();
+        
+        // todas etiquetas 
+        $this->load->model('Etiquetas_model');
+        $data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/detalhes-cliente');
@@ -162,11 +167,11 @@ class Clientes extends CI_Controller
 
         $this->load->model('FrequenciaColeta_model');
         $this->load->model('FormaPagamento_model');
-        $this->load->model('ClassificacaoEmpresa_model');
+        $this->load->model('ClassificacaoCliente_model');
 
         $data['frequencia'] = $this->FrequenciaColeta_model->recebeFrequenciasColeta();
         $data['formapagamento'] = $this->FormaPagamento_model->recebeFormasPagamento();
-        $data['classificacoes'] = $this->ClassificacaoEmpresa_model->recebeClassificacoes();
+        $data['classificacoes'] = $this->ClassificacaoCliente_model->recebeClassificacoes();
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/cadastra-cliente');
