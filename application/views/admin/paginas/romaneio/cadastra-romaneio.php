@@ -24,7 +24,7 @@
 
                                             <div class="mb-2 col-md-4">
                                                 <label>Etiquetas</label>
-                                                <select id="select-etiquetas" class="form-seledct w-100 mb-3" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}' multiple>
+                                                <select id="select-etiquetas" class="form-seledct input-filtro-romaneio w-100 mb-3" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}' multiple>
 
                                                     <?php foreach ($etiquetas as $v) { ?>
                                                         <option value="<?= $v['id'] ?>"><?= $v['nome'] ?></option>
@@ -35,7 +35,7 @@
 
                                             <div class="mb-2 col-md-4">
                                                 <label>Cidades</label>
-                                                <select id="select-cidades" class="form-seledct w-100 mb-3" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}' multiple>
+                                                <select id="select-cidades" class="form-seledct input-filtro-romaneio w-100 mb-3" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}' multiple>
 
                                                     <?php foreach ($cidades as $v) { ?>
                                                         <option value="<?= $v['cidade'] ?>"><?= $v['cidade'] ?></option>
@@ -47,7 +47,7 @@
                                             <div class="col-md-4 mb-2">
                                                 <label>Data Agendamento</label>
 
-                                                <input class="form-control datetimepicker input-coleta" required name="data_coleta" type="text" placeholder="Data Agendamento" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
+                                                <input class="form-control datetimepicker input-coleta input-filtro-romaneio" required name="data_coleta" type="text" placeholder="Data Agendamento" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
                                             </div>
 
                                             <div class="flex-1 text-end my-5">
