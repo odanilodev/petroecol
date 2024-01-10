@@ -167,11 +167,11 @@ class Clientes extends CI_Controller
 
         $this->load->model('FrequenciaColeta_model');
         $this->load->model('FormaPagamento_model');
-        $this->load->model('ClassificacaoEmpresa_model');
+        $this->load->model('ClassificacaoCliente_model');
 
         $data['frequencia'] = $this->FrequenciaColeta_model->recebeFrequenciasColeta();
         $data['formapagamento'] = $this->FormaPagamento_model->recebeFormasPagamento();
-        $data['classificacoes'] = $this->ClassificacaoEmpresa_model->recebeClassificacoes();
+        $data['classificacoes'] = $this->ClassificacaoCliente_model->recebeClassificacoes();
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/cadastra-cliente');
