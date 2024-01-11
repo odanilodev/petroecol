@@ -24,7 +24,7 @@
 
                                             <div class="mb-2 col-md-4">
                                                 <label>Etiquetas</label>
-                                                <select id="select-etiquetas" class="form-seledct w-100 mb-3" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}' multiple>
+                                                <select id="select-etiquetas" class="form-seledct w-100 mb-3 select2" multiple>
 
                                                     <?php foreach ($etiquetas as $v) { ?>
                                                         <option value="<?= $v['id'] ?>"><?= $v['nome'] ?></option>

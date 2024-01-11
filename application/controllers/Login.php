@@ -150,6 +150,7 @@ class Login extends CI_Controller
     public function recebeLogin()
     {
         $this->load->model('Usuarios_model');
+        $this->load->model('Empresas_model');
 
         $email = $this->input->post('email');
         $senha_digitada = $this->input->post('senha'); // A senha inserida pelo usuário.
