@@ -157,8 +157,9 @@ class Clientes extends CI_Controller
 
         // scripts para clientes
         $scriptsClienteFooter = scriptsClienteFooter();
+        $scriptsClienteHead = scriptsClienteHead();
 
-        add_scripts('header', array_merge($scriptsPadraoHead));
+        add_scripts('header', array_merge($scriptsClienteHead, $scriptsPadraoHead));
         add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsClienteFooter));
 
         $id = $this->uri->segment(3);

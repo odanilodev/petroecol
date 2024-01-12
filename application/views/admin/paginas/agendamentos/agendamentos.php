@@ -46,7 +46,7 @@
 
             <div class="mb-3">
 
-              <select class="form-select w-100 cliente-agendamento" id="select-cliente" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+              <select class="form-select w-100 cliente-agendamento select2" id="select-cliente">
 
                 <option disabled selected value="">Selecione o Cliente *</option>
                 <?php foreach ($clientes as $v) { ?>

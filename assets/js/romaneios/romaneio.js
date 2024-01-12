@@ -197,6 +197,8 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio) => {
 
     $('#modalConcluirRomaneio').modal('show');
 
+   
+
     $('.id_responsavel').val(idResponsavel);
     $('.code_romaneio').val(codRomaneio);
     $('.data_romaneio').val(dataRomaneio);
@@ -214,12 +216,16 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio) => {
                 $('.dados-clientes-div').html('');
 
             }, success: function (data) {
-
+                
                 exibirDadosClientes(data.retorno, data.registros, data.residuos, data.pagamentos);
+
+
+               
             }
         })
 
     }
+        
 
 }
 
@@ -236,6 +242,8 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
                         ${clientes[i].nome}
                     </button>
                 </h2>
+
+                
 
                 <div class="accordion-collapse collapse ${i == 0 ? 'show' : ''}" id="collapse${i}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
 
@@ -259,7 +267,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
                         <div class="col-md-4 mb-2 div-pagamento">
 
                             <label class="form-label">Forma de Pagamento</label>
-                            <select class="form-select select-pagamento w-100 input-obrigatorio campos-form-${clientes[i].id}" id="select-pagamento" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                            <select class="select2 form-select select-pagamento w-100 input-obrigatorio campos-form-${clientes[i].id}" id="select-pagamento">
 
                                 <option disabled selected value="">Selecione</option>
                                 
@@ -284,7 +292,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
 
                             <label class="form-label">Resíduo Coletado</label>
                             
-                            <select class="form-select select-residuo w-100 input-obrigatorio campos-form-${clientes[i].id}" id="select-residuo" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                            <select class="select2 form-select select-residuo w-100 input-obrigatorio campos-form-${clientes[i].id}" id="select-residuo" >
 
                                 <option disabled selected value="">Selecione</option>
                                 
@@ -573,9 +581,17 @@ function finalizarRomaneio() {
 
 // carrega o select2
 $(document).ready(function () {
+
+    $('.select22').select2({
+        theme: "bootstrap-5",
+        dropdownParent: "#modalConcluirRomaneio",
+    });
+
     $('.select2').select2({
         theme: "bootstrap-5",
         width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
         placeholder: $(this).data('placeholder'),
     });
   })
+
+  
