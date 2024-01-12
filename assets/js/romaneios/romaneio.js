@@ -8,6 +8,8 @@ const filtrarClientesRomaneio = () => {
 
     if ($('#filtrar-data').prop('checked')) {
         filtrarData = true;
+        permissao = true;
+
     }
 
     $('.input-filtro-romaneio').each(function () {
@@ -17,7 +19,7 @@ const filtrarClientesRomaneio = () => {
         }
     })
 
-    if (filtrarData && $('.input-coleta').val() == '') {
+    if ($('.input-coleta').val() == '') {
         avisoRetorno('Algo deu errado!', 'Preencha a data de agendamento!', 'error', '#');
         return;
     }
@@ -91,7 +93,7 @@ const filtrarClientesRomaneio = () => {
             }
         })
     } else {
-        avisoRetorno('Algo deu errado!', 'Preencha pelo menos um campo!', 'error', '#');
+        avisoRetorno('Algo deu errado!', 'Escolha uma etiqueta ou uma cidade!', 'error', '#');
         return;
     }
 }
