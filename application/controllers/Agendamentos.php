@@ -103,8 +103,9 @@ class Agendamentos extends CI_Controller
     {
         $dataColeta = $this->input->post('dataColeta');
         $prioridade = $this->input->post('prioridade'); 
+        $status = $this->input->post('status'); 
 
-        $clientesAgendados = $this->Agendamentos_model->recebeClientesAgendados($dataColeta, $prioridade);
+        $clientesAgendados = $this->Agendamentos_model->recebeClientesAgendados($dataColeta, $prioridade, $status);
 
         $data = array(
             'agendados' => $clientesAgendados
@@ -121,4 +122,5 @@ class Agendamentos extends CI_Controller
 
         $this->Agendamentos_model->cancelaAgendamentoCliente($idAgendamento);
     }
+
 }

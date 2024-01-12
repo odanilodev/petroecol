@@ -18,7 +18,7 @@
             flex-direction: column;
         }
 
-        th, 
+        th,
         td {
             border: 1px solid #dddddd;
             text-align: left;
@@ -32,8 +32,6 @@
             width: 48%;
             /* Ajuste conforme necessário */
         }
-
-
     </style>
 </head>
 
@@ -73,17 +71,17 @@
         $tableOpen = false;
 
         foreach ($clientes as $v) {
-            
+
             // Verifica se a cidade do cliente mudou
             if (trim(strtolower($v['cidade'])) !== $currentCity) {
                 // Se sim, fecha a tabela anterior (se existir)
                 if ($tableOpen) {
                     echo '</tbody></table>';
                 }
-                    // Abre uma nova tabela
-                    echo "<h4 style='margin-top: 30px; margin-bottom: 5px'><b>{$v['cidade']}</b> </h4>";
-                    echo '<table>';
-                ?>
+                // Abre uma nova tabela
+                echo "<h4 style='margin-top: 30px; margin-bottom: 5px'><b>{$v['cidade']}</b> </h4>";
+                echo '<table>';
+        ?>
                 <thead>
                     <tr style="font-size: 14px;" align="left">
                         <th>Nome Cliente</th>
@@ -103,7 +101,7 @@
             }
                 ?>
                 <tr style="font-size: 11px;" align="left">
-                    <td><?= $v['nome']; ?> <?= $v['prioridade'] == 1 ? '<span style="font-weight: bold; font-size: 20px">*</span>' : ''?></td>
+                    <td><?= $v['nome']; ?> <?= in_array($v['id'], array_column($id_cliente_prioridade, 'id_cliente')) ? '<span style="font-weight: bold; font-size: 20px">*</span>' : '' ?></td>
                     <td><?= "{$v['rua']}, {$v['numero']} {$v['bairro']}"; ?></td>
                     <td><?= $v['telefone']; ?></td>
                     <td></td>
