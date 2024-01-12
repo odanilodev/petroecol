@@ -46,13 +46,43 @@
                                         <h5 class="text-1000 mb-0">Validade da CNH</h5>
                                     </div>
                                     <p class="mb-0 text-800">
-                                        <?php
+                                    <?php
                                         if ($funcionario['data_cnh'] && $funcionario['data_cnh'] != '0000-00-00') {
-                                            echo date('d/m/Y', strtotime($funcionario['data_cnh']));
+                                            $dataCnh = strtotime($funcionario['data_cnh']);
+                                            $dataAtual = strtotime(date('Y-m-d'));
+
+                                            echo date('d/m/Y', $dataCnh);
+
+                                            if ($dataCnh < $dataAtual) {
+                                                echo ' (Vencido)';
+                                            }
                                         } else {
                                             echo 'Não cadastrado';
                                         }
                                         ?>
+                                    </p>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="d-flex align-items-center mb-1"><span class="me-2 uil uil-hourglass">
+                                        </span>
+                                        <h5 class="text-1000 mb-0">Validade ASO</h5>
+                                    </div>
+                                    <p class="mb-0 text-800">
+                                    <?php
+                                        if ($funcionario['data_aso'] && $funcionario['data_aso'] != '0000-00-00') {
+                                            $dataAso = strtotime($funcionario['data_aso']);
+                                            $dataAtual = strtotime(date('Y-m-d'));
+
+                                            echo date('d/m/Y', $dataAso);
+
+                                            if ($dataAso < $dataAtual) {
+                                                echo ' (Vencido)';
+                                            }
+                                        } else {
+                                            echo 'Não cadastrado';
+                                        }
+                                    ?>
                                     </p>
                                 </div>
 
@@ -84,6 +114,13 @@
                                         <?= empty($funcionario['salario_base']) ? 'Não Cadastrado' : 'R$' . $funcionario['salario_base'] ?>
                                     </p>
                                 </div>
+
+                                <?php if($funcionario['data_cnh']){ ?>
+
+
+
+                                <?php } ?>
+
 
                                 <div class="mb-4">
                                     <div class="d-flex align-items-center mb-1"><span class="me-2 uil uil-calendar-alt"></span>
