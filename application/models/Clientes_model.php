@@ -127,48 +127,16 @@ class Clientes_model extends CI_Model
 
 
     //Recebe clientes com varios Ids selecionados
-    public function recebeClientesIds($ids, $data_coleta = null)
+    public function recebeClientesIds($ids)
     {
-        $this->db->select('C.*, IFNULL(ANY_VALUE(A.prioridade), 0) as prioridade, MAX(A.data_coleta) as DATA_COLETA');
+        $this->db->select('C.*');
         $this->db->from('ci_clientes C');
-        $this->db->join('ci_agendamentos A', 'A.id_cliente = C.id', 'left');
         $this->db->order_by('C.cidade, C.nome');
         $this->db->where_in('C.id', $ids);
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->group_by('C.id');
         $query = $this->db->get();
-        $arr1 = $query->result_array();
-
-        if ($data_coleta) {
-            $this->db->select('C.*, ANY_VALUE(A.prioridade) as prioridade');
-            $this->db->from('ci_clientes C');
-            $this->db->join('ci_agendamentos A', 'A.id_cliente = C.id', 'left');
-            $this->db->order_by('C.cidade, C.nome');
-            $this->db->where('data_coleta', $data_coleta);
-            $this->db->where_in('C.id', $ids);
-            $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-            $this->db->group_by('C.id');
-            $query2 = $this->db->get();
-            $arr2 = $query2->result_array();
-        }
-
-        // Mesclar os arrays usando array_merge_recursive
-        $resultado = array_merge_recursive($arr1, $arr2 ?? []);
-
-        // Remover elementos duplicados com base no ID do cliente
-        $resultadoSemDuplicatas = [];
-        $clienteIds = [];
-
-        foreach ($resultado as $cliente) {
-            $clienteId = $cliente['id'];
-
-            if (!in_array($clienteId, $clienteIds)) {
-                $resultadoSemDuplicatas[] = $cliente;
-                $clienteIds[] = $clienteId;
-            }
-        }
-
-        return $resultadoSemDuplicatas;
+        return $query->result_array();
     }
 
 

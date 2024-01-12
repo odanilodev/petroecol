@@ -8,17 +8,17 @@ class Romaneios extends CI_Controller
 		parent::__construct();
 
 		//INICIO controle sessão
-        $this->load->library('Controle_sessao');
-        $res = $this->controle_sessao->controle();
-        if ($res == 'erro') {
-            if ($this->input->is_ajax_request()) {
-                $this->output->set_status_header(403);
-                exit();
-            } else {
-                redirect('login/erro', 'refresh');
-            }
-        }
-        // FIM controle sessão
+		$this->load->library('Controle_sessao');
+		$res = $this->controle_sessao->controle();
+		if ($res == 'erro') {
+			if ($this->input->is_ajax_request()) {
+				$this->output->set_status_header(403);
+				exit();
+			} else {
+				redirect('login/erro', 'refresh');
+			}
+		}
+		// FIM controle sessão
 
 		$this->load->model('Etiquetas_model');
 		$this->load->model('EtiquetaCliente_model');
@@ -74,7 +74,6 @@ class Romaneios extends CI_Controller
 		}
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-
 	}
 
 
@@ -112,9 +111,14 @@ class Romaneios extends CI_Controller
 
 	public function filtrarClientesRomaneio()
 	{
-		$dados['data_coleta'] = $this->input->post('data_coleta');
+		$filtrar_data = $this->input->post('filtrar_data');
 		$dados['cidades'] = $this->input->post('cidades');
 		$dados['ids_etiquetas'] = $this->input->post('ids_etiquetas');
+		$dados['data_coleta'] = null;
+
+		if ($filtrar_data != '') {
+			$dados['data_coleta'] = $this->input->post('data_coleta');
+		}
 
 		$res = $this->Romaneios_model->filtrarClientesRomaneio($dados);
 
@@ -137,14 +141,14 @@ class Romaneios extends CI_Controller
 		$clientesRomaneio = $this->Clientes_model->recebeClientesRomaneio($idsClientes);
 
 		// residuos
-        $this->load->model('Residuos_model');
+		$this->load->model('Residuos_model');
 
-        $residuos = $this->Residuos_model->recebeTodosResiduos();
+		$residuos = $this->Residuos_model->recebeTodosResiduos();
 
 		// formas de pagamentos
-        $this->load->model('FormaPagamento_model');
+		$this->load->model('FormaPagamento_model');
 
-        $formas_pagamentos = $this->FormaPagamento_model->recebeFormasPagamento();
+		$formas_pagamentos = $this->FormaPagamento_model->recebeFormasPagamento();
 
 		$response = array(
 			'retorno' => $clientesRomaneio,
@@ -155,14 +159,14 @@ class Romaneios extends CI_Controller
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
-	
+
 
 	public function recebeTodosResiduos()
 	{
 		// residuos
-        $this->load->model('Residuos_model');
+		$this->load->model('Residuos_model');
 
-        $residuos = $this->Residuos_model->recebeTodosResiduos();
+		$residuos = $this->Residuos_model->recebeTodosResiduos();
 
 		$response = array(
 			'residuos' => $residuos

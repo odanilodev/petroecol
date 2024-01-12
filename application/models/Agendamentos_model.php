@@ -135,6 +135,18 @@ class Agendamentos_model extends CI_Model
         return $query->row_array();
     }
 
+    public function recebeAgendamentoPrioridade($dataColeta)
+    {
+        $this->db->select('id_cliente');
+        $this->db->from('ci_agendamentos');
+        $this->db->where('data_coleta', $dataColeta);
+        $this->db->where('prioridade', 1);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
+
     public function cancelaAgendamentoCliente($idAgendamento)
     {
         $this->db->where('id', $idAgendamento);

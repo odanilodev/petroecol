@@ -2,16 +2,27 @@ var baseUrl = $('.base-url').val();
 
 const filtrarClientesRomaneio = () => {
 
-    
+
     var permissao = false;
-    
+    var filtrarData = null;
+
+    if ($('#filtrar-data').prop('checked')) {
+        filtrarData = true;
+    }
+
     $('.input-filtro-romaneio').each(function () {
-        
+
         if ($(this).val() != "") {
             permissao = true;
         }
     })
-    
+
+    if (filtrarData && $('.input-coleta').val() == '') {
+        avisoRetorno('Algo deu errado!', 'Preencha a data de agendamento!', 'error', '#');
+        return;
+    }
+
+
     let data_coleta = $('.input-coleta').val();
     var dataColeta = new Date(data_coleta + "T00:00:00");
     var hoje = new Date();
@@ -33,7 +44,8 @@ const filtrarClientesRomaneio = () => {
             data: {
                 cidades: cidades,
                 ids_etiquetas: etiquetas,
-                data_coleta: data_coleta
+                data_coleta: data_coleta,
+                filtrar_data: filtrarData
             },
             beforeSend: function () {
                 $('.clientes-modal-romaneio').html('');
