@@ -844,7 +844,7 @@ $(document).ready(function () {
 
 });
 
-function teste2 (idEtiqueta) {
+function recebeClientesEtiqueta (idEtiqueta) {
 
   $.ajax({
     type: 'POST',
@@ -874,7 +874,7 @@ $("#select-cliente-etiqueta").change(function() {
 
   if ($(this).val() != null) {
 
-    teste2($(this).val());
+    recebeClientesEtiqueta($(this).val());
 
     $('#select-cliente').val('').trigger('change'); // limpa o select de clientes
   }   
