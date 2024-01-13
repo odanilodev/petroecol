@@ -352,3 +352,12 @@ function scriptsPermissaoFooter()
     );
 }
 
+function scriptsAlertasWhatsAppFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/alertas-whatsapp/formulario-alertas-whatsapp.js') . '"></script>'
+
+    );
+}
+
