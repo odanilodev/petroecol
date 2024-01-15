@@ -293,7 +293,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
         if (!cliente || !data) {
           permissao = false;
 
-          avisoRetorno('Algo deu errado', 'Preencha os campos obrigatórios', 'error', '#');
+          avisoRetorno('Algo deu errado', 'Selecione algum cliente para agendar.', 'error', '#');
           return;
         }
 
@@ -359,7 +359,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
       // novo agendamento
       $(document).on('click', '.btn-salva-agendamento', function () {
 
-        let cliente = $('.cliente-agendamento').val();
+        let clientes = $('.ids-clientes').val();
         let data = $('.data-agendamento').val();
         let horario = $('.horario-agendamento').val();
         let periodo = $('.periodo-agendamento').val();
@@ -368,7 +368,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
 
         let id = $('.input-id').val();
 
-        salvaAgendamento(cliente, data, horario, periodo, obs, id, prioridade);
+        salvaAgendamento(clientes, data, horario, periodo, obs, id, prioridade);
 
       })
 
@@ -602,6 +602,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
       }
 
       if (addEventModal) {
+        
         addEventModal.addEventListener(
           Events.SHOWN_BS_MODAL,
           ({ currentTarget }) => {
@@ -696,6 +697,14 @@ function exibirAgendamentos(currentYear, currentMonth) {
 }
 
 $(document).on('click', '.agendamento', function () {
+
+  $('#select-cliente').val('').trigger('change');
+  
+  $('#select-cliente').select2({
+    dropdownParent: "#addEventModal",
+    theme: 'bootstrap-5' // Aplicar o tema Bootstrap 4
+  });
+
   let classeClicada = $(this).attr("class").split(" ");
 
   let dataClicada = classeClicada.find(function (className) {
@@ -837,4 +846,60 @@ $(document).ready(function () {
 
 });
 
+function recebeClientesEtiqueta (idEtiqueta) {
 
+  $.ajax({
+    type: 'POST',
+    url: `${baseUrl}etiquetaCliente/recebeClientesEtiqueta`,
+    data: {
+      id_etiqueta: idEtiqueta
+    }, success: function (data) {
+
+      let idsClientesEtiqueta = [];
+
+      for (let i = 0; i < data.clientesEtiqueta.length; i ++) {
+
+        idsClientesEtiqueta.push(data.clientesEtiqueta[i]['id_cliente']);
+
+      }
+
+      $('.ids-clientes').val(idsClientesEtiqueta);
+
+    }
+
+  })
+
+}
+
+
+$("#select-cliente-etiqueta").change(function() {
+
+  if ($(this).val() != null) {
+
+    recebeClientesEtiqueta($(this).val());
+
+    $('#select-cliente').val('').trigger('change'); // limpa o select de clientes
+  }   
+
+});
+
+$("#select-cliente").change(function() {
+
+  if ($(this).val() != null) {
+
+    $('.ids-clientes').val($(this).val());
+
+    $('#select-cliente-etiqueta').val('').trigger('change'); // limpa o select de etiquetas
+  }
+
+});
+  
+
+// carrega o select2
+$(document).ready(function () {
+  $('.select2-single').select2({
+      theme: "bootstrap-5",
+      width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+      placeholder: $(this).data('placeholder'),
+  });
+})
