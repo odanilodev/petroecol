@@ -10,14 +10,6 @@ class ComodatoCliente_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebeComodatos()
-    {
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('ci_comodato_cliente');
-
-        return $query->result_array();
-    }
-
     public function recebeComodatosCliente($id)
     {
         $this->db->where('id_cliente', $id);

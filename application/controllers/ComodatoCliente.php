@@ -34,7 +34,7 @@ class ComodatoCliente extends CI_Controller
         $id_cliente = $this->input->post('id');
 
         $arrayUpload = [
-            'comodato' => ['clientes/comodato', $cliente['comodato'] ?? null],
+            'comodato' => ['clientes/comodato', null],
         ];
 
         $dados = $this->upload_imagem->uploadImagem($arrayUpload);
@@ -74,7 +74,6 @@ class ComodatoCliente extends CI_Controller
         if ($retorno) {
             $caminho = './uploads/' . $this->session->userdata('id_empresa') . '/' . 'clientes/comodato/' . $nome_arquivo;
             unlink($caminho);
-            $deletou = true;
             $this->session->set_flashdata('tipo_retorno_funcao', 'success');
             $this->session->set_flashdata('redirect_retorno_funcao', '#');
             $this->session->set_flashdata('texto_retorno_funcao', 'Deletado com sucesso!');
