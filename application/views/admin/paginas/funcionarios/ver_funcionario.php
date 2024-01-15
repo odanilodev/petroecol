@@ -115,13 +115,6 @@
                                     </p>
                                 </div>
 
-                                <?php if($funcionario['data_cnh']){ ?>
-
-
-
-                                <?php } ?>
-
-
                                 <div class="mb-4">
                                     <div class="d-flex align-items-center mb-1"><span class="me-2 uil uil-calendar-alt"></span>
                                         <h5 class="text-1000 mb-0">Data de nascimento</h5>
