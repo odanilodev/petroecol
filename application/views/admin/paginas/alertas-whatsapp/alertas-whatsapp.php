@@ -50,11 +50,11 @@
                                         </div>
                                     </td>
 
-                                    <td class="email align-middle white-space-nowrap">
+                                    <td class="align-middle white-space-nowrap">
                                         <?= $v['titulo'] ?>
                                     </td>
 
-                                    <td class="email align-middle white-space-nowrap">
+                                    <td class="align-middle white-space-nowrap col-mb-2">
                                         <?= (strlen($v['texto_alerta']) > 100) ? substr($v['texto_alerta'], 0, 80) . '...' : $v['texto_alerta']; ?>
                                     </td>
 

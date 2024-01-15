@@ -1,13 +1,11 @@
 <div class="content">
   <div class="row mb-9">
-
     <div class="col-12">
       <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
         <div class="card-header p-4 border-bottom border-300 bg-soft">
           <div class="row g-3 justify-content-between align-items-center">
             <div class="col-12 col-md">
               <h4 class="text-900 mb-0"><?= $this->uri->segment(3) ? 'Editar Alerta' : 'Cadastrar Alerta'; ?></h4>
-
             </div>
           </div>
         </div>
@@ -34,7 +32,10 @@
 
                         <div class="col-md-12 mb-3">
                           <label class="form-label">Texto do Alerta</label>
-                          <textarea class="form-control input-texto-alerta input-obrigatorio" placeholder="Digite aqui a mensagem que deseja enviar ao Cliente"><?= $alerta['texto_alerta'] ?? ''; ?></textarea>
+                          <div class="input-group">
+
+                            <textarea class="form-control input-texto-alerta input-obrigatorio" placeholder="Digite aqui a mensagem que deseja enviar ao Cliente"><?= $alerta['texto_alerta'] ?? ''; ?></textarea>
+
                           <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                         </div>
 

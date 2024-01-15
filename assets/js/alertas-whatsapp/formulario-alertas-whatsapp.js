@@ -1,10 +1,14 @@
 var baseUrl = $('.base-url').val();
 
 const cadastraAlertaWhatsapp = () => {
-
+    
     let titulo = $('.input-titulo').val();
     let textoAlerta = $('.input-texto-alerta').val();
     let id = $('.input-id').val();
+
+    const emojiPicker = new EmojiPicker();
+    emojiPicker.listenOn(document.querySelector('.input-texto-alerta'));
+
 
     if ($('.input-status-alerta').is(':checked')) {
 

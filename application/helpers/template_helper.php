@@ -352,12 +352,20 @@ function scriptsPermissaoFooter()
     );
 }
 
-function scriptsAlertasWhatsAppFooter()
+function scriptsAlertasWhatsappHead()
+{
+    return array(
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/emoji-picker-element@3.4.1/dist/emoji-picker-element.css">',
+        '<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@3.4.1/dist/emoji-picker-element.js"></script>'
+    );
+}
+
+
+function scriptsAlertasWhatsappFooter()
 {
     return array(
 
         '<script src="' . base_url('assets/js/alertas-whatsapp/formulario-alertas-whatsapp.js') . '"></script>'
-
     );
 }
 

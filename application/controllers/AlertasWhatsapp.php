@@ -49,8 +49,9 @@
 
 			// scripts para Alertas
 			$scriptsAlertasWhatsappFooter = scriptsAlertasWhatsappFooter();
+			$scriptsAlertasWhatsappHead = scriptsAlertasWhatsappHead();
 
-			add_scripts('header', array_merge($scriptsPadraoHead));
+			add_scripts('header', array_merge($scriptsPadraoHead, $scriptsAlertasWhatsappHead));
 			add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsAlertasWhatsappFooter));
 
 			$id = $this->uri->segment(3);
