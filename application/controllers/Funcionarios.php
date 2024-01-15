@@ -130,6 +130,14 @@ class Funcionarios extends CI_Controller
 			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 		}
 
+    if (!$this->validarCpf($dados['cpf'])) {
+        $response = array(
+            'success' => false,
+            'message' => 'CPF inválido. Por favor, insira um CPF válido.'
+        );
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
+
 		$imagemAntiga = $this->Funcionarios_model->recebeFuncionario($id);
 
 		$arrayUpload = [
@@ -238,4 +246,32 @@ class Funcionarios extends CI_Controller
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
-}
+
+public static function validarCpf($value = null)
+    {
+
+			if (empty($value)) {
+					return true;
+			}
+
+			$c = preg_replace('/\D/', '', $value);
+
+			if (strlen($c) != 11 || preg_match("/^{$c[0]}{11}$/", $c)) {
+					return false;
+			}
+
+			for ($s = 10, $n = 0, $i = 0; $s >= 2; $n += $c[$i++] * $s--) {
+			}
+			if ($c[9] != ((($n %= 11) < 2) ? 0 : 11 - $n)) {
+					return false;
+			}
+
+			for ($s = 11, $n = 0, $i = 0; $s >= 2; $n += $c[$i++] * $s--) {
+			}
+			if ($c[10] != ((($n %= 11) < 2) ? 0 : 11 - $n)) {
+					return false;
+			}
+
+			return true;
+    }
+	}
