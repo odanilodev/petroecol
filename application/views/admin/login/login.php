@@ -7,10 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-  <!-- ===============================================-->
-  <!--    Document Title-->
-  <!-- ===============================================-->
-  <title>Petroecol</title>
+  <title><?= $this->session->userdata('nome_empresa') ?? 'Login'; ?></title>
 
 
   <!-- ===============================================-->

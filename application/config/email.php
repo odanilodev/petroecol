@@ -1,16 +1,21 @@
 <?php
 
+  $this->CI =& get_instance();
+  $this->CI->load->library('session');
+  $this->CI->load->helper('config_master_helper');
+
+  $host = $this->CI->session->userdata('dominio_empresa') ?? dadosEmpresa('dominio');
+
  //Configuração mail
- $config['smtp_host'] = 'mail.petroecol.eco.br';
+ $config['smtp_host'] = "mail.$host";
  $config['smtp_port'] = '587';
- $config['smtp_user'] = 'contato@petroecol.eco.br';
- $config['smtp_pass'] = '@@123contato';
+ $config['smtp_user'] =  $this->CI->session->userdata('email_empresa') ?? dadosEmpresa('email');
+ $config['smtp_pass'] = $this->CI->session->userdata('senha_empresa') ?? dadosEmpresa('senha');
  $config['protocol'] = 'smtp';
  $config['wordwrap'] = TRUE;
  $config['validate'] = TRUE;
  $config['mailtype'] = 'html';
  $config['charset'] = 'utf-8';
  $config['newline'] = "\r\n";
-
 
 ?>

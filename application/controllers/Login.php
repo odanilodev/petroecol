@@ -150,6 +150,7 @@ class Login extends CI_Controller
     public function recebeLogin()
     {
         $this->load->model('Usuarios_model');
+        $this->load->model('Empresas_model');
 
         $email = $this->input->post('email');
         $senha_digitada = $this->input->post('senha'); // A senha inserida pelo usuário.
@@ -171,6 +172,11 @@ class Login extends CI_Controller
                 $this->session->set_userdata('idioma', $usuario['idioma']);
                 $this->session->set_userdata('permissao', json_decode($usuario['permissao'], true));
 
+                $dados_empresa = $this->Empresas_model->recebeEmpresa($this->session->userdata('id_empresa'));
+                $this->session->set_userdata('nome_empresa', $dados_empresa['nome']);
+                $this->session->set_userdata('email_empresa', $dados_empresa['email']);
+                $this->session->set_userdata('senha_empresa', $dados_empresa['senha']);
+                $this->session->set_userdata('dominio_empresa', $dados_empresa['dominio']);
 
                 $url_redirecionamento = explode('login/index/', $redirecionamento);
 

@@ -22,6 +22,7 @@ class Clientes_model extends CI_Model
         $this->db->join('ci_recipiente_cliente RC', 'RC.id_cliente = C.id', 'left');
         $this->db->join('ci_etiqueta_cliente EC', 'EC.id_cliente = C.id', 'left');
         $this->db->join('ci_residuo_cliente RSC', 'RSC.id_cliente = C.id', 'left');
+        $this->db->join('ci_classificacao_cliente CC', 'C.id_classificacao_cliente = CC.id', 'left');
 
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->order_by('C.nome', 'ASC');
@@ -48,6 +49,10 @@ class Clientes_model extends CI_Model
 
         if (($filtro['id_etiqueta'] ?? false) && $filtro['id_etiqueta'] != 'all') {
             $this->db->where('EC.id_etiqueta', $filtro['id_etiqueta']);
+        }
+
+        if (($filtro['classificacao'] ?? false) && $filtro['classificacao'] != 'all') {
+            $this->db->where('CC.id', $filtro['classificacao']);
         }
 
         if (!$count) {
@@ -101,17 +106,17 @@ class Clientes_model extends CI_Model
 
     public function recebeCliente($id)
     {
-        $this->db->select('C.*, F.frequencia, CE.cor');
+        $this->db->select('C.*, F.frequencia, CC.cor');
         $this->db->from('ci_clientes C');
         $this->db->join('ci_frequencia_coleta F', 'C.id_frequencia_coleta = F.id', 'left');
-        $this->db->join('ci_classificacao_empresa CE', 'C.id_classificacao_empresa = CE.id', 'left');
+        $this->db->join('ci_classificacao_cliente CC', 'C.id_classificacao_cliente = CC.id', 'left');
         $this->db->where('C.id', $id);
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get();
-    
+
         return $query->row_array();
     }
-    
+
 
     public function recebeClienteFrequenciaColeta($id_cliente)
     {
@@ -127,21 +132,18 @@ class Clientes_model extends CI_Model
 
 
     //Recebe clientes com varios Ids selecionados
-    public function recebeClientesIds($ids, $data_coleta)
+    public function recebeClientesIds($ids)
     {
-        $this->db->select('C.*, F.frequencia, A.prioridade');
+        $this->db->select('C.*');
         $this->db->from('ci_clientes C');
-        $this->db->join('ci_frequencia_coleta F', 'C.id_frequencia_coleta = F.id', 'left');
-        $this->db->join('ci_agendamentos A', 'A.id_cliente = C.id', 'left');
-        $this->db->order_by('C.cidade');
-        $this->db->order_by('C.nome');
-        $this->db->where('A.data_coleta', $data_coleta);
-        $this->db->where_in('C.id', $ids); // Use where_in para comparar com vários IDs
+        $this->db->order_by('C.cidade, C.nome');
+        $this->db->where_in('C.id', $ids);
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->group_by('C.id');
         $query = $this->db->get();
-
-        return $query->result_array(); // Use result_array() para obter vários resultados
+        return $query->result_array();
     }
+
 
     public function insereCliente($dados)
     {

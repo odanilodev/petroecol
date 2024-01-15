@@ -2,22 +2,33 @@ var baseUrl = $('.base-url').val();
 
 const filtrarClientesRomaneio = () => {
 
-    let data_coleta = $('.input-coleta').val();
 
-    if (!data_coleta) {
+    var permissao = false;
+    var filtrarData = null;
 
-        $('.input-coleta').addClass('invalido');
-        return;
-
-    } else {
-
-        $('.input-coleta').removeClass('invalido');
+    if ($('#filtrar-data').prop('checked')) {
+        filtrarData = true;
+        permissao = true;
 
     }
 
+    $('.input-filtro-romaneio').each(function () {
+
+        if ($(this).val() != "") {
+            permissao = true;
+        }
+    })
+
+    if ($('.input-coleta').val() == '') {
+        avisoRetorno('Algo deu errado!', 'Preencha a data de agendamento!', 'error', '#');
+        return;
+    }
+
+
+    let data_coleta = $('.input-coleta').val();
     var dataColeta = new Date(data_coleta + "T00:00:00");
     var hoje = new Date();
-   
+
     if (dataColeta < new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate())) {
         avisoRetorno('Algo deu errado!', 'A data selecionada é anterior à data de hoje!', 'error', '#');
         return;
@@ -27,35 +38,38 @@ const filtrarClientesRomaneio = () => {
 
     let cidades = $('#select-cidades').val();
 
-    $.ajax({
-        type: "POST",
-        url: `${baseUrl}romaneios/filtrarClientesRomaneio`,
-        data: {
-            cidades: cidades,
-            ids_etiquetas: etiquetas,
-            data_coleta: data_coleta
-        },
-        beforeSend: function () {
-            $('.clientes-modal-romaneio').html('');
-            $('.load-form-romaneio').removeClass('d-none');
-            $('.btn-envia-romaneio').addClass('d-none');
+    if (permissao) {
 
-        }, success: function (data) {
+        $.ajax({
+            type: "POST",
+            url: `${baseUrl}romaneios/filtrarClientesRomaneio`,
+            data: {
+                cidades: cidades,
+                ids_etiquetas: etiquetas,
+                data_coleta: data_coleta,
+                filtrar_data: filtrarData
+            },
+            beforeSend: function () {
+                $('.clientes-modal-romaneio').html('');
+                $('.load-form-romaneio').removeClass('d-none');
+                $('.btn-envia-romaneio').addClass('d-none');
 
-            $('.load-form-romaneio').addClass('d-none');
-            $('.btn-envia-romaneio').removeClass('d-none');
+            }, success: function (data) {
 
-            if (data.registros < 1) {
+                $('.load-form-romaneio').addClass('d-none');
+                $('.btn-envia-romaneio').removeClass('d-none');
 
-                avisoRetorno('Algo deu errado!', 'Não foi encontrado nada com essas informações!', 'error', '#');
+                if (data.registros < 1) {
 
-            } else {
-                $('#modalRomaneio').modal('show');
-            }
+                    avisoRetorno('Algo deu errado!', 'Não foi encontrado nada com essas informações!', 'error', '#');
 
-            for (i = 0; i < data.registros; i++) {
+                } else {
+                    $('#modalRomaneio').modal('show');
+                }
 
-                let clientes = `
+                for (i = 0; i < data.registros; i++) {
+
+                    let clientes = `
                     <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                         <td class="align-middle white-space-nowrap">
                             ${data.retorno[i].CLIENTE}
@@ -73,11 +87,15 @@ const filtrarClientesRomaneio = () => {
                     </tr>
                 `;
 
-                $('.clientes-modal-romaneio').append(clientes);
-            }
+                    $('.clientes-modal-romaneio').append(clientes);
+                }
 
-        }
-    })
+            }
+        })
+    } else {
+        avisoRetorno('Algo deu errado!', 'Escolha uma etiqueta ou uma cidade!', 'error', '#');
+        return;
+    }
 }
 
 const gerarRomaneio = () => {
@@ -86,20 +104,20 @@ const gerarRomaneio = () => {
 
     $(".input-obrigatorio").each(function () {
 
-		// Verifica se o valor do input atual está vazio
-		if ($(this).val() === "" || $(this).val() === null) {
+        // Verifica se o valor do input atual está vazio
+        if ($(this).val() === "" || $(this).val() === null) {
 
             $(this).addClass('invalido');
             $(this).next().removeClass('d-none');
 
-			permissao = false;
+            permissao = false;
 
-		} else {
+        } else {
 
             $(this).removeClass('invalido');
             $(this).next().addClass('d-none');
         }
-	});
+    });
 
     // novo clientes para gerar romaneio
     let clientes = [];
@@ -117,8 +135,8 @@ const gerarRomaneio = () => {
     let veiculo = $('#select-veiculo').val();
     let data_coleta = $('.input-coleta').val();
 
-    if (permissao) { 
- 
+    if (permissao) {
+
         $.ajax({
             type: "POST",
             url: `${baseUrl}romaneios/gerarRomaneioEtiqueta`,
@@ -384,10 +402,10 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
     novaLinha.append(selectHtml);
     novaLinha.append(inputHtml);
     novaLinha.append(btnRemove);
-    
+
     //remove a linha duplicada
     btnRemove.find(`.remover-${novoElemento}`).on('click', function () {
-        
+
         novaLinha.remove();
     });
 
@@ -527,7 +545,7 @@ function finalizarRomaneio() {
         };
 
         dadosClientes.push(dadosCliente);
-        
+
     });
 
     if (permissao) {

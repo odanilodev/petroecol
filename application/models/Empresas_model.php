@@ -24,6 +24,15 @@ class Empresas_model extends CI_Model
         return $query->row_array();
     }
 
+    public function recebeDadosMaster($dados)
+    {   
+        $this->db->select($dados);
+        $this->db->where('id', 1);
+        $query = $this->db->get('ci_empresas');
+
+        return $query->row()->$dados;
+    }
+
     public function insereEmpresa($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');

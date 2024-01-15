@@ -188,12 +188,12 @@
                         
                         <div class="mb-2 mt-5 col-md-3">
                           <div class="mb-2">
-                            <label class="form-label text-900">Classificação da empresa</label>
-                            <select name="id_classificacao_empresa" class="form-select campo-empresa">
+                            <label class="form-label text-900">Classificação do Cliente</label>
+                            <select name="id_classificacao_cliente" class="form-select campo-empresa">
                               <option value="" selected>Selecione</option>
 
                               <?php foreach($classificacoes as $classificacao) { ?>
-                                <option value="<?= $classificacao['id']?>" <?= (isset($cliente['id_classificacao_empresa']) && $cliente['id_classificacao_empresa'] == $classificacao['id']) ? 'selected' : ''; ?>><?= $classificacao['nome'];?></option>
+                                <option value="<?= $classificacao['id']?>" <?= (isset($cliente['id_classificacao_cliente']) && $cliente['id_classificacao_cliente'] == $classificacao['id']) ? 'selected' : ''; ?>><?= $classificacao['nome'];?></option>
                               <?php }?>
 
                             </select>
