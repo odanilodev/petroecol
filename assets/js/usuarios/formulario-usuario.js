@@ -289,7 +289,7 @@ const deletaFotoPerfil = (id, arquivo) => {
 
 $(document).ready(function () {
     $('.select2').select2({
-        theme: "bootstrap-5",
+        theme: "bootstrap-5"
 
     });
 })

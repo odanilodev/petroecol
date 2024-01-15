@@ -267,7 +267,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
                         <div class="col-md-4 mb-2 div-pagamento">
 
                             <label class="form-label">Forma de Pagamento</label>
-                            <select class="select2 form-select select-pagamento w-100 input-obrigatorio campos-form-${clientes[i].id}" id="select-pagamento">
+                            <select class="form-select select-pagamento w-100 input-obrigatorio campos-form-${clientes[i].id}" id="select-pagamento">
 
                                 <option disabled selected value="">Selecione</option>
                                 
@@ -292,7 +292,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
 
                             <label class="form-label">Resíduo Coletado</label>
                             
-                            <select class="select2 form-select select-residuo w-100 input-obrigatorio campos-form-${clientes[i].id}" id="select-residuo" >
+                            <select class="form-select select-residuo w-100 input-obrigatorio campos-form-${clientes[i].id}" id="select-residuo" >
 
                                 <option disabled selected value="">Selecione</option>
                                 
@@ -581,11 +581,6 @@ function finalizarRomaneio() {
 
 // carrega o select2
 $(document).ready(function () {
-
-    $('.select22').select2({
-        theme: "bootstrap-5",
-        dropdownParent: "#modalConcluirRomaneio",
-    });
 
     $('.select2').select2({
         theme: "bootstrap-5",
