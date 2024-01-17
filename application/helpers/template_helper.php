@@ -355,8 +355,8 @@ function scriptsPermissaoFooter()
 function scriptsAlertasWhatsappHead()
 {
     return array(
-        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/emoji-picker-element@3.4.1/dist/emoji-picker-element.css">',
-        '<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@3.4.1/dist/emoji-picker-element.js"></script>'
+        '<script src="https://unpkg.com/picmo@5.7.6/dist/umd/index.js"></script>',
+        '<script src="https://unpkg.com/@picmo/popup-picker@5.7.6/dist/umd/index.js"></script>'
     );
 }
 

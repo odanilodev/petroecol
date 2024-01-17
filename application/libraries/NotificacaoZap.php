@@ -11,7 +11,7 @@ class NotificacaoZap
         $this->CI->load->model('Clientes_model');
     }
 
-    public function enviarTexto($id_cliente, $id_alerta)
+    public function enviarTexto($id_cliente, $mensagem)
     {
 
         $cliente = $this->CI->Clientes_model->recebeCliente($id_cliente);
@@ -22,11 +22,7 @@ class NotificacaoZap
 
         $url = "http://centrodainteligencia.com.br/api/index.php/sendText";
 
-        if ($id_alerta == '1') {
-            $mensagem = "*Olá*, Espero que esteja tudo bem!\nHá algum tempo não temos notícias suas, e gostaríamos de lembrar sobre a coleta de óleo\n\nSe precisar de qualquer assistência ou tiver dúvidas, conte conosco. Estamos prontos para atendê-lo da melhor forma possível. Sua parceria é fundamental, e queremos garantir que tudo esteja funcionando perfeitamente para você\n\nFicamos no aguardo do seu contato e agradecemos pela confiança em nossos serviços";
-        } else {
-            $mensagem = "*Olá*, Espero que esteja tudo bem!\nGostaríamos de informar que, devido à falta de contato e atividade da sua parte, sua conta foi marcada como inativa\n\nPara reativar a coleta de resíduos, solicitamos que entre em contato imediatamente\n\nFicamos no aguardo do seu contato.";
-        }
+        
 
         $data = array(
             'number' => "$zap",

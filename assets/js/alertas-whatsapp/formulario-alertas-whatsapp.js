@@ -103,3 +103,30 @@ const deletaAlertaWhatsapp = (id) => {
 
 
 }
+
+$(document).ready(function () {
+
+    var emojisSelecionados = [];
+
+    $('#emojiButton').click(function () {
+
+        $('.picmo__searchContainer').remove(); // remove o search box de emojis
+
+        // clique no emoji dentro do modal
+        $('.picmo__emojiButton').off().on('click', function (event) {
+
+            event.stopPropagation(); // impede fechar o modal quando seleciona um emoji
+
+            // junta o texto digitado com o emoji para não imprimir somente o emoji
+            var textoComEmoji = $('#emojiTextarea').val() + $(this).attr('data-emoji');
+
+            // Atualiza o valor do textarea
+            $('#emojiTextarea').val(textoComEmoji);
+
+            // Adiciona o emoji ao array emojisSelecionados
+            emojisSelecionados.push($(this).attr('data-emoji'));
+        });
+
+    });
+
+});

@@ -142,6 +142,10 @@ class Clientes extends CI_Controller
         $this->load->model('Etiquetas_model');
         $data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
 
+        // todos alertas
+        $this->load->model('AlertasWhatsapp_model');
+        $data['alertas'] = $this->AlertasWhatsapp_model->recebeAlertasWhatsApp();
+
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/detalhes-cliente');
         $this->load->view('admin/paginas/clientes/modals');
@@ -276,11 +280,11 @@ class Clientes extends CI_Controller
     public function enviaAlertaCliente()
     {
         $id_cliente = $this->input->post('id_cliente');
-        $id_alerta = $this->input->post('id_alerta');
+        $mensagem = $this->input->post('mensagem');
 
         $this->load->library('NotificacaoZap');
         $notificacao = new NotificacaoZap();
-        $notificacao->enviarTexto($id_cliente,$id_alerta);
+        $notificacao->enviarTexto($id_cliente,$mensagem);
         
         $response = array(
             'success' => true,

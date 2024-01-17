@@ -312,8 +312,6 @@ const detalhesHistoricoColeta = (idColeta) => {
 
             }
 
-
-
         }
     })
 
@@ -349,11 +347,11 @@ const enviarAlertaCliente = () => {
 
     let idCliente = $('.id-cliente').val();
 
-    let idAlerta = $('#select-alertas').val();
+    let mensagem = $('#select-alertas').val();
 
     permissao = true;
 
-    if (!idAlerta) {
+    if (!mensagem) {
         permissao = false;
     }
 
@@ -364,7 +362,7 @@ const enviarAlertaCliente = () => {
             url: `${baseUrl}clientes/enviaAlertaCliente`,
             data: {
                 id_cliente: idCliente,
-                id_alerta: idAlerta
+                mensagem: mensagem
             },
             beforeSend: function () {
 
