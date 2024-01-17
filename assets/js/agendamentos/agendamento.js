@@ -830,10 +830,16 @@ const exibirClientesAgendados = (dataColeta, prioridade) => {
 // remove a opção de arrastar os eventos do calendário
 $(document).ready(function () {
 
+  $('#select-cliente').val('').trigger('change');
+
   $('.fc-daygrid-event').removeClass('fc-event-draggable');
   $('.fc-timegrid-event').removeClass('fc-event-draggable');
   $('.fc-daygrid-event').css('cursor', 'pointer');
 
-});
+  $('.select2').select2({
+      theme: "bootstrap-5",
+      width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+      placeholder: $(this).data('placeholder'),
 
-
+  });
+})

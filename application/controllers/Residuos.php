@@ -63,8 +63,9 @@ class Residuos extends CI_Controller
 
 		// scripts para residuos
 		$scriptsResiduoFooter = scriptsResiduoFooter();
+		$scriptsResiduoHead = scriptsResiduoHead();
 
-		add_scripts('header', array_merge($scriptsPadraoHead));
+		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsResiduoHead));
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsResiduoFooter));
 
 		$id = $this->uri->segment(3);

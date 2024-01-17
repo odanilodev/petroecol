@@ -34402,6 +34402,7 @@ a[href].bg-200:hover, a[href].bg-200:focus {
 
 .select2-search__field {
   z-index: 9999;
+  color:var(--phoenix-900) !important;
 }
 
 .btn-ver-recipiente {

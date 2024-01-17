@@ -253,11 +253,22 @@ function scriptsRecipienteFooter()
 }
 
 // Pagina de residuos
+function scriptsResiduoHead()
+{
+    return array(
+
+        '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />',
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />',
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />'
+
+    );
+}
 function scriptsResiduoFooter()
 {
     return array(
 
-        '<script src="' . base_url('assets/js/residuos/formulario-residuo.js') . '"></script>'
+        '<script src="' . base_url('assets/js/residuos/formulario-residuo.js') . '"></script>',
+        '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>'
 
     );
 }
@@ -280,7 +291,10 @@ function scriptsAgendamentoHead()
 
         '<link href="' . base_url('vendors/fullcalendar/main.min.css') . '" rel="stylesheet" />',
         '<link href="' . base_url('assets/css/theme.css') . '" rel="stylesheet" />',
-        '<link href="' . base_url('vendors/choices/choices.min.css') . '" rel="stylesheet" />'
+        '<link href="' . base_url('vendors/choices/choices.min.css') . '" rel="stylesheet" />',
+        '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />',
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />',
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />'
 
     );
 }
@@ -292,7 +306,9 @@ function scriptsAgendamentoFooter()
         '<script src="' . base_url('vendors/fullcalendar/main.min.js') . '"></script>',
         '<script src="' . base_url('vendors/dayjs/dayjs.min.js') . '"></script>',
         '<script src="' . base_url('vendors/choices/choices.min.js') . '"></script>',
-        '<script src="' . base_url('assets/js/agendamentos/agendamento.js') . '"></script>'
+        '<script src="' . base_url('assets/js/agendamentos/agendamento.js') . '"></script>',
+        '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>'
+
     );
 }
 
