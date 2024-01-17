@@ -91,4 +91,25 @@ class EtiquetaCliente_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+    public function recebeClientesEtiqueta($id_etiqueta)
+    {
+        $this->db->where('id_etiqueta', $id_etiqueta);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('ci_etiqueta_cliente');
+        return $query->result_array();
+    }
+
+    public function recebeTodasEtiquetasClientes()
+    {
+        $this->db->select('EC.id_etiqueta, E.nome');
+        $this->db->from('ci_etiqueta_cliente EC');
+        $this->db->join('ci_etiquetas E', 'EC.id_etiqueta = E.id', 'inner');
+        $this->db->where('EC.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('E.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->group_by('EC.id_etiqueta, E.nome');
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
 }

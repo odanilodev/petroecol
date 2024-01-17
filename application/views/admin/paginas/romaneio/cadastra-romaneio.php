@@ -48,6 +48,7 @@
                                                 <label>Data Agendamento</label>
 
                                                 <input class="form-control datetimepicker input-coleta" required name="data_coleta" type="text" placeholder="Data Agendamento" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
+                                                <span><input id="filtrar-data" type="checkbox"/><small> Filtrar por data</small></span>
                                             </div>
 
                                             <div class="flex-1 text-end my-5">

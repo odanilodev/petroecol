@@ -104,6 +104,7 @@ class Funcionarios extends CI_Controller
 	{
 
 		$this->load->library('upload_imagem');
+		$this->load->helper('validacao_helper');
 
 		$id = $this->input->post('id');
 
@@ -129,6 +130,15 @@ class Funcionarios extends CI_Controller
 
 			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 		}
+
+    // Validar o CPF usando a função do helper
+    if (!validarCpf($dados['cpf'])) {
+			$response = array(
+					'success' => false,
+					'message' => 'CPF inválido. Por favor, insira um CPF válido.'
+			);
+			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
 
 		$imagemAntiga = $this->Funcionarios_model->recebeFuncionario($id);
 

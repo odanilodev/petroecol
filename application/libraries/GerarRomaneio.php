@@ -13,17 +13,19 @@ class GerarRomaneio
 		$this->CI = &get_instance();
 		$this->CI->load->model('Romaneios_model');
 		$this->CI->load->model('Clientes_model');
+		$this->CI->load->model('Agendamentos_model');
 	}
 
 	public function gerarPdf($codigo)
 	{
 		$romaneio = $this->CI->Romaneios_model->recebeRomaneioCod($codigo);
+		$data['id_cliente_prioridade'] = $this->CI->Agendamentos_model->recebeAgendamentoPrioridade($romaneio['data_romaneio']);
 
 		if ($romaneio) {
 
 			$idClientes = json_decode($romaneio['clientes'], true);
 
-			$data['clientes'] = $this->CI->Clientes_model->recebeClientesIds($idClientes, $romaneio['data_romaneio']);
+			$data['clientes'] = $this->CI->Clientes_model->recebeClientesIds($idClientes);
 
 			$data['codigo'] = $codigo;
 			$data['data_romaneio'] = $romaneio['data_romaneio'];

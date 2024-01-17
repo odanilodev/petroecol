@@ -66,25 +66,28 @@ class Romaneios_model extends CI_Model
 
     public function filtrarClientesRomaneio($dados)
     {
-        $this->db->select('C.nome AS CLIENTE, C.id AS ID_CLIENTE, C.cidade, A.data_coleta, ANY_VALUE(E.nome) AS ETIQUETA');
+        $this->db->select('C.nome AS CLIENTE, C.id AS ID_CLIENTE, C.cidade, ANY_VALUE(A.data_coleta), ANY_VALUE(E.nome) AS ETIQUETA');
         $this->db->from('ci_clientes C');
-        $this->db->join('ci_agendamentos A', 'A.id_cliente = C.id', 'inner');
+        $this->db->join('ci_agendamentos A', 'A.id_cliente = C.id', 'left');
         $this->db->join('ci_etiqueta_cliente EC', 'EC.id_cliente = C.id', 'left');
         $this->db->join('ci_etiquetas E', 'EC.id_etiqueta = E.id', 'left');    
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('A.id_empresa', $this->session->userdata('id_empresa'));
 
-        $this->db->where('A.data_coleta', $dados['data_coleta']);
 
         if ($dados['cidades']) {
             $this->db->where_in('C.cidade', $dados['cidades']);
+        }
+
+        if ($dados['data_coleta']) {
+            $this->db->where('A.data_coleta', $dados['data_coleta']);
+
         }
 
         if ($dados['ids_etiquetas']) {
             $this->db->where_in('EC.id_etiqueta', $dados['ids_etiquetas']);
         }
 
-        $this->db->group_by('C.id');
+        $this->db->group_by('C.id, C.cidade, C.nome');
 
         $query = $this->db->get();
 

@@ -293,7 +293,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
         if (!cliente || !data) {
           permissao = false;
 
-          avisoRetorno('Algo deu errado', 'Preencha os campos obrigatórios', 'error', '#');
+          avisoRetorno('Algo deu errado', 'Selecione algum cliente para agendar.', 'error', '#');
           return;
         }
 
@@ -359,7 +359,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
       // novo agendamento
       $(document).on('click', '.btn-salva-agendamento', function () {
 
-        let cliente = $('.cliente-agendamento').val();
+        let clientes = $('.ids-clientes').val();
         let data = $('.data-agendamento').val();
         let horario = $('.horario-agendamento').val();
         let periodo = $('.periodo-agendamento').val();
@@ -368,7 +368,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
 
         let id = $('.input-id').val();
 
-        salvaAgendamento(cliente, data, horario, periodo, obs, id, prioridade);
+        salvaAgendamento(clientes, data, horario, periodo, obs, id, prioridade);
 
       })
 
@@ -602,6 +602,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
       }
 
       if (addEventModal) {
+        
         addEventModal.addEventListener(
           Events.SHOWN_BS_MODAL,
           ({ currentTarget }) => {
@@ -637,8 +638,6 @@ function exibirAgendamentos(currentYear, currentMonth) {
 
       var obj = JSON.parse(jsonString); // transforma os agendamentos em obj
 
-      // status 1 = `coletado ` status 2 = reagendado
-
       for (var i = 0; i < obj.length; i++) {
 
         // verifica o status do agendamento
@@ -669,7 +668,6 @@ function exibirAgendamentos(currentYear, currentMonth) {
             break;
         }
 
-
         // verifica se o agendamento está atrasado
         if (obj[i].data_coleta < dataAtualFormatada && obj[i].status == 0) {
 
@@ -678,12 +676,11 @@ function exibirAgendamentos(currentYear, currentMonth) {
 
         }
 
-
         // se for prioridade adiciona a classe "prioridade"
         var event = {
           title: obj[i].total_agendamento + titulo,
           start: obj[i].data_coleta,
-          className: `${tipo} agendamento dataClicada-${obj[i].data_coleta} ${obj[i].prioridade == 1 ? "prioridade" : ""}`
+          className: `${tipo} agendamento statusClicado-${obj[i].status} dataClicada-${obj[i].data_coleta} ${obj[i].prioridade == 1 ? "prioridade" : ""}`
         };
 
         events.push(event);
@@ -699,23 +696,36 @@ function exibirAgendamentos(currentYear, currentMonth) {
 
 }
 
-
 $(document).on('click', '.agendamento', function () {
 
+  $('#select-cliente').val('').trigger('change');
+  
+  $('#select-cliente').select2({
+    dropdownParent: "#addEventModal",
+    theme: 'bootstrap-5' // Aplicar o tema Bootstrap 4
+  });
+
   let classeClicada = $(this).attr("class").split(" ");
+
   let dataClicada = classeClicada.find(function (className) {
-    return className.match(/\d{4}-\d{2}-\d{2}/);
+    return className.match(/\bdataClicada-\S+/);
+  });
+
+  let statusClicado = classeClicada.find(function (className) {
+    return className.match(/\bstatusClicado-\S+/);
   });
 
   let dataFormatada = dataClicada.replace("dataClicada-", "");
-  $(this).addClass(dataFormatada);
+  let statusFormatado = statusClicado.replace("statusClicado-", "");
+
+  $(this).addClass(`${dataFormatada} ${statusFormatado}`);
 
   // se for prioridade, busca somente os clientes que são prioridade
-  exibirClientesAgendados(dataFormatada, $(this).hasClass('prioridade'));
+  exibirClientesAgendados(dataFormatada, $(this).hasClass('prioridade'), statusFormatado);
 
-})
+});
 
-const exibirClientesAgendados = (dataColeta, prioridade) => {
+const exibirClientesAgendados = (dataColeta, prioridade, status) => {
 
   let prd = prioridade ? 1 : 0;
 
@@ -724,7 +734,8 @@ const exibirClientesAgendados = (dataColeta, prioridade) => {
     method: 'POST',
     data: {
       dataColeta: dataColeta,
-      prioridade: prd
+      prioridade: prd,
+      status: status
     },
     beforeSend: function () {
 
@@ -738,7 +749,6 @@ const exibirClientesAgendados = (dataColeta, prioridade) => {
       $('.load-form').addClass('d-none');
 
       var clientes = data.agendados;
-
 
       $.each(clientes, function (index, cliente) {
 
@@ -755,20 +765,20 @@ const exibirClientesAgendados = (dataColeta, prioridade) => {
 
             <td>
            
-              <input class="form-control datetimepicker flatpickr-input data-modal data-modal-${cliente.id_cliente}" id="datepicker" type="text" placeholder="dd/mm/yyyy" data-options="{&quot;disableMobile&quot;:true,&quot;}" readonly="readonly" value="${dataFormatada}" data-data="${dataFormatada}" data-id="${cliente.id_cliente}"  data-agendamento="${cliente.id}" data-obs="${cliente.observacao}">
+              <input ${cliente.status == 1 ? "disabled" : ""} class="form-control datetimepicker flatpickr-input data-modal data-modal-${cliente.id_cliente}" id="datepicker" type="text" placeholder="dd/mm/yyyy" data-options="{&quot;disableMobile&quot;:true,&quot;}" readonly="readonly" value="${dataFormatada}" data-data="${dataFormatada}" data-id="${cliente.id_cliente}"  data-agendamento="${cliente.id}" data-obs="${cliente.observacao}">
           
             </td>
 
             <td>
            
-            <input class="form-control datetimepicker2 flatpickr-input hora-modal hora-modal-${cliente.id_cliente}" id="timepicker1" type="text" placeholder="hora : minuto" data-options="{&quot;noCalendar&quot;:true,&quot;dateFormat&quot;:&quot;H:i&quot;,&quot;disableMobile&quot;:true}" readonly="readonly" value="${cliente.hora_coleta}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
+            <input ${cliente.status == 1 ? "disabled" : ""} class="form-control datetimepicker2 flatpickr-input hora-modal hora-modal-${cliente.id_cliente}" id="timepicker1" type="text" placeholder="hora : minuto" data-options="{&quot;noCalendar&quot;:true,&quot;dateFormat&quot;:&quot;H:i&quot;,&quot;disableMobile&quot;:true}" readonly="readonly" value="${cliente.hora_coleta}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
 
         
             </td>
 
             <td>
            
-              <select class="form-select w-100 periodo-modal periodo-modal-${cliente.id_cliente}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
+              <select ${cliente.status == 1 ? "disabled" : ""} class="form-select w-100 periodo-modal periodo-modal-${cliente.id_cliente}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
 
                 <option disabled selected value="">Período de Coleta</option>
 
@@ -794,7 +804,7 @@ const exibirClientesAgendados = (dataColeta, prioridade) => {
             </td>
 
             <td>
-              <a style="cursor: pointer" class="text-danger remove-cliente-agendamento" data-mes="${dataDividida[1]}" data-ano="${dataDividida[0]}" data-id="${cliente.id}" title="Cancelar agendamento">
+              <a style="cursor: pointer" class="text-danger remove-cliente-agendamento ${cliente.status == 1 ? "d-none" : ""}" data-mes="${dataDividida[1]}" data-ano="${dataDividida[0]}" data-id="${cliente.id}" title="Cancelar agendamento">
                 <span class="fas fa-times fs-1 ml-5"></span>
               </a>
             </td>
@@ -840,6 +850,54 @@ $(document).ready(function () {
       theme: "bootstrap-5",
       width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
       placeholder: $(this).data('placeholder'),
-
   });
-})
+});
+
+function recebeClientesEtiqueta (idEtiqueta) {
+
+  $.ajax({
+    type: 'POST',
+    url: `${baseUrl}etiquetaCliente/recebeClientesEtiqueta`,
+    data: {
+      id_etiqueta: idEtiqueta
+    }, success: function (data) {
+
+      let idsClientesEtiqueta = [];
+
+      for (let i = 0; i < data.clientesEtiqueta.length; i ++) {
+
+        idsClientesEtiqueta.push(data.clientesEtiqueta[i]['id_cliente']);
+
+      }
+
+      $('.ids-clientes').val(idsClientesEtiqueta);
+
+    }
+
+  })
+
+}
+
+
+$("#select-cliente-etiqueta").change(function() {
+
+  if ($(this).val() != null) {
+
+    recebeClientesEtiqueta($(this).val());
+
+    $('#select-cliente').val('').trigger('change'); // limpa o select de clientes
+  }   
+
+});
+
+$("#select-cliente").change(function() {
+
+  if ($(this).val() != null) {
+
+    $('.ids-clientes').val($(this).val());
+
+    $('#select-cliente-etiqueta').val('').trigger('change'); // limpa o select de etiquetas
+  }
+
+});
+  

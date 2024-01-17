@@ -341,29 +341,12 @@
                               </div>
                             </td>
 
-                            <?php if (!empty($cliente['comodato'])) : ?>
-                              <td class="py-2">
-                                <!-- Botão de Download -->
-                                <a href="<?= base_url_upload('clientes/comodato/' . $cliente['comodato']) ?>" download class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
-                                  <span class="fa-solid fa-download me-sm-2"></span>
-                                  <span class="d-none d-sm-inline">Download</span>
-                                </a>
-                              </td>
-                            <?php endif; ?>
-
+                        
                             <td class="py-2">
-                              <!-- Botão de Upload/Modificar -->
-                              <?php if (!empty($cliente['comodato'])) : ?>
                                 <a data-bs-toggle="modal" data-bs-target=".modal-comodato" href="#" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
-                                  <span class="fa-solid fa-upload me-sm-2"></span>
-                                  <span class="d-none d-sm-inline">Modificar</span>
+                                  <span class="fa-solid fa-eye me-sm-2"></span>
+                                  <span class="d-none d-sm-inline">Visualizar</span>
                                 </a>
-                              <?php else : ?>
-                                <a data-bs-toggle="modal" data-bs-target=".modal-comodato" href="#" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
-                                  <span class="fa-solid fa-upload me-sm-2"></span>
-                                  <span class="d-none d-sm-inline">Cadastrar</span>
-                                </a>
-                              <?php endif; ?>
                             </td>
 
                           </tr>
@@ -570,33 +553,48 @@
 
     <!-- Modal cadastro comodato -->
     <div class="modal fade modal-comodato" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Anexar arquivo de comodato</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <p>Caso já contenha um arquivo cadastrado, ele será substituído.</p>
-            <form action="<?= base_url('clientes/cadastraComodato'); ?>" method="post" enctype="multipart/form-data" id="comodatoForm">
-              <div class="mb-3">
-                <label for="fileInput" class="form-label">Escolha um arquivo:</label>
-                <input type="file" class="form-control" id="fileInput" name="comodato">
-                <input type="hidden" class="form-control" value='<?= $cliente['id'] ?>' name="id">
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                <?php if (!empty($cliente['comodato'])) : ?>
-                  <!-- Botão de Deletar -->
-                  <a href="<?= base_url('clientes/deletaComodato/' . $cliente['id'] . '/' . urlencode($cliente['comodato'])) ?>" class="btn btn-danger">Deletar</a>
-                <?php endif; ?>
-                <button type="submit" class="btn btn-primary">Enviar</button>
-              </div>
-            </form>
-          </div>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Arquivos de Comodato</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Cadastre aqui novos comodatos.</p>
+                    <form action="<?= base_url('ComodatoCliente/cadastraComodato'); ?>" method="post" enctype="multipart/form-data" id="comodatoForm">
+                        <div class="mb-3">
+                            <label for="fileInput" class="form-label">Escolha um arquivo:</label>
+                            <input type="file" class="form-control" id="fileInput" name="comodato">
+                            <input type="hidden" class="form-control" value='<?= $cliente['id'] ?>' name="id">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Arquivos existentes:</label>
+                            <?php if (!empty($comodatos)) : ?>
+                                <ul class="list-group">
+                                    <?php foreach ($comodatos as $comodato) : ?>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <?= strlen($comodato['comodato']) > 20 ? substr($comodato['comodato'], 0, 20) . '...' : $comodato['comodato'] ?>
+                                            <div class="btn-group">
+                                              <a href="<?= base_url('ComodatoCliente/deletaComodato/' . $comodato['id'] . '/' . urlencode($comodato['comodato']) . '/' . $cliente['id']) ?>" class="btn btn-danger">Deletar</a>
+                                              <a href="<?= base_url_upload('clientes/comodato/' . $comodato['comodato']) ?>" class="btn btn-primary" download>Baixar</a>
+                                            </div>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            <?php else : ?>
+                                <p>Nenhum arquivo cadastrado.</p>
+                            <?php endif; ?>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
+
 
     <!-- Modal detalhes histórico de coleta -->
     <div class="modal fade modal-historico-coleta" tabindex="-1">
