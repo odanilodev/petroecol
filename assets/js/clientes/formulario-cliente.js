@@ -282,6 +282,7 @@ const detalhesHistoricoColeta = (idColeta) => {
             idColeta: idColeta,
         }, beforeSend: function () {
 
+            $('.body-coleta').show();
             $('.html-clean').html('');
 
         }, success: function (data) {
@@ -313,6 +314,41 @@ const detalhesHistoricoColeta = (idColeta) => {
             }
 
 
+
+        }
+    })
+
+}
+
+const detalhesHistoricoColetaMassa = (idCliente) => {
+
+    const dataInicio = $('.data-inicio-coleta').val();
+    const dataFim = $('.data-fim-coleta').val();
+
+    if (!dataInicio || !dataFim) {
+        avisoRetorno('Algo deu errado', 'Seleciona datas para gerar certificado!', 'error', '#')
+        return
+    }
+
+    $.ajax({
+        type: 'post',
+        url: `${baseUrl}coletas/clienteColetas`,
+        data: {
+            idCliente: idCliente,
+            dataInicio: dataInicio,
+            dataFim: dataFim
+        }, beforeSend: function () {
+
+            $('.body-coleta').hide();
+
+        }, success: function (data) {
+
+            if (data.success) {
+                $('.btn-gerar-certificado').attr('data-coleta', data.coletasId);
+            } else {
+                avisoRetorno('Algo deu errado', 'Não foi possível encontrar coletas para data selecionada!', 'error', '#')
+                return
+            }
 
         }
     })
