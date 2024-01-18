@@ -101,7 +101,6 @@ const deletarDicionarioGlobal = (id) => {
 };
 
 function duplicarDicionario() {
-
 	// Clone o último grupo de campos dentro de .teste
 	let clone = $(".campos-dicionario .duplica-dicionario").clone();
 
@@ -129,28 +128,7 @@ function duplicarDicionario() {
 
     $(".campos-duplicados").append(novaLinha);
 
-	$('.input-valor-ptbr').keyup(function () {
-		calcularTotal()
-	})
-
 }
-
-$('.input-valor-ptbr').keyup(function () {
-	calcularTotal()
-})
-
-function calcularTotal() {
-    var total = 0;
-
-    $('.input-somar').each(function () {
-        var valor = parseFloat($(this).val()) || 0;
-        total += valor;
-    });
-
-    // Atualiza o valor do campo "Total"
-    console.log(total);
-}
-
 
 const editarDicionarioGlobal = (id) => {
 

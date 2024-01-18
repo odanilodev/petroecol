@@ -19,14 +19,12 @@
                         <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
 
                             <div class="card-body pt-4 pb-0">
-                            <input required class="form-control input-valor-ptbr input-chave input-obrigatorio" required name="chave[]" type="text" placeholder="Chave de pesquisa" value="<?= $dicionarioGlobal['chave'] ?? "" ?>">
-                                            <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                                 <form id="form-dicionario" class="" method="post">
                                     <div class="row campos-dicionario campos-formulario">
 
                                         <div class="col-md-4 mb-3 duplica-dicionario">
                                             <label class="form-label">Chave</label>
-                                            <input required class="form-control input-valor-ptbr input-chave input-obrigatorio" required name="chave[]" type="text" placeholder="Chave de pesquisa" value="<?= $dicionarioGlobal['chave'] ?? "" ?>">
+                                            <input required class="form-control input-chave input-obrigatorio" required name="chave[]" type="text" placeholder="Chave de pesquisa" value="<?= $dicionarioGlobal['chave'] ?? "" ?>">
                                             <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                         </div>
@@ -40,7 +38,7 @@
 
                                         <div class="col-md-3 mb-3 duplica-dicionario">
                                             <label class="form-label">Valor EN</label>
-                                            <input required class="form-control input-valor-ptbr input-valor-en input-obrigatorio" name="valor-en[]" type="text" placeholder="Texto em Inglês" value="<?= $dicionarioGlobal['valor_en'] ?? "" ?>">
+                                            <input required class="form-control input-valor-en input-obrigatorio" name="valor-en[]" type="text" placeholder="Texto em Inglês" value="<?= $dicionarioGlobal['valor_en'] ?? "" ?>">
                                             <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                         </div>
@@ -58,8 +56,6 @@
                                     </div>
 
                                     <div class="flex-1 text-end my-5">
-
-                                        <span>Total <span id="total"></span></span>
                                         <button type="button" class="btn btn-primary px-6 px-sm-6 btn-envia" onclick="cadastraDicionarioGlobal()">Cadastrar
                                             <span class="fas fa-chevron-right" data-fa-transform="shrink-3"> </span>
                                         </button>
