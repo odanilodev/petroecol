@@ -11,9 +11,13 @@ class AlertasWhatsapp_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebeAlertasWhatsApp()
+    public function recebeAlertasWhatsApp($statusAlerta = null)
     {
         $this->db->order_by('titulo', 'DESC');
+        if($statusAlerta)
+        {
+            $this->db->where('status', 1);
+        }
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_alertas_whatsapp');
 

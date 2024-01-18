@@ -339,10 +339,6 @@ $(document).on('click', '.btn-gerar-certificado', function () {
 
 });
 
-const exibirAlertasCliente = (idCliente) => {
-    $('.id-cliente').val(idCliente);
-}
-
 const enviarAlertaCliente = () => {
 
     let idCliente = $('.id-cliente').val();

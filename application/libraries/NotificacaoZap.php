@@ -22,7 +22,7 @@ class NotificacaoZap
 
         $url = "http://centrodainteligencia.com.br/api/index.php/sendText";
 
-        
+
 
         $data = array(
             'number' => "$zap",

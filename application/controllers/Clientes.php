@@ -142,9 +142,11 @@ class Clientes extends CI_Controller
         $this->load->model('Etiquetas_model');
         $data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
 
-        // todos alertas
+        // todos alertas ou alertas ativos (status)
+        $statusAlerta = true;
         $this->load->model('AlertasWhatsapp_model');
-        $data['alertas'] = $this->AlertasWhatsapp_model->recebeAlertasWhatsApp();
+        $data['alertas'] = $this->AlertasWhatsapp_model->recebeAlertasWhatsApp($statusAlerta);
+
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/detalhes-cliente');
