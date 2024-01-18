@@ -19,14 +19,28 @@ class GerarCertificadoColeta
 	public function gerarPdfPadrao($idColeta, $idModelo)
 	{
 		$this->CI->load->library('detalhesColeta');
-		$historicoColeta = $this->CI->detalhescoleta->detalheColeta($idColeta);
 
-		$data['clientes_coletas'] = $this->CI->Coletas_model->recebeColetaCliente($idColeta);
-		$data['dataColeta'] = date('d/m/Y', strtotime($historicoColeta['coleta']['data_coleta']));
+		if (strpos($idColeta, '-') !== false) { // mais de uma coleta
+			$idsColetas = explode("-", $idColeta);
+		} else {
+			$idsColetas = [$idColeta];
+		}
+
+		$dados = [];
+		foreach ($idsColetas as $id) {
+			$historicoColeta = $this->CI->detalhescoleta->detalheColeta($id);
+			$array['dataColeta'] = date('d/m/Y', strtotime($historicoColeta['coleta']['data_coleta']));
+			$array['residuos'] = json_decode($historicoColeta['coleta']['residuos_coletados'], true);
+			$array['quantidade_coletada'] = json_decode($historicoColeta['coleta']['quantidade_coletada'], true);
+			$dados[] = $array;
+		}
+
+		$data['dados'] = $dados;
+
+		// todos residuos cadastrado na empresa
 		$data['residuosColetatos'] = $historicoColeta['residuos'];
-		$data['residuos'] = json_decode($historicoColeta['coleta']['residuos_coletados'], true);
-		$data['quantidade_coletada'] = json_decode($historicoColeta['coleta']['quantidade_coletada'], true);
-
+		// dados cliente
+		$data['clientes_coletas'] = $historicoColeta['coleta'];
 		// modelo do certificado
 		$data['modelo_certificado'] = $this->CI->Certificados_model->recebeCertificadoId($idModelo);
 
