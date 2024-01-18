@@ -5,7 +5,7 @@
                 <div class="col-auto">
                     <div class="d-flex align-items-center">
                         <button class="btn btn-link text-900 me-4 px-0 d-none"><span class="fa-solid fa-file-export fs--1 me-2"></span>Export</button>
-                        <a href="<?= base_url("alertaswhatsapp/formulario/") ?>" class="btn btn-primary"><span class="fas fa-plus me-2"></span>Adicionar Alerta</a>
+                        <a href="<?= base_url("alertasWhatsapp/formulario/") ?>" class="btn btn-primary"><span class="fas fa-plus me-2"></span>Adicionar Alerta</a>
                     </div>
                 </div>
 
@@ -63,7 +63,7 @@
                                     </td>
 
                                     <td class="align-middle white-space-nowrap">
-                                        <a href="<?= base_url('alertaswhatsapp/formulario/' . $v['id']) ?>" class="btn btn-info">
+                                        <a href="<?= base_url('alertasWhatsapp/formulario/' . $v['id']) ?>" class="btn btn-info">
                                             <span class="fas fa-pencil ms-1"></span>
                                         </a>
                                     </td>

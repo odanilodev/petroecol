@@ -38,7 +38,7 @@ const cadastraAlertaWhatsapp = () => {
 
         $.ajax({
             type: "post",
-            url: `${baseUrl}alertaswhatsapp/cadastraAlertaWhatsapp`,
+            url: `${baseUrl}alertasWhatsapp/cadastraAlertaWhatsapp`,
             data: {
                 titulo: titulo,
                 textoAlerta: textoAlerta,
@@ -56,7 +56,7 @@ const cadastraAlertaWhatsapp = () => {
 
                 if (data.success) {
 
-                    avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}alertaswhatsapp`);
+                    avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}alertasWhatsapp`);
 
                 } else {
 
@@ -86,12 +86,12 @@ const deletaAlertaWhatsapp = (id) => {
 
             $.ajax({
                 type: 'post',
-                url: `${baseUrl}alertaswhatsapp/deletaAlertaWhatsapp`,
+                url: `${baseUrl}alertasWhatsapp/deletaAlertaWhatsapp`,
                 data: {
                     id: id
                 }, success: function (data) {
 
-                    let redirect = data.type != 'error' ? `${baseUrl}alertaswhatsapp` : '#';
+                    let redirect = data.type != 'error' ? `${baseUrl}alertasWhatsapp` : '#';
 
                     avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
