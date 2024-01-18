@@ -11,7 +11,7 @@ class NotificacaoZap
         $this->CI->load->model('Clientes_model');
     }
 
-    public function enviarTexto($id_cliente, $mensagem)
+    public function enviarTexto(int $id_cliente, string $mensagem): bool 
     {
 
         $cliente = $this->CI->Clientes_model->recebeCliente($id_cliente);
@@ -21,8 +21,6 @@ class NotificacaoZap
         $zap = "55" . $apenasNumeros;
 
         $url = "http://centrodainteligencia.com.br/api/index.php/sendText";
-
-
 
         $data = array(
             'number' => "$zap",
@@ -36,7 +34,6 @@ class NotificacaoZap
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $corpo);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
 
         $headers = array(
             "X-Custom-Header: header-value",
@@ -47,6 +44,13 @@ class NotificacaoZap
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         $response = curl_exec($curl);
         $res = json_decode($response, true);
-        return $res;
+        $res2 = json_decode($res, true);
+
+
+        if($res2['keyId']){
+            return true;
+        }
+
+        return false;
     }
 }

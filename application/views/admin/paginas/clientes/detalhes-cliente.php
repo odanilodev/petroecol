@@ -54,7 +54,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalAlertas">
+              <a class="dropdown-item" href="#" data-bs-toggle="modal" onclick="exibirAlertasClientes(<?= $cliente['id'] ?>)" data-bs-target="#modalAlertas">
                 <span class="text-900 uil-message"></span>
                 <span class="text-900"> Alertas</span>
               </a>

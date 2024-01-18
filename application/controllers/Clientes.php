@@ -137,7 +137,7 @@ class Clientes extends CI_Controller
         // todos recipientes
         $this->load->model('Recipientes_model');
         $data['recipientes'] = $this->Recipientes_model->recebeTodosRecipientes();
-        
+
         // todas etiquetas 
         $this->load->model('Etiquetas_model');
         $data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
@@ -286,12 +286,19 @@ class Clientes extends CI_Controller
 
         $this->load->library('NotificacaoZap');
         $notificacao = new NotificacaoZap();
-        $notificacao->enviarTexto($id_cliente,$mensagem);
-        
+        $retorno = $notificacao->enviarTexto($id_cliente, $mensagem);
+
         $response = array(
-            'success' => true,
-            'message' => "Alerta enviado com sucesso!"
+            'success' => false,
+            'message' => 'Infelizmente não foi possível enviar sua mensagem a este número, tente novamente mais tarde.'
         );
+
+        if ($retorno == true) {
+            $response = array(
+                'success' => true,
+                'message' => "Mensagem enviada com sucesso."
+            );
+        }
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
