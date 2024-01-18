@@ -51,6 +51,7 @@ class Coletas_model extends CI_Model
         $this->db->where('id_cliente', $id_cliente);
         $this->db->where('data_coleta >=', $data_inicio);
         $this->db->where('data_coleta <=', $data_fim);
+        $this->db->order_by('data_coleta');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
 
         $query = $this->db->get();
