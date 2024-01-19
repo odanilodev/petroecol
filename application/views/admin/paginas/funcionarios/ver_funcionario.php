@@ -46,20 +46,7 @@
                                         <h5 class="text-1000 mb-0">Validade da CNH</h5>
                                     </div>
                                     <p class="mb-0 text-800">
-                                    <?php
-                                        if ($funcionario['data_cnh'] && $funcionario['data_cnh'] != '0000-00-00') {
-                                            $dataCnh = strtotime($funcionario['data_cnh']);
-                                            $dataAtual = strtotime(date('Y-m-d'));
-
-                                            echo date('d/m/Y', $dataCnh);
-
-                                            if ($dataCnh < $dataAtual) {
-                                                echo ' (Vencido)';
-                                            }
-                                        } else {
-                                            echo 'Não cadastrado';
-                                        }
-                                        ?>
+                                    <?= $info_cnh ?>
                                     </p>
                                 </div>
 
@@ -69,20 +56,7 @@
                                         <h5 class="text-1000 mb-0">Validade ASO</h5>
                                     </div>
                                     <p class="mb-0 text-800">
-                                    <?php
-                                        if ($funcionario['data_aso'] && $funcionario['data_aso'] != '0000-00-00') {
-                                            $dataAso = strtotime($funcionario['data_aso']);
-                                            $dataAtual = strtotime(date('Y-m-d'));
-
-                                            echo date('d/m/Y', $dataAso);
-
-                                            if ($dataAso < $dataAtual) {
-                                                echo ' (Vencido)';
-                                            }
-                                        } else {
-                                            echo 'Não cadastrado';
-                                        }
-                                    ?>
+                                    <?= $info_aso ?>
                                     </p>
                                 </div>
 

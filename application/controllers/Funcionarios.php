@@ -63,6 +63,33 @@ class Funcionarios extends CI_Controller
 
 		$data['documentos'] = ['cnh', 'cpf', 'aso', 'epi', 'registro', 'carteira', 'vacinacao', 'certificados', 'ordem'];
 
+		//Texto para informacoes de CNH
+		if ($data['funcionario']['data_cnh'] && $data['funcionario']['data_cnh'] != '0000-00-00') {
+			$dataCnh = strtotime($data['funcionario']['data_cnh']);
+			$dataAtual = strtotime(date('Y-m-d'));
+
+			$data['info_cnh'] = date('d/m/Y', $dataCnh);
+
+			if ($dataCnh < $dataAtual) {
+				$data['info_cnh'] = $data['info_cnh'].' (Vencido)';
+			}
+		} else {
+			$data['info_cnh'] = 'Não cadastrado';
+		}
+
+		//Texto para informacoes da ASO
+		if ($data['funcionario']['data_aso'] && $data['funcionario']['data_aso'] != '0000-00-00') {
+			$dataAso = strtotime($data['funcionario']['data_aso']);
+			$dataAtual = strtotime(date('Y-m-d'));
+
+			$data['info_aso'] = date('d/m/Y', $dataAso);
+
+			if ($dataAso < $dataAtual) {
+				$data['info_aso'] = $data['info_aso'].' (Vencido)';
+			}
+		} else {
+			$data['info_aso'] = 'Não cadastrado';
+		}
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/funcionarios/ver_funcionario');
