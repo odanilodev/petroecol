@@ -331,6 +331,8 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
         return
     }
 
+    $('.modal-historico-coleta').modal('show');
+
     $.ajax({
         type: 'post',
         url: `${baseUrl}coletas/clienteColetas`,
@@ -345,7 +347,9 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
         }, success: function (data) {
 
             if (data.success) {
-                $('.btn-gerar-certificado').attr('data-coleta', data.coletasId);
+               
+                 $('.input-id-coleta').val(data.coletasId);
+
             } else {
                 avisoRetorno('Algo deu errado', 'Não foi possível encontrar coletas para data selecionada!', 'error', '#')
                 return

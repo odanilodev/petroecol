@@ -502,7 +502,7 @@
 
                 <div class="col-2">
 
-                  <button onclick="detalhesHistoricoColetaMassa(<?= $cliente['id'] ?>)" data-bs-toggle="modal" data-bs-target=".modal-historico-coleta" class="btn btn-phoenix-primary px-6">Gerar</button>
+                  <button onclick="detalhesHistoricoColetaMassa(<?= $cliente['id'] ?>)" class="btn btn-phoenix-primary px-6">Gerar</button>
 
                 </div>
 
