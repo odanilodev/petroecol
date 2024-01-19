@@ -24,7 +24,7 @@ class Funcionarios extends CI_Controller
 		date_default_timezone_set('America/Sao_Paulo');
 	}
 	
-	private function formatarInformacaoData($dataString, $tipo)
+	private function formatarInformacaoData($dataString)
 	{
 		if ($dataString && $dataString != '0000-00-00') {
 			$dataTimestamp = strtotime($dataString);
