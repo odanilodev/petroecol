@@ -275,6 +275,8 @@ const alteraStatusCliente = (id) => {
 
 const detalhesHistoricoColeta = (idColeta) => {
 
+    $('.input-id-coleta').val(idColeta);
+
     $.ajax({
         type: 'post',
         url: `${baseUrl}coletas/detalhesHistoricoColeta`,
@@ -288,8 +290,7 @@ const detalhesHistoricoColeta = (idColeta) => {
         }, success: function (data) {
 
             if (data.success) {
-                $('.btn-gerar-certificado').attr('data-coleta', idColeta);
-
+               
                 let valorPago = JSON.parse(data.coleta['valor_pago']);
                 let qtdColeta = JSON.parse(data.coleta['quantidade_coletada']);
                 let formaPag = JSON.parse(data.coleta['forma_pagamento']);
@@ -366,7 +367,7 @@ $(document).on('click', '.btn-gerar-certificado', function () {
     }
 
     const idModelo = modeloCertificado;
-    const coleta = $(this).data('coleta');
+    const coleta = $('.input-id-coleta').val();
 
     if (idModelo && coleta) {
         var redirect = `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}`

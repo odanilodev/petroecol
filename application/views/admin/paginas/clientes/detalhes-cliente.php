@@ -714,6 +714,7 @@
               </div>
             </div>
 
+            <input type="hidden" class="input-id-coleta">
             <button class="btn btn-success btn-salva-etiqueta btn-form btn-gerar-certificado" type="button">Gerar Certificado</button>
             <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
