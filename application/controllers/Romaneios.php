@@ -134,26 +134,29 @@ class Romaneios extends CI_Controller
 	{
 		$codRomaneio = $this->input->post('codRomaneio');
 
-		$romaneio = $this->Romaneios_model->recebeIdsClientesRomaneios($codRomaneio);
+		$this->load->model('Agendamentos_model');
+
+		$romaneio = $this->Romaneios_model->recebeRomaneioCod($codRomaneio);
+
+		$id_cliente_prioridade = $this->Agendamentos_model->recebeAgendamentoPrioridade($romaneio['data_romaneio']);
 
 		$idsClientes = json_decode($romaneio['clientes'], true);
 
-		$clientesRomaneio = $this->Clientes_model->recebeClientesRomaneio($idsClientes);
+		$clientesRomaneio = $this->Clientes_model->recebeClientesIds($idsClientes);
 
 		// residuos
 		$this->load->model('Residuos_model');
-
 		$residuos = $this->Residuos_model->recebeTodosResiduos();
 
 		// formas de pagamentos
 		$this->load->model('FormaPagamento_model');
-
 		$formas_pagamentos = $this->FormaPagamento_model->recebeFormasPagamento();
 
 		$response = array(
 			'retorno' => $clientesRomaneio,
 			'residuos' => $residuos,
 			'pagamentos' => $formas_pagamentos,
+			'id_cliente_prioridade' => $id_cliente_prioridade,
 			'registros' => count($clientesRomaneio)
 		);
 
