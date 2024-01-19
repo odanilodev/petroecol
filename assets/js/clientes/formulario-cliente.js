@@ -275,6 +275,8 @@ const alteraStatusCliente = (id) => {
 
 const detalhesHistoricoColeta = (idColeta) => {
 
+    $('.input-id-coleta').val(idColeta);
+
     $.ajax({
         type: 'post',
         url: `${baseUrl}coletas/detalhesHistoricoColeta`,
@@ -282,13 +284,13 @@ const detalhesHistoricoColeta = (idColeta) => {
             idColeta: idColeta,
         }, beforeSend: function () {
 
+            $('.body-coleta').show();
             $('.html-clean').html('');
 
         }, success: function (data) {
 
             if (data.success) {
-                $('.btn-gerar-certificado').attr('data-coleta', idColeta);
-
+               
                 let valorPago = JSON.parse(data.coleta['valor_pago']);
                 let qtdColeta = JSON.parse(data.coleta['quantidade_coletada']);
                 let formaPag = JSON.parse(data.coleta['forma_pagamento']);
@@ -319,6 +321,45 @@ const detalhesHistoricoColeta = (idColeta) => {
 
 }
 
+const detalhesHistoricoColetaMassa = (idCliente) => {
+
+    const dataInicio = $('.data-inicio-coleta').val();
+    const dataFim = $('.data-fim-coleta').val();
+
+    if (!dataInicio || !dataFim) {
+        avisoRetorno('Algo deu errado', 'Seleciona datas para gerar certificado!', 'error', '#')
+        return
+    }
+
+    $('.modal-historico-coleta').modal('show');
+
+    $.ajax({
+        type: 'post',
+        url: `${baseUrl}coletas/clienteColetas`,
+        data: {
+            idCliente: idCliente,
+            dataInicio: dataInicio,
+            dataFim: dataFim
+        }, beforeSend: function () {
+
+            $('.body-coleta').hide();
+
+        }, success: function (data) {
+
+            if (data.success) {
+               
+                 $('.input-id-coleta').val(data.coletasId);
+
+            } else {
+                avisoRetorno('Algo deu errado', 'Não foi possível encontrar coletas para data selecionada!', 'error', '#')
+                return
+            }
+
+        }
+    })
+
+}
+
 $(document).on('click', '.btn-gerar-certificado', function () {
 
     let modeloCertificado = $('.select-modelo-certificado').val();
@@ -330,7 +371,7 @@ $(document).on('click', '.btn-gerar-certificado', function () {
     }
 
     const idModelo = modeloCertificado;
-    const coleta = $(this).data('coleta');
+    const coleta = $('.input-id-coleta').val();
 
     if (idModelo && coleta) {
         var redirect = `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}`

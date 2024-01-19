@@ -54,12 +54,6 @@
 
         <div style="margin-top: 5px">
             <h3 style="font-weight: bold; text-transform:uppercase"><?= $modelo_certificado['titulo']; ?> </h3>
-
-
-            <div style="font-size: 14px" class="col-md-6">
-                Data: <strong><?= date('d/m/Y', strtotime($clientes_coletas['data_coleta'])); ?></strong> <br>
-            </div>
-
         </div>
 
         <div style="margin-top: 25px;">
@@ -118,12 +112,19 @@
                 </thead>
                 <tbody>
 
-                    <?php for ($i = 0; $i < count($quantidade_coletada); $i++) { ?>
-                        <tr>
-                            <td style="width: 15px;"><?= $quantidade_coletada[$i] ?><?= $residuosColetatos[$residuos[$i]] ?></td>
-                            <td style="width: 15px;"><?= $dataColeta ?></td>
-                        </tr>
-                    <?php } ?>
+                    <?php
+                    foreach ($dados as $dado) :
+                        for ($i = 0; $i < count($dado['quantidade_coletada']); $i++) : ?>
+
+                            <tr>
+                                <td style="width: 15px;"><?= $dado['quantidade_coletada'][$i] ?><?= $residuosColetatos[$dado['residuos'][$i]] ?></td>
+                                <td style="width: 15px;"><?= $dado['dataColeta'] ?></td>
+                            </tr>
+
+                    <?php
+                        endfor;
+                    endforeach;
+                    ?>
 
                 </tbody>
             </table>
