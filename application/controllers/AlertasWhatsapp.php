@@ -72,10 +72,10 @@
 			$dados['id_empresa'] = $this->session->userdata('id_empresa');
 			$dados['status'] = $this->input->post('statusAlerta');
 
-			$alerta = $this->AlertasWhatsapp_model->recebeAlertaWhatsappTitulo($dados['titulo']); // verifica se já existe o alerta
+			$alerta = $this->AlertasWhatsapp_model->recebeAlertaWhatsappTitulo($dados['titulo'], $id); // verifica se já existe o alerta
 
 			// Verifica se o alerta já existe e se não é o alerta que está sendo editada
-			if ($alerta && $alerta['id'] != $id) {
+			if ($alerta) {
 
 				$response = array(
 					'success' => false,

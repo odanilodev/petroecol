@@ -34,9 +34,10 @@ class AlertasWhatsapp_model extends CI_Model
         return $query->row_array();
     }
 
-    public function recebeAlertaWhatsappTitulo($titulo)
+    public function recebeAlertaWhatsappTitulo($titulo, $id)
     {
         $this->db->where('titulo', $titulo);
+        $this->db->where('id <>', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_alertas_whatsapp');
 
