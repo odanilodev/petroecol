@@ -23,6 +23,24 @@ class Funcionarios extends CI_Controller
 		$this->load->model('Funcionarios_model');
 		date_default_timezone_set('America/Sao_Paulo');
 	}
+	
+	private function formatarInformacaoData($dataString, $tipo)
+	{
+		if ($dataString && $dataString != '0000-00-00') {
+			$dataTimestamp = strtotime($dataString);
+			$dataAtual = strtotime(date('Y-m-d'));
+
+			$texto = date('d/m/Y', $dataTimestamp);
+
+			if ($dataTimestamp < $dataAtual) {
+				$texto = $texto . ' (Vencido)';
+			}
+		} else {
+			$texto = 'Não cadastrado';
+		}
+
+		return $texto;
+	}
 
 	public function index()
 	{
@@ -63,33 +81,9 @@ class Funcionarios extends CI_Controller
 
 		$data['documentos'] = ['cnh', 'cpf', 'aso', 'epi', 'registro', 'carteira', 'vacinacao', 'certificados', 'ordem'];
 
-		//Texto para informacoes de CNH
-		if ($data['funcionario']['data_cnh'] && $data['funcionario']['data_cnh'] != '0000-00-00') {
-			$dataCnh = strtotime($data['funcionario']['data_cnh']);
-			$dataAtual = strtotime(date('Y-m-d'));
+		$data['info_cnh'] = $this->formatarInformacaoData($data['funcionario']['data_cnh'], 'CNH');
 
-			$data['info_cnh'] = date('d/m/Y', $dataCnh);
-
-			if ($dataCnh < $dataAtual) {
-				$data['info_cnh'] = $data['info_cnh'].' (Vencido)';
-			}
-		} else {
-			$data['info_cnh'] = 'Não cadastrado';
-		}
-
-		//Texto para informacoes da ASO
-		if ($data['funcionario']['data_aso'] && $data['funcionario']['data_aso'] != '0000-00-00') {
-			$dataAso = strtotime($data['funcionario']['data_aso']);
-			$dataAtual = strtotime(date('Y-m-d'));
-
-			$data['info_aso'] = date('d/m/Y', $dataAso);
-
-			if ($dataAso < $dataAtual) {
-				$data['info_aso'] = $data['info_aso'].' (Vencido)';
-			}
-		} else {
-			$data['info_aso'] = 'Não cadastrado';
-		}
+		$data['info_aso'] = $this->formatarInformacaoData($data['funcionario']['data_aso'], 'ASO');
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/funcionarios/ver_funcionario');
@@ -268,4 +262,5 @@ class Funcionarios extends CI_Controller
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
 }
