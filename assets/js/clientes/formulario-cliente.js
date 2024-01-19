@@ -378,6 +378,9 @@ const enviarAlertaCliente = () => {
                 if (data.success) {
                     avisoRetorno('Sucesso!', `${data.message}`, 'success', '#');
                     $("#modalAlertas").modal('hide');
+                } else {
+                    avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
+                    $("#modalAlertas").modal('hide');
                 }
             }
         })

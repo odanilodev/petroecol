@@ -290,13 +290,13 @@ class Clientes extends CI_Controller
 
         $response = array(
             'success' => false,
-            'message' => 'Infelizmente não foi possível enviar sua mensagem a este número, tente novamente mais tarde.'
+            'message' => $retorno
         );
 
-        if ($retorno == true) {
+        if ($retorno === 'true') {
             $response = array(
                 'success' => true,
-                'message' => "Mensagem enviada com sucesso."
+                'message' => 'Mensagem enviada com sucesso'
             );
         }
 

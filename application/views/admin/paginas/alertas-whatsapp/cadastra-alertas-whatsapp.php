@@ -41,7 +41,7 @@
                         </div>
 
                         <div class="col-md-12 mb-3">
-                          <label class="form-label">Check para ativar/inativar alerta</label>
+                          <label class="form-label">Ativar</label>
                           <input class="input-status-alerta" type="checkbox" <?= isset($alerta['status']) && $alerta['status'] ? 'checked' : '' ?>>
                         </div>
 

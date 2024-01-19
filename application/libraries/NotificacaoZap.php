@@ -9,9 +9,10 @@ class NotificacaoZap
     {
         $this->CI = &get_instance();
         $this->CI->load->model('Clientes_model');
+        $this->CI->load->model('TokenZap_model');
     }
 
-    public function enviarTexto(int $id_cliente, string $mensagem): bool 
+    public function enviarTexto(int $id_cliente, string $mensagem, string $tipo = 'padrao'): string
     {
 
         $cliente = $this->CI->Clientes_model->recebeCliente($id_cliente);
@@ -19,6 +20,14 @@ class NotificacaoZap
         // Remover caracteres não numéricos
         $apenasNumeros = preg_replace("/[^0-9]/", "", $cliente['telefone']);
         $zap = "55" . $apenasNumeros;
+
+        $bdToken = $this->CI->TokenZap_model->recebeTokenZap($tipo, $zap);
+
+        if ($bdToken) {
+            $token = $bdToken['token'] ?? null;
+        } else {
+            return 'Api Inativa';
+        }
 
         $url = "http://centrodainteligencia.com.br/api/index.php/sendText";
 
@@ -38,19 +47,25 @@ class NotificacaoZap
         $headers = array(
             "X-Custom-Header: header-value",
             "Content-Type: application/json",
-            "token: JnPYbs6FkC1tiVLREAABoAAAkgA22"
+            "token: $token"
         );
 
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         $response = curl_exec($curl);
         $res = json_decode($response, true);
-        $res2 = json_decode($res, true);
 
 
-        if($res2['keyId']){
-            return true;
+
+        if ($res['ERROR'] ?? null) {
+            return $res['ERROR'];
         }
 
-        return false;
+        $res2 = json_decode($res, true);
+
+        if ($res2['keyId']) {
+            return 'true';
+        }
+
+        return 'Infelizmente não foi possível enviar sua mensagem a este número, tente novamente mais tarde.';
     }
 }
