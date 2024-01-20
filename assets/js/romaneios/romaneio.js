@@ -70,8 +70,8 @@ const filtrarClientesRomaneio = () => {
                 for (i = 0; i < data.registros; i++) {
 
                     let clientes = `
-                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                        <td class="align-middle white-space-nowrap">
+                    <tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
+                        <td class="align-middle white-space-nowrap nome-cliente">
                             ${data.retorno[i].CLIENTE}
                         </td>
 
@@ -173,7 +173,24 @@ $(document).on('click', '.add-cliente', function () {
 
 $('#select-cliente-modal').change(function () {
 
-    let cliente = $('#select-cliente-modal option:selected').text();
+    let cliente = $('#select-cliente-modal option:selected').text(); // cliente que será adicionado
+
+    let clientesAdicionados = []; // clientes que já está no modal
+
+    $('.clientes-romaneio').each(function () {
+
+        let nomeCliente = $(this).find('.nome-cliente').text();
+
+        clientesAdicionados.push(nomeCliente.trim())
+    })
+
+    // verifica se o cliente novo já foi adicionado
+    if ($.inArray(cliente, clientesAdicionados) !== -1) {
+
+        avisoRetorno('Algo deu errado.', 'Este cliente já está existe', 'error', '#');
+        return;
+    }
+
 
     let valSelectClienteModal = $('#select-cliente-modal option:selected').val().split('|');
 
@@ -186,8 +203,8 @@ $('#select-cliente-modal').change(function () {
     $('.div-select-modal').addClass('d-none');
 
     let clientes = `
-        <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-            <td class="align-middle white-space-nowrap">
+        <tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
+            <td class="align-middle white-space-nowrap nome-cliente">
                 ${cliente}
             </td>
 
