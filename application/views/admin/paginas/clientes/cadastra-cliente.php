@@ -161,21 +161,6 @@
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
-                          <div class="mb-2">
-                            <label class="form-label text-900">Forma de pagamento</label>
-                            <select required name="id_forma_pagamento" class="form-select campo-empresa select-forma-pagamento">
-                              <option value="" selected disabled>Selecione</option>
-
-                              <?php foreach($formapagamento as $v) { ?>
-                                <option value="<?= $v['id']?>" <?= (isset($cliente['id_forma_pagamento']) && $cliente['id_forma_pagamento'] == $v['id']) ? 'selected' : ''; ?>><?= $v['forma_pagamento'];?></option>
-                              <?php }?>
-
-                            </select>
-                            <div class="invalid-feedback">Preencha este campo</div>
-                          </div>
-                        </div>
-
-                        <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">Grupo de negócio</label>
                           <input class="form-control campo-empresa" type="text" name="grupo_negocio" value="<?= $cliente['grupo_negocio'] ?? ''; ?>" placeholder="Grupo de negócio" />
                         </div>
@@ -198,6 +183,31 @@
 
                             </select>
                           </div>
+                        </div>
+
+                        <div class="mb-2 mt-5 col-md-3">
+                          <div class="mb-2">
+                            <label class="form-label text-900">Forma de pagamento</label>
+                            <select required name="id_forma_pagamento" class="form-select campo-empresa select-forma-pagamento">
+                              <option value="" selected disabled>Selecione</option>
+
+                              <?php foreach ($formapagamento as $v) { ?>
+                                <option value="<?= $v['id'] ?>" <?= (isset($cliente['id_forma_pagamento']) && $cliente['id_forma_pagamento'] == $v['id']) ? 'selected' : ''; ?>><?= $v['forma_pagamento']; ?></option>
+                              <?php } ?>
+
+                            </select>
+                            <div class="invalid-feedback">Preencha este campo</div>
+                            <label for="toggleCheckbox">Adicionar observação ao pagamento</label>
+                            <input type="checkbox" id="toggleCheckbox">
+                          </div>
+                        </div>
+
+                        <div class="col-md-3 mt-5 mb-2">
+
+                          <label class="form-label">Observação sobre a forma de Pagamento</label>
+                          <textarea class="form-control input-obs input-ons-${clientes[i].id}" id="exampleTextarea" rows="1"> </textarea>
+                          <div class="text-danger d-none aviso-msg">Preencha este campo.</div>
+
                         </div>
 
                        

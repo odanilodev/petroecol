@@ -148,6 +148,17 @@ $(document).ready(function () {
 
     }
 
+    // deixa a text-area escondida
+    $('.input-obs').parent().css('display', 'none');
+
+    // caso haja mudança na checkbox
+    $('#toggleCheckbox').on('change', function () {
+        var textareaContainer = $('.input-obs'); // Seleciona a textarea
+
+        // Se o checkbox estiver marcado, mostra a textarea; se não, oculta.
+        textareaContainer.parent().css('display', this.checked ? 'block' : 'none');
+    });
+
 });
 
 $(document).on('click', '.btn-proximo', function () {
