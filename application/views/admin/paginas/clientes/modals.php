@@ -58,8 +58,9 @@
                     <select class="form-select w-100" id="select-alertas">
 
                         <option disabled selected value="">Selecione</option>
-                        <option value="1">Notificação cliente ouro</option>
-                        <option value="2">Notificação de inativação</option>
+                        <?php foreach($alertas as $alerta) {?>
+                        <option value="<?= $alerta['texto_alerta']?>"><?= $alerta['titulo']?></option>
+                        <?php }?>
 
                     </select>
 

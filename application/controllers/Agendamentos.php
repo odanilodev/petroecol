@@ -38,6 +38,9 @@ class Agendamentos extends CI_Controller
         $this->load->model('Clientes_model');
         $data['clientes'] = $this->Clientes_model->recebeTodosClientes();
 
+        $this->load->model('EtiquetaCliente_model');
+        $data['etiquetas'] = $this->EtiquetaCliente_model->recebeTodasEtiquetasClientes();
+
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/agendamentos/agendamentos');
         $this->load->view('admin/includes/painel/rodape');
@@ -45,7 +48,9 @@ class Agendamentos extends CI_Controller
 
     public function cadastraAgendamento()
     {
-        $dados['id_cliente'] = $this->input->post('cliente');
+        $clientes = $this->input->post('cliente');
+        $idsClientes = explode(',', $clientes);
+    
         $dados['data_coleta'] = $this->input->post('data');
         $dados['hora_coleta'] = $this->input->post('horario');
         $dados['periodo_coleta'] = $this->input->post('periodo');
@@ -53,36 +58,41 @@ class Agendamentos extends CI_Controller
         $dados['prioridade'] = $this->input->post('prioridade');
         $dados['id_empresa'] = $this->session->userdata('id_empresa');
         $id = $this->input->post('id');
+    
+        $response = array('success' => true);
+    
+        for ($i = 0; $i < count($idsClientes); $i++) {
+    
+            // verifica se já existe o cliente agendado nessa data
+            $clienteAgendado = $this->Agendamentos_model->recebeClienteAgendado($idsClientes[$i], $dados['data_coleta']);
+    
+            if (!$clienteAgendado) {
+                
+                // Se o cliente não está agendado, realiza a inserção ou edição
+                $dados['id_cliente'] = $idsClientes[$i];
+                $retorno = $id ? $this->Agendamentos_model->editaAgendamento($id, $dados) : $this->Agendamentos_model->insereAgendamento($dados);
+    
+                if (!$retorno) {
+                    $response = array(
+                        'success' => false,
+                        'message' => 'Erro ao inserir ou editar agendamento para o cliente:'
+                    );
+                    break; // para o loop se der erro
+                }
 
-        $clienteAgendado = $this->Agendamentos_model->recebeClienteAgendado($dados['id_cliente'], $dados['data_coleta']);
-
-        if ($clienteAgendado && !$id) {
-
-            $response = array(
-                'success' => false,
-                'message' => 'Este cliente já está agendado para este dia.'
-            );
-
-            return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-           
+            } else {
+                // Se o cliente já está agendado, atualiza a mensagem de erro
+                $response = array(
+                    'success' => false,
+                    'message' => 'Este cliente já está agendado para este dia.'
+                );
+            }
         }
-
-        $retorno = $id ? $this->Agendamentos_model->editaAgendamento($id, $dados) : $this->Agendamentos_model->insereAgendamento($dados); // se tiver ID edita se não INSERE
-
-        if ($retorno) { // inseriu ou editou
-
-            $response = array(
-                'success' => true
-            );
-        } else { // erro ao inserir ou editar
-
-            $response = array(
-                'success' => false
-            );
-        }
-
+    
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
+    
+
 
     public function exibirAgendamentos()
     {
@@ -113,7 +123,6 @@ class Agendamentos extends CI_Controller
 
         // Responda com os dados em formato JSON
         return $this->output->set_content_type('application/json')->set_output(json_encode($data));
-
     }
 
     public function cancelaAgendamentoCliente()

@@ -64,7 +64,7 @@
                                             <div class="mb-2 col-md-4">
                                                 <label class="form-label text-900 " for="bootstrap-wizard-validation-wizard-cpf">CPF*</label>
                                                 <input required value="<?= isset($funcionario['cpf']) ? $funcionario['cpf'] : "" ?>" class="form-control input-obrigatorio input-cpf mascara-cpf" type="text" name="nome" placeholder="Digite o CPF" />
-                                                <div class="invalid-feedback">Preencha este campo.</div>
+                                                <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
                                             </div>
 
 

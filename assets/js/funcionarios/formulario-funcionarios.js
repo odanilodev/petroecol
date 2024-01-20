@@ -93,7 +93,7 @@ const cadastraFuncionario = () => {
 
                     avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
 
-                    if (data.message == 'Já existe um funcionário com este CPF!') {
+                    if (data.message == 'Já existe um funcionário com este CPF!' || data.message == 'CPF inválido. Por favor, insira um CPF válido.') {
                         $('.input-cpf').addClass('invalido');
                     }
 
