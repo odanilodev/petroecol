@@ -92,11 +92,13 @@ class Veiculos extends CI_Controller
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 		$dados['placa'] = $this->input->post('placa');
 
-		$placa = $this->Veiculos_model->recebePlacaVeiculo($dados['placa']); // verifica se já existe a placa
+		$placa = $this->Veiculos_model->recebePlacaVeiculo($dados['placa'], $id); // verifica se já existe a placa
 
 		// Verifica se a placa já existe e se não é a placa que está sendo editada
-		if ($placa && $placa['id'] != $id) {
+		if ($placa) {
 			$response = array(
+				'title' => "Algo deu errado!",
+				'type' => "error",
 				'success' => false,
 				'message' => "Esta placa já existe! Tente cadastrar uma diferente."
 			);

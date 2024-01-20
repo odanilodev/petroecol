@@ -28,9 +28,10 @@ class FormaPagamento_model extends CI_Model
         return $query->row_array();
     }
 
-    public function recebeFormaPagamentoNome($nome)
+    public function recebeFormaPagamentoNome($nome, $id)
     {
         $this->db->where('forma_pagamento', $nome);
+        $this->db->where('id<>', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_forma_pagamento');
 

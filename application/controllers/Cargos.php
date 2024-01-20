@@ -70,12 +70,14 @@
 			$dados['id_empresa'] = $this->session->userdata('id_empresa');
 			$dados['responsavel_agendamento'] = $this->input->post('responsavelAgendamento');
 
-			$cargo = $this->Cargos_model->recebeCargoNome($dados['nome']); // verifica se já existe o cargo
+			$cargo = $this->Cargos_model->recebeCargoNome($dados['nome'], $id); // verifica se já existe o cargo
 
 			// Verifica se o cargo já existe e se não é o cargo que está sendo editada
-			if ($cargo && $cargo['id'] != $id) {
+			if ($cargo) {
 
 				$response = array(
+					'title' => "Algo deu errado!",
+					'type' => "error",
 					'success' => false,
 					'message' => "Este cargo já existe! Tente cadastrar um diferente."
 				);

@@ -71,12 +71,14 @@ class Setores extends CI_Controller
 		$dados['nome'] = trim(mb_convert_case($nome, MB_CASE_TITLE, 'UTF-8'));
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-		$setor = $this->Setores_model->recebeSetorNome($dados['nome']); // verifica se já existe o setor
+		$setor = $this->Setores_model->recebeSetorNome($dados['nome'], $id); // verifica se já existe o setor
 
 		// Verifica se o setor já existe e se não é o setor que está sendo editada
-		if ($setor && $setor['id'] != $id) {
+		if ($setor) {
 
 			$response = array(
+				'title' => "Algo deu errado!",
+				'type' => "error",
 				'success' => false,
 				'message' => "Este setor já existe! Tente cadastrar um diferente."
 			);
