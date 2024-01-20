@@ -7,10 +7,12 @@ const cadastraFuncionario = () => {
     let telefone = $('.input-telefone').val();
     let cpf = $('.input-cpf').val();
     let dataCnh = $('.input-data').val();
+    let data_aso = $('.input-data-aso').val();
     let data_nascimento = $('.input-data-nascimento').val();
     let id_cargo = $('.input-cargo').val();
     let residencia = $('.input-residencia').val();
     let salario_base = $('.input-salario').val();
+    let conta_bancaria = $('.input-conta-bancaria').val();
 
     let fotoPerfil = $('.inputFoto')[0].files[0];
     let fotoCnh = $('.inputCnh')[0].files[0];
@@ -29,10 +31,12 @@ const cadastraFuncionario = () => {
     formData.append('nome', nome);
     formData.append('telefone', telefone);
     formData.append('residencia', residencia);
+    formData.append('conta_bancaria', conta_bancaria);
     formData.append('salario_base', salario_base);
     formData.append('id_cargo', id_cargo);
     formData.append('cpf', cpf);
     formData.append('data_cnh', dataCnh);
+    formData.append('data_aso', data_aso);
     formData.append('data_nascimento', data_nascimento);
     formData.append('foto_cnh', fotoCnh);
     formData.append('foto_perfil', fotoPerfil);
