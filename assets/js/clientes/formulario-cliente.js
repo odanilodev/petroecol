@@ -148,15 +148,18 @@ $(document).ready(function () {
 
     }
 
-    // deixa a text-area escondida
-    $('.input-obs').parent().css('display', 'none');
+//
+    $('#ObsPgto').on('change', function () {
 
-    // caso haja mudança na checkbox
-    $('#toggleCheckbox').on('change', function () {
-        var textareaContainer = $('.input-obs'); // Seleciona a textarea
+        if ($(this).prop('checked')) {
 
-        // Se o checkbox estiver marcado, mostra a textarea; se não, oculta.
-        textareaContainer.parent().css('display', this.checked ? 'block' : 'none');
+            $('.div-obs-pgto').removeClass('d-none');
+
+        } else {
+
+            $('.input-obs-pgto').val('');
+            $('.div-obs-pgto').addClass('d-none');
+        }
     });
 
 });
