@@ -81,9 +81,9 @@ class Funcionarios extends CI_Controller
 
 		$data['documentos'] = ['cnh', 'cpf', 'aso', 'epi', 'registro', 'carteira', 'vacinacao', 'certificados', 'ordem'];
 
-		$data['info_cnh'] = $this->formatarInformacaoData($data['funcionario']['data_cnh'], 'CNH');
+		$data['info_cnh'] = $this->formatarInformacaoData($data['funcionario']['data_cnh']);
 
-		$data['info_aso'] = $this->formatarInformacaoData($data['funcionario']['data_aso'], 'ASO');
+		$data['info_aso'] = $this->formatarInformacaoData($data['funcionario']['data_aso']);
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/funcionarios/ver_funcionario');
