@@ -236,8 +236,6 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio) => {
             }, success: function (data) {
                 
                 exibirDadosClientes(data.retorno, data.registros, data.residuos, data.pagamentos);
-
-
                
             }
         })
@@ -260,8 +258,6 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
                         ${clientes[i].nome}
                     </button>
                 </h2>
-
-                
 
                 <div class="accordion-collapse collapse ${i == 0 ? 'show' : ''}" id="collapse${i}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
 
