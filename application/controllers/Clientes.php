@@ -141,10 +141,16 @@ class Clientes extends CI_Controller
         // todos recipientes
         $this->load->model('Recipientes_model');
         $data['recipientes'] = $this->Recipientes_model->recebeTodosRecipientes();
-        
+
         // todas etiquetas 
         $this->load->model('Etiquetas_model');
         $data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
+
+        // todos alertas ou alertas ativos (status)
+        $statusAlerta = true;
+        $this->load->model('AlertasWhatsapp_model');
+        $data['alertas'] = $this->AlertasWhatsapp_model->recebeAlertasWhatsApp($statusAlerta);
+
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/detalhes-cliente');
@@ -221,16 +227,23 @@ class Clientes extends CI_Controller
     public function enviaAlertaCliente()
     {
         $id_cliente = $this->input->post('id_cliente');
-        $id_alerta = $this->input->post('id_alerta');
+        $mensagem = $this->input->post('mensagem');
 
         $this->load->library('NotificacaoZap');
         $notificacao = new NotificacaoZap();
-        $notificacao->enviarTexto($id_cliente,$id_alerta);
-        
+        $retorno = $notificacao->enviarTexto($id_cliente, $mensagem);
+
         $response = array(
-            'success' => true,
-            'message' => "Alerta enviado com sucesso!"
+            'success' => false,
+            'message' => $retorno
         );
+
+        if ($retorno === 'true') {
+            $response = array(
+                'success' => true,
+                'message' => 'Mensagem enviada com sucesso'
+            );
+        }
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }

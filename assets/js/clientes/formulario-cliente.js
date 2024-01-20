@@ -314,8 +314,6 @@ const detalhesHistoricoColeta = (idColeta) => {
 
             }
 
-
-
         }
     })
 
@@ -382,7 +380,7 @@ $(document).on('click', '.btn-gerar-certificado', function () {
 
 });
 
-const exibirAlertasCliente = (idCliente) => {
+const exibirAlertasClientes = (idCliente) => {
     $('.id-cliente').val(idCliente);
 }
 
@@ -390,11 +388,11 @@ const enviarAlertaCliente = () => {
 
     let idCliente = $('.id-cliente').val();
 
-    let idAlerta = $('#select-alertas').val();
+    let mensagem = $('#select-alertas').val();
 
     permissao = true;
 
-    if (!idAlerta) {
+    if (!mensagem) {
         permissao = false;
     }
 
@@ -405,7 +403,7 @@ const enviarAlertaCliente = () => {
             url: `${baseUrl}clientes/enviaAlertaCliente`,
             data: {
                 id_cliente: idCliente,
-                id_alerta: idAlerta
+                mensagem: mensagem
             },
             beforeSend: function () {
 
@@ -420,6 +418,9 @@ const enviarAlertaCliente = () => {
 
                 if (data.success) {
                     avisoRetorno('Sucesso!', `${data.message}`, 'success', '#');
+                    $("#modalAlertas").modal('hide');
+                } else {
+                    avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
                     $("#modalAlertas").modal('hide');
                 }
             }
