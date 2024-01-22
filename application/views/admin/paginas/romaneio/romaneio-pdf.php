@@ -104,7 +104,7 @@
                     <td><?= $v['nome']; ?> <?= in_array($v['id'], array_column($id_cliente_prioridade, 'id_cliente')) ? '<span style="font-weight: bold; font-size: 20px">*</span>' : '' ?></td>
                     <td><?= "{$v['rua']}, {$v['numero']} {$v['bairro']}"; ?></td>
                     <td><?= $v['telefone']; ?></td>
-                    <td></td>
+                    <td><?= $v['forma_pagamento'] .'-'. $v['observacao_pagamento']; ?></td>
                     <td></td>
                     <td></td>
                     <td><?= $v['observacao']; ?></td>
