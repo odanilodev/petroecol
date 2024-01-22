@@ -198,14 +198,12 @@
                             </select>
                             <div class="invalid-feedback">Preencha este campo</div>
 
-                            <input type="checkbox" id="ObsPgto" class="mt-2" <?= (!empty($cliente['observacao_pagamento'])) ? 'checked' : ''; ?>>
-                            <label for="ObsPgto">Adicionar observação ao pagamento</label>
                           </div>        
                         </div>
 
-                        <div class="col-md-3 mt-5 mb-2 div-obs-pgto <?= (!empty($cliente['observacao_pagamento'])) ? 'd-block' : 'd-none'; ?>">
+                        <div class="col-md-3 mt-5 mb-2 div-obs-pgto">
 
-                          <label class="form-label">Observação sobre a forma de Pagamento</label>
+                          <label class="form-label">(Opcional) Observação para a Forma de Pagamento</label>
                           <textarea name="observacao_pagamento" class="form-control input-obs-pgto campo-empresa" rows="1"><?= isset($cliente['observacao_pagamento']) ? $cliente['observacao_pagamento'] : ''; ?></textarea>
 
                         </div>

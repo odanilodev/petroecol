@@ -148,22 +148,6 @@ $(document).ready(function () {
 
     }
 
-//
-    $('#ObsPgto').on('change', function () {
-
-        if ($(this).prop('checked')) {
-
-            $('.div-obs-pgto').removeClass('d-none');
-
-        } else {
-
-            $('.input-obs-pgto').val('');
-            $('.div-obs-pgto').addClass('d-none');
-        }
-    });
-
-});
-
 $(document).on('click', '.btn-proximo', function () {
 
     if (!validaEmail($('.valida-email').val()) && $('.valida-email').val() != "") {
