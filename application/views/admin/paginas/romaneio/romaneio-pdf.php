@@ -101,7 +101,7 @@
                     <td><?= "{$v['rua']}, {$v['numero']} {$v['bairro']}"; ?></td>
                     <td><?= $v['telefone']; ?></td>
                     <td></td>
-                    <td><?= $v['nome_recipiente'] ? 'QTD: ' . $v['QUANTIDADE_RECIPIENTE'] . ' - ' . $v['nome_recipiente'] : $v['nome_recipiente']; ?></td>
+                    <td><?= $v['nome_recipiente'] ? 'QTD: ' . $v['QUANTIDADE_RECIPIENTE'] . ' - ' . $v['nome_recipiente'] : ''; ?></td>
                     <td></td>
                     <td></td>
                     <td><?= $v['observacao']; ?></td>
