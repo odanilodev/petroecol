@@ -13,7 +13,7 @@
         table {
             font-family: 'arial, sans-serif';
             border-collapse: collapse;
-            width: 55%;
+            width: 70%;
             display: flex;
             flex-direction: column;
         }
@@ -21,7 +21,7 @@
         th,
         td {
             border: 1px solid #dddddd;
-            text-align: left;
+            text-align: center;
             padding: 8px;
             width: 30%;
             color: #404040;
@@ -29,7 +29,7 @@
 
         /* Estilo para ajustar a largura das tabelas individualmente (opcional) */
         .tabela {
-            width: 48%;
+            width: 40%;
             /* Ajuste conforme necessário */
         }
     </style>
@@ -39,28 +39,23 @@
 
     <!--Header-->
 
-    <div style="width: 100%;">
-        <div style="padding: 5px" align="center">
-            <img src="<?= base_url('assets/img/icons/logo-slogan.jpg') ?>" style="max-height: 30px;">
-        </div>
-
-        <div style="margin-top: 5px">
+    <div style="width: 100%; display: flex; justify-content: space-between;">
+        <div>
+            <img src="<?= base_url('assets/img/icons/logo-slogan.jpg') ?>" style="max-height: 20px; float:right;">
             <h3 style="font-weight: 100;">Romaneio: <span style="font-weight: bold;"><?= $codigo ?></span></h3>
-
-            <div style="font-size: 14px" class="col-md-6">
-                <strong> Data: </strong><?= date("d/m/Y", strtotime($data_romaneio)); ?>
-            </div>
+            <strong> Data: </strong><?= date("d/m/Y", strtotime($data_romaneio)); ?>
         </div>
-
-        <div style="margin-top: 2px;">
-            <nobr>
-                <span style="font-size: 13px; max-width: 25%;"><strong> Responsavel: </strong> <?= $responsavel ?></span><br>
-                <!-- <span style="margin-left: 8%; font-size: 13px; max-width: 25%;"><strong> Ajudante: </strong> <?= $ajudante ?></span><br> -->
-                <span style="margin-left: 8%; font-size: 13px; max-width: 25%;"><strong> Placa: </strong><?= strtoupper($placa) ?> </span>
-            </nobr>
-        </div>
-        <hr style="font-size: 0.5px; margin-top: 5px;">
     </div>
+
+    <div style="margin-top: 2px;">
+        <nobr>
+            <span style="font-size: 13px; max-width: 25%;"><strong> Responsavel: </strong> <?= $responsavel ?></span><br>
+            <!-- <span style="margin-left: 8%; font-size: 13px; max-width: 25%;"><strong> Ajudante: </strong> <?= $ajudante ?></span><br> -->
+            <span style="margin-left: 8%; font-size: 13px; max-width: 25%;"><strong> Placa: </strong><?= strtoupper($placa) ?> </span>
+        </nobr>
+    </div>
+
+    <hr style="font-size: 0.5px; margin-top: 5px;">
 
     <!--EndHeader-->
 
@@ -83,11 +78,12 @@
                 echo '<table>';
         ?>
                 <thead>
-                    <tr style="font-size: 14px;" align="left">
+                    <tr style="font-size: 14px;">
                         <th>Nome Cliente</th>
                         <th>Endereço</th>
                         <th>Telefone</th>
                         <th>Forma de Pagto</th>
+                        <th>Recipientes</th>
                         <th>Qtde Retirado</th>
                         <th>Valor Pago</th>
                         <th>Observação</th>
@@ -100,11 +96,12 @@
                 $tableOpen = true;
             }
                 ?>
-                <tr style="font-size: 11px;" align="left">
+                <tr style="font-size: 11px;">
                     <td><?= $v['nome']; ?> <?= in_array($v['id'], array_column($id_cliente_prioridade, 'id_cliente')) ? '<span style="font-weight: bold; font-size: 20px">*</span>' : '' ?></td>
                     <td><?= "{$v['rua']}, {$v['numero']} {$v['bairro']}"; ?></td>
                     <td><?= $v['telefone']; ?></td>
                     <td></td>
+                    <td><?= $v['nome_recipiente'] ? $v['QUANTIDADE_RECIPIENTE'] . ' - ' . $v['nome_recipiente'] : ''; ?></td>
                     <td></td>
                     <td></td>
                     <td><?= $v['observacao']; ?></td>
