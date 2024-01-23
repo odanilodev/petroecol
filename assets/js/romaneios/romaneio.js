@@ -19,7 +19,7 @@ const filtrarClientesRomaneio = () => {
         }
     })
 
-    if ($('.input-coleta').val() == '') {
+    if (filtrarData && $('.input-coleta').val() == '') {
         avisoRetorno('Algo deu errado!', 'Preencha a data de agendamento!', 'error', '#');
         return;
     }
