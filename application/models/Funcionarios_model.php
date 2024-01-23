@@ -98,7 +98,7 @@ class Funcionarios_model extends CI_Model
     public function verificaCpfFuncionario($cpf,$id)
     {
         $this->db->where('cpf', $cpf);
-        $this->db->where('id<>', $id);
+        $this->db->where('id <>', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_funcionarios');
 

@@ -31,7 +31,7 @@ class Veiculos_model extends CI_Model
     public function recebePlacaVeiculo($placa, $id)
     {
         $this->db->where('placa', $placa);
-        $this->db->where('id<>', $id);
+        $this->db->where('id <>', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_veiculos');
 
