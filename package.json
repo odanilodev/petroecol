@@ -2,6 +2,7 @@
   "dependencies": {
     "jquery": "^3.7.1",
     "jquery-mask-plugin": "^1.14.16",
+    "jquery.emojiarea.js": "^0.1.8-beta",
     "sweetalert2": "^11.7.27"
   }
 }

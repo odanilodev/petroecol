@@ -376,3 +376,20 @@ function scriptsPermissaoFooter()
     );
 }
 
+function scriptsAlertasWhatsappHead()
+{
+    return array(
+        '<script src="https://unpkg.com/picmo@5.7.6/dist/umd/index.js"></script>',
+        '<script src="https://unpkg.com/@picmo/popup-picker@5.7.6/dist/umd/index.js"></script>'
+    );
+}
+
+
+function scriptsAlertasWhatsappFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/alertas-whatsapp/formulario-alertas-whatsapp.js') . '"></script>'
+    );
+}
+

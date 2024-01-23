@@ -54,7 +54,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item" href="#" onclick="exibirAlertasCliente(<?= $cliente['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalAlertas">
+              <a class="dropdown-item" href="#" data-bs-toggle="modal" onclick="exibirAlertasClientes(<?= $cliente['id'] ?>)" data-bs-target="#modalAlertas">
                 <span class="text-900 uil-message"></span>
                 <span class="text-900"> Alertas</span>
               </a>
@@ -87,10 +87,10 @@
               <div class="row align-items-center g-3">
                 <div class="col-12 col-sm-auto flex-1">
                   <h3 class="fw-bolder mb-2 line-clamp-1">
-                      <?php if(isset($cliente['cor'])){ ?>
-                          <span class="fas fa-certificate pb-1" style="width:16px; height:16px; color: <?= $cliente['cor'] ?>"></span>
-                      <?php } ?>
-                      <?= ucfirst($cliente['nome']) ?? ""; ?>
+                    <?php if (isset($cliente['cor'])) { ?>
+                      <span class="fas fa-certificate pb-1" style="width:16px; height:16px; color: <?= $cliente['cor'] ?>"></span>
+                    <?php } ?>
+                    <?= ucfirst($cliente['nome']) ?? ""; ?>
                   </h3>
                   <p class="fs--1 fw-semi-bold text-900 text mb-4 w-50">
                     <?php echo "{$cliente['rua']}, {$cliente['numero']} {$cliente['bairro']} - {$cliente['cidade']} / {$cliente['estado']}"; ?>
@@ -341,12 +341,12 @@
                               </div>
                             </td>
 
-                        
+
                             <td class="py-2">
-                                <a data-bs-toggle="modal" data-bs-target=".modal-comodato" href="#" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
-                                  <span class="fa-solid fa-eye me-sm-2"></span>
-                                  <span class="d-none d-sm-inline">Visualizar</span>
-                                </a>
+                              <a data-bs-toggle="modal" data-bs-target=".modal-comodato" href="#" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
+                                <span class="fa-solid fa-eye me-sm-2"></span>
+                                <span class="d-none d-sm-inline">Visualizar</span>
+                              </a>
                             </td>
 
                           </tr>
@@ -484,23 +484,25 @@
 
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade active show" id="tab-activity" role="tabpanel" aria-labelledby="activity-tab">
-            <h2 class="mb-4">Histórico de Coleta</h2>
+            <h2 class="mb-6">Histórico de Coleta</h2>
             <div class="row align-items-center g-3 justify-content-between justify-content-start">
-              <div class="col-9 col-sm-auto">
-                <div class="search-box mb-2 mb-sm-0">
-                  <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                    <input class="form-control search-input search" type="search" placeholder="" aria-label="Search" />
-                    <span class="fas fa-search search-box-icon"></span>
-                  </form>
-                </div>
-              </div>
 
-              <div class="col-3 col-sm-auto">
-                <div class="search-box mb-2 mb-sm-0">
-                  <button class="btn btn-phoenix-primary px-6">Buscar</button>
+              <div class="row">
+
+                <div class="col-5">
+                  <input class="form-control datetimepicker data-inicio-coleta" required name="data_coleta_inicio" type="text" placeholder="Data Inicio" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
+
                 </div>
 
-                <div class="col-auto">
+                <div class="col-5">
+
+                  <input class="form-control datetimepicker data-fim-coleta" required name="data_coleta_fim" type="text" placeholder="Data Fim" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
+
+                </div>
+
+                <div class="col-2">
+
+                  <button onclick="detalhesHistoricoColetaMassa(<?= $cliente['id'] ?>)" class="btn btn-phoenix-primary px-6">Gerar</button>
 
                 </div>
 
@@ -553,46 +555,46 @@
 
     <!-- Modal cadastro comodato -->
     <div class="modal fade modal-comodato" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Arquivos de Comodato</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Cadastre aqui novos comodatos.</p>
-                    <form action="<?= base_url('ComodatoCliente/cadastraComodato'); ?>" method="post" enctype="multipart/form-data" id="comodatoForm">
-                        <div class="mb-3">
-                            <label for="fileInput" class="form-label">Escolha um arquivo:</label>
-                            <input type="file" class="form-control" id="fileInput" name="comodato">
-                            <input type="hidden" class="form-control" value='<?= $cliente['id'] ?>' name="id">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Arquivos de Comodato</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Cadastre aqui novos comodatos.</p>
+            <form action="<?= base_url('ComodatoCliente/cadastraComodato'); ?>" method="post" enctype="multipart/form-data" id="comodatoForm">
+              <div class="mb-3">
+                <label for="fileInput" class="form-label">Escolha um arquivo:</label>
+                <input type="file" class="form-control" id="fileInput" name="comodato">
+                <input type="hidden" class="form-control" value='<?= $cliente['id'] ?>' name="id">
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Arquivos existentes:</label>
+                <?php if (!empty($comodatos)) : ?>
+                  <ul class="list-group">
+                    <?php foreach ($comodatos as $comodato) : ?>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <?= strlen($comodato['comodato']) > 20 ? substr($comodato['comodato'], 0, 20) . '...' : $comodato['comodato'] ?>
+                        <div class="btn-group">
+                          <a href="<?= base_url('ComodatoCliente/deletaComodato/' . $comodato['id'] . '/' . urlencode($comodato['comodato']) . '/' . $cliente['id']) ?>" class="btn btn-danger">Deletar</a>
+                          <a href="<?= base_url_upload('clientes/comodato/' . $comodato['comodato']) ?>" class="btn btn-primary" download>Baixar</a>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Arquivos existentes:</label>
-                            <?php if (!empty($comodatos)) : ?>
-                                <ul class="list-group">
-                                    <?php foreach ($comodatos as $comodato) : ?>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <?= strlen($comodato['comodato']) > 20 ? substr($comodato['comodato'], 0, 20) . '...' : $comodato['comodato'] ?>
-                                            <div class="btn-group">
-                                              <a href="<?= base_url('ComodatoCliente/deletaComodato/' . $comodato['id'] . '/' . urlencode($comodato['comodato']) . '/' . $cliente['id']) ?>" class="btn btn-danger">Deletar</a>
-                                              <a href="<?= base_url_upload('clientes/comodato/' . $comodato['comodato']) ?>" class="btn btn-primary" download>Baixar</a>
-                                            </div>
-                                        </li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            <?php else : ?>
-                                <p>Nenhum arquivo cadastrado.</p>
-                            <?php endif; ?>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                            <button type="submit" class="btn btn-primary">Enviar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                      </li>
+                    <?php endforeach; ?>
+                  </ul>
+                <?php else : ?>
+                  <p>Nenhum arquivo cadastrado.</p>
+                <?php endif; ?>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="submit" class="btn btn-primary">Enviar</button>
+              </div>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
 
 
@@ -604,7 +606,7 @@
             <h5 class="modal-title">Histórico de Coleta</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body body-coleta">
 
             <div class="card">
               <div class="card-body">
@@ -704,14 +706,15 @@
                 <select name="modelo-certificado" class="form-select select-modelo-certificado">
                   <option value="" selected disabled>Selecione</option>
 
-                  <?php foreach($modelos_certificado as $modelo) { ?>
-                    <option data-personalizado="<?= $modelo['personalizado']?>" value="<?= $modelo['id']?>"><?= $modelo['modelo']?></option>
-                  <?php }?>
+                  <?php foreach ($modelos_certificado as $modelo) { ?>
+                    <option data-personalizado="<?= $modelo['personalizado'] ?>" value="<?= $modelo['id'] ?>"><?= $modelo['modelo'] ?></option>
+                  <?php } ?>
                 </select>
                 <div class="invalid-feedback">Preencha este campo</div>
               </div>
             </div>
 
+            <input type="hidden" class="input-id-coleta">
             <button class="btn btn-success btn-salva-etiqueta btn-form btn-gerar-certificado" type="button">Gerar Certificado</button>
             <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
