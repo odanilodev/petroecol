@@ -19,10 +19,11 @@ class FrequenciaColeta_model extends CI_Model
         return $query->result_array();
     }
 
-    public function recebeFrequenciaColetaNome($frequencia,$dia)
+    public function recebeFrequenciaColetaNome($frequencia, $dia, $id)
     { 
         $this->db->where('frequencia', $frequencia);
         $this->db->where('dia', $dia);
+        $this->db->where('id <>', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_frequencia_coleta');
 

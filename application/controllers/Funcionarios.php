@@ -143,11 +143,13 @@ class Funcionarios extends CI_Controller
 
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-		$cpfFuncionario = $this->Funcionarios_model->verificaCpfFuncionario($dados['cpf']); // verifica se ja existe o cpf no banco
+		$cpfFuncionario = $this->Funcionarios_model->verificaCpfFuncionario($dados['cpf'], $id); // verifica se ja existe o cpf no banco
 
-		if ($cpfFuncionario && $cpfFuncionario['id'] != $id) {
+		if ($cpfFuncionario) {
 
 			$response = array(
+				'title' => "Algo deu errado!",
+				'type' => "error",
 				'success' => false,
 				'message' => "Já existe um funcionário com este CPF!"
 			);

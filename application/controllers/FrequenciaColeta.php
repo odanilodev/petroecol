@@ -70,12 +70,14 @@ class FrequenciaColeta extends CI_Controller
 		$dados['frequencia'] = mb_convert_case(trim($frequencia), MB_CASE_TITLE, 'UTF-8');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-		$frequencia = $this->FrequenciaColeta_model->recebeFrequenciaColetaNome($dados['frequencia'], $dados['dia']); // verifica se já existe a frenquencia
+		$frequencia = $this->FrequenciaColeta_model->recebeFrequenciaColetaNome($dados['frequencia'], $dados['dia'], $id); // verifica se já existe a frenquencia
 
 		// Verifica se a frequencia ja existe e se não é a frequencia que está sendo editada
-		if ($frequencia && $frequencia['id'] != $id) {
+		if ($frequencia) {
 
 			$response = array(
+				'title' => "Algo deu errado!",
+				'type' => "error",
 				'success' => false,
 				'message' => "Esta frequencia já existe! Tente cadastrar uma diferente."
 			);
