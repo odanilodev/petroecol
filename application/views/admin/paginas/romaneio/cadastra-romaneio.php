@@ -108,7 +108,7 @@
                             <option selected value="">Selecione o cliente</option>
 
                             <?php foreach ($clientes as $v) { ?>
-                                <option value="<?= $v['id'] ?>|<?= $v['cidade'] ?>|<?= empty($v['ETIQUETA']) ? 'Sem etiqueta' : $v['ETIQUETA'] ?>"><?= $v['nome'] ?></option>
+                                <option value="<?= $v['ID_CLIENTE'] ?>|<?= $v['cidade'] ?>|<?= empty($v['ETIQUETA']) ? 'Sem etiqueta' : $v['ETIQUETA'] ?>"><?= $v['nome'] ?></option>
                             <?php } ?>
 
                         </select>
