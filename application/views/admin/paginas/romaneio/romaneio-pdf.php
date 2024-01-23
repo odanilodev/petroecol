@@ -21,7 +21,7 @@
         th,
         td {
             border: 1px solid #dddddd;
-            text-align: left;
+            text-align: center;
             padding: 8px;
             width: 30%;
             color: #404040;
@@ -78,7 +78,7 @@
                 echo '<table>';
         ?>
                 <thead>
-                    <tr style="font-size: 14px;" align="left">
+                    <tr style="font-size: 14px;">
                         <th>Nome Cliente</th>
                         <th>Endereço</th>
                         <th>Telefone</th>
@@ -96,12 +96,12 @@
                 $tableOpen = true;
             }
                 ?>
-                <tr style="font-size: 11px;" align="left">
+                <tr style="font-size: 11px;">
                     <td><?= $v['nome']; ?> <?= in_array($v['id'], array_column($id_cliente_prioridade, 'id_cliente')) ? '<span style="font-weight: bold; font-size: 20px">*</span>' : '' ?></td>
                     <td><?= "{$v['rua']}, {$v['numero']} {$v['bairro']}"; ?></td>
                     <td><?= $v['telefone']; ?></td>
                     <td></td>
-                    <td><?= $v['nome_recipiente'] ? 'QTD: ' . $v['QUANTIDADE_RECIPIENTE'] . ' - ' . $v['nome_recipiente'] : ''; ?></td>
+                    <td><?= $v['nome_recipiente'] ? $v['QUANTIDADE_RECIPIENTE'] . ' - ' . $v['nome_recipiente'] : ''; ?></td>
                     <td></td>
                     <td></td>
                     <td><?= $v['observacao']; ?></td>
