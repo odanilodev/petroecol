@@ -134,7 +134,7 @@ class Clientes_model extends CI_Model
     //Recebe clientes com varios Ids selecionados
     public function recebeClientesIds($ids)
     {
-    $this->db->select('C.*, R.nome_recipiente, RC.quantidade AS QUANTIDADERECIPIENTE');
+    $this->db->select('C.*, R.nome_recipiente, RC.quantidade AS QUANTIDADE_RECIPIENTE');
     $this->db->from('ci_clientes C');
     $this->db->join('ci_recipiente_cliente RC', 'RC.id_cliente = C.id', 'left');
     $this->db->join('ci_recipientes R', 'R.id = RC.id_recipiente', 'left');
