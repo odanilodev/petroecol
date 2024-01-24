@@ -153,9 +153,9 @@ class Clientes extends CI_Controller
 
 
         $this->load->model('Agendamentos_model');
-        $data['quantidade_agendado'] = count($this->Agendamentos_model->contaAgendamentoCLiente($id));
-        $data['quantidade_atrasado'] = count($this->Agendamentos_model->contaAgendamentoAtrasadoCLiente($id));
-        $data['quantidade_finalizado'] = count($this->Agendamentos_model->contaAgendamentoFinalizadoCLiente($id));
+        $data['quantidade_agendado'] = $this->Agendamentos_model->contaAgendamentoCLiente($id);
+        $data['quantidade_atrasado'] = $this->Agendamentos_model->contaAgendamentoAtrasadoCLiente($id);
+        $data['quantidade_finalizado'] = $this->Agendamentos_model->contaAgendamentoFinalizadoCLiente($id);
         $data['ultima_coleta'] = $this->Agendamentos_model->ultimaColetaCLiente($id);
 
         $this->load->view('admin/includes/painel/cabecalho', $data);

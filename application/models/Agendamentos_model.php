@@ -172,7 +172,7 @@ class Agendamentos_model extends CI_Model
 
     public function ultimaColetaCliente($id)
     {
-        $this->db->select('data_coleta, id_cliente'); 
+        $this->db->select('data_coleta'); 
         $this->db->where('id_cliente', $id);
         $this->db->where('status', 1);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
@@ -192,7 +192,7 @@ class Agendamentos_model extends CI_Model
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_agendamentos');
 
-        return $query->result_array();
+        return $query->num_rows();
     }
 
     public function contaAgendamentoAtrasadoCLiente($id)
@@ -203,7 +203,7 @@ class Agendamentos_model extends CI_Model
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_agendamentos');
 
-        return $query->result_array();
+        return $query->num_rows();
     }
 
     public function contaAgendamentoFinalizadoCLiente($id)
@@ -213,6 +213,6 @@ class Agendamentos_model extends CI_Model
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_agendamentos');
 
-        return $query->result_array();
+        return $query->num_rows();
     }
 }
