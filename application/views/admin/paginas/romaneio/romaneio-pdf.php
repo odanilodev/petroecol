@@ -21,7 +21,7 @@
         th,
         td {
             border: 1px solid #dddddd;
-            text-align: center;
+            text-align: left;
             padding: 8px;
             width: 30%;
             color: #404040;
@@ -60,23 +60,46 @@
     <!--EndHeader-->
 
     <div style="width: 100%;">
-
         <?php
-        $currentCity = null;
-        $tableOpen = false;
+            $cidadeAtual = null;
+            $tabelaAberta = false;
+            
+            // junta os recipientes pelo id_cliente
+            $recipientesAgrupados = [];
+            foreach ($recipientes_clientes as $recipiente) {
 
-        foreach ($clientes as $v) {
+                $idCliente = $recipiente['id_cliente'];
+
+                $recipientesAgrupados[$idCliente][] = $recipiente;
+            }
+
+            // recipientes e quantidade juntos
+            function agruparRecipiente ($recip) {
+                return $recip['nome_recipiente'] . " - " . $recip['quantidade'];
+            }
+
+            foreach ($clientes as $cliente) {
+
+            // recipientes do cliente atual
+            $recipientesCliente = $recipientesAgrupados[$cliente['id']] ?? [];
+
+            // manda pra função 'agruparRecipiente' pra juntar o nome do recipiente com a quantidade
+            $todosRecipientes = array_map('agruparRecipiente', $recipientesCliente);
+
+            // separa cada um por virgula
+            $recipientesFormatados = implode(', ', $todosRecipientes);
+
 
             // Verifica se a cidade do cliente mudou
-            if (trim(strtolower($v['cidade'])) !== $currentCity) {
+            if (trim(strtolower($cliente['cidade'])) !== $cidadeAtual) {
                 // Se sim, fecha a tabela anterior (se existir)
-                if ($tableOpen) {
+                if ($tabelaAberta) {
                     echo '</tbody></table>';
                 }
                 // Abre uma nova tabela
-                echo "<h4 style='margin-top: 30px; margin-bottom: 5px'><b>{$v['cidade']}</b> </h4>";
+                echo "<h4 style='margin-top: 30px; margin-bottom: 5px'><b>{$cliente['cidade']}</b> </h4>";
                 echo '<table>';
-        ?>
+            ?>
                 <thead>
                     <tr style="font-size: 14px;">
                         <th>Nome Cliente</th>
@@ -91,31 +114,33 @@
                 </thead>
 
                 <tbody>
+
                 <?php
-                $currentCity = trim(strtolower($v['cidade']));
-                $tableOpen = true;
-            }
-                ?>
+                    $cidadeAtual = trim(strtolower($cliente['cidade']));
+                    $tabelaAberta = true;
+                } ?>
+
                 <tr style="font-size: 11px;">
-                    <td><?= $v['nome']; ?> <?= in_array($v['id'], array_column($id_cliente_prioridade, 'id_cliente')) ? '<span style="font-weight: bold; font-size: 20px">*</span>' : '' ?></td>
-                    <td><?= "{$v['rua']}, {$v['numero']} {$v['bairro']}"; ?></td>
-                    <td><?= $v['telefone']; ?></td>
+                    <td><?= $cliente['nome']; ?> <?= in_array($cliente['id'], array_column($id_cliente_prioridade, 'id_cliente')) ? '<span style="font-weight: bold; font-size: 20px">*</span>' : '' ?></td>
+                    <td><?= "{$cliente['rua']}, {$cliente['numero']} {$cliente['bairro']}"; ?></td>
+                    <td><?= $cliente['telefone']; ?></td>
                     <td></td>
-                    <td><?= $v['nome_recipiente'] ? $v['QUANTIDADE_RECIPIENTE'] . ' - ' . $v['nome_recipiente'] : ''; ?></td>
+
+                    <td><?= $recipientesFormatados; ?></td>
                     <td></td>
                     <td></td>
-                    <td><?= $v['observacao']; ?></td>
+                    <td><?= $cliente['observacao']; ?></td>
                 </tr>
             <?php
         }
 
         // Fecha a última tabela
-        if ($tableOpen) {
+        if ($tabelaAberta) {
             echo '</tbody></table>';
         }
             ?>
-
     </div>
+
 
 </body>
 
