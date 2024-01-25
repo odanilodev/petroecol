@@ -315,7 +315,7 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0"> 12/10/2023</div>
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0"><?= date('d/m/Y', strtotime($ultima_coleta)); ?></div>
                             </td>
                           </tr>
                         </table>
@@ -404,7 +404,7 @@
                   </div>
                   <div>
                     <p class="fw-bold mb-1">Agendados</p>
-                    <h4 class="fw-bolder text-nowrap"><?= $cliente['atendimentos_agendados'] ?? "0"; ?></h4>
+                    <h4 class="fw-bolder text-nowrap"><?= $quantidade_agendado; ?></h4>
                   </div>
                 </div>
               </div>
@@ -416,7 +416,7 @@
                   </div>
                   <div>
                     <p class="fw-bold mb-1">Atrasados</p>
-                    <h4 class="fw-bolder text-nowrap"><?= $cliente['atendimentos_atrasados'] ?? "0"; ?></h4>
+                    <h4 class="fw-bolder text-nowrap"><?= $quantidade_atrasado; ?></h4>
                   </div>
                 </div>
               </div>
@@ -428,7 +428,7 @@
                   </div>
                   <div>
                     <p class="fw-bold mb-1">Finalizados</p>
-                    <h4 class="fw-bolder text-nowrap"><?= $cliente['atendimentos_finalizados'] ?? "0"; ?></h4>
+                    <h4 class="fw-bolder text-nowrap"><?= $quantidade_finalizado; ?></h4>
                   </div>
                 </div>
               </div>

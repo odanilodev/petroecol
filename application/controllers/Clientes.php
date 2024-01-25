@@ -152,6 +152,12 @@ class Clientes extends CI_Controller
         $data['alertas'] = $this->AlertasWhatsapp_model->recebeAlertasWhatsApp($statusAlerta);
 
 
+        $this->load->model('Agendamentos_model');
+        $data['quantidade_agendado'] = $this->Agendamentos_model->contaAgendamentoCLiente($id);
+        $data['quantidade_atrasado'] = $this->Agendamentos_model->contaAgendamentoAtrasadoCLiente($id);
+        $data['quantidade_finalizado'] = $this->Agendamentos_model->contaAgendamentoFinalizadoCLiente($id);
+        $data['ultima_coleta'] = $this->Agendamentos_model->ultimaColetaCLiente($id);
+
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/detalhes-cliente');
         $this->load->view('admin/paginas/clientes/modals');
