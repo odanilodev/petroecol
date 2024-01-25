@@ -75,7 +75,7 @@
 
             // recipientes e quantidade juntos
             function agruparRecipiente ($recip) {
-                return $recip['nome_recipiente'] . " - " . $recip['quantidade'];
+                return "<p>" . $recip['nome_recipiente'] . " - " . $recip['quantidade'] . "</p>";
             }
 
             foreach ($clientes as $cliente) {
@@ -87,7 +87,7 @@
             $todosRecipientes = array_map('agruparRecipiente', $recipientesCliente);
 
             // separa cada um por virgula
-            $recipientesFormatados = implode(', ', $todosRecipientes);
+            $recipientesFormatados = implode('', $todosRecipientes);
 
 
             // Verifica se a cidade do cliente mudou
@@ -126,7 +126,9 @@
                     <td><?= $cliente['telefone']; ?></td>
                     <td></td>
 
-                    <td><?= $recipientesFormatados; ?></td>
+                    <td>
+                        <?= $recipientesFormatados; ?>
+                    </td>
                     <td></td>
                     <td></td>
                     <td><?= $cliente['observacao']; ?></td>
