@@ -66,6 +66,7 @@ class Coletas_model extends CI_Model
         $this->db->join('ci_funcionarios', 'ci_coletas.id_responsavel = ci_funcionarios.id', 'left');
         $this->db->where('ci_coletas.id_cliente', $idCliente);
         $this->db->where('ci_coletas.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->order_by('data_coleta', 'desc');
         $this->db->group_by('ci_coletas.id');
 
         $query = $this->db->get();
