@@ -61,34 +61,10 @@
 
     <div style="width: 100%;">
         <?php
-            $cidadeAtual = null;
-            $tabelaAberta = false;
-            
-            // junta os recipientes pelo id_cliente
-            $recipientesAgrupados = [];
-            foreach ($recipientes_clientes as $recipiente) {
+        $cidadeAtual = null;
+        $tabelaAberta = false;
 
-                $idCliente = $recipiente['id_cliente'];
-
-                $recipientesAgrupados[$idCliente][] = $recipiente;
-            }
-
-            // recipientes e quantidade juntos
-            function agruparRecipiente ($recip) {
-                return "<p>" . $recip['nome_recipiente'] . " - " . $recip['quantidade'] . "</p>";
-            }
-
-            foreach ($clientes as $cliente) {
-
-            // recipientes do cliente atual
-            $recipientesCliente = $recipientesAgrupados[$cliente['id']] ?? [];
-
-            // manda pra função 'agruparRecipiente' pra juntar o nome do recipiente com a quantidade
-            $todosRecipientes = array_map('agruparRecipiente', $recipientesCliente);
-
-            // separa cada um por virgula
-            $recipientesFormatados = implode('', $todosRecipientes);
-
+        foreach ($clientes as $cliente) {
 
             // Verifica se a cidade do cliente mudou
             if (trim(strtolower($cliente['cidade'])) !== $cidadeAtual) {
@@ -99,7 +75,7 @@
                 // Abre uma nova tabela
                 echo "<h4 style='margin-top: 30px; margin-bottom: 5px'><b>{$cliente['cidade']}</b> </h4>";
                 echo '<table>';
-            ?>
+        ?>
                 <thead>
                     <tr style="font-size: 14px;">
                         <th>Nome Cliente</th>
@@ -116,9 +92,9 @@
                 <tbody>
 
                 <?php
-                    $cidadeAtual = trim(strtolower($cliente['cidade']));
-                    $tabelaAberta = true;
-                } ?>
+                $cidadeAtual = trim(strtolower($cliente['cidade']));
+                $tabelaAberta = true;
+            } ?>
 
                 <tr style="font-size: 11px;">
                     <td><?= $cliente['nome']; ?> <?= in_array($cliente['id'], array_column($id_cliente_prioridade, 'id_cliente')) ? '<span style="font-weight: bold; font-size: 20px">*</span>' : '' ?></td>
@@ -127,8 +103,16 @@
                     <td></td>
 
                     <td>
-                        <?= $recipientesFormatados; ?>
+                        <?php
+                        $chave = $cliente['id'];
+                        if (array_key_exists($chave, $recipientes_clientes)) {
+                            foreach ($recipientes_clientes[$chave] as $recipiente) {
+                                echo "<p> {$recipiente['nome_recipiente']} - {$recipiente['quantidade']} </p>";
+                            }
+                        }
+                        ?>
                     </td>
+
                     <td></td>
                     <td></td>
                     <td><?= $cliente['observacao']; ?></td>
