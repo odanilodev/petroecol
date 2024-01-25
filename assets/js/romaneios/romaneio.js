@@ -70,8 +70,8 @@ const filtrarClientesRomaneio = () => {
                 for (i = 0; i < data.registros; i++) {
 
                     let clientes = `
-                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                        <td class="align-middle white-space-nowrap">
+                    <tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
+                        <td class="align-middle white-space-nowrap nome-cliente" data-id="${data.retorno[i].ID_CLIENTE}">
                             ${data.retorno[i].CLIENTE}
                         </td>
 
@@ -173,21 +173,39 @@ $(document).on('click', '.add-cliente', function () {
 
 $('#select-cliente-modal').change(function () {
 
-    let cliente = $('#select-cliente-modal option:selected').text();
+    let cliente = $('#select-cliente-modal option:selected').text(); // cliente que será adicionado
 
     let valSelectClienteModal = $('#select-cliente-modal option:selected').val().split('|');
 
-    let idCliente = valSelectClienteModal[0];
+    let idClienteNovo = parseInt(valSelectClienteModal[0]); // passa pra inteiro pra fazer a verificação no inArray
 
     let cidade = valSelectClienteModal[1];
 
     let etiqueta = valSelectClienteModal[2]
+    
+
+    let clientesAdicionados = []; // clientes que já está no modal
+
+    $('.clientes-romaneio').each(function () {
+
+        let idCliente = $(this).find('.nome-cliente').data('id');
+
+        clientesAdicionados.push(idCliente)
+    })
+
+    // verifica se o cliente novo já foi adicionado
+    if ($.inArray(idClienteNovo, clientesAdicionados) !== -1) {
+
+        avisoRetorno('Algo deu errado.', 'Este cliente já está existe', 'error', '#');
+        return;
+    }
+
 
     $('.div-select-modal').addClass('d-none');
 
     let clientes = `
-        <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-            <td class="align-middle white-space-nowrap">
+        <tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
+            <td class="align-middle white-space-nowrap nome-cliente" data-id="${idClienteNovo}">
                 ${cliente}
             </td>
 
@@ -197,13 +215,13 @@ $('#select-cliente-modal').change(function () {
 
             <td class="align-middle white-space-nowrap pt-3">
                 <div class="form-check">
-                    <input class="form-check-input check-clientes-modal" checked name="clientes" type="checkbox" value="${idCliente}" style="cursor: pointer">
+                    <input class="form-check-input check-clientes-modal" checked name="clientes" type="checkbox" value="${idClienteNovo}" style="cursor: pointer">
                 </div>
             </td>
         </tr>
     `;
 
-    if (idCliente.trim()) {
+    if (idClienteNovo) {
         $('.clientes-modal-romaneio').append(clientes);
     }
 
