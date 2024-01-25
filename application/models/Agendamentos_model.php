@@ -182,7 +182,7 @@ class Agendamentos_model extends CI_Model
 
         $result = $query->row_array(); 
 
-        return $result['data_coleta']; 
+        return $result['data_coleta'] ?? ""; 
     }
 
 
