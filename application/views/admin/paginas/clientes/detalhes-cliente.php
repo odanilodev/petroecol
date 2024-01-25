@@ -315,7 +315,7 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0"><?= date('d/m/Y', strtotime($ultima_coleta)); ?></div>
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0"><?= $ultima_coleta; ?></div>
                             </td>
                           </tr>
                         </table>
