@@ -89,7 +89,7 @@ const deletarResiduo = (id) => {
 
                     if (data.id_vinculado) {
 
-                        avisoRetornoFilter(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`, data.id_vinculado, 'id_residuo');
+                        avisoRetornoFilter(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`, data.id_vinculado, 'id_residuo', 'Ver Clientes');
 
                     }else{
 

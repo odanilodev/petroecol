@@ -91,7 +91,7 @@ const deletaRecipiente = (id) => {
 
                     if (data.id_vinculado) {
 
-                        avisoRetornoFilter(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`, data.id_vinculado, 'id_recipiente');
+                        avisoRetornoFilter(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`, data.id_vinculado, 'id_recipiente', 'Ver Clientes');
 
                     }else{
 
