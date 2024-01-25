@@ -180,9 +180,8 @@ class Agendamentos_model extends CI_Model
         $this->db->limit(1); 
         $query = $this->db->get('ci_agendamentos');
 
-        $result = $query->row_array(); 
+        return $query->row()->data_coleta ?? null; 
 
-        return $result['data_coleta'] ?? ""; 
     }
 
 
