@@ -6,7 +6,9 @@
                 <div class="d-flex align-items-center">
                     <button class="btn btn-link text-900 me-4 px-0 d-none"><span class="fa-solid fa-file-export fs--1 me-2"></span>Export</button>
                     <a href="<?= base_url("etiquetas/formulario") ?>" class="btn btn-primary"><span class="fas fa-plus me-2"></span>Adicionar Etiqueta</a>
+                    <a href="" class="btn btn-danger d-none btn-excluir-tudo mx-2"><span class="fas fa-trash"></span>  Excluir tudo</a>
                 </div>
+
             </div>
 
             <div class="col col-auto">
@@ -25,8 +27,9 @@
                     <thead>
                         <tr>
                             <th class="white-space-nowrap fs--1 align-middle ps-0">
+                                <!-- Check para todos -->
                                 <div class="form-check mb-0 fs-0">
-                                    <input class="form-check-input" id="checkbox-bulk-members-select" type="checkbox" data-bulk-select='{"body":"members-table-body"}' />
+                                    <input class="form-check-input check-all-element" type="checkbox"/>
                                 </div>
                             </th>
 
@@ -41,9 +44,10 @@
                         <?php foreach ($etiquetas as $v) { ?>
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
 
+                                <!-- check para cada um -->
                                 <td class="fs--1 align-middle ps-0 py-3">
                                     <div class="form-check mb-0 fs-0">
-                                        <input class="form-check-input" type="checkbox" data-bulk-select-row='{"customer":{"avatar":"/team/32.webp","name":"Carry Anna"},"email":"annac34@gmail.com","mobile":"+912346578","city":"Budapest","lastActive":"34 min ago","joined":"Dec 12, 12:56 PM"}' />
+                                        <input class="form-check-input check-element" type="checkbox"/>
                                     </div>
                                 </td>
 

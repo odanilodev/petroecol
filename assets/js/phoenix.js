@@ -7143,16 +7143,26 @@ $(document).ready(function () {
 
   // clique para selecionar todos os checkboxes
   $('.check-all-element').on('change', function () {
+
     if ($(this).prop('checked')) {
       $('.check-element').prop("checked", true);
 
       $('.check-element').each(function () {
         elementsChecked.push($(this).val());
       });
+
+      // Exibe botão para excluir tudo
+      $('.btn-excluir-tudo').removeClass('d-none');
+
     } else {
       // desmarca todos se o checkbox de selecionar todos estiver desmarcado
       $('.check-element').prop("checked", false);
-      elementsChecked = []; // deixa o array vazio novamente
+
+      // deixa o array vazio novamente
+      elementsChecked = []; 
+
+      // oculta botão para excluir tudo
+      $('.btn-excluir-tudo').addClass('d-none');
     }
   });
 
@@ -7160,7 +7170,8 @@ $(document).ready(function () {
   $('.check-element').on('change', function () {
     let value = $(this).val();
 
-    if ($(this).prop('checked')) {
+    if ($(this).prop('checked') ) {
+
       // adiciona no array se ainda não estiver, não deixando duplicar valores no array
       if (!elementsChecked.includes(value)) {
         elementsChecked.push(value);
@@ -7191,6 +7202,16 @@ $(document).ready(function () {
     } else {
 
       $('.check-all-element').prop('checked', false);
+
+      if($('.check-element:checked').length >= 2){
+
+        $('.btn-excluir-tudo').removeClass('d-none');
+
+      } else {
+
+        $('.btn-excluir-tudo').addClass('d-none');
+
+      }
     }
   }
 
