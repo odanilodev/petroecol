@@ -23,6 +23,24 @@ class Funcionarios extends CI_Controller
 		$this->load->model('Funcionarios_model');
 		date_default_timezone_set('America/Sao_Paulo');
 	}
+	
+	private function formatarInformacaoData($dataString)
+	{
+		if ($dataString && $dataString != '0000-00-00') {
+			$dataTimestamp = strtotime($dataString);
+			$dataAtual = strtotime(date('Y-m-d'));
+
+			$texto = date('d/m/Y', $dataTimestamp);
+
+			if ($dataTimestamp < $dataAtual) {
+				$texto = $texto . ' (Vencido)';
+			}
+		} else {
+			$texto = 'Não cadastrado';
+		}
+
+		return $texto;
+	}
 
 	public function index()
 	{
@@ -63,6 +81,9 @@ class Funcionarios extends CI_Controller
 
 		$data['documentos'] = ['cnh', 'cpf', 'aso', 'epi', 'registro', 'carteira', 'vacinacao', 'certificados', 'ordem'];
 
+		$data['info_cnh'] = $this->formatarInformacaoData($data['funcionario']['data_cnh']);
+
+		$data['info_aso'] = $this->formatarInformacaoData($data['funcionario']['data_aso']);
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/funcionarios/ver_funcionario');
@@ -111,19 +132,24 @@ class Funcionarios extends CI_Controller
 		$nome = $this->input->post('nome');
 		$dados['nome'] = mb_convert_case($nome, MB_CASE_TITLE, 'UTF-8');
 		$dados['data_cnh'] = $this->input->post('data_cnh');
+		$dados['data_aso'] = $this->input->post('data_aso');
 		$dados['telefone'] = $this->input->post('telefone');
 		$dados['cpf'] = $this->input->post('cpf');
 		$dados['id_cargo'] = $this->input->post('id_cargo');
 		$dados['data_nascimento'] = $this->input->post('data_nascimento');
 		$dados['residencia'] = $this->input->post('residencia');
 		$dados['salario_base'] = $this->input->post('salario_base');
+		$dados['conta_bancaria'] = $this->input->post('conta_bancaria');
+
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-		$cpfFuncionario = $this->Funcionarios_model->verificaCpfFuncionario($dados['cpf']); // verifica se ja existe o cpf no banco
+		$cpfFuncionario = $this->Funcionarios_model->verificaCpfFuncionario($dados['cpf'], $id); // verifica se ja existe o cpf no banco
 
-		if ($cpfFuncionario && $cpfFuncionario['id'] != $id) {
+		if ($cpfFuncionario) {
 
 			$response = array(
+				'title' => "Algo deu errado!",
+				'type' => "error",
 				'success' => false,
 				'message' => "Já existe um funcionário com este CPF!"
 			);
@@ -248,4 +274,5 @@ class Funcionarios extends CI_Controller
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
 }

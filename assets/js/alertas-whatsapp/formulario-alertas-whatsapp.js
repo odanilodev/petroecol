@@ -1,19 +1,25 @@
 var baseUrl = $('.base-url').val();
 
-const cadastraResiduos = () => {
-
-    let residuo = $('.input-nome').val();
-    let grupo = $('.input-grupo').val();
+const cadastraAlertaWhatsapp = () => {
+    
+    let titulo = $('.input-titulo').val();
+    let textoAlerta = $('.input-texto-alerta').val();
     let id = $('.input-id').val();
-    let uni = $('.input-medida').val();
 
+    if ($('.input-status-alerta').is(':checked')) {
+
+        var statusAlerta = 1;
+
+    } else {
+
+        var statusAlerta = 0;
+    }
     //Verificação de campo vazio e permissao para cadastrar
     let permissao = true
 
 	$(".input-obrigatorio").each(function () {
-
 		// Verifica se o valor do input atual está vazio
-		if ($(this).val() === "" || $(this).val() === null) {
+		if ($(this).val().trim() === "") {
 
             $(this).addClass('invalido');
             $(this).next().removeClass('d-none');
@@ -32,12 +38,12 @@ const cadastraResiduos = () => {
 
         $.ajax({
             type: "post",
-            url: `${baseUrl}residuos/cadastraResiduo`,
+            url: `${baseUrl}alertasWhatsapp/cadastraAlertaWhatsapp`,
             data: {
-                residuo: residuo,
-                grupo: grupo,
-                id: id,
-                unidade: uni
+                titulo: titulo,
+                textoAlerta: textoAlerta,
+                statusAlerta: statusAlerta,
+                id: id
             },
             beforeSend: function () {
                 $('.load-form').removeClass('d-none');
@@ -50,7 +56,7 @@ const cadastraResiduos = () => {
 
                 if (data.success) {
 
-                    avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}residuos`);
+                    avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}alertasWhatsapp`);
 
                 } else {
 
@@ -62,7 +68,7 @@ const cadastraResiduos = () => {
     }
 }
 
-const deletarResiduo = (id) => {
+const deletaAlertaWhatsapp = (id) => {
 
     Swal.fire({
         title: 'Você tem certeza?',
@@ -80,23 +86,14 @@ const deletarResiduo = (id) => {
 
             $.ajax({
                 type: 'post',
-                url: `${baseUrl}residuos/deletaResiduo`,
+                url: `${baseUrl}alertasWhatsapp/deletaAlertaWhatsapp`,
                 data: {
                     id: id
                 }, success: function (data) {
 
-                    let redirect = data.type != 'error' ? `${baseUrl}residuos` : `${baseUrl}clientes`;
+                    let redirect = data.type != 'error' ? `${baseUrl}alertasWhatsapp` : '#';
 
-                    if (data.id_vinculado) {
-
-                        avisoRetornoFilter(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`, data.id_vinculado, 'id_residuo', 'Ver Clientes');
-
-                    }else{
-
-                        avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
-                        
-                    }
-
+                    avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
                 }
             })
@@ -108,12 +105,28 @@ const deletarResiduo = (id) => {
 }
 
 $(document).ready(function () {
-    
-    $('#input-grupo').val('').trigger('change');
 
-    $('.select2').select2({
-        theme: "bootstrap-5",
-        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-        placeholder: $(this).data('placeholder'),
+    var emojisSelecionados = [];
+
+    $('#emojiButton').click(function () {
+
+        $('.picmo__searchContainer').remove(); // remove o search box de emojis
+
+        // clique no emoji dentro do modal
+        $('.picmo__emojiButton').off().on('click', function (event) {
+
+            event.stopPropagation(); // impede fechar o modal quando seleciona um emoji
+
+            // junta o texto digitado com o emoji para não imprimir somente o emoji
+            var textoComEmoji = $('#emojiTextarea').val() + $(this).attr('data-emoji');
+
+            // Atualiza o valor do textarea
+            $('#emojiTextarea').val(textoComEmoji);
+
+            // Adiciona o emoji ao array emojisSelecionados
+            emojisSelecionados.push($(this).attr('data-emoji'));
+        });
+
     });
-})
+
+});

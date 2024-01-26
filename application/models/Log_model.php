@@ -29,17 +29,17 @@ class Log_model extends CI_Model
         }
 
         if ($filtro['data-inicio']) {
-            
             $filtro['data-inicio'] .= ' 00:00:00'; // Início do dia
             $this->db->where('L.criado_em >=', $filtro['data-inicio']);
         }
 
         if ($filtro['data-fim']) {
-
             $filtro['data-fim'] .= ' 23:59:59'; // Final do dia
             $this->db->where('L.criado_em <=', $filtro['data-fim']);
         }
-        
+
+        $this->db->order_by('L.criado_em', 'desc');
+
         $query = $this->db->get();
 
         return $query->result_array();

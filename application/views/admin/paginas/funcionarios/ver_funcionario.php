@@ -46,13 +46,17 @@
                                         <h5 class="text-1000 mb-0">Validade da CNH</h5>
                                     </div>
                                     <p class="mb-0 text-800">
-                                        <?php
-                                        if ($funcionario['data_cnh'] && $funcionario['data_cnh'] != '0000-00-00') {
-                                            echo date('d/m/Y', strtotime($funcionario['data_cnh']));
-                                        } else {
-                                            echo 'Não cadastrado';
-                                        }
-                                        ?>
+                                    <?= $info_cnh ?>
+                                    </p>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="d-flex align-items-center mb-1"><span class="me-2 uil uil-hourglass">
+                                        </span>
+                                        <h5 class="text-1000 mb-0">Validade ASO</h5>
+                                    </div>
+                                    <p class="mb-0 text-800">
+                                    <?= $info_aso ?>
                                     </p>
                                 </div>
 

@@ -34,12 +34,13 @@ class Recipientes_model extends CI_Model
         return $query->row_array();
     }
 
-    public function recebeRecipienteNome($nome, $volume, $unidade_peso)
+    public function recebeRecipienteNome($nome, $volume, $unidade_peso, $id)
     {
         $this->db->where('nome_recipiente', $nome);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('volume_suportado', $volume);
         $this->db->where('unidade_peso', $unidade_peso);
+        $this->db->where('id <>', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_recipientes');
 
         return $query->row_array();

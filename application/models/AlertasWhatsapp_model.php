@@ -1,7 +1,8 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Setores_model extends CI_Model
+
+class AlertasWhatsapp_model extends CI_Model
 {
 
     public function __construct()
@@ -10,39 +11,44 @@ class Setores_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebeSetores()
+    public function recebeAlertasWhatsApp($statusAlerta = null)
     {
-        $this->db->order_by('nome', 'DESC');
+        $this->db->order_by('titulo', 'DESC');
+        if($statusAlerta)
+        {
+            $this->db->where('status', 1);
+        }
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('ci_setores');
+        $query = $this->db->get('ci_alertas_whatsapp');
 
         return $query->result_array();
     }
 
-    public function recebeSetor($id)
+
+    public function recebeAlertaWhatsapp($id)
     {
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('ci_setores');
+        $query = $this->db->get('ci_alertas_whatsapp');
 
         return $query->row_array();
     }
 
-    public function recebeSetorNome($nome, $id)
+    public function recebeAlertaWhatsappTitulo($titulo, $id)
     {
-        $this->db->where('nome', $nome);
+        $this->db->where('titulo', $titulo);
         $this->db->where('id <>', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('ci_setores');
+        $query = $this->db->get('ci_alertas_whatsapp');
 
         return $query->row_array();
     }
 
-    public function insereSetor($dados)
+    public function insereAlertaWhatsapp($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');
 
-        $this->db->insert('ci_setores', $dados);
+        $this->db->insert('ci_alertas_whatsapp', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($this->db->insert_id());
@@ -51,13 +57,13 @@ class Setores_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function editaSetor($id, $dados)
+    public function editaAlertaWhatsapp($id, $dados)
     {
         $dados['editado_em'] = date('Y-m-d H:i:s');
 
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->update('ci_setores', $dados);
+        $this->db->update('ci_alertas_whatsapp', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);
@@ -66,11 +72,11 @@ class Setores_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function deletaSetor($id)
+    public function deletaAlertaWhatsapp($id)
     {
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->delete('ci_setores');
+        $this->db->delete('ci_alertas_whatsapp');
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);

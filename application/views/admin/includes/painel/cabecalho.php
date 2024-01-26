@@ -91,7 +91,7 @@
 
                                                 <div class="nav-item-wrapper">
 
-                                                    <a class="nav-link dropdown-indicator label-1" href="#nv-faq" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-faq">
+                                                    <a class="nav-link dropdown-indicator label-1" href="#nv-faq" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-faq">
                                                         <div class="d-flex align-items-center">
                                                             <div class="dropdown-indicator-icon">
                                                                 <span class="fas fa-caret-right"></span>
@@ -146,7 +146,7 @@
                 <div class="navbar-logo">
 
                     <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-                    <a class="navbar-brand me-1 me-sm-3" href="<?= base_url('dashboard') ?>">
+                    <a class="navbar-brand me-1 me-sm-3" href="<?= base_url('admin') ?>">
                         <div class="d-flex align-items-center">
                             <div class="d-flex align-items-center">
                                 <img src="" style="max-width: 180px;" class="img-fluid logo" />

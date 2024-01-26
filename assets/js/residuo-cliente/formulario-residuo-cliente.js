@@ -4,9 +4,9 @@ const cadastraResiduoCliente = () => {
 
     let idCliente = $('.id-cliente').val();
 
-    let idResiduo = $('#select-residuo').val();
+    let idResiduo = $('#select-residuo option:selected').val();
 
-    var nomeResiduo = $('#select-residuo').text();
+    var nomeResiduo = $('#select-residuo option:selected').text();
 
     permissao = true;
 
@@ -57,6 +57,13 @@ const cadastraResiduoCliente = () => {
 
 
 const exibirResiduoCliente = (idCliente) => {
+
+    $('#select-residuo').val('').trigger('change');
+
+    $('.select2').select2({
+        dropdownParent: "#modalResiduo",
+        theme: "bootstrap-5",
+    });
 
     $('.id-cliente').val(idCliente);
 

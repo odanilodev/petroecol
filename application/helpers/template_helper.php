@@ -87,6 +87,9 @@ function scriptsUsuarioHead()
 {
     return array(
 
+        '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />',
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />',
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />',
         '<link href="' . base_url('assets/css/upload-arquivo.css') . '" type="text/css" rel="stylesheet" id="user-style-default">',
         '<link href="' . base_url('assets/css/usuario/usuarios.css') . '" type="text/css" rel="stylesheet" id="user-style-default">'
 
@@ -101,7 +104,8 @@ function scriptsUsuarioFooter()
         '<script src="' . base_url('assets/js/upload-imagem.js') . '"></script>',
         '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>',
         '<script src="' . base_url('assets/js/validacoes.js') . '"></script>',
-        '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>'
+        '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>',
+        '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>'
 
     );
 }
@@ -112,6 +116,9 @@ function scriptsFuncionarioHead()
 {
     return array(
 
+        '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />',
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />',
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />',
         '<link href="' . base_url('assets/css/upload-arquivo.css') . '" type="text/css" rel="stylesheet" id="user-style-default">',
 
     );
@@ -124,7 +131,8 @@ function scriptsFuncionarioFooter()
         '<script src="' . base_url('assets/js/funcionarios/formulario-funcionarios.js') . '"></script>',
         '<script src="' . base_url('assets/js/upload-imagem.js') . '"></script>',
         '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>',
-        '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>'
+        '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>',
+        '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>'
 
     );
 }
@@ -134,8 +142,9 @@ function scriptsRomaneioHead()
 {
     return array(
 
-        '<link href="' . base_url('vendors/choices/choices.min.css') . '" rel="stylesheet" />',
-
+        '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />',
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />',
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />'
 
     );
 }
@@ -146,7 +155,7 @@ function scriptsRomaneioFooter()
     return array(
 
         '<script src="' . base_url('assets/js/romaneios/romaneio.js') . '"></script>',
-        '<script src="' . base_url('vendors/choices/choices.min.js') . '"></script>',
+        '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>'
 
 
     );
@@ -158,7 +167,6 @@ function scriptsClienteHead()
 {
     return array(
 
-        '<link href="' . base_url('vendors/choices/choices.min.css') . '" rel="stylesheet" />',
         '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />',
         '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />',
         '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />'
@@ -169,6 +177,7 @@ function scriptsClienteHead()
 function scriptsClienteFooter()
 {
     return array(
+        
         '<script src="' . base_url('assets/js/clientes/formulario-cliente.js') . '"></script>',
         '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>',
         '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>',
@@ -244,11 +253,22 @@ function scriptsRecipienteFooter()
 }
 
 // Pagina de residuos
+function scriptsResiduoHead()
+{
+    return array(
+
+        '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />',
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />',
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />'
+
+    );
+}
 function scriptsResiduoFooter()
 {
     return array(
 
-        '<script src="' . base_url('assets/js/residuos/formulario-residuo.js') . '"></script>'
+        '<script src="' . base_url('assets/js/residuos/formulario-residuo.js') . '"></script>',
+        '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>'
 
     );
 }
@@ -353,6 +373,23 @@ function scriptsPermissaoFooter()
     return array(
 
         '<script src="' . base_url('assets/js/permissao/componentes.js') . '"></script>',
+    );
+}
+
+function scriptsAlertasWhatsappHead()
+{
+    return array(
+        '<script src="https://unpkg.com/picmo@5.7.6/dist/umd/index.js"></script>',
+        '<script src="https://unpkg.com/@picmo/popup-picker@5.7.6/dist/umd/index.js"></script>'
+    );
+}
+
+
+function scriptsAlertasWhatsappFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/alertas-whatsapp/formulario-alertas-whatsapp.js') . '"></script>'
     );
 }
 

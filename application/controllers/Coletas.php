@@ -119,6 +119,35 @@ class Coletas extends CI_Controller
         }
     }
 
+    public function clienteColetas()
+    {
+        $id_cliente = $this->input->post('idCliente');
+        $data_inicio = $this->input->post('dataInicio');
+        $data_fim = $this->input->post('dataFim');
+
+        $coletas = $this->Coletas_model->recebeIdColetasClientes($id_cliente, $data_inicio, $data_fim);
+
+        $response = array(
+            'success' => false
+        );
+
+        if ($coletas) {
+
+            $coletasId = "";
+
+            foreach ($coletas as $col) {
+                $coletasId .=  $col['id'] . "-";
+            }
+
+            $response = array(
+                'success' => true,
+                'coletasId' => substr($coletasId, 0, -1),
+            );
+        }
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
+
     public function detalhesHistoricoColeta()
     {
         $idColeta = $this->input->post('idColeta');
