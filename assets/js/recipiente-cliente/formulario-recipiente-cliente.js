@@ -82,13 +82,6 @@ $('#select-recipiente').change(function () {
     $('#quantidade-recipiente').val(quantidadeRecipiente);
 })
 
-$(document).ready(function () {
-    $('#single-select-field').select2({
-        theme: "bootstrap-5",
-        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-        placeholder: $(this).data('placeholder'),
-    });
-})
 
 const exibirRecipientesCliente = (idCliente) => {
 
@@ -96,8 +89,9 @@ const exibirRecipientesCliente = (idCliente) => {
 
     $('#select-recipiente').select2({
         dropdownParent: "#modalRecipiente",
-        theme: 'bootstrap-5' // Aplicar o tema Bootstrap 4
+        theme: 'bootstrap-5'
     });
+
 
     $('#quantidade-recipiente').val('');
 
@@ -143,6 +137,7 @@ const deletaRecipienteCliente = (idRecipienteCliente) => {
 
 const verRecipienteCliente = (textoRecipiente, quantidadeRecipiente) => {
 
+
     var selectRecipiente = $('#select-recipiente');
 
     var textoRecipienteLower = textoRecipiente.toUpperCase(); // Converte o texto fornecido para minúsculas
@@ -154,10 +149,5 @@ const verRecipienteCliente = (textoRecipiente, quantidadeRecipiente) => {
     optionToSelect.prop('selected', true);
 
     $('#quantidade-recipiente').val(quantidadeRecipiente);
-
-    $('#select-recipiente').select2({
-        dropdownParent: "#modalRecipiente",
-        theme: 'bootstrap-5' // Aplicar o tema Bootstrap 4
-    });
 
 }

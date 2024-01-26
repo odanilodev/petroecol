@@ -430,3 +430,29 @@ const enviarAlertaCliente = () => {
     }
 
 }
+
+$(document).ready(function () {
+    
+    $('#select-frequencia').val('').trigger('change');
+    $('#select-forma-pagamento').val('').trigger('change');
+    $('#select-select-classificacao-cliente').val('').trigger('change');
+
+    $('.select2').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+    });
+})
+
+//Select2 dentro do modal de filtros
+$('.filtros-clientes').click(function(){
+
+    $('.select2').val('all').trigger('change');
+
+    $('.select2').select2({
+            dropdownParent: "#reportsFilterModal",
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+        });
+});

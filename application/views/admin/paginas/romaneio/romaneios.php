@@ -101,13 +101,14 @@
         <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollabe">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Concluir Romaneio</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+                </div> 
                 <div class="modal-body">
 
 
                     <div class="row">
+
+                    
 
                         <div class="accordion dados-clientes-div" id="accordionExample">
 

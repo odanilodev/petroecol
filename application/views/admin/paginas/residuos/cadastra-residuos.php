@@ -35,7 +35,7 @@
                                                 <div class="col-sm-4">
                                                     <div class="mb-2">
                                                         <label class="form-label text-900">Grupo</label>
-                                                        <select class="form-select input-grupo input-obrigatorio">
+                                                        <select class="form-select input-grupo input-obrigatorio select2">
                                                             <option value="" selected disabled>Selecione</option>
 
                                                             <?php foreach ($grupo_residuos as $v) { ?>

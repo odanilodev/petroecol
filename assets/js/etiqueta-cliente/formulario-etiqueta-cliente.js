@@ -4,9 +4,9 @@ const cadastraEtiquetaCliente = () => {
 
     let idCliente = $('.id-cliente').val();
 
-    let idEtiqueta = $('#select-etiqueta').val();
+    let idEtiqueta = $('#select-etiqueta option:selected').val();
 
-    var nomeEtiqueta = $('#select-etiqueta').text();
+    var nomeEtiqueta = $('#select-etiqueta option:selected').text();
 
     permissao = true;
 
@@ -56,6 +56,13 @@ const cadastraEtiquetaCliente = () => {
 
 
 const exibirEtiquetasCliente = (idCliente) => {
+
+    $('#select-etiqueta').val('').trigger('change');
+
+    $('.select2').select2({
+        dropdownParent: "#modalEtiqueta",
+        theme: "bootstrap-5",
+    });
 
     $('.id-cliente').val(idCliente);
 
