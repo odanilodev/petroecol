@@ -142,7 +142,7 @@
                     <input type="hidden" class="id-cliente">
 
                     <label>Atribuir novos recipientes</label>
-                    <select class="form-select w-100 mb-3" id="select-recipiente">
+                    <select class="form-select w-100 mb-3 select2" id="select-recipiente">
 
                         <option selected disabled value="">Selecione recipientes</option>
                         <?php foreach ($recipientes as $v) { ?>
