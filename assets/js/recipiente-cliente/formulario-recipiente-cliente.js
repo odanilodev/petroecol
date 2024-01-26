@@ -155,9 +155,4 @@ const verRecipienteCliente = (textoRecipiente, quantidadeRecipiente) => {
 
     $('#quantidade-recipiente').val(quantidadeRecipiente);
 
-    $('#select-recipiente').select2({
-        dropdownParent: "#modalRecipiente",
-        theme: 'bootstrap-5' // Aplicar o tema Bootstrap 4
-    });
-
 }
