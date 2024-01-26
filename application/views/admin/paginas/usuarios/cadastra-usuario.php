@@ -77,7 +77,7 @@
                       <div class="mb-2 col-md-4">
                         <div class="mb-2">
                           <label class="form-label text-900">Setor</label>
-                          <select required name="setor" class="form-select input-setor input-obrigatorio select2">
+                          <select required name="setor" class="form-select select-setor input-obrigatorio select2">
                             <option value="" selected disabled>Selecione o setor</option>
                             <?php if ($this->session->userdata('id_empresa') == 1) { ?>
                               <option selected value="0">N/A</option>
