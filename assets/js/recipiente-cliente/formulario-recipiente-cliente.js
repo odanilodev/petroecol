@@ -87,7 +87,7 @@ const exibirRecipientesCliente = (idCliente) => {
 
     $('#select-recipiente').val('').trigger('change');
 
-    $('#select-recipiente').select2({
+    $('.select2').select2({
         dropdownParent: "#modalRecipiente",
         theme: 'bootstrap-5'
     });
