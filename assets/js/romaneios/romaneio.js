@@ -2,6 +2,12 @@ var baseUrl = $('.base-url').val();
 
 const filtrarClientesRomaneio = () => {
 
+    $('#select-cliente-modal').val('').trigger('change');
+
+    $('.select2').select2({
+        dropdownParent: "#modalRomaneio",
+        theme: "bootstrap-5",
+    });
 
     var permissao = false;
     var filtrarData = null;
@@ -182,7 +188,7 @@ $('#select-cliente-modal').change(function () {
     let cidade = valSelectClienteModal[1];
 
     let etiqueta = valSelectClienteModal[2]
-    
+
 
     let clientesAdicionados = []; // clientes que já está no modal
 
@@ -233,7 +239,7 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio) => {
 
     $('#modalConcluirRomaneio').modal('show');
 
-   
+
 
     $('.id_responsavel').val(idResponsavel);
     $('.code_romaneio').val(codRomaneio);
@@ -252,18 +258,37 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio) => {
                 $('.dados-clientes-div').html('');
 
             }, success: function (data) {
-                
-                exibirDadosClientes(data.retorno, data.registros, data.residuos, data.pagamentos);
-               
+
+                exibirDadosClientes(data.retorno, data.registros, data.residuos, data.pagamentos, data.id_cliente_prioridade);
             }
         })
 
     }
-        
+
 
 }
 
-function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
+
+// formata um obj para um array
+function formatarArray(obj) {
+
+    var idClientes = [];
+
+    for (var key in obj) {
+
+        if (obj.hasOwnProperty(key)) {
+
+            idClientes.push(obj[key].id_cliente);
+        }
+    }
+
+    return idClientes;
+}
+
+
+function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_cliente_prioridade) {
+
+    var idPrioridades = formatarArray(id_cliente_prioridade); // idsPrioridade formatado
 
     for (let i = 0; i < registros; i++) {
 
@@ -273,7 +298,13 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
 
                 <h2 class="accordion-header" id="heading${i}">
                     <button class="accordion-button ${i != 0 ? 'collapsed' : ''}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
-                        ${clientes[i].nome}
+                        ${clientes[i].nome} 
+                        
+                        <span class="cliente-${clientes[i].id}">
+
+                        ${idPrioridades.includes(clientes[i].id) ? '*' : ''}
+                          
+                        </span>
                     </button>
                 </h2>
 
@@ -286,20 +317,20 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
                         <div class="col-md-6 mb-2">
 
                             <label class="form-label">Endereço</label>
-                            <input class="form-control input-endereco input-obrigatorio campos-form-${clientes[i].id}" type="text" placeholder="Endereço do cliente" value="${clientes[i].rua} - ${clientes[i].numero} / ${clientes[i].cidade}">
+                            <input class="form-control input-endereco campos-form-${clientes[i].id}" type="text" placeholder="Endereço do cliente" value="${clientes[i].rua} - ${clientes[i].numero} / ${clientes[i].cidade}">
                         </div>
 
                         <div class="col-md-6 mb-2">
 
                             <label class="form-label">Telefone</label>
-                            <input class="form-control input-telefone input-obrigatorio campos-form-${clientes[i].id}" type="text" placeholder="Telefone" value="${clientes[i].telefone}">
+                            <input class="form-control input-telefone campos-form-${clientes[i].id}" type="text" placeholder="Telefone" value="${clientes[i].telefone}">
 
                         </div>
 
                         <div class="col-md-4 mb-2 div-pagamento">
 
                             <label class="form-label">Forma de Pagamento</label>
-                            <select class="form-select select-pagamento w-100 input-obrigatorio campos-form-${clientes[i].id}" id="select-pagamento">
+                            <select class="form-select select-pagamento w-100 campos-form-${clientes[i].id}" id="select-pagamento">
 
                                 <option disabled selected value="">Selecione</option>
                                 
@@ -324,7 +355,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
 
                             <label class="form-label">Resíduo Coletado</label>
                             
-                            <select class="form-select select-residuo w-100 input-obrigatorio campos-form-${clientes[i].id}" id="select-residuo" >
+                            <select class="form-select select-residuo input-obg-${clientes[i].id} w-100 campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" id="select-residuo" >
 
                                 <option disabled selected value="">Selecione</option>
                                 
@@ -335,7 +366,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
                         <div class="col-md-4 mb-2">
 
                             <label class="form-label">Quantidade Coletada</label>
-                            <input class="form-control input-residuo input-obrigatorio campos-form-${clientes[i].id}" type="text" placeholder="Digite quantidade coletada" value="">
+                            <input class="form-control input-residuo input-obg-${clientes[i].id} campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" type="text" placeholder="Digite quantidade coletada" value="">
                         </div>
 
                         <div class="col-md-4 mb-2 mt-4 row">
@@ -357,7 +388,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
                             <div class="col-12 mt-4">
                                 
                                 <div class="form-check mb-0 fs-0">
-                                    <input data-id="${clientes[i].id}" title="Preencha este campo caso não tenha coletado no cliente" class="form-check-input nao-coletado" type="checkbox" data-bulk-select='{"body":"members-table-body"}' style="cursor: pointer"/>
+                                    <input data-id="${clientes[i].id}" title="Preencha este campo caso não tenha coletado no cliente" class="form-check-input nao-coletado nao-coletado-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'cliente-prioridade' : ''}" type="checkbox" data-bulk-select='{"body":"members-table-body"}' style="cursor: pointer"/>
                                     Não Coletado
                                 </div>
 
@@ -370,9 +401,12 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
             </div>
         `;
 
+
+
         $('.dados-clientes-div').append(dadosClientes);
 
     }
+
 
     // residuos no select
     for (c = 0; c < residuos.length; c++) {
@@ -398,7 +432,7 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
 
     let selectHtml = `
         <div class="col-md-4 mb-2 div-${novoElemento}">
-            <select class="form-select select-${novoElemento} w-100 input-obrigatorio" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+            <select class="form-select select-${novoElemento} w-100 ${novoElemento == "residuo" ? 'input-obrigatorio' : ''} " data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
                 ${options}
             </select>
         </div>
@@ -406,7 +440,7 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
 
     let inputHtml = `
         <div class="col-md-4 mb-2 div-${novoElemento}">
-            <input class="form-control input-${novoElemento}" type="text" placeholder="Digite ${novoInput}" value="">
+            <input class="form-control input-${novoElemento} ${novoElemento == "residuo" ? 'input-obrigatorio' : ''}" type="text" placeholder="Digite ${novoInput}" value="">
         </div>
     `;
 
@@ -454,8 +488,8 @@ $(document).on('click', '.nao-coletado', function () {
 
     if ($(this).is(':checked')) {
 
-        $('.campos-form-' + idCliente).removeClass('input-obrigatorio');
-        $('.campos-form-' + idCliente).removeClass('invalido');
+        $('.input-obg-' + idCliente).removeClass('input-obrigatorio');
+        $('.input-obg-' + idCliente).removeClass('invalido');
 
         $('.aviso-msg').removeClass('d-none');
         $('.aviso-msg').html('Preencha este campo');
@@ -464,10 +498,16 @@ $(document).on('click', '.nao-coletado', function () {
 
     } else {
 
-        $('.campos-form-' + idCliente).addClass('input-obrigatorio');
         $('.aviso-msg').addClass('d-none');
         $('.accordion-button').attr('disabled', false);
         $('.btn-finaliza-romaneio').attr('disabled', false);
+
+        if ($(this).hasClass('cliente-prioridade')) {
+
+            $('.input-obg-' + idCliente).addClass('input-obrigatorio');
+
+        }
+
 
     }
 
@@ -518,11 +558,15 @@ function finalizarRomaneio() {
     let codRomaneio = $('.code_romaneio').val();
     let dataRomaneio = $('.data_romaneio').val();
 
+
     $('.accordion-item').each(function () {
+
+        let salvarDados = false; // uso para dar permissao para salvar os valores no array e mandar pro back
 
         if ($(this).find('.nao-coletado').is(':checked')) {
 
             var coletado = 0;
+            salvarDados = true;
 
         } else {
             var coletado = 1;
@@ -532,41 +576,63 @@ function finalizarRomaneio() {
         let residuosSelecionados = [];
 
         $(this).find('.select-residuo option:selected').each(function () {
-            residuosSelecionados.push($(this).val());
+
+            if ($(this).val() != '') {
+
+                residuosSelecionados.push($(this).val());
+            }
         });
 
         let qtdResiduos = [];
 
         $(this).find('.input-residuo').each(function () {
-            qtdResiduos.push($(this).val());
+
+            if ($(this).val() != '') {
+
+                qtdResiduos.push($(this).val());
+                salvarDados = true;
+            }
         });
 
         // valores pagamentos
         let formaPagamentoSelecionados = [];
 
         $(this).find('.div-pagamento .select-pagamento option:selected').each(function () {
-            formaPagamentoSelecionados.push($(this).val());
+
+            if ($(this).val() != '') {
+
+                formaPagamentoSelecionados.push($(this).val());
+            }
+
         });
 
         let valorPagamento = [];
 
         $(this).find('.div-pagamento .input-pagamento').each(function () {
 
-            valorPagamento.push($(this).val());
+            if ($(this).val() != '') {
+
+                valorPagamento.push($(this).val());
+            }
+
         });
 
-        let dadosCliente = {
-            idCliente: $(this).find('.input-id-cliente').val(),
-            endereco: $(this).find('.input-endereco').val(),
-            residuos: residuosSelecionados,
-            qtdColetado: qtdResiduos,
-            pagamento: formaPagamentoSelecionados,
-            valor: valorPagamento,
-            coletado: coletado,
-            obs: $(this).find('.input-obs').val()
-        };
+        // salva somente os dados dos clientes que foram preenchidos
+        if (salvarDados) {
 
-        dadosClientes.push(dadosCliente);
+            let dadosCliente = {
+                idCliente: $(this).find('.input-id-cliente').val(),
+                endereco: $(this).find('.input-endereco').val(),
+                residuos: residuosSelecionados,
+                qtdColetado: qtdResiduos,
+                pagamento: formaPagamentoSelecionados,
+                valor: valorPagamento,
+                coletado: coletado,
+                obs: $(this).find('.input-obs').val()
+            };
+
+            dadosClientes.push(dadosCliente);
+        }
 
     });
 
@@ -619,6 +685,5 @@ $(document).ready(function () {
         width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
         placeholder: $(this).data('placeholder'),
     });
-  })
+})
 
-  
