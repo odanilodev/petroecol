@@ -148,6 +148,8 @@ $(document).ready(function () {
 
     }
 
+});
+
 $(document).on('click', '.btn-proximo', function () {
 
     if (!validaEmail($('.valida-email').val()) && $('.valida-email').val() != "") {
@@ -453,4 +455,4 @@ $('.filtros-clientes').click(function(){
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
             placeholder: $(this).data('placeholder'),
         });
-});
+})
