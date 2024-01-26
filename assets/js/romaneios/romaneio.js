@@ -2,6 +2,12 @@ var baseUrl = $('.base-url').val();
 
 const filtrarClientesRomaneio = () => {
 
+    $('#select-cliente-modal').val('').trigger('change');
+
+    $('.select2').select2({
+        dropdownParent: "#modalRomaneio",
+        theme: "bootstrap-5",
+    });
 
     var permissao = false;
     var filtrarData = null;
@@ -182,7 +188,7 @@ $('#select-cliente-modal').change(function () {
     let cidade = valSelectClienteModal[1];
 
     let etiqueta = valSelectClienteModal[2]
-    
+
 
     let clientesAdicionados = []; // clientes que já está no modal
 
@@ -233,7 +239,7 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio) => {
 
     $('#modalConcluirRomaneio').modal('show');
 
-   
+
 
     $('.id_responsavel').val(idResponsavel);
     $('.code_romaneio').val(codRomaneio);
@@ -258,18 +264,33 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio) => {
         })
 
     }
-        
 
+
+}
+
+
+// formata um obj para um array
+function formatarArray(obj) {
+
+    var idClientes = [];
+
+    for (var key in obj) {
+
+        if (obj.hasOwnProperty(key)) {
+
+            idClientes.push(obj[key].id_cliente);
+        }
+    }
+
+    return idClientes;
 }
 
 
 function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_cliente_prioridade) {
 
-    let todosIds = [];
+    var idPrioridades = formatarArray(id_cliente_prioridade); // idsPrioridade formatado
 
     for (let i = 0; i < registros; i++) {
-
-        todosIds.push(clientes[i].id);
 
         let dadosClientes = `
 
@@ -277,7 +298,13 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                 <h2 class="accordion-header" id="heading${i}">
                     <button class="accordion-button ${i != 0 ? 'collapsed' : ''}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
-                        ${clientes[i].nome} <span class="cliente-${clientes[i].id}"></span>
+                        ${clientes[i].nome} 
+                        
+                        <span class="cliente-${clientes[i].id}">
+
+                        ${idPrioridades.includes(clientes[i].id) ? '*' : ''}
+                          
+                        </span>
                     </button>
                 </h2>
 
@@ -328,7 +355,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                             <label class="form-label">Resíduo Coletado</label>
                             
-                            <select class="form-select select-residuo input-obg-${clientes[i].id} w-100 campos-form-${clientes[i].id}" id="select-residuo" >
+                            <select class="form-select select-residuo input-obg-${clientes[i].id} w-100 campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" id="select-residuo" >
 
                                 <option disabled selected value="">Selecione</option>
                                 
@@ -339,7 +366,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                         <div class="col-md-4 mb-2">
 
                             <label class="form-label">Quantidade Coletada</label>
-                            <input class="form-control input-residuo input-obg-${clientes[i].id} campos-form-${clientes[i].id}" type="text" placeholder="Digite quantidade coletada" value="">
+                            <input class="form-control input-residuo input-obg-${clientes[i].id} campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" type="text" placeholder="Digite quantidade coletada" value="">
                         </div>
 
                         <div class="col-md-4 mb-2 mt-4 row">
@@ -361,7 +388,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                             <div class="col-12 mt-4">
                                 
                                 <div class="form-check mb-0 fs-0">
-                                    <input data-id="${clientes[i].id}" title="Preencha este campo caso não tenha coletado no cliente" class="form-check-input nao-coletado nao-coletado-${clientes[i].id}" type="checkbox" data-bulk-select='{"body":"members-table-body"}' style="cursor: pointer"/>
+                                    <input data-id="${clientes[i].id}" title="Preencha este campo caso não tenha coletado no cliente" class="form-check-input nao-coletado nao-coletado-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'cliente-prioridade' : ''}" type="checkbox" data-bulk-select='{"body":"members-table-body"}' style="cursor: pointer"/>
                                     Não Coletado
                                 </div>
 
@@ -374,21 +401,10 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
             </div>
         `;
 
-      
+
 
         $('.dados-clientes-div').append(dadosClientes);
 
-    }
-
-    for (let c = 0; c < id_cliente_prioridade.length; c++) {
-
-        if ($.inArray(id_cliente_prioridade[c].id_cliente, todosIds) !== -1) {
-            
-            $('.accordion-item').find('.nao-coletado-' + id_cliente_prioridade[c].id_cliente).addClass('cliente-prioridade');
-            $('.accordion-item').find('.input-obg-' + id_cliente_prioridade[c].id_cliente).addClass('input-obrigatorio');
-            $('.accordion-item').find('.cliente-' + id_cliente_prioridade[c].id_cliente).text('*');
-        }
-        
     }
 
 
@@ -490,9 +506,9 @@ $(document).on('click', '.nao-coletado', function () {
 
             $('.input-obg-' + idCliente).addClass('input-obrigatorio');
 
-        } 
+        }
 
-        
+
     }
 
 })
@@ -542,7 +558,7 @@ function finalizarRomaneio() {
     let codRomaneio = $('.code_romaneio').val();
     let dataRomaneio = $('.data_romaneio').val();
 
-    
+
     $('.accordion-item').each(function () {
 
         let salvarDados = false; // uso para dar permissao para salvar os valores no array e mandar pro back
@@ -669,6 +685,5 @@ $(document).ready(function () {
         width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
         placeholder: $(this).data('placeholder'),
     });
-  })
+})
 
-  

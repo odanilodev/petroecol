@@ -103,7 +103,7 @@
 
                     <div class="div-select-modal d-none">
                         <label>Atribuir novo cliente ao romaneio</label>
-                        <select class="form-select w-100 mb-3" id="select-cliente-modal" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                        <select class="form-select w-100 mb-3 select2" id="select-cliente-modal">
 
                             <option selected value="">Selecione o cliente</option>
 
