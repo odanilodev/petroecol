@@ -14,6 +14,7 @@ class GerarRomaneio
 		$this->CI->load->model('Romaneios_model');
 		$this->CI->load->model('Clientes_model');
 		$this->CI->load->model('Agendamentos_model');
+		$this->CI->load->model('RecipienteCliente_model');
 	}
 
 	public function gerarPdf($codigo)
@@ -26,6 +27,10 @@ class GerarRomaneio
 			$idClientes = json_decode($romaneio['clientes'], true);
 
 			$data['clientes'] = $this->CI->Clientes_model->recebeClientesIds($idClientes);
+
+			$recipientes_clientes = $this->CI->RecipienteCliente_model->recebeRecipientesCliente($idClientes) ?? [];
+
+			$data['recipientes_clientes'] = $this->recipientesClientes($recipientes_clientes);
 
 			$data['codigo'] = $codigo;
 			$data['data_romaneio'] = $romaneio['data_romaneio'];
@@ -52,5 +57,18 @@ class GerarRomaneio
 
 			$this->CI->load->view('admin/erros/erro-pdf', $data);
 		}
+	}
+
+	public function recipientesClientes (array $recipientes_clientes) : array 
+	{
+		$recipientesAgrupados = [];
+		foreach ($recipientes_clientes as $recipiente) {
+
+			$idCliente = $recipiente['id_cliente'];
+
+			$recipientesAgrupados[$idCliente][] = $recipiente;
+		}
+
+		return $recipientesAgrupados;
 	}
 }

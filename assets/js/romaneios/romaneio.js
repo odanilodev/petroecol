@@ -19,7 +19,7 @@ const filtrarClientesRomaneio = () => {
         }
     })
 
-    if ($('.input-coleta').val() == '') {
+    if (filtrarData && $('.input-coleta').val() == '') {
         avisoRetorno('Algo deu errado!', 'Preencha a data de agendamento!', 'error', '#');
         return;
     }
@@ -70,8 +70,8 @@ const filtrarClientesRomaneio = () => {
                 for (i = 0; i < data.registros; i++) {
 
                     let clientes = `
-                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                        <td class="align-middle white-space-nowrap">
+                    <tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
+                        <td class="align-middle white-space-nowrap nome-cliente" data-id="${data.retorno[i].ID_CLIENTE}">
                             ${data.retorno[i].CLIENTE}
                         </td>
 
@@ -173,21 +173,39 @@ $(document).on('click', '.add-cliente', function () {
 
 $('#select-cliente-modal').change(function () {
 
-    let cliente = $('#select-cliente-modal option:selected').text();
+    let cliente = $('#select-cliente-modal option:selected').text(); // cliente que será adicionado
 
     let valSelectClienteModal = $('#select-cliente-modal option:selected').val().split('|');
 
-    let idCliente = valSelectClienteModal[0];
+    let idClienteNovo = parseInt(valSelectClienteModal[0]); // passa pra inteiro pra fazer a verificação no inArray
 
     let cidade = valSelectClienteModal[1];
 
     let etiqueta = valSelectClienteModal[2]
+    
+
+    let clientesAdicionados = []; // clientes que já está no modal
+
+    $('.clientes-romaneio').each(function () {
+
+        let idCliente = $(this).find('.nome-cliente').data('id');
+
+        clientesAdicionados.push(idCliente)
+    })
+
+    // verifica se o cliente novo já foi adicionado
+    if ($.inArray(idClienteNovo, clientesAdicionados) !== -1) {
+
+        avisoRetorno('Algo deu errado.', 'Este cliente já está existe', 'error', '#');
+        return;
+    }
+
 
     $('.div-select-modal').addClass('d-none');
 
     let clientes = `
-        <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-            <td class="align-middle white-space-nowrap">
+        <tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
+            <td class="align-middle white-space-nowrap nome-cliente" data-id="${idClienteNovo}">
                 ${cliente}
             </td>
 
@@ -197,13 +215,13 @@ $('#select-cliente-modal').change(function () {
 
             <td class="align-middle white-space-nowrap pt-3">
                 <div class="form-check">
-                    <input class="form-check-input check-clientes-modal" checked name="clientes" type="checkbox" value="${idCliente}" style="cursor: pointer">
+                    <input class="form-check-input check-clientes-modal" checked name="clientes" type="checkbox" value="${idClienteNovo}" style="cursor: pointer">
                 </div>
             </td>
         </tr>
     `;
 
-    if (idCliente.trim()) {
+    if (idClienteNovo) {
         $('.clientes-modal-romaneio').append(clientes);
     }
 
@@ -214,6 +232,8 @@ $('#select-cliente-modal').change(function () {
 const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio) => {
 
     $('#modalConcluirRomaneio').modal('show');
+
+   
 
     $('.id_responsavel').val(idResponsavel);
     $('.code_romaneio').val(codRomaneio);
@@ -232,12 +252,14 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio) => {
                 $('.dados-clientes-div').html('');
 
             }, success: function (data) {
-
+                
                 exibirDadosClientes(data.retorno, data.registros, data.residuos, data.pagamentos);
+               
             }
         })
 
     }
+        
 
 }
 
@@ -277,7 +299,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
                         <div class="col-md-4 mb-2 div-pagamento">
 
                             <label class="form-label">Forma de Pagamento</label>
-                            <select class="form-select select-pagamento w-100 input-obrigatorio campos-form-${clientes[i].id}" id="select-pagamento" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                            <select class="form-select select-pagamento w-100 input-obrigatorio campos-form-${clientes[i].id}" id="select-pagamento">
 
                                 <option disabled selected value="">Selecione</option>
                                 
@@ -302,7 +324,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos) {
 
                             <label class="form-label">Resíduo Coletado</label>
                             
-                            <select class="form-select select-residuo w-100 input-obrigatorio campos-form-${clientes[i].id}" id="select-residuo" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                            <select class="form-select select-residuo w-100 input-obrigatorio campos-form-${clientes[i].id}" id="select-residuo" >
 
                                 <option disabled selected value="">Selecione</option>
                                 
@@ -588,3 +610,15 @@ function finalizarRomaneio() {
     }
 
 }
+
+// carrega o select2
+$(document).ready(function () {
+
+    $('.select2').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+    });
+  })
+
+  

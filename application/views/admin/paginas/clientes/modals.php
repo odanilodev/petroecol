@@ -1,5 +1,5 @@
 <!-- Modal de etiquetas para clientes -->
-<div class="modal fade" id="modalEtiqueta" tabindex="-1" aria-hidden="true">
+<div class="modal fade modalSelect2" id="modalEtiqueta">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -17,9 +17,9 @@
                     <input type="hidden" class="id-cliente">
 
                     <label>Atribuir novas etiquetas</label>
-                    <select class="form-select w-100" id="select-etiqueta" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                    <select class="form-select w-100 select2" id="select-etiqueta" >
 
-                        <option value="">Selecione etiquetas</option>
+                        <option selected disabled value="">Selecione etiquetas</option>
                         <?php foreach ($etiquetas as $e) { ?>
                             <option value="<?= $e['id'] ?>"><?= $e['nome']; ?></option>
                         <?php } ?>
@@ -80,7 +80,7 @@
 </div>
 
 <!-- Modal de residuos para clientes -->
-<div class="modal fade" id="modalResiduo" tabindex="-1" aria-hidden="true">
+<div class="modal fade modalSelect2" id="modalResiduo" >
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -98,7 +98,7 @@
                     <input type="hidden" class="id-cliente">
 
                     <label>Atribuir novos resíduos</label>
-                    <select class="form-select w-100" id="select-residuo" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                    <select class="form-select w-100 select2" id="select-residuo" >
 
                         <option disabled selected value="">Selecione residuos</option>
                         <?php foreach ($residuos as $v) { ?>
@@ -124,7 +124,7 @@
 
 
 <!-- Modal de recipientes para clientes -->
-<div class="modal fade" id="modalRecipiente">
+<div class="modal fade " id="modalRecipiente">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">

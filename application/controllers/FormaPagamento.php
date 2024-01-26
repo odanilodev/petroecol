@@ -68,12 +68,14 @@ class FormaPagamento extends CI_Controller
 		$dados['forma_pagamento'] = mb_convert_case(trim($forma_pagamento), MB_CASE_TITLE, 'UTF-8');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-		$formaPagamento = $this->FormaPagamento_model->recebeFormaPagamentoNome($dados['forma_pagamento']); // verifica se já existe a forma de pagamento
+		$formaPagamento = $this->FormaPagamento_model->recebeFormaPagamentoNome($dados['forma_pagamento'], $id); // verifica se já existe a forma de pagamento
 
 		// Verifica se a forma de pagamento já existe e se não é a forma de pagamento que está sendo editada
-		if ($formaPagamento && $formaPagamento['id'] != $id) {
+		if ($formaPagamento) {
 
 			$response = array(
+				'title' => "Algo deu errado!",
+				'type' => "error",
 				'success' => false,
 				'message' => "Esta forma de pagamento já existe! Tente cadastrar uma diferente."
 			);

@@ -75,12 +75,14 @@ class Etiquetas extends CI_Controller
 		$dados['nome'] = mb_convert_case(trim($nome), MB_CASE_TITLE, 'UTF-8');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-		$etiqueta = $this->Etiquetas_model->recebeEtiquetaNome($dados['nome']); // verifica se já existe a etiqueta
+		$etiqueta = $this->Etiquetas_model->recebeEtiquetaNome($dados['nome'], $id); // verifica se já existe a etiqueta
 
 		// Verifica se a etiqueta já existe e se não é a etiqueta que está sendo editada!
-		if ($etiqueta && $etiqueta['id'] != $id) {
+		if ($etiqueta) {
 
 			$response = array(
+				'title' => "Algo deu errado!",
+				'type' => "error",
 				'success' => false,
 				'message' => "Esta etiqueta já existe! Tente cadastrar uma diferente."
 			);

@@ -840,10 +840,17 @@ const exibirClientesAgendados = (dataColeta, prioridade, status) => {
 // remove a opção de arrastar os eventos do calendário
 $(document).ready(function () {
 
+  $('#select-cliente').val('').trigger('change');
+
   $('.fc-daygrid-event').removeClass('fc-event-draggable');
   $('.fc-timegrid-event').removeClass('fc-event-draggable');
   $('.fc-daygrid-event').css('cursor', 'pointer');
 
+  $('.select2').select2({
+      theme: "bootstrap-5",
+      width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+      placeholder: $(this).data('placeholder'),
+  });
 });
 
 function recebeClientesEtiqueta (idEtiqueta) {
@@ -894,12 +901,3 @@ $("#select-cliente").change(function() {
 
 });
   
-
-// carrega o select2
-$(document).ready(function () {
-  $('.select2-single').select2({
-      theme: "bootstrap-5",
-      width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-      placeholder: $(this).data('placeholder'),
-  });
-})

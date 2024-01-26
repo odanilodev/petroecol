@@ -63,8 +63,9 @@ class Residuos extends CI_Controller
 
 		// scripts para residuos
 		$scriptsResiduoFooter = scriptsResiduoFooter();
+		$scriptsResiduoHead = scriptsResiduoHead();
 
-		add_scripts('header', array_merge($scriptsPadraoHead));
+		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsResiduoHead));
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsResiduoFooter));
 
 		$id = $this->uri->segment(3);
@@ -87,12 +88,14 @@ class Residuos extends CI_Controller
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 		$dados['unidade_medida'] = $this->input->post('unidade');
 
-		$residuo = $this->Residuos_model->recebeResiduoNome($dados['nome']); // verifica se já existe o residuo
+		$residuo = $this->Residuos_model->recebeResiduoNome($dados['nome'], $id); // verifica se já existe o residuo
 
 		// Verifica se o residuo já existe e se não é o residuo que está sendo editada
-		if ($residuo && $residuo['id'] != $id) {
+		if ($residuo) {
 
 			$response = array(
+				'title' => "Algo deu errado!",
+				'type' => "error",
 				'success' => false,
 				'message' => "Este residuo já existe! Tente cadastrar um diferente."
 			);

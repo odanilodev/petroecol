@@ -125,8 +125,8 @@
                         <div class="mb-2 mt-5 col-md-3">
                           <div class="mb-2">
                             <label class="form-label text-900">Frequência de coleta *</label>
-                            <select required name="id_frequencia_coleta" class="form-select campo-empresa select-frequencia">
-                              <option value="" selected disabled>Selecione</option>
+                            <select required name="id_frequencia_coleta" class="form-select campo-empresa select-frequencia select2">
+                              <option value="" selected disabled>Selecione a Frequência</option>
 
                               <?php foreach($frequencia as $v) { ?>
                                 <option value="<?= $v['id']?>" <?= (isset($cliente['id_frequencia_coleta']) && $cliente['id_frequencia_coleta'] == $v['id']) ? 'selected' : ''; ?>><?= $v['frequencia'];?></option>
@@ -174,8 +174,8 @@
                         <div class="mb-2 mt-5 col-md-3">
                           <div class="mb-2">
                             <label class="form-label text-900">Classificação do Cliente</label>
-                            <select name="id_classificacao_cliente" class="form-select campo-empresa">
-                              <option value="" selected>Selecione</option>
+                            <select name="id_classificacao_cliente" class="form-select campo-empresa select-classificacao-cliente select2">
+                              <option value="" selected>Selecione a Classificação</option>
 
                               <?php foreach($classificacoes as $classificacao) { ?>
                                 <option value="<?= $classificacao['id']?>" <?= (isset($cliente['id_classificacao_cliente']) && $cliente['id_classificacao_cliente'] == $classificacao['id']) ? 'selected' : ''; ?>><?= $classificacao['nome'];?></option>
