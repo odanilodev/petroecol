@@ -134,14 +134,15 @@ class Clientes_model extends CI_Model
     //Recebe clientes com varios Ids selecionados
     public function recebeClientesIds($ids)
     {
-    $this->db->select('C.*');
-    $this->db->from('ci_clientes C');
-    $this->db->order_by('C.cidade, C.nome');
-    $this->db->where_in('C.id', $ids);
-    $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-    $this->db->group_by('C.id'); // agrupar por ambos para ter a quantidade de recipientes
-    $query = $this->db->get();
-    return $query->result_array();
+        $this->db->select('C.*, FP.forma_pagamento');
+        $this->db->from('ci_clientes C');
+        $this->db->join('ci_forma_pagamento FP', 'FP.id = C.id_forma_pagamento', 'left');
+        $this->db->order_by('C.cidade, C.nome');
+        $this->db->where_in('C.id', $ids);
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->group_by('C.id');
+        $query = $this->db->get();
+        return $query->result_array();
     }
 
 
