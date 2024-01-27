@@ -329,8 +329,6 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
         return
     }
 
-    $('.modal-historico-coleta').modal('show');
-
     $.ajax({
         type: 'post',
         url: `${baseUrl}coletas/clienteColetas`,
@@ -345,8 +343,10 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
         }, success: function (data) {
 
             if (data.success) {
-               
-                 $('.input-id-coleta').val(data.coletasId);
+
+                $('.modal-historico-coleta').modal('show');
+
+                $('.input-id-coleta').val(data.coletasId);
 
             } else {
                 avisoRetorno('Algo deu errado', 'Não foi possível encontrar coletas para data selecionada!', 'error', '#')
