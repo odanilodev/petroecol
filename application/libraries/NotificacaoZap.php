@@ -31,6 +31,11 @@ class NotificacaoZap
 
         $url = "http://centrodainteligencia.com.br/api/index.php/sendText";
 
+        //Marcadores para substituição em alertas:
+        $mensagem = str_replace('@usuario', $this->CI->session->userdata('nome_usuario'), $mensagem);
+        $mensagem = str_replace('@empresa', $this->CI->session->userdata('nome_empresa'), $mensagem);
+        $mensagem = str_replace('@cliente', $cliente['nome'], $mensagem);
+        
         $data = array(
             'number' => "$zap",
             'text' => $mensagem
