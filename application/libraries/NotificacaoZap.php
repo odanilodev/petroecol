@@ -74,7 +74,7 @@ class NotificacaoZap
         return 'Infelizmente não foi possível enviar sua mensagem a este número, tente novamente mais tarde.';
     }
 
-    public function formataMarcador(string $mensagem, string $marcador, $valor): string
+    public function formataMarcador(string $mensagem, string $marcador, string $valor): string
     {
             $mensagem = str_replace($marcador, $valor, $mensagem);
 
