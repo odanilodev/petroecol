@@ -7217,3 +7217,17 @@ $(document).ready(function () {
 
 });
 
+const agruparIdsCheckbox = () => {
+
+  let idsArray = [];
+
+  $('.check-element:checked').each(function(){
+
+    idsArray.push($(this).val())
+
+  });
+
+  return idsArray;
+
+} 
+

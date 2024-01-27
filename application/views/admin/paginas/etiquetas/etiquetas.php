@@ -6,7 +6,7 @@
                 <div class="d-flex align-items-center">
                     <button class="btn btn-link text-900 me-4 px-0 d-none"><span class="fa-solid fa-file-export fs--1 me-2"></span>Export</button>
                     <a href="<?= base_url("etiquetas/formulario") ?>" class="btn btn-primary"><span class="fas fa-plus me-2"></span>Adicionar Etiqueta</a>
-                    <a href="" class="btn btn-danger d-none btn-excluir-tudo mx-2"><span class="fas fa-trash"></span>  Excluir tudo</a>
+                    <a href="#" class="btn btn-danger d-none btn-excluir-tudo mx-2" onclick="deletarEtiqueta()"><span class="fas fa-trash"></span>  Excluir tudo</a>
                 </div>
 
             </div>
@@ -47,7 +47,7 @@
                                 <!-- check para cada um -->
                                 <td class="fs--1 align-middle ps-0 py-3">
                                     <div class="form-check mb-0 fs-0">
-                                        <input class="form-check-input check-element" type="checkbox"/>
+                                        <input class="form-check-input check-element" type="checkbox" value="<?= $v['id'] ?>"/>
                                     </div>
                                 </td>
 
