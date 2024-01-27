@@ -32,10 +32,10 @@ class NotificacaoZap
         $url = "http://centrodainteligencia.com.br/api/index.php/sendText";
 
         //Marcadores para substituição em alertas:
-        $mensagem = str_replace('@usuario', $this->CI->session->userdata('nome_usuario'), $mensagem);
-        $mensagem = str_replace('@empresa', $this->CI->session->userdata('nome_empresa'), $mensagem);
-        $mensagem = str_replace('@cliente', $cliente['nome'], $mensagem);
-        
+        $mensagem = $this->formataMarcador($mensagem, '@usuario', $this->CI->session->userdata('nome_usuario'));
+        $mensagem = $this->formataMarcador($mensagem, '@empresa', $this->CI->session->userdata('nome_empresa'));
+        $mensagem = $this->formataMarcador($mensagem, '@cliente', $cliente['nome']);
+
         $data = array(
             'number' => "$zap",
             'text' => $mensagem
@@ -73,4 +73,12 @@ class NotificacaoZap
 
         return 'Infelizmente não foi possível enviar sua mensagem a este número, tente novamente mais tarde.';
     }
+
+    public function formataMarcador(string $mensagem, string $marcador, $valor): string
+    {
+            $mensagem = str_replace($marcador, $valor, $mensagem);
+
+            return $mensagem;
+    }
+
 }
