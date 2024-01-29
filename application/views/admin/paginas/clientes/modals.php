@@ -178,7 +178,7 @@
             </div>
             <div class="modal-body">
 
-                <div class="my-2 div-grupo-cliente">
+                <div class="my-2 div-grupos">
                     <!-- Manipulado ajax -->
                 </div>
 

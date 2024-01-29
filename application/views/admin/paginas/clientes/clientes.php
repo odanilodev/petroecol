@@ -159,7 +159,7 @@
                                                         <span class="text-900"> Recipientes</span>
                                                     </a>
 
-                                                    <a class="dropdown-item" href="#" onclick="exibirGruposCliente(<?= $v['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalGruposCliente">
+                                                    <a class="dropdown-item" href="#" onclick="exibirGruposCliente(<?= $v['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalGrupoCliente">
                                                         <span class="text-900 uil-users-alt"></span>
                                                         <span class="text-900"> Grupos</span>
                                                     </a>
