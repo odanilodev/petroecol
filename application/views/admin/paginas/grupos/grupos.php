@@ -5,7 +5,7 @@
             <div class="col-auto">
                 <div class="d-flex align-items-center">
                     <button class="btn btn-link text-900 me-4 px-0 d-none"><span class="fa-solid fa-file-export fs--1 me-2"></span>Export</button>
-                    <a href="<?= base_url("grupoCliente/formulario") ?>" class="btn btn-primary"><span class="fas fa-plus me-2"></span>Adicionar Grupo de Clientes</a>
+                    <a href="<?= base_url("grupos/formulario") ?>" class="btn btn-primary"><span class="fas fa-plus me-2"></span>Adicionar Grupo de Clientes</a>
                 </div>
             </div>
 
@@ -52,13 +52,13 @@
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="<?= base_url('grupoCliente/formulario/' . $v['id']) ?>" class="btn btn-info">
+                                    <a href="<?= base_url('grupos/formulario/' . $v['id']) ?>" class="btn btn-info">
                                         <span class="fas fa-pencil ms-1"></span>
                                     </a>
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="#" class="btn btn-danger" onclick="deletarGrupoCliente(<?= $v['id'] ?>)">
+                                    <a href="#" class="btn btn-danger" onclick="deletaGrupo(<?= $v['id'] ?>)">
                                         <span class="fas fa-trash ms-1"></span>
                                     </a>
                                 </td>

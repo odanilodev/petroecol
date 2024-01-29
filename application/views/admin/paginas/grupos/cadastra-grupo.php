@@ -33,7 +33,7 @@
                                                 </div>
 
                                                 <div class="flex-1 text-end my-5">
-                                                    <button class="btn btn-primary px-6 px-sm-6 btn-envia" onclick="cadastraGrupoCliente()">Cadastrar
+                                                    <button class="btn btn-primary px-6 px-sm-6 btn-envia" onclick="cadastraGrupo()">Cadastrar
                                                         <span class="fas fa-chevron-right" data-fa-transform="shrink-3"> </span>
                                                     </button>
                                                     <div class="spinner-border text-primary load-form d-none" role="status"></div>

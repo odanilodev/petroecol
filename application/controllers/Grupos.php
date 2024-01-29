@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class GrupoCliente extends CI_Controller
+class Grupos extends CI_Controller
 {
 	public function __construct()
 	{
@@ -20,7 +20,7 @@ class GrupoCliente extends CI_Controller
 		}
 		// FIM controle sessão
 
-		$this->load->model('GrupoCliente_model');
+		$this->load->model('Grupos_model');
 	}
 
 	public function index()
@@ -30,15 +30,15 @@ class GrupoCliente extends CI_Controller
 		$scriptsPadraoFooter = scriptsPadraoFooter();
 
 		// scripts para Grupo Clientes
-		$scriptsGrupoClienteFooter = scriptsGrupoClienteFooter();
+		$scriptsGruposFooter = scriptsGruposFooter();
 
 		add_scripts('header', array_merge($scriptsPadraoHead));
-		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsGrupoClienteFooter));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsGruposFooter));
 
-		$data['grupos'] = $this->GrupoCliente_model->recebeGruposCliente();
+		$data['grupos'] = $this->Grupos_model->recebeGrupos();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
-		$this->load->view('admin/paginas/grupo-cliente/grupo-cliente');
+		$this->load->view('admin/paginas/grupos/grupos');
 		$this->load->view('admin/includes/painel/rodape');
 	}
 
@@ -49,21 +49,21 @@ class GrupoCliente extends CI_Controller
 		$scriptsPadraoFooter = scriptsPadraoFooter();
 
 		// scripts para Grupo Clientes
-		$scriptsGrupoClienteFooter = scriptsGrupoClienteFooter();
+		$scriptsGruposFooter = scriptsGruposFooter();
 
 		add_scripts('header', array_merge($scriptsPadraoHead));
-		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsGrupoClienteFooter));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsGruposFooter));
 
 		$id = $this->uri->segment(3);
 
-		$data['grupo'] = $this->GrupoCliente_model->recebeGrupoCliente($id);
+		$data['grupo'] = $this->Grupos_model->recebeGrupo($id);
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
-		$this->load->view('admin/paginas/grupo-cliente/cadastra-grupo-cliente');
+		$this->load->view('admin/paginas/grupos/cadastra-grupo');
 		$this->load->view('admin/includes/painel/rodape');
 	}
 
-	public function cadastraGrupoCliente()
+	public function cadastraGrupo()
 	{
 		$id = $this->input->post('id');
 
@@ -71,22 +71,22 @@ class GrupoCliente extends CI_Controller
 		$dados['nome'] = trim(mb_convert_case($nome, MB_CASE_TITLE, 'UTF-8'));
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-		$grupoCliente = $this->GrupoCliente_model->recebeNomeGrupoCliente($dados['nome'], $id); // verifica se já existe o Grupo de Cliente
+		$grupos = $this->Grupos_model->recebeNomeGrupo($dados['nome'], $id); // verifica se já existe o Grupo de Cliente
 
 		// Verifica se o Grupo de Cliente já existe e se não é o Grupo de Cliente que está sendo editada
-		if ($grupoCliente) {
+		if ($grupos) {
 
 			$response = array(
 				'title' => "Algo deu errado!",
 				'type' => "error",
 				'success' => false,
-				'message' => "Este grupo de clientes já existe! Tente cadastrar um diferente."
+				'message' => "Este Grupo de Clientes já existe! Tente cadastrar um diferente."
 			);
 
 			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 		}
 
-		$retorno = $id ? $this->GrupoCliente_model->editaGrupoCliente($id, $dados) : $this->GrupoCliente_model->insereGrupoCliente($dados); // se tiver ID edita se não INSERE
+		$retorno = $id ? $this->Grupos_model->editaGrupo($id, $dados) : $this->Grupos_model->insereGrupo($dados); // se tiver ID edita se não INSERE
 
 		if ($retorno) { // inseriu ou editou
 
@@ -106,12 +106,12 @@ class GrupoCliente extends CI_Controller
 	}
 
 
-	public function deletaGrupoCliente()
+	public function deletaGrupo()
 	{
 
 		$id = $this->input->post('id');
 
-		$retorno = $this->GrupoCliente_model->deletaGrupoCliente($id);
+		$retorno = $this->Grupos_model->deletaGrupo($id);
 
 		if ($retorno) {
 

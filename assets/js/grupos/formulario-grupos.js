@@ -1,6 +1,6 @@
 var baseUrl = $('.base-url').val();
 
-const cadastraGrupoCliente = () => {
+const cadastraGrupo = () => {
 
     let nome = $('.input-nome-grupo').val();
     let id = $('.input-id').val();
@@ -29,7 +29,7 @@ const cadastraGrupoCliente = () => {
 
         $.ajax({
             type: "post",
-            url: `${baseUrl}grupoCliente/cadastraGrupoCliente`,
+            url: `${baseUrl}grupos/cadastraGrupo`,
             data: {
                 nome: nome,
                 id: id
@@ -45,7 +45,7 @@ const cadastraGrupoCliente = () => {
 
                 if (data.success) {
 
-                    avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}grupoCliente`);
+                    avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}grupos`);
 
                 } else {
 
@@ -57,7 +57,7 @@ const cadastraGrupoCliente = () => {
     }
 }
 
-const deletarGrupoCliente = (id) => {
+const deletaGrupo = (id) => {
 
     Swal.fire({
         title: 'Você tem certeza?',
@@ -75,12 +75,12 @@ const deletarGrupoCliente = (id) => {
 
             $.ajax({
                 type: 'post',
-                url: `${baseUrl}grupoCliente/deletaGrupoCliente`,
+                url: `${baseUrl}grupos/deletaGrupo`,
                 data: {
                     id: id
                 }, success: function (data) {
 
-                    let redirect = data.type != 'error' ? `${baseUrl}grupoCliente` : '#';
+                    let redirect = data.type != 'error' ? `${baseUrl}grupos` : '#';
 
                     avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 

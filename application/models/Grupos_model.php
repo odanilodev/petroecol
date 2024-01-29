@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class GrupoCliente_model extends CI_Model
+class Grupos_model extends CI_Model
 {
 
     public function __construct()
@@ -10,7 +10,7 @@ class GrupoCliente_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebeGruposCliente()
+    public function recebeGrupos()
     {
         $this->db->order_by('nome', 'DESC');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
@@ -19,7 +19,7 @@ class GrupoCliente_model extends CI_Model
         return $query->result_array();
     }
 
-    public function recebeGrupoCliente($id)
+    public function recebeGrupo($id)
     {
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
@@ -28,7 +28,7 @@ class GrupoCliente_model extends CI_Model
         return $query->row_array();
     }
 
-    public function recebeNomeGrupoCliente($nome, $id)
+    public function recebeNomeGrupo($nome, $id)
     {
         $this->db->where('nome', $nome);
         $this->db->where('id <>', $id);
@@ -38,7 +38,7 @@ class GrupoCliente_model extends CI_Model
         return $query->row_array();
     }
 
-    public function insereGrupoCliente($dados)
+    public function insereGrupo($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');
 
@@ -51,7 +51,7 @@ class GrupoCliente_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function editaGrupoCliente($id, $dados)
+    public function editaGrupo($id, $dados)
     {
         $dados['editado_em'] = date('Y-m-d H:i:s');
 
@@ -66,7 +66,7 @@ class GrupoCliente_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function deletaGrupoCLiente($id)
+    public function deletaGrupo($id)
     {
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));

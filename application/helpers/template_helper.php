@@ -392,11 +392,11 @@ function scriptsAlertasWhatsappFooter()
         '<script src="' . base_url('assets/js/alertas-whatsapp/formulario-alertas-whatsapp.js') . '"></script>'
     );
 }
-function scriptsGrupoClienteFooter()
+function scriptsGruposFooter()
 {
     return array(
 
-        '<script src="' . base_url('assets/js/grupo-cliente/formulario-grupo-cliente.js') . '"></script>'
+        '<script src="' . base_url('assets/js/grupos/formulario-grupos.js') . '"></script>'
     );
 }
 
