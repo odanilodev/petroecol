@@ -8,6 +8,10 @@ const cadastraResiduoCliente = () => {
 
     var nomeResiduo = $('#select-residuo option:selected').text();
 
+    let idPagamento = $('#forma-pagamento-residuo option:selected').val();
+
+    let valorPagamento = $('#valor-pagamento-residuo').val();
+
     permissao = true;
 
     if (!idResiduo) {
@@ -23,7 +27,9 @@ const cadastraResiduoCliente = () => {
             data: {
                 id_cliente: idCliente,
                 id_residuo: idResiduo,
-                nome_residuo: nomeResiduo
+                nome_residuo: nomeResiduo,
+                forma_pagamento: idPagamento,
+                valor_pagamento: valorPagamento
             },
             beforeSend: function () {
 
@@ -101,5 +107,27 @@ const deletaResiduoCliente = (idResiduoCliente) => {
             $(`.residuo-${idResiduoCliente}`).remove();
         }
     })
+
+}
+
+const verResiduoCliente = (residuo, formaPagamento, valorPagamento) => {
+
+    let nomeResiduo = residuo.toUpperCase(); // deixa o nome com letras minusculas
+
+    let selectResiduo = $('#select-residuo').find('option').filter(function () {
+        return $(this).text().toUpperCase() == nomeResiduo;
+    });
+
+    selectResiduo.prop('selected', true);
+    $('#select-residuo').val(selectResiduo.val()).trigger('change');
+    
+    let selectFormaPagamento = $('#forma-pagamento-residuo').find('option').filter(function () {
+        return $(this).val() == formaPagamento;
+    });
+
+    selectFormaPagamento.prop('selected', true);
+    $('#forma-pagamento-residuo').val(selectFormaPagamento.val()).trigger('change');
+
+    $('#valor-pagamento-residuo').val(valorPagamento);
 
 }

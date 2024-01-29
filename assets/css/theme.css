@@ -34410,10 +34410,19 @@ a[href].bg-200:hover, a[href].bg-200:focus {
 }
 
 .btn-deleta-recipiente {
+  margin-left: 5px;
+}
+
+.btn-ver-residuo {
+  margin-left: 10px;
+}
+
+.btn-deleta-residuo {
   margin-left: 10px;
 /* Estilização para página de Login */
 }
 
+/* Estilização para página de Login */
 .btn-login {
   background: #013738;
   color: #fff;
