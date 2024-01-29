@@ -28,8 +28,8 @@ class GrupoCliente extends CI_Controller
 		$dados['id_cliente'] = $this->input->post('id_cliente');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-		$nomeGrupo = $this->input->post('nome_grupo');
-		$id_grupo = $this->input->post('grupo');
+		$nomeGrupo = $this->input->post('nomeGrupo');
+		$id_grupo = $this->input->post('idGrupo');
 
 		// todos os grupos do cliente
 		$gruposNoBanco = $this->GrupoCliente_model->recebeGrupoCliente($dados['id_cliente']);
@@ -50,7 +50,7 @@ class GrupoCliente extends CI_Controller
 			if ($inseridoId) {
 
 				$novoGrupo = '
-                <span class="badge rounded-pill badge-phoenix fs--2 badge-phoenix-info my-1 mx-1 p-2 etiqueta-' . $inseridoId . '">
+                <span class="badge rounded-pill badge-phoenix fs--2 badge-phoenix-info my-1 mx-1 p-2 grupo-cliente-' . $inseridoId . '">
                     <span class="badge-label">
                         ' . $nomeGrupo . '
                         <a href="#">
@@ -78,7 +78,7 @@ class GrupoCliente extends CI_Controller
 
 	public function deletaGrupoCliente()
 	{
-		$id = $this->input->post('id');
+		$id = $this->input->post('idGrupoCliente');
 
 		$this->GrupoCliente_model->deletaGrupoCliente($id);
 	}
@@ -86,13 +86,13 @@ class GrupoCliente extends CI_Controller
 	// exibe os grupos de cada cliente dentro do modal
 	public function recebeGrupoCliente()
 	{
-		$id_cliente = $this->input->post('id_cliente');
-
+		$id_cliente = $this->input->post('idCliente');
+		
 		$grupos = $this->GrupoCliente_model->recebeGrupoCliente($id_cliente);
 
 		foreach ($grupos as $v) {
 			echo '
-			<span class="fw-bold lh-2 mr-5 badge rounded-pill badge-phoenix fs--2 badge-phoenix-info my-1 mx-1 p-2 grupo-' . $v['id'] . '"> 
+			<span class="fw-bold lh-2 mr-5 badge rounded-pill badge-phoenix fs--2 badge-phoenix-info my-1 mx-1 p-2 grupo-cliente-' . $v['id'] . '"> 
 				' . $v['nome'] . '
 				<a href="#">
 					<i class="fas fa-times-circle delete-icon" onclick="deletaGrupoCliente(' . $v['id'] . ')"></i>
@@ -103,13 +103,13 @@ class GrupoCliente extends CI_Controller
 
 	public function recebeGruposClientes ()
 	{
-		$id_grupo = $this->input->post('id_grupo');
+		$id_grupo = $this->input->post('idGrupo');
 
-		$clientesGrupo = $this->EtiquetaCliente_model->recebeGruposClientes($id_grupo);
+		$clientesGrupo = $this->GrupoCliente_model->recebeGruposClientes($id_grupo);
 
 		$response = array(
 			'success' => true,
-			'clientesGrupos' => $clientesGrupo
+			'clientesGrupo' => $clientesGrupo
 		);
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));

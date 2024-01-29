@@ -88,9 +88,9 @@ class Clientes extends CI_Controller
         $this->load->model('RecipienteCliente_model');
         $data['recipientesClientes'] = $this->RecipienteCliente_model->recebeRecipientesClientes();
 
-        // // grupo 
-        // $this->load->model('Grupos_model');
-        // $data['grupos'] = $this->Grupos_model->recebeGrupos();
+        // grupo 
+        $this->load->model('Grupos_model');
+        $data['grupos'] = $this->Grupos_model->recebeGrupos();
 
         $this->load->model('GrupoCliente_model');
         $data['grupoClientes'] = $this->GrupoCliente_model->recebeGrupoClientes();

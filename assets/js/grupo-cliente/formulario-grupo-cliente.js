@@ -1,6 +1,6 @@
 var baseUrl = $('.base-url').val();
 
-const cadastraEtiquetaCliente = () => {
+const cadastraGrupoCliente = () => {
 
     let idCliente = $('.id-cliente').val();
 
@@ -70,7 +70,7 @@ const exibirGruposCliente = (idCliente) => {
         type: "POST",
         url: `${baseUrl}grupoCliente/recebeGrupoCliente`,
         data: {
-            id_cliente: idCliente
+            idCliente: idCliente
         },
         beforeSend: function () {
             $('.div-grupos').html('');
@@ -91,9 +91,9 @@ const deletaGrupoCliente = (idGrupoCliente) => {
 
     $.ajax({
         type: "POST",
-        url: `${baseUrl}grupoCliente/deletaGrupoCLiente`,
+        url: `${baseUrl}grupoCliente/deletaGrupoCliente`,
         data: {
-            id: idGrupoCliente
+            idGrupoCliente: idGrupoCliente
         },
         success: function (data) {
 
