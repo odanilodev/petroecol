@@ -139,6 +139,11 @@
                                                         <span class="text-900"> Visualizar</span>
                                                     </a>
 
+                                                    <a class="dropdown-item text-danger" href="<?= base_url('clientes/formulario/' . $v['id']) ?>">
+                                                        <span class="text-900 uil uil-pen"></span>
+                                                        <span class="text-900"> Editar</span>
+                                                    </a>
+
                                                     <a class="dropdown-item" href="#" onclick="exibirEtiquetasCliente(<?= $v['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalEtiqueta">
                                                         <span class="text-900 uil-pricetag-alt"></span>
                                                         <span class="text-900"> Etiquetas</span>
@@ -154,9 +159,9 @@
                                                         <span class="text-900"> Recipientes</span>
                                                     </a>
 
-                                                    <a class="dropdown-item text-danger" href="<?= base_url('clientes/formulario/' . $v['id']) ?>">
-                                                        <span class="text-900 uil uil-pen"></span>
-                                                        <span class="text-900"> Editar</span>
+                                                    <a class="dropdown-item" href="#" onclick="exibirGruposCliente(<?= $v['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalGruposCliente">
+                                                        <span class="text-900 uil-users-alt"></span>
+                                                        <span class="text-900"> Grupos</span>
                                                     </a>
 
                                                     <a class="dropdown-item text-danger" href="#" onclick="deletaCliente(<?= $v['id'] ?>)">
