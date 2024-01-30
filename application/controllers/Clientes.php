@@ -88,7 +88,7 @@ class Clientes extends CI_Controller
         $this->load->model('RecipienteCliente_model');
         $data['recipientesClientes'] = $this->RecipienteCliente_model->recebeRecipientesClientes();
 
-        // grupo 
+        // grupos
         $this->load->model('Grupos_model');
         $data['grupos'] = $this->Grupos_model->recebeGrupos();
 
@@ -152,6 +152,13 @@ class Clientes extends CI_Controller
         // todas etiquetas 
         $this->load->model('Etiquetas_model');
         $data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
+        
+        // grupos
+        $this->load->model('Grupos_model');
+        $data['grupos'] = $this->Grupos_model->recebeGrupos();
+
+        $this->load->model('GrupoCliente_model');
+        $data['grupoClientes'] = $this->GrupoCliente_model->recebeGrupoClientes();
 
         // todos alertas ou alertas ativos (status)
         $statusAlerta = true;

@@ -31,6 +31,13 @@
                 <span class="text-900"> Visualizar</span>
               </a>
             </li>
+            
+            <li>
+              <a class="dropdown-item text-danger" href="<?= base_url('clientes/formulario/' . $cliente['id']) ?>">
+                <span class="text-900 uil uil-pen"></span>
+                <span class="text-900"> Editar</span>
+              </a>
+            </li>
 
             <li>
               <a class="dropdown-item" href="#" onclick="exibirEtiquetasCliente(<?= $cliente['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalEtiqueta">
@@ -61,9 +68,9 @@
             </li>
 
             <li>
-              <a class="dropdown-item text-danger" href="<?= base_url('clientes/formulario/' . $cliente['id']) ?>">
-                <span class="text-900 uil uil-pen"></span>
-                <span class="text-900"> Editar</span>
+              <a class="dropdown-item" href="#" onclick="exibirGruposCliente(<?= $cliente['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalGrupoCliente">
+                <span class="text-900 uil-users-alt"></span>
+                <span class="text-900"> Grupos</span>
               </a>
             </li>
 
