@@ -124,8 +124,9 @@ class Coletas extends CI_Controller
         $id_cliente = $this->input->post('idCliente');
         $data_inicio = $this->input->post('dataInicio');
         $data_fim = $this->input->post('dataFim');
+        $residuo = $this->input->post('residuo');
 
-        $coletas = $this->Coletas_model->recebeIdColetasClientes($id_cliente, $data_inicio, $data_fim);
+        $coletas = $this->Coletas_model->recebeIdColetasClientes($id_cliente, $data_inicio, $data_fim, $residuo);
 
         $response = array(
             'success' => false
