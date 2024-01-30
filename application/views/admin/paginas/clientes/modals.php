@@ -134,7 +134,7 @@
             <div class="modal-footer">
 
                 <div class="spinner-border text-primary load-form d-none" role="status"></div>
-
+                <input type="hidden" class="input-editar-residuo">
                 <button class="btn btn-success btn-salva-residuo btn-form" type="button" onclick="cadastraResiduoCliente()">Salvar</button>
                 <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
