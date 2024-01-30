@@ -489,15 +489,28 @@
 
               <div class="row">
 
-                <div class="col-5">
+                <div class="col-md-3">
                   <input class="form-control datetimepicker data-inicio-coleta" required name="data_coleta_inicio" type="text" placeholder="Data Inicio" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
 
                 </div>
 
-                <div class="col-5">
+                <div class="col-md-3">
 
                   <input class="form-control datetimepicker data-fim-coleta" required name="data_coleta_fim" type="text" placeholder="Data Fim" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
 
+                </div>
+
+                <div class="col-md-3">
+
+                  <select class="form-select w-100 select2 id-residuo-coleta" name="residuos">
+
+                    <option disabled selected value="">Selecione residuos</option>
+                    <option value="">Todos</option>
+                    <?php foreach ($residuos as $v) { ?>
+                        <option value="<?= $v['id'] ?>"><?= $v['nome']; ?></option>
+                    <?php } ?>
+
+                  </select>
                 </div>
 
                 <div class="col-2">

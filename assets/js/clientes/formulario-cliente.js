@@ -323,6 +323,7 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
 
     const dataInicio = $('.data-inicio-coleta').val();
     const dataFim = $('.data-fim-coleta').val();
+    const idResiduo = $('.id-residuo-coleta').val();
 
     if (!dataInicio || !dataFim) {
         avisoRetorno('Algo deu errado', 'Seleciona datas para gerar certificado!', 'error', '#')
@@ -335,7 +336,8 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
         data: {
             idCliente: idCliente,
             dataInicio: dataInicio,
-            dataFim: dataFim
+            dataFim: dataFim,
+            residuo: idResiduo
         }, beforeSend: function () {
 
             $('.body-coleta').hide();
@@ -349,7 +351,7 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
                 $('.input-id-coleta').val(data.coletasId);
 
             } else {
-                avisoRetorno('Algo deu errado', 'Não foi possível encontrar coletas para data selecionada!', 'error', '#')
+                avisoRetorno('Algo deu errado', 'Não foi encontrada nenhuma coleta com essas informações!', 'error', '#')
                 return
             }
 
