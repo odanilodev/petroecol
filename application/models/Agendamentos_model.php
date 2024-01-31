@@ -135,7 +135,7 @@ class Agendamentos_model extends CI_Model
         return $query->row_array();
     }
 
-    public function recebeAgendamentoPrioridade($dataColeta)
+    public function recebeAgendamentoPrioridade($dataColeta = null)
     {
         $this->db->select('id_cliente');
         $this->db->from('ci_agendamentos');
@@ -185,18 +185,24 @@ class Agendamentos_model extends CI_Model
     }
 
 
-    public function contaAgendamentoCLiente($id)
+    public function contaAgendamentoCLiente($id = null)
     {
-        $this->db->where('id_cliente', $id);
+        if($id){
+            $this->db->where('id_cliente', $id);
+        }
+
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_agendamentos');
 
         return $query->num_rows();
     }
 
-    public function contaAgendamentoAtrasadoCLiente($id)
-    {
-        $this->db->where('id_cliente', $id);
+    public function contaAgendamentoAtrasadoCLiente($id = null)
+    {   
+        if ($id){
+            $this->db->where('id_cliente', $id);
+        }
+
         $this->db->where('status', 0);
         $this->db->where('data_coleta <', date('Y-m-d'));
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
@@ -205,9 +211,11 @@ class Agendamentos_model extends CI_Model
         return $query->num_rows();
     }
 
-    public function contaAgendamentoFinalizadoCLiente($id)
+    public function contaAgendamentoFinalizadoCLiente($id = null)
     {
-        $this->db->where('id_cliente', $id);
+        if ($id){
+            $this->db->where('id_cliente', $id);
+        }
         $this->db->where('status', 1);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_agendamentos');

@@ -242,4 +242,42 @@ class Clientes_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+    public function contaClientesPorClassificacao()
+    {
+        $this->db->select('C.id_classificacao_cliente, COUNT(*) as TOTAL_CLIENTES_POR_CLASSIFICACAO');
+        $this->db->from('ci_clientes C');
+        $this->db->where('C.status', 1);
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->group_by('C.id_classificacao_cliente');
+        $query = $this->db->get();
+
+        $result = $query->result_array();
+
+        $contagemPorClassificacao = array();
+        foreach ($result as $row) {
+            $contagemPorClassificacao[$row['id_classificacao_cliente']] = $row['TOTAL_CLIENTES_POR_CLASSIFICACAO'];
+        }
+
+        return $contagemPorClassificacao;
+    }
+
+    public function contaClientesPorStatus()
+{
+    $this->db->select('status, COUNT(*) as TOTAL_CLIENTES_POR_STATUS');
+    $this->db->from('ci_clientes');
+    $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+    $this->db->group_by('status');
+    $query = $this->db->get();
+
+    $result = $query->result_array();
+
+    $contagemPorStatus = array();
+    foreach ($result as $row) {
+        $contagemPorStatus[$row['status']] = $row['TOTAL_CLIENTES_POR_STATUS'];
+    }
+
+    return $contagemPorStatus;
+}
+
 }

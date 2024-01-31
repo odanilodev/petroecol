@@ -393,3 +393,25 @@ function scriptsAlertasWhatsappFooter()
     );
 }
 
+//Dashboard
+function scriptsDashboardHead()
+{
+    return array(
+
+    );
+}
+
+
+function scriptsDashboardFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/ecommerce-dashboard.js') . '"></script>',
+        '<script src="' . base_url('assets/js/echarts-example.js') . '"></script>',
+        '<script src="' . base_url('vendors/echarts/echarts.min.js') . '"></script>',
+        '<script src="' . base_url('assets/js/dashboard/grafico-agendamentos.js') . '"></script>',
+
+    );    
+
+}
+
