@@ -44,7 +44,7 @@ class ResiduoCliente extends CI_Controller
 				$dados['id_forma_pagamento'] = $this->input->post('forma_pagamento');
 				$dados['valor_forma_pagamento'] = $this->input->post('valor_pagamento');
 
-				if($this->ResiduoCliente_model->editaResiduoCliente($id_residuo, $dados)){
+				if($this->ResiduoCliente_model->editaResiduoCliente($id_residuo, $dados['id_cliente'], $dados)){
 
 					$response = array(
 						'success' => true,
