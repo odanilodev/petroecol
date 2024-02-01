@@ -20,10 +20,10 @@ const cadastraResiduoCliente = () => {
     }
 
     // verifica se é para editar ou cadastrar um novo
-    let editarResiduo = false;
+    let editarResiduo = 'cadastrando';
     if ($('.input-editar-residuo').val() == "editar") {
 
-        editarResiduo = true;
+        editarResiduo = 'editando';
     }
 
     if (permissao) {
@@ -90,6 +90,8 @@ const cadastraResiduoCliente = () => {
 
 
 const exibirResiduoCliente = (idCliente) => {
+
+    $('.input-editar-residuo').val('');
 
     $('#select-residuo').val('').trigger('change');
 

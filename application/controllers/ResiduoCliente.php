@@ -38,7 +38,7 @@ class ResiduoCliente extends CI_Controller
 		// verifica se o resíduo já existe para esse cliente
 		if (in_array($id_residuo, array_column($residuosNoBanco, 'id_residuo'))) {
 
-			if ($editar == 'true') {
+			if ($editar == 'editando') {
 
 				$dados['id_residuo'] = $id_residuo;
 				$dados['id_forma_pagamento'] = $this->input->post('forma_pagamento');

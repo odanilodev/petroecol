@@ -126,7 +126,7 @@
                 <div class="add-residuo w-100 my-3 mb-4">
 
                     <label>Valor</label>
-                    <input type="text" class="w-100 form-control" placeholder="Valor" id="valor-pagamento-residuo">
+                    <input type="number" class="w-100 form-control" placeholder="Valor" id="valor-pagamento-residuo">
 
                 </div>
             </div>
