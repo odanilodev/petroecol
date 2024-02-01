@@ -45,8 +45,6 @@ class Dashboard extends CI_Controller
 
 		//Número de clientes por status
 		$data['contaStatusClientes'] = $this->Clientes_model->contaClientesPorStatus();
-		print_r($data['contaStatusClientes']);
-		exit;
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/dashboard/dashboard');
