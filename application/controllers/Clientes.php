@@ -88,6 +88,10 @@ class Clientes extends CI_Controller
         $this->load->model('RecipienteCliente_model');
         $data['recipientesClientes'] = $this->RecipienteCliente_model->recebeRecipientesClientes();
 
+        // formas de pagamento
+        $this->load->model('FormaPagamento_model');
+        $data['formasPagamento'] = $this->FormaPagamento_model->recebeFormasPagamento();
+        
         // grupos
         $this->load->model('Grupos_model');
         $data['grupos'] = $this->Grupos_model->recebeGrupos();
@@ -176,6 +180,10 @@ class Clientes extends CI_Controller
         $this->load->helper('formatar');
 
         $data['ultima_coleta'] = formatarData($this->Agendamentos_model->ultimaColetaCLiente($id));
+
+        // formas de pagamento
+        $this->load->model('FormaPagamento_model');
+        $data['formasPagamento'] = $this->FormaPagamento_model->recebeFormasPagamento();
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/detalhes-cliente');

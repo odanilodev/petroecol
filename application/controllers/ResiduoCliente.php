@@ -30,6 +30,7 @@ class ResiduoCliente extends CI_Controller
 
 		$nomeResiduo = $this->input->post('nome_residuo');
 		$id_residuo = $this->input->post('id_residuo');
+		$editar = $this->input->post('editarResiduo');
 
 		// todos resíduos do cliente
 		$residuosNoBanco = $this->ResiduoCliente_model->recebeResiduoCliente($dados['id_cliente']);
@@ -37,14 +38,39 @@ class ResiduoCliente extends CI_Controller
 		// verifica se o resíduo já existe para esse cliente
 		if (in_array($id_residuo, array_column($residuosNoBanco, 'id_residuo'))) {
 
-			$response = array(
-				'success' => false,
-				'message' => 'Este resíduo já está cadastrado para o cliente.'
-			);
+			if ($editar == 'editando') {
+
+				$dados['id_residuo'] = $id_residuo;
+				$dados['id_forma_pagamento'] = $this->input->post('forma_pagamento');
+				$dados['valor_forma_pagamento'] = $this->input->post('valor_pagamento');
+
+				if($this->ResiduoCliente_model->editaResiduoCliente($id_residuo, $dados['id_cliente'], $dados)){
+
+					$response = array(
+						'success' => true,
+						'id_residuo' => $id_residuo,
+						'message' => 'Resíduo registrado com sucesso',
+						'nome_residuo' => $nomeResiduo,
+						'forma_pagamento' => $dados['id_forma_pagamento'],
+						'valor_pagamento' => $dados['valor_forma_pagamento'],
+						'editado' => true
+					);
+					
+				}
+
+			} else {
+				$response = array(
+					'success' => false,
+					'message' => 'Este resíduo já está cadastrado para o cliente.'
+				);
+			}
 
 		} else {
 			
 			$dados['id_residuo'] = $id_residuo;
+			$dados['id_forma_pagamento'] = $this->input->post('forma_pagamento');
+			$dados['valor_forma_pagamento'] = $this->input->post('valor_pagamento');
+
 			$inseridoId = $this->ResiduoCliente_model->insereResiduoCliente($dados);
 
 			if ($inseridoId) {
@@ -55,6 +81,9 @@ class ResiduoCliente extends CI_Controller
                         ' . $nomeResiduo . '
                         <a href="#">
                             <i class="fas fa-times-circle delete-icon" onclick="deletaResiduoCliente(' . $inseridoId . ')"></i>
+                        </a>
+						<a href="#" class="btn-ver-residuo" title="Editar Resíduo">
+                            <i class="fas fa-pencil-alt edita-residuo edita-residuo-' . $id_residuo . '" onclick="verResiduoCliente(\'' . $nomeResiduo . '\', \'' . $dados['id_forma_pagamento'] . '\', \'' . $dados['valor_forma_pagamento'] . '\')"></i>
                         </a>
                     </span>
                 </span>';
@@ -94,8 +123,11 @@ class ResiduoCliente extends CI_Controller
 			echo '
 			<span class="fw-bold lh-2 mr-5 badge rounded-pill badge-phoenix fs--2 badge-phoenix-info my-1 mx-1 p-2 residuo-' . $v['id'] . '"> 
 				' . $v['nome'] . '
-				<a href="#">
+				<a href="#" class="btn-deleta-recipiente">
 					<i class="fas fa-times-circle delete-icon" onclick="deletaResiduoCliente(' . $v['id'] . ')"></i>
+				</a>
+				<a href="#" class="btn-ver-residuo" title="Editar Resíduo">
+					<i class="fas fa-pencil-alt edita-residuo edita-residuo-' . $v['id_residuo'] . '" onclick="verResiduoCliente(\'' . $v['nome'] . '\', \'' . $v['id_forma_pagamento'] . '\', \'' . $v['valor_forma_pagamento'] . '\')"></i>
 				</a>
 			</span>';
 		}

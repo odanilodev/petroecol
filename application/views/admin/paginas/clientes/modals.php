@@ -97,7 +97,7 @@
 
                     <input type="hidden" class="id-cliente">
 
-                    <label>Atribuir novos resíduos</label>
+                    <label>Atribuir novos resíduos *</label>
                     <select class="form-select w-100 select2" id="select-residuo" >
 
                         <option disabled selected value="">Selecione residuos</option>
@@ -108,12 +108,33 @@
                     </select>
 
                 </div>
+
+                <div class="add-residuo w-100 my-3 mb-4">
+
+                    <label>Forma de pagamento</label>
+                    <select class="form-select w-100 select2" id="forma-pagamento-residuo">
+
+                        <option disabled selected value="">Selecione a forma de pagamento</option>
+                        <?php foreach ($formasPagamento as $formaPagamento) { ?>
+                            <option value="<?= $formaPagamento['id'] ?>"><?= $formaPagamento['forma_pagamento']; ?></option>
+                        <?php } ?>
+
+                    </select>
+
+                </div>
+
+                <div class="add-residuo w-100 my-3 mb-4">
+
+                    <label>Valor</label>
+                    <input type="number" class="w-100 form-control" placeholder="Valor" id="valor-pagamento-residuo">
+
+                </div>
             </div>
 
             <div class="modal-footer">
 
                 <div class="spinner-border text-primary load-form d-none" role="status"></div>
-
+                <input type="hidden" class="input-editar-residuo">
                 <button class="btn btn-success btn-salva-residuo btn-form" type="button" onclick="cadastraResiduoCliente()">Salvar</button>
                 <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 

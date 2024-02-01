@@ -78,4 +78,19 @@ class ResiduoCliente_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+    public function editaResiduoCliente($id, $idCliente, $dados)
+    {
+        $dados['editado_em'] = date('Y-m-d H:i:s');
+        $this->db->where('id_cliente', $idCliente);
+        $this->db->where('id_residuo', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->update('ci_residuo_cliente', $dados);
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id);
+        }
+
+        return $this->db->affected_rows() > 0;
+    }
 }
