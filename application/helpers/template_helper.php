@@ -186,6 +186,7 @@ function scriptsClienteFooter()
         '<script src="' . base_url('assets/js/etiqueta-cliente/formulario-etiqueta-cliente.js') . '"></script>',
         '<script src="' . base_url('assets/js/recipiente-cliente/formulario-recipiente-cliente.js') . '"></script>',
         '<script src="' . base_url('assets/js/residuo-cliente/formulario-residuo-cliente.js') . '"></script>',
+        '<script src="' . base_url('assets/js/grupo-cliente/formulario-grupo-cliente.js') . '"></script>',
         '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>'
 
     );
@@ -390,6 +391,13 @@ function scriptsAlertasWhatsappFooter()
     return array(
 
         '<script src="' . base_url('assets/js/alertas-whatsapp/formulario-alertas-whatsapp.js') . '"></script>'
+    );
+}
+function scriptsGruposFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/grupos/formulario-grupos.js') . '"></script>'
     );
 }
 

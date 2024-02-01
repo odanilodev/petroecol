@@ -91,6 +91,13 @@ class Clientes extends CI_Controller
         // formas de pagamento
         $this->load->model('FormaPagamento_model');
         $data['formasPagamento'] = $this->FormaPagamento_model->recebeFormasPagamento();
+        
+        // grupos
+        $this->load->model('Grupos_model');
+        $data['grupos'] = $this->Grupos_model->recebeGrupos();
+
+        $this->load->model('GrupoCliente_model');
+        $data['grupoClientes'] = $this->GrupoCliente_model->recebeGrupoClientes();
 
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
@@ -149,6 +156,13 @@ class Clientes extends CI_Controller
         // todas etiquetas 
         $this->load->model('Etiquetas_model');
         $data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
+        
+        // grupos
+        $this->load->model('Grupos_model');
+        $data['grupos'] = $this->Grupos_model->recebeGrupos();
+
+        $this->load->model('GrupoCliente_model');
+        $data['grupoClientes'] = $this->GrupoCliente_model->recebeGrupoClientes();
 
         // todos alertas ou alertas ativos (status)
         $statusAlerta = true;

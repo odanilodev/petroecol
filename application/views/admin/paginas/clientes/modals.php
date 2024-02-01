@@ -188,3 +188,46 @@
         </div>
     </div>
 </div>
+
+<!-- Modal de grupos para clientes -->
+<div class="modal fade modalSelect2" id="modalGrupoCliente">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Grupos</h5>
+                <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1"></span></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="my-2 div-grupos">
+                    <!-- Manipulado ajax -->
+                </div>
+
+                <div class="add-grupo-cliente w-100 my-3 mb-4">
+
+                    <input type="hidden" class="id-cliente">
+
+                    <label>Atribuir novos Grupos</label>
+                    <select class="form-select w-100 select2" id="select-grupo-cliente" >
+
+                        <option selected disabled value="">Selecione os Grupos</option>
+                        <?php foreach ($grupos as $v) { ?>
+                            <option value="<?= $v['id'] ?>"><?= $v['nome']; ?></option>
+                        <?php } ?>
+
+                    </select>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+
+                <div class="spinner-border text-primary load-form d-none" role="status"></div>
+
+                <button class="btn btn-success btn-salva-grupo-cliente btn-form" type="button" onclick="cadastraGrupoCliente()">Salvar</button>
+                <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+
+            </div>
+        </div>
+    </div>
+</div>

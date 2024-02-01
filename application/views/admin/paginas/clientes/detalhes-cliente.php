@@ -31,6 +31,13 @@
                 <span class="text-900"> Visualizar</span>
               </a>
             </li>
+            
+            <li>
+              <a class="dropdown-item text-danger" href="<?= base_url('clientes/formulario/' . $cliente['id']) ?>">
+                <span class="text-900 uil uil-pen"></span>
+                <span class="text-900"> Editar</span>
+              </a>
+            </li>
 
             <li>
               <a class="dropdown-item" href="#" onclick="exibirEtiquetasCliente(<?= $cliente['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalEtiqueta">
@@ -61,9 +68,9 @@
             </li>
 
             <li>
-              <a class="dropdown-item text-danger" href="<?= base_url('clientes/formulario/' . $cliente['id']) ?>">
-                <span class="text-900 uil uil-pen"></span>
-                <span class="text-900"> Editar</span>
+              <a class="dropdown-item" href="#" onclick="exibirGruposCliente(<?= $cliente['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalGrupoCliente">
+                <span class="text-900 uil-users-alt"></span>
+                <span class="text-900"> Grupos</span>
               </a>
             </li>
 
@@ -211,9 +218,26 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0 ">Dia <?= $cliente['dia_pagamento']; ?></div>
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0 "> <?= $cliente['forma_pagamento']; ?></div>
                             </td>
                           </tr>
+
+                        <?php if ($cliente['observacao_pagamento'] != '') : ?>
+                          <tr>
+                            <td class="py-2">
+                              <div class="d-flex align-items-center">
+                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                  <span class="text-info-600 dark__text-success-300 uil-chat" style="width:16px; height:16px"></span>
+                                </div>
+                                <p class="fw-bold mb-0">Observação</p>
+                              </div>
+                            </td>
+                            <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                            <td class="py-2">
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0 "> <?= $cliente['observacao_pagamento']; ?></div>
+                            </td>
+                          </tr>
+                        <?php endif ?>
 
                         </table>
                       </div>
@@ -352,11 +376,16 @@
                           </tr>
                         </table>
                       </div>
+
+                      <?php if ($cliente['observacao'] != '') : ?>
                       <div class="col-sm-12 col-xxl-12 py-3">
                         <table class="w-100 table-stats">
                           <tr>
                             <th>
                               <div class="d-flex align-items-center">
+                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                  <span class="text-info-600 dark__text-success-300 uil-chat" style="width:16px; height:16px"></span>
+                                </div>
                                 <p class="fw-bold mb-0">Observações:
                                   <span class="justificado fw-semi-bold mb-0 text-break" style="text-justify"><?= $cliente['observacao'] ?></span>
                                 </p>
@@ -365,6 +394,8 @@
                           </tr>
                         </table>
                       </div>
+                      <?php endif ?>
+
                     </div>
                   </div>
 
@@ -489,15 +520,28 @@
 
               <div class="row">
 
-                <div class="col-5">
+                <div class="col-md-3">
                   <input class="form-control datetimepicker data-inicio-coleta" required name="data_coleta_inicio" type="text" placeholder="Data Inicio" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
 
                 </div>
 
-                <div class="col-5">
+                <div class="col-md-3">
 
                   <input class="form-control datetimepicker data-fim-coleta" required name="data_coleta_fim" type="text" placeholder="Data Fim" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
 
+                </div>
+
+                <div class="col-md-3">
+
+                  <select class="form-select w-100 select2 id-residuo-coleta" name="residuos">
+
+                    <option disabled selected value="">Selecione residuos</option>
+                    <option value="">Todos</option>
+                    <?php foreach ($residuos as $v) { ?>
+                        <option value="<?= $v['id'] ?>"><?= $v['nome']; ?></option>
+                    <?php } ?>
+
+                  </select>
                 </div>
 
                 <div class="col-2">

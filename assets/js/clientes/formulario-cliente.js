@@ -323,6 +323,7 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
 
     const dataInicio = $('.data-inicio-coleta').val();
     const dataFim = $('.data-fim-coleta').val();
+    const idResiduo = $('.id-residuo-coleta').val();
 
     if (!dataInicio || !dataFim) {
         avisoRetorno('Algo deu errado', 'Seleciona datas para gerar certificado!', 'error', '#')
@@ -335,7 +336,8 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
         data: {
             idCliente: idCliente,
             dataInicio: dataInicio,
-            dataFim: dataFim
+            dataFim: dataFim,
+            residuo: idResiduo
         }, beforeSend: function () {
 
             $('.body-coleta').hide();
@@ -349,7 +351,7 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
                 $('.input-id-coleta').val(data.coletasId);
 
             } else {
-                avisoRetorno('Algo deu errado', 'Não foi possível encontrar coletas para data selecionada!', 'error', '#')
+                avisoRetorno('Algo deu errado', 'Não foi encontrada nenhuma coleta com essas informações!', 'error', '#')
                 return
             }
 
@@ -370,9 +372,10 @@ $(document).on('click', '.btn-gerar-certificado', function () {
 
     const idModelo = modeloCertificado;
     const coleta = $('.input-id-coleta').val();
+    const idResiduo = $('.id-residuo-coleta').val() != null ? $('.id-residuo-coleta').val() : "";
 
     if (idModelo && coleta) {
-        var redirect = `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}`
+        var redirect = `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}/${idResiduo}`
         window.open(redirect, '_blank');
     } else {
         avisoRetorno('Algo deu errado!', 'Não foi possível encontrar o certificado de coleta.', 'error', `#`);
