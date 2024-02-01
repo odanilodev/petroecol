@@ -44,7 +44,7 @@ class Coletas_model extends CI_Model
         return $query->row_array();
     }
 
-    public function recebeIdColetasClientes($id_cliente, $data_inicio, $data_fim, $residuo)
+    public function recebeIdColetasClientes($id_cliente, $data_inicio, $data_fim, $residuo = null)
     {
         $this->db->select('id');
         $this->db->from('ci_coletas');
