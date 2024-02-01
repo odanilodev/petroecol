@@ -203,7 +203,7 @@
 
                         <div class="col-md-3 mt-5 mb-2 div-obs-pgto">
 
-                          <label class="form-label">(Opcional) Observação para a Forma de Pagamento</label>
+                          <label class="form-label">Observação para a Forma de Pagamento</label>
                           <textarea name="observacao_pagamento" class="form-control input-obs-pgto campo-empresa" rows="1"><?= isset($cliente['observacao_pagamento']) ? $cliente['observacao_pagamento'] : ''; ?></textarea>
 
                         </div>
