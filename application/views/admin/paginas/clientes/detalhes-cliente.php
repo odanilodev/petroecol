@@ -211,9 +211,26 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0 ">Dia <?= $cliente['dia_pagamento']; ?></div>
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0 "> <?= $cliente['forma_pagamento']; ?></div>
                             </td>
                           </tr>
+
+                        <?php if ($cliente['observacao_pagamento'] != '') : ?>
+                          <tr>
+                            <td class="py-2">
+                              <div class="d-flex align-items-center">
+                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                  <span class="text-info-600 dark__text-success-300 uil-chat" style="width:16px; height:16px"></span>
+                                </div>
+                                <p class="fw-bold mb-0">Observação</p>
+                              </div>
+                            </td>
+                            <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                            <td class="py-2">
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0 "> <?= $cliente['observacao_pagamento']; ?></div>
+                            </td>
+                          </tr>
+                        <?php endif ?>
 
                         </table>
                       </div>
@@ -352,11 +369,16 @@
                           </tr>
                         </table>
                       </div>
+
+                      <?php if ($cliente['observacao'] != '') : ?>
                       <div class="col-sm-12 col-xxl-12 py-3">
                         <table class="w-100 table-stats">
                           <tr>
                             <th>
                               <div class="d-flex align-items-center">
+                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                  <span class="text-info-600 dark__text-success-300 uil-chat" style="width:16px; height:16px"></span>
+                                </div>
                                 <p class="fw-bold mb-0">Observações:
                                   <span class="justificado fw-semi-bold mb-0 text-break" style="text-justify"><?= $cliente['observacao'] ?></span>
                                 </p>
@@ -365,6 +387,8 @@
                           </tr>
                         </table>
                       </div>
+                      <?php endif ?>
+
                     </div>
                   </div>
 

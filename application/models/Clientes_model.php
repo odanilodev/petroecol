@@ -106,10 +106,11 @@ class Clientes_model extends CI_Model
 
     public function recebeCliente($id)
     {
-        $this->db->select('C.*, F.frequencia, CC.cor');
+        $this->db->select('C.*, F.frequencia, CC.cor, FP.forma_pagamento');
         $this->db->from('ci_clientes C');
         $this->db->join('ci_frequencia_coleta F', 'C.id_frequencia_coleta = F.id', 'left');
         $this->db->join('ci_classificacao_cliente CC', 'C.id_classificacao_cliente = CC.id', 'left');
+        $this->db->join('ci_forma_pagamento FP', 'C.id_forma_pagamento = FP.id', 'left');
         $this->db->where('C.id', $id);
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get();
