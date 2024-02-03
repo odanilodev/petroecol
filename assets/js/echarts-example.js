@@ -130,6 +130,8 @@
     ];
 
     const data = agendamentosConcluidos();
+    const data2 = outraSerieDeDados(); // Substitua isso com sua função para obter a segunda série de dados
+
 
     const tooltipFormatter = params => {
       return `
@@ -149,8 +151,8 @@
         tooltip: {
           trigger: 'axis',
           padding: [7, 10],
-          backgroundColor: getColor('gray-100'),
-          borderColor: getColor('gray-300'),
+          backgroundColor: getColor('danger-100'),
+          borderColor: getColor('danger-300'),
           textStyle: { color: getColor('dark') },
           borderWidth: 1,
           transitionDuration: 0,
@@ -199,7 +201,7 @@
         series: [
           {
             type: 'line',
-            data,
+            data: data,
             itemStyle: {
               color: getColor('white'),
               borderColor: getColor('primary'),
@@ -213,9 +215,26 @@
             symbolSize: 10,
             smooth: false,
             hoverAnimation: true
+          },
+          {
+            type: 'line',
+            data: data2,
+            itemStyle: {
+              color: getColor('white'),
+              borderColor: getColor('danger'), // Substitua 'secondary' pela cor desejada para a segunda linha
+              borderWidth: 2
+            },
+            lineStyle: {
+              color: getColor('danger') // Substitua 'secondary' pela cor desejada para a segunda linha
+            },
+            showSymbol: false,
+            symbol: 'circle',
+            symbolSize: 10,
+            smooth: false,
+            hoverAnimation: true
           }
         ],
-        grid: { right: '3%', left: '10%', bottom: '10%', top: '5%' }
+        grid: { right: '3%', left: '10%', bottom: '10%', top: '5%',  }
       });
       echartSetOption(chart, userOptions, getDefaultOptions);
     }

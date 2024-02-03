@@ -234,7 +234,7 @@
             symbol: 'circle',
             lineStyle: {
               width: 2,
-              color: getColor('gray-200')
+              color: getColor('warning')
             },
             emphasis: {
               lineStyle: {
@@ -247,10 +247,21 @@
             data: [200, 150, 250, 100, 500, 400, 600],
             lineStyle: {
               width: 2,
-              color: getColor('primary')
+              color: getColor('success')
             },
             showSymbol: false,
             symbol: 'circle'
+          },
+          {
+            type: 'line',
+            data: [210, 1250, 2350,330, 3500, 4030, 6030],
+            lineStyle: {
+              width: 2,
+              color: 'red'
+            },
+            showSymbol: false,
+            symbol: 'circle',
+            color: 'red'
           }
         ],
         grid: { left: 0, right: 0, top: 5, bottom: 20 }

@@ -263,21 +263,14 @@ class Clientes_model extends CI_Model
     }
 
     public function contaClientesPorStatus()
-{
+    {
     $this->db->select('status, COUNT(*) as TOTAL_CLIENTES_POR_STATUS');
     $this->db->from('ci_clientes');
     $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
     $this->db->group_by('status');
     $query = $this->db->get();
 
-    $result = $query->result_array();
-
-    $contagemPorStatus = array();
-    foreach ($result as $row) {
-        $contagemPorStatus[$row['status']] = $row['TOTAL_CLIENTES_POR_STATUS'];
-    }
-
-    return $contagemPorStatus;
+    return $query->result_array();
 }
 
 }

@@ -38,34 +38,7 @@
             <h3>Agendamentos Mensais do ano de <?= DATE('Y') ?></h3>
             <p class="text-700 lh-sm mb-0">Fluxo de agendamentos do mês</p>
           </div>
-          <div class="col-8 col-sm-4">
-            <select class="form-select form-select-sm mt-2" id="select-gross-revenue-month">
-              <?php
-              // Obtém o ano atual
-              $currentYear = date('Y');
 
-              // Loop através de cada mês do ano
-              for ($month = 1; $month <= 12; $month++) {
-                // Obtém o número de dias no mês
-                $daysInMonth = date("t", strtotime("$currentYear-$month-01"));
-
-                // Cria objetos DateTime para o primeiro e último dia do mês
-                $firstDay = new DateTime("$currentYear-$month-01");
-                $lastDay = clone $firstDay; // Clona o objeto para evitar referências
-                $lastDay->modify("+$daysInMonth days"); // Adiciona o número correto de dias ao primeiro dia
-
-                // Formata os objetos DateTime conforme necessário
-                $formattedFirstDay = $firstDay->format('M j');
-                $formattedLastDay = $lastDay->format('M j, Y');
-
-                // Imprime a opção no formato desejado, com o valor sendo o período de 30 dias
-                echo '<option value="' . $firstDay->format('Y-m-d') . '/' . $lastDay->format('Y-m-d') . '">' . $formattedFirstDay . ' - ' . $formattedLastDay . '</option>';
-              }
-              ?>
-            </select>
-
-
-          </div>
         </div>
 
         <!-- Find the JS file for the following chart at: src/js/charts/echarts/examples/basic-line-chart.js-->
@@ -115,13 +88,29 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-md-6">
+          <div class="col-12 col-md-12">
             <div class="card h-100">
               <div class="card-body">
                 <div class="d-flex justify-content-between">
                   <div>
+                  <select class="form-select form-select-sm" id="select-gross-revenue-month">
+                    <option value="" selected disable>Selecione o mês</option>
+                    <option value="">Janeiro</option>
+                    <option value="">Fevereiro</option>
+                    <option value="">Março</option>
+                    <option value="">Abril</option>
+                    <option value="">Maio</option>
+                    <option value="">Junho</option>
+                    <option value="">Julho</option>
+                    <option value="">Agosto</option>
+                    <option value="">Setembro</option>
+                    <option value="">Outubro</option>
+                    <option value="">Novembro</option>
+                    <option value="">Dezembro</option>
+                  </select>
                     <h5 class="mb-1">New customers<span class="badge badge-phoenix badge-phoenix-warning rounded-pill fs--1 ms-2"> <span class="badge-label">+26.5%</span></span></h5>
-                    <h6 class="text-700">Last 7 days</h6>
+
+
                   </div>
                   <h4>356</h4>
                 </div>
@@ -131,6 +120,30 @@
               </div>
             </div>
           </div>
+
+          
+
+                  <!-- Find the JS file for the following chart at: src/js/charts/echarts/examples/line-log-chart.js-->
+                  <!-- If you are not using gulp based workflow, you can find the transpiled code at: public/assets/js/echarts-example.js-->
+                  <div class="echart-line-log-chart-example" style="min-height: 300px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" _echarts_instance_="ec_1706895296261"><div style="position: relative; width: 723px; height: 300px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;"><canvas data-zr-dom-id="zr_0" width="723" height="300" style="position: absolute; left: 0px; top: 0px; width: 723px; height: 300px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div class="" style="position: absolute; display: block; border-style: solid; white-space: nowrap; z-index: 9999999; box-shadow: rgba(0, 0, 0, 0.2) 1px 2px 10px; background-color: rgb(34, 40, 52); border-width: 1px; border-radius: 4px; color: rgb(102, 102, 102); font: 14px / 21px &quot;Microsoft YaHei&quot;; padding: 7px 10px; top: 0px; left: 0px; transform: translate3d(395px, 85px, 0px); border-color: rgb(55, 62, 83); pointer-events: none; visibility: hidden; opacity: 0;"><div>
+            <p class="mb-2 text-600">
+              Sep 01
+            </p>
+            <div class="ms-1">
+        <h6 class="text-700"><svg class="svg-inline--fa fa-circle me-1 fs--2" style="color: #f48270;" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg><!-- <span class="fas fa-circle me-1 fs--2" style="color:#f48270"></span> Font Awesome fontawesome.com -->
+          Index Of 3 : 6669
+        </h6>
+      </div><div class="ms-1">
+        <h6 class="text-700"><svg class="svg-inline--fa fa-circle me-1 fs--2" style="color: #90d67f;" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg><!-- <span class="fas fa-circle me-1 fs--2" style="color:#90d67f"></span> Font Awesome fontawesome.com -->
+          Index of 2 : 256
+        </h6>
+      </div><div class="ms-1">
+        <h6 class="text-700"><svg class="svg-inline--fa fa-circle me-1 fs--2" style="color: #60c6ff;" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg><!-- <span class="fas fa-circle me-1 fs--2" style="color:#60c6ff"></span> Font Awesome fontawesome.com -->
+          Index of 1/2 : 0.001953125
+        </h6>
+      </div>
+          </div></div></div>
+                
         </div>
       </div>
     </div>

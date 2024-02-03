@@ -21,6 +21,7 @@ class Dashboard extends CI_Controller
 		// FIM controle sessão
 		$this->load->model('Agendamentos_model');
 		$this->load->model('Clientes_model');
+		$this->load->model('Coletas_model');
 	}
 
 	public function index()
@@ -44,7 +45,29 @@ class Dashboard extends CI_Controller
 		$data['contaClassificacaoClientes'] = $this->Clientes_model->contaClientesPorClassificacao();
 
 		//Número de clientes por status
-		$data['contaStatusClientes'] = $this->Clientes_model->contaClientesPorStatus();
+		$clientesPorStatus = $this->Clientes_model->contaClientesPorStatus();
+
+		$contagemPorStatus = array();
+
+    foreach ($clientesPorStatus as $v) {
+			$contagemPorStatus[$v['status']] = $v['TOTAL_CLIENTES_POR_STATUS'];
+    }
+
+		$data['clientesPorStatus'] = $contagemPorStatus;
+	
+		//Resíduos coletados no mês
+		$mes = $this->input->post('mes');
+		$residuosColetadosMes = $this->Coletas_model->contaResiduosColetadosMes($mes);
+
+		//Soma a quantidade coletada dos residuos no mês ou ano
+		$quantidadeColetada = 0;
+		foreach($residuosColetadosMes as $residuoColetado){
+		
+			$decoded = json_decode($residuoColetado['quantidade_coletada']); 
+			$quantidadeColetada += intval($decoded[0]);
+		}
+
+		
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/dashboard/dashboard');

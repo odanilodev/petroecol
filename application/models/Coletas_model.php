@@ -89,4 +89,22 @@ class Coletas_model extends CI_Model
 
         return $query->row_array();
     }
+    
+    public function contaResiduosColetadosMes($mes = null)
+    {
+        
+        $this->db->select('quantidade_coletada');
+        $this->db->from('ci_coletas');
+
+        if($mes){
+            $this->db->where('MONTH(criado_em)', $mes);
+        }
+
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+    
+        $query = $this->db->get();
+        
+        return $query->result_array();
+    }
+
 }
