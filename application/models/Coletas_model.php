@@ -89,14 +89,13 @@ class Coletas_model extends CI_Model
 
         return $query->row_array();
     }
-    
     public function contaResiduosColetadosMes($mes = null)
     {
         
         $this->db->select('quantidade_coletada');
         $this->db->from('ci_coletas');
-
-        if($mes){
+        
+        if ($mes){
             $this->db->where('MONTH(criado_em)', $mes);
         }
 

@@ -22,6 +22,7 @@ class Dashboard extends CI_Controller
 		$this->load->model('Agendamentos_model');
 		$this->load->model('Clientes_model');
 		$this->load->model('Coletas_model');
+		$this->load->helper('dashboard_helper');
 	}
 
 	public function index()
@@ -37,6 +38,7 @@ class Dashboard extends CI_Controller
 		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsDashboardHead));
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsDashboardFooter));
 
+		//Dados agendamentos
 		$data['agendamentosAtrasados'] = $this->Agendamentos_model->contaAgendamentoAtrasadoCLiente();
 		$data['agendamentosFinalizados'] = $this->Agendamentos_model->contaAgendamentoFinalizadoCLiente();
 		$data['agendamentosRestantes'] = $this->Agendamentos_model->contaAgendamentoCLiente();
@@ -44,30 +46,19 @@ class Dashboard extends CI_Controller
 		//Número de clientes por classificação
 		$data['contaClassificacaoClientes'] = $this->Clientes_model->contaClientesPorClassificacao();
 
-		//Número de clientes por status
-		$clientesPorStatus = $this->Clientes_model->contaClientesPorStatus();
+		//Residuos coletados no mês especifico ou no ano atual
+		$data['quantidadeColetada'] = contaResiduosColetados($this->input->post('mes'));
 
-		$contagemPorStatus = array();
+		//Clientes separados por status
+		$data['clientesPorStatus'] = clientesPorStatus();
 
-    foreach ($clientesPorStatus as $v) {
-			$contagemPorStatus[$v['status']] = $v['TOTAL_CLIENTES_POR_STATUS'];
-    }
+		//Clientes inativados no mês ou ano
+		$mesInativado = $this->input->post('mesInativado');
+		$data['clientesInativados'] = $this->Clientes_model->clientesInativados($mesInativado);
 
-		$data['clientesPorStatus'] = $contagemPorStatus;
-	
-		//Resíduos coletados no mês
-		$mes = $this->input->post('mes');
-		$residuosColetadosMes = $this->Coletas_model->contaResiduosColetadosMes($mes);
-
-		//Soma a quantidade coletada dos residuos no mês ou ano
-		$quantidadeColetada = 0;
-		foreach($residuosColetadosMes as $residuoColetado){
-		
-			$decoded = json_decode($residuoColetado['quantidade_coletada']); 
-			$quantidadeColetada += intval($decoded[0]);
-		}
-
-		
+		echo'<pre>';
+		print_r($data['clientesInativados']);
+		exit;
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/dashboard/dashboard');
