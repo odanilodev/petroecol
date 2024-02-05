@@ -70,7 +70,7 @@ class Agendamentos extends CI_Controller
                 
                 // Se o cliente não está agendado, realiza a inserção ou edição
                 $dados['id_cliente'] = $idsClientes[$i];
-                $retorno = $this->Agendamentos_model->insereAgendamento($dados);
+                $retorno = $id ? $this->Agendamentos_model->editaAgendamento($id, $dados) : $this->Agendamentos_model->insereAgendamento($dados);
     
                 if (!$retorno) {
                     $response = array(
@@ -82,7 +82,7 @@ class Agendamentos extends CI_Controller
 
             } else if ($clienteAgendado['id'] == $id) {
 
-                $retorno = $this->Agendamentos_model->editaAgendamento($id, $dados);
+                $retorno = $id ? $this->Agendamentos_model->editaAgendamento($id, $dados) : $this->Agendamentos_model->insereAgendamento($dados);
 
                 if (!$retorno) {
                     $response = array(

@@ -453,7 +453,20 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
         calendar.removeAllEvents(); // remove todos agendamentos
         events = [];
 
+        let tituloModal = $('.modal-title').html();
+
+        if (tituloModal) {
+
+          var quantidadeAgendado = tituloModal.match(/\d+/)[0];
+          var texto = tituloModal.replace(/^\d+\s+/, ''); 
+
+        }
+
         $('.agendamento-' + idAgendamento).remove();
+
+        let novaQuantidadeAgendado = quantidadeAgendado - 1;
+        $('.modal-title').html(`${novaQuantidadeAgendado} ${texto}`)
+
 
         $.ajax({
           type: "POST",
