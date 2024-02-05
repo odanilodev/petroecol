@@ -262,15 +262,15 @@ class Clientes_model extends CI_Model
         return $contagemPorClassificacao;
     }
 
-    public function contaClientesPorStatus()
+    public function contaClientesPorStatus($status)
     {
-        $this->db->select('status, COUNT(*) as TOTAL_CLIENTES_POR_STATUS');
+        $this->db->select('status');
         $this->db->from('ci_clientes');
+        $this->db->where('status', $status);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->group_by('status');
         $query = $this->db->get();
 
-        return $query->result_array();
+        return $query->num_rows();
     }
 
     public function clientesInativados($mesInativado = null)
@@ -281,13 +281,9 @@ class Clientes_model extends CI_Model
         // Verifica se o status mudou de 1 (ativo) para 3 (inativo)
         $this->db->where('status', 3);
 
-        if ($mesInativado)
-        {
-            $this->db->where('MONTH(inativo_em)', $mesInativado);
-            $this->db->where('MONTH(criado_em) !=', $mesInativado);
-        }
+        $this->db->where('MONTH(inativo_em)', date('m'));
+        $this->db->where('MONTH(criado_em) !=', $mesInativado);
 
-    
         $query = $this->db->get();
     
         $result = $query->row_array();

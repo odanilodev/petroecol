@@ -1,17 +1,10 @@
 function agendamentosConcluidos() {
 
   return [
-    550, 550, 550
+    108, 156, 211, 196, 233, 421, 355, 651, 878, 152, 555, 201
   ];
 
 }
 
-function outraSerieDeDados () {
-
-  return [
-    10, 350, 250, 245
-  ];
-
-}
 
 

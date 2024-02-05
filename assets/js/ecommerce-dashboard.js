@@ -234,7 +234,7 @@
             symbol: 'circle',
             lineStyle: {
               width: 2,
-              color: getColor('warning')
+              color: getColor('gray-200')
             },
             emphasis: {
               lineStyle: {
@@ -247,21 +247,10 @@
             data: [200, 150, 250, 100, 500, 400, 600],
             lineStyle: {
               width: 2,
-              color: getColor('success')
+              color: getColor('primary')
             },
             showSymbol: false,
             symbol: 'circle'
-          },
-          {
-            type: 'line',
-            data: [210, 1250, 2350,330, 3500, 4030, 6030],
-            lineStyle: {
-              width: 2,
-              color: 'red'
-            },
-            showSymbol: false,
-            symbol: 'circle',
-            color: 'red'
           }
         ],
         grid: { left: 0, right: 0, top: 5, bottom: 20 }
@@ -499,7 +488,7 @@
   };
 
   const months = [
-    'daadada',
+    'January',
     'February',
     'March',
     'April',
@@ -1880,13 +1869,13 @@
             return obj;
           },
           formatter: params => {
-            return `<strong>${params.data.name}:</strong> ${params.percent}%`;
+            return `<strong>:</strong> ${params.percent}%`;
           }
         },
         legend: { show: false },
         series: [
           {
-            name: '72%',
+            name: '82%',
             type: 'pie',
             radius: ['100%', '87%'],
             avoidLabelOverlap: false,
@@ -1908,7 +1897,7 @@
               color: getColor('dark')
             },
             data: [
-              { value: 7200000, name: 'Percentage discount' },
+              { value: 8200000, name: 'Percentage discount' },
               { value: 1800000, name: 'Fixed card discount' },
               { value: 1000000, name: 'Fixed product discount' }
             ]

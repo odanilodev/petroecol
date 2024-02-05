@@ -23,21 +23,4 @@ if (!function_exists('contaResiduosColetados')) {
     return $quantidadeColetada;
   }
 
-  if (!function_exists('clientesPorStatus')) {
-    function clientesPorStatus()
-    {
-      $CI = &get_instance();
-      $CI->load->model('Clientes_model');
-
-      $clientesPorStatus = $CI->Clientes_model->contaClientesPorStatus();
-
-      $contagemPorStatus = array();
-
-      foreach ($clientesPorStatus as $v) {
-        $contagemPorStatus[$v['status']] = $v['TOTAL_CLIENTES_POR_STATUS'];
-      }
-
-      return $contagemPorStatus;
-    }
-  }
   }

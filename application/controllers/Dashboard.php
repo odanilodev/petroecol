@@ -50,15 +50,12 @@ class Dashboard extends CI_Controller
 		$data['quantidadeColetada'] = contaResiduosColetados($this->input->post('mes'));
 
 		//Clientes separados por status
-		$data['clientesPorStatus'] = clientesPorStatus();
+		$data['clientesAtivos'] = $this->Clientes_model->contaClientesPorStatus(1);
+		$data['clientesInativos'] = $this->Clientes_model->contaClientesPorStatus(3);
 
 		//Clientes inativados no mês ou ano
 		$mesInativado = $this->input->post('mesInativado');
 		$data['clientesInativados'] = $this->Clientes_model->clientesInativados($mesInativado);
-
-		echo'<pre>';
-		print_r($data['clientesInativados']);
-		exit;
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/dashboard/dashboard');
