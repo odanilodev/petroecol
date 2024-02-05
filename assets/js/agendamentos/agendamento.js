@@ -318,11 +318,25 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
               } else {
 
                 let dataAntiga = $('.agendamento-' + id).data('data');
+                let prioridadeAntiga = $('.agendamento-' + id).data('prioridade');
 
                 $('#addEventModal').modal('hide');
 
-                if (id && dataAntiga != dataNova) {
+                if (id && dataAntiga != dataNova || prioridade != prioridadeAntiga) {
+
+                  let tituloModal = $('.modal-title').html();
+
+                  if (tituloModal) {
+
+                    var quantidadeAgendado = tituloModal.match(/\d+/)[0];
+                    var texto = tituloModal.replace(/^\d+\s+/, ''); 
+
+                  }
+                  
+
                   $('.agendamento-' + id).remove();
+                  let novaQuantidadeAgendado = quantidadeAgendado - 1;
+                  $('.modal-title').html(`${novaQuantidadeAgendado} ${texto}`)
                 }
 
                 $('.salva-modal-' + cliente).addClass('d-none');
@@ -373,6 +387,12 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
 
       })
 
+      $(document).on('change', '.select-prioridade-modal', function () {
+
+        alteraMomentoColeta(this, 'prioridade');
+
+      })
+
 
       function alteraMomentoColeta(classe, atributo) {
 
@@ -395,7 +415,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
             cliente: idCliente,
             hora: $(`.hora-modal-${idCliente}`).val(),
             periodo: $(`.periodo-modal-${idCliente}`).val(),
-            prioridade: $(`.prioridade-modal-${idCliente}`).val(),
+            prioridade: $(`.select-prioridade-modal-${idCliente}`).val(),
             obs: obs,
             agendamento: idAgendamento,
             data: dataFormatada
@@ -751,7 +771,7 @@ function imprimirClientes(clientes) {
 
       let clientesTabela = `
 
-        <tr class="agendamento-${cliente.id} teste" data-data="${cliente.data_coleta}">
+        <tr class="agendamento-${cliente.id} teste" data-data="${cliente.data_coleta}" data-prioridade="${cliente.prioridade}">
           <td>${cliente.rua} ${cliente.numero}</td>
 
           <td>
@@ -776,6 +796,19 @@ function imprimirClientes(clientes) {
               <option ${cliente.periodo_coleta == "Manhã" ? "selected" : ""} value="Manhã">Manhã</option>
               <option ${cliente.periodo_coleta == "Tarde" ? "selected" : ""} value="Tarde">Tarde</option>
               <option ${cliente.periodo_coleta == "Noite" ? "selected" : ""} value="Noite">Noite</option>
+              
+            </select>
+
+          </td>
+
+          <td>
+          
+            <select ${cliente.status == 1 ? "disabled" : ""} class="form-select w-100 select-prioridade-modal select-prioridade-modal-${cliente.id_cliente}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
+
+              <option disabled selected value="">Definir prioridade</option>
+
+              <option ${cliente.prioridade == "0" ? "selected" : ""} value="0">Não</option>
+              <option ${cliente.prioridade == "1" ? "selected" : ""} value="1">Sim</option>
               
             </select>
 
@@ -807,7 +840,7 @@ function imprimirClientes(clientes) {
     
     let clientesAgendados = `
 
-      <div class="accordion-item agendamento-${cliente.id}">
+      <div class="accordion-item agendamento-${cliente.id}" data-data="${cliente.data_coleta}" data-prioridade="${cliente.prioridade}">
 
         <h2 class="accordion-header" id="headingThree">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${index}" aria-expanded="false" aria-controls="collapse-${index}">
@@ -825,6 +858,7 @@ function imprimirClientes(clientes) {
                     <th scope="col">Data</th>
                     <th scope="col">Hora</th>
                     <th scope="col">Período</th>
+                    <th scope="col">Definir prioridade</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                   </tr>

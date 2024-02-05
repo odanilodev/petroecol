@@ -70,7 +70,7 @@ class Agendamentos extends CI_Controller
                 
                 // Se o cliente não está agendado, realiza a inserção ou edição
                 $dados['id_cliente'] = $idsClientes[$i];
-                $retorno = $id ? $this->Agendamentos_model->editaAgendamento($id, $dados) : $this->Agendamentos_model->insereAgendamento($dados);
+                $retorno = $this->Agendamentos_model->insereAgendamento($dados);
     
                 if (!$retorno) {
                     $response = array(
@@ -80,12 +80,26 @@ class Agendamentos extends CI_Controller
                     break; // para o loop se der erro
                 }
 
+            } else if ($clienteAgendado['id'] == $id) {
+
+                $retorno = $this->Agendamentos_model->editaAgendamento($id, $dados);
+
+                if (!$retorno) {
+                    $response = array(
+                        'success' => false,
+                        'message' => 'Erro ao inserir ou editar agendamento para o cliente:'
+                    );
+                    break; // para o loop se der erro
+                }
+
             } else {
+
                 // Se o cliente já está agendado, atualiza a mensagem de erro
                 $response = array(
                     'success' => false,
                     'message' => 'Este cliente já está agendado para este dia.'
                 );
+
             }
         }
     
