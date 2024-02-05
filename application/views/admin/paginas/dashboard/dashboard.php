@@ -12,7 +12,7 @@
           <div class="col-12 col-md-auto">
             <div class="d-flex align-items-center"><span class="fa-stack" style="min-height: 46px;min-width: 46px;"><span class="fa-solid fa-square fa-stack-2x text-success-300" data-fa-transform="down-4 rotate--10 left-4"></span><span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100" data-fa-transform="up-4 right-3 grow-2"></span><span class="fa-stack-1x fa-solid fa-star text-success " data-fa-transform="shrink-2 up-8 right-6"></span></span>
               <div class="ms-3">
-                <h4 class="mb-0"><?= $clientesAtivos ?> Ativos</h4>
+                <h4 class="mb-0"><?= $clientesAtivos ?> - Ativos</h4>
                 <p class="text-800 fs--1 mb-0"></p>
               </div>
             </div>
@@ -20,7 +20,7 @@
           <div class="col-12 col-md-auto">
             <div class="d-flex align-items-center"><span class="fa-stack" style="min-height: 46px;min-width: 46px;"><span class="fa-solid fa-square fa-stack-2x text-warning-300" data-fa-transform="down-4 rotate--10 left-4"></span><span class="fa-solid fa-circle fa-stack-2x stack-circle text-warning-100" data-fa-transform="up-4 right-3 grow-2"></span><span class="fa-stack-1x fa-solid fa-pause text-warning " data-fa-transform="shrink-2 up-8 right-6"></span></span>
               <div class="ms-3">
-                <h4 class="mb-0"><?= $clientesInativados ?> Inativados este mês</h4>
+                <h4 class="mb-0"><?= $clientesInativados ?> - Inativados este mês</h4>
                 <p class="text-800 fs--1 mb-0"></p>
               </div>
             </div>
@@ -28,7 +28,7 @@
           <div class="col-12 col-md-auto">
             <div class="d-flex align-items-center"><span class="fa-stack" style="min-height: 46px;min-width: 46px;"><span class="fa-solid fa-square fa-stack-2x text-danger-300" data-fa-transform="down-4 rotate--10 left-4"></span><span class="fa-solid fa-circle fa-stack-2x stack-circle text-danger-100" data-fa-transform="up-4 right-3 grow-2"></span><span class="fa-stack-1x fa-solid fa-xmark text-danger " data-fa-transform="shrink-2 up-8 right-6"></span></span>
               <div class="ms-3">
-                <h4 class="mb-0"><?= $clientesInativos ?> Inativos</h4>
+                <h4 class="mb-0"><?= $clientesInativos ?> - Inativos</h4>
                 <p class="text-800 fs--1 mb-0"></p>
               </div>
             </div>
@@ -37,8 +37,8 @@
         <hr class="bg-200 mb-6 mt-4" />
         <div class="row flex-between-center mb-4 g-3">
           <div class="col-auto">
-            <h3>Total sells</h3>
-            <p class="text-700 lh-sm mb-0">Payment received across all channels</p>
+            <h3>Agendamentos</h3>
+            <p class="text-700 lh-sm mb-0">Realizados neste mês e no anterior </p>
           </div>
           <div class="col-8 col-sm-4">
             <div class="d-flex align-items-center">
@@ -69,10 +69,10 @@
               <div class="card-body">
                 <div class="d-flex justify-content-between">
                   <div>
-                    <h5 class="mb-1">Total orders<span class="badge badge-phoenix badge-phoenix-warning rounded-pill fs--1 ms-2"><span class="badge-label">-6.8%</span></span></h5>
-                    <h6 class="text-700">Last 7 days</h6>
+                    <h5 class="mb-1">Coletas realizadas<span class="badge badge-phoenix badge-phoenix-warning rounded-pill fs--1 ms-2"><span class="badge-label">-6.8%</span></span></h5>
+                    <h6 class="text-700">Últimos 7 dias</h6>
                   </div>
-                  <h4>16,247</h4>
+                  <h4>247</h4>
                 </div>
                 <div class="d-flex justify-content-center px-4 py-6">
                   <div class="echart-total-orders" style="height:85px;width:115px"></div>
@@ -80,12 +80,12 @@
                 <div class="mt-2">
                   <div class="d-flex align-items-center mb-2">
                     <div class="bullet-item bg-primary me-2"></div>
-                    <h6 class="text-900 fw-semi-bold flex-1 mb-0">Completed</h6>
+                    <h6 class="text-900 fw-semi-bold flex-1 mb-0">Concluídas</h6>
                     <h6 class="text-900 fw-semi-bold mb-0">52%</h6>
                   </div>
                   <div class="d-flex align-items-center">
                     <div class="bullet-item bg-primary-100 me-2"></div>
-                    <h6 class="text-900 fw-semi-bold flex-1 mb-0">Pending payment</h6>
+                    <h6 class="text-900 fw-semi-bold flex-1 mb-0">Aguardando pagamento</h6>
                     <h6 class="text-900 fw-semi-bold mb-0">48%</h6>
                   </div>
                 </div>
@@ -97,8 +97,8 @@
               <div class="card-body">
                 <div class="d-flex justify-content-between">
                   <div>
-                    <h5 class="mb-1">New customers<span class="badge badge-phoenix badge-phoenix-warning rounded-pill fs--1 ms-2"> <span class="badge-label">+26.5%</span></span></h5>
-                    <h6 class="text-700">Last 7 days</h6>
+                    <h5 class="mb-1">Novos Clientes<span class="badge badge-phoenix badge-phoenix-warning rounded-pill fs--1 ms-2"> <span class="badge-label">+26.5%</span></span></h5>
+                    <h6 class="text-700">Últimos 7 dias</h6>
                   </div>
                   <h4>356</h4>
                 </div>
@@ -113,8 +113,8 @@
               <div class="card-body">
                 <div class="d-flex justify-content-between">
                   <div>
-                    <h5 class="mb-2">Top coupons</h5>
-                    <h6 class="text-700">Last 7 days</h6>
+                    <h5 class="mb-2">Resíduos Coletados</h5>
+                    <h6 class="text-700">Últimos 7 dias</h6>
                   </div>
                 </div>
                 <div class="pb-4 pt-3">
@@ -123,17 +123,17 @@
                 <div>
                   <div class="d-flex align-items-center mb-2">
                     <div class="bullet-item bg-primary me-2"></div>
-                    <h6 class="text-900 fw-semi-bold flex-1 mb-0">Percenstage discount</h6>
+                    <h6 class="text-900 fw-semi-bold flex-1 mb-0">Óleo</h6>
                     <h6 class="text-900 fw-semi-bold mb-0">72%</h6>
                   </div>
                   <div class="d-flex align-items-center mb-2">
                     <div class="bullet-item bg-primary-200 me-2"></div>
-                    <h6 class="text-900 fw-semi-bold flex-1 mb-0">Fixed card discount</h6>
+                    <h6 class="text-900 fw-semi-bold flex-1 mb-0">Papelão</h6>
                     <h6 class="text-900 fw-semi-bold mb-0">18%</h6>
                   </div>
                   <div class="d-flex align-items-center">
                     <div class="bullet-item bg-info-500 me-2"></div>
-                    <h6 class="text-900 fw-semi-bold flex-1 mb-0">Fixed product discount</h6>
+                    <h6 class="text-900 fw-semi-bold flex-1 mb-0">Outros</h6>
                     <h6 class="text-900 fw-semi-bold mb-0">10%</h6>
                   </div>
                 </div>
