@@ -322,7 +322,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
 
                 $('#addEventModal').modal('hide');
 
-                if (id && dataAntiga != dataNova || prioridade != prioridadeAntiga) {
+                if ((id && dataAntiga != dataNova) || prioridade != prioridadeAntiga) {
 
                   let tituloModal = $('.modal-title').html();
 
