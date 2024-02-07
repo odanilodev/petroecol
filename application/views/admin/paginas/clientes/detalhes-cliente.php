@@ -574,7 +574,7 @@
                         </div>
 
                         <div style="margin-right: 10px;">
-                          <button onclick="detalhesHistoricoColeta(<?= $coleta['ID_COLETA'] ?>)" class="btn btn-phoenix-warning <?= $coleta['coletado'] == 0 ? "d-none" : "" ?> " title="Ver Detalhes" data-bs-toggle="modal" data-bs-target=".modal-historico-coleta">
+                          <button onclick="detalhesHistoricoColeta(<?= $coleta['ID_COLETA'] ?>)" class="btn btn-phoenix-warning <?= $coleta['coletado'] ? "" : "d-none" ?> " title="Ver Detalhes" data-bs-toggle="modal" data-bs-target=".modal-historico-coleta">
                             <span class="fas fa-eye text-warning"></span>
                           </button>
                         </div>
