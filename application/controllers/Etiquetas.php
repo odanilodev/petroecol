@@ -8,19 +8,19 @@ class Etiquetas extends CI_Controller
 		parent::__construct();
 
 		//INICIO controle sessão
-        $this->load->library('Controle_sessao');
-        $res = $this->controle_sessao->controle();
-        if ($res == 'erro') {
-            if ($this->input->is_ajax_request()) {
-                $this->output->set_status_header(403);
-                exit();
-            } else {
-                redirect('login/erro', 'refresh');
-            }
-        }
-        // FIM controle sessão
+		$this->load->library('Controle_sessao');
+		$res = $this->controle_sessao->controle();
+		if ($res == 'erro') {
+			if ($this->input->is_ajax_request()) {
+				$this->output->set_status_header(403);
+				exit();
+			} else {
+				redirect('login/erro', 'refresh');
+			}
+		}
+		// FIM controle sessão
 
-        $this->load->model('Etiquetas_model');
+		$this->load->model('Etiquetas_model');
 	}
 
 	public function index()
@@ -114,12 +114,11 @@ class Etiquetas extends CI_Controller
 	public function deletaEtiqueta()
 	{
 		$ids = $this->input->post('ids');
-		
+
 		$vinculadas = [];
 		$naoVinculadas = [];
 
 		foreach ($ids as $id) {
-
 			$retorno = $this->Etiquetas_model->verificaEtiquetaCliente($id);
 
 			if ($retorno) {
@@ -127,63 +126,53 @@ class Etiquetas extends CI_Controller
 			} else {
 				$naoVinculadas[] = $id;
 			}
-			
 		}
 
-			if (count($vinculadas) == 1) {
+		if (count($vinculadas) == 1) {
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'id_vinculado' => $vinculadas[0],
+				'message' => "Esta etiqueta está vinculada a um cliente, não é possível excluí-la.",
+				'type' => "error",
+				'redirect' => true
+			);
 
-				$response = array(
-					'success' => false,
-					'title' => "Algo deu errado!",
-					'id_vinculado' => $id,
-					'message' => "Esta etiqueta está vinculada a um cliente, não é possível excluí-la.",
-					'type' => "error",
-					'redirect' => true
+			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+		}
 
-				);
+		if (!empty($naoVinculadas)) {
+			$retorno2 = $this->Etiquetas_model->deletaEtiqueta($naoVinculadas);
 
-				return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+			if ($retorno2) {
+				$message = "Etiqueta(s) deletada(s) com sucesso!";
+				$type = "success";
 
-			}
+				if (!empty($vinculadas)) {
 
-			if ($naoVinculadas) {
-
-				$retorno2 = $this->Etiquetas_model->deletaEtiqueta($naoVinculadas);
-
-				if ($retorno2 == true) {
-
-					if ($vinculadas) {
-						$message = "As seguintes etiquetas não foram deletadas: " . implode(', ', $vinculadas);
-						$type = "warning";
-					}
-
-					$response = array(
-						'success' => true,
-						'title' => "Sucesso!",
-						'message' => $message ?? "Etiqueta deletada com sucesso!",
-						'type' => $type ?? "success",
-						'redirect' => false
-
-					);
-	
+					$message = "As seguintes etiquetas não foram deletadas pois estão vinculadas a clientes: " . implode(', ', $vinculadas);
+					$type = "warning";
 				}
-			}  else {
-	
+
 				$response = array(
-					'success' => false,
-					'title' => "Algo deu errado!",
-					'message' => "Não foi possivel deletar a etiqueta!" . implode(', ', $vinculadas),
-					'type' => "error",
+					'success' => true,
+					'title' => "Sucesso!",
+					'message' => $message,
+					'type' => $type,
 					'redirect' => false
 				);
-
 			}
+		} else {
 
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Não foi possível deletar a(s) etiqueta(s)!",
+				'type' => "error",
+				'redirect' => false
+			);
+		}
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-
-
 	}
-
-
 }

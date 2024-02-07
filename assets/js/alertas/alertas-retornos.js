@@ -21,8 +21,11 @@ const avisoRetornoFilter = (titulo, texto, icone, redirect, id_filter, input) =>
     Swal.fire({
         title: `${titulo}`,
         text: `${texto}`,
-        icon: `${icone}`
-
+        icon: `${icone}`,
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
     }).then((result) => {
 
         if (result.isConfirmed) {
