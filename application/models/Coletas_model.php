@@ -51,6 +51,7 @@ class Coletas_model extends CI_Model
         $this->db->where('id_cliente', $id_cliente);
         $this->db->where('data_coleta >=', $data_inicio);
         $this->db->where('data_coleta <=', $data_fim);
+        $this->db->where('coletado', 1);
 
         if ($residuo) {
 
@@ -61,6 +62,31 @@ class Coletas_model extends CI_Model
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
 
         $query = $this->db->get();
+
+        return $query->result_array();
+    }
+
+    public function recebeIdColetasClientesAll($id_cliente, $data_inicio, $data_fim)
+    {
+        $this->db->select('id');
+        $this->db->from('ci_coletas');
+        $this->db->where_in('id_cliente', $id_cliente);
+        $this->db->where('data_coleta >=', $data_inicio);
+        $this->db->where('data_coleta <=', $data_fim);
+        $this->db->order_by('id_cliente, data_coleta');
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+
+        $query = $this->db->get();
+
+        // $result_array = [];
+
+        // foreach ($query->result_array() as $row) {
+        //     if (!isset($result_array[$row['id_cliente']])) {
+        //         $result_array[$row['id_cliente']] = [];
+        //     }
+
+        //     $result_array[$row['id_cliente']][] = $row['id'];
+        // }
 
         return $query->result_array();
     }

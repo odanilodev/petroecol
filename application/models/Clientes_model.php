@@ -73,7 +73,7 @@ class Clientes_model extends CI_Model
 
     public function recebeTodosClientes()
     {
-        $this->db->order_by('nome', 'DESC');
+        $this->db->order_by('nome');
         $this->db->where('status', 1);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_clientes');

@@ -96,9 +96,6 @@ class Clientes extends CI_Controller
         $this->load->model('Grupos_model');
         $data['grupos'] = $this->Grupos_model->recebeGrupos();
 
-        $this->load->model('GrupoCliente_model');
-        $data['grupoClientes'] = $this->GrupoCliente_model->recebeGrupoClientes();
-
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/clientes');
@@ -160,9 +157,6 @@ class Clientes extends CI_Controller
         // grupos
         $this->load->model('Grupos_model');
         $data['grupos'] = $this->Grupos_model->recebeGrupos();
-
-        $this->load->model('GrupoCliente_model');
-        $data['grupoClientes'] = $this->GrupoCliente_model->recebeGrupoClientes();
 
         // todos alertas ou alertas ativos (status)
         $statusAlerta = true;
