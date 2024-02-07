@@ -2,18 +2,15 @@
 <html lang="pt-br">
 
 <head>
-    <title>Relatório Coletas</title>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificado</title>
 
     <style>
-        body {
-            font-family: 'arial, sans-serif';
-        }
-
         table {
-            font-family: 'arial, sans-serif';
+            font-family: arial, sans-serif;
             border-collapse: collapse;
-            width: 70%;
+            width: 100%;
             display: flex;
             flex-direction: column;
         }
@@ -23,34 +20,84 @@
             border: 1px solid #dddddd;
             text-align: left;
             padding: 8px;
-            width: 30%;
+            width: 50%;
             color: #404040;
         }
 
-        /* Estilo para ajustar a largura das tabelas individualmente (opcional) */
         .tabela {
-            width: 40%;
-            /* Ajuste conforme necessário */
+            width: 50%;
+        }
+
+        body {
+            font-family: 'sans-serif';
+        }
+
+        .w-50 {
+            width: 10% !important;
         }
     </style>
+
 </head>
 
 <body>
 
-    <!--Header-->
+    <div style="width: 100%;">
 
-    <div style="width: 100%; display: flex; justify-content: space-between;">
-        <div>
-            <img src="<?= base_url('assets/img/icons/logo-slogan.jpg') ?>" style="max-height: 20px; float:right;">
-            <h3 style="font-weight: 100;">Teste</span></h3>
+        <div style="padding: 5px" align="center">
+            <!-- <img src="<?= base_url_upload('certificados/logos/' . $modelo_certificado['logo']) ?>" style="max-width: 200px; max-height: 100px;"> -->
+
+            <p align="center" style="font-size: 12px;">
+                descrição do bagulho
+            </p>
+
         </div>
+
+        <div style="margin-top: 5px">
+            <h3 style="font-weight: bold; text-transform:uppercase">Relatório de clientes </h3>
+        </div>
+
+        <div style="margin-top: 10px;">
+            
+
+            <table class="table">
+                <tbody>
+
+                    <tr>
+                        <td style="width: 15px;">4 movimentações</td>
+                        <td style="width: 15px;">150.00 L</td>
+                        <td style="width: 350px !important;">75.00 L/Movimentação</td>
+                        <td style="width: 15px;">R$-1.80/L</td>
+                        <td style="width: 15px;">R$-270.00</td>
+                    </tr>
+
+                </tbody>
+                <thead>
+                    <tr>
+                        <th style="width: 15px;" scope="col">Data</th>
+                        <th style="width: 15px;" scope="col">Movimentado</th>
+                        <th style="width: 25px;" scope="col">Valor</th>
+                        <th style="width: 15px;" scope="col">Motorista</th>
+                        <th style="width: 15px;" scope="col">Veículo</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td style="width: 15px;">442</td>
+                        <td style="width: 15px;">32323232</td>
+                        <td style="width: 25px;">32323232</td>
+                        <td style="width: 15px;">32323232</td>
+                        <td style="width: 15px;">32323232</td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+
+
+        </div>
+
     </div>
-
-
-    <hr style="font-size: 0.5px; margin-top: 5px;">
-
- 
-
 
 </body>
 

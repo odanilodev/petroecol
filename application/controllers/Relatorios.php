@@ -102,7 +102,6 @@ class Relatorios extends CI_Controller
 		if ($dados) {
 
 			$mpdf = new Mpdf;
-			$mpdf->AddPage('L');
 			$html = $this->load->view('admin/paginas/relatorios/relcoletas/relcoletas-pdf', $data, true);
 			$mpdf->WriteHTML($html);
 
@@ -120,7 +119,7 @@ class Relatorios extends CI_Controller
 			$data['titulo'] = "Dados não encontrado!";
 			$data['descricao'] = "Não foi possível localizar coleta para este(s) cliente(s)!";
 
-			$this->CI->load->view('admin/erros/erro-pdf', $data);
+			$this->load->view('admin/erros/erro-pdf', $data);
 		}
 	}
 }
