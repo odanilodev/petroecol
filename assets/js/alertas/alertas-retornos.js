@@ -25,7 +25,8 @@ const avisoRetornoFilter = (titulo, texto, icone, redirect, id_filter, input) =>
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Ir para clientes"
     }).then((result) => {
 
         if (result.isConfirmed) {
