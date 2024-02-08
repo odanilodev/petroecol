@@ -33,7 +33,7 @@ const payingCustomerChartInit = () => {
         {
           type: 'gauge',
           center: ['50%', '60%'],
-          name: 'Paying customer',
+          name: 'Coleta de óleo',
           startAngle: 180,
           endAngle: 0,
           min: 0,

@@ -145,8 +145,8 @@
               <div class="card-body d-flex flex-column">
                 <div class="d-flex justify-content-between">
                   <div>
-                    <h5 class="mb-2">Paying vs non paying</h5>
-                    <h6 class="text-700">Last 7 days</h6>
+                    <h5 class="mb-2">Meta de coletas</h5>
+                    <h6 class="text-700">Últimos 7 Dias</h6>
                   </div>
                 </div>
                 <div class="d-flex justify-content-center pt-3 flex-1">
@@ -155,12 +155,12 @@
                 <div class="mt-3">
                   <div class="d-flex align-items-center mb-2">
                     <div class="bullet-item bg-primary me-2"></div>
-                    <h6 class="text-900 fw-semi-bold flex-1 mb-0">Paying customer</h6>
+                    <h6 class="text-900 fw-semi-bold flex-1 mb-0">Óleo Coletado</h6>
                     <h6 class="text-900 fw-semi-bold mb-0">30%</h6>
                   </div>
                   <div class="d-flex align-items-center">
                     <div class="bullet-item bg-primary-100 me-2"></div>
-                    <h6 class="text-900 fw-semi-bold flex-1 mb-0">Non-paying customer</h6>
+                    <h6 class="text-900 fw-semi-bold flex-1 mb-0">Reciclagem</h6>
                     <h6 class="text-900 fw-semi-bold mb-0">70%</h6>
                   </div>
                 </div>
