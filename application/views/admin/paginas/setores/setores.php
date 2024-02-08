@@ -1,5 +1,5 @@
 <div class="content">
-    <div id="members" data-list='{"valueNames":["customer","email","mobile_number","city","last_active","joined"],"page":10,"pagination":true}'>
+    <div id="members" data-list='{"valueNames":["setor-nome"],"page":10,"pagination":true}'>
         <div class="row align-items-center justify-content-between g-3 mb-4">
 
             <div class="col-auto">
@@ -27,11 +27,11 @@
                         <tr>
                             <th class="white-space-nowrap fs--1 align-middle ps-0">
                                 <div class="form-check mb-0 fs-0">
-                                    <input class="form-check-input check-all-element" type="checkbox" />
+                                    <input class="form-check-input check-all-element cursor-pointer" type="checkbox" />
                                 </div>
                             </th>
 
-                            <th class="sort align-middle" scope="col" data-sort="customer">Setor</th>
+                            <th class="sort align-middle" scope="col" data-sort="setor-nome">Setor</th>
                             <th class="sort align-middle pe-3">Editar</th>
                             <th class="sort align-middle pe-3">Excluir</th>
                         </tr>
@@ -44,11 +44,11 @@
 
                                 <td class="fs--1 align-middle ps-0 py-3">
                                     <div class="form-check mb-0 fs-0">
-                                        <input class="form-check-input check-element" type="checkbox" value="<?= $v['id'] ?>"/>
+                                        <input class="form-check-input check-element cursor-pointer" type="checkbox" value="<?= $v['id'] ?>"/>
                                     </div>
                                 </td>
 
-                                <td class="email align-middle white-space-nowrap">
+                                <td class="setor-nome align-middle white-space-nowrap">
                                     <?= $v['nome'] ?>
                                 </td>
 
