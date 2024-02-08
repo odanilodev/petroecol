@@ -72,7 +72,7 @@ class Relatorios extends CI_Controller
 	public function gerarPdfRelatorioColetas($idColetaClientes)
 	{
 		$this->load->library('detalhesColeta');
-	    $this->load->library('formasPagamentoChaveId');
+		$this->load->library('formasPagamentoChaveId');
 		$this->load->library('residuoChaveId');
 		$this->load->library('residuoPagamentoCliente');
 
@@ -90,14 +90,19 @@ class Relatorios extends CI_Controller
 			$dados[] = $array;
 		}
 
-		$data['dados'] = $dados;
-
 		// todos residuos cadastrado na empresa
-		$data['residuosColetatos'] = $this->residuochaveid->residuoArrayChaveId();
+		$data['residuos'] = $this->residuochaveid->residuoArrayChaveId();
 		// todas formas de pagamento cadastrado na empresa
 		$data['formasPagamento'] = $this->formaspagamentochaveid->formaPagamentoArrayChaveId();
 		// Forma de pagamento por residuo
 		$data['residuoPagamentoCliente'] = $this->residuopagamentocliente->residuoPagamentoClienteArrayChaveId(array_unique($clientes));
+
+
+		$data['dados'] = $this->estruturaColetas($dados);
+
+		echo '<pre>';
+		print_r($data);
+		exit;
 
 		if ($dados) {
 
@@ -121,5 +126,26 @@ class Relatorios extends CI_Controller
 
 			$this->load->view('admin/erros/erro-pdf', $data);
 		}
+	}
+
+	public function estruturaColetas($data)
+	{
+
+		// echo '<pre>';
+		// print_r($data);
+		// exit;
+		$array = [];
+		$dados = [];
+		foreach ($data as $dado) {
+
+			if (in_array($dado['cliente']['id'], $array)) {
+				array_push($dados[$dado['cliente']['id']]['coletas'], $dado['dataColeta']);
+			} else {
+				array_push($array, $dado['cliente']['id']);
+				$dados[$dado['cliente']['id']] = $dado['cliente'];
+				$dados[$dado['cliente']['id']]['coletas'][] = $dado['dataColeta'];
+			}
+		}
+		return $dados;
 	}
 }
