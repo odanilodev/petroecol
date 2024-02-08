@@ -153,12 +153,28 @@ class Usuarios_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
+    // public function verificaSetorUsuario($id)
+    // {
+    //     $this->db->where('id_setor', $id);
+    //     $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+    //     $this->db->get('ci_usuarios');
+
+    //     return $this->db->affected_rows() > 0;
+    // }
+
     public function verificaSetorUsuario($id)
     {
-        $this->db->where('id_setor', $id);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->get('ci_usuarios');
+        $this->db->select('U.id_setor, GROUP_CONCAT(DISTINCT S.nome) as nomes_SETORES');
+        $this->db->from('ci_usuarios U');
+        $this->db->where_in('U.id_setor', $id);
+        $this->db->where('U.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->join('ci_setores S', 'S.id = U.id_setor', 'left');
+        $this->db->group_by('EC.id_setor');
 
-        return $this->db->affected_rows() > 0;
+        $query = $this->db->get();
+
+        $setorVinculado = $query->result_array();
+
+        return $setorVinculado;
     }
 }
