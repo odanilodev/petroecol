@@ -46,7 +46,7 @@
 
             <div class="mb-3">
 
-              <select class="form-select w-100 cliente-agendamento select2-single" id="select-cliente">
+              <select class="form-select w-100 cliente-agendamento select2" id="select-cliente">
 
                 <option disabled selected value="">Selecione o Cliente</option>
                 <?php foreach ($clientes as $v) { ?>
@@ -60,7 +60,7 @@
 
             <div class="mb-3">
 
-              <select class="form-select w-100 cliente-etiqueta-agendamento select2-single" id="select-cliente-etiqueta">
+              <select class="form-select w-100 cliente-etiqueta-agendamento select2" id="select-cliente-etiqueta">
 
                 <option disabled selected value="">Clientes por etiqueta</option>
                 <?php foreach ($etiquetas as $etiqueta) { ?>

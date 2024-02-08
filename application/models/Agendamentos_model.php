@@ -169,4 +169,49 @@ class Agendamentos_model extends CI_Model
 
         return $query->result_array();
     }
+
+    public function ultimaColetaCliente($id)
+    {
+        $this->db->select('data_coleta'); 
+        $this->db->where('id_cliente', $id);
+        $this->db->where('status', 1);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->order_by('data_coleta', 'desc'); 
+        $this->db->limit(1); 
+        $query = $this->db->get('ci_agendamentos');
+
+        return $query->row()->data_coleta ?? null; 
+
+    }
+
+
+    public function contaAgendamentoCLiente($id)
+    {
+        $this->db->where('id_cliente', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('ci_agendamentos');
+
+        return $query->num_rows();
+    }
+
+    public function contaAgendamentoAtrasadoCLiente($id)
+    {
+        $this->db->where('id_cliente', $id);
+        $this->db->where('status', 0);
+        $this->db->where('data_coleta <', date('Y-m-d'));
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('ci_agendamentos');
+
+        return $query->num_rows();
+    }
+
+    public function contaAgendamentoFinalizadoCLiente($id)
+    {
+        $this->db->where('id_cliente', $id);
+        $this->db->where('status', 1);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('ci_agendamentos');
+
+        return $query->num_rows();
+    }
 }

@@ -1,19 +1,17 @@
 var baseUrl = $('.base-url').val();
 
-const cadastraResiduos = () => {
+const cadastraGrupo = () => {
 
-    let residuo = $('.input-nome').val();
-    let grupo = $('.input-grupo').val();
+    let nome = $('.input-nome-grupo').val();
     let id = $('.input-id').val();
-    let uni = $('.input-medida').val();
+
 
     //Verificação de campo vazio e permissao para cadastrar
     let permissao = true
 
-	$(".input-obrigatorio").each(function () {
-
+	$(".input-nome-grupo").each(function () {
 		// Verifica se o valor do input atual está vazio
-		if ($(this).val() === "" || $(this).val() === null) {
+		if ($(this).val().trim() === "") {
 
             $(this).addClass('invalido');
             $(this).next().removeClass('d-none');
@@ -27,17 +25,14 @@ const cadastraResiduos = () => {
         }
 	});
 
-
     if (permissao) {
 
         $.ajax({
             type: "post",
-            url: `${baseUrl}residuos/cadastraResiduo`,
+            url: `${baseUrl}grupos/cadastraGrupo`,
             data: {
-                residuo: residuo,
-                grupo: grupo,
-                id: id,
-                unidade: uni
+                nome: nome,
+                id: id
             },
             beforeSend: function () {
                 $('.load-form').removeClass('d-none');
@@ -50,7 +45,7 @@ const cadastraResiduos = () => {
 
                 if (data.success) {
 
-                    avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}residuos`);
+                    avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}grupos`);
 
                 } else {
 
@@ -62,7 +57,7 @@ const cadastraResiduos = () => {
     }
 }
 
-const deletarResiduo = (id) => {
+const deletaGrupo = (id) => {
 
     Swal.fire({
         title: 'Você tem certeza?',
@@ -80,23 +75,14 @@ const deletarResiduo = (id) => {
 
             $.ajax({
                 type: 'post',
-                url: `${baseUrl}residuos/deletaResiduo`,
+                url: `${baseUrl}grupos/deletaGrupo`,
                 data: {
                     id: id
                 }, success: function (data) {
 
-                    let redirect = data.type != 'error' ? `${baseUrl}residuos` : `${baseUrl}clientes`;
+                    let redirect = data.type != 'error' ? `${baseUrl}grupos` : '#';
 
-                    if (data.id_vinculado) {
-
-                        avisoRetornoFilter(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`, data.id_vinculado, 'id_residuo', 'Ver Clientes');
-
-                    }else{
-
-                        avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
-                        
-                    }
-
+                    avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
                 }
             })
@@ -106,14 +92,3 @@ const deletarResiduo = (id) => {
 
 
 }
-
-$(document).ready(function () {
-    
-    $('#input-grupo').val('').trigger('change');
-
-    $('.select2').select2({
-        theme: "bootstrap-5",
-        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-        placeholder: $(this).data('placeholder'),
-    });
-})

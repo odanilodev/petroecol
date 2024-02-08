@@ -82,7 +82,7 @@
                                             <div class="mb-2 col-md-4">
                                                 <div class="mb-2">
                                                     <label class="form-label text-900">Cargo</label>
-                                                    <select required name="id_cargo" class="form-select input-cargo input-obrigatorio">
+                                                    <select required name="id_cargo" class="form-select input-cargo input-obrigatorio select2">
                                                         <option value="" selected disabled>Selecione</option>
                                                         <?php foreach ($cargos as $c) { ?>
                                                             <option <?= isset($funcionario['id_cargo']) && $funcionario['id_cargo'] == $c['id'] ? "selected" : "" ?> value="<?= $c['id'] ?>"><?= $c['nome'] ?></option>

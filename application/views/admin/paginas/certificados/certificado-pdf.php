@@ -113,18 +113,32 @@
                 <tbody>
 
                 <?php
+
                     foreach ($dados as $dado) :
-                        for ($i = 0; $i < count($dado['quantidade_coletada']); $i++) : ?>
+                        
+                        for ($i = 0; $i < count($dado['quantidade_coletada']); $i++) : 
 
-                            <tr>
-                                <td style="width: 15px;"><?= $dado['quantidade_coletada'][$i] ?><?= $residuosColetatos[$dado['residuos'][$i]] ?></td>
-                                <td style="width: 15px;"><?= $dado['dataColeta'] ?></td>
-                            </tr>
+                            if ($this->uri->segment(5) && $dado['residuos'][$i] == $this->uri->segment(5)) : ?>
 
+                                <tr>
+                                    <td style="width: 15px;"><?= $dado['quantidade_coletada'][$i] ?> <?= $residuosColetatos[$dado['residuos'][$i]] ?></td>
+                                    <td style="width: 15px;"><?= $dado['dataColeta'] ?></td>
+                                </tr>
+                            
                     <?php
+                            elseif (!$this->uri->segment(5)) : ?>
+
+                                <tr>
+                                    <td style="width: 15px;"><?= $dado['quantidade_coletada'][$i] ?> <?= $residuosColetatos[$dado['residuos'][$i]] ?></td>
+                                    <td style="width: 15px;"><?= $dado['dataColeta'] ?></td>
+                                </tr>
+
+                            <?php
+
+                            endif;
                         endfor;
                     endforeach;
-                    ?>
+                ?>
 
                 </tbody>
             </table>

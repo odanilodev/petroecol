@@ -88,6 +88,17 @@ class Clientes extends CI_Controller
         $this->load->model('RecipienteCliente_model');
         $data['recipientesClientes'] = $this->RecipienteCliente_model->recebeRecipientesClientes();
 
+        // formas de pagamento
+        $this->load->model('FormaPagamento_model');
+        $data['formasPagamento'] = $this->FormaPagamento_model->recebeFormasPagamento();
+        
+        // grupos
+        $this->load->model('Grupos_model');
+        $data['grupos'] = $this->Grupos_model->recebeGrupos();
+
+        $this->load->model('GrupoCliente_model');
+        $data['grupoClientes'] = $this->GrupoCliente_model->recebeGrupoClientes();
+
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/clientes');
@@ -145,12 +156,34 @@ class Clientes extends CI_Controller
         // todas etiquetas 
         $this->load->model('Etiquetas_model');
         $data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
+        
+        // grupos
+        $this->load->model('Grupos_model');
+        $data['grupos'] = $this->Grupos_model->recebeGrupos();
+
+        $this->load->model('GrupoCliente_model');
+        $data['grupoClientes'] = $this->GrupoCliente_model->recebeGrupoClientes();
 
         // todos alertas ou alertas ativos (status)
         $statusAlerta = true;
         $this->load->model('AlertasWhatsapp_model');
         $data['alertas'] = $this->AlertasWhatsapp_model->recebeAlertasWhatsApp($statusAlerta);
 
+
+        $this->load->model('Agendamentos_model');
+        $data['quantidade_agendado'] = $this->Agendamentos_model->contaAgendamentoCLiente($id);
+
+        $data['quantidade_atrasado'] = $this->Agendamentos_model->contaAgendamentoAtrasadoCLiente($id);
+
+        $data['quantidade_finalizado'] = $this->Agendamentos_model->contaAgendamentoFinalizadoCLiente($id);
+
+        $this->load->helper('formatar');
+
+        $data['ultima_coleta'] = formatarData($this->Agendamentos_model->ultimaColetaCLiente($id));
+
+        // formas de pagamento
+        $this->load->model('FormaPagamento_model');
+        $data['formasPagamento'] = $this->FormaPagamento_model->recebeFormasPagamento();
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/detalhes-cliente');
@@ -167,8 +200,9 @@ class Clientes extends CI_Controller
 
         // scripts para clientes
         $scriptsClienteFooter = scriptsClienteFooter();
+        $scriptsClienteHead = scriptsClienteHead();
 
-        add_scripts('header', array_merge($scriptsPadraoHead));
+        add_scripts('header', array_merge($scriptsClienteHead, $scriptsPadraoHead));
         add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsClienteFooter));
 
         $id = $this->uri->segment(3);

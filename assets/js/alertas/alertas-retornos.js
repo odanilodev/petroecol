@@ -16,17 +16,18 @@ const avisoRetorno = (titulo, texto, icone, redirect) => {
 
 }
 
-const avisoRetornoFilter = (titulo, texto, icone, redirect, id_filter, input) => {
+const avisoRetornoFilter = (titulo, texto, icone, redirect, id_filter, input, txtConfirmarBotao) => {
 
     Swal.fire({
         title: `${titulo}`,
         text: `${texto}`,
         icon: `${icone}`,
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        cancelButtonText: "Cancelar",
-        confirmButtonText: "Ir para clientes"
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: `${txtConfirmarBotao}`,
+
     }).then((result) => {
 
         if (result.isConfirmed) {

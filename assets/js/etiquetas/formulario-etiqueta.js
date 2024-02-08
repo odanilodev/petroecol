@@ -98,7 +98,7 @@ const deletarEtiqueta = (id) => {
 
                     if (data.id_vinculado) {
 
-                        avisoRetornoFilter(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`, data.id_vinculado, 'id_etiqueta');
+                        avisoRetornoFilter(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`, data.id_vinculado, 'id_etiqueta', 'Ver Clientes');
 
                     }else{
 

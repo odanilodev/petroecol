@@ -82,7 +82,7 @@ class Clientes_model extends CI_Model
 
     public function recebeClientesEtiquetas()
     {
-        $this->db->select('C.nome, C.cidade, C.id, E.nome as ETIQUETA');
+        $this->db->select('C.nome, C.cidade, C.id as ID_CLIENTE, E.nome as ETIQUETA');
         $this->db->from('ci_clientes C');
         $this->db->join('ci_etiqueta_cliente EC', 'C.id = EC.id_cliente', 'LEFT');
         $this->db->join('ci_etiquetas E', 'EC.id_etiqueta = E.id', 'LEFT');
@@ -106,10 +106,11 @@ class Clientes_model extends CI_Model
 
     public function recebeCliente($id)
     {
-        $this->db->select('C.*, F.frequencia, CC.cor');
+        $this->db->select('C.*, F.frequencia, CC.cor, FP.forma_pagamento');
         $this->db->from('ci_clientes C');
         $this->db->join('ci_frequencia_coleta F', 'C.id_frequencia_coleta = F.id', 'left');
         $this->db->join('ci_classificacao_cliente CC', 'C.id_classificacao_cliente = CC.id', 'left');
+        $this->db->join('ci_forma_pagamento FP', 'C.id_forma_pagamento = FP.id', 'left');
         $this->db->where('C.id', $id);
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get();
@@ -134,16 +135,15 @@ class Clientes_model extends CI_Model
     //Recebe clientes com varios Ids selecionados
     public function recebeClientesIds($ids)
     {
-    $this->db->select('C.*, R.nome_recipiente, RC.quantidade AS QUANTIDADE_RECIPIENTE');
-    $this->db->from('ci_clientes C');
-    $this->db->join('ci_recipiente_cliente RC', 'RC.id_cliente = C.id', 'left');
-    $this->db->join('ci_recipientes R', 'R.id = RC.id_recipiente', 'left');
-    $this->db->order_by('C.cidade, C.nome');
-    $this->db->where_in('C.id', $ids);
-    $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-    $this->db->group_by('C.id, RC.id'); // agrupar por ambos para ter a quantidade de recipientes
-    $query = $this->db->get();
-    return $query->result_array();
+        $this->db->select('C.*, FP.forma_pagamento');
+        $this->db->from('ci_clientes C');
+        $this->db->join('ci_forma_pagamento FP', 'FP.id = C.id_forma_pagamento', 'left');
+        $this->db->order_by('C.cidade, C.nome');
+        $this->db->where_in('C.id', $ids);
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->group_by('C.id');
+        $query = $this->db->get();
+        return $query->result_array();
     }
 
 
@@ -209,17 +209,6 @@ class Clientes_model extends CI_Model
         $this->db->get('ci_recipiente_cliente');
 
         return $this->db->affected_rows() > 0;
-    }
-
-    public function recebeClientesRomaneio($idsClientes)
-    {
-        $this->db->select('C.id, C.nome, C.rua, C.telefone, C.cidade, C.numero, C.bairro');
-        $this->db->from('ci_clientes C');
-        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where_in('C.id', $idsClientes);
-        $query = $this->db->get();
-
-        return $query->result_array();
     }
 
     public function recebeClientesAprovacaoInativacao()

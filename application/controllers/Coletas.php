@@ -41,10 +41,10 @@ class Coletas extends CI_Controller
                 $dados = array(
                     'id_cliente' => $cliente['idCliente'],
                     'id_responsavel' => $idResponsavel,
-                    'residuos_coletados' => json_encode($cliente['residuos']),
-                    'forma_pagamento' => json_encode($cliente['pagamento']),
-                    'quantidade_coletada' => json_encode($cliente['qtdColetado']),
-                    'valor_pago' => json_encode($cliente['valor']),
+                    'residuos_coletados' => json_encode($cliente['residuos'] ?? ""),
+                    'forma_pagamento' => json_encode($cliente['pagamento'] ?? ""),
+                    'quantidade_coletada' => json_encode($cliente['qtdColetado'] ?? ""),
+                    'valor_pago' => json_encode($cliente['valor'] ?? ""),
                     'observacao' => $cliente['obs'],
                     'coletado' => $cliente['coletado'],
                     'data_coleta' => $dataRomaneio,
@@ -124,8 +124,9 @@ class Coletas extends CI_Controller
         $id_cliente = $this->input->post('idCliente');
         $data_inicio = $this->input->post('dataInicio');
         $data_fim = $this->input->post('dataFim');
+        $residuo = $this->input->post('residuo');
 
-        $coletas = $this->Coletas_model->recebeIdColetasClientes($id_cliente, $data_inicio, $data_fim);
+        $coletas = $this->Coletas_model->recebeIdColetasClientes($id_cliente, $data_inicio, $data_fim, $residuo);
 
         $response = array(
             'success' => false

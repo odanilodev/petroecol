@@ -1,16 +1,16 @@
 var baseUrl = $('.base-url').val();
 
-const cadastraEtiquetaCliente = () => {
+const cadastraGrupoCliente = () => {
 
     let idCliente = $('.id-cliente').val();
 
-    let idEtiqueta = $('#select-etiqueta option:selected').val();
+    let idGrupo = $('#select-grupo-cliente option:selected').val();
 
-    var nomeEtiqueta = $('#select-etiqueta option:selected').text();
+    var nomeGrupo = $('#select-grupo-cliente option:selected').text();
 
     permissao = true;
 
-    if (!idEtiqueta) {
+    if (!idGrupo) {
         permissao = false;
 
     }
@@ -19,11 +19,11 @@ const cadastraEtiquetaCliente = () => {
 
         $.ajax({
             type: "POST",
-            url: `${baseUrl}etiquetaCliente/cadastraEtiquetaCliente`,
+            url: `${baseUrl}grupoCliente/cadastraGrupoCliente`,
             data: {
                 id_cliente: idCliente,
-                id_etiqueta: idEtiqueta,
-                nome_etiqueta: nomeEtiqueta
+                idGrupo: idGrupo,
+                nomeGrupo: nomeGrupo
             },
             beforeSend: function () {
 
@@ -38,7 +38,7 @@ const cadastraEtiquetaCliente = () => {
 
                 if (data.success) {
 
-                    $('.div-etiquetas').append(data.message);
+                    $('.div-grupos').append(data.message);
 
                 } else if (data.message != undefined) {
 
@@ -48,6 +48,13 @@ const cadastraEtiquetaCliente = () => {
                     avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação`, 'error', '#');
 
                 }
+            }, error: function (xhr, status, error) {
+
+                $('.load-form').addClass('d-none');
+                $('.btn-form').removeClass('d-none');
+                if (xhr.status === 403) {
+                    avisoRetorno('Algo deu errado!', 'Você não tem permissão para esta ação..', 'error', '#');
+                }
             }
         })
     }
@@ -55,12 +62,12 @@ const cadastraEtiquetaCliente = () => {
 }
 
 
-const exibirEtiquetasCliente = (idCliente) => {
+const exibirGruposCliente = (idCliente) => {
 
-    $('#select-etiqueta').val('').trigger('change');
+    $('#select-grupo-cliente').val('').trigger('change');
 
     $('.select2').select2({
-        dropdownParent: "#modalEtiqueta",
+        dropdownParent: "#modalGrupoCliente",
         theme: "bootstrap-5",
     });
 
@@ -68,18 +75,18 @@ const exibirEtiquetasCliente = (idCliente) => {
 
     $.ajax({
         type: "POST",
-        url: `${baseUrl}etiquetaCliente/recebeEtiquetaCliente`,
+        url: `${baseUrl}grupoCliente/recebeGrupoCliente`,
         data: {
-            id_cliente: idCliente
+            idCliente: idCliente
         },
         beforeSend: function () {
-            $('.div-etiquetas').html('');
+            $('.div-grupos').html('');
         },
         success: function (data) {
 
             if (data) {
 
-                $('.div-etiquetas').html(data);
+                $('.div-grupos').html(data);
 
             }
         }
@@ -87,17 +94,17 @@ const exibirEtiquetasCliente = (idCliente) => {
 }
 
 
-const deletaEtiquetaCliente = (idEtiquetaCliente) => {
+const deletaGrupoCliente = (idGrupoCliente) => {
 
     $.ajax({
         type: "POST",
-        url: `${baseUrl}etiquetaCliente/deletaEtiquetaCliente`,
+        url: `${baseUrl}grupoCliente/deletaGrupoCliente`,
         data: {
-            id: idEtiquetaCliente
+            idGrupoCliente: idGrupoCliente
         },
         success: function (data) {
 
-            $(`.etiqueta-${idEtiquetaCliente}`).remove();
+            $(`.grupo-cliente-${idGrupoCliente}`).remove();
         }
     })
 

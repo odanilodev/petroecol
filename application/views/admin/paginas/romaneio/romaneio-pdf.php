@@ -21,7 +21,7 @@
         th,
         td {
             border: 1px solid #dddddd;
-            text-align: center;
+            text-align: left;
             padding: 8px;
             width: 30%;
             color: #404040;
@@ -60,21 +60,20 @@
     <!--EndHeader-->
 
     <div style="width: 100%;">
-
         <?php
-        $currentCity = null;
-        $tableOpen = false;
+        $cidadeAtual = null;
+        $tabelaAberta = false;
 
-        foreach ($clientes as $v) {
+        foreach ($clientes as $cliente) {
 
             // Verifica se a cidade do cliente mudou
-            if (trim(strtolower($v['cidade'])) !== $currentCity) {
+            if (trim(strtolower($cliente['cidade'])) !== $cidadeAtual) {
                 // Se sim, fecha a tabela anterior (se existir)
-                if ($tableOpen) {
+                if ($tabelaAberta) {
                     echo '</tbody></table>';
                 }
                 // Abre uma nova tabela
-                echo "<h4 style='margin-top: 30px; margin-bottom: 5px'><b>{$v['cidade']}</b> </h4>";
+                echo "<h4 style='margin-top: 30px; margin-bottom: 5px'><b>{$cliente['cidade']}</b> </h4>";
                 echo '<table>';
         ?>
                 <thead>
@@ -91,31 +90,46 @@
                 </thead>
 
                 <tbody>
+
                 <?php
-                $currentCity = trim(strtolower($v['cidade']));
-                $tableOpen = true;
-            }
-                ?>
+                $cidadeAtual = trim(strtolower($cliente['cidade']));
+                $tabelaAberta = true;
+            } ?>
+
                 <tr style="font-size: 11px;">
-                    <td><?= $v['nome']; ?> <?= in_array($v['id'], array_column($id_cliente_prioridade, 'id_cliente')) ? '<span style="font-weight: bold; font-size: 20px">*</span>' : '' ?></td>
-                    <td><?= "{$v['rua']}, {$v['numero']} {$v['bairro']}"; ?></td>
-                    <td><?= $v['telefone']; ?></td>
+                    <td><?= $cliente['nome']; ?> <?= in_array($cliente['id'], array_column($id_cliente_prioridade, 'id_cliente')) ? '<span style="font-weight: bold; font-size: 20px">*</span>' : '' ?></td>
+                    <td><?= "{$cliente['rua']}, {$cliente['numero']} {$cliente['bairro']}"; ?></td>
+                    <td><?= $cliente['telefone']; ?></td>
+                    <td>
+                        <p><?= $cliente['forma_pagamento']; ?></p><br>
+                        <p><?= $cliente['observacao_pagamento'] ?? ""; ?></p>
+                    </td>
+
+                    <td>
+                        <?php
+                        $chave = $cliente['id'];
+                        if (array_key_exists($chave, $recipientes_clientes)) {
+                            foreach ($recipientes_clientes[$chave] as $recipiente) {
+                                echo "<p> {$recipiente['nome_recipiente']} - {$recipiente['quantidade']} </p>";
+                            }
+                        }
+                        ?>
+                    </td>
+
                     <td></td>
-                    <td><?= $v['nome_recipiente'] ? $v['QUANTIDADE_RECIPIENTE'] . ' - ' . $v['nome_recipiente'] : ''; ?></td>
                     <td></td>
-                    <td></td>
-                    <td><?= $v['observacao']; ?></td>
+                    <td><?= $cliente['observacao']; ?></td>
                 </tr>
             <?php
         }
 
         // Fecha a última tabela
-        if ($tableOpen) {
+        if ($tabelaAberta) {
             echo '</tbody></table>';
         }
             ?>
-
     </div>
+
 
 </body>
 

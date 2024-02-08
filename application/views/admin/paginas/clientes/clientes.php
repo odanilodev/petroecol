@@ -20,7 +20,7 @@
                                 </form>
                             </div>
 
-                            <button class="btn px-3 btn-phoenix-secondary" type="button" data-bs-toggle="modal" data-bs-target="#reportsFilterModal" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                            <button class="btn px-3 btn-phoenix-secondary filtros-clientes" type="button" data-bs-toggle="modal" data-bs-target="#reportsFilterModal" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
                                 <span class="fa-solid fa-filter text-primary" data-fa-transform="down-3"></span>
                             </button>
 
@@ -36,17 +36,17 @@
                                             </div>
                                             <div class="modal-body pt-4 pb-2 px-4">
 
-                                                <div class="mb-3"><label class="fw-bold mb-2 text-1000" for="priority">Status</label>
-                                                    <select name="status" class="form-select" id="priority" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
-                                                        <option value="all" selected="selected">--</option>
+                                                <div class="mb-3"><label class="fw-bold mb-2 text-1000">Status</label>
+                                                    <select name="status" class="form-select select2">
+                                                        <option value="all" selected >--</option>
                                                         <option <?= ($cookie_filtro_clientes['status'] ?? null) == '1' ? 'selected' : '' ?> value="1">Ativo</option>
                                                         <option <?= ($cookie_filtro_clientes['status'] ?? null) == '3' ? 'selected' : '' ?> value="3">Inativo</option>
                                                     </select>
                                                 </div>
 
                                                 <div class="mb-3"><label class="fw-bold mb-2 text-1000" for="createDate">Cidades</label>
-                                                    <select name="cidade" class="form-select" id="createDate" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
-                                                        <option value="all" selected="selected">--</option>
+                                                    <select name="cidade" class="form-select select2">
+                                                        <option value="all" selected>--</option>
                                                         <?php foreach ($cidades as $v) { ?>
                                                             <option <?= ($cookie_filtro_clientes['cidade'] ?? null) == $v['cidade'] ? 'selected' : '' ?> value="<?= $v['cidade'] ?>"><?= $v['cidade'] ?></option>
                                                         <?php } ?>
@@ -54,8 +54,8 @@
                                                 </div>
 
                                                 <div class="mb-3"><label class="fw-bold mb-2 text-1000" for="createDate">Recipientes</label>
-                                                    <select name="id_recipiente" class="form-select" id="createDate" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
-                                                        <option value="all" selected="selected">--</option>
+                                                    <select name="id_recipiente" class="form-select select2">
+                                                        <option value="all" selected>--</option>
                                                         <?php foreach ($recipientes as $v) { ?>
                                                             <option <?= ($cookie_filtro_clientes['id_recipiente'] ?? null) == $v['id'] ? 'selected' : '' ?> value="<?= $v['id'] ?>"><?= $v['nome_recipiente'] ?></option>
                                                         <?php } ?>
@@ -63,7 +63,7 @@
                                                 </div>
 
                                                 <div class="mb-3"><label class="fw-bold mb-2 text-1000" for="createDate">Etiquetas</label>
-                                                    <select name="id_etiqueta" class="form-select" id="createDate" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                                                    <select name="id_etiqueta" class="form-select select2">
                                                         <option value="all" selected="selected">--</option>
                                                         <?php foreach ($etiquetas as $v) { ?>
                                                             <option <?= ($cookie_filtro_clientes['id_etiqueta'] ?? null) == $v['id'] ? 'selected' : '' ?> value="<?= $v['id'] ?>"><?= $v['nome'] ?></option>
@@ -72,7 +72,7 @@
                                                 </div>
 
                                                 <div class="mb-3"><label class="fw-bold mb-2 text-1000" for="createDate">Residuos</label>
-                                                    <select name="id_residuo" class="form-select" id="createDate" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                                                    <select name="id_residuo" class="form-select select2">
                                                         <option value="all" selected="selected">--</option>
                                                         <?php foreach ($residuos as $v) { ?>
                                                             <option <?= ($cookie_filtro_clientes['id_residuo'] ?? null) == $v['id'] ? 'selected' : '' ?> value="<?= $v['id'] ?>"><?= $v['nome'] ?></option>
@@ -80,8 +80,8 @@
                                                     </select>
                                                 </div>
 
-                                                <div class="mb-3"><label class="fw-bold mb-2 text-1000" for="priority">Classificação</label>
-                                                    <select name="classificacao" class="form-select" id="priority" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                                                <div class="mb-3"><label class="fw-bold mb-2 text-1000">Classificação</label>
+                                                    <select name="classificacao" class="form-select select2" >
                                                         <option value="all" selected="selected">--</option>
                                                         <option <?= ($cookie_filtro_clientes['classificacao'] ?? null) == '1' ? 'selected' : '' ?> value="1">Bronze</option>
                                                         <option <?= ($cookie_filtro_clientes['classificacao'] ?? null) == '2' ? 'selected' : '' ?> value="2">Prata</option>
@@ -139,6 +139,11 @@
                                                         <span class="text-900"> Visualizar</span>
                                                     </a>
 
+                                                    <a class="dropdown-item text-danger" href="<?= base_url('clientes/formulario/' . $v['id']) ?>">
+                                                        <span class="text-900 uil uil-pen"></span>
+                                                        <span class="text-900"> Editar</span>
+                                                    </a>
+
                                                     <a class="dropdown-item" href="#" onclick="exibirEtiquetasCliente(<?= $v['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalEtiqueta">
                                                         <span class="text-900 uil-pricetag-alt"></span>
                                                         <span class="text-900"> Etiquetas</span>
@@ -154,9 +159,9 @@
                                                         <span class="text-900"> Recipientes</span>
                                                     </a>
 
-                                                    <a class="dropdown-item text-danger" href="<?= base_url('clientes/formulario/' . $v['id']) ?>">
-                                                        <span class="text-900 uil uil-pen"></span>
-                                                        <span class="text-900"> Editar</span>
+                                                    <a class="dropdown-item" href="#" onclick="exibirGruposCliente(<?= $v['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalGrupoCliente">
+                                                        <span class="text-900 uil-users-alt"></span>
+                                                        <span class="text-900"> Grupos</span>
                                                     </a>
 
                                                     <a class="dropdown-item text-danger" href="#" onclick="deletaCliente(<?= $v['id'] ?>)">

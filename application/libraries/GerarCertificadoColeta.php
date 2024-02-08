@@ -39,6 +39,7 @@ class GerarCertificadoColeta
 
 		// todos residuos cadastrado na empresa
 		$data['residuosColetatos'] = $historicoColeta['residuos'];
+
 		// dados cliente
 		$data['clientes_coletas'] = $historicoColeta['coleta'];
 		// modelo do certificado

@@ -323,13 +323,12 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
 
     const dataInicio = $('.data-inicio-coleta').val();
     const dataFim = $('.data-fim-coleta').val();
+    const idResiduo = $('.id-residuo-coleta').val();
 
     if (!dataInicio || !dataFim) {
         avisoRetorno('Algo deu errado', 'Seleciona datas para gerar certificado!', 'error', '#')
         return
     }
-
-    $('.modal-historico-coleta').modal('show');
 
     $.ajax({
         type: 'post',
@@ -337,7 +336,8 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
         data: {
             idCliente: idCliente,
             dataInicio: dataInicio,
-            dataFim: dataFim
+            dataFim: dataFim,
+            residuo: idResiduo
         }, beforeSend: function () {
 
             $('.body-coleta').hide();
@@ -345,11 +345,13 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
         }, success: function (data) {
 
             if (data.success) {
-               
-                 $('.input-id-coleta').val(data.coletasId);
+
+                $('.modal-historico-coleta').modal('show');
+
+                $('.input-id-coleta').val(data.coletasId);
 
             } else {
-                avisoRetorno('Algo deu errado', 'Não foi possível encontrar coletas para data selecionada!', 'error', '#')
+                avisoRetorno('Algo deu errado', 'Não foi encontrada nenhuma coleta com essas informações!', 'error', '#')
                 return
             }
 
@@ -370,9 +372,10 @@ $(document).on('click', '.btn-gerar-certificado', function () {
 
     const idModelo = modeloCertificado;
     const coleta = $('.input-id-coleta').val();
+    const idResiduo = $('.id-residuo-coleta').val() != null ? $('.id-residuo-coleta').val() : "";
 
     if (idModelo && coleta) {
-        var redirect = `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}`
+        var redirect = `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}/${idResiduo}`
         window.open(redirect, '_blank');
     } else {
         avisoRetorno('Algo deu errado!', 'Não foi possível encontrar o certificado de coleta.', 'error', `#`);
@@ -430,3 +433,29 @@ const enviarAlertaCliente = () => {
     }
 
 }
+
+$(document).ready(function () {
+    
+    $('#select-frequencia').val('').trigger('change');
+    $('#select-forma-pagamento').val('').trigger('change');
+    $('#select-select-classificacao-cliente').val('').trigger('change');
+
+    $('.select2').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+    });
+})
+
+//Select2 dentro do modal de filtros
+$('.filtros-clientes').click(function(){
+
+    $('.select2').val('all').trigger('change');
+
+    $('.select2').select2({
+            dropdownParent: "#reportsFilterModal",
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+        });
+})

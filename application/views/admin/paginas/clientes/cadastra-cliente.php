@@ -125,8 +125,8 @@
                         <div class="mb-2 mt-5 col-md-3">
                           <div class="mb-2">
                             <label class="form-label text-900">Frequência de coleta *</label>
-                            <select required name="id_frequencia_coleta" class="form-select campo-empresa select-frequencia">
-                              <option value="" selected disabled>Selecione</option>
+                            <select required name="id_frequencia_coleta" class="form-select campo-empresa select-frequencia select2">
+                              <option value="" selected disabled>Selecione a Frequência</option>
 
                               <?php foreach($frequencia as $v) { ?>
                                 <option value="<?= $v['id']?>" <?= (isset($cliente['id_frequencia_coleta']) && $cliente['id_frequencia_coleta'] == $v['id']) ? 'selected' : ''; ?>><?= $v['frequencia'];?></option>
@@ -161,21 +161,6 @@
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
-                          <div class="mb-2">
-                            <label class="form-label text-900">Forma de pagamento</label>
-                            <select required name="id_forma_pagamento" class="form-select campo-empresa select-forma-pagamento">
-                              <option value="" selected disabled>Selecione</option>
-
-                              <?php foreach($formapagamento as $v) { ?>
-                                <option value="<?= $v['id']?>" <?= (isset($cliente['id_forma_pagamento']) && $cliente['id_forma_pagamento'] == $v['id']) ? 'selected' : ''; ?>><?= $v['forma_pagamento'];?></option>
-                              <?php }?>
-
-                            </select>
-                            <div class="invalid-feedback">Preencha este campo</div>
-                          </div>
-                        </div>
-
-                        <div class="mb-2 mt-5 col-md-3">
                           <label class="form-label">Grupo de negócio</label>
                           <input class="form-control campo-empresa" type="text" name="grupo_negocio" value="<?= $cliente['grupo_negocio'] ?? ''; ?>" placeholder="Grupo de negócio" />
                         </div>
@@ -189,8 +174,8 @@
                         <div class="mb-2 mt-5 col-md-3">
                           <div class="mb-2">
                             <label class="form-label text-900">Classificação do Cliente</label>
-                            <select name="id_classificacao_cliente" class="form-select campo-empresa">
-                              <option value="" selected>Selecione</option>
+                            <select name="id_classificacao_cliente" class="form-select campo-empresa select-classificacao-cliente select2">
+                              <option value="" selected>Selecione a Classificação</option>
 
                               <?php foreach($classificacoes as $classificacao) { ?>
                                 <option value="<?= $classificacao['id']?>" <?= (isset($cliente['id_classificacao_cliente']) && $cliente['id_classificacao_cliente'] == $classificacao['id']) ? 'selected' : ''; ?>><?= $classificacao['nome'];?></option>
@@ -200,14 +185,32 @@
                           </div>
                         </div>
 
-                       
+                        <div class="mb-2 mt-5 col-md-3">
+                          <div class="mb-2">
+                            <label class="form-label text-900">Forma de pagamento</label>
+                            <select required name="id_forma_pagamento" class="form-select campo-empresa select-forma-pagamento">
+                              <option value="" selected disabled>Selecione</option>
+
+                              <?php foreach ($formapagamento as $v) { ?>
+                                <option value="<?= $v['id'] ?>" <?= (isset($cliente['id_forma_pagamento']) && $cliente['id_forma_pagamento'] == $v['id']) ? 'selected' : ''; ?>><?= $v['forma_pagamento']; ?></option>
+                              <?php } ?>
+
+                            </select>
+                            <div class="invalid-feedback">Preencha este campo</div>
+
+                          </div>        
+                        </div>
+
+                        <div class="col-md-3 mt-5 mb-2 div-obs-pgto">
+                          <label class="form-label">Observação para a Forma de Pagamento</label>
+                          <textarea name="observacao_pagamento" class="form-control input-obs-pgto campo-empresa" rows="1"><?= isset($cliente['observacao_pagamento']) ? $cliente['observacao_pagamento'] : ''; ?></textarea>
+                        </div>
+
                         <div class="mb-2 col-md-12 mt-5">
                           <label class="form-label">Observação</label>
                           <textarea class="form-control campo-empresa" rows="4" name="observacao" value="<?= $cliente['observacao'] ?? ''; ?>"><?= $cliente['observacao'] ?? ''; ?></textarea>
                         </div>
-
                       </div>
-
                     </form>
                   </div>
 
