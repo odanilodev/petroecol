@@ -573,8 +573,8 @@
                           <p class="fs--1 mb-0">Por<a class="ms-1" href="#!"><?= $coleta['nome_responsavel'] ?></a></p>
                         </div>
 
-                        <div class="cursor-pointer" style="margin-right: 10px;">
-                          <button onclick="detalhesHistoricoColeta(<?= $coleta['ID_COLETA'] ?>)" class="btn btn-phoenix-warning" href="#" title="Ver Detalhes" data-bs-toggle="modal" data-bs-target=".modal-historico-coleta">
+                        <div style="margin-right: 10px;">
+                          <button onclick="detalhesHistoricoColeta(<?= $coleta['ID_COLETA'] ?>)" class="btn btn-phoenix-warning <?= $coleta['coletado'] ? "" : "d-none" ?> " title="Ver Detalhes" data-bs-toggle="modal" data-bs-target=".modal-historico-coleta">
                             <span class="fas fa-eye text-warning"></span>
                           </button>
                         </div>
