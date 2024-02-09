@@ -65,6 +65,14 @@ const cadastraEtiqueta = () => {
 
 const deletarEtiqueta = (id) => {
 
+    let idsAgrupados = agruparIdsCheckbox();
+
+    if(idsAgrupados.length >= 2) {
+        var ids = idsAgrupados;
+    } else {
+        var ids = [id];
+    }
+
     Swal.fire({
         title: 'Você tem certeza?',
         text: "Esta ação não poderá ser revertida",
@@ -83,10 +91,10 @@ const deletarEtiqueta = (id) => {
                 type: 'post',
                 url: `${baseUrl}etiquetas/deletaEtiqueta`,
                 data: {
-                    id: id
+                    ids: ids
                 }, success: function (data) {
 
-                    let redirect = data.type != 'error' ? `${baseUrl}etiquetas` : `${baseUrl}clientes`;
+                    let redirect = !data.redirect ? `${baseUrl}etiquetas` : `${baseUrl}clientes`;
 
                     if (data.id_vinculado) {
 
@@ -107,3 +115,5 @@ const deletarEtiqueta = (id) => {
 
 
 }
+
+

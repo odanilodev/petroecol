@@ -66,25 +66,21 @@ class Etiquetas_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function deletaEtiqueta($id)
+    public function deletaEtiqueta($ids)
     {
-        $this->db->where('id', $id);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where_in('id', $ids);
+        $this->db->where_in('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->delete('ci_etiquetas');
-
-        if ($this->db->affected_rows()) {
-            $this->Log_model->insereLog($id);
+        
+            foreach($ids as $id){
+                if ($this->db->affected_rows()) {
+                    $this->Log_model->insereLog($id);
+            }
         }
 
         return $this->db->affected_rows() > 0;
     }
 
-    public function verificaEtiquetaCliente($id)
-    {
-        $this->db->where('id_etiqueta', $id);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->get('ci_etiqueta_cliente');
 
-        return $this->db->affected_rows() > 0;
-    }
+    
 }
