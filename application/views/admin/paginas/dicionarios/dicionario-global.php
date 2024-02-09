@@ -1,5 +1,5 @@
 <div class="content">
-    <div id="members">
+    <div id="members" data-list='{"valueNames":["Chave", "Valor PT-BR", "Valor EN"],"page":10,"pagination":true}'>
         <div class="row align-items-center justify-content-between g-3 mb-4">
 
             <div class="col-auto">
@@ -30,9 +30,9 @@
                                     </div>
                                 </th>
 
-                                <th class="sort align-middle" scope="col" data-sort="customer">Chave</th>
-                                <th class="sort align-middle" scope="col" data-sort="customer">Valor PT-BR</th>
-                                <th class="sort align-middle" scope="col" data-sort="customer">Valor EN</th>
+                                <th class="sort align-middle" scope="col" data-sort="Chave">Chave</th>
+                                <th class="sort align-middle" scope="col" data-sort="Valor PT-BR">Valor PT-BR</th>
+                                <th class="sort align-middle" scope="col" data-sort="Valor EN">Valor EN</th>
                                 <th class="sort align-middle pe-3">Editar</th>
                                 <th class="sort align-middle pe-3">Excluir</th>
                             </tr>
@@ -49,15 +49,15 @@
                                         </div>
                                     </td>
 
-                                    <td class="email align-middle white-space-nowrap">
+                                    <td class="Chave align-middle white-space-nowrap">
                                         <?= $v['chave'] ?>
                                     </td>
 
-                                    <td class="email align-middle white-space-nowrap">
+                                    <td class="Valor PT-BR align-middle white-space-nowrap">
                                         <?= $v['valor_ptbr'] ?>
                                     </td>
 
-                                    <td class="email align-middle white-space-nowrap">
+                                    <td class="Valor EN align-middle white-space-nowrap">
                                         <?= $v['valor_en'] ?>
                                     </td>
 

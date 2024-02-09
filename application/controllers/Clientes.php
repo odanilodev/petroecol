@@ -291,6 +291,7 @@ class Clientes extends CI_Controller
         $this->Clientes_model->deletaEtiquetaCliente($id);
     }
 
+    // Verifica se o recipiente está vinculado a um cliente
     public function verificaRecipienteCliente()
     {
         $id = $this->input->post('id');
