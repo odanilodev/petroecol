@@ -1,5 +1,5 @@
 <div class="content">
-    <div id="members" data-list='{"valueNames":["customer","email","mobile_number","city","last_active","joined"],"page":10,"pagination":true}'>
+    <div id="members" data-list='{"valueNames":["freq-coleta", "Dia"],"page":10,"pagination":true}'>
         <div class="row align-items-center justify-content-between g-3 mb-4">
 
             <div class="col-auto">
@@ -9,7 +9,15 @@
                 </div>
             </div>
 
-            
+            <div class="col col-auto">
+                <div class="search-box">
+                    <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                        <input class="form-control search-input search" type="search" placeholder="Buscar Frequências" aria-label="Search" />
+                        <span class="fas fa-search search-box-icon"></span>
+
+                    </form>
+                </div>
+            </div>
         </div>
         <div class="px-4 px-lg-6 mb-9 bg-white border-y border-300 mt-2 position-relative top-1">
             <div class="table-responsive scrollbar ms-n1 ps-1">
@@ -22,8 +30,8 @@
                                 </div>
                             </th>
 
-                            <th class="sort align-middle" scope="col" data-sort="customer">Frequencia Coleta</th>
-                            <th class="sort align-middle" scope="col" data-sort="customer">Dia</th>
+                            <th class="sort align-middle" scope="col" data-sort="freq-coleta">Frequencia Coleta</th>
+                            <th class="sort align-middle" scope="col" data-sort="Dia">Dia</th>
                             <th class="sort align-middle pe-3">Editar</th>
                             <th class="sort align-middle pe-3">Excluir</th>
                         </tr>
@@ -40,11 +48,11 @@
                                     </div>
                                 </td>
 
-                                <td class="align-middle white-space-nowrap">
+                                <td class="freq-coleta align-middle white-space-nowrap">
                                     <?= $v['frequencia'] ?>
                                 </td>
 
-                                <td class="align-middle white-space-nowrap">
+                                <td class="Dia align-middle white-space-nowrap">
                                     <?= $v['dia'] ?>
                                 </td>
 

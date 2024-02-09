@@ -50,15 +50,15 @@
                                         </div>
                                     </td>
 
-                                    <td class="align-middle white-space-nowrap">
+                                    <td class="align-middle white-space-nowrap" title="<?=$v['texto_alerta']?>">
                                         <?= $v['titulo'] ?>
                                     </td>
 
-                                    <td class="align-middle white-space-nowrap col-mb-2">
+                                    <td class="align-middle white-space-nowrap col-mb-2" title="<?=$v['texto_alerta']?>">
                                         <?= (strlen($v['texto_alerta']) > 100) ? substr($v['texto_alerta'], 0, 80) . '...' : $v['texto_alerta']; ?>
                                     </td>
 
-                                    <td class="align-middle white-space-nowrap">
+                                    <td class="align-middle white-space-nowrap" >
                                         <i data-feather="check-circle" class="<?= ($v['status'] == 1) ? 'text-success' : '' ?>"></i>
                                     </td>
 
