@@ -29,7 +29,7 @@
                             <th class="white-space-nowrap fs--1 align-middle ps-0">
                                 <!-- Check para todos -->
                                 <div class="form-check mb-0 fs-0">
-                                    <input class="form-check-input check-all-element" type="checkbox"/>
+                                    <input class="form-check-input check-all-element cursor-pointer" type="checkbox"/>
                                 </div>
                             </th>
 
@@ -47,7 +47,7 @@
                                 <!-- check para cada um -->
                                 <td class="fs--1 align-middle ps-0 py-3">
                                     <div class="form-check mb-0 fs-0">
-                                        <input class="form-check-input check-element" type="checkbox" value="<?= $v['id'] ?>"/>
+                                        <input class="form-check-input check-element cursor-pointer" type="checkbox" value="<?= $v['id'] ?>"/>
                                     </div>
                                 </td>
 

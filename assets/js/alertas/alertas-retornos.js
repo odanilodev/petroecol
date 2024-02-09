@@ -4,17 +4,17 @@ const avisoRetorno = (titulo, texto, icone, redirect) => {
     Swal.fire({
         title: `${titulo}`,
         text: `${texto}`,
-        icon: `${icone}`
-
+        icon: `${icone}`,
+        allowOutsideClick: false,
     }).then((result) => {
 
         if (result.isConfirmed) {
-
             window.location.href = `${redirect}`;
         }
     });
 
 }
+
 
 const avisoRetornoFilter = (titulo, texto, icone, redirect, id_filter, input, txtConfirmarBotao) => {
 
@@ -27,7 +27,7 @@ const avisoRetornoFilter = (titulo, texto, icone, redirect, id_filter, input, tx
         cancelButtonColor: '#d33',
         cancelButtonText: 'Cancelar',
         confirmButtonText: `${txtConfirmarBotao}`,
-
+        allowOutsideClick: false, 
     }).then((result) => {
 
         if (result.isConfirmed) {

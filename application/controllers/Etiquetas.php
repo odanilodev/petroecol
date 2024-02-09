@@ -182,7 +182,7 @@ class Etiquetas extends CI_Controller
 					$response = array(
 							'success' => false,
 							'title' => "Algo deu errado!",
-							'message' => "Não foi possível deletar a(s) etiqueta(s) pois existem Clientes vinculados a elas!",
+							'message' => "Não foi possível deletar as etiquetas pois existem Clientes vinculados a elas!",
 							'type' => "error",
 							'redirect' => false
 					);
