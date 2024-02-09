@@ -81,20 +81,6 @@ class Etiquetas_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function verificaEtiquetaCliente($id)
-    {
-        $this->db->select('EC.id_etiqueta, GROUP_CONCAT(DISTINCT E.nome) as nomes_etiquetas');
-        $this->db->from('ci_etiqueta_cliente EC');
-        $this->db->where_in('EC.id_etiqueta', $id);
-        $this->db->where('EC.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->join('ci_etiquetas E', 'E.id = EC.id_etiqueta', 'left');
-        $this->db->group_by('EC.id_etiqueta');
 
-        $query = $this->db->get();
-
-        $etiquetaVinculada = $query->result_array();
-
-        return $etiquetaVinculada;
-    }
     
 }

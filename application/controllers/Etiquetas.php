@@ -113,13 +113,15 @@ class Etiquetas extends CI_Controller
 
 	public function deletaEtiqueta()
 	{
+			$this->load->model('EtiquetaCliente_model');
+
 			$ids = $this->input->post('ids');
 	
 			$vinculadas = [];
 			$naoVinculadas = [];
 	
 			foreach ($ids as $id) {
-					$retorno = $this->Etiquetas_model->verificaEtiquetaCliente($id);
+					$retorno = $this->EtiquetaCliente_model->verificaEtiquetaCliente($id);
 	
 					if ($retorno) {
 							$vinculadas[] = $id;
@@ -149,7 +151,7 @@ class Etiquetas extends CI_Controller
 							$type = "success";
 
 							if (!empty($vinculadas)) {
-								$nomesEtiquetas = $this->Etiquetas_model->verificaEtiquetaCliente($vinculadas);
+								$nomesEtiquetas = $this->EtiquetaCliente_model->verificaEtiquetaCliente($vinculadas);
 						
 								$nomeEtiqueta = '';
 						
