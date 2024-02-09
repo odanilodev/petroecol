@@ -1,5 +1,5 @@
 <div class="content">
-    <div id="members" data-list='{"valueNames":["customer","email","mobile_number","city","last_active","joined"],"page":10,"pagination":true}'>
+    <div id="members" data-list='{"valueNames":["nome-etiqueta"],"page":10,"pagination":true}'>
         <div class="row align-items-center justify-content-between g-3 mb-4">
 
             <div class="col-auto">
@@ -33,7 +33,7 @@
                                 </div>
                             </th>
 
-                            <th class="sort align-middle" scope="col" data-sort="customer">Etiqueta</th>
+                            <th class="sort align-middle" scope="col" data-sort="nome-etiqueta">Etiqueta</th>
                             <th class="sort align-middle pe-3">Editar</th>
                             <th class="sort align-middle pe-3">Excluir</th>
                         </tr>
@@ -51,7 +51,7 @@
                                     </div>
                                 </td>
 
-                                <td class="email align-middle white-space-nowrap">
+                                <td class="nome-etiqueta align-middle white-space-nowrap">
                                     <?= $v['nome'] ?>
                                 </td>
 
