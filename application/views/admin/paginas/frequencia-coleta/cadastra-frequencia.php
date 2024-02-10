@@ -27,7 +27,8 @@
                                                 <input type="hidden" class="input-id" value="<?= $frequencia['id'] ?? ''; ?>">
 
                                                 <div class="col-md-6 mb-3">
-                                                    <label class="form-label">Frequência:</label>
+                                                    <label class="form-label p-0">Frequência</label>
+                                                    <?=botao_info(chave('frequencia-formulario-botao-info'));?>
                                                     <input class="form-control input-frequencia input-obrigatorio" type="text" placeholder="Escolha o nome para a frequência" value="<?= $frequencia['frequencia'] ?? ''; ?>">
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                                                 </div>

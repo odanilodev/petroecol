@@ -126,6 +126,7 @@
                 <div class="add-residuo w-100 my-3 mb-4">
 
                     <label>Valor</label>
+                    <?=botao_info(chave('clientes-menu-residuos-valor'))?>
                     <input type="text" class="w-100 form-control" placeholder="Valor" id="valor-pagamento-residuo">
 
                 </div>
