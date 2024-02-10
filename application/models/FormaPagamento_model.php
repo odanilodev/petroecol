@@ -12,10 +12,12 @@ class FormaPagamento_model extends CI_Model
 
     public function recebeFormasPagamento()
     {
+        $this->db->select('FP.*, TP.nome AS TIPO_PAGAMENTO');
         $this->db->order_by('forma_pagamento', 'DESC');
+        $this->db->join('ci_tipo_pagamento TP', 'TP.id = FP.id_tipo_pagamento', 'left');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('ci_forma_pagamento');
-
+        $query = $this->db->get('ci_forma_pagamento FP');
+    
         return $query->result_array();
     }
 

@@ -3,6 +3,7 @@ var baseUrl = $(".base-url").val();
 const cadastraFormaPagamento = () => {
 
 	let formaPagamento = $(".input-formapagamento").val();
+	let tipoPagamento = $(".input-tipopagamento").val();
 	let id = $(".input-id").val();
 
     //Verificação de campo vazio e permissao para cadastrar
@@ -30,7 +31,8 @@ const cadastraFormaPagamento = () => {
 			url: `${baseUrl}formaPagamento/cadastraFormaPagamento`,
 			data: {
 				formaPagamento: formaPagamento,
-				id: id,
+				tipoPagamento: tipoPagamento,
+				id: id
 			},
 			beforeSend: function () {
 				$(".load-form").removeClass("d-none");

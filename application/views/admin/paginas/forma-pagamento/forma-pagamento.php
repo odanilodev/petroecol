@@ -1,5 +1,5 @@
 <div class="content">
-    <div id="members" data-list='{"valueNames":["customer","email","mobile_number","city","last_active","joined"],"page":10,"pagination":true}'>
+    <div id="members" data-list='{"valueNames":["forma-pagamento", "tipo-pagamento"],"page":10,"pagination":true}'>
         <div class="row align-items-center justify-content-between g-3 mb-4">
 
             <div class="col-auto">
@@ -30,7 +30,8 @@
                                 </div>
                             </th>
 
-                            <th class="sort align-middle" scope="col" data-sort="customer">Forma de Pagamento</th>
+                            <th class="sort align-middle" scope="col" data-sort="forma-pagamento">Forma de Pagamento</th>
+                            <th class="sort align-middle" scope="col" data-sort="tipo-pagamento">Tipo de Pagamento</th>
                             <th class="sort align-middle pe-3">Editar</th>
                             <th class="sort align-middle pe-3">Excluir</th>
                         </tr>
@@ -47,8 +48,11 @@
                                     </div>
                                 </td>
 
-                                <td class="align-middle white-space-nowrap">
+                                <td class="forma-pagamento align-middle white-space-nowrap">
                                     <?= $v['forma_pagamento'] ?>
+                                </td>
+                                <td class="tipo-pagamento align-middle white-space-nowrap">
+                                    <?= $v['TIPO_PAGAMENTO'] ?>
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
