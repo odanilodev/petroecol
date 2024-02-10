@@ -12,7 +12,7 @@
             <div class="col col-auto">
                 <div class="d-flex mb-3">
                     <div class="search-box me-2">
-                        <form method="POST" action="<?=base_url('dicionario/chavesGlobais')?>" class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                        <form method="POST" action="<?= base_url('dicionario/chavesGlobais') ?>" class="position-relative" data-bs-toggle="search" data-bs-display="static">
                             <input name="chave" value="<?= $cookie_filtro_dicionario['chave'] ?? null ?>" class="form-control search-input search" type="search" placeholder="Buscar Chave" aria-label="Search">
                             <span class="fas fa-search search-box-icon"></span>
                         </form>
@@ -30,9 +30,9 @@
                                     </div>
                                 </th>
 
-                                <th class="sort align-middle" scope="col" data-sort="customer">Chave</th>
-                                <th class="sort align-middle" scope="col" data-sort="customer">Valor PT-BR</th>
-                                <th class="sort align-middle" scope="col" data-sort="customer">Valor EN</th>
+                                <th class="sort align-middle" scope="col">Chave</th>
+                                <th class="sort align-middle" scope="col">Valor PT-BR</th>
+                                <th class="sort align-middle" scope="col">Valor EN</th>
                                 <th class="sort align-middle pe-3">Editar</th>
                                 <th class="sort align-middle pe-3">Excluir</th>
                             </tr>
@@ -45,20 +45,21 @@
 
                                     <td class="fs--1 align-middle ps-0 py-3">
                                         <div class="form-check mb-0 fs-0">
-                                            <input class="form-check-input" type="checkbox" data-bulk-select-row='' />
+                                            <input class="form-check-input" type="checkbox" />
                                         </div>
                                     </td>
 
-                                    <td class="email align-middle white-space-nowrap">
-                                        <?= $v['chave'] ?>
+                                    <td class="align-middle white-space-nowrap" title="<?=$v['chave']?>">
+                                    <?= (mb_strlen($v['chave']) > 50) ? mb_substr($v['chave'], 0, 50) . '...' : $v['chave']; ?>
+
                                     </td>
 
-                                    <td class="email align-middle white-space-nowrap">
-                                        <?= $v['valor_ptbr'] ?>
+                                    <td class="align-middle white-space-nowrap" title="<?=$v['valor_ptbr']?>">
+                                        <?= (mb_strlen($v['valor_ptbr']) > 50) ? mb_substr($v['valor_ptbr'], 0, 50) . '...' : $v['valor_ptbr']; ?>
                                     </td>
 
-                                    <td class="email align-middle white-space-nowrap">
-                                        <?= $v['valor_en'] ?>
+                                    <td class="align-middle white-space-nowrap" title="<?=$v['valor_en']?>">
+                                        <?= (mb_strlen($v['valor_en']) > 50) ? mb_substr($v['valor_en'], 0, 50) . '...' : $v['valor_en']; ?>
                                     </td>
 
                                     <td class="align-middle white-space-nowrap">

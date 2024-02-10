@@ -72,9 +72,9 @@ class Setores_model extends CI_Model
         $this->db->where_in('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->delete('ci_setores');
 
-            foreach($ids as $id){
-                if ($this->db->affected_rows()) {
-                    $this->Log_model->insereLog($id);
+        foreach($ids as $id){
+            if ($this->db->affected_rows()) {
+                $this->Log_model->insereLog($id);
             }
         }
 

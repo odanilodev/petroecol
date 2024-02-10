@@ -116,65 +116,73 @@ class Setores extends CI_Controller
 		$naoVinculados = [];
 
 		foreach ($ids as $id) {
-				$retorno = $this->Usuarios_model->verificaSetorUsuario($id);
+			$retorno = $this->Usuarios_model->verificaSetorUsuario($id);
 
-				if ($retorno) {
-						$vinculados[] = $id;
-				} else {
-						$naoVinculados[] = $id;
-				}
-		}
-
-		if (count($vinculados) == 1) {
-				$response = array(
-						'success' => false,
-						'title' => "Algo deu errado!",
-						'id_vinculado' => $vinculados[0],
-						'message' => "Existem um ou mais usuários vinculados a este setor. Não é possível excluí-lo.",
-						'type' => "error",
-						'redirect' => false
-				);
-
-				return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-		}
-
-		if (!empty($naoVinculados)) {
-				$retornoSetorDeletado = $this->Setores_model->deletaSetor($naoVinculados);
-
-				if ($retornoSetorDeletado) {
-						$message = "Setor(es) deletado(s) com sucesso!";
-						$type = "success";
-
-						if (!empty($vinculados)) {
-							$nomesSetores = $this->Setores_model->verificaSetorUsuario($vinculados);
-
-							$nomeSetor = '';
-
-							for ($i = 0; $i < count($nomesSetores); $i++) {
-
-									$nomeSetor .= $nomesSetores[$i]['nomes_setores'];
-
-									if ($i < count($nomesSetores) - 1) {
-											$nomeSetor .= ', ';
-									}
-							}
-
-							$message = "Os seguintes setores não foram deletadas pois estão vinculados a usuários: " . $nomeSetor;
-							$type = "warning";
-					}
-
-
-						$response = array(
-								'success' => true,
-								'title' => "Atenção!",
-								'message' => $message,
-								'type' => $type,
-								'redirect' => false
-						);
+			if ($retorno) {
+				$vinculados[] = $id;
+			} else {
+				$naoVinculados[] = $id;
 			}
 		}
 
-		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+		if (count($vinculados) == 1) {
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'id_vinculado' => $vinculados[0],
+				'message' => "Existem um ou mais usuários vinculados a este setor. Não é possível excluí-lo.",
+				'type' => "error",
+				'redirect' => false
+			);
 
+			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+		}
+
+		if (!empty($naoVinculados)) {
+			$retornoSetorDeletado = $this->Setores_model->deletaSetor($naoVinculados);
+
+			if ($retornoSetorDeletado) {
+				$message = "Setor(es) deletado(s) com sucesso!";
+				$type = "success";
+
+				if (!empty($vinculados)) {
+					$nomesSetores = $this->Usuarios_model->verificaSetorUsuario($vinculados);
+
+					$nomeSetor = '';
+
+					for ($i = 0; $i < count($nomesSetores); $i++) {
+
+						$nomeSetor .= $nomesSetores[$i]['NOMES_SETORES'];
+
+						if ($i < count($nomesSetores) - 1) {
+							$nomeSetor .= ', ';
+						}
+					}
+
+					$message = "Os seguintes setores não foram deletadas pois estão vinculados a usuários: " . $nomeSetor;
+					$type = "warning";
+				}
+
+
+				$response = array(
+					'success' => true,
+					'title' => "Atenção!",
+					'message' => $message,
+					'type' => $type,
+					'redirect' => false
+				);
+			}
+
+		} else {
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Não foi possível deletar as etiquetas pois existem Clientes vinculados a elas!",
+				'type' => "error",
+				'redirect' => false
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 }

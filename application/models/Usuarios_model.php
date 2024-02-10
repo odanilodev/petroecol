@@ -155,12 +155,12 @@ class Usuarios_model extends CI_Model
     
     public function verificaSetorUsuario($id)
     {
-        $this->db->select('U.id_setor, GROUP_CONCAT(DISTINCT S.nome) as nomes_SETORES');
+        $this->db->select('U.id_setor, GROUP_CONCAT(DISTINCT S.nome) as NOMES_SETORES');
         $this->db->from('ci_usuarios U');
         $this->db->where_in('U.id_setor', $id);
         $this->db->where('U.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->join('ci_setores S', 'S.id = U.id_setor', 'left');
-        $this->db->group_by('EC.id_setor');
+        $this->db->group_by('U.id_setor');
 
         $query = $this->db->get();
 
