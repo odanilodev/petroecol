@@ -1,5 +1,24 @@
 var baseUrl = $('.base-url').val();
 
+$(document).on('change', '#forma-pagamento-residuo', function () {
+
+    if ($('#forma-pagamento-residuo option:selected').data('id-tipo-pagamento') == "1") {
+
+        $('#valor-pagamento-residuo').attr('type', 'text');
+
+        $('#valor-pagamento-residuo').mask('000.000.000.000.000,00', {reverse: true});
+        
+        $('#valor-pagamento-residuo').val('');
+
+
+    } else {
+
+        $('#valor-pagamento-residuo').attr('type', 'number');
+        $('#valor-pagamento-residuo').unmask();
+
+    }
+})
+
 const cadastraResiduoCliente = () => {
 
     let idCliente = $('.id-cliente').val();
@@ -11,6 +30,8 @@ const cadastraResiduoCliente = () => {
     let idPagamento = $('#forma-pagamento-residuo option:selected').val();
 
     let valorPagamento = $('#valor-pagamento-residuo').val();
+
+    let idTipoPagamento = $('#forma-pagamento-residuo option:selected').data('id-tipo-pagamento');
 
     permissao = true;
 
@@ -37,7 +58,8 @@ const cadastraResiduoCliente = () => {
                 nome_residuo: nomeResiduo,
                 forma_pagamento: idPagamento,
                 valor_pagamento: valorPagamento,
-                editarResiduo: editarResiduo
+                editarResiduo: editarResiduo,
+                idTipoPagamento: idTipoPagamento
             },
             beforeSend: function () {
 

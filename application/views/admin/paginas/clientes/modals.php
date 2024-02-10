@@ -116,7 +116,7 @@
 
                         <option disabled selected value="">Selecione a forma de pagamento</option>
                         <?php foreach ($formasPagamento as $formaPagamento) { ?>
-                            <option value="<?= $formaPagamento['id'] ?>"><?= $formaPagamento['forma_pagamento']; ?></option>
+                            <option value="<?= $formaPagamento['id'] ?>" data-id-tipo-pagamento="<?= $formaPagamento['id_tipo_pagamento']?>"><?= $formaPagamento['forma_pagamento']; ?></option>
                         <?php } ?>
 
                     </select>
@@ -126,7 +126,7 @@
                 <div class="add-residuo w-100 my-3 mb-4">
 
                     <label>Valor</label>
-                    <input type="number" class="w-100 form-control" placeholder="Valor" id="valor-pagamento-residuo">
+                    <input type="text" class="w-100 form-control" placeholder="Valor" id="valor-pagamento-residuo">
 
                 </div>
             </div>

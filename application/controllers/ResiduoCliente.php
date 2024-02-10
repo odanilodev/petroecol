@@ -32,6 +32,20 @@ class ResiduoCliente extends CI_Controller
 		$id_residuo = $this->input->post('id_residuo');
 		$editar = $this->input->post('editarResiduo');
 
+		$dados['id_residuo'] = $id_residuo;
+		$dados['id_forma_pagamento'] = $this->input->post('forma_pagamento');
+		$dados['valor_forma_pagamento'] = $this->input->post('valor_pagamento');
+		$teste['tipo_forma_pagamento'] = $this->input->post('idTipoPagamento');
+		
+		//Verificação para o tipo de pagamento
+		if ($teste['tipo_forma_pagamento'] == 1) {
+			$valor_pagamento = str_replace(',', '.', $this->input->post('valor_pagamento'));
+   		// Adiciona '.00' ao final se não houver parte decimal
+   		$dados['valor_forma_pagamento'] = (strpos($valor_pagamento, '.') === false) ? $valor_pagamento . '.00' : $valor_pagamento;
+	} else {
+			$dados['valor_forma_pagamento'] = intval(str_replace(['.', ','], '', $this->input->post('valor_pagamento')));
+	}
+
 		// todos resíduos do cliente
 		$residuosNoBanco = $this->ResiduoCliente_model->recebeResiduoCliente($dados['id_cliente']);
 
@@ -39,10 +53,6 @@ class ResiduoCliente extends CI_Controller
 		if (in_array($id_residuo, array_column($residuosNoBanco, 'id_residuo'))) {
 
 			if ($editar == 'editando') {
-
-				$dados['id_residuo'] = $id_residuo;
-				$dados['id_forma_pagamento'] = $this->input->post('forma_pagamento');
-				$dados['valor_forma_pagamento'] = $this->input->post('valor_pagamento');
 
 				if($this->ResiduoCliente_model->editaResiduoCliente($id_residuo, $dados['id_cliente'], $dados)){
 
@@ -66,10 +76,6 @@ class ResiduoCliente extends CI_Controller
 			}
 
 		} else {
-			
-			$dados['id_residuo'] = $id_residuo;
-			$dados['id_forma_pagamento'] = $this->input->post('forma_pagamento');
-			$dados['valor_forma_pagamento'] = $this->input->post('valor_pagamento');
 
 			$inseridoId = $this->ResiduoCliente_model->insereResiduoCliente($dados);
 
