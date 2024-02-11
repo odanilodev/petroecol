@@ -81,6 +81,7 @@ class Relatorios extends CI_Controller
 		foreach ($idColetaClientes as $idColeta) {
 			$historicoColeta = $this->detalhescoleta->detalheColeta($idColeta);
 			$array['dataColeta'] = date('d/m/Y', strtotime($historicoColeta['coleta']['data_coleta']));
+			$array['motorista'] = $historicoColeta['coleta']['nome_responsavel'];
 			$array['residuos'] = json_decode($historicoColeta['coleta']['residuos_coletados'], true);
 			$array['quantidade_coletada'] = json_decode($historicoColeta['coleta']['quantidade_coletada'], true);
 			$array['pagamentos'] = json_decode($historicoColeta['coleta']['forma_pagamento'], true);
@@ -99,10 +100,6 @@ class Relatorios extends CI_Controller
 
 
 		$data['dados'] = $this->estruturaColetas($dados);
-
-		echo '<pre>';
-		print_r($data);
-		exit;
 
 		if ($dados) {
 
@@ -131,20 +128,24 @@ class Relatorios extends CI_Controller
 	public function estruturaColetas($data)
 	{
 
-		// echo '<pre>';
-		// print_r($data);
-		// exit;
 		$array = [];
 		$dados = [];
+		$i = 0;
 		foreach ($data as $dado) {
 
-			if (in_array($dado['cliente']['id'], $array)) {
-				array_push($dados[$dado['cliente']['id']]['coletas'], $dado['dataColeta']);
-			} else {
+			if (!in_array($dado['cliente']['id'], $array)) {
 				array_push($array, $dado['cliente']['id']);
 				$dados[$dado['cliente']['id']] = $dado['cliente'];
-				$dados[$dado['cliente']['id']]['coletas'][] = $dado['dataColeta'];
 			}
+
+			$dados[$dado['cliente']['id']]['coletas'][$i]['data_coleta'] = $dado['dataColeta'];
+			$dados[$dado['cliente']['id']]['coletas'][$i]['motorista'] = $dado['motorista'];
+			$dados[$dado['cliente']['id']]['coletas'][$i]['residuos'] = $dado['residuos'];
+			$dados[$dado['cliente']['id']]['coletas'][$i]['quantidade_coletada'] = $dado['quantidade_coletada'];
+			$dados[$dado['cliente']['id']]['coletas'][$i]['pagamentos'] = $dado['pagamentos'];
+			$dados[$dado['cliente']['id']]['coletas'][$i]['valor_pagamento'] = $dado['valor_pagamento'];
+
+			$i++;
 		}
 		return $dados;
 	}

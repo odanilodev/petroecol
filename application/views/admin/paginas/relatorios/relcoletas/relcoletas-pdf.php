@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Certificado</title>
+    <title>Relatório de Coleta</title>
 
     <style>
         table {
@@ -43,57 +43,171 @@
 
     <div style="width: 100%;">
 
-        <div style="padding: 5px" align="center">
-            <!-- <img src="<?= base_url_upload('certificados/logos/' . $modelo_certificado['logo']) ?>" style="max-width: 200px; max-height: 100px;"> -->
-
-            <p align="center" style="font-size: 12px;">
-                descrição do bagulho
-            </p>
-
-        </div>
-
         <div style="margin-top: 5px">
             <h3 style="font-weight: bold; text-transform:uppercase">Relatório de clientes </h3>
+            <h3 style="font-weight: bold; text-transform:uppercase">PETROECOL SOLUÇÕES AMBIENTAIS</h3>
         </div>
 
         <div style="margin-top: 10px;">
-            
 
+            <?php
+            $movimentacoes_por_residuo_geral = 0;
+            $movimentado_geral = [];
+            $valor_total_geral = [];
+            ?>
+
+            <?php foreach ($dados as $id_cliente => $dado) { ?>
+
+                <h3 style="font-weight: bold; text-transform:uppercase"><?= $dado['razao_social'] ?></h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 15px;" scope="col">Data</th>
+                            <th style="width: 15px;" scope="col">Motorista</th>
+                            <th style="width: 15px;" scope="col">Valor</th>
+                            <th style="width: 15px;" scope="col">Movimentado</th>
+                            <th style="width: 15px;" scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <?php
+                        $movimentacoes_por_residuo = 0;
+                        $movimentado = [];
+                        $valor_total = [];
+
+                        foreach ($dado['coletas'] as $coleta) : ?>
+
+                            <tr>
+                                <td style="width: 15px;"><?= $coleta['data_coleta'] ?></td>
+                                <td style="width: 15px;"><?= $coleta['motorista'] ?></td>
+                                <td style="width: 15px;">R$1.80</td>
+
+                                <td style="width: 15px;">
+
+                                    <?php
+                                    foreach ($coleta['residuos'] as $key => $residuo) :
+
+                                        if (!is_numeric($coleta['quantidade_coletada'][$key])) {
+                                            $coleta['quantidade_coletada'][$key] = 0;
+                                        }
+
+                                        if (isset($movimentado[$residuo])) {
+                                            $movimentado[$residuo] += $coleta['quantidade_coletada'][$key] ?? 0;
+                                        } else {
+                                            $movimentado[$residuo] = $coleta['quantidade_coletada'][$key] ?? 0;
+                                        }
+
+
+                                        echo '<p>' . ($coleta['quantidade_coletada'][$key] ?? 0) . ' ' . $residuos[$residuo] . '</p>';
+
+                                        $movimentacoes_por_residuo++;
+                                        $movimentacoes_por_residuo_geral++;
+
+                                    endforeach;
+
+                                    ?>
+
+
+                                </td>
+
+                                <td style="width: 15px;">
+
+                                    <?php
+
+                                    foreach ($coleta['pagamentos'] as $key => $pagamento) :
+
+                                        if (!is_numeric($coleta['valor_pagamento'][$key])) {
+                                            $coleta['valor_pagamento'][$key] = 0;
+                                        }
+
+                                        if (isset($valor_total[$pagamento])) {
+                                            $valor_total[$pagamento] += $coleta['valor_pagamento'][$key] ?? 0;
+                                        } else {
+                                            $valor_total[$pagamento] = $coleta['valor_pagamento'][$key] ?? 0;
+                                        }
+
+                                        echo '<p>' . ($coleta['valor_pagamento'][$key] ?? 0) . ' ' . $formasPagamento[$pagamento] . '</p>';
+
+                                    endforeach;
+
+                                    ?>
+
+                                </td>
+                            </tr>
+
+                        <?php endforeach; ?>
+
+                        <tr>
+                            <td colspan="3" align="center" style="width: 45px;"><?= $movimentacoes_por_residuo ?> movimentações</td>
+                            <td style="width: 15px;">
+
+                                <?php
+                                foreach ($movimentado as $key => $mov) {
+
+                                    if (isset($movimentado_geral[$key])) {
+                                        $movimentado_geral[$key] += $mov;
+                                    } else {
+                                        $movimentado_geral[$key] = $mov;
+                                    }
+
+                                    echo '<p>' . $mov . ' ' . $residuos[$key] . '</p>';
+                                }
+                                ?>
+
+                            </td>
+                            <td style="width: 15px;">
+
+                                <?php
+                                foreach ($valor_total as $key => $val) {
+
+                                    if (isset($valor_total_geral[$key])) {
+                                        $valor_total_geral[$key] += $val;
+                                    } else {
+                                        $valor_total_geral[$key] = $val;
+                                    }
+
+                                    echo '<p>' . $val . ' ' . $formasPagamento[$key] . '</p>';
+                                }
+                                ?>
+
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            <?php } ?>
+
+
+            <h3 style="font-weight: bold; text-transform:uppercase">TOTAIS</h3>
             <table class="table">
                 <tbody>
 
                     <tr>
-                        <td style="width: 15px;">4 movimentações</td>
-                        <td style="width: 15px;">150.00 L</td>
-                        <td style="width: 350px !important;">75.00 L/Movimentação</td>
-                        <td style="width: 15px;">R$-1.80/L</td>
-                        <td style="width: 15px;">R$-270.00</td>
-                    </tr>
+                        <td align="center" style="width: 45px;"><?= $movimentacoes_por_residuo_geral ?> movimentações</td>
+                        <td colspan="2" style="width: 15px;">
 
-                </tbody>
-                <thead>
-                    <tr>
-                        <th style="width: 15px;" scope="col">Data</th>
-                        <th style="width: 15px;" scope="col">Movimentado</th>
-                        <th style="width: 25px;" scope="col">Valor</th>
-                        <th style="width: 15px;" scope="col">Motorista</th>
-                        <th style="width: 15px;" scope="col">Veículo</th>
-                    </tr>
-                </thead>
-                <tbody>
+                            <?php
+                            foreach ($movimentado_geral as $key => $mov) {
+                                echo '<p>' . $mov . ' ' . $residuos[$key] . '</p>';
+                            }
+                            ?>
 
-                    <tr>
-                        <td style="width: 15px;">442</td>
-                        <td style="width: 15px;">32323232</td>
-                        <td style="width: 25px;">32323232</td>
-                        <td style="width: 15px;">32323232</td>
-                        <td style="width: 15px;">32323232</td>
+                        </td>
+                        <td colspan="2" style="width: 15px;">
+
+                            <?php
+                            foreach ($valor_total_geral as $key => $val) {
+                                echo '<p>' . $val . ' ' . $formasPagamento[$key] . '</p>';
+                            }
+                            ?>
+
+                        </td>
                     </tr>
 
                 </tbody>
             </table>
-
-
 
         </div>
 

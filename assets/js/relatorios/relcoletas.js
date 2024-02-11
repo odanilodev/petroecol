@@ -41,7 +41,8 @@ const relatorioColetas = () => {
         var form = $('<form>', {
             'action': `${baseUrl}relatorios/gerarRelatorioColetas`,
             'method': 'post',
-            'style': 'display: none;'
+            'style': 'display: none;',
+            'target': '_blank'
         });
 
         form.append($('<input>', {
