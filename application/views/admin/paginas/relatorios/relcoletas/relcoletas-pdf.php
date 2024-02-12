@@ -89,42 +89,46 @@
 
                                     <?php
                                     $valor_base_cliente = '';
-                                    foreach ($coleta['residuos'] as $key => $residuo) :
+                                    if ($coleta['residuos']) {
 
-                                        if (!is_numeric($coleta['quantidade_coletada'][$key])) {
-                                            $coleta['quantidade_coletada'][$key] = 0;
-                                        }
 
-                                        if (isset($movimentado[$residuo])) {
+                                        foreach ($coleta['residuos'] as $key => $residuo) :
 
-                                            $movimentado[$residuo] += $coleta['quantidade_coletada'][$key] ?? 0;
-                                            if (isset($residuoPagamentoCliente[$id_cliente])) {
-                                                $valor_total_mensal[$residuoPagamentoCliente[$id_cliente][$residuo][1]] += ($coleta['quantidade_coletada'][$key] ?? 0) * ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0);
+                                            if (!is_numeric($coleta['quantidade_coletada'][$key])) {
+                                                $coleta['quantidade_coletada'][$key] = 0;
                                             }
-                                        } else {
 
-                                            $movimentado[$residuo] = $coleta['quantidade_coletada'][$key] ?? 0;
+                                            if (isset($movimentado[$residuo])) {
+
+                                                $movimentado[$residuo] += $coleta['quantidade_coletada'][$key] ?? 0;
+                                                if (isset($residuoPagamentoCliente[$id_cliente])) {
+                                                    $valor_total_mensal[$residuoPagamentoCliente[$id_cliente][$residuo][1]] += ($coleta['quantidade_coletada'][$key] ?? 0) * ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0);
+                                                }
+                                            } else {
+
+                                                $movimentado[$residuo] = $coleta['quantidade_coletada'][$key] ?? 0;
+
+                                                if (isset($residuoPagamentoCliente[$id_cliente])) {
+                                                    $valor_total_mensal[$residuoPagamentoCliente[$id_cliente][$residuo][1]] = ($coleta['quantidade_coletada'][$key] ?? 0) * ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0);
+                                                }
+                                            }
+
+                                            if ($filtrar_geral) {
+                                                echo '<p>' . ($coleta['quantidade_coletada'][$key] ?? 0) . ' ' . $residuos[$residuo] . '</p>';
+                                            } else {
+                                                echo '<p>' . ($coleta['quantidade_coletada'][$key] ?? 0) . ' ' . $residuos[$residuo] . ' (' . ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0) . ')</p>';
+                                            }
+
 
                                             if (isset($residuoPagamentoCliente[$id_cliente])) {
-                                                $valor_total_mensal[$residuoPagamentoCliente[$id_cliente][$residuo][1]] = ($coleta['quantidade_coletada'][$key] ?? 0) * ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0);
+                                                $valor_base_cliente .= '<p>' . ($coleta['quantidade_coletada'][$key] ?? 0) * ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0) . ' ' . ($formasPagamento[$residuoPagamentoCliente[$id_cliente][$residuo][1]] ?? '') . '</p>';
                                             }
-                                        }
 
-                                        if ($filtrar_geral) {
-                                            echo '<p>' . ($coleta['quantidade_coletada'][$key] ?? 0) . ' ' . $residuos[$residuo] . '</p>';
-                                        } else {
-                                            echo '<p>' . ($coleta['quantidade_coletada'][$key] ?? 0) . ' ' . $residuos[$residuo] . ' (' . ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0) . ')</p>';
-                                        }
+                                            $movimentacoes_por_residuo++;
+                                            $movimentacoes_por_residuo_geral++;
 
-
-                                        if (isset($residuoPagamentoCliente[$id_cliente])) {
-                                            $valor_base_cliente .= '<p>' . ($coleta['quantidade_coletada'][$key] ?? 0) * ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0) . ' ' . ($formasPagamento[$residuoPagamentoCliente[$id_cliente][$residuo][1]] ?? '') . '</p>';
-                                        }
-
-                                        $movimentacoes_por_residuo++;
-                                        $movimentacoes_por_residuo_geral++;
-
-                                    endforeach;
+                                        endforeach;
+                                    }
 
                                     ?>
 
@@ -134,23 +138,25 @@
                                 <td style="width: 15px; display:none">
 
                                     <?php
+                                    if ($coleta['pagamentos']) {
 
-                                    foreach ($coleta['pagamentos'] as $key => $pagamento) :
 
-                                        if (!is_numeric($coleta['valor_pagamento'][$key])) {
-                                            $coleta['valor_pagamento'][$key] = 0;
-                                        }
+                                        foreach ($coleta['pagamentos'] as $key => $pagamento) :
 
-                                        if (isset($valor_total[$pagamento])) {
-                                            $valor_total[$pagamento] += $coleta['valor_pagamento'][$key] ?? 0;
-                                        } else {
-                                            $valor_total[$pagamento] = $coleta['valor_pagamento'][$key] ?? 0;
-                                        }
+                                            if (!is_numeric($coleta['valor_pagamento'][$key])) {
+                                                $coleta['valor_pagamento'][$key] = 0;
+                                            }
 
-                                        echo '<p>' . ($coleta['valor_pagamento'][$key] ?? 0) . ' ' . $formasPagamento[$pagamento] . '</p>';
+                                            if (isset($valor_total[$pagamento])) {
+                                                $valor_total[$pagamento] += $coleta['valor_pagamento'][$key] ?? 0;
+                                            } else {
+                                                $valor_total[$pagamento] = $coleta['valor_pagamento'][$key] ?? 0;
+                                            }
 
-                                    endforeach;
+                                            echo '<p>' . ($coleta['valor_pagamento'][$key] ?? 0) . ' ' . $formasPagamento[$pagamento] . '</p>';
 
+                                        endforeach;
+                                    }
                                     ?>
 
                                 </td>

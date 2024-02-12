@@ -49,7 +49,7 @@
               <h2 class="text-800 fw-bolder mb-3"><?= $titulo; ?></h2>
               <p class="text-900 mb-5"><?= $descricao; ?></p>
 
-              <a class="btn btn-lg btn-primary w-100 cursor-pointer" onclick="history.go(-1)">Voltar</a>
+              <a class="btn btn-lg btn-primary w-100 cursor-pointer" href="<?=base_url('relatorios/relColetas')?>">Voltar</a>
             </div>
           </div>
         </div>
