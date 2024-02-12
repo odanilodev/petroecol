@@ -153,6 +153,8 @@ class Coletas extends CI_Controller
     {
         $idColeta = $this->input->post('idColeta');
         $this->load->library('detalhesColeta');
+        $this->load->library('formasPagamentoChaveId');
+		$this->load->library('residuoChaveId');
 
         $historicoColeta = $this->detalhescoleta->detalheColeta($idColeta);
 
@@ -163,8 +165,8 @@ class Coletas extends CI_Controller
                 'success' => true,
                 'coleta' => $historicoColeta['coleta'],
                 'dataColeta' => $dataColeta,
-                'formasPagamento' => $historicoColeta['formasPagamento'] ?? null,
-                'residuosColetados' => $historicoColeta['residuos'] ?? null
+                'formasPagamento' => $this->formaspagamentochaveid->formaPagamentoArrayChaveId() ?? null,
+                'residuosColetados' => $this->residuochaveid->residuoArrayChaveId() ?? null
             );
         } else {
 

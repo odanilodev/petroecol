@@ -91,7 +91,7 @@
 
                                                 <div class="nav-item-wrapper">
 
-                                                    <a class="nav-link dropdown-indicator label-1" href="#nv-faq" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-faq">
+                                                    <a class="nav-link dropdown-indicator label-" href="#ref-<?= $v['id'] ?>" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-faq">
                                                         <div class="d-flex align-items-center">
                                                             <div class="dropdown-indicator-icon">
                                                                 <span class="fas fa-caret-right"></span>
@@ -104,7 +104,7 @@
                                                     </a>
 
                                                     <div class="parent-wrapper label-1">
-                                                        <ul class="nav parent collapse" data-bs-parent="#navbarVerticalCollapse" id="nv-faq">
+                                                        <ul class="nav parent collapse" data-bs-parent="#navbarVerticalCollapse" id="ref-<?= $v['id'] ?>">
 
                                                             <?php foreach ($v['sub_menus'] as $sub) { // Sub menu
 

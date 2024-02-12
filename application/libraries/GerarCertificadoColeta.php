@@ -19,6 +19,7 @@ class GerarCertificadoColeta
 	public function gerarPdfPadrao($idColeta, $idModelo)
 	{
 		$this->CI->load->library('detalhesColeta');
+		$this->CI->load->library('residuoChaveId');
 
 		if (strpos($idColeta, '-') !== false) { // mais de uma coleta
 			$idsColetas = explode("-", $idColeta);
@@ -38,7 +39,7 @@ class GerarCertificadoColeta
 		$data['dados'] = $dados;
 
 		// todos residuos cadastrado na empresa
-		$data['residuosColetatos'] = $historicoColeta['residuos'];
+		$data['residuosColetatos'] = $this->CI->residuochaveid->residuoArrayChaveId();
 
 		// dados cliente
 		$data['clientes_coletas'] = $historicoColeta['coleta'];
