@@ -47,7 +47,7 @@
                                             <div class="col-md-4 mb-2">
                                                 <label>Data Agendamento</label>
 
-                                                <input class="form-control datetimepicker input-coleta input-filtro-romaneio" required name="data_coleta" type="text" placeholder="Data Agendamento" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
+                                                <input class="form-control datetimepicker input-coleta" required name="data_coleta" type="text" placeholder="Data Agendamento" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
                                                 <span><input id="filtrar-data" type="checkbox"/><small> Filtrar por data</small></span>
                                             </div>
 
