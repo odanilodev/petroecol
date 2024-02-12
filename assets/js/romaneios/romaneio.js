@@ -484,7 +484,7 @@ $(document).on('change', '.select-pagamento', function () {
 
         valorPagamento.attr('type', 'text');
 
-        valorPagamento.mask('000.000.000.000.000.00', {reverse: true});
+        valorPagamento.mask('000000000000000.00', {reverse: true});
         
         valorPagamento.val('');
 
