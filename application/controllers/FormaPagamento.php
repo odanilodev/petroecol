@@ -37,7 +37,6 @@ class FormaPagamento extends CI_Controller
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsFormaPagamentoFooter));
 
 		$data['formaPagamento'] = $this->FormaPagamento_model->recebeFormasPagamento();
-		$data['tipo_pagamento'] = $this->TipoPagamento_model->recebeTiposPagamentos();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/forma-pagamento/forma-pagamento');
@@ -72,7 +71,7 @@ class FormaPagamento extends CI_Controller
 		$id_tipo_pagamento = $this->input->post('tipoPagamento');
 
 		$dados['forma_pagamento'] = mb_convert_case(trim($forma_pagamento), MB_CASE_TITLE, 'UTF-8');
-		$dados['id_tipo_pagamento'] = mb_convert_case(trim($id_tipo_pagamento), MB_CASE_TITLE, 'UTF-8');
+		$dados['id_tipo_pagamento'] = $id_tipo_pagamento;
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
 		$formaPagamento = $this->FormaPagamento_model->recebeFormaPagamentoNome($dados['forma_pagamento'], $id); // verifica se já existe a forma de pagamento

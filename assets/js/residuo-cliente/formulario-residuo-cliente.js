@@ -6,7 +6,7 @@ $(document).on('change', '#forma-pagamento-residuo', function () {
 
         $('#valor-pagamento-residuo').attr('type', 'text');
 
-        $('#valor-pagamento-residuo').mask('000.000.000.000.000,00', {reverse: true});
+        $('#valor-pagamento-residuo').mask('000.000.000.000.000.00', {reverse: true});
         
         $('#valor-pagamento-residuo').val('');
 
