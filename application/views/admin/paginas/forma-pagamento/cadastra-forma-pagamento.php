@@ -26,11 +26,26 @@
                                             <div class="card-body pt-4 pb-0 row">
                                                 <input type="hidden" class="input-id" value="<?= $forma_pagamento['id'] ?? ''; ?>">
 
-                                                <div class="col-md-12 mb-3">
+                                                <div class="col-md-6 mb-3">
                                                     <label class="form-label">Nome</label>
                                                     <input class="form-control input-formapagamento input-obrigatorio" type="text" placeholder="Nome da Forma de Pagamento" value="<?= $forma_pagamento['forma_pagamento'] ?? ''; ?>">
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                </div>
+                                                
+                                                <div class="mb-3 col-md-6">
+                                                    <div class="mb-2">
+                                                        <label class="form-label text-900">Tipo de pagamento</label>
 
+                                                        <select required class="form-select campo-empresa select2 input-tipopagamento">
+                                                            <option value="" selected disabled>Selecione o tipo</option>
+
+                                                            <?php foreach ($tipo_pagamento as $v) { ?>
+                                                                <option value="<?= $v['id'] ?>" <?= (isset($forma_pagamento['id_tipo_pagamento']) && $forma_pagamento['id_tipo_pagamento'] == $v['id']) ? 'selected' : ''; ?>><?= $v['nome']; ?></option>
+                                                            <?php } ?>
+
+                                                        </select>
+                                                        <div class="invalid-feedback">Preencha este campo</div>
+                                                    </div>
                                                 </div>
 
                                                 <div class="flex-1 text-end my-5">
