@@ -11,7 +11,8 @@ const cadastraFormaPagamento = () => {
 
 	$(".input-obrigatorio").each(function () {
 		// Verifica se o valor do input atual está vazio
-		if ($(this).val().trim() === "") {
+
+		if ($(this).val() == "" || $(this).val() == null) {
 
             $(this).addClass('invalido');
             $(this).next().removeClass('d-none');
