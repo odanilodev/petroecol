@@ -895,18 +895,6 @@ function imprimirClientes(clientes) {
    
   });
 
-  $('.datetimepicker').flatpickr({
-      dateFormat: "d/m/Y",
-      disableMobile: true
-    });
-  
-    $('.datetimepicker2').flatpickr({
-      dateFormat: "H:i",
-      disableMobile: true,
-      noCalendar: true,
-      enableTime: true
-    });
-
 }
 
 // remove a opção de arrastar os eventos do calendário
