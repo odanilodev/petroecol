@@ -2,13 +2,6 @@ var baseUrl = $('.base-url').val();
 
 const filtrarClientesRomaneio = () => {
 
-    $('#select-cliente-modal').val('').trigger('change');
-
-    $('.select2').select2({
-        dropdownParent: "#modalRomaneio",
-        theme: "bootstrap-5",
-    });
-
     var permissao = false;
     var filtrarData = null;
 
@@ -25,7 +18,7 @@ const filtrarClientesRomaneio = () => {
         }
     })
 
-    if (filtrarData && $('.input-coleta').val() == '') {
+    if ($('.input-coleta').val() == '') {
         avisoRetorno('Algo deu errado!', 'Preencha a data de agendamento!', 'error', '#');
         return;
     }
