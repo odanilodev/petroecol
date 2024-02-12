@@ -41,7 +41,7 @@ class Relatorios extends CI_Controller
 		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsRelColetasHead));
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsRelColetasFooter));
 
-		$data['clientes'] = $this->Clientes_model->recebeTodosClientes();
+		$data['clientes'] = $this->Clientes_model->recebeTodosClientesColetados();
 		$data['grupos'] = $this->Grupos_model->recebeGrupos();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
@@ -92,18 +92,20 @@ class Relatorios extends CI_Controller
 			$dados[] = $array;
 		}
 
-		// todos residuos cadastrado na empresa
-		$data['residuos'] = $this->residuochaveid->residuoArrayChaveId();
-		// todas formas de pagamento cadastrado na empresa
-		$data['formasPagamento'] = $this->formaspagamentochaveid->formaPagamentoArrayChaveId();
-		// Forma de pagamento por residuo
-		$data['residuoPagamentoCliente'] = $this->residuopagamentocliente->residuoPagamentoClienteArrayChaveId(array_unique($clientes));
 
-		$data['filtrar_geral'] = $filtrar_geral;
 
-		$data['dados'] = $this->estruturaColetas($dados);
+		if (count($dados) > 0) {
 
-		if ($dados) {
+			// todos residuos cadastrado na empresa
+			$data['residuos'] = $this->residuochaveid->residuoArrayChaveId();
+			// todas formas de pagamento cadastrado na empresa
+			$data['formasPagamento'] = $this->formaspagamentochaveid->formaPagamentoArrayChaveId();
+			// Forma de pagamento por residuo
+			$data['residuoPagamentoCliente'] = $this->residuopagamentocliente->residuoPagamentoClienteArrayChaveId(array_unique($clientes));
+
+			$data['filtrar_geral'] = $filtrar_geral;	
+
+			$data['dados'] = $this->estruturaColetas($dados);
 
 			$mpdf = new Mpdf;
 			$html = $this->load->view('admin/paginas/relatorios/relcoletas/relcoletas-pdf', $data, true);
@@ -120,7 +122,7 @@ class Relatorios extends CI_Controller
 			add_scripts('header', $scriptsPadraoHead);
 			add_scripts('footer', $scriptsPadraoFooter);
 
-			$data['titulo'] = "Dados não encontrado!";
+			$data['titulo'] = "Dados não encontrados!";
 			$data['descricao'] = "Não foi possível localizar coleta para este(s) cliente(s)!";
 
 			$this->load->view('admin/erros/erro-pdf', $data);
