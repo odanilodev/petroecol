@@ -36,6 +36,12 @@ const relatorioColetas = () => {
         return;
     }
 
+    if ($('#filtrar-geral').prop('checked')) {
+        var filtrarGeral = 1;
+    } else {
+        var filtrarGeral = 0;
+    }
+
     if (permissao) {
 
         var form = $('<form>', {
@@ -67,6 +73,12 @@ const relatorioColetas = () => {
             'type': 'hidden',
             'name': 'data_fim',
             'value': data_fim
+        }));
+
+        form.append($('<input>', {
+            'type': 'hidden',
+            'name': 'filtrar_geral',
+            'value': filtrarGeral
         }));
 
         $('body').append(form);

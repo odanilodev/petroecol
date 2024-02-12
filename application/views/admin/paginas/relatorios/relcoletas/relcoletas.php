@@ -39,6 +39,7 @@
                                 <div class="col-md-3 mb-2">
                                     <label>Data Fim</label>
                                     <input class="form-control datetimepicker input-data-fim" required name="data_fim" type="text" placeholder="Data Fim" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
+                                    <span><input id="filtrar-geral" type="checkbox"/><small> Filtrar geral</small></span>
                                 </div>
 
                                 <div class="flex-1 text-end my-5">

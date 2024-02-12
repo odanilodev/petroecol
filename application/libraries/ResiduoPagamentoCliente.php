@@ -20,7 +20,7 @@ class ResiduoPagamentoCliente
 
 		if ($residuoCliente) {
 			foreach ($residuoCliente as $v) {
-				$residuoPagamentoArray[$v['id_cliente']][$v['id_residuo']] = $v['valor_forma_pagamento'];
+				$residuoPagamentoArray[$v['id_cliente']][$v['id_residuo']] = [$v['valor_forma_pagamento'], $v['id_forma_pagamento']];
 			}
 		}
 
