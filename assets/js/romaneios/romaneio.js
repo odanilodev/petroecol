@@ -418,7 +418,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
     // formas de pagamento no select
     for (c = 0; c < pagamentos.length; c++) {
 
-        var optionPagamentos = `<option value="${pagamentos[c].id}">${pagamentos[c].forma_pagamento}</option>`;
+        var optionPagamentos = `<option data-id-tipo-pagamento="${pagamentos[c].id_tipo_pagamento}" value="${pagamentos[c].id}">${pagamentos[c].forma_pagamento}</option>`;
         $('.select-pagamento').append(optionPagamentos);
     }
 }
@@ -480,6 +480,31 @@ $(document).on('click', '.duplicar-pagamento', function () {
     duplicarElemento(this, 'pagamento', 'valor pago', 'pagamentos-duplicados');
 
 });
+
+
+// verifica qual é o tipo da forma de pagamento para aplicar mascara
+$(document).on('change', '.select-pagamento', function () {
+
+   let valorPagamento = $(this).closest('.div-pagamento').next('.div-pagamento').find('.input-pagamento');
+
+    if ($('option:selected', this).data('id-tipo-pagamento') == "1") {
+
+        valorPagamento.attr('type', 'text');
+
+        valorPagamento.mask('000.000.000.000.000.00', {reverse: true});
+        
+        valorPagamento.val('');
+
+
+    } else {
+
+        valorPagamento.attr('type', 'number');
+        valorPagamento.unmask();
+
+    }
+
+});
+
 
 
 $(document).on('click', '.nao-coletado', function () {
