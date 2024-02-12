@@ -36,7 +36,7 @@
                                                     <div class="mb-2">
                                                         <label class="form-label text-900">Tipo de pagamento</label>
 
-                                                        <select required class="form-select campo-empresa select2 input-tipopagamento">
+                                                        <select class="form-select input-tipopagamento input-obrigatorio">
                                                             <option value="" selected disabled>Selecione o tipo</option>
 
                                                             <?php foreach ($tipo_pagamento as $v) { ?>
@@ -44,7 +44,7 @@
                                                             <?php } ?>
 
                                                         </select>
-                                                        <div class="invalid-feedback">Preencha este campo</div>
+                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                                                     </div>
                                                 </div>
 
