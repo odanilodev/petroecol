@@ -23289,7 +23289,9 @@ span.flatpickr-weekday,
 }
 .flatpickr-months .flatpickr-month .flatpickr-current-month .flatpickr-monthDropdown-months {
   font-weight: 700;
-  color: #141824;
+  color: var(--phoenix-flatpickr-current-month-color);
+  background-color: var(--phoenix-flatpickr-calendar-bg) !important;
+
 }
 .flatpickr-months .flatpickr-month .flatpickr-current-month .cur-month:hover, .flatpickr-months .flatpickr-month .flatpickr-current-month .cur-month:focus,
 .flatpickr-months .flatpickr-month .flatpickr-current-month .numInputWrapper:hover,

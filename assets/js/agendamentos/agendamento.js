@@ -102,27 +102,9 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
   
       <div class="modal-body">
         <div class="container">
-          <div class="row table-responsive" align="center">
-            <table class="table tabela-clientes-agendados">
-              <thead>
-                <tr>
-                  <th scope="col">Cliente</th>
-                  <th scope="col">Endereço</th>
-                  <th scope="col">Telefone</th>
-                  <th scope="col">Data</th>
-                  <th scope="col">Hora</th>
-                  <th scope="col">Período</th>
-                  <th scope="col"></th>
-                  <th scope="col"></th>
-                </tr>
-              </thead>
-              <tbody class="clientes-agendados text-start">
-                
-                
-              </tbody>
-            </table>
           
-          </div>
+          <div class="accordion accordion-clientes-agendados" id="accordionExample"></div>
+                    
           <div class="spinner-border text-primary load-form" role="status"></div>
 
         </div>            
@@ -336,11 +318,25 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
               } else {
 
                 let dataAntiga = $('.agendamento-' + id).data('data');
+                let prioridadeAntiga = $('.agendamento-' + id).data('prioridade');
 
                 $('#addEventModal').modal('hide');
 
-                if (id && dataAntiga != dataNova) {
+                if ((id && dataAntiga != dataNova) || prioridade != prioridadeAntiga) {
+
+                  let tituloModal = $('.modal-title').html();
+
+                  if (tituloModal) {
+
+                    var quantidadeAgendado = tituloModal.match(/\d+/)[0];
+                    var texto = tituloModal.replace(/^\d+\s+/, ''); 
+
+                  }
+                  
+
                   $('.agendamento-' + id).remove();
+                  let novaQuantidadeAgendado = quantidadeAgendado - 1;
+                  $('.modal-title').html(`${novaQuantidadeAgendado} ${texto}`)
                 }
 
                 $('.salva-modal-' + cliente).addClass('d-none');
@@ -391,6 +387,12 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
 
       })
 
+      $(document).on('change', '.select-prioridade-modal', function () {
+
+        alteraMomentoColeta(this, 'prioridade');
+
+      })
+
 
       function alteraMomentoColeta(classe, atributo) {
 
@@ -413,7 +415,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
             cliente: idCliente,
             hora: $(`.hora-modal-${idCliente}`).val(),
             periodo: $(`.periodo-modal-${idCliente}`).val(),
-            prioridade: $(`.prioridade-modal-${idCliente}`).val(),
+            prioridade: $(`.select-prioridade-modal-${idCliente}`).val(),
             obs: obs,
             agendamento: idAgendamento,
             data: dataFormatada
@@ -451,7 +453,20 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
         calendar.removeAllEvents(); // remove todos agendamentos
         events = [];
 
+        let tituloModal = $('.modal-title').html();
+
+        if (tituloModal) {
+
+          var quantidadeAgendado = tituloModal.match(/\d+/)[0];
+          var texto = tituloModal.replace(/^\d+\s+/, ''); 
+
+        }
+
         $('.agendamento-' + idAgendamento).remove();
+
+        let novaQuantidadeAgendado = quantidadeAgendado - 1;
+        $('.modal-title').html(`${novaQuantidadeAgendado} ${texto}`)
+
 
         $.ajax({
           type: "POST",
@@ -750,85 +765,7 @@ const exibirClientesAgendados = (dataColeta, prioridade, status) => {
 
       var clientes = data.agendados;
 
-      $.each(clientes, function (index, cliente) {
-
-        var dataDividida = cliente.data_coleta.split('-');
-
-        var dataFormatada = dataDividida[2] + '/' + dataDividida[1] + '/' + dataDividida[0];
-
-        let clientesAgendados = `
-
-          <tr class="agendamento-${cliente.id}" data-data="${cliente.data_coleta}">
-            <td>${cliente.nome}</td>
-            <td>${cliente.rua} ${cliente.numero}</td>
-            <td>${cliente.telefone}</td>
-
-            <td>
-           
-              <input ${cliente.status == 1 ? "disabled" : ""} class="form-control datetimepicker flatpickr-input data-modal data-modal-${cliente.id_cliente}" id="datepicker" type="text" placeholder="dd/mm/yyyy" data-options="{&quot;disableMobile&quot;:true,&quot;}" readonly="readonly" value="${dataFormatada}" data-data="${dataFormatada}" data-id="${cliente.id_cliente}"  data-agendamento="${cliente.id}" data-obs="${cliente.observacao}">
-          
-            </td>
-
-            <td>
-           
-            <input ${cliente.status == 1 ? "disabled" : ""} class="form-control datetimepicker2 flatpickr-input hora-modal hora-modal-${cliente.id_cliente}" id="timepicker1" type="text" placeholder="hora : minuto" data-options="{&quot;noCalendar&quot;:true,&quot;dateFormat&quot;:&quot;H:i&quot;,&quot;disableMobile&quot;:true}" readonly="readonly" value="${cliente.hora_coleta}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
-
-        
-            </td>
-
-            <td>
-           
-              <select ${cliente.status == 1 ? "disabled" : ""} class="form-select w-100 periodo-modal periodo-modal-${cliente.id_cliente}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
-
-                <option disabled selected value="">Período de Coleta</option>
-
-                <option ${cliente.periodo_coleta == "Manhã" ? "selected" : ""} value="Manhã">Manhã</option>
-                <option ${cliente.periodo_coleta == "Tarde" ? "selected" : ""} value="Tarde">Tarde</option>
-                <option ${cliente.periodo_coleta == "Noite" ? "selected" : ""} value="Noite">Noite</option>
-                
-              </select>
-
-        
-            </td>
-
-            <td style="text-align: center">
-
-            <input type="hidden" value="${cliente.prioridade}" class="prioridade-modal-${cliente.id_cliente}">
-
-              <a class="detalhes-modal-${cliente.id_cliente}" href="${baseUrl}clientes/detalhes/${cliente.id_cliente}" title="Mais detalhes">
-                <span class="fas fa-eye fs-1"></span>
-              </a>
-              <a class="btn-salva-modal d-none text-success salva-modal-${cliente.id_cliente}" href="#" title="Salvar Agendamento">
-                <span class="fas fa-check-circle fs-1"></span>
-              </a>
-            </td>
-
-            <td>
-              <a style="cursor: pointer" class="text-danger remove-cliente-agendamento ${cliente.status == 1 ? "d-none" : ""}" data-mes="${dataDividida[1]}" data-ano="${dataDividida[0]}" data-id="${cliente.id}" title="Cancelar agendamento">
-                <span class="fas fa-times fs-1 ml-5"></span>
-              </a>
-            </td>
-            
-            
-          </tr>
-          
-        `;
-
-        $('.clientes-agendados').append(clientesAgendados);
-
-        $("#eventDetailsModal").find('.datetimepicker').flatpickr({
-          dateFormat: "d/m/Y",
-          disableMobile: true
-        });
-
-        $("#eventDetailsModal").find('.datetimepicker2').flatpickr({
-          dateFormat: "H:i",
-          disableMobile: true,
-          noCalendar: true,
-          enableTime: true
-        });
-      });
-
+      imprimirClientes(clientes);
 
     }
 
@@ -836,6 +773,129 @@ const exibirClientesAgendados = (dataColeta, prioridade, status) => {
 
 }
 
+function imprimirClientes(clientes) {
+
+  $.each(clientes, function (index, cliente) {
+
+    var dataDividida = cliente.data_coleta.split('-');
+
+    var dataFormatada = dataDividida[2] + '/' + dataDividida[1] + '/' + dataDividida[0];
+
+
+      let clientesTabela = `
+
+        <tr class="agendamento-${cliente.id} teste" data-data="${cliente.data_coleta}" data-prioridade="${cliente.prioridade}">
+          <td>${cliente.rua} ${cliente.numero}</td>
+
+          <td>
+          
+            <input ${cliente.status == 1 ? "disabled" : ""} class="form-control datetimepicker flatpickr-input data-modal data-modal-${cliente.id_cliente}" id="datepicker" type="text" placeholder="dd/mm/yyyy" data-options="{&quot;disableMobile&quot;:true,&quot;}" readonly="readonly" value="${dataFormatada}" data-data="${dataFormatada}" data-id="${cliente.id_cliente}"  data-agendamento="${cliente.id}" data-obs="${cliente.observacao}">
+        
+          </td>
+
+          <td>
+          
+            <input ${cliente.status == 1 ? "disabled" : ""} class="form-control datetimepicker2 flatpickr-input hora-modal hora-modal-${cliente.id_cliente}" id="timepicker1" type="text" placeholder="hora : minuto" data-options="{&quot;noCalendar&quot;:true,&quot;dateFormat&quot;:&quot;H:i&quot;,&quot;disableMobile&quot;:true}" readonly="readonly" value="${cliente.hora_coleta}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
+
+      
+          </td>
+
+          <td>
+          
+            <select ${cliente.status == 1 ? "disabled" : ""} class="form-select w-100 periodo-modal periodo-modal-${cliente.id_cliente}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
+
+              <option disabled selected value="">Período de Coleta</option>
+
+              <option ${cliente.periodo_coleta == "Manhã" ? "selected" : ""} value="Manhã">Manhã</option>
+              <option ${cliente.periodo_coleta == "Tarde" ? "selected" : ""} value="Tarde">Tarde</option>
+              <option ${cliente.periodo_coleta == "Noite" ? "selected" : ""} value="Noite">Noite</option>
+              
+            </select>
+
+          </td>
+
+          <td>
+          
+            <select ${cliente.status == 1 ? "disabled" : ""} class="form-select w-100 select-prioridade-modal select-prioridade-modal-${cliente.id_cliente}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
+
+              <option disabled selected value="">Definir prioridade</option>
+
+              <option ${cliente.prioridade == "0" ? "selected" : ""} value="0">Não</option>
+              <option ${cliente.prioridade == "1" ? "selected" : ""} value="1">Sim</option>
+              
+            </select>
+
+          </td>
+
+          <td style="text-align: center">
+
+            <input type="hidden" value="${cliente.prioridade}" class="prioridade-modal-${cliente.id_cliente}">
+
+            <a class="detalhes-modal-${cliente.id_cliente}" href="${baseUrl}clientes/detalhes/${cliente.id_cliente}" title="Mais detalhes">
+              <span class="fas fa-eye fs-1"></span>
+            </a>
+            <a class="btn-salva-modal d-none text-success salva-modal-${cliente.id_cliente}" href="#" title="Salvar Agendamento">
+              <span class="fas fa-check-circle fs-1"></span>
+            </a>
+          </td>
+
+          <td>
+            <a style="cursor: pointer" class="text-danger remove-cliente-agendamento ${cliente.status == 1 ? "d-none" : ""}" data-mes="${dataDividida[1]}" data-ano="${dataDividida[0]}" data-id="${cliente.id}" title="Cancelar agendamento">
+              <span class="fas fa-times fs-1 ml-5"></span>
+            </a>
+          </td>
+          
+          
+        </tr>
+        
+      `;
+
+    
+    let clientesAgendados = `
+
+      <div class="accordion-item agendamento-${cliente.id}" data-data="${cliente.data_coleta}" data-prioridade="${cliente.prioridade}">
+
+        <h2 class="accordion-header" id="headingThree">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${index}" aria-expanded="false" aria-controls="collapse-${index}">
+          ${cliente.nome}
+          </button>
+        </h2>
+
+        <div class="accordion-collapse collapse" id="collapse-${index}" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+          <div class="accordion-boddy pt-0 table-responsive" align="center">
+
+              <table class="table tabela-clientes-agendados">
+                <thead>
+                  <tr>
+                    <th scope="col">Endereço</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Período</th>
+                    <th scope="col">Definir prioridade</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody class="clientes-agendados text-start">
+
+                  ${clientesTabela}
+                  
+                </tbody>
+              </table>
+          
+          </div>
+        </div>
+
+      </div>
+    `;
+
+
+    $('.accordion-clientes-agendados').append(clientesAgendados);
+
+   
+  });
+
+}
 
 // remove a opção de arrastar os eventos do calendário
 $(document).ready(function () {
