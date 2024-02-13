@@ -120,7 +120,16 @@ class Clientes extends CI_Controller
 
         $this->load->model('Coletas_model');
         $this->load->model('ComodatoCliente_model');
+        $this->load->model('ResiduoCliente_model');
 
+        $data['residuoCliente'] = $this->ResiduoCliente_model->recebeResiduoCliente($id);
+
+        if (!empty($data['residuoCliente'])) {
+            $nomesResiduos = array_column($data['residuoCliente'], 'nome');
+            $data['nomesResiduos'] = implode(', ', $nomesResiduos);
+        } else {
+            $data['nomesResiduos'] = "Nenhum resíduo encontrado.";
+        }
 
         $data['coletas'] = $this->Coletas_model->recebeColetasCliente($id);
 
@@ -163,8 +172,8 @@ class Clientes extends CI_Controller
         $this->load->model('AlertasWhatsapp_model');
         $data['alertas'] = $this->AlertasWhatsapp_model->recebeAlertasWhatsApp($statusAlerta);
 
-
         $this->load->model('Agendamentos_model');
+
         $data['quantidade_agendado'] = $this->Agendamentos_model->contaAgendamentoCLiente($id);
 
         $data['quantidade_atrasado'] = $this->Agendamentos_model->contaAgendamentoAtrasadoCLiente($id);
