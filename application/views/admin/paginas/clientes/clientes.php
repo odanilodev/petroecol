@@ -38,7 +38,7 @@
 
                                                 <div class="mb-3"><label class="fw-bold mb-2 text-1000">Status</label>
                                                     <select name="status" class="form-select select2">
-                                                        <option value="all" selected >--</option>
+                                                        <option value="all" selected>--</option>
                                                         <option <?= ($cookie_filtro_clientes['status'] ?? null) == '1' ? 'selected' : '' ?> value="1">Ativo</option>
                                                         <option <?= ($cookie_filtro_clientes['status'] ?? null) == '3' ? 'selected' : '' ?> value="3">Inativo</option>
                                                     </select>
@@ -80,12 +80,23 @@
                                                     </select>
                                                 </div>
 
-                                                <div class="mb-3"><label class="fw-bold mb-2 text-1000">Classificação</label>
-                                                    <select name="classificacao" class="form-select select2" >
+                                                <div class="mb-3">
+                                                    <label class="fw-bold mb-2 text-1000">Classificação</label>
+                                                    <select name="classificacao" class="form-select select2">
                                                         <option value="all" selected="selected">--</option>
                                                         <option <?= ($cookie_filtro_clientes['classificacao'] ?? null) == '1' ? 'selected' : '' ?> value="1">Bronze</option>
                                                         <option <?= ($cookie_filtro_clientes['classificacao'] ?? null) == '2' ? 'selected' : '' ?> value="2">Prata</option>
                                                         <option <?= ($cookie_filtro_clientes['classificacao'] ?? null) == '3' ? 'selected' : '' ?> value="3">Ouro</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="fw-bold mb-2 text-1000" for="createDate">Grupos</label>
+                                                    <select name="id_grupo" class="form-select select2">
+                                                        <option value="all" selected="selected">--</option>
+                                                        <?php foreach ($grupos as $v) { ?>
+                                                            <option <?= ($cookie_filtro_clientes['id_grupo'] ?? null) == $v['id'] ? 'selected' : '' ?> value="<?= $v['id'] ?>"><?= $v['nome'] ?></option>
+                                                        <?php } ?>
                                                     </select>
                                                 </div>
 
