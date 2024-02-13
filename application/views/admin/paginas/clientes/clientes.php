@@ -117,7 +117,7 @@
                                             <input class="form-check-input" type="checkbox">
                                         </div>
                                         <div class="d-sm-flex align-items-center ps-2">
-                                            <a title="<?= $v['nome'] ?>" class="fw-bold fs-1 lh-sm title line-clamp-1 me-sm-4 " href="<?= base_url('clientes/detalhes/' . $v['id']); ?>"><?= ucfirst($v['nome']) ?></a>
+                                            <a title="<?= mb_strtoupper($v['nome']) ?>" class="fw-bold fs-1 lh-sm title line-clamp-1 me-sm-4 " href="<?= base_url('clientes/detalhes/' . $v['id']); ?>"><?= mb_strtoupper($v['nome']) ?></a>
                                         </div>
                                     </div>
 
