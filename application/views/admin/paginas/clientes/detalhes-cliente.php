@@ -208,34 +208,22 @@
                           </tr>
 
                           <tr>
-                            <td class="py-2">
+                            <td class="py-0">
                               <div class="d-flex align-items-center">
-                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                  <span class="text-info-600 dark__text-info-300 fa-solid fas fa-recycle" style="width:16px; height:16px"></span>
+                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:10px; height:10px"> 
+                                <span class="text-info-600 dark__text-info-300 fa-solid fas fa-recycle" style="width:16px; height:16px"></span>
                                 </div>
-                                <p class="fw-bold mb-0">Resíduo(s)</p>
-                              </div>
-                            </td>
-                            <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                            <td class="py-2">
-                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0"><?= ucfirst($nomesResiduos) ?></div>
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td class="py-2">
-                              <div class="d-flex align-items-center">
-                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" >
                                   <span class="text-info-600 dark__text-success-300 uil-money-stack" style="width:16px; height:16px"></span>
                                 </div>
-                                <p class="fw-bold mb-0">Pagamento</p>
+                                <p class="fw-bold mb-0">Resíduo(s) / Pagamentos</p>
                               </div>
                             </td>
-                            <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                            <td class="py-2">
-                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0 "> <?= $cliente['forma_pagamento']; ?></div>
+                            <td class="py-0 d-none d-sm-block pe-sm-2">:</td>
+                            <td class="py-0">
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0"><?= ucfirst($nomesResiduos) . ' / ' . ucfirst($nomeFormaPagamentoResiduo); ?></div>
                             </td>
-                          </tr>
+                          </tr> 
 
                         <?php if ($cliente['observacao_pagamento'] != '') : ?>
                           <tr>

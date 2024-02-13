@@ -130,6 +130,14 @@ class Clientes extends CI_Controller
         } else {
             $data['nomesResiduos'] = "Nenhum resíduo encontrado.";
         }
+        
+        if (!empty($data['residuoCliente'])) {
+            $nomeFormaPagamentoResiduo = array_column($data['residuoCliente'], 'forma_pagamento');
+            $data['nomeFormaPagamentoResiduo'] = implode(', ', $nomeFormaPagamentoResiduo);
+        } else {
+            $data['nomeFormaPagamentoResiduo'] = "Nenhum resíduo encontrado.";
+        }
+
 
         $data['coletas'] = $this->Coletas_model->recebeColetasCliente($id);
 
@@ -187,6 +195,7 @@ class Clientes extends CI_Controller
         // formas de pagamento
         $this->load->model('FormaPagamento_model');
         $data['formasPagamento'] = $this->FormaPagamento_model->recebeFormasPagamento();
+
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/detalhes-cliente');
