@@ -96,7 +96,6 @@ class Clientes extends CI_Controller
         $this->load->model('Grupos_model');
         $data['grupos'] = $this->Grupos_model->recebeGrupos();
 
-
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/clientes');
         $this->load->view('admin/paginas/clientes/modals');
