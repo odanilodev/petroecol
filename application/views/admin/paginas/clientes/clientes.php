@@ -175,6 +175,11 @@
                                                         <span class="text-900"> Grupos</span>
                                                     </a>
 
+                                                    <a class="dropdown-item" href="#" onclick="exibirSetorEmpresaCliente(<?= $v['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalSetoresEmpresaCliente">
+                                                        <span class="text-900 uil-create-dashboard"></span>
+                                                        <span class="text-900"> Setores</span>
+                                                    </a>
+
                                                     <a class="dropdown-item text-danger" href="#" onclick="deletaCliente(<?= $v['id'] ?>)">
                                                         <span class="text-900 uil uil-trash"></span>
                                                         <span class="text-900"> Excluir</span>

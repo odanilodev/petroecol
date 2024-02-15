@@ -232,3 +232,46 @@
         </div>
     </div>
 </div>
+
+<!-- Modal de setores para clientes -->
+<div class="modal fade modalSelect2" id="modalSetoresEmpresaCliente">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Setores da Empresa</h5>
+                <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1"></span></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="my-2 div-setor-empresa">
+                    <!-- Manipulado ajax -->
+                </div>
+
+                <div class="add-setor-empresa w-100 my-3 mb-4">
+
+                    <input type="hidden" class="id-cliente">
+
+                    <label>Atribuir novos setores</label>
+                    <select class="form-select w-100 select2" id="select-setor-empresa" >
+
+                        <option selected disabled value="">Selecione setores</option>
+                        <?php foreach ($setoresEmpresa as $s) { ?>
+                            <option value="<?= $s['id'] ?>"><?= $s['nome']; ?></option>
+                        <?php } ?>
+
+                    </select>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+
+                <div class="spinner-border text-primary load-form d-none" role="status"></div>
+
+                <button class="btn btn-success btn-salva-setor-etiqueta btn-form" type="button" onclick="cadastraSetorEmpresaCliente()">Salvar</button>
+                <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
