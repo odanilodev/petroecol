@@ -301,6 +301,24 @@
                               </a>
                             </td>
                           </tr>
+
+                          <tr>
+                            <td class="py-2">
+                              <div class="d-inline-flex align-items-center">
+                                <div class="d-flex bg-primary-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                  <span class="text-primary-600 dark__text-primary-300 uil-create-dashboard" style="width:16px; height:16px"></span>
+                                </div>
+                                <p class="fw-bold mb-0">Setores</p>
+                              </div>
+                            </td>
+                            <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                            <td class="py-2">
+                              <a class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-900 text-break">
+                                <?= $nomesSetores ?>
+                              </a>
+                            </td>
+                          </tr>
+
                         </table>
                       </div>
 

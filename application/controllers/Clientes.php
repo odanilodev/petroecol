@@ -176,6 +176,13 @@ class Clientes extends CI_Controller
         $this->load->model('SetoresEmpresaCliente_model');
         $data['setoresEmpresaCliente'] = $this->SetoresEmpresaCliente_model->recebeSetoresEmpresaClientes();
 
+        if (!empty($data['setoresEmpresaCliente'])) {
+            $nomesSetores = array_column($data['setoresEmpresaCliente'], 'nome');
+            $data['nomesSetores'] = implode(', ', $nomesSetores);
+        } else {
+            $data['nomesSetores'] = "Nenhum setor encontrado.";
+        }
+
         $this->load->model('Agendamentos_model');
         $data['quantidade_agendado'] = $this->Agendamentos_model->contaAgendamentoCLiente($id);
 
