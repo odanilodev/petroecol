@@ -31,7 +31,7 @@
                 <span class="text-900"> Visualizar</span>
               </a>
             </li>
-            
+
             <li>
               <a class="dropdown-item text-danger" href="<?= base_url('clientes/formulario/' . $cliente['id']) ?>">
                 <span class="text-900 uil uil-pen"></span>
@@ -71,6 +71,13 @@
               <a class="dropdown-item" href="#" onclick="exibirGruposCliente(<?= $cliente['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalGrupoCliente">
                 <span class="text-900 uil-users-alt"></span>
                 <span class="text-900"> Grupos</span>
+              </a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="#" onclick="exibirSetorEmpresaCliente(<?= $cliente['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalSetoresEmpresaCliente">
+                <span class="text-900 uil-create-dashboard"></span>
+                <span class="text-900"> Setores</span>
               </a>
             </li>
 
@@ -223,27 +230,23 @@
                             </td>
                           </tr> 
 
-                        <?php if ($cliente['observacao_pagamento'] != '') : ?>
-                          <tr>
-                            <td class="py-2">
-                              <div class="d-flex align-items-center">
-                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                  <span class="text-info-600 dark__text-success-300 uil-chat" style="width:16px; height:16px"></span>
+                          <?php if ($cliente['observacao_pagamento'] != '') : ?>
+                            <tr>
+                              <td class="py-2">
+                                <div class="d-flex align-items-center">
+                                  <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                    <span class="text-info-600 dark__text-success-300 uil-chat" style="width:16px; height:16px"></span>
+                                  </div>
+                                  <p class="fw-bold mb-0">Observação</p>
                                 </div>
-                                <p class="fw-bold mb-0">Observação</p>
-                              </div>
-                            </td>
-                            <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                            <td class="py-2">
-                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0 "> <?= $cliente['observacao_pagamento']; ?></div>
-                            </td>
-                          </tr>
-                        <?php endif ?>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                          </tr>
+                              </td>
+                              <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                              <td class="py-2">
+                                <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0 "> <?= $cliente['observacao_pagamento']; ?></div>
+                              </td>
+                            </tr>
+                          <?php endif ?>
+
                         </table>
                       </div>
 
@@ -299,6 +302,24 @@
                               </a>
                             </td>
                           </tr>
+
+                          <tr>
+                            <td class="py-2">
+                              <div class="d-inline-flex align-items-center">
+                                <div class="d-flex bg-primary-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                  <span class="text-primary-600 dark__text-primary-300 uil-create-dashboard" style="width:16px; height:16px"></span>
+                                </div>
+                                <p class="fw-bold mb-0">Setores</p>
+                              </div>
+                            </td>
+                            <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                            <td class="py-2">
+                              <a class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-900 text-break">
+                                <?= $nomesSetores ?>
+                              </a>
+                            </td>
+                          </tr>
+
                         </table>
                       </div>
 
@@ -379,22 +400,22 @@
                       </div>
 
                       <?php if ($cliente['observacao'] != '') : ?>
-                      <div class="col-sm-12 col-xxl-12 py-3">
-                        <table class="w-100 table-stats">
-                          <tr>
-                            <th>
-                              <div class="d-flex align-items-center">
-                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                  <span class="text-info-600 dark__text-success-300 uil-chat" style="width:16px; height:16px"></span>
+                        <div class="col-sm-12 col-xxl-12 py-3">
+                          <table class="w-100 table-stats">
+                            <tr>
+                              <th>
+                                <div class="d-flex align-items-center">
+                                  <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                    <span class="text-info-600 dark__text-success-300 uil-chat" style="width:16px; height:16px"></span>
+                                  </div>
+                                  <p class="fw-bold mb-0">Observações:
+                                    <span class="justificado fw-semi-bold mb-0 text-break" style="text-justify"><?= $cliente['observacao'] ?></span>
+                                  </p>
                                 </div>
-                                <p class="fw-bold mb-0">Observações:
-                                  <span class="justificado fw-semi-bold mb-0 text-break" style="text-justify"><?= $cliente['observacao'] ?></span>
-                                </p>
-                              </div>
-                            </th>
-                          </tr>
-                        </table>
-                      </div>
+                              </th>
+                            </tr>
+                          </table>
+                        </div>
                       <?php endif ?>
 
                     </div>
@@ -539,7 +560,7 @@
                     <option disabled selected value="">Selecione residuos</option>
                     <option value="">Todos</option>
                     <?php foreach ($residuos as $v) { ?>
-                        <option value="<?= $v['id'] ?>"><?= $v['nome']; ?></option>
+                      <option value="<?= $v['id'] ?>"><?= $v['nome']; ?></option>
                     <?php } ?>
 
                   </select>

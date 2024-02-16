@@ -188,7 +188,7 @@
                         <div class="mb-2 mt-5 col-md-3">
                           <div class="mb-2">
                             <label class="form-label text-900">Forma de pagamento</label>
-                            <select required name="id_forma_pagamento" class="form-select campo-empresa select-forma-pagamento">
+                            <select required name="id_forma_pagamento" class="form-select campo-empresa select-forma-pagamento select2">
                               <option value="" selected disabled>Selecione</option>
 
                               <?php foreach ($formapagamento as $v) { ?>
