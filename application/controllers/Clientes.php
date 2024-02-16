@@ -91,10 +91,21 @@ class Clientes extends CI_Controller
         // formas de pagamento
         $this->load->model('FormaPagamento_model');
         $data['formasPagamento'] = $this->FormaPagamento_model->recebeFormasPagamento();
-        
+
         // grupos
         $this->load->model('Grupos_model');
         $data['grupos'] = $this->Grupos_model->recebeGrupos();
+
+        // Setores Empresa 
+        $this->load->model('SetoresEmpresa_model');
+        $data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
+
+        $this->load->model('SetoresEmpresaCliente_model');
+        $data['setoresEmpresaCliente'] = $this->SetoresEmpresaCliente_model->recebeSetoresEmpresaClientes();
+
+        // Frequencia de coleta
+        $this->load->model('FrequenciaColeta_model');
+        $data['frequenciaColeta'] = $this->FrequenciaColeta_model->recebeFrequenciasColeta();
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/clientes');
@@ -152,7 +163,7 @@ class Clientes extends CI_Controller
         // todas etiquetas 
         $this->load->model('Etiquetas_model');
         $data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
-        
+
         // grupos
         $this->load->model('Grupos_model');
         $data['grupos'] = $this->Grupos_model->recebeGrupos();
@@ -162,6 +173,23 @@ class Clientes extends CI_Controller
         $this->load->model('AlertasWhatsapp_model');
         $data['alertas'] = $this->AlertasWhatsapp_model->recebeAlertasWhatsApp($statusAlerta);
 
+        // Setores Empresa 
+        $this->load->model('SetoresEmpresa_model');
+        $data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
+
+        $this->load->model('SetoresEmpresaCliente_model');
+        $data['setoresEmpresaCliente'] = $this->SetoresEmpresaCliente_model->recebeSetoresEmpresaClientes();
+
+        if (!empty($data['setoresEmpresaCliente'])) {
+            $nomesSetores = array_column($data['setoresEmpresaCliente'], 'nome');
+            $data['nomesSetores'] = implode(', ', $nomesSetores);
+        } else {
+            $data['nomesSetores'] = "Nenhum setor encontrado.";
+        }
+
+        // Frequencia de coleta
+        $this->load->model('FrequenciaColeta_model');
+        $data['frequenciaColeta'] = $this->FrequenciaColeta_model->recebeFrequenciasColeta();
 
         $this->load->model('Agendamentos_model');
         $data['quantidade_agendado'] = $this->Agendamentos_model->contaAgendamentoCLiente($id);

@@ -232,3 +232,76 @@
         </div>
     </div>
 </div>
+
+<!-- Modal de setores de empresa para clientes -->
+<div class="modal fade modalSelect2" id="modalSetoresEmpresaCliente">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Setores da Empresa</h5>
+                <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1"></span></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="my-2 div-setor-empresa">
+                    <!-- Manipulado ajax -->
+                </div>
+
+                <div class="add-setor-empresa w-100 my-3 mb-4">
+                    <input type="hidden" class="id-cliente">
+
+                    <label>Atribuir novos setores</label>
+                    <select class="form-select w-100 select2" id="select-setor-empresa" >
+
+                        <option selected disabled value="">Selecione setores</option>
+                        <?php foreach ($setoresEmpresa as $s) { ?>
+                            <option value="<?= $s['id'] ?>"><?= $s['nome']; ?></option>
+                        <?php } ?>
+
+                    </select>
+                </div>
+
+                <div class="w-100 my-3 mb-4">
+                    <input type="hidden" class="id-cliente">
+
+                    <label>Atribuir frequência de coleta</label>
+                    <select class="form-select w-100 select2 select-frequencia" id="select-frequencia-coleta-setor" >
+
+                        <option selected disabled value="">Selecione a frequência de coleta</option>
+                        <?php foreach ($frequenciaColeta as $f) { ?>
+                            <option value="<?= $f['id'] ?>"><?= $f['frequencia']; ?></option>
+                        <?php } ?>
+
+                    </select>
+                </div>
+                <div class="w-100 mb-2 col-md-12 fixo-coleta <?= ($cliente['dia_coleta_fixo'] ?? false) || ($cliente['frequencia'] ?? '') === 'Fixo' ? 'd-block' : 'd-none' ?>  ">
+                          <div class="mb-2">
+                            <label class="">Dia da Semana *</label>
+                            <select name="dia_coleta_fixo" class="form-select campo-empresa select-dia-fixo select2">
+                              <option value="" selected disabled>Selecione</option>
+                              <option value="Domingo" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Domingo') ? 'selected' : ''; ?>>Domingo</option>
+                              <option value="Segunda" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Segunda') ? 'selected' : ''; ?>>Segunda</option>
+                              <option value="Terça" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Terça') ? 'selected' : ''; ?>>Terça</option>
+                              <option value="Quarta" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Quarta') ? 'selected' : ''; ?>>Quarta</option>
+                              <option value="Quinta" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Quinta') ? 'selected' : ''; ?>>Quinta</option>
+                              <option value="Sexta" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Sexta') ? 'selected' : ''; ?>>Sexta</option>
+                              <option value="Sabado" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Sabado') ? 'selected' : ''; ?>>Sábado</option>
+                              
+                            </select>
+                            <div class="invalid-feedback">Preencha este campo</div>
+                          </div>
+                        </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <div class="spinner-border text-primary load-form d-none" role="status"></div>
+
+                <button class="btn btn-success btn-salva-setor-etiqueta btn-form" type="button" onclick="cadastraSetorEmpresaCliente()">Salvar</button>
+                <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
