@@ -8,17 +8,17 @@ class SetoresEmpresaCliente extends CI_Controller
 		parent::__construct();
 
 		//INICIO controle sessão
-        $this->load->library('Controle_sessao');
-        $res = $this->controle_sessao->controle();
-        if ($res == 'erro') {
-            if ($this->input->is_ajax_request()) {
-                $this->output->set_status_header(403);
-                exit();
-            } else {
-                redirect('login/erro', 'refresh');
-            }
-        }
-        // FIM controle sessão
+		$this->load->library('Controle_sessao');
+		$res = $this->controle_sessao->controle();
+		if ($res == 'erro') {
+			if ($this->input->is_ajax_request()) {
+				$this->output->set_status_header(403);
+				exit();
+			} else {
+				redirect('login/erro', 'refresh');
+			}
+		}
+		// FIM controle sessão
 
 		$this->load->model('SetoresEmpresaCliente_model');
 	}
@@ -28,23 +28,26 @@ class SetoresEmpresaCliente extends CI_Controller
 		$dados['id_cliente'] = $this->input->post('id_cliente');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-		$nome_setor_empresa = $this->input->post('nome_setor_empresa');
-		$id_setor_empresa = $this->input->post('id_setor_empresa');
+		$nomeSetorEmpresa = $this->input->post('nomeSetorEmpresa');
+		$idFrequenciaColetaSetorEmpresa = $this->input->post('idFrequenciaColeta');
+		$idSetorEmpresa = $this->input->post('idSetorEmpresa');
+		$dados['dia_coleta_fixo'] = $this->input->post('diaFixoSemana');
 
-		// todos setores do cliente
-		$setoresNoBanco = $this->SetoresEmpresaCliente_model->recebeSetoresEmpresaCliente($dados['id_cliente']);
+		$dados['id_setor_empresa'] = $idSetorEmpresa;
+		$dados['id_frequencia_coleta'] = $idFrequenciaColetaSetorEmpresa;
 
-		// verifica se o setor empresa já existe para esse cliente
-		if (in_array($id_setor_empresa, array_column($setoresNoBanco, 'id_setor_empresa'))) {
+		// todas setores do cliente
+		$setoresEmpresaNoBanco = $this->SetoresEmpresaCliente_model->recebeSetoresEmpresaCliente($dados['id_cliente']);
+
+		// verifica se o setor já existe para esse cliente
+		if (in_array($idSetorEmpresa, array_column($setoresEmpresaNoBanco, 'id_setor_empresa'))) {
 
 			$response = array(
 				'success' => false,
-				'message' => 'Este setor de empresa já está cadastrado para o cliente.'
+				'message' => 'Este setor empresa já está cadastrado para o cliente.'
 			);
-
 		} else {
 
-			$dados['id_setor_empresa'] = $id_setor_empresa;
 			$inseridoId = $this->SetoresEmpresaCliente_model->insereSetorEmpresaCliente($dados);
 
 			if ($inseridoId) {
@@ -52,10 +55,13 @@ class SetoresEmpresaCliente extends CI_Controller
 				$novoSetorEmpresa = '
                 <span class="badge rounded-pill badge-phoenix fs--2 badge-phoenix-info my-1 mx-1 p-2 setor-empresa-' . $inseridoId . '">
                     <span class="badge-label">
-                        ' . $nome_setor_empresa . '
+                        ' . $nomeSetorEmpresa . '
                         <a href="#">
                             <i class="fas fa-times-circle delete-icon" onclick="deletaSetorEmpresaCliente(' . $inseridoId . ')"></i>
                         </a>
+												<a href="#" class="btn-ver-setor-empresa" title="Editar Setor Empresa">
+												<i class="fas fa-pencil-alt edita-setor edita-setor-empresa-' . $inseridoId . '" onclick="verSetorEmpresaCliente(\'' . $nomeSetorEmpresa . '\', \'' . $idFrequenciaColetaSetorEmpresa . '\')"></i>
+											</a>
                     </span>
                 </span>';
 
@@ -63,7 +69,6 @@ class SetoresEmpresaCliente extends CI_Controller
 					'success' => true,
 					'message' => $novoSetorEmpresa
 				);
-
 			} else {
 				$response = array(
 					'success' => false,
@@ -90,8 +95,6 @@ class SetoresEmpresaCliente extends CI_Controller
 
 		$setoresEmpresa = $this->SetoresEmpresaCliente_model->recebeSetoresEmpresaCliente($id_cliente);
 
-		// echo "<pre>"; print_r($setoresEmpresa); exit;:
-
 		foreach ($setoresEmpresa as $v) {
 			echo '
 			<span class="fw-bold lh-2 mr-5 badge rounded-pill badge-phoenix fs--2 badge-phoenix-info my-1 mx-1 p-2 setor-empresa-' . $v['id'] . '"> 
@@ -99,8 +102,10 @@ class SetoresEmpresaCliente extends CI_Controller
 				<a href="#">
 					<i class="fas fa-times-circle delete-icon" onclick="deletaSetorEmpresaCliente(' . $v['id'] . ')"></i>
 				</a>
+				<a href="#" class="btn-ver-setor-empresa" title="Editar Setor Empresa">
+				<i class="fas fa-pencil-alt edita-setor edita-setor-empresa-' . $v['id_setor_empresa'] . '" onclick="verSetorEmpresaCliente(\'' . $v['nome'] . '\', \'' . $v['id_frequencia_coleta'] . '\')"></i>
+			</a>
 			</span>';
 		}
 	}
-  
 }
