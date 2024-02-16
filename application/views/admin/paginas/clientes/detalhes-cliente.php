@@ -210,18 +210,16 @@
                           <tr>
                             <td class="py-0">
                               <div class="d-flex align-items-center">
-                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:10px; height:10px"> 
-                                <span class="text-info-600 dark__text-info-300 fa-solid fas fa-recycle" style="width:16px; height:16px"></span>
+                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                  <span class="text-info-600 dark__text-info-300 fa-solid fas fa-recycle" style="width:16px; height:16px"></span>
                                 </div>
-                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" >
-                                  <span class="text-info-600 dark__text-success-300 uil-money-stack" style="width:16px; height:16px"></span>
-                                </div>
-                                <p class="fw-bold mb-0">Resíduo(s) / Pagamentos</p>
+                                <p class="fw-bold mb-0">Resíduo | Pagamento</p>
                               </div>
                             </td>
-                            <td class="py-0 d-none d-sm-block pe-sm-2">:</td>
+                            <td class="">:</td>
                             <td class="py-0">
-                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0"><?= ucfirst($nomesResiduos) . ' / ' . ucfirst($nomeFormaPagamentoResiduo); ?></div>
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0">
+                                <?= $residuosComPagamento?></div>
                             </td>
                           </tr> 
 
@@ -241,7 +239,11 @@
                             </td>
                           </tr>
                         <?php endif ?>
-
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                          </tr>
                         </table>
                       </div>
 
@@ -302,11 +304,7 @@
 
                       <div class="col-sm-12 col-xxl-12 border-bottom py-3 d-none">
                         <table class="w-100 table-stats">
-                          <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                          </tr>
+
                           <tr>
                             <td class="py-2">
                               <div class="d-inline-flex align-items-center">

@@ -125,20 +125,17 @@ class Clientes extends CI_Controller
         $data['residuoCliente'] = $this->ResiduoCliente_model->recebeResiduoCliente($id);
 
         if (!empty($data['residuoCliente'])) {
-            $nomesResiduos = array_column($data['residuoCliente'], 'nome');
-            $data['nomesResiduos'] = implode(', ', $nomesResiduos);
+            $residuosFormatados = [];
+        
+            foreach ($data['residuoCliente'] as $residuo) {
+                $residuosFormatados[] = ucfirst($residuo['nome']) . ' (' . ucfirst($residuo['forma_pagamento']) . ')';
+            }
+        
+            $data['residuosComPagamento'] = implode(', ', $residuosFormatados);
         } else {
-            $data['nomesResiduos'] = "Nenhum resíduo encontrado.";
+            $data['residuosComPagamento'] = "Nenhum resíduo encontrado.";
         }
         
-        if (!empty($data['residuoCliente'])) {
-            $nomeFormaPagamentoResiduo = array_column($data['residuoCliente'], 'forma_pagamento');
-            $data['nomeFormaPagamentoResiduo'] = implode(', ', $nomeFormaPagamentoResiduo);
-        } else {
-            $data['nomeFormaPagamentoResiduo'] = "Nenhum resíduo encontrado.";
-        }
-
-
         $data['coletas'] = $this->Coletas_model->recebeColetasCliente($id);
 
         $data['cliente'] = $this->Clientes_model->recebeCliente($id);
