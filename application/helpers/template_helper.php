@@ -426,3 +426,13 @@ function scriptsGruposFooter()
     );
 }
 
+// Pagina de setores empresa
+function scriptsSetoresEmpresaFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/setores-empresa/formulario-setor-empresa.js') . '"></script>'
+
+    );
+}
+
