@@ -73,13 +73,14 @@ class SetoresEmpresaCliente extends CI_Controller
 						<span class="badge-label">
 								' . $nomeSetorEmpresa . '
 								<a href="#">
-										<i class="fas fa-times-circle delete-icon" onclick="deletaSetorEmpresaCliente(' . $inseridoId . ')"></i>
+										<i class="fas fa-times-circle delete-icon" onclick="deletaSetorEmpresaCliente(' . $inseridoId . ')" style="margin-left: 4px;"></i>
 								</a>
-								<a href="#" class="btn-ver-setor-empresa" title="Editar Setor" style="margin-left: 5px;">
+								<a href="#" class="btn-ver-setor-empresa" title="Editar Setor" style="margin-left: 4px;">
 										<i class="fas fa-pencil-alt edita-setor-empresa edita-setor-empresa-' . $idSetorEmpresa . '" onclick="verSetorEmpresaCliente(\'' . $nomeSetorEmpresa . '\', \'' . $idFrequenciaColetaSetorEmpresa . '\')"></i>
 								</a>
 						</span>
 				</span>';
+		
 		
 
 
@@ -118,9 +119,9 @@ class SetoresEmpresaCliente extends CI_Controller
 			<span class="fw-bold lh-2 mr-5 badge rounded-pill badge-phoenix fs--2 badge-phoenix-info my-1 mx-1 p-2 setor-empresa-' . $v['id'] . '"> 
 				' . $v['nome'] . '
 				<a href="#">
-					<i class="fas fa-times-circle delete-icon" onclick="deletaSetorEmpresaCliente(' . $v['id'] . ')"></i>
+					<i class="fas fa-times-circle delete-icon" onclick="deletaSetorEmpresaCliente(' . $v['id'] . ')" style="margin-left: 4px;"></i>
 				</a>
-				<a href="#" class="btn-ver-setor-empresa" title="Editar Setor Empresa">
+				<a href="#" class="btn-ver-setor-empresa" title="Editar Setor" style="margin-left: 4px;">
 				<i class="fas fa-pencil-alt edita-setor edita-setor-empresa-' . $v['id_setor_empresa'] . '" onclick="verSetorEmpresaCliente(\'' . $v['nome'] . '\', \'' . $v['id_frequencia_coleta'] . '\')"></i>
 			</a>
 			</span>';
