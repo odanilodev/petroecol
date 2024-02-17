@@ -39,7 +39,8 @@ const cadastraSetorEmpresaCliente = () => {
                 idSetorEmpresa: idSetorEmpresa,
                 nomeSetorEmpresa: nomeSetorEmpresa,
                 idFrequenciaColeta: idFrequenciaColeta,
-                diaFixoSemana: diaFixoSemana
+                diaFixoSemana: diaFixoSemana,
+                editarSetorEmpresa: editarSetorEmpresa
             },
             beforeSend: function () {
 
@@ -64,7 +65,7 @@ const cadastraSetorEmpresaCliente = () => {
 
                 } else if (data.success && data.editado) {
 
-                    let novaFuncaoClick = `verSetorEmpresaCliente('${data.nome_setor_empresa}', '${data.id_frequencia_coleta}')`;
+                    let novaFuncaoClick = `verSetorEmpresaCliente('${data.nome_setor_empresa}', '${data.id_frequencia_coleta}', '${data.dia_coleta_fixo}')`;
 
                     $('.edita-setor-empresa-' + data.id_setor_empresa).attr('onclick', novaFuncaoClick);
 

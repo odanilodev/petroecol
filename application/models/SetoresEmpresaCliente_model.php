@@ -12,7 +12,7 @@ class SetoresEmpresaCliente_model extends CI_Model
 
     public function recebeSetoresEmpresaClientes()
     {
-        $this->db->select('SEC.*, C.nome, SE.nome');
+        $this->db->select('SEC.*, SE.nome');
         $this->db->from('ci_setores_empresa_cliente SEC');
         $this->db->join('ci_clientes C', 'SEC.id_cliente = C.id', 'inner');
         $this->db->join('ci_setores_empresa SE', 'SEC.id_setor_empresa = SE.id', 'inner');
@@ -26,7 +26,7 @@ class SetoresEmpresaCliente_model extends CI_Model
 
     public function recebeSetoresEmpresaCliente($id)
     {
-        $this->db->select('SEC.*, C.nome, SE.nome');
+        $this->db->select('SEC.*, SE.nome');
         $this->db->from('ci_setores_empresa_cliente SEC');
         $this->db->join('ci_clientes C', 'SEC.id_cliente = C.id', 'inner');
         $this->db->join('ci_setores_empresa SE', 'SEC.id_setor_empresa = SE.id', 'inner');
