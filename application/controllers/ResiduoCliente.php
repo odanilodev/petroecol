@@ -30,7 +30,7 @@ class ResiduoCliente extends CI_Controller
 
 		$nomeResiduo = $this->input->post('nome_residuo');
 		$id_residuo = $this->input->post('id_residuo');
-		$editar = $this->input->post('editarResiduo');
+		$editar = $this->input->post('editarSetorEmpresa');
 
 		$dados['id_residuo'] = $id_residuo;
 		$dados['id_forma_pagamento'] = $this->input->post('forma_pagamento');

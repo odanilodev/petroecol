@@ -31,21 +31,37 @@ class SetoresEmpresaCliente extends CI_Controller
 		$nomeSetorEmpresa = $this->input->post('nomeSetorEmpresa');
 		$idFrequenciaColetaSetorEmpresa = $this->input->post('idFrequenciaColeta');
 		$idSetorEmpresa = $this->input->post('idSetorEmpresa');
-		$dados['dia_coleta_fixo'] = $this->input->post('diaFixoSemana');
+		$editar = $this->input->post('editarSetorEmpresa');
 
+		$dados['dia_coleta_fixo'] = $this->input->post('diaFixoSemana');
 		$dados['id_setor_empresa'] = $idSetorEmpresa;
 		$dados['id_frequencia_coleta'] = $idFrequenciaColetaSetorEmpresa;
 
-		// todas setores do cliente
+		// todos setores de empresa do cliente
 		$setoresEmpresaNoBanco = $this->SetoresEmpresaCliente_model->recebeSetoresEmpresaCliente($dados['id_cliente']);
 
-		// verifica se o setor já existe para esse cliente
 		if (in_array($idSetorEmpresa, array_column($setoresEmpresaNoBanco, 'id_setor_empresa'))) {
 
-			$response = array(
-				'success' => false,
-				'message' => 'Este setor empresa já está cadastrado para o cliente.'
-			);
+			if ($editar == 'editando') {
+
+				if ($this->SetoresEmpresaCliente_model->editaSetorEmpresaCliente($idSetorEmpresa, $dados['id_cliente'], $dados)) {
+
+					$response = array(
+						'success' => true,
+						'id_setor_empresa' => $idSetorEmpresa,
+						'message' => 'Setor de Empresa registrado com sucesso',
+						'nome_setor_empresa' => $nomeSetorEmpresa,
+						'id_frequencia_coleta' => $dados['id_frequencia_coleta'],
+						'dia_coleta_fixo' => $dados['dia_coleta_fixo'],
+						'editado' => true
+					);
+				}
+			} else {
+				$response = array(
+					'success' => false,
+					'message' => 'Este setor de empresa já está cadastrado para o cliente.'
+				);
+			}
 		} else {
 
 			$inseridoId = $this->SetoresEmpresaCliente_model->insereSetorEmpresaCliente($dados);
@@ -53,17 +69,19 @@ class SetoresEmpresaCliente extends CI_Controller
 			if ($inseridoId) {
 
 				$novoSetorEmpresa = '
-                <span class="badge rounded-pill badge-phoenix fs--2 badge-phoenix-info my-1 mx-1 p-2 setor-empresa-' . $inseridoId . '">
-                    <span class="badge-label">
-                        ' . $nomeSetorEmpresa . '
-                        <a href="#">
-                            <i class="fas fa-times-circle delete-icon" onclick="deletaSetorEmpresaCliente(' . $inseridoId . ')"></i>
-                        </a>
-												<a href="#" class="btn-ver-setor-empresa" title="Editar Setor Empresa">
-												<i class="fas fa-pencil-alt edita-setor edita-setor-empresa-' . $inseridoId . '" onclick="verSetorEmpresaCliente(\'' . $nomeSetorEmpresa . '\', \'' . $idFrequenciaColetaSetorEmpresa . '\')"></i>
-											</a>
-                    </span>
-                </span>';
+				<span class="badge rounded-pill badge-phoenix fs--2 badge-phoenix-info my-1 mx-1 p-2 setor-empresa-' . $inseridoId . '">
+						<span class="badge-label">
+								' . $nomeSetorEmpresa . '
+								<a href="#">
+										<i class="fas fa-times-circle delete-icon" onclick="deletaSetorEmpresaCliente(' . $inseridoId . ')"></i>
+								</a>
+								<a href="#" class="btn-ver-setor-empresa" title="Editar Setor" style="margin-left: 5px;">
+										<i class="fas fa-pencil-alt edita-setor-empresa edita-setor-empresa-' . $idSetorEmpresa . '" onclick="verSetorEmpresaCliente(\'' . $nomeSetorEmpresa . '\', \'' . $idFrequenciaColetaSetorEmpresa . '\')"></i>
+								</a>
+						</span>
+				</span>';
+		
+
 
 				$response = array(
 					'success' => true,
