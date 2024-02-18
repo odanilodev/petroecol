@@ -11,12 +11,14 @@ class AgendarFrequencia
 		$this->CI = &get_instance();
 		$this->CI->load->model('Agendamentos_model');
 		$this->CI->load->model('Clientes_model');
+		$this->CI->load->model('SetoresEmpresaCliente_model');
+		
 	}
 
-	public function cadastraAgendamentoFrequencia(int $id_cliente, $data_coleta)
+	public function cadastraAgendamentoFrequencia(int $id_cliente, $data_coleta, int $idSetorResponsavel)
 	{
 
-		$dias_coleta = $this->CI->Clientes_model->recebeClienteFrequenciaColeta($id_cliente);
+		$dias_coleta = $this->CI->SetoresEmpresaCliente_model->recebeFrequenciaSetorCliente($idSetorResponsavel, $id_cliente);
 
 		$ultimoAgendamentoCliente = $this->CI->Agendamentos_model->recebeUltimoAgendamentoCliente($id_cliente);
 

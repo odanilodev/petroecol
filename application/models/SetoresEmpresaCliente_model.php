@@ -52,6 +52,27 @@ class SetoresEmpresaCliente_model extends CI_Model
         return $query->row_array();
     }
 
+    public function recebeFrequenciaSetorCliente($id, $id_cliente)
+    {
+        // Primeiro, buscar o id_frequencia_coleta na tabela ci_setores_empresa_cliente
+        $this->db->select('SEC.id_frequencia_coleta');
+        $this->db->from('ci_setores_empresa_cliente SEC');
+        $this->db->where('SEC.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('SEC.id_cliente', $id_cliente);
+        $this->db->where('SEC.id_setor_empresa', $id);
+        $subQuery = $this->db->get_compiled_select();
+
+        // Agora, usar o id_frequencia_coleta para buscar o dia na tabela ci_frequencia_coleta
+        $this->db->select('CFC.dia');
+        $this->db->from("ci_frequencia_coleta CFC");
+        $this->db->where("`CFC`.`id` IN ($subQuery)", NULL, FALSE);
+        $query = $this->db->get();
+
+        // Retorna a coluna 'dia' do registro encontrado
+        return $query->row_array(); // Retorna apenas o primeiro resultado, assumindo que id_frequencia_coleta é único
+    }
+    
+
     public function insereSetorEmpresaCliente($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');
