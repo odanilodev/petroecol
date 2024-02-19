@@ -138,6 +138,7 @@ class Romaneios extends CI_Controller
 	public function recebeClientesRomaneios()
 	{
 		$codRomaneio = $this->input->post('codRomaneio');
+		$idSetorEmpresa = $this->input->post('idSetorEmpresa');
 
 		$this->load->model('Agendamentos_model');
 
@@ -147,7 +148,7 @@ class Romaneios extends CI_Controller
 
 		$idsClientes = json_decode($romaneio['clientes'], true);
 
-		$clientesRomaneio = $this->Clientes_model->recebeClientesIds($idsClientes);
+		$clientesRomaneio = $this->Clientes_model->recebeClientesIds($idsClientes, $idSetorEmpresa);
 
 		// residuos
 		$this->load->model('Residuos_model');

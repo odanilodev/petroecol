@@ -240,11 +240,12 @@ $('#select-cliente-modal').change(function () {
 })
 
 
-const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio) => {
+const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpresa) => {
 
     $('#modalConcluirRomaneio').modal('show');
 
-
+    // alert(codRomaneio)
+    // alert(idSetorEmpresa)
 
     $('.id_responsavel').val(idResponsavel);
     $('.code_romaneio').val(codRomaneio);
@@ -256,7 +257,8 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio) => {
             type: 'post',
             url: `${baseUrl}romaneios/recebeClientesRomaneios`,
             data: {
-                codRomaneio: codRomaneio
+                codRomaneio: codRomaneio,
+                idSetorEmpresa: idSetorEmpresa
 
             }, beforeSend: function () {
 
@@ -590,8 +592,6 @@ function finalizarRomaneio() {
     let idResponsavel = $('.id_responsavel').val();
     let codRomaneio = $('.code_romaneio').val();
     let dataRomaneio = $('.data_romaneio').val();
-
-    alert($('.input-id-setor-empresa').val())
 
     $('.accordion-item').each(function () {
 
