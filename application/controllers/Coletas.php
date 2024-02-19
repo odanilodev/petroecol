@@ -34,10 +34,11 @@ class Coletas extends CI_Controller
         $payload = $this->input->post('clientes');
         $codRomaneio = $this->input->post('codRomaneio');
         $idResponsavel = $this->input->post('idResponsavel');
-        $idSetorResponsavel = $this->input->post('idSetorResponsavel'); // Recebe o id do setor responsavel pelo agendamento
+        $idSetorEmpresa = $this->input->post('idSetorEmpresa'); // Recebe o id do setor responsavel pelo agendamento
         $dataRomaneio = $this->input->post('dataRomaneio');
 
-        echo "<pre>"; print_r($payload); exit;
+        print_r($dataRomaneio);
+        exit;
 
         if ($payload) {
             foreach ($payload as $cliente) :
@@ -62,7 +63,9 @@ class Coletas extends CI_Controller
                     $this->Agendamentos_model->editaAgendamentoData($cliente['idCliente'], $dataRomaneio, $valor);
                 }
 
-                $this->agendarfrequencia->cadastraAgendamentoFrequencia($cliente['idCliente'], $dataRomaneio, $idSetorResponsavel);
+              
+
+                $this->agendarfrequencia->cadastraAgendamentoFrequencia($cliente['idCliente'], $dataRomaneio, $idSetorEmpresa);
 
             endforeach;
 

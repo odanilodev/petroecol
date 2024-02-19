@@ -15,10 +15,14 @@ class AgendarFrequencia
 		
 	}
 
-	public function cadastraAgendamentoFrequencia(int $id_cliente, $data_coleta, int $idSetorResponsavel)
+	public function cadastraAgendamentoFrequencia(int $id_cliente, $data_coleta, $idSetorEmpresa)
 	{
 
-		$dias_coleta = $this->CI->SetoresEmpresaCliente_model->recebeFrequenciaSetorCliente($idSetorResponsavel, $id_cliente);
+		$dias_coleta = $this->CI->SetoresEmpresaCliente_model->recebeFrequenciaSetorCliente($idSetorEmpresa, $id_cliente);
+
+		print_r($idSetorEmpresa);
+
+		exit;
 
 		$ultimoAgendamentoCliente = $this->CI->Agendamentos_model->recebeUltimoAgendamentoCliente($id_cliente);
 
@@ -35,7 +39,7 @@ class AgendarFrequencia
 		$dados['periodo_coleta'] = $periodo_ultima_coleta ?? null;
 		$dados['prioridade'] = 0; // define como prioridade comum
 		$dados['id_empresa'] = $this->CI->session->userdata('id_empresa');
-		$dados['id_setor_empresa'] = $idSetorResponsavel;
+		$dados['id_setor_empresa'] = $idSetorEmpresa;
 
 
 		$clienteAgendado = $this->CI->Agendamentos_model->recebeClienteAgendado($id_cliente, $nova_data_coleta);
