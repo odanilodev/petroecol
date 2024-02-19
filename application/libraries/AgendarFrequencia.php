@@ -35,6 +35,8 @@ class AgendarFrequencia
 		$dados['periodo_coleta'] = $periodo_ultima_coleta ?? null;
 		$dados['prioridade'] = 0; // define como prioridade comum
 		$dados['id_empresa'] = $this->CI->session->userdata('id_empresa');
+		$dados['id_setor_empresa'] = $idSetorResponsavel;
+
 
 		$clienteAgendado = $this->CI->Agendamentos_model->recebeClienteAgendado($id_cliente, $nova_data_coleta);
 
