@@ -5,6 +5,11 @@ const filtrarClientesRomaneio = () => {
     var permissao = false;
     var filtrarData = null;
 
+    if (!$('#select-setor').val()) {
+        avisoRetorno('Algo deu errado!', 'Selecione um setor!', 'error', '#');
+        return;
+    }
+
     if ($('#filtrar-data').prop('checked')) {
         filtrarData = true;
         permissao = true;
