@@ -126,6 +126,8 @@
                     <input type="hidden" class="id_responsavel">
                     <input type="hidden" class="code_romaneio">
                     <input type="hidden" class="data_romaneio">
+                    <input type="hidden" class="input-id-setor-empresa">
+
                 </div>
             </div>
         </div>

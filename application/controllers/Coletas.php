@@ -36,6 +36,8 @@ class Coletas extends CI_Controller
         $idResponsavel = $this->input->post('idResponsavel');
         $dataRomaneio = $this->input->post('dataRomaneio');
 
+        echo "<pre>"; print_r($payload); exit;
+
         if ($payload) {
             foreach ($payload as $cliente) :
                 $dados = array(

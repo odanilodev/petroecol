@@ -164,4 +164,19 @@ class SetoresEmpresaCliente_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+    // busca os clientes por cidade de um setor específico
+    public function recebeCidadesClientesSetoresEmpresa($id_setor_empresa)
+    {
+        $this->db->select('SEC.id_setor_empresa, C.cidade');
+        $this->db->from('ci_setores_empresa_cliente SEC');
+        $this->db->join('ci_clientes C', 'SEC.id_cliente = C.id', 'inner');
+        $this->db->where('SEC.id_setor_empresa', $id_setor_empresa);
+        $this->db->where('SEC.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->group_by('SEC.id_setor_empresa, C.cidade');
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
 }
