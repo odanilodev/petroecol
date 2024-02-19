@@ -821,7 +821,7 @@ function imprimirClientes(clientes) {
 
           <td>
           
-            <select ${cliente.status == 1 ? "disabled" : ""} class="form-select w-100 select-prioridade-modal select-prioridade-modal-${cliente.id_cliente}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-setor="${cliente.SETOR}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
+            <select ${cliente.status == 1 ? "disabled" : ""} class="form-select w-100 select-prioridade-modal select-prioridade-modal-${cliente.id_cliente}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-setor="${cliente.id_setor_empresa}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
 
               <option disabled selected value="">Definir prioridade</option>
 
