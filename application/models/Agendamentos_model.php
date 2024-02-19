@@ -62,11 +62,12 @@ class Agendamentos_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function editaStatusAgendamento($id_cliente, $data_coleta, $dados)
+    public function editaStatusAgendamento($id_cliente, $data_coleta, $dados, $idSetorEmpresa)
     {
         $dados['editado_em'] = date('Y-m-d H:i:s');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('id_cliente', $id_cliente); 
+        $this->db->where('id_setor_empresa', $idSetorEmpresa); 
         $this->db->where('status', 0);
         $this->db->where('data_coleta <', $data_coleta);
         $this->db->update('ci_agendamentos', $dados);
@@ -92,12 +93,13 @@ class Agendamentos_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function editaAgendamentoData($id_cliente, $data_agendamento, $dados)
+    public function editaAgendamentoData($id_cliente, $data_agendamento, $dados, $idSetorEmpresa)
     {
 
         $dados['editado_em'] = date('Y-m-d H:i:s');
         $this->db->where('id_cliente', $id_cliente);
         $this->db->where('data_coleta', $data_agendamento);
+        $this->db->where('id_setor_empresa', $idSetorEmpresa);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
 
         $this->db->update('ci_agendamentos', $dados);

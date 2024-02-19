@@ -37,9 +37,6 @@ class Coletas extends CI_Controller
         $idSetorEmpresa = $this->input->post('idSetorEmpresa'); // Recebe o id do setor responsavel pelo agendamento
         $dataRomaneio = $this->input->post('dataRomaneio');
 
-        print_r($dataRomaneio);
-        exit;
-
         if ($payload) {
             foreach ($payload as $cliente) :
                 $dados = array(
@@ -60,11 +57,10 @@ class Coletas extends CI_Controller
 
                 if ($inseriuColeta && $cliente['coletado']) {
                     $valor['status'] = 1;
-                    $this->Agendamentos_model->editaAgendamentoData($cliente['idCliente'], $dataRomaneio, $valor);
+                    $this->Agendamentos_model->editaAgendamentoData($cliente['idCliente'], $dataRomaneio, $valor, $idSetorEmpresa);
                 }
 
               
-
                 $this->agendarfrequencia->cadastraAgendamentoFrequencia($cliente['idCliente'], $dataRomaneio, $idSetorEmpresa);
 
             endforeach;

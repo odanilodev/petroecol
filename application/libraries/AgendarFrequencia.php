@@ -12,17 +12,12 @@ class AgendarFrequencia
 		$this->CI->load->model('Agendamentos_model');
 		$this->CI->load->model('Clientes_model');
 		$this->CI->load->model('SetoresEmpresaCliente_model');
-		
 	}
 
 	public function cadastraAgendamentoFrequencia(int $id_cliente, $data_coleta, $idSetorEmpresa)
 	{
 
 		$dias_coleta = $this->CI->SetoresEmpresaCliente_model->recebeFrequenciaSetorCliente($idSetorEmpresa, $id_cliente);
-
-		print_r($idSetorEmpresa);
-
-		exit;
 
 		$ultimoAgendamentoCliente = $this->CI->Agendamentos_model->recebeUltimoAgendamentoCliente($id_cliente);
 
@@ -42,13 +37,13 @@ class AgendarFrequencia
 		$dados['id_setor_empresa'] = $idSetorEmpresa;
 
 
-		$clienteAgendado = $this->CI->Agendamentos_model->recebeClienteAgendado($id_cliente, $nova_data_coleta);
+		$clienteAgendado = $this->CI->Agendamentos_model->recebeClienteAgendado($id_cliente, $nova_data_coleta, $idSetorEmpresa);
 
 		if (!$clienteAgendado) {
 			$this->CI->Agendamentos_model->insereAgendamento($dados);
 		}
 
 		$data['status'] = 2;
-		$this->CI->Agendamentos_model->editaStatusAgendamento($id_cliente, $data_coleta, $data);
+		$this->CI->Agendamentos_model->editaStatusAgendamento($id_cliente, $data_coleta, $data, $idSetorEmpresa);
 	}
 }
