@@ -662,7 +662,6 @@ function finalizarRomaneio() {
                 pagamento: formaPagamentoSelecionados,
                 valor: valorPagamento,
                 coletado: coletado,
-                idSetorEmpresa: $('.input-id-setor-empresa').val(),
                 obs: $(this).find('.input-obs').val()
             };
 
@@ -670,6 +669,8 @@ function finalizarRomaneio() {
         }
 
     });
+
+    var idSetorEmpresa = $('.input-id-setor-empresa').val();
 
     if (permissao) {
 
@@ -680,7 +681,8 @@ function finalizarRomaneio() {
                 clientes: dadosClientes,
                 idResponsavel: idResponsavel,
                 codRomaneio: codRomaneio,
-                dataRomaneio: dataRomaneio
+                dataRomaneio: dataRomaneio,
+                idSetorEmpresa: idSetorEmpresa
 
             }, beforeSend: function () {
 
