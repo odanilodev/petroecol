@@ -263,6 +263,7 @@
 
                 <div class="w-100 my-3 mb-4">
                     <input type="hidden" class="id-cliente">
+                    <input type="hidden" class="input-editar-setor-empresa">
 
                     <label>Atribuir frequência de coleta</label>
                     <select class="form-select w-100 select2 select-frequencia" id="select-frequencia-coleta-setor" >
