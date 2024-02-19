@@ -794,7 +794,7 @@ function imprimirClientes(clientes) {
 
           <td>
           
-            <input ${cliente.status == 1 ? "disabled" : ""} class="form-control datetimepicker flatpickr-input data-modal data-modal-${cliente.id_cliente}" id="datepicker" type="text" placeholder="dd/mm/yyyy" data-options="{&quot;disableMobile&quot;:true,&quot;}" readonly="readonly" value="${dataFormatada}" data-data="${dataFormatada}" data-setor="${cliente.id_setor_empresa}" data-id="${cliente.id_cliente}"  data-agendamento="${cliente.id}" data-obs="${cliente.observacao}">
+            <input ${cliente.status == 1 ? "disabled" : ""} class="form-control datetimepicker3 flatpickr-input data-modal data-modal-${cliente.id_cliente}" id="datepicker" type="text" placeholder="dd/mm/yyyy" data-options="{&quot;disableMobile&quot;:true,&quot;}" readonly="readonly" value="${dataFormatada}" data-data="${dataFormatada}" data-setor="${cliente.id_setor_empresa}" data-id="${cliente.id_cliente}"  data-agendamento="${cliente.id}" data-obs="${cliente.observacao}">
         
           </td>
 
@@ -897,8 +897,8 @@ function imprimirClientes(clientes) {
 
     $('.accordion-clientes-agendados').append(clientesAgendados);
 
-    $('.datetimepicker').flatpickr({
-      dateFormat: "Y-m-d",
+    $('.datetimepicker3').flatpickr({
+      dateFormat: "d/m/Y",
       disableMobile: true
     });
 

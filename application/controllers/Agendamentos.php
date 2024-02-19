@@ -68,7 +68,7 @@ class Agendamentos extends CI_Controller
         for ($i = 0; $i < count($idsClientes); $i++) {
     
             // verifica se já existe o cliente agendado nessa data
-            $clienteAgendado = $this->Agendamentos_model->recebeClienteAgendado($idsClientes[$i], $dados['data_coleta']);
+            $clienteAgendado = $this->Agendamentos_model->recebeClienteAgendado($idsClientes[$i], $dados['data_coleta'], $dados['id_setor_empresa']);
     
             if (!$clienteAgendado) {
                 

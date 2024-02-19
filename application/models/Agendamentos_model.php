@@ -127,10 +127,11 @@ class Agendamentos_model extends CI_Model
         return $query->result_array();
     }
 
-    public function recebeClienteAgendado($idCLiente, $dataColeta)
+    public function recebeClienteAgendado($idCLiente, $dataColeta, $idSetorEmpresa)
     {
         $this->db->where('data_coleta', $dataColeta);
         $this->db->where('id_cliente', $idCLiente);
+        $this->db->where('id_setor_empresa', $idSetorEmpresa);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_agendamentos');
 
