@@ -5,6 +5,11 @@ const filtrarClientesRomaneio = () => {
     var permissao = false;
     var filtrarData = null;
 
+    if (!$('#select-setor').val()) {
+        avisoRetorno('Algo deu errado!', 'Selecione um setor!', 'error', '#');
+        return;
+    }
+
     if ($('#filtrar-data').prop('checked')) {
         filtrarData = true;
         permissao = true;
@@ -37,6 +42,8 @@ const filtrarClientesRomaneio = () => {
 
     let cidades = $('#select-cidades').val();
 
+    let setorEmpresa = $('#select-setor').val();
+
     if (permissao) {
 
         $.ajax({
@@ -46,7 +53,8 @@ const filtrarClientesRomaneio = () => {
                 cidades: cidades,
                 ids_etiquetas: etiquetas,
                 data_coleta: data_coleta,
-                filtrar_data: filtrarData
+                filtrar_data: filtrarData,
+                setorEmpresa: setorEmpresa
             },
             beforeSend: function () {
                 $('.clientes-modal-romaneio').html('');
@@ -57,6 +65,8 @@ const filtrarClientesRomaneio = () => {
 
                 $('.load-form-romaneio').addClass('d-none');
                 $('.btn-envia-romaneio').removeClass('d-none');
+
+                $('.id-setor-empresa').val(setorEmpresa);
 
                 if (data.registros < 1) {
 
@@ -133,6 +143,7 @@ const gerarRomaneio = () => {
     let responsavel = $('#select-responsavel').val();
     let veiculo = $('#select-veiculo').val();
     let data_coleta = $('.input-coleta').val();
+    let setorEmpresa = $('.id-setor-empresa').val();
 
     if (permissao) {
 
@@ -143,7 +154,8 @@ const gerarRomaneio = () => {
                 clientes: clientes,
                 responsavel: responsavel,
                 veiculo: veiculo,
-                data_coleta: data_coleta
+                data_coleta: data_coleta,
+                setorEmpresa: setorEmpresa
             },
             beforeSend: function () {
                 $('.load-form-modal-romaneio').removeClass('d-none');
@@ -283,6 +295,8 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
     var idPrioridades = formatarArray(id_cliente_prioridade); // idsPrioridade formatado
 
+    $('.input-id-setor-empresa').val(clientes[0].id_setor_empresa)
+
     for (let i = 0; i < registros; i++) {
 
         let dadosClientes = `
@@ -291,7 +305,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                 <h2 class="accordion-header" id="heading${i}">
                     <button class="accordion-button ${i != 0 ? 'collapsed' : ''}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
-                        ${clientes[i].nome} 
+                        ${clientes[i].nome} (${clientes[i].SETOR})
                         
                         <span class="cliente-${clientes[i].id}">
 
@@ -304,6 +318,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                 <div class="accordion-collapse collapse ${i == 0 ? 'show' : ''}" id="collapse${i}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
 
                     <input type="hidden" value="${clientes[i].id}" class="input-id-cliente">
+
 
                     <div class="accordion-body pt-0 row">
 
@@ -576,6 +591,7 @@ function finalizarRomaneio() {
     let codRomaneio = $('.code_romaneio').val();
     let dataRomaneio = $('.data_romaneio').val();
 
+    alert($('.input-id-setor-empresa').val())
 
     $('.accordion-item').each(function () {
 
@@ -646,6 +662,7 @@ function finalizarRomaneio() {
                 pagamento: formaPagamentoSelecionados,
                 valor: valorPagamento,
                 coletado: coletado,
+                idSetorEmpresa: $('.input-id-setor-empresa').val(),
                 obs: $(this).find('.input-obs').val()
             };
 
@@ -705,3 +722,67 @@ $(document).ready(function () {
     });
 })
 
+
+// busca as cidades dos clientes por setor
+function recebeCidadeClientesSetor (idSetor) {
+
+    $.ajax({
+        type: 'POST',
+        url: `${baseUrl}romaneios/recebeCidadeClientesSetor`,
+        data: {
+        id_setor: idSetor
+        }, success: function (data) {
+
+            $('#select-cidades').html(''); 
+
+            for (let i = 0; i < data.cidades.length; i ++) {
+
+                $('#select-cidades').append(`<option value="${data.cidades[i]['cidade']}">${data.cidades[i]['cidade']}</option>`);
+
+            }
+
+        }
+
+    })
+
+}
+  
+// busca os clientes por etiqueta e setor
+function recebeClientesEtiquetaSetor (idSetor) {
+
+$.ajax({
+    type: 'POST',
+    url: `${baseUrl}setoresEmpresaCliente/recebeClientesEtiquetaSetor`,
+    data: {
+    id_setor: idSetor
+    }, success: function (data) {
+
+        $('#select-etiquetas').html(''); 
+
+        for (let i = 0; i < data.clientesEtiquetaSetor.length; i ++) {
+
+            $('#select-etiquetas').append(`<option value="${data.clientesEtiquetaSetor[i]['id_etiqueta']}">${data.clientesEtiquetaSetor[i]['nome']}</option>`);
+
+        }
+
+    }
+
+})
+
+}
+  
+// seleciona os clientes por setor
+$(".select-setor").change(function() {
+
+    if ($(this).val() != null) {
+
+        recebeCidadeClientesSetor($(this).val());
+        recebeClientesEtiquetaSetor($(this).val());
+
+        $('#select-cidades').attr('disabled', false); // limpa o select de clientes
+        $('#select-etiquetas').attr('disabled', false); // limpa o select de etiquetas
+
+        $('.ids-clientes').val(''); // remove todos ids do input hidden
+    }   
+
+});

@@ -46,30 +46,39 @@
 
             <div class="mb-3">
 
+              <select class="form-select w-100 cliente-setor-agendamento select2" id="select-cliente-setor">
+
+                <option disabled selected value="">Selecione o setor</option>
+                <?php foreach ($setores as $setor) { ?>
+                  <option value="<?= $setor['id_setor_empresa'] ?>"><?= strtoupper($setor['nome']); ?></option>
+                <?php } ?>
+
+              </select>
+
+            </div>
+
+            <div class="mb-3 d-none div-select-cliente">
+
               <select class="form-select w-100 cliente-agendamento select2" id="select-cliente">
 
-                <option disabled selected value="">Selecione o Cliente</option>
-                <?php foreach ($clientes as $v) { ?>
+                <option selected disabled value="">Selecione um cliente</option>
+                <!-- <?php foreach ($clientes as $v) { ?>
                   <option value="<?= $v['id'] ?>"><?= strtoupper($v['nome']); ?></option>
-                <?php } ?>
+                <?php } ?> -->
 
               </select>
               
 
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3 d-none div-select-cliente-etiqueta">
 
               <select class="form-select w-100 cliente-etiqueta-agendamento select2" id="select-cliente-etiqueta">
 
                 <option disabled selected value="">Clientes por etiqueta</option>
-                <?php foreach ($etiquetas as $etiqueta) { ?>
-                  <option value="<?= $etiqueta['id_etiqueta'] ?>"><?= strtoupper($etiqueta['nome']); ?></option>
-                <?php } ?>
+            
 
               </select>
-
-              <input type="hidden" class="ids-clientes"> 
 
             </div>
 
@@ -115,6 +124,7 @@
           <input type="hidden" class="prioridade-agendamento" value="1">
 
           <div class="modal-footer d-flex justify-content-between align-items-center border-0">
+          <input type="hidden" class="ids-clientes">
 
             <button class="btn btn-primary px-4 btn-envia btn-salva-agendamento" type="button" onclick="salvaAgendamento()">Salvar</button>
             <div class="spinner-border text-primary load-form d-none" role="status"></div>

@@ -37,6 +37,8 @@ class Coletas extends CI_Controller
         $idSetorResponsavel = $this->input->post('idSetorResponsavel'); // Recebe o id do setor responsavel pelo agendamento
         $dataRomaneio = $this->input->post('dataRomaneio');
 
+        echo "<pre>"; print_r($payload); exit;
+
         if ($payload) {
             foreach ($payload as $cliente) :
                 $dados = array(

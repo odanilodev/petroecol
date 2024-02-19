@@ -22,29 +22,33 @@
 
                                         <div class="row">
 
-                                            <div class="mb-2 col-md-4">
+                                            <div class="mb-2 col-md-3">
+                                                <label>Escolha o setor</label>
+                                                <select class="form-select w-100 select-setor select2" id="select-setor">
+
+                                                    <option disabled selected value="">Selecione o setor</option>
+                                                    <?php foreach ($setores as $setor) { ?>
+                                                    <option value="<?= $setor['id_setor_empresa'] ?>"><?= strtoupper($setor['nome']); ?></option>
+                                                    <?php } ?>
+
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-2 col-md-3">
                                                 <label>Etiquetas</label>
-                                                <select id="select-etiquetas" class="form-select w-100 mb-3 select2 input-filtro-romaneio" multiple data-placeholder="Selecione a(s) etiqueta(s)">
-
-                                                    <?php foreach ($etiquetas as $v) { ?>
-                                                        <option value="<?= $v['id'] ?>"><?= $v['nome'] ?></option>
-                                                    <?php } ?>
-
+                                                <select disabled id="select-etiquetas" class="form-select w-100 mb-3 select2 input-filtro-romaneio" multiple data-placeholder="Selecione a(s) etiqueta(s)">
+                                                    <!-- JS -->
                                                 </select>
                                             </div>
 
-                                            <div class="mb-2 col-md-4">
+                                            <div class="mb-2 col-md-3">
                                                 <label>Cidades</label>
-                                                <select id="select-cidades" class="form-select w-100 mb-3 select2 input-filtro-romaneio" multiple data-placeholder="Selecione a(s) cidade(s)">
-
-                                                    <?php foreach ($cidades as $v) { ?>
-                                                        <option value="<?= $v['cidade'] ?>"><?= $v['cidade'] ?></option>
-                                                    <?php } ?>
-
+                                                <select disabled id="select-cidades" class="form-select w-100 mb-3 select2 input-filtro-romaneio" multiple data-placeholder="Selecione a(s) cidade(s)">
+                                                    <!-- JS -->
                                                 </select>
                                             </div>
 
-                                            <div class="col-md-4 mb-2">
+                                            <div class="col-md-3 mb-2">
                                                 <label>Data Agendamento</label>
 
                                                 <input class="form-control datetimepicker input-coleta" required name="data_coleta" type="text" placeholder="Data Agendamento" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
@@ -136,6 +140,7 @@
                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                     
                     <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
+                    <input type="hidden" class="id-setor-empresa">
                     <button type="button" class="btn btn-primary btn-salva-romaneio" onclick="gerarRomaneio()">Gerar Romaneio</button>
                 </div>
             </div>
