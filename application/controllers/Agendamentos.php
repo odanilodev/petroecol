@@ -41,6 +41,9 @@ class Agendamentos extends CI_Controller
         $this->load->model('EtiquetaCliente_model');
         $data['etiquetas'] = $this->EtiquetaCliente_model->recebeTodasEtiquetasClientes();
 
+        $this->load->model('SetoresEmpresaCliente_model');
+        $data['setores'] = $this->SetoresEmpresaCliente_model->recebeSetoresEmpresaClientes();
+
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/agendamentos/agendamentos');
         $this->load->view('admin/includes/painel/rodape');
@@ -56,6 +59,7 @@ class Agendamentos extends CI_Controller
         $dados['periodo_coleta'] = $this->input->post('periodo');
         $dados['observacao'] = $this->input->post('obs');
         $dados['prioridade'] = $this->input->post('prioridade');
+        $dados['id_setor_empresa'] = $this->input->post('setorEmpresa');
         $dados['id_empresa'] = $this->session->userdata('id_empresa');
         $id = $this->input->post('id');
     

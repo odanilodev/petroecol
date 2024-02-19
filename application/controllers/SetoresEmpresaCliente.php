@@ -108,4 +108,34 @@ class SetoresEmpresaCliente extends CI_Controller
 			</span>';
 		}
 	}
+
+	public function recebeClientesSetor ()
+	{
+		$id_setor = $this->input->post('id_setor');
+
+		$clientesSetor = $this->SetoresEmpresaCliente_model->recebeClientesSetoresEmpresa($id_setor);
+
+		$response = array(
+			'success' => true,
+			'clientesSetor' => $clientesSetor
+		);
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
+	}
+
+	public function recebeClientesEtiquetaSetor ()
+	{
+		$id_setor = $this->input->post('id_setor');
+
+		$clientesEtiquetaSetor = $this->SetoresEmpresaCliente_model->recebeClientesEtiquetaSetoresEmpresa($id_setor);
+
+		$response = array(
+			'success' => true,
+			'clientesEtiquetaSetor' => $clientesEtiquetaSetor
+		);
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
+	}
 }
