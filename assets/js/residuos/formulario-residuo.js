@@ -6,6 +6,7 @@ const cadastraResiduos = () => {
     let grupo = $('.input-grupo').val();
     let id = $('.input-id').val();
     let uni = $('.input-medida').val();
+    let idSetor = $('.input-setor-residuo').val();
 
     //Verificação de campo vazio e permissao para cadastrar
     let permissao = true
@@ -37,7 +38,8 @@ const cadastraResiduos = () => {
                 residuo: residuo,
                 grupo: grupo,
                 id: id,
-                unidade: uni
+                unidade: uni,
+                idSetor: idSetor
             },
             beforeSend: function () {
                 $('.load-form').removeClass('d-none');

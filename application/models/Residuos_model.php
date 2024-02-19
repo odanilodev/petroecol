@@ -20,11 +20,12 @@ class Residuos_model extends CI_Model
         }
 
         $offset = ($page - 1) * $limit;
-        $this->db->select('R.*, GR.nome_grupo');
+        $this->db->select('R.*, GR.nome_grupo, SE.nome as SETOR');
         $this->db->from('ci_residuos R');
         $this->db->join('ci_grupo_residuos GR', 'R.id_grupo = GR.id', 'inner');
+        $this->db->join('ci_setores_empresa SE', 'R.id_setor_empresa = SE.id', 'inner');
         $this->db->order_by('R.nome', 'DESC');
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
 
