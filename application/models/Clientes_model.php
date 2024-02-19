@@ -150,7 +150,7 @@ class Clientes_model extends CI_Model
 
 
     //Recebe clientes com varios Ids selecionados
-    public function recebeClientesIds($ids)
+    public function recebeClientesIds($ids, $id_setor_empresa)
     {
         $this->db->select('C.*, FP.forma_pagamento, SEC.id_setor_empresa, SE.nome as SETOR');
         $this->db->from('ci_clientes C');
@@ -159,6 +159,7 @@ class Clientes_model extends CI_Model
         $this->db->join('ci_setores_empresa SE', 'SEC.id_setor_empresa = SE.id', 'left');
         $this->db->order_by('C.cidade, C.nome');
         $this->db->where_in('C.id', $ids);
+        $this->db->where_in('SEC.id_setor_empresa', $id_setor_empresa);
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->group_by('C.id, SEC.id_setor_empresa');
         $query = $this->db->get();
