@@ -291,7 +291,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                 <h2 class="accordion-header" id="heading${i}">
                     <button class="accordion-button ${i != 0 ? 'collapsed' : ''}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
-                        ${clientes[i].nome} 
+                        ${clientes[i].nome} (${clientes[i].SETOR})
                         
                         <span class="cliente-${clientes[i].id}">
 
@@ -304,6 +304,8 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                 <div class="accordion-collapse collapse ${i == 0 ? 'show' : ''}" id="collapse${i}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
 
                     <input type="hidden" value="${clientes[i].id}" class="input-id-cliente">
+                    <input type="hidden" value="${clientes[i].id_setor_empresa}" class="input-id-setor-empresa">
+
 
                     <div class="accordion-body pt-0 row">
 
@@ -646,6 +648,7 @@ function finalizarRomaneio() {
                 pagamento: formaPagamentoSelecionados,
                 valor: valorPagamento,
                 coletado: coletado,
+                idSetorEmpresa: $(this).find('.input-id-setor-empresa').val(),
                 obs: $(this).find('.input-obs').val()
             };
 
