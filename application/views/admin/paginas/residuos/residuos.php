@@ -1,5 +1,5 @@
 <div class="content">
-    <div>
+    <div id="members" data-list='{"valueNames":["nome-residuo", "nome-grupo", "setor-residuo"],"page":10,"pagination":true}'>
         <div class="row align-items-center justify-content-between g-3 mb-4">
 
             <div class="col-auto">
@@ -30,8 +30,9 @@
                                 </div>
                             </th>
 
-                            <th class="sort align-middle" scope="col" data-sort="customer">Resíduos</th>
-                            <th class="sort align-middle" scope="col" data-sort="customer">Grupo</th>
+                            <th class="sort align-middle" scope="col" data-sort="nome-residuo">Resíduos</th>
+                            <th class="sort align-middle" scope="col" data-sort="nome-grupo">Grupo</th>
+                            <th class="sort align-middle" scope="col" data-sort="setor-residuo">Setor Resíduo</th>
                             <th class="sort align-middle pe-3">Editar</th>
                             <th class="sort align-middle pe-3">Excluir</th>
                         </tr>
@@ -48,12 +49,17 @@
                                     </div>
                                 </td>
 
-                                <td class="align-middle white-space-nowrap">
+                                <td class="nome-residuo align-middle white-space-nowrap">
                                     <?= $v['nome'] ?>
                                 </td>
 
-                                <td class="align-middle white-space-nowrap">
+                                <td class="nome-grupo align-middle white-space-nowrap">
                                     <?= $v['nome_grupo'] ?>
+                                </td>
+
+                                <td class="setor-residuo align-middle white-space-nowrap">
+                                    <?= $v['SETOR'] ?>
+
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
