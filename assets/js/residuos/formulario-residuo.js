@@ -14,17 +14,35 @@ const cadastraResiduos = () => {
 	$(".input-obrigatorio").each(function () {
 
 		// Verifica se o valor do input atual está vazio
-		if ($(this).val() === "" || $(this).val() === null) {
+		if (!$(this).val()) {
 
             $(this).addClass('invalido');
-            $(this).next().removeClass('d-none');
+
+            // verifica se é select2
+            if ($(this).next().hasClass('aviso-obrigatorio')) {
+                
+                $(this).next().removeClass('d-none');
+
+            } else {
+                $(this).next().next().removeClass('d-none');
+                $(this).next().addClass('select2-obrigatorio');
+            }
 
 			permissao = false;
 
 		} else {
 
             $(this).removeClass('invalido');
-            $(this).next().addClass('d-none');
+
+            if ($(this).next().hasClass('aviso-obrigatorio')) {
+
+                $(this).next().addClass('d-none');
+
+            } else {
+                $(this).next().next().addClass('d-none');
+                $(this).next().removeClass('select2-obrigatorio');
+
+            }
         }
 	});
 
@@ -63,6 +81,7 @@ const cadastraResiduos = () => {
         });
     }
 }
+
 
 const deletarResiduo = (id) => {
 
