@@ -123,49 +123,61 @@ class Clientes_model extends CI_Model
 
     public function recebeCliente($id)
     {
-        $this->db->select('C.*, F.frequencia, CC.cor, FP.forma_pagamento');
+        $this->db->select('C.*, CC.cor');
         $this->db->from('ci_clientes C');
-        $this->db->join('ci_frequencia_coleta F', 'C.id_frequencia_coleta = F.id', 'left');
         $this->db->join('ci_classificacao_cliente CC', 'C.id_classificacao_cliente = CC.id', 'left');
-        $this->db->join('ci_forma_pagamento FP', 'C.id_forma_pagamento = FP.id', 'left');
         $this->db->where('C.id', $id);
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get();
-
-        return $query->row_array();
+    
+        $cliente = $this->db->get()->row_array();
+    
+        if ($cliente) {
+            // Busca o id_frequencia_coleta na tabela ci_setores_empresa_cliente.
+            $this->db->select('SEC.id_frequencia_coleta');
+            $this->db->from('ci_setores_empresa_cliente SEC');
+            $this->db->where('SEC.id_cliente', $id);
+            $setor = $this->db->get()->row_array();
+    
+            if ($setor && isset($setor['id_frequencia_coleta'])) {
+                // Com o id_frequencia_coleta, busca a frequência na tabela ci_frequencia_coleta.
+                $this->db->select('F.frequencia');
+                $this->db->from('ci_frequencia_coleta F');
+                $this->db->where('F.id', $setor['id_frequencia_coleta']);
+                $frequencia = $this->db->get()->row_array();
+    
+                // Se encontrou a frequência, adiciona ao array do cliente.
+                if ($frequencia) {
+                    $cliente['frequencia'] = $frequencia['frequencia'];
+                } else {
+                    // Define a frequência como null ou algum valor padrão se não encontrar.
+                    $cliente['frequencia'] = null;
+                }
+            } else {
+                // Se não encontrar um setor associado, também define a frequência como null.
+                $cliente['frequencia'] = null;
+            }
+        }
+    
+        return $cliente;
     }
-
-
-    public function recebeClienteFrequenciaColeta($id_cliente)
-    {
-        $this->db->select('F.dia');
-        $this->db->from('ci_clientes C');
-        $this->db->join('ci_frequencia_coleta F', 'C.id_frequencia_coleta = F.id', 'left');
-        $this->db->where('C.id', $id_cliente);
-        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get();
-
-        return $query->row_array();
-    }
-
 
     //Recebe clientes com varios Ids selecionados
     public function recebeClientesIds($ids, $id_setor_empresa)
     {
-        $this->db->select('C.*, FP.forma_pagamento, SEC.id_setor_empresa, SE.nome as SETOR');
+        $this->db->select('C.*, SEC.id_setor_empresa, SE.nome as SETOR, FP.forma_pagamento');
         $this->db->from('ci_clientes C');
-        $this->db->join('ci_forma_pagamento FP', 'FP.id = C.id_forma_pagamento', 'left');
         $this->db->join('ci_setores_empresa_cliente SEC', 'SEC.id_cliente = C.id', 'left');
         $this->db->join('ci_setores_empresa SE', 'SEC.id_setor_empresa = SE.id', 'left');
-        $this->db->order_by('C.cidade, C.nome');
+        $this->db->join('ci_forma_pagamento FP', 'FP.id = SEC.id_forma_pagamento', 'left');
         $this->db->where_in('C.id', $ids);
-        $this->db->where_in('SEC.id_setor_empresa', $id_setor_empresa);
+        $this->db->where('SEC.id_setor_empresa', $id_setor_empresa);
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->group_by('C.id, SEC.id_setor_empresa');
+        $this->db->group_by('C.id, SEC.id_setor_empresa, FP.forma_pagamento');
+        $this->db->order_by('C.cidade, C.nome');
+        
         $query = $this->db->get();
         return $query->result_array();
     }
-
 
     public function insereCliente($dados)
     {
@@ -257,10 +269,15 @@ class Clientes_model extends CI_Model
 
     public function verificaFormaPagamentoCliente($id)
     {
-        $this->db->where('id_forma_pagamento', $id);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->get('ci_clientes');
+        $this->db->select('C.id');
+        $this->db->from('ci_clientes C');
+        $this->db->join('ci_setores_empresa_cliente SEC', 'SEC.id_cliente = C.id', 'left');
+        $this->db->where('SEC.id_forma_pagamento', $id);
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        
+        $query = $this->db->get();
 
-        return $this->db->affected_rows() > 0;
+        return $query->num_rows() == 0;
     }
+
 }
