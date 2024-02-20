@@ -113,81 +113,80 @@ class Etiquetas extends CI_Controller
 
 	public function deletaEtiqueta()
 	{
-			$this->load->model('EtiquetaCliente_model');
+		$this->load->model('EtiquetaCliente_model');
 
-			$ids = $this->input->post('ids');
-	
-			$vinculadas = [];
-			$naoVinculadas = [];
-	
-			foreach ($ids as $id) {
-					$retorno = $this->EtiquetaCliente_model->verificaEtiquetaCliente($id);
-	
-					if ($retorno) {
-							$vinculadas[] = $id;
-					} else {
-							$naoVinculadas[] = $id;
-					}
-			}
-	
-			if (count($vinculadas) == 1) {
-					$response = array(
-							'success' => false,
-							'title' => "Algo deu errado!",
-							'id_vinculado' => $vinculadas[0],
-							'message' => "Existem um ou mais clientes vinculados a esta etiqueta. Não é possível excluí-la.",
-							'type' => "error",
-							'redirect' => true
-					);
-	
-					return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-			}
-	
-			if (!empty($naoVinculadas)) {
-					$retornoEtiquetaDeletada = $this->Etiquetas_model->deletaEtiqueta($naoVinculadas);
-	
-					if ($retornoEtiquetaDeletada) {
-							$message = "Etiqueta(s) deletada(s) com sucesso!";
-							$type = "success";
+		$ids = $this->input->post('ids');
 
-							if (!empty($vinculadas)) {
-								$nomesEtiquetas = $this->EtiquetaCliente_model->verificaEtiquetaCliente($vinculadas);
-						
-								$nomeEtiqueta = '';
-						
-								for ($i = 0; $i < count($nomesEtiquetas); $i++) {
+		$vinculadas = [];
+		$naoVinculadas = [];
 
-										$nomeEtiqueta .= $nomesEtiquetas[$i]['nomes_etiquetas'];
-						
-										if ($i < count($nomesEtiquetas) - 1) {
-												$nomeEtiqueta .= ', ';
-										}
-								}
-						
-								$message = "As seguintes etiquetas não foram deletadas pois estão vinculadas a clientes: " . $nomeEtiqueta;
-								$type = "warning";
-						}
-						
-						
-							$response = array(
-									'success' => true,
-									'title' => "Atenção!",
-									'message' => $message,
-									'type' => $type,
-									'redirect' => false
-							);
-					}
-					
+		foreach ($ids as $id) {
+			$retorno = $this->EtiquetaCliente_model->verificaEtiquetaCliente($id);
+
+			if ($retorno) {
+				$vinculadas[] = $id;
 			} else {
-					$response = array(
-							'success' => false,
-							'title' => "Algo deu errado!",
-							'message' => "Não foi possível deletar as etiquetas pois existem Clientes vinculados a elas!",
-							'type' => "error",
-							'redirect' => false
-					);
+				$naoVinculadas[] = $id;
 			}
-	
+		}
+
+		if (count($vinculadas) == 1) {
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'id_vinculado' => $vinculadas[0],
+				'message' => "Existem um ou mais clientes vinculados a esta etiqueta. Não é possível excluí-la.",
+				'type' => "error",
+				'redirect' => true
+			);
+
 			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+		}
+
+		if (!empty($naoVinculadas)) {
+			$retornoEtiquetaDeletada = $this->Etiquetas_model->deletaEtiqueta($naoVinculadas);
+
+			if ($retornoEtiquetaDeletada) {
+				$message = "Etiqueta(s) deletada(s) com sucesso!";
+				$type = "success";
+
+				if (!empty($vinculadas)) {
+					$nomesEtiquetas = $this->EtiquetaCliente_model->verificaEtiquetaCliente($vinculadas);
+
+					$nomeEtiqueta = '';
+
+					for ($i = 0; $i < count($nomesEtiquetas); $i++) {
+
+						$nomeEtiqueta .= $nomesEtiquetas[$i]['nomes_etiquetas'];
+
+						if ($i < count($nomesEtiquetas) - 1) {
+							$nomeEtiqueta .= ', ';
+						}
+					}
+
+					$message = "As seguintes etiquetas não foram deletadas pois estão vinculadas a clientes: " . $nomeEtiqueta;
+					$type = "warning";
+				}
+
+
+				$response = array(
+					'success' => true,
+					'title' => "Atenção!",
+					'message' => $message,
+					'type' => $type,
+					'redirect' => false
+				);
+			}
+		} else {
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Não foi possível deletar as etiquetas pois existem Clientes vinculados a elas!",
+				'type' => "error",
+				'redirect' => false
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
-}	
+}

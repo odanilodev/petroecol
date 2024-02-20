@@ -59,6 +59,14 @@ const cadastraSetor = () => {
 
 const deletarSetor = (id) => {
 
+    let idsAgrupados = agruparIdsCheckbox();
+
+    if(idsAgrupados.length >= 2) {
+        var ids = idsAgrupados;
+    } else {
+        var ids = [id];
+    }
+
     Swal.fire({
         title: 'Você tem certeza?',
         text: "Esta ação não poderá ser revertida",
@@ -77,10 +85,10 @@ const deletarSetor = (id) => {
                 type: 'post',
                 url: `${baseUrl}setores/deletaSetor`,
                 data: {
-                    id: id
+                    ids: ids
                 }, success: function (data) {
 
-                    let redirect = data.type != 'error' ? `${baseUrl}setores` : '#';
+                    let redirect = !data.redirect ? `${baseUrl}setores` : '#';
 
                     avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 

@@ -66,14 +66,16 @@ class Setores_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function deletaSetor($id)
+    public function deletaSetor($ids)
     {
-        $this->db->where('id', $id);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where_in('id', $ids);
+        $this->db->where_in('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->delete('ci_setores');
 
-        if ($this->db->affected_rows()) {
-            $this->Log_model->insereLog($id);
+        foreach($ids as $id){
+            if ($this->db->affected_rows()) {
+                $this->Log_model->insereLog($id);
+            }
         }
 
         return $this->db->affected_rows() > 0;
