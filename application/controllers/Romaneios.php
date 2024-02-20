@@ -197,4 +197,34 @@ class Romaneios extends CI_Controller
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
+	public function deletaRomaneio ()
+	{
+		$id = $this->input->post('id');
+
+		$retorno = $this->Romaneios_model->deletaRomaneio($id);
+
+		if ($retorno) {
+			$response = array(
+				'success' => true,
+				'title' => "Sucesso!",
+				'message' => "Romaneio deletado com sucesso!",
+				'type' => "success",
+				'redirect' => true
+			);
+		} else {
+
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Não foi possivel deletar o romaneio!",
+				'type' => "error",
+				'redirect' => false
+
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
+	}
 }
