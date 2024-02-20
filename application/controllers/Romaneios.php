@@ -56,6 +56,7 @@ class Romaneios extends CI_Controller
 		$dados['id_veiculo'] = $this->input->post('veiculo');
 		$dados['data_romaneio'] = $this->input->post('data_coleta');
 		$dados['clientes'] = json_encode($this->input->post('clientes')); // Recebe um array e depois passa os dados por JSON
+		$dados['id_setor_empresa'] = $this->input->post('setorEmpresa');
 		$dados['codigo'] = $codigo;
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
@@ -104,6 +105,9 @@ class Romaneios extends CI_Controller
 		$data['responsaveis'] = $this->Funcionarios_model->recebeResponsavelAgendamento();
 		$data['veiculos'] = $this->Veiculos_model->recebeVeiculos();
 
+		$this->load->model('SetoresEmpresaCliente_model');
+        $data['setores'] = $this->SetoresEmpresaCliente_model->recebeSetoresEmpresaClientes();
+
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/romaneio/cadastra-romaneio');
 		$this->load->view('admin/includes/painel/rodape');
@@ -115,12 +119,13 @@ class Romaneios extends CI_Controller
 		$dados['cidades'] = $this->input->post('cidades');
 		$dados['ids_etiquetas'] = $this->input->post('ids_etiquetas');
 		$dados['data_coleta'] = null;
+		$setorEmpresa = $this->input->post('setorEmpresa');
 
 		if ($filtrar_data != '') {
 			$dados['data_coleta'] = $this->input->post('data_coleta');
 		}
 
-		$res = $this->Romaneios_model->filtrarClientesRomaneio($dados);
+		$res = $this->Romaneios_model->filtrarClientesRomaneio($dados, $setorEmpresa);
 
 		$response = array(
 			'retorno' => $res,
@@ -133,6 +138,7 @@ class Romaneios extends CI_Controller
 	public function recebeClientesRomaneios()
 	{
 		$codRomaneio = $this->input->post('codRomaneio');
+		$idSetorEmpresa = $this->input->post('idSetorEmpresa');
 
 		$this->load->model('Agendamentos_model');
 
@@ -142,7 +148,7 @@ class Romaneios extends CI_Controller
 
 		$idsClientes = json_decode($romaneio['clientes'], true);
 
-		$clientesRomaneio = $this->Clientes_model->recebeClientesIds($idsClientes);
+		$clientesRomaneio = $this->Clientes_model->recebeClientesIds($idsClientes, $idSetorEmpresa);
 
 		// residuos
 		$this->load->model('Residuos_model');
@@ -173,6 +179,20 @@ class Romaneios extends CI_Controller
 
 		$response = array(
 			'residuos' => $residuos
+		);
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function recebeCidadeClientesSetor ()
+	{
+		$idSetor = $this->input->post('id_setor');
+
+		$this->load->model('SetoresEmpresaCliente_model');
+        $cidades = $this->SetoresEmpresaCliente_model->recebeCidadesClientesSetoresEmpresa($idSetor);
+
+		$response = array(
+			'cidades' => $cidades
 		);
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));

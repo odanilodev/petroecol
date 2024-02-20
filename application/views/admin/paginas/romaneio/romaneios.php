@@ -79,7 +79,7 @@
                                     </td>
 
                                     <td class="align-middle white-space-nowrap">
-                                        <button <?= $v['status'] == 1 ? 'disabled' : '' ?> type="button" onclick='concluirRomaneio(<?= $v["codigo"] ?>, <?= $v["ID_RESPONSAVEL"] ?>, "<?= $v["data_romaneio"] ?>")' class="btn <?= $v['status'] != 1 ? 'btn-secondary' : 'btn-success' ?>">
+                                        <button <?= $v['status'] == 1 ? 'disabled' : '' ?> type="button" onclick='concluirRomaneio(<?= $v["codigo"] ?>, <?= $v["ID_RESPONSAVEL"] ?>, "<?= $v["data_romaneio"] ?>", <?= $v["id_setor_empresa"]?>)' class="btn <?= $v['status'] != 1 ? 'btn-secondary' : 'btn-success' ?>">
                                             <span class="ms-1" data-feather="check-circle"></span>
                                         </button>
                                     </td>
@@ -126,6 +126,8 @@
                     <input type="hidden" class="id_responsavel">
                     <input type="hidden" class="code_romaneio">
                     <input type="hidden" class="data_romaneio">
+                    <input type="hidden" class="input-id-setor-empresa">
+
                 </div>
             </div>
         </div>

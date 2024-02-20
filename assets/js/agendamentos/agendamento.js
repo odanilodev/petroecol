@@ -266,7 +266,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
       });
 
       // adiciona um novo agendamento
-      const salvaAgendamento = (cliente, data, horario, periodo, obs, id, prioridade) => {
+      const salvaAgendamento = (cliente, data, horario, periodo, obs, id, prioridade, setorEmpresa) => {
 
         let dataNova = data;
 
@@ -298,7 +298,8 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
               periodo: periodo,
               obs: obs,
               id: id,
-              prioridade: prioridade
+              prioridade: prioridade,
+              setorEmpresa: setorEmpresa
             },
             beforeSend: function () {
               $('.load-form').removeClass('d-none');
@@ -361,10 +362,11 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
         let periodo = $('.periodo-agendamento').val();
         let obs = $('.obs-agendamento').val();
         let prioridade = $('.prioridade-agendamento').val();
+        let setorEmpresa = $('#select-cliente-setor').val();
 
         let id = $('.input-id').val();
 
-        salvaAgendamento(clientes, data, horario, periodo, obs, id, prioridade);
+        salvaAgendamento(clientes, data, horario, periodo, obs, id, prioridade, setorEmpresa);
 
       })
 
@@ -401,6 +403,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
         let idCliente = $(classe).data('id');
         let obs = $(classe).data('obs');
         let idAgendamento = $(classe).data('agendamento');
+        let setorEmpresa = $(classe).data('setor');
 
         let data = $(`.data-modal-${idCliente}`).val().split('/');
         let dataFormatada = `${data[2]}-${data[1]}-${data[0]}`;
@@ -418,6 +421,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
             prioridade: $(`.select-prioridade-modal-${idCliente}`).val(),
             obs: obs,
             agendamento: idAgendamento,
+            setor: setorEmpresa,
             data: dataFormatada
           });
 
@@ -441,8 +445,9 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
         let idAgendamento = $(this).data('agendamento');
         let obs = $(this).data('obs');
         let prioridade = $(this).data('prioridade');
+        let setorEmpresa = $(this).data('setor');
 
-        salvaAgendamento(idCliente, dataNova, horaNova, periodoNovo, obs, idAgendamento, prioridade);
+        salvaAgendamento(idCliente, dataNova, horaNova, periodoNovo, obs, idAgendamento, prioridade, setorEmpresa);
 
       })
 
@@ -784,25 +789,25 @@ function imprimirClientes(clientes) {
 
       let clientesTabela = `
 
-        <tr class="agendamento-${cliente.id} teste" data-data="${cliente.data_coleta}" data-prioridade="${cliente.prioridade}">
+        <tr class="agendamento-${cliente.id}" data-data="${cliente.data_coleta}" data-prioridade="${cliente.prioridade}">
           <td>${cliente.rua} ${cliente.numero}</td>
 
           <td>
           
-            <input ${cliente.status == 1 ? "disabled" : ""} class="form-control datetimepicker flatpickr-input data-modal data-modal-${cliente.id_cliente}" id="datepicker" type="text" placeholder="dd/mm/yyyy" data-options="{&quot;disableMobile&quot;:true,&quot;}" readonly="readonly" value="${dataFormatada}" data-data="${dataFormatada}" data-id="${cliente.id_cliente}"  data-agendamento="${cliente.id}" data-obs="${cliente.observacao}">
+            <input ${cliente.status == 1 ? "disabled" : ""} class="form-control datetimepicker3 flatpickr-input data-modal data-modal-${cliente.id_cliente}" id="datepicker" type="text" placeholder="dd/mm/yyyy" data-options="{&quot;disableMobile&quot;:true,&quot;}" readonly="readonly" value="${dataFormatada}" data-data="${dataFormatada}" data-setor="${cliente.id_setor_empresa}" data-id="${cliente.id_cliente}"  data-agendamento="${cliente.id}" data-obs="${cliente.observacao}">
         
           </td>
 
           <td>
           
-            <input ${cliente.status == 1 ? "disabled" : ""} class="form-control datetimepicker2 flatpickr-input hora-modal hora-modal-${cliente.id_cliente}" id="timepicker1" type="text" placeholder="hora : minuto" data-options="{&quot;noCalendar&quot;:true,&quot;dateFormat&quot;:&quot;H:i&quot;,&quot;disableMobile&quot;:true}" readonly="readonly" value="${cliente.hora_coleta}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
+            <input ${cliente.status == 1 ? "disabled" : ""} class="form-control datetimepicker2 flatpickr-input hora-modal hora-modal-${cliente.id_cliente}" id="timepicker1" type="text" placeholder="hora : minuto" data-options="{&quot;noCalendar&quot;:true,&quot;dateFormat&quot;:&quot;H:i&quot;,&quot;disableMobile&quot;:true}" readonly="readonly" value="${cliente.hora_coleta}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-setor="${cliente.id_setor_empresa}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
 
       
           </td>
 
           <td>
           
-            <select ${cliente.status == 1 ? "disabled" : ""} class="form-select w-100 periodo-modal periodo-modal-${cliente.id_cliente}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
+            <select ${cliente.status == 1 ? "disabled" : ""} class="form-select w-100 periodo-modal periodo-modal-${cliente.id_cliente}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-setor="${cliente.id_setor_empresa}" data-obs="${cliente.observacao}">
 
               <option disabled selected value="">Período de Coleta</option>
 
@@ -816,7 +821,7 @@ function imprimirClientes(clientes) {
 
           <td>
           
-            <select ${cliente.status == 1 ? "disabled" : ""} class="form-select w-100 select-prioridade-modal select-prioridade-modal-${cliente.id_cliente}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
+            <select ${cliente.status == 1 ? "disabled" : ""} class="form-select w-100 select-prioridade-modal select-prioridade-modal-${cliente.id_cliente}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-setor="${cliente.id_setor_empresa}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
 
               <option disabled selected value="">Definir prioridade</option>
 
@@ -857,7 +862,7 @@ function imprimirClientes(clientes) {
 
         <h2 class="accordion-header" id="headingThree">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${index}" aria-expanded="false" aria-controls="collapse-${index}">
-          ${cliente.nome}
+          ${cliente.nome} (${cliente.SETOR})
           </button>
         </h2>
 
@@ -892,6 +897,18 @@ function imprimirClientes(clientes) {
 
     $('.accordion-clientes-agendados').append(clientesAgendados);
 
+    $('.datetimepicker3').flatpickr({
+      dateFormat: "d/m/Y",
+      disableMobile: true
+    });
+
+    $('.datetimepicker2').flatpickr({
+      dateFormat: "H:i",
+      disableMobile: true,
+      noCalendar: true,
+      enableTime: true
+    });
+
    
   });
 
@@ -913,6 +930,7 @@ $(document).ready(function () {
   });
 });
 
+// busca os clientes por etiqueta
 function recebeClientesEtiqueta (idEtiqueta) {
 
   $.ajax({
@@ -938,7 +956,7 @@ function recebeClientesEtiqueta (idEtiqueta) {
 
 }
 
-
+// seleciona os clientes por etiqueta
 $("#select-cliente-etiqueta").change(function() {
 
   if ($(this).val() != null) {
@@ -946,10 +964,12 @@ $("#select-cliente-etiqueta").change(function() {
     recebeClientesEtiqueta($(this).val());
 
     $('#select-cliente').val('').trigger('change'); // limpa o select de clientes
+
   }   
 
 });
 
+// seleciona os clientes por nome
 $("#select-cliente").change(function() {
 
   if ($(this).val() != null) {
@@ -957,7 +977,78 @@ $("#select-cliente").change(function() {
     $('.ids-clientes').val($(this).val());
 
     $('#select-cliente-etiqueta').val('').trigger('change'); // limpa o select de etiquetas
+
   }
 
 });
   
+
+// busca os clientes por setor
+function recebeClientesSetor (idSetor) {
+
+  $.ajax({
+    type: 'POST',
+    url: `${baseUrl}setoresEmpresaCliente/recebeClientesSetor`,
+    data: {
+      id_setor: idSetor
+    }, success: function (data) {
+
+      $('#select-cliente').html('<option selected disabled value="">Selecione o cliente</option>'); 
+
+
+      for (let i = 0; i < data.clientesSetor.length; i ++) {
+
+        $('#select-cliente').append(`<option value="${data.clientesSetor[i]['ID_CLIENTE']}">${data.clientesSetor[i]['CLIENTE']}</option>`);
+
+      }
+
+      $('.div-select-cliente').removeClass('d-none');
+
+    }
+
+  })
+
+}
+
+// busca os clientes por etiqueta e setor
+function recebeClientesEtiquetaSetor (idSetor) {
+
+  $.ajax({
+    type: 'POST',
+    url: `${baseUrl}setoresEmpresaCliente/recebeClientesEtiquetaSetor`,
+    data: {
+      id_setor: idSetor
+    }, success: function (data) {
+
+      $('#select-cliente-etiqueta').html('<option selected disabled value="">Clientes por etiqueta</option>'); 
+
+      for (let i = 0; i < data.clientesEtiquetaSetor.length; i ++) {
+
+        $('#select-cliente-etiqueta').append(`<option value="${data.clientesEtiquetaSetor[i]['id_etiqueta']}">${data.clientesEtiquetaSetor[i]['nome']}</option>`);
+
+      }
+
+      $('.div-select-cliente-etiqueta').removeClass('d-none');
+
+    }
+
+  })
+
+}
+
+// seleciona os clientes por setor
+$("#select-cliente-setor").change(function() {
+
+  if ($(this).val() != null) {
+
+    recebeClientesSetor($(this).val());
+    recebeClientesEtiquetaSetor($(this).val());
+
+    $('#select-cliente').val('').trigger('change'); // limpa o select de clientes
+    $('#select-cliente-etiqueta').val('').trigger('change'); // limpa o select de etiquetas
+
+    $('.ids-clientes').val(''); // remove todos ids do input hidden
+  }   
+
+});
+

@@ -12,13 +12,14 @@ class SetoresEmpresaCliente_model extends CI_Model
 
     public function recebeSetoresEmpresaClientes()
     {
-        $this->db->select('SEC.*, SE.nome');
+        $this->db->select('SEC.id_setor_empresa, SE.nome');
         $this->db->from('ci_setores_empresa_cliente SEC');
         $this->db->join('ci_clientes C', 'SEC.id_cliente = C.id', 'inner');
         $this->db->join('ci_setores_empresa SE', 'SEC.id_setor_empresa = SE.id', 'inner');
         $this->db->where('SEC.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('SE.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->group_by('SEC.id_setor_empresa');
         $query = $this->db->get();
 
         return $query->result_array();
@@ -51,6 +52,24 @@ class SetoresEmpresaCliente_model extends CI_Model
         $query = $this->db->get();
         return $query->row_array();
     }
+
+    public function recebeFrequenciaSetorCliente($id, $id_cliente)
+    {
+        // Seleciona apenas a coluna 'dia' da tabela ci_frequencia_coleta
+        $this->db->select('CFC.dia');
+        $this->db->from('ci_setores_empresa_cliente SEC'); // Tabela principal
+        $this->db->join('ci_frequencia_coleta CFC', 'SEC.id_frequencia_coleta = CFC.id', 'inner'); // JOIN com a tabela de frequência
+        $this->db->where('SEC.id_empresa', $this->session->userdata('id_empresa')); // Filtro por id_empresa
+        $this->db->where('SEC.id_cliente', $id_cliente); // Filtro por id_cliente
+        $this->db->where('SEC.id_setor_empresa', $id); // Filtro por id_setor_empresa
+    
+        $query = $this->db->get();
+    
+        // Retorna a coluna 'dia' do registro encontrado
+        return $query->row_array(); // Retorna apenas o primeiro resultado
+    }
+    
+    
 
     public function insereSetorEmpresaCliente($dados)
     {
@@ -94,9 +113,30 @@ class SetoresEmpresaCliente_model extends CI_Model
 
     public function recebeClientesSetoresEmpresa($id_setor_empresa)
     {
-        $this->db->where('id_setor_empresa', $id_setor_empresa);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('ci_setores_empresa_cliente');
+        $this->db->select('SEC.id_setor_empresa, C.id as ID_CLIENTE, C.nome AS CLIENTE');
+        $this->db->from('ci_setores_empresa_cliente SEC');
+        $this->db->join('ci_clientes C', 'SEC.id_cliente = C.id', 'inner');
+        $this->db->where('SEC.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('SEC.id_setor_empresa', $id_setor_empresa);
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
+
+    // busca os clientes por etiqueta de um setor específico
+    public function recebeClientesEtiquetaSetoresEmpresa($id_setor_empresa)
+    {
+        $this->db->select('SEC.id_setor_empresa, EC.id_etiqueta, E.nome');
+        $this->db->from('ci_setores_empresa_cliente SEC');
+        $this->db->join('ci_etiqueta_cliente EC', 'SEC.id_cliente = EC.id_cliente', 'inner');
+        $this->db->join('ci_etiquetas E', 'EC.id_etiqueta = E.id', 'left');
+        $this->db->where('SEC.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('SEC.id_setor_empresa', $id_setor_empresa);
+        $this->db->where('EC.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->group_by('SEC.id_setor_empresa, EC.id_etiqueta');
+        $query = $this->db->get();
+
         return $query->result_array();
     }
 
@@ -112,6 +152,7 @@ class SetoresEmpresaCliente_model extends CI_Model
 
         return $query->result_array();
     }
+
     public function verificaSetorEmpresaCliente($id)
     {
         $this->db->select('SEC.id_setor_empresa, GROUP_CONCAT(DISTINCT SE.nome) as nomes_setores');
@@ -140,5 +181,20 @@ class SetoresEmpresaCliente_model extends CI_Model
         }
 
         return $this->db->affected_rows() > 0;
+    }
+
+    // busca os clientes por cidade de um setor específico
+    public function recebeCidadesClientesSetoresEmpresa($id_setor_empresa)
+    {
+        $this->db->select('SEC.id_setor_empresa, C.cidade');
+        $this->db->from('ci_setores_empresa_cliente SEC');
+        $this->db->join('ci_clientes C', 'SEC.id_cliente = C.id', 'inner');
+        $this->db->where('SEC.id_setor_empresa', $id_setor_empresa);
+        $this->db->where('SEC.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->group_by('SEC.id_setor_empresa, C.cidade');
+        $query = $this->db->get();
+
+        return $query->result_array();
     }
 }
