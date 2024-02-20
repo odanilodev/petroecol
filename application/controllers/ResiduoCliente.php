@@ -26,7 +26,7 @@ class ResiduoCliente extends CI_Controller
 	public function cadastraResiduoCliente()
 	{
 		$dados['id_cliente'] = $this->input->post('id_cliente');
-		$dados['id_empresa'] = $this->session->userdata('id_esmpresa');
+		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
 		$nomeResiduo = $this->input->post('nome_residuo');
 		$id_residuo = $this->input->post('id_residuo');
