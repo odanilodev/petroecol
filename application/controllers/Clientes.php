@@ -130,8 +130,22 @@ class Clientes extends CI_Controller
 
         $this->load->model('Coletas_model');
         $this->load->model('ComodatoCliente_model');
+        $this->load->model('ResiduoCliente_model');
 
+        $data['residuoCliente'] = $this->ResiduoCliente_model->recebeResiduoCliente($id);
 
+        if (!empty($data['residuoCliente'])) {
+            $residuosFormatados = [];
+        
+            foreach ($data['residuoCliente'] as $residuo) {
+                $residuosFormatados[] = ucfirst($residuo['nome']) . ' (' . ucfirst($residuo['forma_pagamento']) . ')';
+            }
+        
+            $data['residuosComPagamento'] = implode(', ', $residuosFormatados);
+        } else {
+            $data['residuosComPagamento'] = "Nenhum resíduo encontrado.";
+        }
+        
         $data['coletas'] = $this->Coletas_model->recebeColetasCliente($id);
 
         $data['cliente'] = $this->Clientes_model->recebeCliente($id);
@@ -192,6 +206,7 @@ class Clientes extends CI_Controller
         $data['frequenciaColeta'] = $this->FrequenciaColeta_model->recebeFrequenciasColeta();
 
         $this->load->model('Agendamentos_model');
+
         $data['quantidade_agendado'] = $this->Agendamentos_model->contaAgendamentoCLiente($id);
 
         $data['quantidade_atrasado'] = $this->Agendamentos_model->contaAgendamentoAtrasadoCLiente($id);
@@ -205,6 +220,7 @@ class Clientes extends CI_Controller
         // formas de pagamento
         $this->load->model('FormaPagamento_model');
         $data['formasPagamento'] = $this->FormaPagamento_model->recebeFormasPagamento();
+
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/detalhes-cliente');

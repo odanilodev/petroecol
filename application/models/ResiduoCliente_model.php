@@ -39,13 +39,14 @@ class ResiduoCliente_model extends CI_Model
 
     public function recebeResiduoCliente($id)
     {
-        $this->db->select('RC.*, R.nome');
+        $this->db->select('RC.*, R.nome, FP.forma_pagamento');
         $this->db->from('ci_residuo_cliente RC');
+        $this->db->join('ci_forma_pagamento FP', 'RC.id_forma_pagamento = FP.id', 'left');
         $this->db->join('ci_clientes C', 'RC.id_cliente = C.id', 'inner');
         $this->db->join('ci_residuos R', 'RC.id_residuo = R.id', 'inner');
         $this->db->where('RC.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where_in('RC.id_cliente', $id);
         $query = $this->db->get();
 
