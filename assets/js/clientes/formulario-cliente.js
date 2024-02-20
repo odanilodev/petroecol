@@ -42,39 +42,12 @@ const verificaCampos = () => {
         }
     });
 
-    if ($('.select-dia-fixo').attr('required') && !$('.select-dia-fixo').val()) {
-
-        permissao = false;
-
-    }
-
-    if (camposVazios.length) {
-
-        permissao = false;
-
-    }
 
     if (permissao) {
         cadastraCliente(dadosEmpresa, dadosEndereco, dadosResponsavel);
     }
 
 }
-
-$(document).on('change', '.select-frequencia', function () {
-
-    if ($('.select-frequencia option:selected').text() == "Fixo") {
-
-        $('.fixo-coleta').removeClass('d-none');
-        $('.select-dia-fixo').attr('required', true);
-
-    } else {
-
-        $('.select-dia-fixo').val('');
-        $('.fixo-coleta').addClass('d-none');
-        $('.select-dia-fixo').attr('required', false);
-    }
-})
-
 
 const cadastraCliente = (dadosEmpresa, dadosEndereco, dadosResponsavel) => {
 
@@ -436,8 +409,6 @@ const enviarAlertaCliente = () => {
 
 $(document).ready(function () {
     
-    $('#select-frequencia').val('').trigger('change');
-    $('#select-forma-pagamento').val('').trigger('change');
     $('#select-select-classificacao-cliente').val('').trigger('change');
 
     $('.select2').select2({
