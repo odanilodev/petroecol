@@ -42,6 +42,7 @@ const cadastraSetorEmpresaCliente = () => {
     });
     if (!$('.fixo-coleta').hasClass('d-none') && !diaFixoSemana) {
         permissao = false;
+        avisoRetorno('Algo deu errado!', `Preencha todos os campos`, 'error', '#');
     } 
 
     // verifica se é para editar ou cadastrar um novo
