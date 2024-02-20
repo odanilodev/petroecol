@@ -17,7 +17,7 @@
                     <input type="hidden" class="id-cliente">
 
                     <label>Atribuir novas etiquetas</label>
-                    <select class="form-select w-100 select2" id="select-etiqueta" >
+                    <select class="form-select w-100 select2" id="select-etiqueta">
 
                         <option selected disabled value="">Selecione etiquetas</option>
                         <?php foreach ($etiquetas as $e) { ?>
@@ -58,9 +58,9 @@
                     <select class="form-select w-100" id="select-alertas">
 
                         <option disabled selected value="">Selecione</option>
-                        <?php foreach($alertas as $alerta) {?>
-                        <option value="<?= $alerta['texto_alerta']?>"><?= $alerta['titulo']?></option>
-                        <?php }?>
+                        <?php foreach ($alertas as $alerta) { ?>
+                            <option value="<?= $alerta['texto_alerta'] ?>"><?= $alerta['titulo'] ?></option>
+                        <?php } ?>
 
                     </select>
 
@@ -80,7 +80,7 @@
 </div>
 
 <!-- Modal de residuos para clientes -->
-<div class="modal fade modalSelect2" id="modalResiduo" >
+<div class="modal fade modalSelect2" id="modalResiduo">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -98,7 +98,7 @@
                     <input type="hidden" class="id-cliente">
 
                     <label>Atribuir novos resíduos *</label>
-                    <select class="form-select w-100 select2" id="select-residuo" >
+                    <select class="form-select w-100 select2" id="select-residuo">
 
                         <option disabled selected value="">Selecione residuos</option>
                         <?php foreach ($residuos as $v) { ?>
@@ -116,7 +116,7 @@
 
                         <option disabled selected value="">Selecione a forma de pagamento</option>
                         <?php foreach ($formasPagamento as $formaPagamento) { ?>
-                            <option value="<?= $formaPagamento['id'] ?>" data-id-tipo-pagamento="<?= $formaPagamento['id_tipo_pagamento']?>"><?= $formaPagamento['forma_pagamento']; ?></option>
+                            <option value="<?= $formaPagamento['id'] ?>" data-id-tipo-pagamento="<?= $formaPagamento['id_tipo_pagamento'] ?>"><?= $formaPagamento['forma_pagamento']; ?></option>
                         <?php } ?>
 
                     </select>
@@ -126,7 +126,7 @@
                 <div class="add-residuo w-100 my-3 mb-4">
 
                     <label>Valor</label>
-                    <?=botao_info(chave('clientes-menu-residuos-valor'))?>
+                    <?= botao_info(chave('clientes-menu-residuos-valor')) ?>
                     <input type="text" class="w-100 form-control" placeholder="Valor" id="valor-pagamento-residuo">
 
                 </div>
@@ -209,7 +209,7 @@
                     <input type="hidden" class="id-cliente">
 
                     <label>Atribuir novos Grupos</label>
-                    <select class="form-select w-100 select2" id="select-grupo-cliente" >
+                    <select class="form-select w-100 select2" id="select-grupo-cliente">
 
                         <option selected disabled value="">Selecione os Grupos</option>
                         <?php foreach ($grupos as $v) { ?>
@@ -238,7 +238,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Setores da Empresa</h5>
+                <h5 class="modal-title">Setores da Empresa <span class="editando-txt"></span></h5>
                 <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1"></span></button>
             </div>
             <div class="modal-body">
@@ -251,7 +251,7 @@
                     <input type="hidden" class="id-cliente">
 
                     <label>Atribuir novos setores</label>
-                    <select class="form-select w-100 select2" id="select-setor-empresa" >
+                    <select class="form-select w-100 select2 select-nome-setor-empresa">
 
                         <option selected disabled value="">Selecione setores</option>
                         <?php foreach ($setoresEmpresa as $s) { ?>
@@ -266,7 +266,7 @@
                     <input type="hidden" class="input-editar-setor-empresa">
 
                     <label>Atribuir frequência de coleta</label>
-                    <select class="form-select w-100 select2 select-frequencia" id="select-frequencia-coleta-setor" >
+                    <select class="form-select w-100 select2 select-frequencia-coleta-setor">
 
                         <option selected disabled value="">Selecione a frequência de coleta</option>
                         <?php foreach ($frequenciaColeta as $f) { ?>
@@ -276,22 +276,57 @@
                     </select>
                 </div>
                 <div class="w-100 mb-2 col-md-12 fixo-coleta <?= ($cliente['dia_coleta_fixo'] ?? false) || ($cliente['frequencia'] ?? '') === 'Fixo' ? 'd-block' : 'd-none' ?>  ">
-                          <div class="mb-2">
-                            <label class="">Dia da Semana *</label>
-                            <select name="dia_coleta_fixo" class="form-select campo-empresa select-dia-fixo select2">
-                              <option value="" selected disabled>Selecione</option>
-                              <option value="Domingo" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Domingo') ? 'selected' : ''; ?>>Domingo</option>
-                              <option value="Segunda" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Segunda') ? 'selected' : ''; ?>>Segunda</option>
-                              <option value="Terça" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Terça') ? 'selected' : ''; ?>>Terça</option>
-                              <option value="Quarta" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Quarta') ? 'selected' : ''; ?>>Quarta</option>
-                              <option value="Quinta" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Quinta') ? 'selected' : ''; ?>>Quinta</option>
-                              <option value="Sexta" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Sexta') ? 'selected' : ''; ?>>Sexta</option>
-                              <option value="Sabado" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Sabado') ? 'selected' : ''; ?>>Sábado</option>
-                              
-                            </select>
-                            <div class="invalid-feedback">Preencha este campo</div>
-                          </div>
-                        </div>
+                    <div class="mb-2">
+                        <label class="">Dia da Semana *</label>
+                        <select name="dia_coleta_fixo" class="form-select campo-empresa select-dia-fixo select2">
+                            <option value="" selected disabled>Selecione</option>
+                            <option value="Domingo" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Domingo') ? 'selected' : ''; ?>>Domingo</option>
+                            <option value="Segunda" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Segunda') ? 'selected' : ''; ?>>Segunda</option>
+                            <option value="Terça" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Terça') ? 'selected' : ''; ?>>Terça</option>
+                            <option value="Quarta" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Quarta') ? 'selected' : ''; ?>>Quarta</option>
+                            <option value="Quinta" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Quinta') ? 'selected' : ''; ?>>Quinta</option>
+                            <option value="Sexta" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Sexta') ? 'selected' : ''; ?>>Sexta</option>
+                            <option value="Sabado" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Sabado') ? 'selected' : ''; ?>>Sábado</option>
+
+                        </select>
+                        <div class="invalid-feedback">Preencha este campo</div>
+                    </div>
+                </div>
+
+                <div class="w-100 mb-3 col-md-12">
+                    <div class="mb-2">
+                        <label>Transação</label>
+                        <select name="transacao-coleta" class="input-obrigatorio form-select select-transacao-coleta-setor">
+                            <option value="" selected disabled>Selecione</option>
+                            <option value="0">Pago pra coletar</option>
+                            <option value="1">Recebe pra coletar</option>
+                        </select>
+                        <div class="invalid-feedback">Preencha este campo</div>
+                    </div>
+                </div>
+
+                <div class="mb-3 col-md-12">
+                    <label>Dia de pagamento</label>
+                    <input class="form-control dia-pagamento input-obrigatorio" type="number" name="dia-pagamento" value="<?= $setoresEmpresaCliente['dia_pagamento'] ?? ''; ?>" placeholder="Dia de pagamento" />
+                </div>
+
+                <div class="mb-3 col-md-12">
+                    <label>Forma de pagamento</label>
+                    <select required name="id-forma-pagamento" class="form-select forma-pagamento-setor select2 input-obrigatorio">
+                        <option value="" selected disabled>Selecione</option>
+
+                        <?php foreach ($formasPagamento as $v) { ?>
+                            <option value="<?= $v['id'] ?>" <?= (isset($formasPagamento['id']) && $formasPagamento['id'] == $v['id']) ? 'selected' : ''; ?>><?= $v['forma_pagamento']; ?></option>
+                        <?php } ?>
+
+                    </select>
+                    <div class="invalid-feedback">Preencha este campo</div>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <label>Observação para a Forma de Pagamento</label>
+                    <textarea name="observacao-pagamento" class="form-control observacao-pagamento-setor" rows="1"><?= $setoresEmpresaCliente['observacao_pagamento'] ?? ''; ?></textarea>
+                </div>
 
             </div>
 
