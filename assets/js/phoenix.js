@@ -7198,6 +7198,7 @@ $(document).ready(function () {
     if ($('.check-element:checked').length == $('.check-element').length) {
 
       $('.check-all-element').prop('checked', true);
+      $('.btn-excluir-tudo').removeClass('d-none');
 
     } else {
 
