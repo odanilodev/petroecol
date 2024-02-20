@@ -127,7 +127,7 @@ class SetoresEmpresaCliente extends CI_Controller
 					<i class="fas fa-times-circle delete-icon" onclick="deletaSetorEmpresaCliente(' . $v['id'] . ')"></i>
 				</a>
 				<a href="#" class="btn-ver-setor-empresa" title="Editar Setor Empresa" style="margin-left:4px; margin-right:4px;">
-				<i class="fas fa-pencil-alt edita-setor-empresa-' . $v['id_setor_empresa'] . '"  onclick="verSetorEmpresaCliente(\'' . $v['nome'] . '\', \'' . $v['id_frequencia_coleta'] . '\', \'' . $v['dia_coleta_fixo'] . '\', \'' . $v['transacao_coleta'] . '\', \'' . $v['dia_pagamento'] . '\', \'' . $v['id_forma_pagamento'] . '\', \'' . $v['observacao_pagamento'] . '\')"></i>
+				<i class="fas fa-pencil-alt input-edita-setor-empresa-' . $v['id_setor_empresa'] . '"  onclick="verSetorEmpresaCliente(\'' . $v['nome'] . '\', \'' . $v['id_frequencia_coleta'] . '\', \'' . $v['dia_coleta_fixo'] . '\', \'' . $v['transacao_coleta'] . '\', \'' . $v['dia_pagamento'] . '\', \'' . $v['id_forma_pagamento'] . '\', \'' . $v['observacao_pagamento'] . '\')"></i>
 			</a>
 			</span>';
 		}

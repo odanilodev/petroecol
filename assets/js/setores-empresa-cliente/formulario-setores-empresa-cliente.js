@@ -108,7 +108,7 @@ const cadastraSetorEmpresaCliente = () => {
                     let novaFuncaoClick = `verSetorEmpresaCliente('${data.nome_setor_empresa}', '${data.id_frequencia_coleta}', '${data.dia_coleta_fixo}', '${data.transacao_coleta}', '${data.dia_pagamento}', '${data.id_forma_pagamento}', '${data.observacao_pagamento}')`;
 
 
-                    $('.edita-setor-empresa-' + data.id_setor_empresa).attr('onclick', novaFuncaoClick);
+                    $('.input-edita-setor-empresa-' + data.id_setor_empresa).attr('onclick', novaFuncaoClick);
 
                 } else if (data.message != undefined) {
 
@@ -187,6 +187,26 @@ const deletaSetorEmpresaCliente = (idSetorEmpresa) => {
         success: function (data) {
 
             $(`.setor-empresa-${idSetorEmpresa}`).remove();
+
+            $('.select-nome-setor-empresa').val('').trigger('change');
+
+            $('.select-nome-setor-empresa').attr('disabled', false);
+
+            $('.editando-txt').html('');
+
+            $('.select-frequencia-coleta-setor').val('').trigger('change');
+
+            $('.select-transacao-coleta-setor').val('').trigger('change');
+
+            $('.dia-pagamento').val('');
+
+            $('.select-dia-fixo').val('').trigger('change');
+
+            $('.forma-pagamento-setor').val('').trigger('change');
+
+            $('.observacao-pagamento-setor').val('');
+
+            $('.input-editar-setor-empresa').val('');
         }
     })
 
