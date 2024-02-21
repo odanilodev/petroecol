@@ -86,7 +86,7 @@
                                     </td>
 
                                     <td class="align-middle white-space-nowrap">
-                                        <button <?= $v['status'] ? 'disabled' : '' ?> type="button" onclick='deletarRomaneio(<?= $v["id"] ?>)' class="btn <?= !$v['status'] ? 'btn-danger' : 'btn-danger' ?>">
+                                        <button <?= $v['status'] ? 'disabled' : '' ?> type="button" onclick='deletarRomaneio(<?= $v["id"] ?>)' class="btn <?= !$v['status'] ? 'btn-danger' : 'btn-secondary' ?>">
                                             <span class="fas fa-trash ms-1"></span>
                                         </button>
                                     </td>
