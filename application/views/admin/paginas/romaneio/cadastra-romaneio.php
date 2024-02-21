@@ -89,13 +89,6 @@
 
                     <div class="table-responsive scrollbar ms-n1 ps-1">
                         <table class="table table-sm fs--1 mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="align-middle" scope="col">Cliente</th>
-                                    <th class="sort pe-3">Etiqueta/Cidade</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
                             <tbody class="list clientes-modal-romaneio" id="members-table-body">
                                 <!-- Manipulado JS -->
                             </tbody>
@@ -111,9 +104,6 @@
 
                             <option selected value="">Selecione o cliente</option>
 
-                            <?php foreach ($clientes as $v) { ?>
-                                <option value="<?= $v['ID_CLIENTE'] ?>|<?= $v['cidade'] ?>|<?= empty($v['ETIQUETA']) ? 'Sem etiqueta' : $v['ETIQUETA'] ?>"><?= $v['nome'] ?></option>
-                            <?php } ?>
 
                         </select>
                     </div>
