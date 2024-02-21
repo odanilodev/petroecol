@@ -244,9 +244,6 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpre
 
     $('#modalConcluirRomaneio').modal('show');
 
-    // alert(codRomaneio)
-    // alert(idSetorEmpresa)
-
     $('.id_responsavel').val(idResponsavel);
     $('.code_romaneio').val(codRomaneio);
     $('.data_romaneio').val(dataRomaneio);
@@ -788,3 +785,39 @@ $(".select-setor").change(function() {
     }   
 
 });
+
+const deletarRomaneio = (id) => {
+
+    Swal.fire({
+        title: 'Você tem certeza?',
+        text: "Esta ação não poderá ser revertida",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Sim, deletar'
+
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+
+            $.ajax({
+                type: 'post',
+                url: `${baseUrl}romaneios/deletaRomaneio`,
+                data: {
+                    id: id
+                }, success: function (data) {
+
+                    let redirect = data.redirect ? `${baseUrl}romaneios` : '#';
+
+                    avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
+
+                }
+            })
+
+        }
+    })
+
+
+}

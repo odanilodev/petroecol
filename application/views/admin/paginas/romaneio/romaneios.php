@@ -41,6 +41,7 @@
                                 <th class="sort align-middle">Gerado em</th>
                                 <th class="sort align-middle p-3">Gerar</th>
                                 <th class="sort align-middle p-3">Concluir Romaneio</th>
+                                <th class="sort align-middle p-3">Deletar</th>
                             </tr>
                         </thead>
 
@@ -79,8 +80,14 @@
                                     </td>
 
                                     <td class="align-middle white-space-nowrap">
-                                        <button <?= $v['status'] == 1 ? 'disabled' : '' ?> type="button" onclick='concluirRomaneio(<?= $v["codigo"] ?>, <?= $v["ID_RESPONSAVEL"] ?>, "<?= $v["data_romaneio"] ?>", <?= $v["id_setor_empresa"]?>)' class="btn <?= $v['status'] != 1 ? 'btn-secondary' : 'btn-success' ?>">
+                                        <button <?= $v['status'] ? 'disabled' : '' ?> type="button" onclick='concluirRomaneio(<?= $v["codigo"] ?>, <?= $v["ID_RESPONSAVEL"] ?>, "<?= $v["data_romaneio"] ?>", <?= $v["id_setor_empresa"]?>)' class="btn <?= !$v['status'] ? 'btn-success' : 'btn-secondary' ?>">
                                             <span class="ms-1" data-feather="check-circle"></span>
+                                        </button>
+                                    </td>
+
+                                    <td class="align-middle white-space-nowrap">
+                                        <button <?= $v['status'] ? 'disabled' : '' ?> type="button" onclick='deletarRomaneio(<?= $v["id"] ?>)' class="btn <?= !$v['status'] ? 'btn-danger' : 'btn-secondary' ?>">
+                                            <span class="fas fa-trash ms-1"></span>
                                         </button>
                                     </td>
 
