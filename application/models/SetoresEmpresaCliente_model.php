@@ -62,14 +62,14 @@ class SetoresEmpresaCliente_model extends CI_Model
         $this->db->where('SEC.id_empresa', $this->session->userdata('id_empresa')); // Filtro por id_empresa
         $this->db->where('SEC.id_cliente', $id_cliente); // Filtro por id_cliente
         $this->db->where('SEC.id_setor_empresa', $id); // Filtro por id_setor_empresa
-    
+
         $query = $this->db->get();
-    
+
         // Retorna a coluna 'dia' do registro encontrado
         return $query->row_array(); // Retorna apenas o primeiro resultado
     }
-    
-    
+
+
 
     public function insereSetorEmpresaCliente($dados)
     {
@@ -113,14 +113,15 @@ class SetoresEmpresaCliente_model extends CI_Model
 
     public function recebeClientesSetoresEmpresa($id_setor_empresa)
     {
-        $this->db->select('SEC.id_setor_empresa, C.id as ID_CLIENTE, C.nome AS CLIENTE');
+        $this->db->select('SEC.id_setor_empresa, MAX(C.id) as ID_CLIENTE, C.nome AS CLIENTE');
         $this->db->from('ci_setores_empresa_cliente SEC');
         $this->db->join('ci_clientes C', 'SEC.id_cliente = C.id', 'inner');
         $this->db->where('SEC.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('SEC.id_setor_empresa', $id_setor_empresa);
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->group_by('C.nome');
         $query = $this->db->get();
-
+    
         return $query->result_array();
     }
 

@@ -2,6 +2,8 @@ var baseUrl = $('.base-url').val();
 
 const filtrarClientesRomaneio = () => {
 
+    $('#select-cliente-modal').val('').trigger('change');
+
     var permissao = false;
     var filtrarData = null;
 
@@ -84,10 +86,6 @@ const filtrarClientesRomaneio = () => {
                             ${data.retorno[i].CLIENTE}
                         </td>
 
-                        <td class="align-middle white-space-nowrap">
-                            ${data.retorno[i].ETIQUETA ?? "Sem etiqueta"} / ${data.retorno[i].cidade}
-                        </td>
-
                         <td class="align-middle white-space-nowrap pt-3">
                             <div class="form-check">
                                 <input class="form-check-input check-clientes-modal" checked name="clientes" type="checkbox" value="${data.retorno[i].ID_CLIENTE}" style="cursor: pointer">
@@ -110,6 +108,8 @@ const filtrarClientesRomaneio = () => {
 const gerarRomaneio = () => {
 
     let permissao = true;
+
+    $('#select-cliente-modal').val('').trigger('change');
 
     $(".input-obrigatorio").each(function () {
 
@@ -178,7 +178,9 @@ const gerarRomaneio = () => {
 
 $(document).on('click', '.add-cliente', function () {
 
+    $('#select-cliente-modal').val('').trigger('change');
     $('.div-select-modal').removeClass('d-none');
+
 
 })
 
@@ -189,11 +191,6 @@ $('#select-cliente-modal').change(function () {
     let valSelectClienteModal = $('#select-cliente-modal option:selected').val().split('|');
 
     let idClienteNovo = parseInt(valSelectClienteModal[0]); // passa pra inteiro pra fazer a verificação no inArray
-
-    let cidade = valSelectClienteModal[1];
-
-    let etiqueta = valSelectClienteModal[2]
-
 
     let clientesAdicionados = []; // clientes que já está no modal
 
@@ -220,10 +217,6 @@ $('#select-cliente-modal').change(function () {
                 ${cliente}
             </td>
 
-            <td class="align-middle white-space-nowrap">
-                ${etiqueta} / ${cidade}
-            </td>
-
             <td class="align-middle white-space-nowrap pt-3">
                 <div class="form-check">
                     <input class="form-check-input check-clientes-modal" checked name="clientes" type="checkbox" value="${idClienteNovo}" style="cursor: pointer">
@@ -243,9 +236,6 @@ $('#select-cliente-modal').change(function () {
 const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpresa) => {
 
     $('#modalConcluirRomaneio').modal('show');
-
-    // alert(codRomaneio)
-    // alert(idSetorEmpresa)
 
     $('.id_responsavel').val(idResponsavel);
     $('.code_romaneio').val(codRomaneio);
@@ -732,7 +722,7 @@ function recebeCidadeClientesSetor (idSetor) {
         type: 'POST',
         url: `${baseUrl}romaneios/recebeCidadeClientesSetor`,
         data: {
-        id_setor: idSetor
+            id_setor: idSetor
         }, success: function (data) {
 
             $('#select-cidades').html(''); 
@@ -752,39 +742,68 @@ function recebeCidadeClientesSetor (idSetor) {
 // busca os clientes por etiqueta e setor
 function recebeClientesEtiquetaSetor (idSetor) {
 
-$.ajax({
-    type: 'POST',
-    url: `${baseUrl}setoresEmpresaCliente/recebeClientesEtiquetaSetor`,
-    data: {
-    id_setor: idSetor
-    }, success: function (data) {
+    $.ajax({
+        type: 'POST',
+        url: `${baseUrl}setoresEmpresaCliente/recebeClientesEtiquetaSetor`,
+        data: {
+            id_setor: idSetor
+        }, success: function (data) {
 
-        $('#select-etiquetas').html(''); 
+            $('#select-etiquetas').html(''); 
 
-        for (let i = 0; i < data.clientesEtiquetaSetor.length; i ++) {
+            for (let i = 0; i < data.clientesEtiquetaSetor.length; i ++) {
 
-            $('#select-etiquetas').append(`<option value="${data.clientesEtiquetaSetor[i]['id_etiqueta']}">${data.clientesEtiquetaSetor[i]['nome']}</option>`);
+                $('#select-etiquetas').append(`<option value="${data.clientesEtiquetaSetor[i]['id_etiqueta']}">${data.clientesEtiquetaSetor[i]['nome']}</option>`);
+
+            }
 
         }
 
-    }
-
-})
+    })
 
 }
+
+// busca os clientes por setor
+function recebeClientesSetor (idSetor) {
+
+    $.ajax({
+      type: 'POST',
+      url: `${baseUrl}setoresEmpresaCliente/recebeClientesSetor`,
+      data: {
+        id_setor: idSetor
+      }, success: function (data) {
+  
+        $('#select-cliente-modal').html('<option selected disabled value="">Selecione o cliente</option>'); 
+    
+        for (let i = 0; i < data.clientesSetor.length; i ++) {
+  
+          $('#select-cliente-modal').append(`<option value="${data.clientesSetor[i]['ID_CLIENTE']}">${data.clientesSetor[i]['CLIENTE']}</option>`);
+  
+        }
+        
+        $('.div-select-cliente').removeClass('d-none');
+  
+      }
+  
+    })
+  
+  }
   
 // seleciona os clientes por setor
 $(".select-setor").change(function() {
 
     if ($(this).val() != null) {
 
+        $('#id-setor-empresa').val($(this).val());
+
+        recebeClientesSetor($(this).val());
         recebeCidadeClientesSetor($(this).val());
         recebeClientesEtiquetaSetor($(this).val());
-
-        $('#select-cidades').attr('disabled', false); // limpa o select de clientes
-        $('#select-etiquetas').attr('disabled', false); // limpa o select de etiquetas
-
-        $('.ids-clientes').val(''); // remove todos ids do input hidden
+        
+        $('#select-cidades').attr('disabled', false); // habilita o select de clientes
+        $('#select-etiquetas').attr('disabled', false); // habilita o select de etiquetas
+        $('#select-etiquetas').attr('disabled', false); // habilita o select de etiquetas
+        
     }   
 
 });
