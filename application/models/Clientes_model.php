@@ -137,11 +137,6 @@ class Clientes_model extends CI_Model
         // Executa a consulta e retorna o primeiro resultado.
         $cliente = $this->db->get()->row_array();
 
-        // Se não houver frequência associada, define null.
-        if (!$cliente || !isset($cliente['frequencia'])) {
-            $cliente['frequencia'] = null; // Defina o valor padrão conforme necessário.
-        }
-
         return $cliente;
     }
 
@@ -259,10 +254,10 @@ class Clientes_model extends CI_Model
         $this->db->join('ci_setores_empresa_cliente SEC', 'SEC.id_cliente = C.id', 'left');
         $this->db->where('SEC.id_forma_pagamento', $id);
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-        
-        $query = $this->db->get();
+        $this->db->get();
 
-        return $query->num_rows() == 0;
+        return  $this->db->affected_rows() > 0;
+
     }
 
 }
