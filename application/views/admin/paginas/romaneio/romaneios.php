@@ -80,7 +80,7 @@
                                     </td>
 
                                     <td class="align-middle white-space-nowrap">
-                                        <button <?= $v['status'] ? 'disabled' : '' ?> type="button" onclick='concluirRomaneio(<?= $v["codigo"] ?>, <?= $v["ID_RESPONSAVEL"] ?>, "<?= $v["data_romaneio"] ?>", <?= $v["id_setor_empresa"]?>)' class="btn <?= !$v['status'] ? 'btn-secondary' : 'btn-success' ?>">
+                                        <button <?= $v['status'] ? 'disabled' : '' ?> type="button" onclick='concluirRomaneio(<?= $v["codigo"] ?>, <?= $v["ID_RESPONSAVEL"] ?>, "<?= $v["data_romaneio"] ?>", <?= $v["id_setor_empresa"]?>)' class="btn <?= !$v['status'] ? 'btn-success' : 'btn-secondary' ?>">
                                             <span class="ms-1" data-feather="check-circle"></span>
                                         </button>
                                     </td>
