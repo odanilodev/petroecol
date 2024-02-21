@@ -488,18 +488,18 @@
   };
 
   const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
+    'Janeiro',
+    'Fevereiro',
+    'Março',
+    'Abril',
+    'Maio',
+    'Junho',
+    'Julho',
+    'Agosto',
+    'Setembro',
+    'Outubro',
+    'Novembro',
+    'Dezembro'
   ];
 
   const leaftletPoints = [
@@ -1869,13 +1869,13 @@
             return obj;
           },
           formatter: params => {
-            return `<strong>${params.data.name}:</strong> ${params.percent}%`;
+            return `<strong>:</strong> ${params.percent}%`;
           }
         },
         legend: { show: false },
         series: [
           {
-            name: '72%',
+            name: '82%',
             type: 'pie',
             radius: ['100%', '87%'],
             avoidLabelOverlap: false,
@@ -1897,7 +1897,7 @@
               color: getColor('dark')
             },
             data: [
-              { value: 7200000, name: 'Percentage discount' },
+              { value: 8200000, name: 'Percentage discount' },
               { value: 1800000, name: 'Fixed card discount' },
               { value: 1000000, name: 'Fixed product discount' }
             ]
@@ -2009,13 +2009,14 @@
       1000 * 60 * 60 * 24
     );
 
+    console.log(dates)
     const currentMonthData = [
-      100, 200, 300, 300, 300, 250, 200, 200, 200, 200, 200, 500, 500, 500, 600,
+      150, 200, 300, 300, 300, 250, 200, 200, 200, 200, 200, 500, 500, 500, 600,
       700, 800, 900, 1000, 1100, 850, 600, 600, 600, 400, 200, 200, 300, 300, 300
     ];
 
     const prevMonthData = [
-      200, 200, 100, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 200, 400, 600,
+      250, 200, 100, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 200, 400, 600,
       600, 600, 800, 1000, 700, 400, 450, 500, 600, 700, 650, 600, 550
     ];
 

@@ -263,4 +263,55 @@ class Clientes_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+    public function contaClientesPorClassificacao()
+    {
+        $this->db->select('C.id_classificacao_cliente, COUNT(*) as TOTAL_CLIENTES_POR_CLASSIFICACAO');
+        $this->db->from('ci_clientes C');
+        $this->db->where('C.status', 1);
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->group_by('C.id_classificacao_cliente');
+        $query = $this->db->get();
+
+        $result = $query->result_array();
+
+        $contagemPorClassificacao = array();
+        foreach ($result as $row) {
+            $contagemPorClassificacao[$row['id_classificacao_cliente']] = $row['TOTAL_CLIENTES_POR_CLASSIFICACAO'];
+        }
+
+        return $contagemPorClassificacao;
+    }
+
+    public function contaClientesPorStatus($status)
+    {
+        $this->db->select('status');
+        $this->db->from('ci_clientes');
+        $this->db->where('status', $status);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get();
+
+        return $query->num_rows();
+    }
+
+    public function clientesInativados($mesInativado = null)
+    {
+        $this->db->select('COUNT(*) as TOTAL_INATIVADOS');
+        $this->db->from('ci_clientes');
+    
+        // Verifica se o status mudou de 1 (ativo) para 3 (inativo)
+        $this->db->where('status', 3);
+
+        $this->db->where('MONTH(inativo_em)', date('m'));
+        $this->db->where('MONTH(criado_em) !=', $mesInativado);
+
+        $query = $this->db->get();
+    
+        $result = $query->row_array();
+    
+        return $result['TOTAL_INATIVADOS'];
+    }
+    
+    
+
 }
