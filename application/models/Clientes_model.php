@@ -123,43 +123,28 @@ class Clientes_model extends CI_Model
 
     public function recebeCliente($id)
     {
-        $this->db->select('C.*, CC.cor');
+        // Seleciona os dados do cliente, incluindo a cor da classificação e a frequência de coleta.
+        $this->db->select('C.*, CC.cor, F.frequencia');
         $this->db->from('ci_clientes C');
+        // Junta com a tabela de classificação de cliente para obter a cor.
         $this->db->join('ci_classificacao_cliente CC', 'C.id_classificacao_cliente = CC.id', 'left');
+        // Junta com a tabela ci_setores_empresa_cliente e depois com ci_frequencia_coleta para obter a frequência.
+        $this->db->join('ci_setores_empresa_cliente SEC', 'C.id = SEC.id_cliente', 'left');
+        $this->db->join('ci_frequencia_coleta F', 'SEC.id_frequencia_coleta = F.id', 'left');
         $this->db->where('C.id', $id);
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-    
+        
+        // Executa a consulta e retorna o primeiro resultado.
         $cliente = $this->db->get()->row_array();
-    
-        if ($cliente) {
-            // Busca o id_frequencia_coleta na tabela ci_setores_empresa_cliente.
-            $this->db->select('SEC.id_frequencia_coleta');
-            $this->db->from('ci_setores_empresa_cliente SEC');
-            $this->db->where('SEC.id_cliente', $id);
-            $setor = $this->db->get()->row_array();
-    
-            if ($setor && isset($setor['id_frequencia_coleta'])) {
-                // Com o id_frequencia_coleta, busca a frequência na tabela ci_frequencia_coleta.
-                $this->db->select('F.frequencia');
-                $this->db->from('ci_frequencia_coleta F');
-                $this->db->where('F.id', $setor['id_frequencia_coleta']);
-                $frequencia = $this->db->get()->row_array();
-    
-                // Se encontrou a frequência, adiciona ao array do cliente.
-                if ($frequencia) {
-                    $cliente['frequencia'] = $frequencia['frequencia'];
-                } else {
-                    // Define a frequência como null ou algum valor padrão se não encontrar.
-                    $cliente['frequencia'] = null;
-                }
-            } else {
-                // Se não encontrar um setor associado, também define a frequência como null.
-                $cliente['frequencia'] = null;
-            }
+
+        // Se não houver frequência associada, define null.
+        if (!$cliente || !isset($cliente['frequencia'])) {
+            $cliente['frequencia'] = null; // Defina o valor padrão conforme necessário.
         }
-    
+
         return $cliente;
     }
+
 
     //Recebe clientes com varios Ids selecionados
     public function recebeClientesIds($ids, $id_setor_empresa)
