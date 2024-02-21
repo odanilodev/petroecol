@@ -123,49 +123,41 @@ class Clientes_model extends CI_Model
 
     public function recebeCliente($id)
     {
-        $this->db->select('C.*, F.frequencia, CC.cor, FP.forma_pagamento');
+        // Seleciona os dados do cliente, incluindo a cor da classificação e a frequência de coleta.
+        $this->db->select('C.*, CC.cor, F.frequencia');
         $this->db->from('ci_clientes C');
-        $this->db->join('ci_frequencia_coleta F', 'C.id_frequencia_coleta = F.id', 'left');
+        // Junta com a tabela de classificação de cliente para obter a cor.
         $this->db->join('ci_classificacao_cliente CC', 'C.id_classificacao_cliente = CC.id', 'left');
-        $this->db->join('ci_forma_pagamento FP', 'C.id_forma_pagamento = FP.id', 'left');
+        // Junta com a tabela ci_setores_empresa_cliente e depois com ci_frequencia_coleta para obter a frequência.
+        $this->db->join('ci_setores_empresa_cliente SEC', 'C.id = SEC.id_cliente', 'left');
+        $this->db->join('ci_frequencia_coleta F', 'SEC.id_frequencia_coleta = F.id', 'left');
         $this->db->where('C.id', $id);
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get();
+        
+        // Executa a consulta e retorna o primeiro resultado.
+        $cliente = $this->db->get()->row_array();
 
-        return $query->row_array();
-    }
-
-
-    public function recebeClienteFrequenciaColeta($id_cliente)
-    {
-        $this->db->select('F.dia');
-        $this->db->from('ci_clientes C');
-        $this->db->join('ci_frequencia_coleta F', 'C.id_frequencia_coleta = F.id', 'left');
-        $this->db->where('C.id', $id_cliente);
-        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get();
-
-        return $query->row_array();
+        return $cliente;
     }
 
 
     //Recebe clientes com varios Ids selecionados
     public function recebeClientesIds($ids, $id_setor_empresa)
     {
-        $this->db->select('C.*, FP.forma_pagamento, SEC.id_setor_empresa, SE.nome as SETOR');
+        $this->db->select('C.*, SEC.id_setor_empresa, SE.nome as SETOR, FP.forma_pagamento');
         $this->db->from('ci_clientes C');
-        $this->db->join('ci_forma_pagamento FP', 'FP.id = C.id_forma_pagamento', 'left');
         $this->db->join('ci_setores_empresa_cliente SEC', 'SEC.id_cliente = C.id', 'left');
         $this->db->join('ci_setores_empresa SE', 'SEC.id_setor_empresa = SE.id', 'left');
-        $this->db->order_by('C.cidade, C.nome');
+        $this->db->join('ci_forma_pagamento FP', 'FP.id = SEC.id_forma_pagamento', 'left');
         $this->db->where_in('C.id', $ids);
-        $this->db->where_in('SEC.id_setor_empresa', $id_setor_empresa);
+        $this->db->where('SEC.id_setor_empresa', $id_setor_empresa);
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->group_by('C.id, SEC.id_setor_empresa');
+        $this->db->group_by('C.id, SEC.id_setor_empresa, FP.forma_pagamento');
+        $this->db->order_by('C.cidade, C.nome');
+        
         $query = $this->db->get();
         return $query->result_array();
     }
-
 
     public function insereCliente($dados)
     {
@@ -257,10 +249,15 @@ class Clientes_model extends CI_Model
 
     public function verificaFormaPagamentoCliente($id)
     {
-        $this->db->where('id_forma_pagamento', $id);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->get('ci_clientes');
+        $this->db->select('C.id');
+        $this->db->from('ci_clientes C');
+        $this->db->join('ci_setores_empresa_cliente SEC', 'SEC.id_cliente = C.id', 'left');
+        $this->db->where('SEC.id_forma_pagamento', $id);
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->get();
 
-        return $this->db->affected_rows() > 0;
+        return  $this->db->affected_rows() > 0;
+
     }
+
 }
