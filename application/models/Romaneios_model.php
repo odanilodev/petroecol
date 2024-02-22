@@ -71,7 +71,8 @@ class Romaneios_model extends CI_Model
         $this->db->join('ci_agendamentos A', 'A.id_cliente = C.id', 'left');
         $this->db->join('ci_etiqueta_cliente EC', 'EC.id_cliente = C.id', 'left');
         $this->db->join('ci_etiquetas E', 'EC.id_etiqueta = E.id', 'left');    
-        $this->db->join('ci_setores_empresa_cliente SEC', 'A.id_setor_empresa = SEC.id_setor_empresa', 'left');    
+        $this->db->join('ci_setores_empresa_cliente SEC', 'C.id = SEC.id_cliente', 'left');    
+   
         $this->db->where('SEC.id_setor_empresa', $setorEmpresa);
 
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
