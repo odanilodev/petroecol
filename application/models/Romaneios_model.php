@@ -77,6 +77,8 @@ class Romaneios_model extends CI_Model
 
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
 
+        $this->db->where('C.status', 1);
+
 
         if ($dados['cidades']) {
             $this->db->where_in('C.cidade', $dados['cidades']);
