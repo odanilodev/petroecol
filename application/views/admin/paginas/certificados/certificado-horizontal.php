@@ -63,34 +63,34 @@
 
                     <tr>
                         <td colspan="3">
-                            <strong><?= chave('gerador') ?>:</strong> <?= $clientes_coletas['nome'] ?>
+                            <strong><?= chave('certificados-pdf-titulo-gerador') ?>:</strong> <?= $clientes_coletas['nome'] ?>
                         </td>
                     </tr>
 
                     <tr>
                         <td colspan="3">
-                            <strong><?= chave('razao-social') ?>: </strong> <?= $clientes_coletas['razao_social'] ? $clientes_coletas['razao_social'] : "Não informado."; ?>
+                            <strong><?= chave('certificados-pdf-titulo-razao-social') ?>: </strong> <?= $clientes_coletas['razao_social'] ? $clientes_coletas['razao_social'] : "Não informado."; ?>
                         </td>
                     </tr>
 
                     <tr>
 
                         <td scope="col" style="width: 280px;">
-                            <strong><?= chave('cnpj') ?>: </strong> <?= $clientes_coletas['cnpj'] ? $clientes_coletas['cnpj'] : "Não informado." ?>
+                            <strong><?= chave('certificados-pdf-titulo-cnpj') ?>: </strong> <?= $clientes_coletas['cnpj'] ? $clientes_coletas['cnpj'] : "Não informado." ?>
                         </td>
 
                         <td scope="col" style="width: 150px;">
-                            <strong><?= chave('estado') ?>: </strong> <span><?= $clientes_coletas['estado'] ? $clientes_coletas['estado'] : "Não informado." ?></span>
+                            <strong><?= chave('certificados-pdf-titulo-estado') ?>: </strong> <span><?= $clientes_coletas['estado'] ? $clientes_coletas['estado'] : "Não informado." ?></span>
                         </td>
 
                         <td scope="col" style="width: 280px;">
-                            <strong><?= chave('telefone') ?>: </strong> <?= $clientes_coletas['telefone'] ? $clientes_coletas['telefone'] : "Não informado." ?>
+                            <strong><?= chave('certificados-pdf-titulo-telefone') ?>: </strong> <?= $clientes_coletas['telefone'] ? $clientes_coletas['telefone'] : "Não informado." ?>
                         </td>
                     </tr>
 
                     <tr>
                         <td colspan="3">
-                            <strong><?= chave('endereco') ?>: </strong> <?= "{$clientes_coletas['rua']}, {$clientes_coletas['numero']} {$clientes_coletas['bairro']} - {$clientes_coletas['cidade']} / {$clientes_coletas['estado']}" ?>
+                            <strong><?= chave('certificados-pdf-titulo-endereco') ?>: </strong> <?= "{$clientes_coletas['rua']}, {$clientes_coletas['numero']} {$clientes_coletas['bairro']} - {$clientes_coletas['cidade']} / {$clientes_coletas['estado']}" ?>
                         </td>
                     </tr>
 
