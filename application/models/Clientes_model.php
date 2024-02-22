@@ -26,7 +26,7 @@ class Clientes_model extends CI_Model
         $this->db->join('ci_classificacao_cliente CC', 'C.id_classificacao_cliente = CC.id', 'left');
 
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->order_by('C.nome', 'ASC');
+        $this->db->order_by('C.status, C.nome', 'ASC');
 
         if (($filtro['status'] ?? false) && $filtro['status'] != 'all') {
             $this->db->where('C.status', $filtro['status']);
