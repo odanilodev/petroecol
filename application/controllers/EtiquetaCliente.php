@@ -104,8 +104,9 @@ class EtiquetaCliente extends CI_Controller
 	public function recebeClientesEtiqueta ()
 	{
 		$id_etiqueta = $this->input->post('id_etiqueta');
+		$id_setor = $this->input->post('id_setor');
 
-		$clientesEtiqueta = $this->EtiquetaCliente_model->recebeClientesEtiqueta($id_etiqueta);
+		$clientesEtiqueta = $this->EtiquetaCliente_model->recebeClientesEtiqueta($id_etiqueta, $id_setor);
 
 		$response = array(
 			'success' => true,
