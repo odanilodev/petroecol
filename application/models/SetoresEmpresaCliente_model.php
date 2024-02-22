@@ -119,6 +119,7 @@ class SetoresEmpresaCliente_model extends CI_Model
         $this->db->where('SEC.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('SEC.id_setor_empresa', $id_setor_empresa);
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('C.status', 1);
         $this->db->group_by('C.nome');
         $query = $this->db->get();
     
