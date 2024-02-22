@@ -72,7 +72,7 @@
                                                         <select class="form-select input-setor-residuo input-obrigatorio select2">
                                                             <option value="" selected disabled>Selecione</option>
 
-                                                            <?php foreach ($setoresEmpresa as $key => $v) { ?>
+                                                            <?php foreach ($setoresEmpresa as $v) { ?>
 
                                                                 <option value="<?= $v['id']?>" <?= (isset($residuo['id_setor_empresa']) && $residuo['id_setor_empresa'] == $v['id']) ? "selected" : ""?>><?= $v['nome'] ?></option>
 
