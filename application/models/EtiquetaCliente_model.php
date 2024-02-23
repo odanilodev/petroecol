@@ -92,11 +92,20 @@ class EtiquetaCliente_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function recebeClientesEtiqueta($id_etiqueta)
+    public function recebeClientesEtiqueta($id_etiqueta, $setorEmpresa)
     {
-        $this->db->where('id_etiqueta', $id_etiqueta);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('ci_etiqueta_cliente');
+        $this->db->select('EC.id_etiqueta, EC.id_cliente, C.status');
+        $this->db->from('ci_etiqueta_cliente EC');
+        $this->db->join('ci_clientes C', 'EC.id_cliente = C.id', 'left');
+        $this->db->join('ci_setores_empresa_cliente SE', 'C.id = SE.id_cliente', 'left');
+        $this->db->where('EC.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('C.status', 1);
+        $this->db->where('SE.id_setor_empresa', $setorEmpresa);
+        $this->db->where('EC.id_etiqueta', $id_etiqueta);
+
+        $query = $this->db->get();
+
         return $query->result_array();
     }
 

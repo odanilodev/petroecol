@@ -933,11 +933,14 @@ $(document).ready(function () {
 // busca os clientes por etiqueta
 function recebeClientesEtiqueta (idEtiqueta) {
 
+  let id_setor = $('#select-cliente-setor').val();
+
   $.ajax({
     type: 'POST',
     url: `${baseUrl}etiquetaCliente/recebeClientesEtiqueta`,
     data: {
-      id_etiqueta: idEtiqueta
+      id_etiqueta: idEtiqueta,
+      id_setor: id_setor
     }, success: function (data) {
 
       let idsClientesEtiqueta = [];
