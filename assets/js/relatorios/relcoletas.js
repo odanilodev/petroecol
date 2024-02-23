@@ -1,4 +1,48 @@
+
 var baseUrl = $('.base-url').val();
+
+// busca os clientes por setor
+function recebeClientesSetor(idSetor) {
+
+    $.ajax({
+        type: 'POST',
+        url: `${baseUrl}setoresEmpresaCliente/recebeClientesSetor`,
+        data: {
+            id_setor: idSetor
+        }, success: function (data) {
+
+            $('#select-clientes').html('');
+
+            for (let i = 0; i < data.clientesSetor.length; i++) {
+
+                $('#select-clientes').append(`<option value="${data.clientesSetor[i]['ID_CLIENTE']}">${data.clientesSetor[i]['CLIENTE']}</option>`);
+
+            }
+
+            $('#select-grupos').html('');
+
+            for (let i = 0; i < data.gruposCliente.length; i++) {
+
+                $('#select-grupos').append(`<option value="${data.gruposCliente[i]['id_grupo']}">${data.gruposCliente[i]['nome']}</option>`);
+
+            }
+
+
+        }
+
+    })
+
+}
+
+// seleciona os clientes por setor
+$("#select-setor").change(function () {
+
+    if ($(this).val() != null) {
+
+        recebeClientesSetor($(this).val());
+    }
+
+});
 
 // limpa os select para usar clientes ou grupos
 $(document).on('click', 'textarea', function () {

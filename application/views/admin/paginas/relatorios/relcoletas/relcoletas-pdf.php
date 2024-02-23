@@ -108,19 +108,19 @@
 
                                                 $movimentado[$residuo] = $coleta['quantidade_coletada'][$key] ?? 0;
 
-                                                if (isset($residuoPagamentoCliente[$id_cliente])) {
+                                                if (isset($residuoPagamentoCliente[$id_cliente][$residuo][1])) {
                                                     $valor_total_mensal[$residuoPagamentoCliente[$id_cliente][$residuo][1]] = ($coleta['quantidade_coletada'][$key] ?? 0) * ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0);
                                                 }
                                             }
 
                                             if ($filtrar_geral) {
-                                                echo '<p>' . ($coleta['quantidade_coletada'][$key] ?? 0) . ' ' . $residuos[$residuo] . '</p>';
+                                                echo '<p>' . ($coleta['quantidade_coletada'][$key] ?? 0) . ' ' . ($residuos[$residuo] ?? "") . '</p>';
                                             } else {
-                                                echo '<p>' . ($coleta['quantidade_coletada'][$key] ?? 0) . ' ' . $residuos[$residuo] . ' (' . ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0) . ')</p>';
+                                                echo '<p>' . ($coleta['quantidade_coletada'][$key] ?? 0) . ' ' . ($residuos[$residuo] ?? "") . ' (' . ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0) . ')</p>';
                                             }
 
 
-                                            if (isset($residuoPagamentoCliente[$id_cliente])) {
+                                            if (isset($residuoPagamentoCliente[$id_cliente][$residuo][1])) {
                                                 $valor_base_cliente .= '<p>' . ($coleta['quantidade_coletada'][$key] ?? 0) * ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0) . ' ' . ($formasPagamento[$residuoPagamentoCliente[$id_cliente][$residuo][1]] ?? '') . '</p>';
                                             }
 
@@ -153,7 +153,7 @@
                                                 $valor_total[$pagamento] = $coleta['valor_pagamento'][$key] ?? 0;
                                             }
 
-                                            echo '<p>' . ($coleta['valor_pagamento'][$key] ?? 0) . ' ' . $formasPagamento[$pagamento] . '</p>';
+                                            echo '<p>' . ($coleta['valor_pagamento'][$key] ?? 0) . ' ' . ($formasPagamento[$pagamento] ?? "") . '</p>';
 
                                         endforeach;
                                     }
@@ -183,7 +183,7 @@
                                         $movimentado_geral[$key] = $mov;
                                     }
 
-                                    echo '<p>' . $mov . ' ' . $residuos[$key] . '</p>';
+                                    echo '<p>' . $mov . ' ' . ($residuos[$key] ?? "") . '</p>';
                                 }
                                 ?>
 
@@ -199,7 +199,7 @@
                                         $valor_total_geral[$key] = $val;
                                     }
 
-                                    echo '<p>' . $val . ' ' . $formasPagamento[$key] . '</p>';
+                                    echo '<p>' . $val . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
                                 }
                                 ?>
 
@@ -216,7 +216,7 @@
                                             $valor_total_mensal_geral[$key] = $val;
                                         }
 
-                                        echo '<p>' . $val . ' ' . $formasPagamento[$key] . '</p>';
+                                        echo '<p>' . $val . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
                                     }
                                     ?>
 
@@ -252,7 +252,7 @@
 
                             <?php
                             foreach ($movimentado_geral as $key => $mov) {
-                                echo '<p>' . $mov . ' ' . $residuos[$key] . '</p>';
+                                echo '<p>' . $mov . ' ' . ($residuos[$key] ?? "") . '</p>';
                             }
                             ?>
 
@@ -261,7 +261,7 @@
 
                             <?php
                             foreach ($valor_total_geral as $key => $val) {
-                                echo '<p>' . $val . ' ' . $formasPagamento[$key] . '</p>';
+                                echo '<p>' . $val . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
                             }
                             ?>
 
@@ -271,7 +271,7 @@
 
                                 <?php
                                 foreach ($valor_total_mensal_geral as $key => $val) {
-                                    echo '<p>' . $val . ' ' . $formasPagamento[$key] . '</p>';
+                                    echo '<p>' . $val . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
                                 }
                                 ?>
 

@@ -11,6 +11,20 @@
 
                             <div class="row">
 
+                                <div class="mb-2 col-md-2">
+                                    <label>Setores</label>
+                                    <select id="select-setor" class="form-select w-100 mb-3 select2">
+
+                                        <option value="" selected disabled>Selecione um setor</option>
+                                        <option value="todos">Todos</option>
+
+                                        <?php foreach ($setores as $setor) { ?>
+                                            <option value="<?= $setor['id_setor_empresa'] ?>"><?= $setor['nome'] ?></option>
+                                        <?php } ?>
+
+                                    </select>
+                                </div>
+
                                 <div class="mb-2 col-md-3">
                                     <label>Grupos de clientes</label>
                                     <select id="select-grupos" class="form-select w-100 mb-3 select2" multiple data-placeholder="Grupos">
@@ -31,12 +45,12 @@
                                     </select>
                                 </div>
 
-                                <div class="col-md-3 mb-2">
+                                <div class="col-md-2 mb-2">
                                     <label>Data Inicio</label>
                                     <input class="form-control datetimepicker input-data-inicio" required name="data_inicio" type="text" placeholder="Data Inicio" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
                                 </div>
 
-                                <div class="col-md-3 mb-2">
+                                <div class="col-md-2 mb-2">
                                     <label>Data Fim</label>
                                     <input class="form-control datetimepicker input-data-fim" required name="data_fim" type="text" placeholder="Data Fim" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
                                     <span><input id="filtrar-geral" type="checkbox"/><small> Filtrar geral</small></span>
