@@ -82,15 +82,12 @@ const filtrarClientesRomaneio = () => {
 
                     let clientes = `
                     <tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
+
                         <td class="align-middle white-space-nowrap nome-cliente" data-id="${data.retorno[i].ID_CLIENTE}">
+                            <input class="form-check-input check-clientes-modal" style="margin-right:8px;"checked name="clientes" type="checkbox" value="${data.retorno[i].ID_CLIENTE}" style="cursor: pointer">
                             ${data.retorno[i].CLIENTE}
                         </td>
 
-                        <td class="align-middle white-space-nowrap pt-3">
-                            <div class="form-check">
-                                <input class="form-check-input check-clientes-modal" checked name="clientes" type="checkbox" value="${data.retorno[i].ID_CLIENTE}" style="cursor: pointer">
-                            </div>
-                        </td>
                     </tr>
                 `;
 
