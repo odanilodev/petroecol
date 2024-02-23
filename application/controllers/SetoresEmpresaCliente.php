@@ -137,16 +137,33 @@ class SetoresEmpresaCliente extends CI_Controller
 	{
 		$id_setor = $this->input->post('id_setor');
 
-		$clientesSetor = $this->SetoresEmpresaCliente_model->recebeClientesSetoresEmpresa($id_setor);
+		if ($id_setor == "todos") {
+
+			$this->load->model('Clientes_model');
+			$this->load->model('Grupos_model');
+
+			$clientesSetor = $this->SetoresEmpresaCliente_model->recebeClientesColeta();
+
+			$gruposCliente = $this->Grupos_model->recebeGrupos();
+
+		} else {
+			
+			$clientesSetor = $this->SetoresEmpresaCliente_model->recebeClientesSetoresEmpresaColeta($id_setor);
+			$gruposCliente = $this->SetoresEmpresaCliente_model->recebeGruposClienteSetor($id_setor);
+
+		}
+
 
 		$response = array(
 			'success' => true,
-			'clientesSetor' => $clientesSetor
+			'clientesSetor' => $clientesSetor,
+			'gruposCliente' => $gruposCliente
 		);
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 
 	}
+	
 
 	public function recebeClientesEtiquetaSetor ()
 	{

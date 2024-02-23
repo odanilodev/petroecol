@@ -44,6 +44,9 @@ class Relatorios extends CI_Controller
 		$data['clientes'] = $this->Clientes_model->recebeTodosClientesColetados();
 		$data['grupos'] = $this->Grupos_model->recebeGrupos();
 
+		$this->load->model('SetoresEmpresaCliente_model');
+        $data['setores'] = $this->SetoresEmpresaCliente_model->recebeSetoresEmpresaClientes();
+
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/relatorios/relcoletas/relcoletas');
 		$this->load->view('admin/includes/painel/rodape');
@@ -58,6 +61,7 @@ class Relatorios extends CI_Controller
 		$grupos = explode(',', $this->input->post('grupos'));
 		$data_inicio = $this->input->post('data_inicio');
 		$data_fim = $this->input->post('data_fim');
+		$setor = $this->input->post('setor');
 		$filtrar_geral = $this->input->post('filtrar_geral');
 
 		if (!empty($this->input->post('grupos'))) {
