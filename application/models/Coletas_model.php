@@ -44,6 +44,21 @@ class Coletas_model extends CI_Model
         return $query->row_array();
     }
 
+    public function recebeColetaRomaneio($codRomaneio)
+    {
+        $this->db->select('ci_coletas.*, ci_funcionarios.nome as nome_responsavel, ci_clientes.nome as nome_cliente');
+        $this->db->from('ci_coletas');
+        $this->db->join('ci_funcionarios', 'ci_coletas.id_responsavel = ci_funcionarios.id', 'left');
+        $this->db->join('ci_clientes', 'ci_coletas.id_cliente = ci_clientes.id', 'left');
+        $this->db->where('ci_coletas.cod_romaneio', $codRomaneio);
+        $this->db->where('ci_coletas.id_empresa', $this->session->userdata('id_empresa'));
+    
+        $query = $this->db->get();
+    
+        return $query->result_array();
+    }
+    
+
     public function recebeIdColetasClientes($id_cliente, $data_inicio, $data_fim, $residuo = null)
     {
         $this->db->select('id');
