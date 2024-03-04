@@ -47,6 +47,41 @@ class Romaneios extends CI_Controller
 		$this->load->view('admin/includes/painel/rodape');
 	}
 
+	public function detalhes()
+	{
+
+		// scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
+
+		// scripts romaneio
+		$scriptsRomaneioHead = scriptsRomaneioHead();
+		$scriptsRomaneioFooter = scriptsRomaneioFooter();
+
+		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsRomaneioHead));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsRomaneioFooter));
+
+		$this->load->library('formasPagamentoChaveId');
+		$this->load->library('residuoChaveId');
+
+		$codRomaneio = $this->uri->segment(3);
+
+		$this->load->model('Coletas_model');
+
+		// todos residuos cadastrado na empresa
+		$data['residuos'] = $this->residuochaveid->residuoArrayChaveId();
+		// todas formas de pagamento cadastrado na empresa
+		$data['formasPagamento'] = $this->formaspagamentochaveid->formaPagamentoArrayChaveId();
+
+
+		$data['romaneio'] = $this->Coletas_model->recebeColetaRomaneio($codRomaneio);
+
+		$this->load->view('admin/includes/painel/cabecalho', $data);
+		$this->load->view('admin/paginas/romaneio/detalhes-romaneio');
+		$this->load->view('admin/includes/painel/rodape');
+
+	}
+
 	public function gerarRomaneioEtiqueta()
 	{
 		$codigo = time();
