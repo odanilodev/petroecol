@@ -169,6 +169,37 @@ class Romaneios extends CI_Controller
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
+	public function verRomaneio()
+	{
+
+		// scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
+
+		// scripts romaneio
+		$scriptsRomaneioHead = scriptsRomaneioHead();
+		$scriptsRomaneioFooter = scriptsRomaneioFooter();
+
+		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsRomaneioHead));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsRomaneioFooter));
+		
+		$codRomaneio = $this->uri->segment(3);
+		$idSetorEmpresa = 3;
+		
+
+		$this->load->model('Agendamentos_model');
+		$this->load->model('Coletas_model');
+
+
+		$romaneio = $this->Romaneios_model->recebeRomaneioCod($codRomaneio);
+		$data['detalhes_romaneio'] = $this->Coletas_model->recebeColetaRomaneio($codRomaneio);
+		
+		$this->load->view('admin/includes/painel/cabecalho', $data);
+		$this->load->view('admin/paginas/romaneio/romaneio-detalhado');
+		$this->load->view('admin/includes/painel/rodape');
+
+	}
+
 
 	public function recebeTodosResiduos()
 	{

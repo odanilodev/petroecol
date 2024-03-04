@@ -43,7 +43,71 @@ class Coletas_model extends CI_Model
 
         return $query->row_array();
     }
-
+    
+    public function recebeColetaRomaneio($cod_romaneio)
+    {
+        $this->db->where('cod_romaneio', $cod_romaneio);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('ci_coletas');
+        $coletas = $query->result_array();
+    
+        // Busca os nomes dos clientes
+        $idsClientes = array_column($coletas, 'id_cliente');
+        $idsClientes = array_unique($idsClientes);
+        $this->db->where_in('id', $idsClientes);
+        $clientes = $this->db->get('ci_clientes')->result_array();
+        $mapaClientes = [];
+        foreach ($clientes as $cliente) {
+            $mapaClientes[$cliente['id']] = $cliente['nome'];
+        }
+    
+        // Preparação para conversão de IDs para nomes nos campos específicos
+        foreach ($coletas as &$coleta) {
+            // Converte id_cliente para o nome do cliente
+            $coleta['id_cliente'] = $mapaClientes[$coleta['id_cliente']] ?? 'Cliente Desconhecido';
+    
+            // Converte JSON para array PHP nos campos necessários
+            $coleta['residuos_coletados'] = json_decode($coleta['residuos_coletados'], true) ?? [];
+            $coleta['quantidade_coletada'] = json_decode($coleta['quantidade_coletada'], true) ?? [];
+            $coleta['forma_pagamento'] = json_decode($coleta['forma_pagamento'], true) ?? [];
+            $coleta['valor_pago'] = json_decode($coleta['valor_pago'], true) ?? [];
+    
+            // Substitui IDs por nomes nos residuos_coletados e forma_pagamento
+            foreach ($coleta['residuos_coletados'] as &$idResiduo) {
+                // Busca o nome do residuo pelo ID (substitua essa lógica pela busca real no seu banco de dados)
+                $idResiduo = $this->buscarNomeResiduoPorId($idResiduo); // Função hipotética
+            }
+            unset($idResiduo); // Encerra a referência
+    
+            foreach ($coleta['forma_pagamento'] as &$idFormaPagamento) {
+                // Busca o nome da forma de pagamento pelo ID (substitua essa lógica pela busca real no seu banco de dados)
+                $idFormaPagamento = $this->buscarNomeFormaPagamentoPorId($idFormaPagamento); // Função hipotética
+            }
+            unset($idFormaPagamento); // Encerra a referência
+        }
+        unset($coleta); // Encerra a referência ao último item para evitar efeitos colaterais
+    
+        return $coletas;
+    }
+    
+    // Exemplo de função para buscar o nome do resíduo por ID
+    private function buscarNomeResiduoPorId($idResiduo)
+    {
+        $this->db->where('id', $idResiduo);
+        $resultado = $this->db->get('ci_residuos')->row_array();
+        return $resultado ? $resultado['nome'] : 'Resíduo Desconhecido';
+    }
+    
+    // Exemplo de função para buscar o nome da forma de pagamento por ID
+    private function buscarNomeFormaPagamentoPorId($idFormaPagamento)
+    {
+        $this->db->where('id', $idFormaPagamento);
+        $resultado = $this->db->get('ci_forma_pagamento')->row_array();
+        return $resultado ? $resultado['forma_pagamento'] : 'Forma de Pagamento Desconhecida';
+    }
+    
+    
+    
     public function recebeIdColetasClientes($id_cliente, $data_inicio, $data_fim, $residuo = null)
     {
         $this->db->select('id');
