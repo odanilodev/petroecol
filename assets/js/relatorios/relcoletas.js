@@ -6,7 +6,7 @@ function recebeClientesSetor(idSetor) {
 
     $.ajax({
         type: 'POST',
-        url: `${baseUrl}setoresEmpresaCliente/recebeClientesSetor`,
+        url: `${baseUrl}setoresEmpresaCliente/recebeClientesSetorColeta`,
         data: {
             id_setor: idSetor
         }, success: function (data) {

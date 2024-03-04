@@ -137,6 +137,23 @@ class SetoresEmpresaCliente extends CI_Controller
 	{
 		$id_setor = $this->input->post('id_setor');
 
+		$clientesSetor = $this->SetoresEmpresaCliente_model->recebeClientesSetoresEmpresa($id_setor);
+
+		$response = array(
+			'success' => true,
+			'clientesSetor' => $clientesSetor
+		);
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
+	}
+	
+
+
+	public function recebeClientesSetorColeta ()
+	{
+		$id_setor = $this->input->post('id_setor');
+
 		if ($id_setor == "todos") {
 
 			$this->load->model('Clientes_model');
@@ -153,7 +170,6 @@ class SetoresEmpresaCliente extends CI_Controller
 
 		}
 
-
 		$response = array(
 			'success' => true,
 			'clientesSetor' => $clientesSetor,
@@ -163,7 +179,6 @@ class SetoresEmpresaCliente extends CI_Controller
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 
 	}
-	
 
 	public function recebeClientesEtiquetaSetor ()
 	{
