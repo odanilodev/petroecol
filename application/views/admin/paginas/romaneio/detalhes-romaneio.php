@@ -76,11 +76,11 @@
                                     </td>
 
                                     <td class="align-middle white-space-nowrap">
-                                        teste
+                                        <?= $v['observacao'] ?>
                                     </td>
 
                                     <td class="align-middle white-space-nowrap">
-                                       teste2
+                                        <?= $v['coletado'] ? 'Sim' : 'Não' ?>
                                     </td>
 
                                 </tr>
