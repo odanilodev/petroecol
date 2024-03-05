@@ -41,6 +41,7 @@
                                 <th class="sort align-middle">Gerado em</th>
                                 <th class="sort align-middle p-3">Gerar</th>
                                 <th class="sort align-middle p-3">Concluir Romaneio</th>
+                                <th class="sort align-middle p-3">Ver Romaneio</th>
                                 <th class="sort align-middle p-3">Deletar</th>
                             </tr>
                         </thead>
@@ -83,6 +84,14 @@
                                         <button <?= $v['status'] ? 'disabled' : '' ?> type="button" onclick='concluirRomaneio(<?= $v["codigo"] ?>, <?= $v["ID_RESPONSAVEL"] ?>, "<?= $v["data_romaneio"] ?>", <?= $v["id_setor_empresa"]?>)' class="btn <?= !$v['status'] ? 'btn-success' : 'btn-secondary' ?>">
                                             <span class="ms-1" data-feather="check-circle"></span>
                                         </button>
+                                    </td>
+
+                                    <td class="align-middle white-space-nowrap">
+                                    
+                                        <a href="<?= !$v['status'] ? '#' : base_url('romaneios/detalhes/' . $v['codigo']) ?>" class="btn <?= $v['status'] ? 'btn-success' : 'btn-secondary' ?>">
+                                            <span class="ms-1" data-feather="eye"></span>
+                                        </a>
+                                        
                                     </td>
 
                                     <td class="align-middle white-space-nowrap">
