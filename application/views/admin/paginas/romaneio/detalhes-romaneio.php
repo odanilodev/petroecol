@@ -45,9 +45,10 @@
 
                                     <td class="mobile_number align-middle white-space-nowrap">
                                         <?php 
+                                        if ($residuos_coletados) {
 
                                             foreach($residuos_coletados as $key => $idResiduos){
-
+    
                                                 if(isset($total_residuo[$idResiduos])){ // ja exite (soma)
                                                     $total_residuo[$idResiduos] += $quantidade_coletada[$key];
                                                 }else{
@@ -56,12 +57,17 @@
                                                
                                                 echo "<p>$quantidade_coletada[$key] ($residuos[$idResiduos])</p>";
                                             } 
+                                        }
+
                                         ?>
                                     </td>
 
 
                                     <td class="mobile_number align-middle white-space-nowrap">
                                         <?php 
+
+                                        if ($forma_pagamento) {
+                                            
                                             foreach($forma_pagamento as $key => $idPagamento){
 
                                                 if (isset($total_pagamento[$idPagamento])) {
@@ -72,11 +78,12 @@
 
                                                 echo "<p>$valor_pago[$key] ($formasPagamento[$idPagamento])</p>";
                                             } 
+                                        }
                                         ?>
                                     </td>
 
                                     <td class="align-middle white-space-nowrap">
-                                        <?= $v['observacao'] ?>
+                                        <?= !empty(trim($v['observacao'])) ? $v['observacao'] : "--" ?>
                                     </td>
 
                                     <td class="align-middle white-space-nowrap">
