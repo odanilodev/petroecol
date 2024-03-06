@@ -48,6 +48,13 @@ const filtrarClientesRomaneio = () => {
 
     if (permissao) {
 
+        let checkTodos = `<tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
+                <td class="align-middle white-space-nowrap">
+                    <input class="form-check-input check-clientes-modal cursor-pointer check-all-element" type="checkbox" style="margin-right:8px;">
+                    Clientes
+                </td>
+            </tr>`
+
         $.ajax({
             type: "POST",
             url: `${baseUrl}romaneios/filtrarClientesRomaneio`,
@@ -59,7 +66,7 @@ const filtrarClientesRomaneio = () => {
                 setorEmpresa: setorEmpresa
             },
             beforeSend: function () {
-                $('.clientes-modal-romaneio').html('');
+                $('.clientes-modal-romaneio').html(checkTodos);
                 $('.load-form-romaneio').removeClass('d-none');
                 $('.btn-envia-romaneio').addClass('d-none');
 
@@ -84,7 +91,7 @@ const filtrarClientesRomaneio = () => {
                     <tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
 
                         <td class="align-middle white-space-nowrap nome-cliente" data-id="${data.retorno[i].ID_CLIENTE}">
-                            <input class="form-check-input check-clientes-modal" style="margin-right:8px;"checked name="clientes" type="checkbox" value="${data.retorno[i].ID_CLIENTE}" style="cursor: pointer">
+                            <input class="form-check-input check-clientes-modal cursor-pointer check-element" style="margin-right:8px;" name="clientes" type="checkbox" value="${data.retorno[i].ID_CLIENTE}">
                             ${data.retorno[i].CLIENTE}
                         </td>
 
@@ -137,6 +144,12 @@ const gerarRomaneio = () => {
 
     })
 
+    if (clientes.length < 1) {
+        avisoRetorno('Algo deu errado', 'Você precisa selecionar algum cliente para gerar o romaneio.', 'error', '#');
+        permissao = false;
+
+    }
+ 
     let responsavel = $('#select-responsavel').val();
     let veiculo = $('#select-veiculo').val();
     let data_coleta = $('.input-coleta').val();
