@@ -7142,7 +7142,7 @@ $(document).ready(function () {
   let elementsChecked = [];
 
   // clique para selecionar todos os checkboxes
-  $('.check-all-element').on('change', function () {
+  $(document).on('change', '.check-all-element', function () {
 
     if ($(this).prop('checked')) {
       $('.check-element').prop("checked", true);
@@ -7167,7 +7167,7 @@ $(document).ready(function () {
   });
 
   // clique para selecionar um por um
-  $('.check-element').on('change', function () {
+  $(document).on('change', '.check-element', function () {
     let value = $(this).val();
 
     if ($(this).prop('checked') ) {
