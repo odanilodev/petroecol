@@ -37,4 +37,33 @@ class Job extends CI_Controller
             write_file($diretorio, $backup);
         }
     }
+
+
+    public function insereSetorOleoClientes()
+    {
+
+        $this->load->model('Clientes_model');
+        $this->load->model('SetoresEmpresaCliente_model');
+
+        $clientes = $this->Clientes_model->recebeIdsClientes();
+
+        $dados['id_empresa'] = $this->session->userdata('id_empresa');
+
+        foreach($clientes as $cliente){
+
+            $dados['id_cliente'] =  $cliente['id'];
+
+            $dados['transacao_coleta'] = '0';
+            $dados['id_setor_empresa'] = '3';
+            $dados['id_frequencia_coleta'] = '25';
+            $dados['dia_pagamento'] = '10';
+            $dados['id_forma_pagamento'] = '1';
+
+            $this->SetoresEmpresaCliente_model->insereSetorEmpresaCliente($dados);
+
+
+        }
+
+    }
+
 }

@@ -260,4 +260,12 @@ class Clientes_model extends CI_Model
 
     }
 
+    public function recebeIdsClientes()
+    {
+        $this->db->select('id');
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('ci_clientes');
+        return $query->result_array();
+    }
+
 }
