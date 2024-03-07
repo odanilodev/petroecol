@@ -53,7 +53,7 @@ const filtrarClientesRomaneio = () => {
                     <input class="form-check-input check-clientes-modal cursor-pointer check-all-element" type="checkbox" style="margin-right:8px;">
                     Clientes
                 </td>
-            </tr>`
+            </tr>`;
 
         $.ajax({
             type: "POST",
@@ -85,21 +85,28 @@ const filtrarClientesRomaneio = () => {
                     $('#modalRomaneio').modal('show');
                 }
 
+                let todosNomesClientes = [];
                 for (i = 0; i < data.registros; i++) {
 
+                    
                     let clientes = `
                     <tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
-
-                        <td class="align-middle white-space-nowrap nome-cliente" data-id="${data.retorno[i].ID_CLIENTE}">
-                            <input class="form-check-input check-clientes-modal cursor-pointer check-element" style="margin-right:8px;" name="clientes" type="checkbox" value="${data.retorno[i].ID_CLIENTE}">
-                            ${data.retorno[i].CLIENTE}
-                        </td>
-
+                    
+                    <td class="align-middle white-space-nowrap nome-cliente" data-id="${data.retorno[i].ID_CLIENTE}">
+                    <input class="form-check-input check-clientes-modal cursor-pointer check-element" style="margin-right:8px;" name="clientes" type="checkbox" value="${data.retorno[i].ID_CLIENTE}">
+                    ${data.retorno[i].CLIENTE}
+                    </td>
+                    
                     </tr>
-                `;
-
+                    
+                    `;
+                    
                     $('.clientes-modal-romaneio').append(clientes);
+                    todosNomesClientes.push(clientes)
                 }
+
+                $('.todos-clientes').val(todosNomesClientes);
+
 
             }
         })
@@ -108,6 +115,48 @@ const filtrarClientesRomaneio = () => {
         return;
     }
 }
+
+
+  
+// Função para atualizar a lista de clientes
+function atualizarListaClientes(nomeDigitado) {
+    
+    let clientesSelecionados = $('.ids-selecionados').val().split(','); // array com todos os ids que foram selecionados
+    let todosNomesClientes = $('.todos-clientes').val().split(','); // array com todos os nomes dos clientes
+
+    let checkTodos = `
+    <tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
+        <td class="align-middle white-space-nowrap">
+            <input class="form-check-input check-clientes-modal cursor-pointer check-all-element" type="checkbox" style="margin-right:8px;">
+            Clientes
+        </td>
+    </tr>`;
+    
+    $('.clientes-modal-romaneio').html(checkTodos);
+
+
+    // Usa o filter para encontrar o nome digitado no array, ignorando o caso
+    let clientesFiltrados = todosNomesClientes.filter(function(cliente) {
+        return cliente.toLowerCase().includes(nomeDigitado.toLowerCase());
+    });
+
+    clientesFiltrados.forEach(function(cliente) {
+        $('.clientes-modal-romaneio').append(cliente);
+
+    });
+
+    clientesSelecionados.forEach(function(idCliente) {
+        $('.check-clientes-modal[value="' + idCliente + '"]').prop('checked', true);
+    });
+}
+
+
+
+
+$('#searchInput').on('input', function() {
+    var query = $(this).val();
+    atualizarListaClientes(query);
+});
 
 const gerarRomaneio = () => {
 
