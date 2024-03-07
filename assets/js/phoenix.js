@@ -7164,6 +7164,9 @@ $(document).ready(function () {
       // oculta botão para excluir tudo
       $('.btn-excluir-tudo').addClass('d-none');
     }
+
+    todosIdsSelecionados(elementsChecked);
+
   });
 
   // clique para selecionar um por um
@@ -7181,6 +7184,8 @@ $(document).ready(function () {
       // remove o elemento clicado e recria o array sem o elemento que foi removido
       elementsChecked = elementsChecked.filter(item => item !== value);
     }
+
+    todosIdsSelecionados(elementsChecked);
 
     // Verifica se todos os checkboxes individuais estão marcados
     verificaTodosCheckbox();
@@ -7217,6 +7222,11 @@ $(document).ready(function () {
   }
 
 });
+
+// salva todos ids selected pra fazer a busca no modal de romaneio e manter os clientes selecionados
+function todosIdsSelecionados (ids) {
+  $('.ids-selecionados').val(ids);
+}
 
 const agruparIdsCheckbox = () => {
 

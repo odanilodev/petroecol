@@ -87,6 +87,10 @@
                 </div>
                 <div class="modal-body">
 
+                    <div class="busca-clientes mb-2">
+                        <input type="text" id="searchInput" placeholder="Buscar clientes" class="form-control">
+                    </div>
+
                     <div class="table-responsive scrollbar ms-n1 ps-1">
                         <table class="table table-sm fs--1 mb-0">
                             <tbody class="list clientes-modal-romaneio" id="members-table-body">
@@ -131,6 +135,8 @@
                     
                     <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
                     <input type="hidden" class="id-setor-empresa">
+                    <input type="hidden" class="todos-clientes">
+                    <input type="hidden" class="ids-selecionados">
                     <button type="button" class="btn btn-primary btn-salva-romaneio" onclick="gerarRomaneio()">Gerar Romaneio</button>
                 </div>
             </div>
