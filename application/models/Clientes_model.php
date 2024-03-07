@@ -37,7 +37,7 @@ class Clientes_model extends CI_Model
         }
 
         if ($filtro['nome'] ?? false) {
-            $this->db->like('C.nome', $filtro['nome']);
+            $this->db->like('LOWER(C.nome)', strtolower($filtro['nome']));
         }
 
         if (($filtro['id_recipiente'] ?? false) && $filtro['id_recipiente'] != 'all') {
