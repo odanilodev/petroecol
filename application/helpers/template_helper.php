@@ -437,3 +437,12 @@ function scriptsSetoresEmpresaFooter()
     );
 }
 
+function scriptsFinFornecedoresFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/fin-fornecedores/formulario-fin-fornecedores.js') . '"></script>'
+
+    );
+}
+
