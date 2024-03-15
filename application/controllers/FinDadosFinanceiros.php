@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class FinFornecedores extends CI_Controller
+class FinDadosFinanceiros extends CI_Controller
 {
 	public function __construct()
 	{
@@ -19,7 +19,7 @@ class FinFornecedores extends CI_Controller
 			}
 		}
 		// FIM controle sessão
-		$this->load->model('FinFornecedores_model');
+		$this->load->model('FinDadosFinanceiros_model');
 	}
 
 	public function index()
@@ -28,16 +28,16 @@ class FinFornecedores extends CI_Controller
 		$scriptsPadraoHead = scriptsPadraoHead();
 		$scriptsPadraoFooter = scriptsPadraoFooter();
 
-		// scripts para fornecedores
-		$scriptsFinFornecedoresFooter = scriptsFinFornecedoresFooter();
+		// scripts para Dados Financeiros
+		$scriptsFinDadosFinanceirosFooter = scriptsFinDadosFinanceirosFooter();
 
 		add_scripts('header', array_merge($scriptsPadraoHead));
-		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsFinFornecedoresFooter));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsFinDadosFinanceirosFooter));
 
-		$data['fornecedores'] = $this->FinFornecedores_model->recebeFornecedores();
+		$data['dadosFinanceiros'] = $this->FinDadosFinanceiros_model->recebeDadosFinanceiros();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
-		$this->load->view('admin/paginas/fin-fornecedores/fin-fornecedores');
+		$this->load->view('admin/paginas/fin-dados-financeiros/dados-financeiros');
 		$this->load->view('admin/includes/painel/rodape');
 	}
 
@@ -47,26 +47,29 @@ class FinFornecedores extends CI_Controller
 		$scriptsPadraoHead = scriptsPadraoHead();
 		$scriptsPadraoFooter = scriptsPadraoFooter();
 
-		// scripts para fornecedors
-		$scriptsFinFornecedoresFooter = scriptsFinFornecedoresFooter();
+		// scripts para Dados Financeiros
+		$scriptsFinDadosFinanceirosFooter = scriptsFinDadosFinanceirosFooter();
 
 		add_scripts('header', array_merge($scriptsPadraoHead));
-		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsFinFornecedoresFooter));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsFinDadosFinanceirosFooter));
 
 		$id = $this->uri->segment(3);
 
-		$data['fornecedor'] = $this->FinFornecedores_model->recebeFornecedor($id);
+		$data['dadoFinanceiro'] = $this->FinDadosFinanceiros_model->recebeDadoFinanceiro($id);
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
-		$this->load->view('admin/paginas/fin-fornecedores/cadastra-fin-fornecedores');
+		$this->load->view('admin/paginas/fin-dados-financeiros/cadastra-dados-financeiros');
 		$this->load->view('admin/includes/painel/rodape');
 	}
 
-	public function cadastraFornecedor()
+	public function cadastraDadosFinanceiros()
 	{
 		$id = $this->input->post('id');
-
-		$dados['nome_empresa'] = $this->input->post('nomeEmpresa');
+		
+		$dados['id_grupo'] = $this->input->post('idGrupo');
+		$dados['nome'] = $this->input->post('nome');
+		$dados['cpf'] = $this->input->post('cpf');
+		$dados['bairro'] = $this->input->post('bairro');
 		$dados['nome_contato'] = $this->input->post('nomeContato');
 		$dados['telefone'] = $this->input->post('telefone');
 		$dados['cnpj'] = $this->input->post('cnpj');
@@ -74,34 +77,37 @@ class FinFornecedores extends CI_Controller
 		$dados['cidade'] = $this->input->post('cidade');
 		$dados['rua'] = $this->input->post('rua');
 		$dados['conta_bancaria'] = $this->input->post('contaBancaria');
+		$dados['razao_social'] = $this->input->post('razaoSocial');
+		$dados['tipo_cadastro'] = $this->session->userdata('tipoCadastro');
+		
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-		$nomeEmpresaFornecedor = $this->FinFornecedores_model->recebeNomeEmpresaFornecedor($dados['nome_empresa'], $id); // verifica se já existe o fornecedor
+		$nomeDadosFinanceiros = $this->FinDadosFinanceiros_model->recebeNomeDadosFinanceiros($dados['nome'], $id); // verifica se já existem os Dados Financeiros 
 
-		// Verifica se o fornecedor já existe e se não é o fornecedor que está sendo editada
-		if ($nomeEmpresaFornecedor) {
+		// Verifica se os Dados Financeiros já existem e se não são os Dados Financeiros que estão sendo editados
+		if ($nomeDadosFinanceiros) {
 
 			$response = array(
 				'success' => false,
-				'message' => "Este Fornecedor já existe! Tente cadastrar um diferente."
+				'message' => "Estes Dados Financeiros já existem! Tente cadastrar um diferente."
 			);
 
 			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 		}
 
-		$retorno = $id ? $this->FinFornecedores_model->editaFornecedor($id, $dados) : $this->FinFornecedores_model->insereFornecedor($dados); // se tiver ID edita se não INSERE
+		$retorno = $id ? $this->FinDadosFinanceiros_model->editaDadosFinanceiros($id, $dados) : $this->FinDadosFinanceiros_model->insereDadosFinanceiros($dados); // se tiver ID edita se não INSERE
 
 		if ($retorno) { // inseriu ou editou
 
 			$response = array(
 				'success' => true,
-				'message' => $id ? 'Fornecedor editado com sucesso!' : 'Fornecedor cadastrado com sucesso!'
+				'message' => $id ? 'Dados Financeiros editados com sucesso!' : 'Dados Financeiros cadastrados com sucesso!'
 			);
 		} else { // erro ao inserir ou editar
 
 			$response = array(
 				'success' => false,
-				'message' => $id ? "Erro ao editar o Fornecedor!" : "Erro ao cadastrar o Fornecedor!"
+				'message' => $id ? "Erro ao editar os Dados Financeiros!" : "Erro ao cadastrar os Dados Financeiros!"
 			);
 		}
 
@@ -109,19 +115,19 @@ class FinFornecedores extends CI_Controller
 	}
 
 
-	public function deletaFornecedor()
+	public function deletaDadosFinanceiros()
 	{
 
 		$id = $this->input->post('id');
 
-		$retorno = $this->FinFornecedores_model->deletaFornecedor($id);
+		$retorno = $this->FinDadosFinanceiros_model->deletaDadosFinanceiros($id);
 
 		if ($retorno) {
 
 			$response = array(
 				'success' => true,
 				'title' => "Sucesso!",
-				'message' => "Fornecedor deletado com sucesso!",
+				'message' => "Dados Financeiros deletados com sucesso!",
 				'type' => "success"
 			);
 		} else {
@@ -129,7 +135,7 @@ class FinFornecedores extends CI_Controller
 			$response = array(
 				'success' => false,
 				'title' => "Algo deu errado!",
-				'message' => "Não foi possivel deletar o fornecedor!",
+				'message' => "Não foi possivel deletar os Dados Financeiros!",
 				'type' => "error"
 			);
 		}

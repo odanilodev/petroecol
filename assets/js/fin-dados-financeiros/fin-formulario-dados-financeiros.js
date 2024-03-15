@@ -1,18 +1,23 @@
 var baseUrl = $('.base-url').val();
 
-const cadastraFornecedor = () => {
+const cadastraDadosFinanceiros = () => {
 
   let id = $('.input-id').val();
-
-  let nomeEmpresa = $('.input-nome-empresa').val();
+  
+  let idGrupo = $('.input-id-grupo').val();
+  let nome = $('.input-nome').val();
   let nomeContato = $('.input-nome-contato').val();
   let telefone = $('.input-telefone').val();
   let cnpj = $('.input-cnpj').val();
+  let cpf = $('.input-cpf').val();
   let estado = $('.input-estado').val();
   let cidade = $('.input-cidade').val();
+  let bairro = $('.input-bairro').val();
   let rua = $('.input-rua').val();
   let contaBancaria = $('.input-conta-bancaria').val();
-  
+  let razaoSocial = $('.input-razao-social').val();
+  let tipoCadastro = $('.input-tipo-cadastro').val();
+
   //Verificação de campo vazio e permissao para cadastrar
   let permissao = true
 
@@ -37,14 +42,19 @@ const cadastraFornecedor = () => {
 
     $.ajax({
       type: "post",
-      url: `${baseUrl}finFornecedores/cadastraFornecedor`,
+      url: `${baseUrl}finDadosFinanceiros/cadastraDadosFinanceiros`,
       data: {
         id: id,
-        nomeEmpresa: nomeEmpresa,
+        idGrupo: idGrupo,
+        nome: nome,
+        razaoSocial: razaoSocial,
+        tipoCadastro: tipoCadastro,
         nomeContato: nomeContato,
+        cpf: cpf,
         telefone: telefone,
         cnpj: cnpj,
         estado: estado,
+        bairro: bairro,
         cidade: cidade,
         rua: rua,
         contaBancaria: contaBancaria
@@ -60,7 +70,7 @@ const cadastraFornecedor = () => {
 
         if (data.success) {
 
-          avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}finFornecedores`);
+          avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}finDadosFinanceiros`);
 
         } else {
 
@@ -72,7 +82,7 @@ const cadastraFornecedor = () => {
   }
 }
 
-const deletaFornecedor = (id) => {
+const deletaDadosFinanceiros = (id) => {
 
   Swal.fire({
     title: 'Você tem certeza?',
@@ -90,12 +100,12 @@ const deletaFornecedor = (id) => {
 
       $.ajax({
         type: 'post',
-        url: `${baseUrl}finFornecedores/deletaFornecedor`,
+        url: `${baseUrl}finDadosFinanceiros/deletaDadosFinanceiros`,
         data: {
           id: id
         }, success: function (data) {
 
-          let redirect = data.type != 'error' ? `${baseUrl}finFornecedores` : '#';
+          let redirect = data.type != 'error' ? `${baseUrl}finDadosFinanceiros` : '#';
 
           avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 

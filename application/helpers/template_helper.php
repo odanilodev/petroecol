@@ -437,11 +437,11 @@ function scriptsSetoresEmpresaFooter()
     );
 }
 
-function scriptsFinFornecedoresFooter()
+function scriptsFinDadosFinanceirosFooter()
 {
     return array(
 
-        '<script src="' . base_url('assets/js/fin-fornecedores/formulario-fin-fornecedores.js') . '"></script>'
+        '<script src="' . base_url('assets/js/fin-dados-financeiros/formulario-dados-financeiros.js') . '"></script>'
 
     );
 }

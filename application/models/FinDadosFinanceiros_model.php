@@ -2,7 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
-class FinFornecedores_model extends CI_Model
+class FinDadosFinanceiros_model extends CI_Model
 {
 
     public function __construct()
@@ -11,40 +11,40 @@ class FinFornecedores_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebeFornecedores()
+    public function recebeDadosFinanceiros()
     {
-        $this->db->order_by('nome_empresa', 'DESC');
+        $this->db->order_by('nome', 'DESC');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('ci_fin_fornecedores');
+        $query = $this->db->get('fin_dados_financeiros');
 
         return $query->result_array();
     }
 
 
-    public function recebeFornecedor($id)
+    public function recebeDadoFinanceiro($id)
     {
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('ci_fin_fornecedores');
+        $query = $this->db->get('fin_dados_financeiros');
 
         return $query->row_array();
     }
 
-    public function recebeNomeEmpresaFornecedor($nomeEmpresa, $id)
+    public function recebeNomeDadosFinanceiros($nome, $id)
     {
-        $this->db->where('nome_empresa', $nomeEmpresa);
+        $this->db->where('nome', $nome);
         $this->db->where('id <>', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('ci_fin_fornecedores');
+        $query = $this->db->get('fin_dados_financeiros');
 
         return $query->row_array();
     }
 
-    public function insereFornecedor($dados)
+    public function insereDadosFinanceiros($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');
 
-        $this->db->insert('ci_fin_fornecedores', $dados);
+        $this->db->insert('fin_dados_financeiros', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($this->db->insert_id());
@@ -53,13 +53,13 @@ class FinFornecedores_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function editaFornecedor($id, $dados)
+    public function editaDadosFinanceiros($id, $dados)
     {
         $dados['editado_em'] = date('Y-m-d H:i:s');
 
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->update('ci_fin_fornecedores', $dados);
+        $this->db->update('fin_dados_financeiros', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);
@@ -68,11 +68,11 @@ class FinFornecedores_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function deletaFornecedor($id)
+    public function deletaDadosFinanceiros($id)
     {
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->delete('ci_fin_fornecedores');
+        $this->db->delete('fin_dados_financeiros');
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);
