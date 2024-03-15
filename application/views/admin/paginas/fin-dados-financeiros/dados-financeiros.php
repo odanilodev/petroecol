@@ -6,7 +6,7 @@
                 <div class="d-flex align-items-center">
                     <button class="btn btn-link text-900 me-4 px-0 d-none"><span class="fa-solid fa-file-export fs--1 me-2"></span>Export</button>
                     <a href="<?= base_url("finDadosFinanceiros/formulario") ?>" class="btn btn-primary"><span class="fas fa-plus me-2"></span>Cadastrar Dados Financeiros</a>
-                    <a href="#" class="btn btn-danger d-none btn-excluir-tudo mx-2" onclick="deletarDadosFinanceiros()"><span class="fas fa-trash"></span>  Excluir tudo</a>
+                    <a href="#" class="btn btn-danger d-none btn-excluir-tudo mx-2" onclick="deletaDadosFinanceiros()"><span class="fas fa-trash"></span>  Excluir tudo</a>
                 </div>
 
             </div>
@@ -56,13 +56,13 @@
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="<?= base_url('dadosFinanceiros/formulario/' . $v['id']) ?>" class="btn btn-info">
+                                    <a href="<?= base_url('finDadosFinanceiros/formulario/' . $v['id']) ?>" class="btn btn-info">
                                         <span class="fas fa-pencil ms-1"></span>
                                     </a>
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="#" class="btn btn-danger" onclick="deletarDadosFinanceiros(<?= $v['id'] ?>)">
+                                    <a href="#" class="btn btn-danger" onclick="deletaDadosFinanceiros(<?= $v['id'] ?>)">
                                         <span class="fas fa-trash ms-1"></span>
                                     </a>
                                 </td>

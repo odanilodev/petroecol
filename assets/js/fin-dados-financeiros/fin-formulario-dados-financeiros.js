@@ -3,37 +3,64 @@ var baseUrl = $('.base-url').val();
 const cadastraDadosFinanceiros = () => {
 
   let id = $('.input-id').val();
-  
-  let idGrupo = $('.input-id-grupo').val();
-  let nome = $('.input-nome').val();
-  let nomeContato = $('.input-nome-contato').val();
-  let telefone = $('.input-telefone').val();
-  let cnpj = $('.input-cnpj').val();
-  let cpf = $('.input-cpf').val();
-  let estado = $('.input-estado').val();
-  let cidade = $('.input-cidade').val();
-  let bairro = $('.input-bairro').val();
-  let rua = $('.input-rua').val();
-  let contaBancaria = $('.input-conta-bancaria').val();
-  let razaoSocial = $('.input-razao-social').val();
-  let tipoCadastro = $('.input-tipo-cadastro').val();
+
+  let nome = $('#input-nome').val();
+  let idGrupo = $('#input-id-grupo').val();
+  let cnpj = $('#input-cnpj').val();
+  let razaoSocial = $('#input-razao-social').val();
+  let telefone = $('#input-telefone').val();
+  let tipoCadastro = $('#input-tipo-cadastro').val();
+  let contaBancaria = $('#input-conta-bancaria').val();
+  let email = $('#input-email').val();
+
+  let cep = $('#input-cep').val();
+  let rua = $('#input-rua').val();
+  let numero = $('#input-numero').val();
+  let bairro = $('#input-bairro').val();
+  let estado = $('#input-estado').val();
+  let cidade = $('#input-cidade').val();
+  let complemento = $('#input-complemento').val();
+
+  let nomeIntermedio = $('#input-nome-intermedio').val();
+  let emailIntermedio = $('#input-email-intermedio').val();
+  let cpfIntermedio = $('#input-cpf-intermedio').val();
+  let telefoneIntermedio = $('#input-telefone-intermedio').val();
 
   //Verificação de campo vazio e permissao para cadastrar
   let permissao = true
 
   $(".input-obrigatorio").each(function () {
+
     // Verifica se o valor do input atual está vazio
-    if ($(this).val().trim() === "") {
+    if (!$(this).val()) {
 
       $(this).addClass('invalido');
-      $(this).next().removeClass('d-none');
+
+      // verifica se é select2
+      if ($(this).next().hasClass('aviso-obrigatorio')) {
+
+        $(this).next().removeClass('d-none');
+
+      } else {
+        $(this).next().next().removeClass('d-none');
+        $(this).next().addClass('select2-obrigatorio');
+      }
 
       permissao = false;
 
     } else {
 
       $(this).removeClass('invalido');
-      $(this).next().addClass('d-none');
+
+      if ($(this).next().hasClass('aviso-obrigatorio')) {
+
+        $(this).next().addClass('d-none');
+
+      } else {
+        $(this).next().next().addClass('d-none');
+        $(this).next().removeClass('select2-obrigatorio');
+
+      }
     }
   });
 
@@ -45,19 +72,27 @@ const cadastraDadosFinanceiros = () => {
       url: `${baseUrl}finDadosFinanceiros/cadastraDadosFinanceiros`,
       data: {
         id: id,
-        idGrupo: idGrupo,
         nome: nome,
-        razaoSocial: razaoSocial,
-        tipoCadastro: tipoCadastro,
-        nomeContato: nomeContato,
-        cpf: cpf,
-        telefone: telefone,
+        idGrupo: idGrupo,
         cnpj: cnpj,
-        estado: estado,
-        bairro: bairro,
-        cidade: cidade,
+        razaoSocial: razaoSocial,
+        telefone: telefone,
+        tipoCadastro: tipoCadastro,
+        contaBancaria: contaBancaria,
+        email: email,
+
+        cep: cep,
         rua: rua,
-        contaBancaria: contaBancaria
+        numero: numero,
+        bairro: bairro,
+        estado: estado,
+        cidade: cidade,
+        complemento: complemento,
+
+        nomeIntermedio: nomeIntermedio,
+        emailIntermedio: emailIntermedio,
+        cpfIntermedio: cpfIntermedio,
+        telefoneIntermedio: telefoneIntermedio
       },
       beforeSend: function () {
         $('.load-form').removeClass('d-none');
@@ -119,40 +154,38 @@ const deletaDadosFinanceiros = (id) => {
 }
 
 $(document).ready(function () {
-    
-  $('.select-grupo').val('').trigger('change');
-
+  
   $('.select2').select2({
-      theme: "bootstrap-5",
-      width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-      placeholder: $(this).data('placeholder'),
+    theme: "bootstrap-5",
+    width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+    placeholder: $(this).data('placeholder'),
   });
 })
 
 // preenche todos os campos de endereço depois de digitar o cep
 $(document).ready(function () {
-  $('.input-cep').on('blur', function () {
-      var cep = $(this).val().replace(/\D/g, '');
+  $('#input-cep').on('blur', function () {
+    var cep = $(this).val().replace(/\D/g, '');
 
-      if (cep.length >= 1 && cep.length < 8) {
-          avisoRetorno('CEP inválido', 'Verifique se digitou corretamente!', 'error', '#');
-          return;
+    if (cep.length >= 1 && cep.length < 8) {
+      avisoRetorno('CEP inválido', 'Verifique se digitou corretamente!', 'error', '#');
+      return;
+    }
+
+    $.ajax({
+      url: 'https://viacep.com.br/ws/' + cep + '/json/',
+      dataType: 'json',
+      success: function (data) {
+
+        if (!data.erro) {
+          $('#input-rua').val(data.logradouro);
+          $('#input-bairro').val(data.bairro);
+          $('#input-cidade').val(data.localidade);
+          $('#input-estado').val(data.uf);
+        } else {
+          avisoRetorno('CEP não encontrado', 'Verifique se digitou corretamente', 'error', '#');
+        }
       }
-
-      $.ajax({
-          url: 'https://viacep.com.br/ws/' + cep + '/json/',
-          dataType: 'json',
-          success: function (data) {
-
-              if (!data.erro) {
-                  $('#rua').val(data.logradouro);
-                  $('#bairro').val(data.bairro);
-                  $('#cidade').val(data.localidade);
-                  $('#estado').val(data.uf);
-              } else {
-                  avisoRetorno('CEP não encontrado', 'Verifique se digitou corretamente', 'error', '#');
-              }
-          }
-      });
+    });
   });
 });

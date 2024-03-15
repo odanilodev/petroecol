@@ -20,6 +20,7 @@ class FinDadosFinanceiros extends CI_Controller
 		}
 		// FIM controle sessão
 		$this->load->model('FinDadosFinanceiros_model');
+		$this->load->model('FinGrupos_model');
 	}
 
 	public function index()
@@ -57,7 +58,8 @@ class FinDadosFinanceiros extends CI_Controller
 		$id = $this->uri->segment(3);
 
 		$data['dadoFinanceiro'] = $this->FinDadosFinanceiros_model->recebeDadoFinanceiro($id);
-
+		$data['grupos'] = $this->FinGrupos_model->recebeGrupos();
+	
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/fin-dados-financeiros/cadastra-dados-financeiros');
 		$this->load->view('admin/includes/painel/rodape');
@@ -67,19 +69,27 @@ class FinDadosFinanceiros extends CI_Controller
 	{
 		$id = $this->input->post('id');
 		
-		$dados['id_grupo'] = $this->input->post('idGrupo');
 		$dados['nome'] = $this->input->post('nome');
-		$dados['cpf'] = $this->input->post('cpf');
-		$dados['bairro'] = $this->input->post('bairro');
-		$dados['nome_contato'] = $this->input->post('nomeContato');
-		$dados['telefone'] = $this->input->post('telefone');
+		$dados['id_grupo'] = $this->input->post('idGrupo');
 		$dados['cnpj'] = $this->input->post('cnpj');
-		$dados['estado'] = $this->input->post('estado');
-		$dados['cidade'] = $this->input->post('cidade');
-		$dados['rua'] = $this->input->post('rua');
-		$dados['conta_bancaria'] = $this->input->post('contaBancaria');
 		$dados['razao_social'] = $this->input->post('razaoSocial');
-		$dados['tipo_cadastro'] = $this->session->userdata('tipoCadastro');
+		$dados['telefone'] = $this->input->post('telefone');
+		$dados['tipo_cadastro'] = $this->input->post('tipoCadastro');
+		$dados['conta_bancaria'] = $this->input->post('contaBancaria');
+		$dados['email'] = $this->input->post('email');
+
+		$dados['cep'] = $this->input->post('cep');
+		$dados['rua'] = $this->input->post('rua');
+		$dados['numero'] = $this->input->post('numero');
+		$dados['bairro'] = $this->input->post('bairro');
+		$dados['cidade'] = $this->input->post('cidade');
+		$dados['estado'] = $this->input->post('estado');
+		$dados['complemento'] = $this->input->post('complemento');
+
+		$dados['nome_intermedio'] = $this->input->post('nomeIntermedio');
+		$dados['cpf_intermedio'] = $this->input->post('cpfIntermedio');
+		$dados['email_intermedio'] = $this->input->post('emailIntermedio');
+		$dados['telefone_intermedio'] = $this->input->post('telefoneIntermedio');
 		
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
