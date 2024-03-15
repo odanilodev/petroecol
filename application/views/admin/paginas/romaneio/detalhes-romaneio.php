@@ -70,10 +70,10 @@
                                             
                                             foreach($forma_pagamento as $key => $idPagamento){
 
-                                                if (isset($total_pagamento[$idPagamento]) && isset($valor_pago[$key])) {
-                                                    $total_pagamento[$idPagamento] += $valor_pago[$key];
+                                                if (isset($total_pagamento[$idPagamento])) {
+                                                    $total_pagamento[$idPagamento] += $valor_pago[$key] ?? 0;
                                                 } else {
-                                                    $total_pagamento[$idPagamento] = $valor_pago[$key];
+                                                    $total_pagamento[$idPagamento] = $valor_pago[$key] ?? 0;
                                                 }
 
                                                 if (isset($valor_pago[$key]) && isset($formasPagamento[$idPagamento])) {
