@@ -20,67 +20,130 @@
                                 <div class="tab-pane row" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab2" id="bootstrap-wizard-validation-tab2">
                                     <form method="post" class="needs-validation" novalidate="novalidate" data-wizard-form="1">
 
-                                        <input type="hidden" class="input-id" value="<?= isset($dadoFinanceiro['id']) ? $dadoFinanceiro['id'] : "" ?>">
+                                        <input type="hidden" class="input-id" value="<?= $dadoFinanceiro['id'] ?? '' ?>">
 
                                         <div class="row">
-                                            <div class="mb-2 col-md-4">
-                                                <label class="form-label text-900 " for="bootstrap-wizard-validation-wizard-name">Nome*</label>
-                                                <input required value="<?= isset($dadoFinanceiro['nome']) ? $dadoFinanceiro['nome'] : "" ?>" class="form-control input-obrigatorio input-nome" type="text" name="nome" placeholder="Nome do Dado Financeiro" id="bootstrap-wizard-validation-wizard-name" />
+
+                                            <label for="divisao-dados">Info. Transação</label><br>
+                                            <hr>
+
+                                            <div class="mb-2 col-md-3">
+                                                <label class="form-label text-900">Nome*</label>
+                                                <input required value="<?= $dadoFinanceiro['nome']?? "" ?>" class="form-control input-obrigatorio input-nome" type="text" name="nome" placeholder="Identificação do Dado Financeiro" />
                                                 <div class="invalid-feedback">Preencha este campo.</div>
                                             </div>
 
-                                            <div class="mb-2 col-md-4">
+                                            <div class="mb-2 col-md-3">
+                                                <label class="form-label text-900">Grupo</label>
+                                                <select name="id_grupo" class="form-select select-grupo select2">
+                                                    <option value="" selected>Selecione o Grupo</option>
+
+                                                    <?php foreach ($grupos as $v) { ?>
+                                                        <option value="<?= $v['id'] ?>" <?= (isset($v['id_grupo']) && $v['id_grupo'] == $v['id']) ? 'selected' : ''; ?>><?= $v['nome']; ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+
+
+                                            <div class="mb-2 col-md-3">
+                                                <label class="form-label text-900">CNPJ*</label>
+                                                <input required value="<?= $dadoFinanceiro['cnpj'] ?? '' ?>" class="form-control  input-cnpj mascara-cnpj" type="text" name="nome" placeholder="Digite o CNPJ" />
+
+                                            </div>
+
+                                            <div class="mb-2 col-md-3">
                                                 <label class="form-label text-900">Razão Social*</label>
-                                                <input required value="<?= isset($dadoFinanceiro['razao_social']) ? $dadoFinanceiro['razao_social'] : "" ?>" class="form-control input-obrigatorio input-razao-social " type="text" name="razao_social" placeholder="Digite a Razão Social" />
-                                                <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
+                                                <input required value="<?= $dadoFinanceiro['razao_social'] ?? "" ?>" class="form-control input-razao-social " type="text" name="razao_social" placeholder="Digite a Razão Social" />
+
                                             </div>
 
-                                            <div class="mb-2 col-md-4">
-                                                <label class="form-label" for="basic-form-dob">Tipo de cadastro</label>
-                                                <input class="form-control input-tipo-cadastro" value="<?= isset($dadoFinanceiro['tipo_cadastro']) ? $dadoFinanceiro['tipo_cadastro'] : "" ?>" placeholder="dd/mm/yyyy" id="basic-form-dob" type="date">
-                                            </div>
-
-                                            <div class="mb-5 col-md-4">
-                                                <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-name">Conta Bancária</label>
-                                                <input value="<?= isset($dadoFinanceiro['conta_bancaria']) ? $dadoFinanceiro['conta_bancaria'] : "" ?>" class="form-control input-conta-bancaria" type="text" name="conta_bancaria" placeholder="Digite a conta bancaria" id="bootstrap-wizard-validation-wizard-name" />
-                                            </div>
-
-                                            <div class="mb-2 col-md-4">
-                                                <label class="form-label text-900 " for="bootstrap-wizard-validation-wizard-cpf">CPF*</label>
-                                                <input required value="<?= isset($dadoFinanceiro['cpf']) ? $dadoFinanceiro['cpf'] : "" ?>" class="form-control input-obrigatorio input-cpf mascara-cpf" type="text" name="nome" placeholder="Digite o CPF" />
-                                                <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
-                                            </div>
-
-                                            <div class="mb-2 col-md-4">
+                                            <div class="mb-2 col-md-3">
                                                 <label class="form-label" for="bootstrap-wizard-validation-wizard-phone">Telefone</label>
-                                                <input value="<?= isset($dadoFinanceiro['telefone']) ? $dadoFinanceiro['telefone'] : "" ?>" class="form-control input-telefone mascara-tel" type="text" name="telefone" placeholder="Digite o telefone" />
+                                                <input value="<?= $dadoFinanceiro['telefone'] ?? "" ?>" class="form-control input-telefone mascara-tel" type="text" name="telefone" placeholder="Digite o telefone" />
+                                            </div>
+
+                                            <div class="mb-2 col-md-3">
+                                                <label class="form-label" for="basic-form-dob">Tipo de cadastro</label>
+                                                <select name="" class="form-select input-tipo-cadastro select2" id="">
+                                                    <option disabled value="">Selecione o tipo</option>
+                                                    <option value="1" >Pessoa Fisica</option>
+                                                    <option value="2" >Pessoa Juridica</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-2 col-md-3">
+                                                <label class="form-label text-900">Conta Bancária</label>
+                                                <input value="<?= $dadoFinanceiro['conta_bancaria'] ?? "" ?>" class="mascara-conta-bancaria form-control input-conta-bancaria" type="text" name="conta_bancaria" placeholder="Digite a conta bancaria"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label for="divisao-localizacao" class="mt-3">Info. Localização</label><br>
+                                            <hr>
+
+                                            <div class="mb-2 col-md-2">
+                                                <label class="form-label">CEP</label>
+                                                <input class="form-control campo input-cep mascara-cep" type="text" name="cep" value="<?= $dadoFinanceiro['cep'] ?? ''; ?>" placeholder="Insira o CEP">
+                                            </div>
+
+                                            <div class="col-md-10"></div>
+
+                                            <div class="mb-2 col-md-3">
+                                                <label class="form-label">Rua </label>
+                                                <input disabled id="rua" required class="form-control campo" type="text" name="rua" value="<?= $dadoFinanceiro['rua'] ?? ''; ?>" placeholder="Nome da rua">
+                                                <div class="invalid-feedback">Preencha este campo</div>
+                                            </div>
+
+                                            <div class="mb-2 col-md-1">
+                                                <label class="form-label">N°</label>
+                                                <input required class="form-control campo" type="text" name="numero" value="<?= $dadoFinanceiro['numero'] ?? ''; ?>" placeholder="Número">
+                                                <div class="invalid-feedback">Preencha este campo</div>
+                                            </div>
+
+                                            <div class="mb-2 col-md-3">
+                                                <label class="form-label">Bairro </label>
+                                                <input disabled id="bairro" required class="form-control campo" type="text" name="bairro" value="<?= $dadoFinanceiro['bairro'] ?? ''; ?>" placeholder="Bairro">
+                                                <div class="invalid-feedback">Preencha este campo</div>
+                                            </div>
+
+                                            <div class="mb-2 col-md-3">
+                                                <label class="form-label">Cidade </label>
+                                                <input disabled id="cidade" required class="form-control campo" type="text" name="cidade" value="<?= $dadoFinanceiro['cidade'] ?? ''; ?>" placeholder="Cidade">
+                                                <div class="invalid-feedback">Preencha este campo</div>
+                                            </div>
+
+                                            <div class="mb-2 col-md-2">
+                                                <label class="form-label">Estado </label>
+                                                <input disabled id="estado" required class="form-control campo" type="text" name="estado" value="<?= $dadoFinanceiro['estado'] ?? ''; ?>" placeholder="Estado">
+                                                <div class="invalid-feedback">Preencha este campo</div>
                                             </div>
 
                                             <div class="mb-2 col-md-4">
-                                                <div class="mb-2">
-                                                    <label class="form-label text-900">Cargo</label>
-                                                    <select required name="id_cargo" class="form-select input-cargo input-obrigatorio select2">
-                                                        <option value="" selected disabled>Selecione</option>
-                                                        <?php foreach ($cargos as $c) { ?>
-                                                            <option <?= isset($dadoFinanceiro['id_cargo']) && $dadoFinanceiro['id_cargo'] == $c['id'] ? "selected" : "" ?> value="<?= $c['id'] ?>"><?= $c['nome'] ?></option>
-                                                        <?php } ?>
-                                                    </select>
-                                                    <div class="invalid-feedback">Preencha este campo.</div>
-                                                </div>
+                                                <label class="form-label text-900">Complemento</label>
+                                                <textarea value="<?= isset($dadoFinanceiro['complemento']) ? $dadoFinanceiro['complemento'] : "" ?>" rows="1" class="form-control input-residencia" type="text" name="residencia" placeholder="Digite o complemento"/></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label for="divisao-intermedio" class="mt-3">Info. Intermédio</label><br>
+                                            <hr>
+
+                                            <div class="mb-2 col-md-3">
+                                                <label class="form-label text-900">Nome Intermédio</label>
+                                                <input value="<?= $dadoFinanceiro['nome_contato'] ?? "" ?>" class="form-control input-nome-contato" type="text" name="residencia" placeholder="Nome Contato"/>
                                             </div>
 
-                                            <div class="mb-2 col-md-4">
-                                                <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-name">Salario Base</label>
-                                                <input value="<?= isset($dadoFinanceiro['salario_base']) ? $dadoFinanceiro['salario_base'] : "" ?>" class="form-control input-salario mascara-dinheiro" type="text" name="salario_base" placeholder="Digite o salário do funcionário" id="bootstrap-wizard-validation-wizard-name" />
-                                                <div class="invalid-feedback">Preencha este campo.</div>
+
+                                            <div class="mb-2 col-md-3">
+                                                <label class="form-label text-900" for="input-telefone">Telefone Intermédio</label>
+                                                <input value="<?= $dadoFinanceiro['telefone_contato'] ?? "" ?>" class="form-control input-telefone mascara-tel" type="text" id="input-telefone" name="telefone" placeholder="Digite o telefone" />
                                             </div>
 
-                                            <div class="mb-5 col-md-4">
-                                                <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-name">Residência</label>
-                                                <input value="<?= isset($dadoFinanceiro['residencia']) ? $dadoFinanceiro['residencia'] : "" ?>" class="form-control input-residencia" type="text" name="residencia" placeholder="Digite o endereço" id="bootstrap-wizard-validation-wizard-name" />
-                                                <div class="invalid-feedback">Preencha este campo.</div>
-                                            </div>
+                                            <div class="mb-2 col-md-3">
+                                                <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-cpf">CPF Intermédio</label>
+                                                <input required value="<?= $dadoFinanceiro['cpf'] ?? "" ?>" class="form-control input-cpf mascara-cpf" type="text" name="cpf" placeholder="Digite o CPF" />
 
+                                            </div>
 
                                             <div class="flex-1 pt-8 text-end my-5">
                                                 <button class="btn btn-primary px-6 px-sm-6 btn-envia" onclick="cadastraDadosFinanceiros()"><?= $this->uri->segment(3) ? 'Editar Dados Financeiros' : 'Cadastrar Dado Financeiros'; ?>
@@ -89,7 +152,7 @@
                                                 <div class="spinner-border text-primary load-form d-none" role="status">
                                                 </div>
                                             </div>
-
+                                        </div>
                                     </form>
                                 </div>
 

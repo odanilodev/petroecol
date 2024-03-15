@@ -49,8 +49,9 @@ class FinDadosFinanceiros extends CI_Controller
 
 		// scripts para Dados Financeiros
 		$scriptsFinDadosFinanceirosFooter = scriptsFinDadosFinanceirosFooter();
+		$scriptsFinDadosFinanceirosHead = scriptsFinDadosFinanceirosHead();
 
-		add_scripts('header', array_merge($scriptsPadraoHead));
+		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsFinDadosFinanceirosHead));
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsFinDadosFinanceirosFooter));
 
 		$id = $this->uri->segment(3);

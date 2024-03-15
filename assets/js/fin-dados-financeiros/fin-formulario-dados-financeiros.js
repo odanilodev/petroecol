@@ -117,3 +117,42 @@ const deletaDadosFinanceiros = (id) => {
 
 
 }
+
+$(document).ready(function () {
+    
+  $('.select-grupo').val('').trigger('change');
+
+  $('.select2').select2({
+      theme: "bootstrap-5",
+      width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+      placeholder: $(this).data('placeholder'),
+  });
+})
+
+// preenche todos os campos de endereço depois de digitar o cep
+$(document).ready(function () {
+  $('.input-cep').on('blur', function () {
+      var cep = $(this).val().replace(/\D/g, '');
+
+      if (cep.length >= 1 && cep.length < 8) {
+          avisoRetorno('CEP inválido', 'Verifique se digitou corretamente!', 'error', '#');
+          return;
+      }
+
+      $.ajax({
+          url: 'https://viacep.com.br/ws/' + cep + '/json/',
+          dataType: 'json',
+          success: function (data) {
+
+              if (!data.erro) {
+                  $('#rua').val(data.logradouro);
+                  $('#bairro').val(data.bairro);
+                  $('#cidade').val(data.localidade);
+                  $('#estado').val(data.uf);
+              } else {
+                  avisoRetorno('CEP não encontrado', 'Verifique se digitou corretamente', 'error', '#');
+              }
+          }
+      });
+  });
+});
