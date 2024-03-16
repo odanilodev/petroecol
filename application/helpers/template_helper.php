@@ -437,3 +437,13 @@ function scriptsSetoresEmpresaFooter()
     );
 }
 
+// Pagina de Macro financeiro empresa
+function scriptsFinMacroFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/financeiro/macro/formulario-macro.js') . '"></script>'
+
+    );
+}
+
