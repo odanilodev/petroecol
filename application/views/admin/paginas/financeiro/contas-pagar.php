@@ -121,12 +121,8 @@
 
                         <div class="col-auto">
 
-                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h" data-fa-transform="shrink-2"></span></button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
+                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn" type="button" data-bs-toggle="modal" data-bs-target="#modalEntradaContasPagar">Entrada</button>
+
                         </div>
 
                     </div>
@@ -385,6 +381,158 @@
                 <div class="modal-footer">
 
                     <button class="btn btn-success btn-form" type="button">Realizar Pagamento</button>
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Entrada Contas a Pagar -->
+
+    <div class="modal fade" tabindex="-1" id="modalEntradaContasPagar">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalhes da conta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body body-coleta">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="col-sm-12 col-xxl-12 py-3">
+                                        <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+
+                                            <div class="col-lg-6">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Grupos Macros</label>
+                                                    <select class="form-select">
+                                                        <option>Selecione</option>
+                                                        <option>Ally Aagaard</option>
+                                                        <option>Aida Moen</option>
+                                                        <option>Niko Koss</option>
+                                                        <option>Alec Haag</option>
+                                                        <option>Lonnie Kub</option>
+                                                        <option>Ola Smith</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Grupos Micros</label>
+                                                    <select class="form-select">
+                                                        <option>Selecione</option>
+                                                        <option>Ally Aagaard</option>
+                                                        <option>Aida Moen</option>
+                                                        <option>Niko Koss</option>
+                                                        <option>Alec Haag</option>
+                                                        <option>Lonnie Kub</option>
+                                                        <option>Ola Smith</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Empresa</label>
+                                                    <select class="form-select select2">
+                                                        <option>Selecione</option>
+                                                        <option>Óleo</option>
+                                                        <option>Reciclagem</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Recebido</label>
+                                                    <select class="form-select select2">
+                                                        <option>Selecione</option>
+                                                        <option>Ally Aagaard</option>
+                                                        <option>Aida Moen</option>
+                                                        <option>Niko Koss</option>
+                                                        <option>Alec Haag</option>
+                                                        <option>Lonnie Kub</option>
+                                                        <option>Ola Smith</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-4">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Parcelas</label>
+                                                    <select class="form-select select2">
+                                                        <option>Selecione</option>
+                                                        <option>1x</option>
+                                                        <option>2x</option>
+                                                        <option>3x</option>
+                                                        <option>4x</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-4">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Data pagamento</label>
+                                                    <input class="form-control datetimepicker input-coleta" required name="data_coleta" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-4">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Data Emissão</label>
+                                                    <input class="form-control datetimepicker input-coleta" required name="data_coleta" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-4">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Valor</label>
+                                                    <input class="form-control" required name="valor" type="text" placeholder="Valor total da conta">
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-8">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Observação</label>
+                                                    <textarea class="form-control"></textarea>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+
+                    <button class="btn btn-success btn-form" type="button">Salvar</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
                 </div>
