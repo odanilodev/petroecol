@@ -7152,7 +7152,10 @@ $(document).ready(function () {
       });
 
       // Exibe botão para excluir tudo
-      $('.btn-excluir-tudo').removeClass('d-none');
+      if($('.check-element:checked').length > 1){
+        
+        $('.btn-excluir-tudo').removeClass('d-none');
+      }
 
     } else {
       // desmarca todos se o checkbox de selecionar todos estiver desmarcado
@@ -7200,7 +7203,7 @@ $(document).ready(function () {
   function verificaTodosCheckbox() {
 
     // se todos estiverem checked, deixa o checkbox que seleciona todos checked também
-    if ($('.check-element:checked').length == $('.check-element').length) {
+    if ($('.check-element:checked').length == $('.check-element').length &&  $('.check-element').length > 1) {
 
       $('.check-all-element').prop('checked', true);
       $('.btn-excluir-tudo').removeClass('d-none');
