@@ -182,16 +182,7 @@ const gerarRomaneio = () => {
     });
 
     // novo clientes para gerar romaneio
-    let clientes = [];
-    $('.check-clientes-modal').each(function () {
-
-        if ($(this).is(':checked')) {
-
-            clientes.push($(this).val());
-
-        }
-
-    })
+    let clientes =$('.ids-selecionados').val().split(',');
 
     if (clientes.length < 1) {
         avisoRetorno('Algo deu errado', 'Você precisa selecionar algum cliente para gerar o romaneio.', 'error', '#');
