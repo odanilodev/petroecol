@@ -83,9 +83,26 @@ const cadastraCliente = (dadosEmpresa, dadosEndereco, dadosResponsavel) => {
     });
 }
 
+
 $(document).ready(function () {
-    preencherEnderecoPorCEP('.input-cep', '#rua', '#bairro', '#cidade', '#estado', avisoRetorno);
+    $('.input-cep').on('blur', function () {
+        var cep = $(this).val().replace(/\D/g, '');
+
+        if (cep.length !== 8 && cep.length >= 1) {
+            avisoRetorno('CEP inválido', 'Verifique se digitou corretamente!', 'error', '#');
+            return;
+        } else {
+            preencherEnderecoPorCEP(cep, function(retornoViaCep) {
+                $('#rua').val(retornoViaCep.logradouro);
+                $('#bairro').val(retornoViaCep.bairro);
+                $('#cidade').val(retornoViaCep.localidade);
+                $('#estado').val(retornoViaCep.uf);
+            });    
+        }
+    });
 });
+
+
 
 $(document).ready(function () {
 
