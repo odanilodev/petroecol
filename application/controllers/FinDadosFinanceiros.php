@@ -38,7 +38,7 @@ class FinDadosFinanceiros extends CI_Controller
 		$data['dadosFinanceiros'] = $this->FinDadosFinanceiros_model->recebeDadosFinanceiros();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
-		$this->load->view('admin/paginas/fin-dados-financeiros/dados-financeiros');
+		$this->load->view('admin/paginas/financeiro/dados-financeiros/dados-financeiros');
 		$this->load->view('admin/includes/painel/rodape');
 	}
 
@@ -61,7 +61,7 @@ class FinDadosFinanceiros extends CI_Controller
 		$data['grupos'] = $this->FinGrupos_model->recebeGrupos();
 	
 		$this->load->view('admin/includes/painel/cabecalho', $data);
-		$this->load->view('admin/paginas/fin-dados-financeiros/cadastra-dados-financeiros');
+		$this->load->view('admin/paginas/financeiro/dados-financeiros/cadastra-dados-financeiros');
 		$this->load->view('admin/includes/painel/rodape');
 	}
 

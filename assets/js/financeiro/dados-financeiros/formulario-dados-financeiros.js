@@ -162,30 +162,6 @@ $(document).ready(function () {
   });
 })
 
-// preenche todos os campos de endereço depois de digitar o cep
 $(document).ready(function () {
-  $('#input-cep').on('blur', function () {
-    var cep = $(this).val().replace(/\D/g, '');
-
-    if (cep.length >= 1 && cep.length < 8) {
-      avisoRetorno('CEP inválido', 'Verifique se digitou corretamente!', 'error', '#');
-      return;
-    }
-
-    $.ajax({
-      url: 'https://viacep.com.br/ws/' + cep + '/json/',
-      dataType: 'json',
-      success: function (data) {
-
-        if (!data.erro) {
-          $('#input-rua').val(data.logradouro);
-          $('#input-bairro').val(data.bairro);
-          $('#input-cidade').val(data.localidade);
-          $('#input-estado').val(data.uf);
-        } else {
-          avisoRetorno('CEP não encontrado', 'Verifique se digitou corretamente', 'error', '#');
-        }
-      }
-    });
-  });
+  preencherEnderecoPorCEP('.input-cep', '#rua', '#bairro', '#cidade', '#estado', avisoRetorno);
 });
