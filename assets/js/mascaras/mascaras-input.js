@@ -6,4 +6,5 @@ $(document).ready(function () {
     $('.mascara-cnpj').mask('00.000.000/0000-00', { reverse: true });
     $('.mascara-cpf').mask('000.000.000-00', {reverse: true});
     $('.mascara-dinheiro').mask('000.000.000.000.000,00', {reverse: true});
+    $('.mascara-conta-bancaria').mask('00000000000000000000', { translation: { '0': { pattern: /[0-9/.-]/ } } });
 });
