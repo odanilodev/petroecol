@@ -6,7 +6,6 @@
         <div class="d-flex align-items-center">
           <button class="btn btn-link text-900 me-4 px-0 d-none"><span class="fa-solid fa-file-export fs--1 me-2"></span>Export</button>
           <a href="<?= base_url("finMacro/formulario") ?>" class="btn btn-primary"><span class="fas fa-plus me-2"></span>Adicionar Macro</a>
-          <a href="#" class="btn btn-danger d-none btn-excluir-tudo mx-2" onclick="deletaMarco()"><span class="fas fa-trash"></span>Excluir tudo</a>
         </div>
 
       </div>
@@ -28,9 +27,7 @@
             <tr>
               <th class="white-space-nowrap fs--1 align-middle ps-0">
                 <!-- Check para todos -->
-                <div class="form-check mb-0 fs-0">
-                  <input class="form-check-input check-all-element cursor-pointer" type="checkbox" />
-                </div>
+
               </th>
 
               <th class="sort align-middle" scope="col" data-sort="nome-macro">Macro</th>
@@ -48,7 +45,6 @@
                 <!-- check para cada um -->
                 <td class="fs--1 align-middle ps-0 py-3">
                   <div class="form-check mb-0 fs-0">
-                    <input class="form-check-input check-element cursor-pointer" type="checkbox" value="<?= $v['id'] ?>" />
                   </div>
                 </td>
 
@@ -58,13 +54,13 @@
 
 
                 <td class="align-middle white-space-nowrap">
-                  <a href="<?= base_url('finMacro/formulario/' . $v['id']) ?>" class="btn btn-success">
+                  <a href="<?= base_url('' . $v['id']) ?>" class="btn btn-success">
                     <span class="uil-plus ms-1"></span>
                   </a>
                 </td>
 
                 <td class="align-middle white-space-nowrap">
-                  <a href="<?= base_url('' . $v['id']) ?>" class="btn btn-info">
+                  <a href="<?= base_url('finMacro/formulario/' . $v['id']) ?>" class="btn btn-info">
                     <span class="fas fa-pencil ms-1"></span>
                   </a>
                 </td>
