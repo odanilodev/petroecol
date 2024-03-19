@@ -71,17 +71,12 @@
                                             foreach($forma_pagamento as $key => $idPagamento){
 
                                                 if (isset($total_pagamento[$idPagamento])) {
-                                                    $total_pagamento[$idPagamento] += $valor_pago[$key] ?? 0;
+                                                    $total_pagamento[$idPagamento] += $valor_pago[$key];
                                                 } else {
-                                                    $total_pagamento[$idPagamento] = $valor_pago[$key] ?? 0;
+                                                    $total_pagamento[$idPagamento] = $valor_pago[$key];
                                                 }
 
-                                                if (isset($valor_pago[$key]) && isset($formasPagamento[$idPagamento])) {
-
-                                                    echo "<p>$valor_pago[$key] ($formasPagamento[$idPagamento])</p>";
-                                                } else {
-                                                    echo "<p>--</p>";
-                                                }
+                                                echo "<p>$valor_pago[$key] ($formasPagamento[$idPagamento])</p>";
                                             } 
                                         }
                                         ?>
@@ -114,10 +109,7 @@
 
                                     <?php foreach($total_residuo as $key => $v) { 
                                         
-                                        if (isset($residuos[$key])) {
-
-                                            echo "<p>$v $residuos[$key]";
-                                        }
+                                        echo "<p>$v $residuos[$key]";
                                     }?>
                                 </td>
 
@@ -125,12 +117,7 @@
 
                                     <?php foreach($total_pagamento as $key => $v) { 
                                         
-                                        if (isset($formasPagamento[$key])) {
-
-                                            echo "<p>$v $formasPagamento[$key]";
-                                        } else {
-                                            echo "--";
-                                        }
+                                        echo "<p>$v $formasPagamento[$key]";
                                     }?>
                                 </td>
 
@@ -143,4 +130,41 @@
             </div>
 
         <?php } ?>
+    </div>
+
+    <!-- Modal Romaneio-->
+    <div class="modal fade" id="modalConcluirRomaneio" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollabe">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div> 
+                <div class="modal-body">
+
+
+                    <div class="row">
+
+                    
+
+                        <div class="accordion dados-clientes-div" id="accordionExample">
+
+                            <!-- Manipulado JS -->
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
+                    <button type="button" class="btn btn-primary btn-finaliza-romaneio" onclick="finalizarRomaneio()">Finalizar Romaneio</button>
+                    <input type="hidden" class="id_responsavel">
+                    <input type="hidden" class="code_romaneio">
+                    <input type="hidden" class="data_romaneio">
+                    <input type="hidden" class="input-id-setor-empresa">
+
+                </div>
+            </div>
+        </div>
     </div>

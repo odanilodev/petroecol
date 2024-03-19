@@ -143,7 +143,7 @@
 
                                         foreach ($coleta['pagamentos'] as $key => $pagamento) :
 
-                                            if (isset($coleta['valor_pagamento'][$key]) && !is_numeric($coleta['valor_pagamento'][$key])) {
+                                            if (!is_numeric($coleta['valor_pagamento'][$key])) {
                                                 $coleta['valor_pagamento'][$key] = 0;
                                             }
 
