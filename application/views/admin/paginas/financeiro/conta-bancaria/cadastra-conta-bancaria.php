@@ -33,7 +33,7 @@
 
                       <div class="mb-2 col-md-4">
                         <label class="form-label text-900" for="conta">Conta*</label>
-                        <input required value="<?= $contaBancaria['conta'] ?? "" ?>" class="form-control input-obrigatorio input-conta mascara-conta" type="text" id="conta" placeholder="Digite o nº da conta" />
+                        <input required value="<?= $contaBancaria['conta'] ?? "" ?>" class="form-control input-obrigatorio input-conta mascara-conta-bancaria" type="text" id="conta" placeholder="Digite o nº da conta" />
                         <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
                       </div>
 
