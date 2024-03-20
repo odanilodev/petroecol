@@ -453,8 +453,8 @@ function scriptsFinContaBancariaFooter()
     return array(
 
         '<script src="' . base_url('assets/js/financeiro/conta-bancaria/formulario-conta-bancaria.js') . '"></script>',
+        '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>',
         '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>'
-
 
     );
 }

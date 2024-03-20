@@ -41,16 +41,23 @@ class FinContaBancaria_model extends CI_Model
     public function insereContaBancaria($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');
-
+    
         $this->db->insert('fin_contas_bancarias', $dados);
-
+    
+        // Obtém o ID criado pela inserção
+        $inserted_id = $this->db->insert_id();
+    
         if ($this->db->affected_rows()) {
-            $this->Log_model->insereLog($this->db->insert_id());
+            $this->Log_model->insereLog($inserted_id);
         }
-
-        return $this->db->affected_rows() > 0;
+    
+        // Retorna um array contendo o ID criado e um indicador de sucesso da operação
+        return array(
+            'success' => $this->db->affected_rows() > 0,
+            'inserted_id' => $inserted_id
+        );
     }
-
+    
     public function editaContaBancaria($id, $dados)
     {
         $dados['editado_em'] = date('Y-m-d H:i:s');
@@ -78,4 +85,6 @@ class FinContaBancaria_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+
 }

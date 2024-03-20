@@ -7,7 +7,7 @@
           <div class="row g-3 justify-content-between align-items-center">
             <div class="col-12 col-md">
               <h4 class="text-900 mb-0">
-                <?= $this->uri->segment(3) ? 'Editar Funcionario' : 'Cadastrar Novo Funcionário'; ?></h4>
+                <?= $this->uri->segment(3) ? 'Editar Conta Bancária' : 'Cadastrar Nova Conta Bancária'; ?></h4>
             </div>
           </div>
         </div>
@@ -20,7 +20,7 @@
                 <div class="tab-pane row" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab2" id="bootstrap-wizard-validation-tab2">
                   <form method="post" class="needs-validation" novalidate="novalidate" data-wizard-form="1">
 
-                    <input type="hidden" class="input-id" value="<?= $funcionario['id'] ?? "" ?>">
+                    <input type="hidden" class="input-id" value="<?= $contaBancaria['id'] ?? "" ?>">
 
                     <div class="row">
                       <div class="mb-5 col-md-4">
@@ -47,6 +47,15 @@
                         <input value="<?= $contaBancaria['agencia'] ?? "" ?>" class="form-control input-obrigatorio input-agencia" type="text" id="agencia" placeholder="Digite o nome da Agência" />
                         <div class="invalid-feedback">Preencha este campo.</div>
                       </div>
+                      
+                      <?php if (!$this->uri->segment(3)) : ?>
+                        <div class="mb-2 col-md-4">
+                          <label class="form-label text-900" for="saldo">Saldo Inicial*</label>
+                          <input value="<?= $saldoBancario['saldo'] ?? "" ?>" class="form-control mascara-dinheiro input-obrigatorio input-saldo" type="text" id="saldo" placeholder="Digite o saldo inicial" />
+                          <div class="invalid-feedback">Preencha este campo.</div>
+                        </div>
+                      <?php endif; ?>
+
 
                       <div class="flex-1 pt-8 text-end my-5">
                         <button class="btn btn-primary px-6 px-sm-6 btn-envia" onclick="cadastraContaBancaria()"><?= $this->uri->segment(3) ? 'Editar Conta Bancaria' : 'Cadastrar Conta Bancaria'; ?>

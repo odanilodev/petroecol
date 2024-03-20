@@ -20,6 +20,7 @@
 			}
 			// FIM controle sessão
 			$this->load->model('FinContaBancaria_model');
+			$this->load->model('FinSaldoBancario_model');
 		}
 
 		public function index()
@@ -56,6 +57,7 @@
 			$id = $this->uri->segment(3);
 
 			$data['contaBancaria'] = $this->FinContaBancaria_model->recebeContaBancaria($id);
+			$data['saldoBancario'] = $this->FinSaldoBancario_model->recebeSaldoBancario($id);
 
 			$this->load->view('admin/includes/painel/cabecalho', $data);
 			$this->load->view('admin/paginas/financeiro/conta-bancaria/cadastra-conta-bancaria');
@@ -65,6 +67,8 @@
 		public function cadastraContaBancaria()
 		{
 			$id = $this->input->post('id');
+
+			$saldoInicial = $this->input->post('saldoInicial');
 
 			$dados['apelido'] = $this->input->post('apelido');
 			$dados['banco'] = $this->input->post('banco');
@@ -90,17 +94,21 @@
 			$retorno = $id ? $this->FinContaBancaria_model->editaContaBancaria($id, $dados) : $this->FinContaBancaria_model->insereContaBancaria($dados); // se tiver ID edita se não INSERE
 
 			if ($retorno) { // inseriu ou editou
-
+				
+				!$id ? $this->FinSaldoBancario_model->insereSaldoBancario($retorno['inserted_id'], $saldoInicial) : '';
+				
 				$response = array(
 					'success' => true,
 					'message' => $id ? 'Conta Bancaria editada com sucesso!' : 'Conta Bancaria cadastrada com sucesso!'
 				);
+
 			} else { // erro ao inserir ou editar
 
 				$response = array(
 					'success' => false,
 					'message' => $id ? "Erro ao editar a Conta Bancaria!" : "Erro ao cadastrar a Conta Bancaria!"
 				);
+
 			}
 
 			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
