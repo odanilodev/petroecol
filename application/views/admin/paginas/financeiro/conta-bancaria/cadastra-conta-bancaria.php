@@ -44,7 +44,7 @@
 
                       <div class="mb-2 col-md-4">
                         <label class="form-label text-900" for="agencia">Agência*</label>
-                        <input value="<?= $contaBancaria['agencia'] ?? "" ?>" class="form-control input-obrigatorio input-agencia" type="text" id="agencia" placeholder="Digite o nome da Agência" />
+                        <input value="<?= $contaBancaria['agencia'] ?? "" ?>" class="form-control input-obrigatorio input-agencia mascara-agencia" type="text" id="agencia" placeholder="Digite o nome da Agência" />
                         <div class="invalid-feedback">Preencha este campo.</div>
                       </div>
                       
