@@ -1,54 +1,80 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Relatório de Coleta</title>
-
     <style>
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        th,
-        td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-            width: 50%;
-            color: #404040;
-        }
-
-        .tabela {
-            width: 50%;
-        }
-
         body {
-            font-family: 'sans-serif';
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            color: #333;
         }
-
-        .w-50 {
-            width: 10% !important;
+        .header {
+            display: flex;
+            justify-content: space-between;
+            
+        }
+        .header img {
+            width: 120px; 
+        }
+        .header h3 {
+            margin: 0;
+            font-size: 20px;
+        }
+        .container {
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #013738;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #013738;
+            color: white;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
         }
     </style>
-
 </head>
-
 <body>
 
-    <div style="width: 100%;">
+    <div class="header">
+        <div style='width: 100%; display: flex; align-items: center;'>
 
-        <div style="margin-top: 5px">
-            <h3 style="font-weight: bold; text-transform:uppercase">Relatório de clientes </h3>
-            <h3 style="font-weight: bold; text-transform:uppercase">PETROECOL SOLUÇÕES AMBIENTAIS</h3>
+            <div style="flex: 1; text-align: left;">
+                <img src="<?= base_url('assets/img/icons/logo-slogan.jpg') ?>" alt="Logomarca" style="max-width: 45%; height: auto;">
+            </div>
+
+            <div style="flex: 1; text-align: right; margin-top: -30px;">
+                <h3 style="font-weight: bold; text-transform: uppercase;">Relatório de clientes</h3>
+            </div>
+
         </div>
+    </div>
 
-        <div style="margin-top: 10px;">
+        <div style="margin-top: 40px;">
 
             <?php
             $movimentacoes_por_residuo_geral = 0;
@@ -136,30 +162,33 @@
                                 </td>
 
                                 <td style="width: 15px; display:none">
-
                                     <?php
                                     if ($coleta['pagamentos']) {
-
-
-                                        foreach ($coleta['pagamentos'] as $key => $pagamento) :
-
+                                        foreach ($coleta['pagamentos'] as $key => $pagamento) {
                                             if (isset($coleta['valor_pagamento'][$key]) && !is_numeric($coleta['valor_pagamento'][$key])) {
                                                 $coleta['valor_pagamento'][$key] = 0;
                                             }
 
                                             if (isset($valor_total[$pagamento])) {
-                                                $valor_total[$pagamento] += $coleta['valor_pagamento'][$key] ?? 0;
+                                                $valor_total[$pagamento]['valor'] += $coleta['valor_pagamento'][$key] ?? 0;
+                                                $valor_total[$pagamento]['tipo_pagamento'] = $coleta['tipo_pagamento'][$key] ?? '';
+
                                             } else {
-                                                $valor_total[$pagamento] = $coleta['valor_pagamento'][$key] ?? 0;
+                                                $valor_total[$pagamento]['valor'] = $coleta['valor_pagamento'][$key] ?? 0;
+                                                $valor_total[$pagamento]['tipo_pagamento'] = $coleta['tipo_pagamento'][$key] ?? '';
                                             }
 
-                                            echo '<p>' . ($coleta['valor_pagamento'][$key] ?? 0) . ' ' . ($formasPagamento[$pagamento] ?? "") . '</p>';
-
-                                        endforeach;
+                                            // Verifica se o tipo de pagamento é igual a 1 e adiciona 'R$' antes do valor
+                                            if ($coleta['tipo_pagamento'][$key] == 1) {
+                                                echo '<p>R$' . ($coleta['valor_pagamento'][$key] ?? 0) . ' ' . ($formasPagamento[$pagamento] ?? "") . '</p>';
+                                            } else {
+                                                echo '<p>' . ($coleta['valor_pagamento'][$key] ?? 0) . ' ' . ($formasPagamento[$pagamento] ?? "") . '</p>';
+                                            }
+                                        }
                                     }
                                     ?>
-
                                 </td>
+
 
                                 <?php if (!$filtrar_geral) { ?>
                                     <td style="width: 15px;">
@@ -194,12 +223,18 @@
                                 foreach ($valor_total as $key => $val) {
 
                                     if (isset($valor_total_geral[$key])) {
-                                        $valor_total_geral[$key] += $val;
+                                        $valor_total_geral[$key]['valor'] += $val['valor'];
+
                                     } else {
-                                        $valor_total_geral[$key] = $val;
+                                        $valor_total_geral[$key]['valor'] = $val['valor'];
+                                        $valor_total_geral[$key]['tipo_pagamento'] = $val['tipo_pagamento'];
                                     }
 
-                                    echo '<p>' . $val . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                                    if($val['tipo_pagamento'] == 1){
+                                        echo '<p> R$' . $val['valor'] . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                                    }else{
+                                        echo '<p>' . $val['valor'] . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                                    }
                                 }
                                 ?>
 
@@ -261,7 +296,11 @@
 
                             <?php
                             foreach ($valor_total_geral as $key => $val) {
-                                echo '<p>' . $val . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                                if( $val['tipo_pagamento'] == 1){
+                                    echo '<p>R$' . $val['valor'] . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                                }else{
+                                    echo '<p>' . $val['valor'] . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                                }
                             }
                             ?>
 
@@ -284,6 +323,10 @@
 
         </div>
 
+    </div>
+
+    <div class="footer">
+        Relatório gerado em <?= date('d/m/Y'); ?>
     </div>
 
 </body>

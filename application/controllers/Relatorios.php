@@ -81,10 +81,13 @@ class Relatorios extends CI_Controller
 		$this->load->library('residuoChaveId');
 		$this->load->library('residuoPagamentoCliente');
 
+		$this->load->model('formaPagamento_model');
+
 		$dados = [];
 		$clientes = [];
 		foreach ($idColetaClientes as $idColeta) {
 			$historicoColeta = $this->detalhescoleta->detalheColeta($idColeta);
+			
 			$array['dataColeta'] = date('d/m/Y', strtotime($historicoColeta['coleta']['data_coleta']));
 			$array['motorista'] = $historicoColeta['coleta']['nome_responsavel'];
 			$array['residuos'] = json_decode($historicoColeta['coleta']['residuos_coletados'], true);
@@ -92,10 +95,17 @@ class Relatorios extends CI_Controller
 			$array['pagamentos'] = json_decode($historicoColeta['coleta']['forma_pagamento'], true);
 			$array['valor_pagamento'] = json_decode($historicoColeta['coleta']['valor_pago'], true);
 			$array['cliente'] = $historicoColeta['coleta'];
+		
+			// Verifica se há pagamentos para evitar erro
+			if (!empty($array['pagamentos'])) {
+				$array['tipo_pagamento'] = $this->formaPagamento_model->recebeTipoFormasPagamentos($array['pagamentos']);
+			} else {
+				$array['tipo_pagamento'] = array(); // ou outra ação adequada quando não há pagamentos
+			}
+		
 			$clientes[] = $historicoColeta['coleta']['id_cliente'];
 			$dados[] = $array;
 		}
-
 
 
 		if (count($dados) > 0) {
@@ -152,6 +162,7 @@ class Relatorios extends CI_Controller
 			$dados[$dado['cliente']['id']]['coletas'][$i]['quantidade_coletada'] = $dado['quantidade_coletada'];
 			$dados[$dado['cliente']['id']]['coletas'][$i]['pagamentos'] = $dado['pagamentos'];
 			$dados[$dado['cliente']['id']]['coletas'][$i]['valor_pagamento'] = $dado['valor_pagamento'];
+			$dados[$dado['cliente']['id']]['coletas'][$i]['tipo_pagamento'] = $dado['tipo_pagamento'];
 
 			$i++;
 		}
