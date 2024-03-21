@@ -106,14 +106,13 @@ class FinMacro extends CI_Controller
 
 	public function deletaMacro()
 	{
-		$this->load->model('FinMacro_model');
 
 		$id = $this->input->post('id');
 
 		// Verifica se o residuo esta vinculado a um cliente
-		$residuoVinculadoCliente = $this->FinMacro_model->verificaMicroMacro($id);
+		$microVinculadoMacro = $this->FinMacro_model->verificaMicroMacro($id);
 
-		if ($residuoVinculadoCliente) {
+		if ($microVinculadoMacro) {
 			$response = array(
 				'success' => false,
 				'title' => "Algo deu errado!",
