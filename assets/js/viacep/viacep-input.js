@@ -6,7 +6,12 @@ function preencherEnderecoPorCEP(cep, callback) {
             if (!data.erro) {
                 callback(data);
             } else {
-                avisoRetorno('Erro ao buscar CEP', 'Por favor, tente novamente mais tarde', 'error', '');
+                callback({
+                    'titulo' : 'Erro ao buscar CEP',
+                    'mensagem' : 'Por favor, tente novamente mais tarde',
+                    'type' : 'error',
+                    'erro' : true
+                });
             }
         },
         error: function (xhr, status, error) {

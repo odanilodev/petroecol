@@ -89,15 +89,24 @@ $(document).ready(function () {
         var cep = $(this).val().replace(/\D/g, '');
 
         if (cep.length !== 8 && cep.length >= 1) {
+            
             avisoRetorno('CEP inválido', 'Verifique se digitou corretamente!', 'error', '#');
             return;
+
         } else {
-            preencherEnderecoPorCEP(cep, function(retornoViaCep) {
+            preencherEnderecoPorCEP(cep, function (retornoViaCep) {
+
+                if (retornoViaCep.erro) {
+
+                    avisoRetorno(`${retornoViaCep.titulo}`, `${retornoViaCep.mensagem}`, `${retornoViaCep.type}`, '#');
+
+                }
+
                 $('#rua').val(retornoViaCep.logradouro);
                 $('#bairro').val(retornoViaCep.bairro);
                 $('#cidade').val(retornoViaCep.localidade);
                 $('#estado').val(retornoViaCep.uf);
-            });    
+            });
         }
     });
 });
@@ -256,7 +265,7 @@ const detalhesHistoricoColeta = (idColeta) => {
         }, success: function (data) {
 
             if (data.success) {
-               
+
                 let valorPago = JSON.parse(data.coleta['valor_pago']);
                 let qtdColeta = JSON.parse(data.coleta['quantidade_coletada']);
                 let formaPag = JSON.parse(data.coleta['forma_pagamento']);
@@ -401,7 +410,7 @@ const enviarAlertaCliente = () => {
 }
 
 $(document).ready(function () {
-    
+
     $('#select-select-classificacao-cliente').val('').trigger('change');
 
     $('.select2').select2({
@@ -412,14 +421,14 @@ $(document).ready(function () {
 })
 
 //Select2 dentro do modal de filtros
-$('.filtros-clientes').click(function(){
+$('.filtros-clientes').click(function () {
 
     $('.select2').val('all').trigger('change');
 
     $('.select2').select2({
-            dropdownParent: "#reportsFilterModal",
-            theme: "bootstrap-5",
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-            placeholder: $(this).data('placeholder'),
-        });
+        dropdownParent: "#reportsFilterModal",
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+    });
 })
