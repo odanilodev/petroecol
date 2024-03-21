@@ -1,33 +1,34 @@
-var baseUrl = $(".base-url").val(); 
+var baseUrl = $(".base-url").val();
 
 const cadastraContaBancaria = () => {
-  
-	let id = $(".input-id").val(); 
+
+	let id = $(".input-id").val();
 
 	let apelido = $(".input-apelido").val();
 	let banco = $(".input-banco").val();
 	let agencia = $(".input-agencia").val();
 	let conta = $(".input-conta").val();
 	let saldoInicial = $(".input-saldo").val();
+	let setorEmpresa = $(".select-setor-empresa").val();
 
-    //Verificação de campo vazio e permissao para cadastrar
-    let permissao = true
+	//Verificação de campo vazio e permissao para cadastrar
+	let permissao = true
 
 	$(".input-obrigatorio").each(function () {
 		// Verifica se o valor do input atual está vazio
 
 		if ($(this).val() == "" || $(this).val() == null) {
 
-            $(this).addClass('invalido');
-            $(this).next().removeClass('d-none');
+			$(this).addClass('invalido');
+			$(this).next().removeClass('d-none');
 
 			permissao = false;
 
 		} else {
 
-            $(this).removeClass('invalido');
-            $(this).next().addClass('d-none');
-        }
+			$(this).removeClass('invalido');
+			$(this).next().addClass('d-none');
+		}
 	});
 
 	if (permissao) {
@@ -37,10 +38,11 @@ const cadastraContaBancaria = () => {
 			data: {
 				id: id,
 				apelido: apelido,
-        banco: banco,
-        agencia: agencia,
-        conta: conta,
-				saldoInicial: saldoInicial
+				banco: banco,
+				agencia: agencia,
+				conta: conta,
+				saldoInicial: saldoInicial,
+				setorEmpresa: setorEmpresa
 			},
 			beforeSend: function () {
 				$(".load-form").removeClass("d-none");
@@ -57,6 +59,8 @@ const cadastraContaBancaria = () => {
 						"success",
 						`${baseUrl}finContaBancaria`
 					);
+
+					$('.select-setor-empresa').val('').trigger('change');
 				} else {
 					avisoRetorno("Algo deu errado!", `${data.message}`, "error", "#");
 				}
@@ -68,35 +72,46 @@ const cadastraContaBancaria = () => {
 const deletaContaBancaria = (id) => {
 
 	Swal.fire({
-			title: 'Você tem certeza?',
-			text: "Esta ação não poderá ser revertida",
-			icon: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: '#3085d6',
-			cancelButtonColor: '#d33',
-			cancelButtonText: 'Cancelar',
-			confirmButtonText: 'Sim, deletar'
+		title: 'Você tem certeza?',
+		text: "Esta ação não poderá ser revertida",
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		cancelButtonText: 'Cancelar',
+		confirmButtonText: 'Sim, deletar'
 
 	}).then((result) => {
 
-			if (result.isConfirmed) {
+		if (result.isConfirmed) {
 
-					$.ajax({
-							type: 'post',
-							url: `${baseUrl}finContaBancaria/deletaContaBancaria`,
-							data: {
-									id: id
-							}, success: function (data) {
+			$.ajax({
+				type: 'post',
+				url: `${baseUrl}finContaBancaria/deletaContaBancaria`,
+				data: {
+					id: id
+				}, success: function (data) {
 
-									let redirect = data.type != 'error' ? `${baseUrl}finContaBancaria` : '#';
+					let redirect = data.type != 'error' ? `${baseUrl}finContaBancaria` : '#';
 
-									avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
+					avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
-							}
-					})
+				}
+			})
 
-			}
+		}
 	})
 
 
 }
+
+$(document).ready(function () {
+    
+
+
+	$('.select2').select2({
+			theme: "bootstrap-5",
+			width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+			placeholder: $(this).data('placeholder'),
+	});
+})

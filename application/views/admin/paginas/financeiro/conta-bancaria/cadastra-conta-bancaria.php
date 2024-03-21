@@ -32,6 +32,20 @@
                       <div class="col-md-8"></div>
 
                       <div class="mb-2 col-md-4">
+                          <div class="mb-2">
+                            <label class="form-label text-900" for="setor-conta-bancaria">Setor da Conta Bancária</label>
+                            <select name="setor-conta-bancaria" class="form-select select-setor-empresa select2">
+                              <option value="" selected>Selecione o Setor</option>
+
+                              <?php foreach($setores as $v) { ?>
+                                <option value="<?= $v['id']?>" <?= (isset($contaBancaria['id_setor_empresa']) && $contaBancaria['id_setor_empresa'] == $v['id']) ? 'selected' : ''; ?>><?= $v['nome'];?></option>
+                              <?php }?>
+
+                            </select>
+                          </div>
+                        </div>
+
+                      <div class="mb-2 col-md-4">
                         <label class="form-label text-900" for="conta">Conta*</label>
                         <input required value="<?= $contaBancaria['conta'] ?? "" ?>" class="form-control input-obrigatorio input-conta mascara-conta-bancaria" type="text" id="conta" placeholder="Digite o nº da conta" />
                         <div class="d-none aviso-obrigatorio">Preencha este campo.</div>

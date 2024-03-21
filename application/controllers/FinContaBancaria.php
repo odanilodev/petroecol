@@ -49,15 +49,19 @@
 			$scriptsPadraoFooter = scriptsPadraoFooter();
 
 			// scripts para contas bancarias
+			$scriptsFinContaBancariaHead = scriptsFinContaBancariaHead();
 			$scriptsFinContaBancariaFooter = scriptsFinContaBancariaFooter();
 
-			add_scripts('header', array_merge($scriptsPadraoHead));
+			add_scripts('header', array_merge($scriptsPadraoHead, $scriptsFinContaBancariaHead));
 			add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsFinContaBancariaFooter));
 
 			$id = $this->uri->segment(3);
 
 			$data['contaBancaria'] = $this->FinContaBancaria_model->recebeContaBancaria($id);
 			$data['saldoBancario'] = $this->FinSaldoBancario_model->recebeSaldoBancario($id);
+
+			$this->load->model('SetoresEmpresa_model');
+			$data['setores'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
 
 			$this->load->view('admin/includes/painel/cabecalho', $data);
 			$this->load->view('admin/paginas/financeiro/conta-bancaria/cadastra-conta-bancaria');
@@ -74,6 +78,7 @@
 			$dados['banco'] = $this->input->post('banco');
 			$dados['conta'] = $this->input->post('conta');
 			$dados['agencia'] = $this->input->post('agencia');
+			$dados['id_setor_empresa'] = $this->input->post('setorEmpresa');
 
 			$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
