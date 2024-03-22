@@ -113,7 +113,7 @@ class SetoresEmpresaCliente_model extends CI_Model
 
     public function recebeClientesSetoresEmpresa($id_setor_empresa)
     {
-        $this->db->select('SEC.id_setor_empresa, MAX(C.id) as ID_CLIENTE, MAX(C.telefone) as TELEFONE, MAX(C.rua) as RUA, MAX(C.numero) as NUMERO, MAX(C.cidade) as CIDADE, C.nome AS CLIENTE');
+        $this->db->select('SEC.id_setor_empresa, MAX(C.id) as ID_CLIENTE, C.nome AS CLIENTE');
         $this->db->from('ci_setores_empresa_cliente SEC');
         $this->db->join('ci_clientes C', 'SEC.id_cliente = C.id', 'inner');
         $this->db->where('SEC.id_empresa', $this->session->userdata('id_empresa'));

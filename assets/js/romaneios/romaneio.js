@@ -349,126 +349,139 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
         let dadosClientes = `
 
-            <div class="accordion-item accordion-${clientes[i].id}">
+        <div class="accordion-item accordion-${clientes[i].id}">
 
-                <h2 class="accordion-header" id="heading${i}">
-                    <button class="accordion-button ${i != 0 ? 'collapsed' : ''}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
-                        ${clientes[i].nome} (${clientes[i].SETOR})
-                        
-                        <span class="cliente-${clientes[i].id}">
+            <h2 class="accordion-header" id="heading${i}">
+                <button class="accordion-button ${i != 0 ? 'collapsed' : ''}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
+                    ${clientes[i].nome} (${clientes[i].SETOR})
+                    
+                    <span class="cliente-${clientes[i].id}">
 
-                        ${idPrioridades.includes(clientes[i].id) ? '*' : ''}
-                          
-                        </span>
-                    </button>
-                </h2>
+                    ${idPrioridades.includes(clientes[i].id) ? '*' : ''}
+                      
+                    </span>
+                </button>
+            </h2>
 
+            ${editar ? `
                 <div class="accordion-collapse collapse ${i == 0 ? 'show' : ''}" id="collapse${i}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-
-                    <input type="hidden" value="${clientes[i].id}" class="input-id-cliente">
-
-
-                    <div class="accordion-body pt-0 row">
-
-                        <div class="col-md-6 mb-2">
-
-                            <label class="form-label">Endereço</label>
-                            <input class="form-control input-endereco campos-form-${clientes[i].id}" type="text" placeholder="Endereço do cliente" value="${clientes[i].rua} - ${clientes[i].numero} / ${clientes[i].cidade}">
-                        </div>
-
-                        <div class="col-md-6 mb-2">
-
-                            <label class="form-label">Telefone</label>
-                            <input class="form-control input-telefone campos-form-${clientes[i].id}" type="text" placeholder="Telefone" value="${clientes[i].telefone}">
-
-                        </div>
-
-                        <div class="col-md-4 mb-2 div-pagamento">
-
-                            <label class="form-label">Forma de Pagamento</label>
-                            <select class="form-select select-pagamento w-100 campos-form-${clientes[i].id}" id="select-pagamento">
-
-                                <option disabled selected value="">Selecione</option>
-                                
-                            </select>
-                        </div>
-
-                        <div class="col-md-4 mb-2 div-pagamento">
-
-                            <label class="form-label">Valor Pago</label>
-                            <input class="form-control input-pagamento campos-form-${clientes[i].id}" type="text" placeholder="Digite valor pago" value="">
-                        </div>
-
-                        <div class="col-md-4 mb-2 mt-4 row">
-
-                            <button class="btn btn-info duplicar-pagamento w-25">+</button>
-
-                        </div>
-
-                        <div class="pagamentos-duplicados"></div>
-
-                        <div class="col-md-4 mb-2 div-residuo">
-
-                            <label class="form-label">Resíduo Coletado</label>
-                            
-                            <select class="form-select select-residuo input-obg-${clientes[i].id} w-100 campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" id="select-residuo" >
-
-                                <option disabled selected value="">Selecione</option>
-                                
-                            </select>
-
-                        </div>
-
-                        <div class="col-md-4 mb-2">
-
-                            <label class="form-label">Quantidade Coletada</label>
-                            <input class="form-control input-residuo input-obg-${clientes[i].id} campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" type="text" placeholder="Digite quantidade coletada" value="">
-                        </div>
-
-                        <div class="col-md-4 mb-2 mt-4 row">
-
-                            <button class="btn btn-info duplicar-residuo w-25">+</button>
-
-                        </div>
-
-                        <div class="residuos-duplicados"></div>
-
-                        <div class="div-obs">
-
-                            <div class="col-12">
-                                <label class="form-label">Observação</label>
-                                <textarea class="form-control input-obs input-ons-${clientes[i].id}" id="exampleTextarea" rows="3"> </textarea>
-                                <div class="text-danger d-none aviso-msg">Preencha este campo.</div>
-                            </div>
-
-                            <div class="col-12 mt-4">
-                                
-                                <div class="form-check mb-0 fs-0">
-                                    <input data-id="${clientes[i].id}" title="Preencha este campo caso não tenha coletado no cliente" class="form-check-input nao-coletado nao-coletado-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'cliente-prioridade' : ''}" type="checkbox" data-bulk-select='{"body":"members-table-body"}' style="cursor: pointer"/>
-                                    Não Coletado
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        ${editar ? `
-                            <div class="form-check mb-0 fs-0 d-flex justify-content-end">
-                                <button class="btn btn-phoenix-dark" title="Remover Cliente" onclick="deletaClienteRomaneio(${codRomaneio}, ${clientes[i].id})">
-                                    <span class="fas fa-trash ms-1"></span> Remover Cliente
-                                </button>
-                            </div>
-                        ` : ``}
+                    <div class="form-check mb-0 fs-0 d-flex justify-content-start mt-3">
                         
-
+                        <span title="Remover Cliente" class="cursor-pointer" onclick="deletaClienteRomaneio(${codRomaneio}, ${clientes[i].id})">
+                            <span class="fas fa-trash"></span> Remover Cliente
+                        </span>
                     </div>
                 </div>
+            ` : `
+
+            <div class="accordion-collapse collapse ${i == 0 ? 'show' : ''}" id="collapse${i}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+
+                <input type="hidden" value="${clientes[i].id}" class="input-id-cliente">
+
+
+                <div class="accordion-body pt-0 row">
+
+                    <div class="col-md-6 mb-2">
+
+                        <label class="form-label">Endereço</label>
+                        <input class="form-control input-endereco campos-form-${clientes[i].id}" type="text" placeholder="Endereço do cliente" value="${clientes[i].rua} - ${clientes[i].numero} / ${clientes[i].cidade}">
+                    </div>
+
+                    <div class="col-md-6 mb-2">
+
+                        <label class="form-label">Telefone</label>
+                        <input class="form-control input-telefone campos-form-${clientes[i].id}" type="text" placeholder="Telefone" value="${clientes[i].telefone}">
+
+                    </div>
+
+                    <div class="col-md-4 mb-2 div-pagamento">
+
+                        <label class="form-label">Forma de Pagamento</label>
+                        <select class="form-select select-pagamento w-100 campos-form-${clientes[i].id}" id="select-pagamento">
+
+                            <option disabled selected value="">Selecione</option>
+                            
+                        </select>
+                    </div>
+
+                    <div class="col-md-4 mb-2 div-pagamento">
+
+                        <label class="form-label">Valor Pago</label>
+                        <input class="form-control input-pagamento campos-form-${clientes[i].id}" type="text" placeholder="Digite valor pago" value="">
+                    </div>
+
+                    <div class="col-md-4 mb-2 mt-4 row">
+
+                        <button class="btn btn-info duplicar-pagamento w-25">+</button>
+
+                    </div>
+
+                    <div class="pagamentos-duplicados"></div>
+
+                    <div class="col-md-4 mb-2 div-residuo">
+
+                        <label class="form-label">Resíduo Coletado</label>
+                        
+                        <select class="form-select select-residuo input-obg-${clientes[i].id} w-100 campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" id="select-residuo" >
+
+                            <option disabled selected value="">Selecione</option>
+                            
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4 mb-2">
+
+                        <label class="form-label">Quantidade Coletada</label>
+                        <input class="form-control input-residuo input-obg-${clientes[i].id} campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" type="text" placeholder="Digite quantidade coletada" value="">
+                    </div>
+
+                    <div class="col-md-4 mb-2 mt-4 row">
+
+                        <button class="btn btn-info duplicar-residuo w-25">+</button>
+
+                    </div>
+
+                    <div class="residuos-duplicados"></div>
+
+                    <div class="div-obs">
+
+                        <div class="col-12">
+                            <label class="form-label">Observação</label>
+                            <textarea class="form-control input-obs input-ons-${clientes[i].id}" id="exampleTextarea" rows="3"> </textarea>
+                            <div class="text-danger d-none aviso-msg">Preencha este campo.</div>
+                        </div>
+
+                        <div class="col-12 mt-4">
+                            
+                            <div class="form-check mb-0 fs-0">
+                                <input data-id="${clientes[i].id}" title="Preencha este campo caso não tenha coletado no cliente" class="form-check-input nao-coletado nao-coletado-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'cliente-prioridade' : ''}" type="checkbox" data-bulk-select='{"body":"members-table-body"}' style="cursor: pointer"/>
+                                Não Coletado
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+
+                </div>
             </div>
-        `;
+            
+            `}
 
+            
+        </div>
+    `;
 
+        // imprime no modal de editar
+        if (editar) {
+            $('.dados-clientes-div-editar').append(dadosClientes);
 
-        $('.dados-clientes-div').append(dadosClientes);
+        } else {
+
+            $('.dados-clientes-div').append(dadosClientes);
+        }
+
 
     }
 
@@ -841,7 +854,7 @@ function recebeClientesSetor(idSetor) {
 
             for (let i = 0; i < data.clientesSetor.length; i++) {
 
-                $('#select-cliente-modal').append(`<option data-telefone="${data.clientesSetor[i]['TELEFONE']}" data-numero="${data.clientesSetor[i]['NUMERO']}" data-rua="${data.clientesSetor[i]['RUA']}" data-cidade="${data.clientesSetor[i]['CIDADE']}" value="${data.clientesSetor[i]['ID_CLIENTE']}">${data.clientesSetor[i]['CLIENTE']}</option>`);
+                $('#select-cliente-modal').append(`<option value="${data.clientesSetor[i]['ID_CLIENTE']}">${data.clientesSetor[i]['CLIENTE']}</option>`);
 
             }
 
@@ -911,7 +924,7 @@ const deletarRomaneio = (id) => {
 const novoClienteRomaneio = () => {
 
     $('.select2-edita').select2({
-        dropdownParent: "#modalConcluirRomaneio",
+        dropdownParent: "#modalEditarRomaneio",
         theme: 'bootstrap-5'
     });
 
@@ -952,10 +965,6 @@ $(document).on('click', '.adicionar-cliente', function () {
 
                 $('.aviso-novo-cliente-romaneio').addClass('d-none');
 
-                let cidade = $('.add-novo-cliente-romaneio option:selected').data('cidade');
-                let numero = $('.add-novo-cliente-romaneio option:selected').data('numero');
-                let telefone = $('.add-novo-cliente-romaneio option:selected').data('telefone');
-                let rua = $('.add-novo-cliente-romaneio option:selected').data('rua');
                 let cliente = $('.add-novo-cliente-romaneio option:selected').text();
 
                 let dadosClientes = `
@@ -972,130 +981,30 @@ $(document).on('click', '.adicionar-cliente', function () {
                             </button>
                         </h2>
 
+
+                        
+
                         <div class="accordion-collapse collapse" id="collapse${idCliente}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
 
                             <input type="hidden" value="${idCliente}" class="input-id-cliente">
 
-
-                            <div class="accordion-body pt-0 row">
-
-                                <div class="col-md-6 mb-2">
-
-                                    <label class="form-label">Endereço</label>
-                                    <input class="form-control input-endereco campos-form-${idCliente}" type="text" placeholder="Endereço do cliente" value="${rua} - ${numero} / ${cidade}">
-                                </div>
-
-                                <div class="col-md-6 mb-2">
-
-                                    <label class="form-label">Telefone</label>
-                                    <input class="form-control input-telefone campos-form-${idCliente}" type="text" placeholder="Telefone" value="${telefone}">
-
-                                </div>
-
-                                <div class="col-md-4 mb-2 div-pagamento">
-
-                                    <label class="form-label">Forma de Pagamento</label>
-                                    <select class="form-select select-pagamento select-pagamento-edita-${idCliente} w-100 campos-form-${idCliente}" id="select-pagamento">
-
-                                        <option disabled selected value="">Selecione</option>
-                                        
-                                    </select>
-                                </div>
-
-                                <div class="col-md-4 mb-2 div-pagamento">
-
-                                    <label class="form-label">Valor Pago</label>
-                                    <input class="form-control input-pagamento campos-form-${idCliente}" type="text" placeholder="Digite valor pago" value="">
-                                </div>
-
-                                <div class="col-md-4 mb-2 mt-4 row">
-
-                                    <button class="btn btn-info duplicar-pagamento w-25">+</button>
-
-                                </div>
-
-                                <div class="pagamentos-duplicados"></div>
-
-                                <div class="col-md-4 mb-2 div-residuo">
-
-                                    <label class="form-label">Resíduo Coletado</label>
-                                    
-                                    <select class="form-select select-residuo select-residuo-edita-${idCliente} input-obg-${idCliente} w-100 campos-form-${idCliente}" id="select-residuo" >
-
-                                        <option disabled selected value="">Selecione</option>
-                                        
-                                    </select>
-
-                                </div>
-
-                                <div class="col-md-4 mb-2">
-
-                                    <label class="form-label">Quantidade Coletada</label>
-                                    <input class="form-control input-residuo input-obg-${idCliente} campos-form-${idCliente}}" type="text" placeholder="Digite quantidade coletada" value="">
-                                </div>
-
-                                <div class="col-md-4 mb-2 mt-4 row">
-
-                                    <button class="btn btn-info duplicar-residuo w-25">+</button>
-
-                                </div>
-
-                                <div class="residuos-duplicados"></div>
-
-                                <div class="div-obs">
-
-                                    <div class="col-12">
-                                        <label class="form-label">Observação</label>
-                                        <textarea class="form-control input-obs input-ons-${idCliente}" id="exampleTextarea" rows="3"> </textarea>
-                                        <div class="text-danger d-none aviso-msg">Preencha este campo.</div>
-                                    </div>
-
-                                    <div class="col-12 mt-4">
-                                        
-                                        <div class="form-check mb-0 fs-0">
-                                            <input data-id="${idCliente}" title="Preencha este campo caso não tenha coletado no cliente" class="form-check-input nao-coletado nao-coletado-${idCliente}" type="checkbox" data-bulk-select='{"body":"members-table-body"}' style="cursor: pointer"/>
-                                            Não Coletado
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="form-check mb-0 fs-0 d-flex justify-content-end">
-                                    <button class="btn btn-phoenix-dark" title="Remover Cliente" onclick="deletaClienteRomaneio(${codRomaneio}, ${idCliente})">
-                                        <span class="fas fa-trash ms-1"></span> Remover Cliente
-                                    </button>
-                                </div>
-                                
-                                
-
+                            <div class="form-check mb-0 fs-0 d-flex justify-content-start mt-3">
+                        
+                                <span title="Remover Cliente" class="cursor-pointer" onclick="deletaClienteRomaneio(${codRomaneio}, ${idCliente})">
+                                    <span class="fas fa-trash"></span> Remover Cliente
+                                </span>
                             </div>
+                            
                         </div>
                     </div>
                 `;
 
-
-                $('.dados-clientes-div').append(dadosClientes);
-
-
-                // residuos no select
-                for (c = 0; c < data.residuos.length; c++) {
-
-                    var optionResiduos = `<option value="${ data.residuos[c].id}">${ data.residuos[c].nome}</option>`;
-                    $('.select-residuo-edita-' + idCliente).append(optionResiduos);
-                }
-
-                // formas de pagamento no select
-                for (c = 0; c < data.pagamentos.length; c++) {
-
-                    var optionPagamentos = `<option data-id-tipo-pagamento="${data.pagamentos[c].id_tipo_pagamento}" value="${data.pagamentos[c].id}">${data.pagamentos[c].forma_pagamento}</option>`;
-                    $('.select-pagamento-edita-' + idCliente).append(optionPagamentos);
-                }
-
+                $('.dados-clientes-div-editar').append(dadosClientes);
+                avisoRetorno(`Sucesso!`, `O cliente foi adicionado ao romaneio com sucesso!`, `success`, `#`);
 
             } else {
-                $('.aviso-novo-cliente-romaneio').removeClass('d-none');
-                $('.aviso-novo-cliente-romaneio').html('Este cliente já está no romaneio.');
+                avisoRetorno(`Algo deu errado!`, `Este cliente já faz parte do romaneio!`, `error`, `#`);
+
 
             }
 
@@ -1113,7 +1022,7 @@ const editarRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpresa
 
     $('.div-select-cliente').addClass('d-none');
 
-    $('#modalConcluirRomaneio').modal('show');
+    $('#modalEditarRomaneio').modal('show');
     $('.btn-adicionar-clientes-romaneio').removeClass('d-none');
 
     $('.id_responsavel').val(idResponsavel);
@@ -1131,7 +1040,7 @@ const editarRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpresa
 
             }, beforeSend: function () {
 
-                $('.dados-clientes-div').html('');
+                $('.dados-clientes-div-editar').html('');
 
             }, success: function (data) {
 

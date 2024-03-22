@@ -47,7 +47,7 @@
 
                         <tbody class="list" id="members-table-body">
 
-                            <input type="hidden" class="id-setor-empresa" value="<?= $ultimosRomaneios[0]['id_setor_empresa']?>">
+                            <input type="hidden" class="id-setor-empresa" value="<?= $ultimosRomaneios[0]['id_setor_empresa'] ?>">
 
                             <?php foreach ($ultimosRomaneios as $v) { ?>
 
@@ -88,13 +88,13 @@
                                                 <a class="dropdown-item" href="<?= base_url('romaneios/gerarromaneio/' . $v['codigo']) ?>" title="Gerar Romaneio">
                                                     <span class="fas fa-download ms-1"></span> Gerar
                                                 </a>
-                                                
+
                                                 <?php if (!$v['status']) { ?>
                                                     <a class="dropdown-item" href="#" title="Concluir Romaneio" onclick='concluirRomaneio(<?= $v["codigo"] ?>, <?= $v["ID_RESPONSAVEL"] ?>, "<?= $v["data_romaneio"] ?>", <?= $v["id_setor_empresa"] ?>)'>
                                                         <span class="ms-1" data-feather="check-circle"></span> Concluir
                                                     </a>
                                                 <?php } ?>
-                                                
+
                                                 <?php if ($v['status']) { ?>
                                                     <a class="dropdown-item" href="<?= base_url('romaneios/detalhes/' . $v['codigo']) ?>" title="Visualizar Romaneio">
                                                         <span class="ms-1" data-feather="eye"></span> Visualizar
@@ -140,35 +140,6 @@
                 </div>
                 <div class="modal-body">
 
-                <div class="col-4">
-
-                    <button type="button" class="btn btn-secondary btn-adicionar-clientes-romaneio d-none" onclick="novoClienteRomaneio()">+ Novo Cliente</button>
-                </div>
-
-                <div class="col-12 row div-select-cliente d-none">
-                    <input type="hidden" class="nome-setor">
-
-                    <div class="col-4">
-                        
-                        <div class=" mt-3 mb-4">
-                            <select class="form-select w-50 mb-3 select2-edita add-novo-cliente-romaneio" id="select-cliente-modal">
-    
-                                <option selected value="">Selecione o cliente</option>
-    
-    
-                            </select>
-                            <div class="d-none aviso-obrigatorio aviso-novo-cliente-romaneio">Preencha este campo</div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-2  mt-3 mb-4">
-                        <button type="button" class="btn btn-secondary adicionar-cliente">Adicionar</button>
-                    </div>
-
-                </div>
-
-
                     <div class="row">
 
 
@@ -186,6 +157,71 @@
                 <div class="modal-footer">
                     <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
                     <button type="button" class="btn btn-primary btn-finaliza-romaneio" onclick="finalizarRomaneio()">Finalizar Romaneio</button>
+                    <input type="hidden" class="id_responsavel">
+                    <input type="hidden" class="code_romaneio">
+                    <input type="hidden" class="data_romaneio">
+                    <input type="hidden" class="input-id-setor-empresa">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- edita romaneio-->
+    <div class="modal fade" id="modalEditarRomaneio" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollabe">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- Edita romaneio -->
+                    <div class="col-4">
+
+                        <button type="button" class="btn btn-secondary btn-adicionar-clientes-romaneio mb-5" onclick="novoClienteRomaneio()">+ Novo Cliente</button>
+                    </div>
+
+                    <div class="col-12 row div-select-cliente d-none">
+                        <input type="hidden" class="nome-setor">
+
+                        <div class="col-4">
+
+                            <div class="mt-2 mb-4">
+                                <select class="form-select w-50 mb-3 select2-edita add-novo-cliente-romaneio" id="select-cliente-modal">
+
+                                    <option selected value="">Selecione o cliente</option>
+
+
+                                </select>
+                                <div class="d-none aviso-obrigatorio aviso-novo-cliente-romaneio">Preencha este campo</div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-2 mt-2 mb-4">
+                            <button type="button" class="btn btn-secondary adicionar-cliente">Adicionar</button>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="accordion dados-clientes-div-editar" id="accordionExample">
+
+                            <!-- Manipulado JS -->
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+                    <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Salvar</button>
                     <input type="hidden" class="id_responsavel">
                     <input type="hidden" class="code_romaneio">
                     <input type="hidden" class="data_romaneio">
