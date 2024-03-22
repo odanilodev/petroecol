@@ -88,7 +88,7 @@ const filtrarClientesRomaneio = () => {
                 let todosNomesClientes = [];
                 for (i = 0; i < data.registros; i++) {
 
-                    
+
                     let clientes = `
                     <tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
                     
@@ -100,7 +100,7 @@ const filtrarClientesRomaneio = () => {
                     </tr>
                     
                     `;
-                    
+
                     $('.clientes-modal-romaneio').append(clientes);
                     todosNomesClientes.push(clientes)
                 }
@@ -117,10 +117,10 @@ const filtrarClientesRomaneio = () => {
 }
 
 
-  
+
 // Função para atualizar a lista de clientes
 function atualizarListaClientes(nomeDigitado) {
-    
+
     let clientesSelecionados = $('.ids-selecionados').val().split(','); // array com todos os ids que foram selecionados
     let todosNomesClientes = $('.todos-clientes').val().split(','); // array com todos os nomes dos clientes
 
@@ -131,21 +131,21 @@ function atualizarListaClientes(nomeDigitado) {
             Clientes
         </td>
     </tr>`;
-    
+
     $('.clientes-modal-romaneio').html(checkTodos);
 
 
     // Usa o filter para encontrar o nome digitado no array, ignorando o caso
-    let clientesFiltrados = todosNomesClientes.filter(function(cliente) {
+    let clientesFiltrados = todosNomesClientes.filter(function (cliente) {
         return cliente.toLowerCase().includes(nomeDigitado.toLowerCase());
     });
 
-    clientesFiltrados.forEach(function(cliente) {
+    clientesFiltrados.forEach(function (cliente) {
         $('.clientes-modal-romaneio').append(cliente);
 
     });
 
-    clientesSelecionados.forEach(function(idCliente) {
+    clientesSelecionados.forEach(function (idCliente) {
         $('.check-clientes-modal[value="' + idCliente + '"]').prop('checked', true);
     });
 }
@@ -153,7 +153,7 @@ function atualizarListaClientes(nomeDigitado) {
 
 
 
-$('#searchInput').on('input', function() {
+$('#searchInput').on('input', function () {
     var query = $(this).val();
     atualizarListaClientes(query);
 });
@@ -182,14 +182,14 @@ const gerarRomaneio = () => {
     });
 
     // novo clientes para gerar romaneio
-    let clientes =$('.ids-selecionados').val().split(',');
+    let clientes = $('.ids-selecionados').val().split(',');
 
     if (clientes.length < 1) {
         avisoRetorno('Algo deu errado', 'Você precisa selecionar algum cliente para gerar o romaneio.', 'error', '#');
         permissao = false;
 
     }
- 
+
     let responsavel = $('#select-responsavel').val();
     let veiculo = $('#select-veiculo').val();
     let data_coleta = $('.input-coleta').val();
@@ -282,8 +282,9 @@ $('#select-cliente-modal').change(function () {
 
 })
 
-
 const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpresa) => {
+
+    $('.btn-adicionar-clientes-romaneio').addClass('d-none');
 
     $('#modalConcluirRomaneio').modal('show');
 
@@ -306,7 +307,7 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpre
 
             }, success: function (data) {
 
-                exibirDadosClientes(data.retorno, data.registros, data.residuos, data.pagamentos, data.id_cliente_prioridade);
+                exibirDadosClientes(data.retorno, data.registros, data.residuos, data.pagamentos, data.id_cliente_prioridade, false);
             }
         })
 
@@ -333,17 +334,22 @@ function formatarArray(obj) {
 }
 
 
-function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_cliente_prioridade) {
+function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_cliente_prioridade, editar) {
+
 
     var idPrioridades = formatarArray(id_cliente_prioridade); // idsPrioridade formatado
 
-    $('.input-id-setor-empresa').val(clientes[0].id_setor_empresa)
+    $('.input-id-setor-empresa').val(clientes[0].id_setor_empresa);
+
+    let codRomaneio = $('.code_romaneio').val();
+
+    $('.nome-setor').val(`${clientes[0].SETOR}`);
 
     for (let i = 0; i < registros; i++) {
 
         let dadosClientes = `
 
-            <div class="accordion-item ">
+            <div class="accordion-item accordion-${clientes[i].id}">
 
                 <h2 class="accordion-header" id="heading${i}">
                     <button class="accordion-button ${i != 0 ? 'collapsed' : ''}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
@@ -446,6 +452,15 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                         </div>
 
+                        ${editar ? `
+                            <div class="form-check mb-0 fs-0 d-flex justify-content-end">
+                                <button class="btn btn-phoenix-dark" title="Remover Cliente" onclick="deletaClienteRomaneio(${codRomaneio}, ${clientes[i].id})">
+                                    <span class="fas fa-trash ms-1"></span> Remover Cliente
+                                </button>
+                            </div>
+                        ` : ``}
+                        
+
                     </div>
                 </div>
             </div>
@@ -472,7 +487,6 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
         $('.select-pagamento').append(optionPagamentos);
     }
 }
-
 
 // duplica forma de pagamento e residuos
 function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
@@ -535,14 +549,14 @@ $(document).on('click', '.duplicar-pagamento', function () {
 // verifica qual é o tipo da forma de pagamento para aplicar mascara
 $(document).on('change', '.select-pagamento', function () {
 
-   let valorPagamento = $(this).closest('.div-pagamento').next('.div-pagamento').find('.input-pagamento');
+    let valorPagamento = $(this).closest('.div-pagamento').next('.div-pagamento').find('.input-pagamento');
 
     if ($('option:selected', this).data('id-tipo-pagamento') == "1") {
 
         valorPagamento.attr('type', 'text');
 
-        valorPagamento.mask('000000000000000.00', {reverse: true});
-        
+        valorPagamento.mask('000000000000000.00', { reverse: true });
+
         valorPagamento.val('');
 
 
@@ -766,7 +780,7 @@ $(document).ready(function () {
 
 
 // busca as cidades dos clientes por setor
-function recebeCidadeClientesSetor (idSetor) {
+function recebeCidadeClientesSetor(idSetor) {
 
     $.ajax({
         type: 'POST',
@@ -775,9 +789,9 @@ function recebeCidadeClientesSetor (idSetor) {
             id_setor: idSetor
         }, success: function (data) {
 
-            $('#select-cidades').html(''); 
+            $('#select-cidades').html('');
 
-            for (let i = 0; i < data.cidades.length; i ++) {
+            for (let i = 0; i < data.cidades.length; i++) {
 
                 $('#select-cidades').append(`<option value="${data.cidades[i]['cidade']}">${data.cidades[i]['cidade']}</option>`);
 
@@ -788,9 +802,9 @@ function recebeCidadeClientesSetor (idSetor) {
     })
 
 }
-  
+
 // busca os clientes por etiqueta e setor
-function recebeClientesEtiquetaSetor (idSetor) {
+function recebeClientesEtiquetaSetor(idSetor) {
 
     $.ajax({
         type: 'POST',
@@ -799,9 +813,9 @@ function recebeClientesEtiquetaSetor (idSetor) {
             id_setor: idSetor
         }, success: function (data) {
 
-            $('#select-etiquetas').html(''); 
+            $('#select-etiquetas').html('');
 
-            for (let i = 0; i < data.clientesEtiquetaSetor.length; i ++) {
+            for (let i = 0; i < data.clientesEtiquetaSetor.length; i++) {
 
                 $('#select-etiquetas').append(`<option value="${data.clientesEtiquetaSetor[i]['id_etiqueta']}">${data.clientesEtiquetaSetor[i]['nome']}</option>`);
 
@@ -814,33 +828,33 @@ function recebeClientesEtiquetaSetor (idSetor) {
 }
 
 // busca os clientes por setor
-function recebeClientesSetor (idSetor) {
+function recebeClientesSetor(idSetor) {
 
     $.ajax({
-      type: 'POST',
-      url: `${baseUrl}setoresEmpresaCliente/recebeClientesSetor`,
-      data: {
-        id_setor: idSetor
-      }, success: function (data) {
-  
-        $('#select-cliente-modal').html('<option selected disabled value="">Selecione o cliente</option>'); 
-    
-        for (let i = 0; i < data.clientesSetor.length; i ++) {
-  
-          $('#select-cliente-modal').append(`<option value="${data.clientesSetor[i]['ID_CLIENTE']}">${data.clientesSetor[i]['CLIENTE']}</option>`);
-  
+        type: 'POST',
+        url: `${baseUrl}setoresEmpresaCliente/recebeClientesSetor`,
+        data: {
+            id_setor: idSetor
+        }, success: function (data) {
+
+            $('#select-cliente-modal').html('<option selected disabled value="">Selecione o cliente</option>');
+
+            for (let i = 0; i < data.clientesSetor.length; i++) {
+
+                $('#select-cliente-modal').append(`<option data-telefone="${data.clientesSetor[i]['TELEFONE']}" data-numero="${data.clientesSetor[i]['NUMERO']}" data-rua="${data.clientesSetor[i]['RUA']}" data-cidade="${data.clientesSetor[i]['CIDADE']}" value="${data.clientesSetor[i]['ID_CLIENTE']}">${data.clientesSetor[i]['CLIENTE']}</option>`);
+
+            }
+
+            $('.div-select-cliente').removeClass('d-none');
+
         }
-        
-        $('.div-select-cliente').removeClass('d-none');
-  
-      }
-  
+
     })
-  
-  }
-  
+
+}
+
 // seleciona os clientes por setor
-$(".select-setor").change(function() {
+$(".select-setor").change(function () {
 
     if ($(this).val() != null) {
 
@@ -849,12 +863,12 @@ $(".select-setor").change(function() {
         recebeClientesSetor($(this).val());
         recebeCidadeClientesSetor($(this).val());
         recebeClientesEtiquetaSetor($(this).val());
-        
+
         $('#select-cidades').attr('disabled', false); // habilita o select de clientes
         $('#select-etiquetas').attr('disabled', false); // habilita o select de etiquetas
         $('#select-etiquetas').attr('disabled', false); // habilita o select de etiquetas
-        
-    }   
+
+    }
 
 });
 
@@ -891,5 +905,285 @@ const deletarRomaneio = (id) => {
         }
     })
 
+
+}
+
+const novoClienteRomaneio = () => {
+
+    $('.select2-edita').select2({
+        dropdownParent: "#modalConcluirRomaneio",
+        theme: 'bootstrap-5'
+    });
+
+    let idSetorEmpresa = $('.id-setor-empresa').val();
+
+    recebeClientesSetor(idSetorEmpresa);
+}
+
+$(document).on('click', '.adicionar-cliente', function () {
+
+    if (!$('.add-novo-cliente-romaneio').val()) {
+
+        $('.aviso-novo-cliente-romaneio').removeClass('d-none');
+        $('.aviso-novo-cliente-romaneio').html('Escolha um cliente.');
+
+        return;
+    } else {
+        $('.aviso-novo-cliente-romaneio').addClass('d-none');
+
+    }
+
+    let codRomaneio = $('.code_romaneio').val();
+    let idCliente = $('.add-novo-cliente-romaneio option:selected').val();
+
+    let nomeSetor = $('.nome-setor').val();
+
+
+    $.ajax({
+        type: 'post',
+        url: `${baseUrl}romaneios/adicionaNovoClienteRomaneio`,
+        data: {
+            romaneio: codRomaneio,
+            cliente: idCliente
+
+        }, success: function (data) {
+
+            if (data.success) {
+
+                $('.aviso-novo-cliente-romaneio').addClass('d-none');
+
+                let cidade = $('.add-novo-cliente-romaneio option:selected').data('cidade');
+                let numero = $('.add-novo-cliente-romaneio option:selected').data('numero');
+                let telefone = $('.add-novo-cliente-romaneio option:selected').data('telefone');
+                let rua = $('.add-novo-cliente-romaneio option:selected').data('rua');
+                let cliente = $('.add-novo-cliente-romaneio option:selected').text();
+
+                let dadosClientes = `
+
+                    <div class="accordion-item accordion-${idCliente}">
+
+                        <h2 class="accordion-header" id="heading${idCliente}">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${idCliente}" aria-expanded="true" aria-controls="collapse${idCliente}">
+                                ${cliente} (${nomeSetor})
+                                
+                                <span class="cliente-${idCliente}">
+                                    
+                                </span>
+                            </button>
+                        </h2>
+
+                        <div class="accordion-collapse collapse" id="collapse${idCliente}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+
+                            <input type="hidden" value="${idCliente}" class="input-id-cliente">
+
+
+                            <div class="accordion-body pt-0 row">
+
+                                <div class="col-md-6 mb-2">
+
+                                    <label class="form-label">Endereço</label>
+                                    <input class="form-control input-endereco campos-form-${idCliente}" type="text" placeholder="Endereço do cliente" value="${rua} - ${numero} / ${cidade}">
+                                </div>
+
+                                <div class="col-md-6 mb-2">
+
+                                    <label class="form-label">Telefone</label>
+                                    <input class="form-control input-telefone campos-form-${idCliente}" type="text" placeholder="Telefone" value="${telefone}">
+
+                                </div>
+
+                                <div class="col-md-4 mb-2 div-pagamento">
+
+                                    <label class="form-label">Forma de Pagamento</label>
+                                    <select class="form-select select-pagamento select-pagamento-edita-${idCliente} w-100 campos-form-${idCliente}" id="select-pagamento">
+
+                                        <option disabled selected value="">Selecione</option>
+                                        
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4 mb-2 div-pagamento">
+
+                                    <label class="form-label">Valor Pago</label>
+                                    <input class="form-control input-pagamento campos-form-${idCliente}" type="text" placeholder="Digite valor pago" value="">
+                                </div>
+
+                                <div class="col-md-4 mb-2 mt-4 row">
+
+                                    <button class="btn btn-info duplicar-pagamento w-25">+</button>
+
+                                </div>
+
+                                <div class="pagamentos-duplicados"></div>
+
+                                <div class="col-md-4 mb-2 div-residuo">
+
+                                    <label class="form-label">Resíduo Coletado</label>
+                                    
+                                    <select class="form-select select-residuo select-residuo-edita-${idCliente} input-obg-${idCliente} w-100 campos-form-${idCliente}" id="select-residuo" >
+
+                                        <option disabled selected value="">Selecione</option>
+                                        
+                                    </select>
+
+                                </div>
+
+                                <div class="col-md-4 mb-2">
+
+                                    <label class="form-label">Quantidade Coletada</label>
+                                    <input class="form-control input-residuo input-obg-${idCliente} campos-form-${idCliente}}" type="text" placeholder="Digite quantidade coletada" value="">
+                                </div>
+
+                                <div class="col-md-4 mb-2 mt-4 row">
+
+                                    <button class="btn btn-info duplicar-residuo w-25">+</button>
+
+                                </div>
+
+                                <div class="residuos-duplicados"></div>
+
+                                <div class="div-obs">
+
+                                    <div class="col-12">
+                                        <label class="form-label">Observação</label>
+                                        <textarea class="form-control input-obs input-ons-${idCliente}" id="exampleTextarea" rows="3"> </textarea>
+                                        <div class="text-danger d-none aviso-msg">Preencha este campo.</div>
+                                    </div>
+
+                                    <div class="col-12 mt-4">
+                                        
+                                        <div class="form-check mb-0 fs-0">
+                                            <input data-id="${idCliente}" title="Preencha este campo caso não tenha coletado no cliente" class="form-check-input nao-coletado nao-coletado-${idCliente}" type="checkbox" data-bulk-select='{"body":"members-table-body"}' style="cursor: pointer"/>
+                                            Não Coletado
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="form-check mb-0 fs-0 d-flex justify-content-end">
+                                    <button class="btn btn-phoenix-dark" title="Remover Cliente" onclick="deletaClienteRomaneio(${codRomaneio}, ${idCliente})">
+                                        <span class="fas fa-trash ms-1"></span> Remover Cliente
+                                    </button>
+                                </div>
+                                
+                                
+
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+
+                $('.dados-clientes-div').append(dadosClientes);
+
+
+                // residuos no select
+                for (c = 0; c < data.residuos.length; c++) {
+
+                    var optionResiduos = `<option value="${ data.residuos[c].id}">${ data.residuos[c].nome}</option>`;
+                    $('.select-residuo-edita-' + idCliente).append(optionResiduos);
+                }
+
+                // formas de pagamento no select
+                for (c = 0; c < data.pagamentos.length; c++) {
+
+                    var optionPagamentos = `<option data-id-tipo-pagamento="${data.pagamentos[c].id_tipo_pagamento}" value="${data.pagamentos[c].id}">${data.pagamentos[c].forma_pagamento}</option>`;
+                    $('.select-pagamento-edita-' + idCliente).append(optionPagamentos);
+                }
+
+
+            } else {
+                $('.aviso-novo-cliente-romaneio').removeClass('d-none');
+                $('.aviso-novo-cliente-romaneio').html('Este cliente já está no romaneio.');
+
+            }
+
+
+        }
+    })
+
+
+})
+
+
+const editarRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpresa) => {
+
+    $('#select-cliente-modal').val('').trigger('change');
+
+    $('.div-select-cliente').addClass('d-none');
+
+    $('#modalConcluirRomaneio').modal('show');
+    $('.btn-adicionar-clientes-romaneio').removeClass('d-none');
+
+    $('.id_responsavel').val(idResponsavel);
+    $('.code_romaneio').val(codRomaneio);
+    $('.data_romaneio').val(dataRomaneio);
+
+    if (codRomaneio) {
+
+        $.ajax({
+            type: 'post',
+            url: `${baseUrl}romaneios/recebeClientesRomaneios`,
+            data: {
+                codRomaneio: codRomaneio,
+                idSetorEmpresa: idSetorEmpresa
+
+            }, beforeSend: function () {
+
+                $('.dados-clientes-div').html('');
+
+            }, success: function (data) {
+
+                exibirDadosClientes(data.retorno, data.registros, data.residuos, data.pagamentos, data.id_cliente_prioridade, true);
+
+            }
+        })
+
+    }
+
+
+}
+
+const deletaClienteRomaneio = (romaneio, cliente) => {
+
+    if (romaneio) {
+
+        Swal.fire({
+            title: 'Você tem certeza?',
+            text: "Esta ação não poderá ser revertida",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Sim, deletar'
+
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    type: "post",
+                    url: `${baseUrl}romaneios/deletaClienteRomaneio`,
+                    data: {
+                        romaneio: romaneio,
+                        cliente: cliente
+                    }, success: function (data) {
+
+                        $('.accordion-' + cliente).remove();
+
+                        if (data.redirect) {
+
+                            avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${baseUrl}romaneios`);
+                        }
+                    }
+                })
+
+            }
+        })
+    } else {
+        $('.accordion-' + cliente).remove();
+    }
 
 }
