@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class FinMacro_model extends CI_Model
+class FinFormaTransacao_model extends CI_Model
 {
 
     public function __construct()
