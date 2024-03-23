@@ -154,15 +154,36 @@ const deletaDadosFinanceiros = (id) => {
 }
 
 $(document).ready(function () {
-  
+
   $('.select2').select2({
     theme: "bootstrap-5",
     width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
     placeholder: $(this).data('placeholder'),
   });
 
-  preencherEnderecoPorCEP('.input-cep', '#rua', '#bairro', '#cidade', '#estado', avisoRetorno);
-  
-})
+  $('#input-cep').on('blur', function () {
+      var cep = $(this).val().replace(/\D/g, '');
 
+      if (cep.length !== 8 && cep.length >= 1) {
+          
+          avisoRetorno('CEP inválido', 'Verifique se digitou corretamente!', 'error', '#');
+          return;
+
+      } else {
+          preencherEnderecoPorCEP(cep, function (retornoViaCep) {
+
+              if (retornoViaCep.erro) {
+
+                  avisoRetorno(`${retornoViaCep.titulo}`, `${retornoViaCep.mensagem}`, `${retornoViaCep.type}`, '#');
+
+              }
+
+              $('#input-rua').val(retornoViaCep.logradouro);
+              $('#input-bairro').val(retornoViaCep.bairro);
+              $('#input-cidade').val(retornoViaCep.localidade);
+              $('#input-estado').val(retornoViaCep.uf);
+          });
+      }
+  });
+});
 
