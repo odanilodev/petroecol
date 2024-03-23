@@ -307,7 +307,7 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpre
 
             }, success: function (data) {
 
-                exibirDadosClientes(data.retorno, data.registros, data.residuos, data.pagamentos, data.id_cliente_prioridade, false);
+                exibirDadosClientes(data.retorno, data.registros, data.residuos, data.pagamentos, data.id_cliente_prioridade);
             }
         })
 
@@ -334,7 +334,7 @@ function formatarArray(obj) {
 }
 
 
-function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_cliente_prioridade, editar) {
+function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_cliente_prioridade, editar = false) {
 
 
     var idPrioridades = formatarArray(id_cliente_prioridade); // idsPrioridade formatado

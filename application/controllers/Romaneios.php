@@ -342,15 +342,6 @@ class Romaneios extends CI_Controller
 			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 		} else {
 
-
-			// residuos
-			$this->load->model('Residuos_model');
-			$residuos = $this->Residuos_model->recebeTodosResiduos();
-
-			// formas de pagamentos
-			$this->load->model('FormaPagamento_model');
-			$formas_pagamentos = $this->FormaPagamento_model->recebeFormasPagamento();
-
 			array_push($arrayIdsClientes, $id_cliente);
 
 			$data['clientes'] = json_encode($arrayIdsClientes);
@@ -360,8 +351,6 @@ class Romaneios extends CI_Controller
 
 			$response = array(
 				'romaneio' => $romaneio,
-				'pagamentos' => $formas_pagamentos,
-				'residuos' => $residuos,
 				'redirect' => false,
 				'success' => true
 			);
