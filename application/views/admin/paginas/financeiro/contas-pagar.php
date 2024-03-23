@@ -121,7 +121,7 @@
 
                         <div class="col-auto">
 
-                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn" type="button" data-bs-toggle="modal" data-bs-target="#modalEntradaContasPagar">Entrada</button>
+                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn" type="button" data-bs-toggle="modal" data-bs-target="#modalLancamentoContasPagar">Lançamento</button>
 
                         </div>
 
@@ -178,7 +178,7 @@
 
                             <td class="align-middle text-start ps-3 status">
                                 <span class="badge badge-phoenix fs--2 badge-phoenix-danger">
-                                    <span class="badge-label">Em aberto</span>
+                                    <span class="badge-label cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalPagarConta">Em aberto</span>
                                     <span class="ms-1" data-feather="slash" style="height:12.8px;width:12.8px;"></span>
                                 </span>
                             </td>
@@ -188,16 +188,6 @@
                             </td>
 
                             <td class="align-middle white-space-nowrap text-end pe-0">
-                                <div class="position-relative">
-                                    <div class="hover-actions">
-                                        <button title="Realizar Pagamento" class="btn btn-sm btn-phoenix-success me-1 fs--2">
-                                            <span class="fas fa-check"></span>
-                                        </button>
-                                        <button class="btn btn-sm btn-phoenix-danger fs--2">
-                                            <span class="fas fa-trash"></span>
-                                        </button>
-                                    </div>
-                                </div>
 
                                 <div class="font-sans-serif btn-reveal-trigger position-static">
                                     <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2"></span></button>
@@ -209,7 +199,7 @@
                                             <span class="fas fa-pencil"></span> Editar
                                         </a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#!">Realizar Pagamento</a>
+                                        <a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#modalPagarConta">Realizar Pagamento</a>
                                     </div>
                                 </div>
                             </td>
@@ -388,9 +378,9 @@
         </div>
     </div>
 
-    <!-- Modal Entrada Contas a Pagar -->
+    <!-- Modal Lançamento Contas a Pagar -->
 
-    <div class="modal fade" tabindex="-1" id="modalEntradaContasPagar">
+    <div class="modal fade" tabindex="-1" id="modalLancamentoContasPagar">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -475,11 +465,19 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Parcelas</label>
                                                     <select class="form-select select2">
-                                                        <option>Selecione</option>
-                                                        <option>1x</option>
-                                                        <option>2x</option>
-                                                        <option>3x</option>
-                                                        <option>4x</option>
+                                                        <option selected disabled>Selecione</option>
+                                                        <option value="1">1x</option>
+                                                        <option value="2">2x</option>
+                                                        <option value="3">3x</option>
+                                                        <option value="4">4x</option>
+                                                        <option value="5">5x</option>
+                                                        <option value="6">6x</option>
+                                                        <option value="7">7x</option>
+                                                        <option value="8">8x</option>
+                                                        <option value="9">9x</option>
+                                                        <option value="10">10x</option>
+                                                        <option value="11">11x</option>
+                                                        <option value="12">12x</option>
                                                     </select>
                                                 </div>
 
@@ -535,6 +533,114 @@
                     <button class="btn btn-success btn-form" type="button">Salvar</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Pagar conta -->
+    <div class="modal fade" tabindex="-1" id="modalPagarConta">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Realizar pagamento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body body-coleta">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="col-sm-12 col-xxl-12 py-3">
+                                        <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+                                            <div class="col-lg-12">
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Setor</label>
+                                                    <select class="form-select">
+                                                        <option>Selecione</option>
+                                                        <option>Óleo</option>
+                                                        <option>Reciclagem</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Categoria</label>
+                                                    <select class="form-select">
+                                                        <option>Selecione</option>
+                                                        <option>Água</option>
+                                                        <option>Luz</option>
+                                                        <option>Aluguel</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Tipo</label>
+                                                    <select class="form-select">
+                                                        <option>Selecione</option>
+                                                        <option>Entrada</option>
+                                                        <option>Saída</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Data</label>
+                                                    <input class="form-control datetimepicker input-coleta" required name="data_coleta" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
+                                                </div>
+                                            </div>
+                                            <div class="campos-pagamento row">
+                                                <div class="col-lg-4 duplica-pagamento">
+                                                    <div class="mb-4">
+                                                        <label class="text-body-highlight fw-bold mb-2">Conta Bancária</label>
+                                                        <select class="form-select select2">
+                                                            <option value="" selected disabled>Selecione</option>
+                                                            <option>Bradesco</option>
+                                                            <option>Santander</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 duplica-pagamento">
+                                                    <div class="mb-4">
+                                                        <label class="text-body-highlight fw-bold mb-2">Forma Pagamento</label>
+                                                        <select class="form-select select2">
+                                                            <option value="" selected disabled>Selecione</option>
+                                                            <option>Pix</option>
+                                                            <option>Débito</option>
+                                                            <option>Crédito</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 duplica-pagamento">
+                                                    <div class="mb-4">
+                                                        <label class="text-body-highlight fw-bold mb-2">Valor</label>
+                                                        <input class="form-control" required name="valor" type="text" placeholder="Valor">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-1 mt-5">
+                                                    <button title="Mais formas de pagamento" type="button" class="btn btn-phoenix-secondary bg-white hover-bg-100" onclick="duplicarFormasPagamento()">+</button>
+                                                </div>
+                                            </div>
+                                            <div class="campos-duplicados row">
+                                                <!-- JS -->
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Observação</label>
+                                                    <textarea class="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success btn-form" type="button">Pagar Conta</button>
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>

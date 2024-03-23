@@ -23,12 +23,15 @@ class FinContasPagar extends CI_Controller
 
 	public function index()
 	{
-		// scripts padrão
-		$scriptsPadraoHead = scriptsPadraoHead();
-		$scriptsPadraoFooter = scriptsPadraoFooter();
-
-		add_scripts('header', $scriptsPadraoHead);
-		add_scripts('footer', $scriptsPadraoFooter);
+		 // scripts padrão
+		 $scriptsPadraoHead = scriptsPadraoHead();
+		 $scriptsPadraoFooter = scriptsPadraoFooter();
+ 
+		 // Scripts para contas a pagar
+		 $scriptsContasPagarFooter = scriptsFinContasPagarFooter();
+ 
+		 add_scripts('header', array_merge($scriptsPadraoHead));
+		 add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsContasPagarFooter));
 
 		$this->load->view('admin/includes/painel/cabecalho');
 		$this->load->view('admin/paginas/financeiro/contas-pagar.php');

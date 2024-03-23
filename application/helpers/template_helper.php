@@ -213,6 +213,7 @@ function scriptsClienteFooter()
         '<script src="' . base_url('assets/js/residuo-cliente/formulario-residuo-cliente.js') . '"></script>',
         '<script src="' . base_url('assets/js/grupo-cliente/formulario-grupo-cliente.js') . '"></script>',
         '<script src="' . base_url('assets/js/setores-empresa-cliente/formulario-setores-empresa-cliente.js') . '"></script>',
+        '<script src="' . base_url('assets/js/viacep/viacep-input.js') . '"></script>',
         '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>'
 
     );
@@ -437,3 +438,32 @@ function scriptsSetoresEmpresaFooter()
     );
 }
 
+// Pagina de Macro financeiro empresa
+function scriptsFinMacroFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/financeiro/macro/formulario-macro.js') . '"></script>'
+
+    );
+}
+
+// Pagina de fluxo de caixa financeiro
+function scriptsFinFluxoFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/financeiro/fluxo-caixa/fluxo-caixa.js') . '"></script>'
+
+    );
+}
+
+// Pagina de contas a pagar financeiro
+function scriptsFinContasPagarFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/financeiro/contas-pagar/contas-pagar.js') . '"></script>'
+
+    );
+}
