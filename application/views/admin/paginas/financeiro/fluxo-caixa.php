@@ -419,7 +419,7 @@
                                             <div class="col-lg-3">
 
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Categoria</label>
+                                                    <label class="text-body-highlight fw-bold mb-2">Micro</label>
                                                     <select class="form-select">
                                                         <option>Selecione</option>
                                                         <option>Água</option>
@@ -435,10 +435,10 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Tipo</label>
-                                                    <select class="form-select">
-                                                        <option>Selecione</option>
-                                                        <option>Entrada</option>
-                                                        <option>Saída</option>
+                                                    <select class="form-select select-tipo-conta">
+                                                        <option selected disabled>Selecione</option>
+                                                        <option value="entrada">Entrada</option>
+                                                        <option value="saida">Saída</option>
 
                                                     </select>
                                                 </div>
@@ -470,7 +470,7 @@
                                             <div class="col-lg-4">
 
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Forma Pagamento</label>
+                                                    <label class="text-body-highlight fw-bold mb-2 label-forma-pagamento">Forma Pagamento</label>
                                                     <select class="form-select select2">
                                                         <option value="" selected disabled>Selecione</option>
                                                         <option>Pix</option>
