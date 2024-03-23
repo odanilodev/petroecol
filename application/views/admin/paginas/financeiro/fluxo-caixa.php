@@ -190,28 +190,14 @@
                             </td>
 
                             <td class="align-middle white-space-nowrap text-end pe-0">
-                                <div class="position-relative">
-                                    <div class="hover-actions">
-                                        <button title="Receber Conta" class="btn btn-sm btn-phoenix-success me-1 fs--2">
-                                            <span class="fas fa-check"></span>
-                                        </button>
-                                        <button class="btn btn-sm btn-phoenix-danger fs--2">
-                                            <span class="fas fa-trash"></span>
-                                        </button>
-                                    </div>
-                                </div>
-
                                 <div class="font-sans-serif btn-reveal-trigger position-static">
                                     <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2"></span></button>
                                     <div class="dropdown-menu dropdown-menu-end py-2">
-                                        <a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#modalVisualizarContasReceber">
+                                        <a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#modalVisualizarFluxoCaixa">
                                             <span class="fas fa-eye"></span> Visualizar
                                         </a>
-                                        <a class="dropdown-item" href="#!">
-                                            <span class="fas fa-pencil"></span> Editar
-                                        </a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#!">Receber Conta</a>
+                                        
+                                        
                                     </div>
                                 </div>
                             </td>
@@ -238,7 +224,7 @@
                             </td>
 
                             <td class="align-middle text-start categoria">
-                                <h6 class="text-1000 mb-0"></h6>
+                                <h6 class="text-900 mb-0">Conta de Água</h6>
                             </td>
 
                             <td class="align-middle text-start ps-3 tipo">
@@ -253,28 +239,14 @@
                             </td>
 
                             <td class="align-middle white-space-nowrap text-end pe-0">
-                                <div class="position-relative">
-                                    <div class="hover-actions">
-                                        <button title="Receber Conta" class="btn btn-sm btn-phoenix-success me-1 fs--2">
-                                            <span class="fas fa-check"></span>
-                                        </button>
-                                        <button class="btn btn-sm btn-phoenix-danger fs--2">
-                                            <span class="fas fa-trash"></span>
-                                        </button>
-                                    </div>
-                                </div>
-
                                 <div class="font-sans-serif btn-reveal-trigger position-static">
                                     <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2"></span></button>
                                     <div class="dropdown-menu dropdown-menu-end py-2">
-                                        <a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#modalVisualizarContasReceber">
+                                        <a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#modalVisualizarFluxoCaixa">
                                             <span class="fas fa-eye"></span> Visualizar
                                         </a>
-                                        <a class="dropdown-item" href="#!">
-                                            <span class="fas fa-pencil"></span> Editar
-                                        </a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#!">Receber Conta</a>
+                                        
+                                        
                                     </div>
                                 </div>
                             </td>
@@ -291,11 +263,11 @@
 
 
     <!-- Modal visualizar constas a receber -->
-    <div class="modal fade" tabindex="-1" id="modalVisualizarContasReceber">
+    <div class="modal fade" tabindex="-1" id="modalVisualizarFluxoCaixa">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Detalhes da conta</h5>
+                    <h5 class="modal-title">Entrada dia 10/04/2024</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body body-coleta">
@@ -314,13 +286,13 @@
                                                                 <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
                                                                     <span class="text-info-600 dark__text-info-300 fas fa-id-card-alt" style="width:16px; height:16px"></span>
                                                                 </div>
-                                                                <p class="fw-bold mb-0">Empresa</p>
+                                                                <p class="fw-bold mb-0">Categoria</p>
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                         <td class="py-2">
                                                             <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break data-coleta html-clean">
-                                                                Centro da Inteligência
+                                                                Conta de Água
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -331,13 +303,13 @@
                                                                 <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
                                                                     <span class="text-info-600 dark__text-info-300" data-feather="calendar" style="width:16px; height:16px"></span>
                                                                 </div>
-                                                                <p class="fw-bold mb-0">Data de vencimento</p>
+                                                                <p class="fw-bold mb-0">Recebido</p>
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                         <td class="py-2">
                                                             <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break data-coleta html-clean">
-                                                                10/04/2024
+                                                                Five Works (Escritorio)
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -347,34 +319,16 @@
                                                             <div class="d-inline-flex align-items-center">
                                                                 <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
                                                                     <span class="text-info-600 dark__text-info-300" data-feather="calendar" style="width:16px; height:16px"></span>
-                                                                </div>
-                                                                <p class="fw-bold mb-0">Data de Emissão</p>
-                                                            </div>
-                                                        </td>
-                                                        <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                                                        <td class="py-2">
-                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break responsavel-coleta html-clean">
-                                                                10/04/2024
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td class="py-2">
-                                                            <div class="d-inline-flex align-items-center">
-                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                                                    <span class="text-info-600 dark__text-info-300 fas fa-money-check-alt" style="width:16px; height:16px"></span>
                                                                 </div>
                                                                 <p class="fw-bold mb-0">Valor</p>
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                         <td class="py-2">
-
-                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break residuos-coletados html-clean">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break responsavel-coleta html-clean">
+                                                                	
                                                                 R$ 250,25
                                                             </div>
-
                                                         </td>
                                                     </tr>
 
@@ -384,52 +338,14 @@
                                                                 <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
                                                                     <span class="text-info-600 dark__text-info-300 fas fa-money-check-alt" style="width:16px; height:16px"></span>
                                                                 </div>
-                                                                <p class="fw-bold mb-0">Valor Pago</p>
+                                                                <p class="fw-bold mb-0">Histórico</p>
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                         <td class="py-2">
 
                                                             <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break residuos-coletados html-clean">
-                                                                R$ 240,25
-                                                            </div>
-
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td class="py-2">
-                                                            <div class="d-inline-flex align-items-center">
-                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                                                    <span class="text-info-600 dark__text-info-300 fas fa-money-check-alt" style="width:16px; height:16px"></span>
-                                                                </div>
-                                                                <p class="fw-bold mb-0">Valor em Aberto</p>
-                                                            </div>
-                                                        </td>
-                                                        <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                                                        <td class="py-2">
-
-                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break residuos-coletados html-clean">
-                                                                R$ 10,00
-                                                            </div>
-
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td class="py-2">
-                                                            <div class="d-inline-flex align-items-center">
-                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                                                    <span class="text-info-600 dark__text-info-300 fas fa-money-check-alt" style="width:16px; height:16px"></span>
-                                                                </div>
-                                                                <p class="fw-bold mb-0">Observação</p>
-                                                            </div>
-                                                        </td>
-                                                        <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                                                        <td class="py-2">
-
-                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break residuos-coletados html-clean">
-                                                                observação detalhada aparecerá aqui
+                                                                Liquidação de conta a pagar - Five Works (Escritorio)
                                                             </div>
 
                                                         </td>
@@ -447,7 +363,6 @@
 
                 <div class="modal-footer">
 
-                    <button class="btn btn-success btn-form" type="button">Realizar Pagamento</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
                 </div>
@@ -486,7 +401,22 @@
 
                                             </div>
 
-                                            <div class="col-lg-4">
+                                            <div class="col-lg-3">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Macro</label>
+                                                    <select class="form-select">
+                                                        <option>Selecione</option>
+                                                        <option>Água</option>
+                                                        <option>Luz</option>
+                                                        <option>Aluguel</option>
+
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-3">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Categoria</label>
@@ -501,7 +431,7 @@
 
                                             </div>
 
-                                            <div class="col-lg-4">
+                                            <div class="col-lg-3">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Tipo</label>
@@ -515,7 +445,7 @@
 
                                             </div>
 
-                                            <div class="col-lg-4">
+                                            <div class="col-lg-3">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data</label>
@@ -524,51 +454,40 @@
 
                                             </div>
 
-                                            <div class="campos-pagamento row">
+                                            <div class="col-lg-4">
 
-                                                <div class="col-lg-4 duplica-pagamento">
-
-                                                    <div class="mb-4">
-                                                        <label class="text-body-highlight fw-bold mb-2">Conta Bancária</label>
-                                                        <select class="form-select select2">
-                                                            <option value="" selected disabled>Selecione</option>
-                                                            <option>Bradesco</option>
-                                                            <option>Santander</option>
-                                                        </select>
-                                                    </div>
-
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Conta Bancária</label>
+                                                    <select class="form-select select2">
+                                                        <option value="" selected disabled>Selecione</option>
+                                                        <option>Bradesco</option>
+                                                        <option>Santander</option>
+                                                    </select>
                                                 </div>
 
-                                                <div class="col-lg-4 duplica-pagamento">
-
-                                                    <div class="mb-4">
-                                                        <label class="text-body-highlight fw-bold mb-2">Forma Pagamento</label>
-                                                        <select class="form-select select2">
-                                                            <option value="" selected disabled>Selecione</option>
-                                                            <option>Pix</option>
-                                                            <option>Débito</option>
-                                                            <option>Crédito</option>
-                                                        </select>
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="col-lg-3 duplica-pagamento">
-
-                                                    <div class="mb-4">
-                                                        <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                        <input class="form-control" required name="valor" type="text" placeholder="Valor">
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="col-lg-1 mt-5">
-                                                    <button title="Mais formas de pagamento" type="button" class="btn btn-phoenix-secondary bg-white hover-bg-100" onclick="duplicarFormasPagamento()">+</button>
-                                                </div>
                                             </div>
 
-                                            <div class="campos-duplicados row">
-                                                <!-- JS -->
+                                            <div class="col-lg-4">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Forma Pagamento</label>
+                                                    <select class="form-select select2">
+                                                        <option value="" selected disabled>Selecione</option>
+                                                        <option>Pix</option>
+                                                        <option>Débito</option>
+                                                        <option>Crédito</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-4">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Valor</label>
+                                                    <input class="form-control" required name="valor" type="text" placeholder="Valor">
+                                                </div>
+
                                             </div>
 
 
