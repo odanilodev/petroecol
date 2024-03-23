@@ -94,7 +94,7 @@
 
                                         <div class="mb-2 col-md-3">
                                             <label class="form-label" for="input-rua">Rua </label>
-                                            <input disabled id="input-rua" class="form-control campo" type="text" name="rua" value="<?= $dadoFinanceiro['rua'] ?? ''; ?>" placeholder="Nome da rua">
+                                            <input id="input-rua" class="form-control campo" type="text" name="rua" value="<?= $dadoFinanceiro['rua'] ?? ''; ?>" placeholder="Nome da rua">
                                         </div>
 
                                         <div class="mb-2 col-md-1">
@@ -104,12 +104,12 @@
 
                                         <div class="mb-2 col-md-3">
                                             <label class="form-label" for="input-bairro">Bairro </label>
-                                            <input disabled id="input-bairro" class="form-control campo" type="text" name="bairro" value="<?= $dadoFinanceiro['bairro'] ?? ''; ?>" placeholder="Bairro">
+                                            <input id="input-bairro" class="form-control campo" type="text" name="bairro" value="<?= $dadoFinanceiro['bairro'] ?? ''; ?>" placeholder="Bairro">
                                         </div>
 
                                         <div class="mb-2 col-md-3">
                                             <label class="form-label" for="input-cidade">Cidade </label>
-                                            <input disabled id="input-cidade" class="form-control campo" type="text" name="cidade" value="<?= $dadoFinanceiro['cidade'] ?? ''; ?>" placeholder="Cidade">
+                                            <input id="input-cidade" class="form-control campo" type="text" name="cidade" value="<?= $dadoFinanceiro['cidade'] ?? ''; ?>" placeholder="Cidade">
                                         </div>
 
                                         <div class="mb-2 col-md-2">
