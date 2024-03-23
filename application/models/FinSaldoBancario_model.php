@@ -13,14 +13,18 @@ class FinSaldoBancario_model extends CI_Model
   public function insereSaldoBancario($id_conta_bancaria, $saldo)
   {
     // Dados a serem inseridos na tabela
-    $data = array(
+    $data = [
       'id_conta_bancaria' => $id_conta_bancaria,
       'saldo' => $saldo,
       'id_empresa' => $this->session->userdata('id_empresa')
-    );
+    ];
 
     // Insere os dados na tabela fin_saldo_bancario
     $this->db->insert('fin_saldo_bancario', $data);
+
+    if ($this->db->affected_rows()) {
+      $this->Log_model->insereLog($id_conta_bancaria);
+  }
 
     // Retorna o ID gerado pela inserção
     return $this->db->affected_rows() > 0;
