@@ -102,7 +102,7 @@ class Romaneios_model extends CI_Model
 
     public function recebeIdsClientesRomaneios($codRomaneio)
     {
-        $this->db->select('R.clientes');
+        $this->db->select('R.clientes, R.id');
         $this->db->from('ci_romaneios R');
         $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('R.codigo', $codRomaneio);
