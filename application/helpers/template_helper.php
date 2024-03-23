@@ -457,3 +457,13 @@ function scriptsFinFluxoFooter()
 
     );
 }
+
+// Pagina de contas a pagar financeiro
+function scriptsFinContasPagarFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/financeiro/contas-pagar/contas-pagar.js') . '"></script>'
+
+    );
+}
