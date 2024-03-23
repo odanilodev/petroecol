@@ -553,43 +553,7 @@
                                 <div class="col-12">
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
-                                            <div class="col-lg-12">
-                                                <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Setor</label>
-                                                    <select class="form-select">
-                                                        <option>Selecione</option>
-                                                        <option>Óleo</option>
-                                                        <option>Reciclagem</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Categoria</label>
-                                                    <select class="form-select">
-                                                        <option>Selecione</option>
-                                                        <option>Água</option>
-                                                        <option>Luz</option>
-                                                        <option>Aluguel</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Tipo</label>
-                                                    <select class="form-select">
-                                                        <option>Selecione</option>
-                                                        <option>Entrada</option>
-                                                        <option>Saída</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Data</label>
-                                                    <input class="form-control datetimepicker input-coleta" required name="data_coleta" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
-                                                </div>
-                                            </div>
+                                            
                                             <div class="campos-pagamento row">
                                                 <div class="col-lg-4 duplica-pagamento">
                                                     <div class="mb-4">
