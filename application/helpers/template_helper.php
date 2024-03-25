@@ -202,7 +202,7 @@ function scriptsClienteHead()
 function scriptsClienteFooter()
 {
     return array(
-        
+
         '<script src="' . base_url('assets/js/clientes/formulario-cliente.js') . '"></script>',
         '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>',
         '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>',
@@ -213,6 +213,7 @@ function scriptsClienteFooter()
         '<script src="' . base_url('assets/js/residuo-cliente/formulario-residuo-cliente.js') . '"></script>',
         '<script src="' . base_url('assets/js/grupo-cliente/formulario-grupo-cliente.js') . '"></script>',
         '<script src="' . base_url('assets/js/setores-empresa-cliente/formulario-setores-empresa-cliente.js') . '"></script>',
+        '<script src="' . base_url('assets/js/viacep/viacep-input.js') . '"></script>',
         '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>'
 
     );
@@ -361,7 +362,7 @@ function scriptsVeiculosFooter()
 function scriptsVeiculosHead()
 {
     return array(
-        
+
         '<script src="' . base_url('vendors/dropzone/dropzone.min.css') . '"></script>'
     );
 }
@@ -437,23 +438,67 @@ function scriptsSetoresEmpresaFooter()
     );
 }
 
-// Pagina de Macro financeiro empresa
-function scriptsFinMacroFooter()
-{
-    return array(
-
-        '<script src="' . base_url('assets/js/financeiro/macro/formulario-macro.js') . '"></script>'
-
-    );
-}
-
 // Pagina de Micro financeiro empresa
 function scriptsFinMicroFooter()
 {
     return array(
 
         '<script src="' . base_url('assets/js/financeiro/micro/formulario-micro.js') . '"></script>'
+    );
+}
+
+function scriptsFinContaBancariaHead()
+{
+    return array(
+
+        '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />',
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />',
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />'
 
     );
 }
 
+function scriptsFinContaBancariaFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/financeiro/conta-bancaria/formulario-conta-bancaria.js') . '"></script>',
+        '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>',
+        '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>',
+        '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>'
+    );
+}
+
+function scriptsFinDadosFinanceirosHead()
+{
+    return array(
+
+        '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />',
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />',
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />',
+
+    );
+}
+
+function scriptsFinDadosFinanceirosFooter()
+{
+    return array(
+
+        '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>',
+        '<script src="' . base_url('assets/js/financeiro/dados-financeiros/formulario-dados-financeiros.js') . '"></script>',
+        '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>',
+        '<script src="' . base_url('assets/js/viacep/viacep-input.js') . '"></script>',
+        '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>'
+
+    );
+}
+
+// Pagina de contas a pagar financeiro
+function scriptsFinContasPagarFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/financeiro/contas-pagar/contas-pagar.js') . '"></script>'
+
+    );
+}
