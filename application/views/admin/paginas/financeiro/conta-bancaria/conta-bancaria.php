@@ -55,13 +55,13 @@
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="<?= base_url('finContaBancaria/formulario/' . $v['id']) ?>" class="btn btn-info">
+                                    <a href="<?= base_url('finContaBancaria/formulario/' . $v['id_conta_bancaria']) ?>" class="btn btn-info">
                                         <span class="fas fa-pencil ms-1"></span>
                                     </a>
                                 </td>
 
                                 <td class="align-middle white-space-nowrap">
-                                    <a href="#" class="btn btn-danger" onclick="deletaContaBancaria(<?= $v['id'] ?>)">
+                                    <a href="#" class="btn btn-danger" onclick="deletaContaBancaria(<?= $v['id_conta_bancaria'] ?>)">
                                         <span class="fas fa-trash ms-1"></span>
                                     </a>
                                 </td>

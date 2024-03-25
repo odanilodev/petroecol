@@ -91,7 +91,7 @@ const deletaContaBancaria = (id) => {
 				data: {
 					id: id
 				}, success: function (data) {
-					console.log(data);
+					
 					let redirect = data.type != 'error' ? `${baseUrl}finContaBancaria` : '#';
 
 					avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
