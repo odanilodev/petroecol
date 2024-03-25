@@ -54,7 +54,7 @@
 
 
                 <td class="align-middle white-space-nowrap">
-                  <a href="<?= base_url('' . $v['id']) ?>" class="btn btn-success">
+                  <a href="<?= base_url('finMicro/formulario/' . $v['id']) ?>" class="btn btn-success">
                     <span class="uil-plus ms-1"></span>
                   </a>
                 </td>

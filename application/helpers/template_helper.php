@@ -438,16 +438,14 @@ function scriptsSetoresEmpresaFooter()
     );
 }
 
-// Pagina de Macro financeiro empresa
-function scriptsFinMacroFooter()
+// Pagina de Micro financeiro empresa
+function scriptsFinMicroFooter()
 {
     return array(
 
-        '<script src="' . base_url('assets/js/financeiro/macro/formulario-macro.js') . '"></script>'
-
+        '<script src="' . base_url('assets/js/financeiro/micro/formulario-micro.js') . '"></script>'
     );
 }
-
 
 function scriptsFinContaBancariaHead()
 {
