@@ -13,8 +13,10 @@ class FinContaBancaria_model extends CI_Model
     public function recebeContasBancarias()
     {
         $this->db->order_by('apelido', 'DESC');
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('fin_contas_bancarias');
+        $this->db->join('fin_saldo_bancario SB', 'SB.id_conta_bancaria = CB.id', 'left');
+        $this->db->where('CB.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('status', 1);
+        $query = $this->db->get('fin_contas_bancarias CB');
 
         return $query->result_array();
     }
@@ -32,6 +34,7 @@ class FinContaBancaria_model extends CI_Model
     {
         $this->db->where('apelido', $apelido);
         $this->db->where('id <>', $id);
+        $this->db->where('status', 1);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('fin_contas_bancarias');
 
@@ -75,15 +78,27 @@ class FinContaBancaria_model extends CI_Model
 
     public function deletaContaBancaria($id)
     {
+        $this->db->trans_start(); // Inicia uma transação
+    
+        // Define o status da conta bancária como 0
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->delete('fin_contas_bancarias');
-
-        if ($this->db->affected_rows()) {
+        $this->db->set('status', 0);
+        $this->db->update('fin_contas_bancarias');
+    
+        // Exclui o saldo correspondente na tabela fin_saldo_bancario
+        $this->db->set('status', 0);
+        $this->db->update('fin_saldo_bancario');
+    
+        // Verifica se a operação foi bem sucedida e insere um log
+        if ($this->db->affected_rows() > 0) {
             $this->Log_model->insereLog($id);
         }
-
-        return $this->db->affected_rows() > 0;
+    
+        $this->db->trans_complete(); // Completa a transação
+    
+        // Retorna true se a operação foi bem sucedida
+        return $this->db->trans_status();
     }
 
     public function verificaContaBancariaFluxo($id)
@@ -94,12 +109,5 @@ class FinContaBancaria_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
-    public function verificaContaBancariaSaldo($id)
-    {
-        $this->db->where('id_conta_bancaria', $id);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->get('fin_saldo_bancario');
 
-        return $this->db->affected_rows() > 0;
-    }
 }

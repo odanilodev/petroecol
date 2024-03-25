@@ -79,7 +79,7 @@ const deletaContaBancaria = (id) => {
 		confirmButtonColor: '#3085d6',
 		cancelButtonColor: '#d33',
 		cancelButtonText: 'Cancelar',
-		confirmButtonText: 'Sim, deletar'
+		confirmButtonText: 'Sim, inativar'
 
 	}).then((result) => {
 
@@ -91,7 +91,7 @@ const deletaContaBancaria = (id) => {
 				data: {
 					id: id
 				}, success: function (data) {
-
+					console.log(data);
 					let redirect = data.type != 'error' ? `${baseUrl}finContaBancaria` : '#';
 
 					avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
@@ -106,8 +106,6 @@ const deletaContaBancaria = (id) => {
 }
 
 $(document).ready(function () {
-    
-
 
 	$('.select2').select2({
 			theme: "bootstrap-5",

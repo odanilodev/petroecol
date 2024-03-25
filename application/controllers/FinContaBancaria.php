@@ -122,19 +122,19 @@ class FinContaBancaria extends CI_Controller
 	{
 		$id = $this->input->post('id');
 
-		// Verifica se a conta bancaria esta vinculada ao fluxo de caixa ou ao saldo
+		// Verifica se a conta bancaria esta vinculada ao fluxo de caixa
 		$contaVinculadaFluxo = $this->FinContaBancaria_model->verificaContaBancariaFluxo($id);
-		$contaVinculadaSaldo = $this->FinContaBancaria_model->verificaContaBancariaSaldo($id);
 
-		if ($contaVinculadaFluxo || $contaVinculadaSaldo) {
+		if ($contaVinculadaFluxo) {
 
 			$response = array(
 				'success' => false,
 				'title' => "Algo deu errado!",
 				'id_vinculado' => $id,
-				'message' => "Este residuo está vinculado a um cliente, não é possível excluí-lo.",
+				'message' => "Esta conta bancária está vinculada ao fluxo de caixa, não é possível inativa-la.",
 				'type' => "error"
 			);
+
 		} else {
 
 			$retorno = $this->FinContaBancaria_model->deletaContaBancaria($id);
@@ -144,7 +144,7 @@ class FinContaBancaria extends CI_Controller
 				$response = array(
 					'success' => true,
 					'title' => "Sucesso!",
-					'message' => "Conta Bancaria deletada com sucesso!",
+					'message' => "Conta Bancaria inativada com sucesso!",
 					'type' => "success"
 				);
 
@@ -153,7 +153,7 @@ class FinContaBancaria extends CI_Controller
 				$response = array(
 					'success' => false,
 					'title' => "Algo deu errado!",
-					'message' => "Não foi possivel deletar a Conta Bancaria!",
+					'message' => "Não foi possivel inativar a Conta Bancaria!",
 					'type' => "error"
 				);
 			}
