@@ -438,16 +438,14 @@ function scriptsSetoresEmpresaFooter()
     );
 }
 
-// Pagina de Macro financeiro empresa
-function scriptsFinMacroFooter()
+// Pagina de Micro financeiro empresa
+function scriptsFinMicroFooter()
 {
     return array(
 
-        '<script src="' . base_url('assets/js/financeiro/macro/formulario-macro.js') . '"></script>'
-
+        '<script src="' . base_url('assets/js/financeiro/micro/formulario-micro.js') . '"></script>'
     );
 }
-
 
 function scriptsFinContaBancariaHead()
 {
@@ -468,6 +466,16 @@ function scriptsFinContaBancariaFooter()
         '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>',
         '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>',
         '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>'
+    );
+}
+
+// Pagina de fluxo de caixa financeiro
+function scriptsFinFluxoFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/financeiro/fluxo-caixa/fluxo-caixa.js') . '"></script>'
+
     );
 }
 

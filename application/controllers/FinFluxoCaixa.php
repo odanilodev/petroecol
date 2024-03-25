@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') or exit ('No direct script access allowed');
 
 class FinFluxoCaixa extends CI_Controller
 {
@@ -9,6 +9,7 @@ class FinFluxoCaixa extends CI_Controller
 
         //INICIO controle sessão
         $this->load->library('Controle_sessao');
+        $this->load->model('FinFluxo_model');
         $res = $this->controle_sessao->controle();
         if ($res == 'erro') {
             if ($this->input->is_ajax_request()) {
@@ -37,4 +38,43 @@ class FinFluxoCaixa extends CI_Controller
         $this->load->view('admin/paginas/financeiro/fluxo-caixa.php');
         $this->load->view('admin/includes/painel/rodape');
     }
+
+    public function insereMovimentacaoFluxo()
+    {
+        $scriptsFluxoFooter = scriptsFinFluxoFooter();
+
+        $dados['id_empresa'] = $this->session->userdata('id_empresa');
+        $dados['id_conta_bancaria'] = $this->input->post('id_conta_bancaria');
+        $dados['id_vinculo_conta'] = $this->input->post('id_vinculo_conta');
+        $dados['id_tarifa_bancaria'] = $this->input->post('id_tarifa_bancaria');
+        $dados['id_forma_transacao'] = $this->input->post('id_forma_transacao');
+        $dados['valor'] = $this->input->post('valor');
+        $dados['movimentacao_tabela'] = $this->input->post('movimentacao_tabela');
+        $dados['id_dado_financeiro'] = $this->input->post('id_dado_financeiro');
+        $dados['observacao'] = $this->input->post('observacao');
+
+        $retorno = $this->FinFluxo_model->insereFluxo($dados);
+
+        print_r($retorno);
+        exit;
+
+        if ($retorno) {
+
+            $response = array(
+                'success' => true,
+                'message' => 'Movimentação registrada!'
+            );
+
+        } else {
+
+            $response = array(
+                'success' => false,
+                'message' => "Erro ao registrar movimentação"
+            );
+        }
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
+    }
+
 }
