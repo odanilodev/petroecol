@@ -67,7 +67,7 @@ const cadastraTarifaBancaria = () => {
 	}
 };
 
-const deletaMacro = (id) => {
+const deletaTarifaBancaria = (id) => {
 
 	Swal.fire({
 			title: 'Você tem certeza?',

@@ -15,7 +15,7 @@ class FinTarifasBancarias_model extends CI_Model
         $this->db->order_by('nome_tarifa', 'DESC');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('fin_tarifas_bancarias');
-    
+
         return $query->result_array();
     }
 
@@ -75,6 +75,15 @@ class FinTarifasBancarias_model extends CI_Model
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);
         }
+
+        return $this->db->affected_rows() > 0;
+    }
+
+    public function verificaTarifaBancaria($id)
+    {
+        $this->db->where('id_residuo', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->get('ci_residuo_cliente');
 
         return $this->db->affected_rows() > 0;
     }
