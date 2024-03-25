@@ -78,8 +78,9 @@ class FinTarifasBancarias extends CI_Controller
 		$dados['id_conta_bancaria'] = $this->input->post('idContaBancaria');
 		$dados['id_forma_transacao'] = $this->input->post('idFormaTransacao');
 		$dados['tipo_tarifa'] = $this->input->post('tipoTarifa');
-		$dados['valor_minimo_tarifa'] = $this->input->post('valorMinimoTarifa');
-		$dados['valor_tarifa'] = $this->input->post('valorTarifa');
+		$dados['valor_minimo_tarifa'] = str_replace(array('.', ','), '', $this->input->post('valorMinimoTarifa'));
+		$dados['valor_tarifa'] = str_replace(array('.', ','), '', $this->input->post('valorTarifa'));
+		$dados['status'] = $this->input->post('status');
 
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
@@ -122,13 +123,58 @@ class FinTarifasBancarias extends CI_Controller
 
 		$id = $this->input->post('id');
 
-		$retorno = $this->FinTarifasBancarias_model->deletaTarifaBancaria($id);
+		// Verifica se a tarifa possui alguma conta bancaria vinculada a ela
+		$tarifaVinculada = $this->FinTarifasBancarias_model->verificaTarifaBancaria($id);
+
+		if ($tarifaVinculada) {
+
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Esta tarifa bancária está vinculada ao Fluxo de Caixa, não é possível excluí-la. Deseja inativa-lá?",
+				'type' => "warning",
+				'vinculo' => true
+			);
+		} else {
+
+			$retorno = $this->FinTarifasBancarias_model->deletaTarifaBancaria($id);
+
+			if ($retorno) {
+				$response = array(
+					'success' => true,
+					'title' => "Sucesso!",
+					'message' => "Tarifa Bancaria deletada com sucesso!",
+					'type' => "success",
+					'vinculo' => false
+
+				);
+			} else {
+
+				$response = array(
+					'success' => false,
+					'title' => "Algo deu errado!",
+					'message' => "Não foi possivel deletar a Tarifa Bancaria!",
+					'type' => "error"
+				);
+			}
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+
+	public function inativaTarifaBancaria()
+	{
+		$id = $this->input->post('id');
+
+
+		$retorno = $this->FinTarifasBancarias_model->inativaTarifaBancaria($id);
 
 		if ($retorno) {
 			$response = array(
 				'success' => true,
 				'title' => "Sucesso!",
-				'message' => "Tarifa Bancaria deletada com sucesso!",
+				'message' => "Tarifa Bancaria inativada com sucesso!",
 				'type' => "success"
 			);
 		} else {
@@ -136,11 +182,10 @@ class FinTarifasBancarias extends CI_Controller
 			$response = array(
 				'success' => false,
 				'title' => "Algo deu errado!",
-				'message' => "Não foi possivel deletar a Tarifa Bancaria!",
+				'message' => "Não foi possivel inativar a Tarifa Bancaria!",
 				'type' => "error"
 			);
 		}
-
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}

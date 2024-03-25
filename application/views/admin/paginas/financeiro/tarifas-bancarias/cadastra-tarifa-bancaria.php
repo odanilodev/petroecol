@@ -26,10 +26,13 @@
                       <div class="card-body pt-4 pb-0 row">
                         <input type="hidden" class="input-id" value="<?= $tarifa['id'] ?? ''; ?>">
 
-                        <div class="col-md-4 mb-5">
+                        <div class="col-md-4 mb-3">
                           <label class="form-label" for="nome-tarifa">Nome da Tarifa*</label>
                           <input class="form-control input-nome-tarifa input-obrigatorio" id="nome-tarifa" type="text" placeholder="Nome da Tarifa Bancária" value="<?= $tarifa['nome_tarifa'] ?? ''; ?>">
                           <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                          <label class="form-label" for="status-tarifa">Ativa / Inativa</label>
+                          <input class="input-status-tarifa" type="checkbox" id="status-tarifa" <?= isset($tarifa['status']) && $tarifa['status'] != 0 ? 'checked' : '' ?>>
                         </div>
 
                         <div class="col-md-8"></div>
@@ -57,9 +60,9 @@
                         <div class="col-md-4 mb-3">
                           <label class="form-label text-900" for="tipo-tarifa">Tipo de Tarifa*</label>
                           <select id="tipo-tarifa" class="form-select select-tipo-tarifa select2">
-                            <option value="" selected disabled>Selecione o Tipo de Tarifa</option>
-                            <option value="1">Porcentagem(%)</option>
-                            <option value="2">Valor(R$)</option>
+                            <option value="" selected disabled >Selecione o Tipo de Tarifa</option>
+                            <option value="1" <?= isset($tarifa['tipo_tarifa']) && $tarifa['tipo_tarifa'] == 1 ? 'selected' : ''; ?>>Porcentagem(%)</option>
+                            <option value="2" <?= isset($tarifa['tipo_tarifa']) && $tarifa['tipo_tarifa'] == 2 ? 'selected' : '';  ?>>Valor(R$)</option>
                           </select>
                         </div>
 

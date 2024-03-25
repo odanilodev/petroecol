@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class FinFormaTransacao_model extends CI_Model
+class FinGrupos_model extends CI_Model
 {
 
     public function __construct()
@@ -10,10 +10,11 @@ class FinFormaTransacao_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebeFormasTransacao()
+    public function recebeGrupos()
     {
+        $this->db->order_by('nome', 'DESC');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('fin_forma_transacao');
+        $query = $this->db->get('fin_grupos');
     
         return $query->result_array();
     }

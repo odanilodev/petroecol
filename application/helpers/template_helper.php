@@ -202,7 +202,7 @@ function scriptsClienteHead()
 function scriptsClienteFooter()
 {
     return array(
-        
+
         '<script src="' . base_url('assets/js/clientes/formulario-cliente.js') . '"></script>',
         '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>',
         '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>',
@@ -213,6 +213,7 @@ function scriptsClienteFooter()
         '<script src="' . base_url('assets/js/residuo-cliente/formulario-residuo-cliente.js') . '"></script>',
         '<script src="' . base_url('assets/js/grupo-cliente/formulario-grupo-cliente.js') . '"></script>',
         '<script src="' . base_url('assets/js/setores-empresa-cliente/formulario-setores-empresa-cliente.js') . '"></script>',
+        '<script src="' . base_url('assets/js/viacep/viacep-input.js') . '"></script>',
         '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>'
 
     );
@@ -361,7 +362,7 @@ function scriptsVeiculosFooter()
 function scriptsVeiculosHead()
 {
     return array(
-        
+
         '<script src="' . base_url('vendors/dropzone/dropzone.min.css') . '"></script>'
     );
 }
@@ -447,25 +448,31 @@ function scriptsFinMacroFooter()
     );
 }
 
-// Pagina de tarifas bancarias
-function scriptsFinTarifasBancariasHead()
+// Pagina de contas a pagar financeiro
+function scriptsFinContasPagarFooter()
 {
     return array(
 
-        '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />',
-        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />',
-        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />'
+        '<script src="' . base_url('assets/js/financeiro/contas-pagar/contas-pagar.js') . '"></script>'
 
     );
 }
+
+function scriptsFinTarifasBancariasHead()
+{
+    return array(
+        '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />',
+        '<link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />'
+    );
+}
+
+
 function scriptsFinTarifasBancariasFooter()
 {
     return array(
-
-        '<script src="' . base_url('assets/js/residuos/formulario-residuo.js') . '"></script>',
+        '<script src="' . base_url('/assets/js/financeiro/tarifas-bancarias/formulario-tarifas-bancarias.js') . '"></script>',
         '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>',
         '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>',
         '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>'
-
     );
 }

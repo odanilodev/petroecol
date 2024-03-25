@@ -25,16 +25,12 @@
         <table class="table table-sm fs--1 mb-0">
           <thead>
             <tr>
-              <th class="white-space-nowrap fs--1 align-middle ps-0">
-                <!-- Check para todos -->
-                <div class="form-check mb-0 fs-0">
-                  <input class="form-check-input check-all-element cursor-pointer" type="checkbox" />
-                </div>
-              </th>
 
-              <th class="sort align-middle" scope="col" data-sort="nome-tarifa">Tarifa</th>
+              <th class="sort align-middle" scope="col" data-sort="nome-tarifa" style="width: 30%;">Tarifa</th>
+              <th class="sort align-middle" scope="col" data-sort="valor-tarifa">Valor Tarifa</th>
+              <th class="sort align-middle" scope="col" data-sort="status-tarifa">Status</th>
               <th class="sort align-middle pe-3">Editar</th>
-              <th class="sort align-middle pe-3">Excluir</th>
+              <th class="sort align-middle pe-3">Inativar</th>
             </tr>
           </thead>
 
@@ -43,15 +39,16 @@
             <?php foreach ($tarifas as $v) { ?>
               <tr class="hover-actions-trigger btn-reveal-trigger position-static">
 
-                <!-- check para cada um -->
-                <td class="fs--1 align-middle ps-0 py-3">
-                  <div class="form-check mb-0 fs-0">
-                    <input class="form-check-input check-element cursor-pointer" type="checkbox" value="<?= $v['id'] ?>" />
-                  </div>
+                <td class="nome-tarifa align-middle white-space-nowrap ">
+                  <?= $v['nome_tarifa'] ?>
                 </td>
 
-                <td class="nome-tarifa align-middle white-space-nowrap col-md-6">
-                  <?= $v['nome_tarifa'] ?>
+                <td class="nome-tarifa align-middle white-space-nowrap ">
+                  <?= 'R$ ' . number_format($v['valor_tarifa'], 2, ',', '.') ?>
+                </td>
+
+                <td class="align-middle white-space-nowrap">
+                  <i data-feather="check-circle" class="<?= ($v['status'] == 1) ? 'text-success' : '' ?>"></i>
                 </td>
 
                 <td class="align-middle white-space-nowrap">
