@@ -85,7 +85,8 @@ const realizarPagamento = () => {
             formasPagamento: formasPagamento,
             valores: valores,
             obs: obs,
-            idConta: idConta
+            idConta: idConta,
+            valorTotal:  valorTotal
         }, beforeSend: function () {
             $(".load-form").removeClass("d-none");
             $(".btn-form").addClass("d-none");

@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') or exit ('No direct script access allowed');
 
 class FinContasPagar extends CI_Controller
 {
@@ -8,17 +8,17 @@ class FinContasPagar extends CI_Controller
 		parent::__construct();
 
 		//INICIO controle sessão
-        $this->load->library('Controle_sessao');
-        $res = $this->controle_sessao->controle();
-        if ($res == 'erro') {
-            if ($this->input->is_ajax_request()) {
-                $this->output->set_status_header(403);
-                exit();
-            } else {
-                redirect('login/erro', 'refresh');
-            }
-        }
-        // FIM controle sessão
+		$this->load->library('Controle_sessao');
+		$res = $this->controle_sessao->controle();
+		if ($res == 'erro') {
+			if ($this->input->is_ajax_request()) {
+				$this->output->set_status_header(403);
+				exit();
+			} else {
+				redirect('login/erro', 'refresh');
+			}
+		}
+		// FIM controle sessão
 	}
 
 	public function index()
@@ -46,7 +46,7 @@ class FinContasPagar extends CI_Controller
 		$this->load->view('admin/includes/painel/rodape');
 	}
 
-	public function realizarPagamento () 
+	public function realizarPagamento()
 	{
 		$contasBancarias = $this->input->post('contasBancarias');
 		$formasPagamento = $this->input->post('formasPagamento');
@@ -65,10 +65,15 @@ class FinContasPagar extends CI_Controller
 		$response = array(
 			'success' => true,
 			'message' => "Pagamento realizado com sucesso!",
-			'idConta' => $idConta,
 			'type' => "success"
-			
+
 		);
+
+
+
+
+
+
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
