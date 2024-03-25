@@ -91,7 +91,7 @@ class FinContaBancaria_model extends CI_Model
         $this->db->update('fin_saldo_bancario');
     
         // Verifica se a operação foi bem sucedida e insere um log
-        if ($this->db->affected_rows() > 0) {
+        if ($this->db->trans_status() {
             $this->Log_model->insereLog($id);
         }
     
