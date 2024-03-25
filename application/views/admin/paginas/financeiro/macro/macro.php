@@ -61,7 +61,6 @@
 
                 <td class="align-middle white-space-nowrap">
                   <a href="<?= base_url('finMacro/formulario/' . $v['id']) ?>" class="btn btn-info">
-                  <a href="<?= base_url('finMacro/formulario/' . $v['id']) ?>" class="btn btn-info">
                     <span class="fas fa-pencil ms-1"></span>
                   </a>
                 </td>

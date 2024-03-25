@@ -55,23 +55,23 @@ class FinMicro extends CI_Controller
 		$dados['nome'] = !empty($this->input->post('nomeMicroModal')) ? $this->input->post('nomeMicroModal') : $this->input->post('nomeMicro');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
+		// Se não, estamos cadastrando um novo micro
+		$micro = $this->FinMicro_model->recebeNomeMicro($dados['nome'], $id_macro); // verifica se já existe o micro
+
+		// Verifica se o micro já existe
+		if ($micro) {
+			$response = array(
+				'success' => false,
+				'message' => "Este Micro já existe! Tente cadastrar um diferente."
+			);
+			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+		}
+
 		// Verifica se o ID do micro foi fornecido
 		if ($id_micro) {
 			// Se sim, estamos editando, então apenas atualizamos os dados
 			$retorno = $this->FinMicro_model->editaMicro($id_micro, $id_macro, $dados);
 		} else {
-			// Se não, estamos cadastrando um novo micro
-			$micro = $this->FinMicro_model->recebeNomeMicro($dados['nome'], $id_macro); // verifica se já existe o micro
-
-			// Verifica se o micro já existe
-			if ($micro) {
-				$response = array(
-					'success' => false,
-					'message' => "Este Micro já existe! Tente cadastrar um diferente."
-				);
-				return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-			}
-
 			// Insere o novo micro
 			$dados['id'] = $id_micro;
 			$dados['id_macro'] = $id_macro;

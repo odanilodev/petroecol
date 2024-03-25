@@ -6,7 +6,7 @@
         <div class="card-header p-4 border-bottom border-300 bg-soft">
           <div class="row g-3 justify-content-between align-items-center">
             <div class="col-12 col-md">
-              <h4 class="text-900 mb-0">Cadastrar Novo Micro</h4>
+              <h4 class="text-900 mb-0">Cadastrar Novo Micro de <?= $macro['nome']?></h4>
 
             </div>
           </div>
