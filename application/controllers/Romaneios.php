@@ -79,7 +79,6 @@ class Romaneios extends CI_Controller
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/romaneio/detalhes-romaneio');
 		$this->load->view('admin/includes/painel/rodape');
-
 	}
 
 	public function gerarRomaneioEtiqueta()
@@ -141,7 +140,7 @@ class Romaneios extends CI_Controller
 		$data['veiculos'] = $this->Veiculos_model->recebeVeiculos();
 
 		$this->load->model('SetoresEmpresaCliente_model');
-        $data['setores'] = $this->SetoresEmpresaCliente_model->recebeSetoresEmpresaClientes();
+		$data['setores'] = $this->SetoresEmpresaCliente_model->recebeSetoresEmpresaClientes();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/romaneio/cadastra-romaneio');
@@ -219,12 +218,12 @@ class Romaneios extends CI_Controller
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
-	public function recebeCidadeClientesSetor ()
+	public function recebeCidadeClientesSetor()
 	{
 		$idSetor = $this->input->post('id_setor');
 
 		$this->load->model('SetoresEmpresaCliente_model');
-        $cidades = $this->SetoresEmpresaCliente_model->recebeCidadesClientesSetoresEmpresa($idSetor);
+		$cidades = $this->SetoresEmpresaCliente_model->recebeCidadesClientesSetoresEmpresa($idSetor);
 
 		$response = array(
 			'cidades' => $cidades
@@ -233,7 +232,20 @@ class Romaneios extends CI_Controller
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
-	public function deletaRomaneio ()
+	public function editarRomaneio()
+	{
+		$codigoRomaneio = $this->input->post('codigo');
+
+		$romaneio = $this->Romaneios_model->recebeRomaneioCod($codigoRomaneio);
+
+		$response = array(
+			'romaneio' => $romaneio
+		);
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function deletaRomaneio()
 	{
 		$id = $this->input->post('id');
 
@@ -260,6 +272,90 @@ class Romaneios extends CI_Controller
 		}
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
 
+	public function deletaClienteRomaneio()
+	{
+		$codRomaneio = $this->input->post('romaneio');
+		$id_cliente = $this->input->post('cliente');
+
+		$romaneio = $this->Romaneios_model->recebeIdsClientesRomaneios($codRomaneio);
+
+
+		$arrayIdsClientes = json_decode($romaneio['clientes']);
+
+		if (count($arrayIdsClientes) == 1) {
+
+			$this->Romaneios_model->deletaRomaneio($romaneio['id']);
+
+			$response = array(
+				'title' => "Sucesso!",
+				'message' => 'Romaneio deletado com sucesso!',
+				'type' => "success",
+				'redirect' => true
+
+			);
+
+			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+		}
+
+
+		$index = array_search($id_cliente,  $arrayIdsClientes);
+
+		if ($index !== false) {
+			array_splice($arrayIdsClientes, $index, 1);
+		}
+
+		$data['clientes'] = json_encode($arrayIdsClientes);
+
+		$this->Romaneios_model->editaRomaneioCodigo($codRomaneio, $data);
+
+
+		$response = array(
+			'romaneio' => $romaneio,
+			'redirect' => false
+
+		);
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function adicionaNovoClienteRomaneio()
+	{
+		$codRomaneio = $this->input->post('romaneio');
+		$id_cliente = $this->input->post('cliente');
+
+		$romaneio = $this->Romaneios_model->recebeIdsClientesRomaneios($codRomaneio);
+
+		$arrayIdsClientes = json_decode($romaneio['clientes']);
+
+		$index = array_search($id_cliente,  $arrayIdsClientes);
+
+		// verifica se o id está no array
+		if ($index !== false) {
+
+			$response = array(
+				'redirect' => false,
+				'success' => false
+			);
+
+			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+		} else {
+
+			array_push($arrayIdsClientes, $id_cliente);
+
+			$data['clientes'] = json_encode($arrayIdsClientes);
+
+			$this->Romaneios_model->editaRomaneioCodigo($codRomaneio, $data);
+
+
+			$response = array(
+				'romaneio' => $romaneio,
+				'redirect' => false,
+				'success' => true
+			);
+
+			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+		}
 	}
 }

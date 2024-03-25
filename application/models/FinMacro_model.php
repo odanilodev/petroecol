@@ -51,6 +51,15 @@ class FinMacro_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
+    public function verificaMicroMacro($id)
+    {
+        $this->db->where('id_macro', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->get('fin_micros');
+
+        return $this->db->affected_rows() > 0;
+    }
+
     public function editaMacro($id, $dados)
     {
         $dados['editado_em'] = date('Y-m-d H:i:s');
