@@ -148,6 +148,8 @@
                         </tr>
                     </thead>
                     <tbody class="list" id="table-latest-review-body">
+
+                    <?php foreach ($contasPagar as $contaPagar) { ?>
                         <tr class="hover-actions-trigger btn-reveal-trigger position-static">
 
                             <td class="fs--1 align-middle ps-0">
@@ -157,34 +159,34 @@
                             </td>
 
                             <td class="align-middle product white-space-nowrap">
-                                <h6 class="mb-0 text-900">10/04/2024</h6>
+                                <h6 class="mb-0 text-900"><?= date('d/m/Y', strtotime($contaPagar['data_vencimento'])) ?></h6>
                             </td>
 
                             <td class="align-middle customer white-space-nowrap">
-                                <h6 class="mb-0 text-900">10/04/2024</h6>
+                                <h6 class="mb-0 text-900"><?= date('d/m/Y', strtotime($contaPagar['data_emissao'])) ?></h6>
                             </td>
 
                             <td class="align-middle rating white-space-nowrap fs--2">
-                                <h6 class="mb-0 text-900">R$ 250,25</h6>
+                                <h6 class="mb-0 text-900">R$ <?= number_format($contaPagar['valor'], 2, ',', '.');?></h6>
                             </td>
 
                             <td class="align-middle review">
-                                <h6 class="mb-0 text-900">R$ 250,25</h6>
+                                <h6 class="mb-0 text-900 valor-pago-<?= $contaPagar['id']?>">R$ <?= number_format($contaPagar['valor_pago'], 2, ',', '.');?></h6>
                             </td>
 
                             <td class="align-middle review">
-                                <h6 class="mb-0 text-900"> Centro da Inteligência</h6>
+                                <h6 class="mb-0 text-900"> <?= ucfirst($contaPagar['nome'])?></h6>
                             </td>
 
                             <td class="align-middle text-start ps-3 status">
-                                <span class="badge badge-phoenix fs--2 badge-phoenix-danger">
-                                    <span class="badge-label cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalPagarConta">Em aberto</span>
-                                    <span class="ms-1" data-feather="slash" style="height:12.8px;width:12.8px;"></span>
+                                <span class="badge badge-phoenix fs--2 <?= $contaPagar['status'] ? "badge-phoenix-success" : "badge-phoenix-danger" ?> tipo-status-conta-<?= $contaPagar['id']?>">
+                                    <span class="badge-label cursor-pointer realizar-pagamento status-pagamento-<?= $contaPagar['id']?>" data-id="<?= $contaPagar['id']?>" <?= !$contaPagar['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalPagarConta"' : "" ?>> <?= $contaPagar['status'] ? "Pago" : "Em aberto" ?></span>
+                                    <span class="ms-1 icone-status-conta-<?= $contaPagar['id']?>" data-feather="<?= $contaPagar['status'] ? "check" : "slash" ?>" style="height:12.8px;width:12.8px;"></span>
                                 </span>
                             </td>
 
                             <td class="align-middle text-start time">
-                                <h6 class="text-1000 mb-0">Luis Felipe</h6>
+                                <h6 class="text-1000 mb-0"><?= $contaPagar['RECEBIDO']?></h6>
                             </td>
 
                             <td class="align-middle white-space-nowrap text-end pe-0">
@@ -198,13 +200,17 @@
                                         <a class="dropdown-item" href="#!">
                                             <span class="fas fa-pencil"></span> Editar
                                         </a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#modalPagarConta">Realizar Pagamento</a>
+
+                                        <?php if (!$contaPagar['status']) { ?>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item realizar-pagamento" data-id="<?= $contaPagar['id']?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalPagarConta">Realizar Pagamento</a>
+                                        <?php }?>
                                     </div>
                                 </div>
                             </td>
                         </tr>
 
+                    <?php }?>
                     </tbody>
                 </table>
             </div>
@@ -505,7 +511,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                    <input class="form-control" required name="valor" type="text" placeholder="Valor total da conta">
+                                                    <input class="form-control mascara-dinheiro" required name="valor" type="text" placeholder="Valor total da conta">
                                                 </div>
 
                                             </div>
@@ -558,32 +564,34 @@
                                                 <div class="col-lg-4 duplica-pagamento">
                                                     <div class="mb-4">
                                                         <label class="text-body-highlight fw-bold mb-2">Conta Bancária</label>
-                                                        <select class="form-select select2">
+                                                        <select class="form-select select2 select-conta-bancaria">
                                                             <option value="" selected disabled>Selecione</option>
-                                                            <option>Bradesco</option>
-                                                            <option>Santander</option>
+                                                            <?php foreach ($contasBancarias as $contaBancaria) { ?>
+                                                                <option <?= $contaBancaria['id']?>><?= $contaBancaria['banco']?></option>
+                                                            <?php }?>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4 duplica-pagamento">
                                                     <div class="mb-4">
                                                         <label class="text-body-highlight fw-bold mb-2">Forma Pagamento</label>
-                                                        <select class="form-select select2">
+                                                        <select class="form-select select2 select-forma-pagamento">
                                                             <option value="" selected disabled>Selecione</option>
-                                                            <option>Pix</option>
-                                                            <option>Débito</option>
-                                                            <option>Crédito</option>
+
+                                                            <?php foreach ($formasTransacao as $formaTransacao) { ?>
+                                                                <option <?= $formaTransacao['id']?>><?= $formaTransacao['nome']?></option>
+                                                            <?php }?>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-3 duplica-pagamento">
                                                     <div class="mb-4">
                                                         <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                        <input class="form-control" required name="valor" type="text" placeholder="Valor">
+                                                        <input class="form-control input-valor mascara-dinheiro" required name="valor" type="text" placeholder="Valor">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-1 mt-5">
-                                                    <button title="Mais formas de pagamento" type="button" class="btn btn-phoenix-secondary bg-white hover-bg-100" onclick="duplicarFormasPagamento()">+</button>
+                                                    <button title="Mais formas de pagamento" type="button" class="btn btn-phoenix-success" onclick="duplicarFormasPagamento()">+</button>
                                                 </div>
                                             </div>
                                             <div class="campos-duplicados row">
@@ -592,7 +600,7 @@
                                             <div class="col-lg-12">
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Observação</label>
-                                                    <textarea class="form-control"></textarea>
+                                                    <textarea class="form-control obs-pagamento"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -603,7 +611,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-success btn-form" type="button">Pagar Conta</button>
+                    <input type="hidden" class="id-conta-pagamento">
+                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                    <button class="btn btn-success btn-form" type="button" onclick="realizarPagamento()">Pagar Conta</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
                 </div>
             </div>
