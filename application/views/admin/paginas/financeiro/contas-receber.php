@@ -121,7 +121,7 @@
 
                         <div class="col-auto">
 
-                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn" type="button" data-bs-toggle="modal" data-bs-target="#modalEntradaContasReceber">Lançamento</button>
+                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento" type="button" data-bs-toggle="modal" data-bs-target="#modalEntradaContasReceber">Lançamento</button>
 
                         </div>
 
@@ -139,76 +139,73 @@
                             </th>
                             <th class="sort white-space-nowrap align-middle" scope="col" data-sort="product">Vencimento</th>
                             <th class="sort align-middle" scope="col" data-sort="rating">Valor</th>
-                            <th class="sort align-middle" scope="col" data-sort="empresa">Empresa</th>
-                            <th class="sort text-start align-middle" scope="col" data-sort="time">Nome</th>
+                            <th class="sort text-start align-middle" scope="col" data-sort="time">Recebido</th>
                             <th class="sort text-start ps-5 align-middle" scope="col" data-sort="status">Status</th>
                             <th class="sort align-middle" scope="col" data-sort="review">Valor Recebido</th>
                             <th class="sort text-end pe-0 align-middle" scope="col"></th>
                         </tr>
                     </thead>
                     <tbody class="list" id="table-latest-review-body">
-                        <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                        <?php foreach($contasReceber as $contaReceber) { ?>
+                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
 
-                            <td class="fs--1 align-middle ps-0">
-                                <div class="form-check mb-0 fs-0">
-                                    <input class="form-check-input" type="checkbox" data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands)","productImage":"/products/60x60/1.png","customer":{"name":"Richard Dawkins","avatar":""},"rating":5,"review":"This Fitbit is fantastic! I was trying to be in better shape and needed some motivation, so I decided to treat myself to a new Fitbit.","status":{"title":"Approved","badge":"success","icon":"check"},"time":"Just now"}' />
-                                </div>
-                            </td>
-
-                            <td class="align-middle product white-space-nowrap">
-                                <h6 class="mb-0 text-900">10/04/2024</h6>
-                            </td>
-
-                            <td class="align-middle rating white-space-nowrap fs--2">
-                                <h6 class="mb-0 text-900">R$ 250,25</h6>
-                            </td>
-                            
-                            <td class="align-middle review">
-                                <h6 class="mb-0 text-900">Centro da Inteligência</h6>
-                            </td>
-
-                            <td class="align-middle text-start time">
-                                <h6 class="text-1000 mb-0">Luis Felipe</h6>
-                            </td>   
-
-                            <td class="align-middle text-start ps-3 status">
-                                <span class="badge badge-phoenix fs--2 badge-phoenix-danger">
-                                    <span class="badge-label cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalEntradaContasReceber">A receber</span>
-                                    <span class="ms-1" data-feather="slash" style="height:12.8px;width:12.8px;"></span>
-                                </span>
-                            </td>
-
-                            <td class="align-middle review">
-                                <h6 class="mb-0 text-900">R$ 250,25</h6>
-                            </td>
-
-                            <td class="align-middle white-space-nowrap text-end pe-0">
-                                <div class="position-relative">
-                                    <div class="hover-actions">
-                                        <button title="Receber Conta" class="btn btn-sm btn-phoenix-success me-1 fs--2">
-                                            <span class="fas fa-check"></span>
-                                        </button>
-                                        <button class="btn btn-sm btn-phoenix-danger fs--2">
-                                            <span class="fas fa-trash"></span>
-                                        </button>
+                                <td class="fs--1 align-middle ps-0">
+                                    <div class="form-check mb-0 fs-0">
+                                        <input class="form-check-input" type="checkbox" data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands)","productImage":"/products/60x60/1.png","customer":{"name":"Richard Dawkins","avatar":""},"rating":5,"review":"This Fitbit is fantastic! I was trying to be in better shape and needed some motivation, so I decided to treat myself to a new Fitbit.","status":{"title":"Approved","badge":"success","icon":"check"},"time":"Just now"}' />
                                     </div>
-                                </div>
+                                </td>
 
-                                <div class="font-sans-serif btn-reveal-trigger position-static">
-                                    <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2"></span></button>
-                                    <div class="dropdown-menu dropdown-menu-end py-2">
-                                        <a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#modalVisualizarContasReceber">
-                                            <span class="fas fa-eye"></span> Visualizar
-                                        </a>
-                                        <a class="dropdown-item" href="#!">
-                                            <span class="fas fa-pencil"></span> Editar
-                                        </a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#modalEntradaContasReceber">Receber Conta</a>
+                                <td class="align-middle product white-space-nowrap">
+                                    <h6 class="mb-0 text-900"><?= date('d/m/Y', strtotime($contaReceber['data_vencimento'])) ?></h6>
+                                </td>
+
+                                <td class="align-middle rating white-space-nowrap fs--2">
+                                    <h6 class="mb-0 text-900"><?= number_format($contaReceber['valor'], 2, ',', '.');?></h6>
+                                </td>
+
+                                <td class="align-middle text-start time">
+                                    <h6 class="text-1000 mb-0"><?= $contaReceber['RECEBIDO']?></h6>
+                                </td>
+
+                                <td class="align-middle text-start ps-3 status">
+                                    <span class="badge badge-phoenix fs--2 badge-phoenix-danger">
+                                        <span class="badge-label cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalReceberConta">A receber</span>
+                                        <span class="ms-1" data-feather="slash" style="height:12.8px;width:12.8px;"></span>
+                                    </span>
+                                </td>
+
+                                <td class="align-middle review">
+                                    <h6 class="mb-0 text-900"></h6>
+                                </td>
+
+                                <td class="align-middle white-space-nowrap text-end pe-0">
+                                    <div class="position-relative">
+                                        <div class="hover-actions">
+                                            <button title="Receber Conta" class="btn btn-sm btn-phoenix-success me-1 fs--2">
+                                                <span class="fas fa-check"></span>
+                                            </button>
+                                            <button class="btn btn-sm btn-phoenix-danger fs--2">
+                                                <span class="fas fa-trash"></span>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
+
+                                    <div class="font-sans-serif btn-reveal-trigger position-static">
+                                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2"></span></button>
+                                        <div class="dropdown-menu dropdown-menu-end py-2">
+                                            <a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#modalVisualizarContasReceber">
+                                                <span class="fas fa-eye"></span> Visualizar
+                                            </a>
+                                            <a class="dropdown-item" href="#!">
+                                                <span class="fas fa-pencil"></span> Editar
+                                            </a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#modalEntradaContasReceber">Receber Conta</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php } ?>
 
                     </tbody>
                 </table>
@@ -395,72 +392,56 @@
                 <div class="modal-body body-coleta">
 
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body form-entrada-receber">
                             <div class="row g-3">
                                 <div class="col-12">
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
 
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-4">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Grupos Macros</label>
-                                                    <select class="form-select">
-                                                        <option>Selecione</option>
-                                                        <option>Ally Aagaard</option>
-                                                        <option>Aida Moen</option>
-                                                        <option>Niko Koss</option>
-                                                        <option>Alec Haag</option>
-                                                        <option>Lonnie Kub</option>
-                                                        <option>Ola Smith</option>
+                                                    <select class="form-select select2 select-macros input-obrigatorio" name="macros">
+                                                        <option selected disabled>Selecione</option>
+                                                        <?php foreach($macros as $macro) { ?>
+                                                            <option value="<?= $macro['id']?>"><?= $macro['nome']?></option>
+                                                        <?php } ?>
                                                     </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                                 </div>
 
                                             </div>
 
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-4">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Grupos Micros</label>
-                                                    <select class="form-select">
-                                                        <option>Selecione</option>
-                                                        <option>Ally Aagaard</option>
-                                                        <option>Aida Moen</option>
-                                                        <option>Niko Koss</option>
-                                                        <option>Alec Haag</option>
-                                                        <option>Lonnie Kub</option>
-                                                        <option>Ola Smith</option>
+                                                    <select disabled class="form-select select2 select-micros input-obrigatorio" name="micros">
+                                                        <option selected disabled value="">Selecione</option>
+                                                        
                                                     </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                                 </div>
 
                                             </div>
 
-                                            <div class="col-lg-6">
+                                           
 
-                                                <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Empresa</label>
-                                                    <select class="form-select select2">
-                                                        <option>Selecione</option>
-                                                        <option>Óleo</option>
-                                                        <option>Reciclagem</option>
-                                                    </select>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-4">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Recebido</label>
-                                                    <select class="form-select select2">
-                                                        <option>Selecione</option>
-                                                        <option>Ally Aagaard</option>
-                                                        <option>Aida Moen</option>
-                                                        <option>Niko Koss</option>
-                                                        <option>Alec Haag</option>
-                                                        <option>Lonnie Kub</option>
-                                                        <option>Ola Smith</option>
+                                                    <select class="form-select select2 select-recebido input-obrigatorio" name="recebido">
+                                                        <option selected disabled>Selecione</option>
+                                                        <?php foreach ($dadosFinanceiro as $dadoFinanceiro) { ?>
+                                                            <option value="<?= $dadoFinanceiro['id']?>"><?= $dadoFinanceiro['nome']?></option>
+                                                        <?php }?>
                                                     </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                                 </div>
 
                                             </div>
@@ -469,7 +450,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Parcelas</label>
-                                                    <select class="form-select select2">
+                                                    <select class="form-select select2 select-parcelas" name="parcelas">
                                                         <option selected disabled>Selecione</option>
                                                         <option value="1">1x</option>
                                                         <option value="2">2x</option>
@@ -491,8 +472,10 @@
                                             <div class="col-lg-4">
 
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Data pagamento</label>
-                                                    <input class="form-control datetimepicker input-coleta" required name="data_coleta" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
+                                                    <label class="text-body-highlight fw-bold mb-2">Data Vencimento</label>
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}'/>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                                 </div>
 
                                             </div>
@@ -501,7 +484,9 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data Emissão</label>
-                                                    <input class="form-control datetimepicker input-coleta" required name="data_coleta" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-emissao" required name="data_emissao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}'/>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                                 </div>
 
                                             </div>
@@ -510,7 +495,9 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                    <input class="form-control" required name="valor" type="text" placeholder="Valor total da conta">
+                                                    <input class="form-control mascara-dinheiro input-valor input-obrigatorio" required name="valor" type="text" placeholder="Valor total da conta">
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                                 </div>
 
                                             </div>
@@ -519,7 +506,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Observação</label>
-                                                    <textarea class="form-control"></textarea>
+                                                    <textarea class="form-control observacao" name="observacao"></textarea>
                                                 </div>
 
                                             </div>
@@ -534,10 +521,82 @@
                 </div>
 
                 <div class="modal-footer">
-
-                    <button class="btn btn-success btn-form" type="button">Salvar</button>
+                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                    <button class="btn btn-success btn-form" type="button" onclick="receberConta()">Salvar</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Receber conta -->
+    <div class="modal fade" tabindex="-1" id="modalReceberConta">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Receber pagamento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body body-coleta">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="col-sm-12 col-xxl-12 py-3">
+                                        <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+
+                                            <div class="campos-pagamento row">
+                                                <div class="col-lg-4 duplica-pagamento">
+                                                    <div class="mb-4">
+                                                        <label class="text-body-highlight fw-bold mb-2">Conta Bancária</label>
+                                                        <select class="form-select select2">
+                                                            <option value="" selected disabled>Selecione</option>
+                                                            <option>Bradesco</option>
+                                                            <option>Santander</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 duplica-pagamento">
+                                                    <div class="mb-4">
+                                                        <label class="text-body-highlight fw-bold mb-2">Forma Pagamento</label>
+                                                        <select class="form-select select2">
+                                                            <option value="" selected disabled>Selecione</option>
+                                                            <option>Pix</option>
+                                                            <option>Débito</option>
+                                                            <option>Crédito</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 duplica-pagamento">
+                                                    <div class="mb-4">
+                                                        <label class="text-body-highlight fw-bold mb-2">Valor</label>
+                                                        <input class="form-control" required name="valor" type="text" placeholder="Valor">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-1 mt-5">
+                                                    <button title="Mais formas de pagamento" type="button" class="btn btn-phoenix-secondary bg-white hover-bg-100" onclick="duplicarFormasPagamento()">+</button>
+                                                </div>
+                                            </div>
+                                            <div class="campos-duplicados row">
+                                                <!-- JS -->
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Observação</label>
+                                                    <textarea class="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success btn-form" type="button">Pagar Conta</button>
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
