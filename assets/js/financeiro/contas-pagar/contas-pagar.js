@@ -39,6 +39,7 @@ function duplicarFormasPagamento() {
 $(document).on('click', '.realizar-pagamento', function () {
 
     $('.id-conta-pagamento').val($(this).data('id'));
+    $('.id-dado-financeiro').val($(this).data('id-dado-financeiro'));
 })
 
 
@@ -51,6 +52,7 @@ const realizarPagamento = () => {
     let valorTotal = 0;
 
     let idConta = $('.id-conta-pagamento').val();
+    let idDadoFinanceiro = $('.id-dado-financeiro').val();
 
     $('.select-conta-bancaria').each(function () {
 
@@ -86,7 +88,8 @@ const realizarPagamento = () => {
             valores: valores,
             obs: obs,
             idConta: idConta,
-            valorTotal:  valorTotal
+            valorTotal:  valorTotal,
+            idDadoFinanceiro: idDadoFinanceiro 
         }, beforeSend: function () {
             $(".load-form").removeClass("d-none");
             $(".btn-form").addClass("d-none");
