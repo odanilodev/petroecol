@@ -102,7 +102,7 @@
     </div>
 
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div data-list='{"valueNames":["product","customer","rating","review","time"],"page":6}'>
+        <div data-list='{"valueNames":["product","customer","rating","review","time"]}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3>Contas a receber</h3>
