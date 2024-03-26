@@ -78,8 +78,10 @@ class FinTarifasBancarias extends CI_Controller
 		$dados['id_conta_bancaria'] = $this->input->post('idContaBancaria');
 		$dados['id_forma_transacao'] = $this->input->post('idFormaTransacao');
 		$dados['tipo_tarifa'] = $this->input->post('tipoTarifa');
-		$dados['valor_minimo_tarifa'] = $this->input->post('valorMinimoTarifa');
-		$dados['valor_tarifa'] = $this->input->post('valorTarifa');
+		$valorMinimoTarifa = $this->input->post('valorMinimoTarifa');
+		$valorTarifa = $this->input->post('valorTarifa');
+		$dados['valor_minimo_tarifa'] = str_replace(['.', ','], ['', '.'], $valorMinimoTarifa);
+		$dados['valor_tarifa'] = str_replace(['.', ','], ['', '.'], $valorTarifa);
 		$dados['status'] = $this->input->post('status');
 
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');

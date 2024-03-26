@@ -32,50 +32,58 @@
                           <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                           <label class="form-label" for="status-tarifa">Ativa / Inativa</label>
-                          <input class="input-status-tarifa" type="checkbox" id="status-tarifa" <?= isset($tarifa['status']) && $tarifa['status'] != 0 ? 'checked' : '' ?>>
+                          <input class="input-status-tarifa mt-2" type="checkbox" id="status-tarifa" <?= isset($tarifa['status']) && $tarifa['status'] != 0 ? 'checked' : '' ?>>
                         </div>
 
                         <div class="col-md-8"></div>
 
                         <div class="col-md-4 mb-3">
                           <label class="form-label text-900" for="conta-bancaria">Conta Bancária*</label>
-                          <select name="conta-bancaria" class="form-select select-conta-bancaria select2">
+                          <select name="conta-bancaria" class="form-select select-conta-bancaria select2 input-obrigatorio">
                             <option value="" selected>Selecione a Conta Bancária</option>
                             <?php foreach ($contasBancarias as $v) { ?>
                               <option value="<?= $v['id'] ?>" <?= (isset($tarifa['id_conta_bancaria']) && $tarifa['id_conta_bancaria'] == $v['id']) ? 'selected' : ''; ?>><?= $v['conta']; ?></option>
                             <?php } ?>
                           </select>
+                          <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                         </div>
 
                         <div class="col-md-4 mb-3">
                           <label class="form-label text-900" for="forma-transacao">Forma da Transação*</label>
-                          <select name="forma-transacao" class="form-select select-forma-transacao select2">
+                          <select name="forma-transacao" class="form-select select-forma-transacao select2 input-obrigatorio">
                             <option value="" selected disabled>Selecione a Forma da Transação</option>
                             <?php foreach ($formasTransacao as $v) { ?>
                               <option value="<?= $v['id'] ?>" <?= (isset($tarifa['id_forma_transacao']) && $tarifa['id_forma_transacao'] == $v['id']) ? 'selected' : ''; ?>><?= $v['nome']; ?></option>
                             <?php } ?>
                           </select>
+                          <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                         </div>
 
                         <div class="col-md-4 mb-3">
                           <label class="form-label text-900" for="tipo-tarifa">Tipo de Tarifa*</label>
-                          <select id="tipo-tarifa" class="form-select select-tipo-tarifa select2">
+                          <select id="tipo-tarifa" class="form-select select-tipo-tarifa select2 input-obrigatorio">
                             <option value="" selected disabled >Selecione o Tipo de Tarifa</option>
                             <option value="1" <?= isset($tarifa['tipo_tarifa']) && $tarifa['tipo_tarifa'] == 1 ? 'selected' : ''; ?>>Porcentagem(%)</option>
                             <option value="2" <?= isset($tarifa['tipo_tarifa']) && $tarifa['tipo_tarifa'] == 2 ? 'selected' : '';  ?>>Valor(R$)</option>
                           </select>
+                          <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                         </div>
 
                         <div class="col-md-4 mb-3">
                           <label class="form-label text-900" for="valor-minimo-tarifa">Valor Mínimo para Tarifa*</label>
-                          <input value="<?= $tarifa['valor_minimo_tarifa'] ?? "" ?>" class="form-control mascara-dinheiro input-valor-minimo-tarifa" type="text" id="valor-minimo-tarifa" placeholder="Digite o valor minimo para tarifa" />
-                          <div class="invalid-feedback">Preencha este campo.</div>
+                          <input value="<?= $tarifa['valor_minimo_tarifa'] ?? "" ?>" class="form-control mascara-dinheiro input-valor-minimo-tarifa input-obrigatorio" type="text" id="valor-minimo-tarifa" placeholder="Digite o valor minimo para tarifa" />
+                          <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                         </div>
 
                         <div class="col-md-4 mb-3">
                           <label class="form-label text-900" for="valor-tarifa">Valor Tarifa*</label>
-                          <input value="<?= $tarifa['valor_tarifa'] ?? "" ?>" class="form-control mascara-dinheiro input-valor-tarifa" type="text" id="valor-tarifa" placeholder="Digite o valor da tarifa" />
-                          <div class="invalid-feedback">Preencha este campo.</div>
+                          <input value="<?= $tarifa['valor_tarifa'] ?? "" ?>" class="form-control mascara-dinheiro input-valor-tarifa input-obrigatorio" type="text" id="valor-tarifa" placeholder="Digite o valor da tarifa" />
+                          <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                         </div>
 
 
