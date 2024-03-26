@@ -152,11 +152,11 @@
                             </th>
                             <th class="sort white-space-nowrap align-middle" scope="col" data-sort="product">Vencimento
                             </th>
-                            <th class="sort align-middle" scope="col" data-sort="customer">Data Emissão</th>
                             <th class="sort align-middle" scope="col" data-sort="rating">Valor</th>
                             <th class="sort align-middle" scope="col" data-sort="review">Valor Pago</th>
-                            <th class="sort align-middle" scope="col" data-sort="empresa">Empresa</th>
                             <th class="sort text-start ps-5 align-middle" scope="col" data-sort="status">Status</th>
+                            <th class="sort align-middle" scope="col" data-sort="review">Data do Pagamento</th>
+                            <th class="sort align-middle" scope="col" data-sort="empresa">Empresa</th>
                             <th class="sort text-start align-middle" scope="col" data-sort="time">Recebido</th>
                             <th class="sort text-end pe-0 align-middle" scope="col"></th>
                         </tr>
@@ -179,11 +179,6 @@
                                     </h6>
                                 </td>
 
-                                <td class="align-middle customer white-space-nowrap">
-                                    <h6 class="mb-0 text-900">
-                                        <?= date('d/m/Y', strtotime($contaPagar['data_emissao'])) ?>
-                                    </h6>
-                                </td>
 
                                 <td class="align-middle rating white-space-nowrap fs--2">
                                     <h6 class="mb-0 text-900">R$
@@ -194,12 +189,6 @@
                                 <td class="align-middle review">
                                     <h6 class="mb-0 text-900 valor-pago-<?= $contaPagar['id'] ?>">R$
                                         <?= number_format($contaPagar['valor_pago'], 2, ',', '.'); ?>
-                                    </h6>
-                                </td>
-
-                                <td class="align-middle review">
-                                    <h6 class="mb-0 text-900">
-                                        <?= ucfirst($contaPagar['nome']) ?>
                                     </h6>
                                 </td>
 
@@ -218,6 +207,20 @@
                                             style="height:12.8px;width:12.8px;"></span>
                                     </span>
                                 </td>
+
+                                <td class="align-middle customer white-space-nowrap">
+                                    <h6 class="mb-0 text-900">
+                                        <?= date('d/m/Y', strtotime($contaPagar['data_pagamento'])) ?>
+                                    </h6>
+                                </td>
+
+                                <td class="align-middle review">
+                                    <h6 class="mb-0 text-900">
+                                        <?= ucfirst($contaPagar['nome']) ?>
+                                    </h6>
+                                </td>
+
+
 
                                 <td class="align-middle text-start time">
                                     <h6 class="text-1000 mb-0">
