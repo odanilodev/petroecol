@@ -76,9 +76,8 @@ class FinContasReceber extends CI_Controller
 			$retorno = $this->FinContasReceber_model->insereContasReceber($data);
 
 			// para o loop se der erro em alguma
-			if (!$retorno) {
+			if ($i == 0 && !$retorno) {
 				$success = false;
-            	break;
 			}
 		}
 
