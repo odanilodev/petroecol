@@ -661,7 +661,7 @@
                                                         <select class="form-select select2 select-conta-bancaria">
                                                             <option value="" selected disabled>Selecione</option>
                                                             <?php foreach ($contasBancarias as $contaBancaria) { ?>
-                                                                <option value="<?= $contaBancaria['id'] ?>">
+                                                                <option value="<?= $contaBancaria['id_conta_bancaria'] ?>">
                                                                     <?= $contaBancaria['banco'] ?>
                                                                 </option>
                                                             <?php } ?>
@@ -716,7 +716,7 @@
                     <input type="hidden" class="id-conta-pagamento">
                     <input type="hidden" class="id-dado-financeiro">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
-                    <button class="btn btn-success btn-form" type="button" onclick="realizarPagamento()">Pagar
+                    <button class="btn btn-primary btn-form" type="button" onclick="realizarPagamento()">Pagar
                         Conta</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
                 </div>

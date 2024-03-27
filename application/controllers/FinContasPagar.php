@@ -40,6 +40,7 @@ class FinContasPagar extends CI_Controller
 
 		$data['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
 		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
+
 		$data['contasPagar'] = $this->FinContasPagar_model->recebeContasPagar();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
