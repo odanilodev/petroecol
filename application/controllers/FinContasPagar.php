@@ -20,8 +20,7 @@ class FinContasPagar extends CI_Controller
 		}
 		// FIM controle sessão
 		$this->load->model('FinDadosFinanceiros_model');
-		$this->load->model('FinContasPagar_model');
-
+		
 	}
 
 	public function index()
@@ -39,6 +38,9 @@ class FinContasPagar extends CI_Controller
 
 		$this->load->model('FinMacro_model');
 		$data['macros'] = $this->FinMacro_model->recebeMacros();
+
+		$this->load->model('FinGrupos_model');
+		$data['grupos'] = $this->FinGrupos_model->recebeGrupos();
 		$data['dadosFinanceiro'] = $this->FinDadosFinanceiros_model->recebeDadosFinanceiros();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
@@ -56,6 +58,7 @@ class FinContasPagar extends CI_Controller
 		$data['valor'] = str_replace(['.', ','], ['', '.'], $dadosLancamento['valor']);
 
 		$data['id_micro'] = $dadosLancamento['micros'];
+		$data['nome'] = $dadosLancamento['nome-recebido'];
 		$data['observacao'] = $dadosLancamento['observacao'];
 		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-',  $dadosLancamento['data_vencimento'])));
 		$data['data_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-',  $dadosLancamento['data_emissao'])));
@@ -96,4 +99,27 @@ class FinContasPagar extends CI_Controller
 
 
 	}
+
+	public function recebeTodosClientesAll()
+	{
+		$this->load->model('Clientes_model');
+		$todosClientes = $this->Clientes_model->recebeTodosClientesAll();
+
+		if ($todosClientes) {
+
+			$response = array(
+				'clientes' => $todosClientes,
+				'success' => true
+			);
+
+		} else {
+			$response = array(
+				'success' => false
+			);
+		}
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
+	}
+
+	
 }

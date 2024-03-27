@@ -153,4 +153,26 @@ class FinDadosFinanceiros extends CI_Controller
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
+	public function recebeDadosFinanceiros()
+	{
+		$this->load->model('FinDadosFinanceiros_model');
+
+		$dadosFinanceiro = $this->FinDadosFinanceiros_model->recebeDadosFinanceiros();
+
+
+		if ($dadosFinanceiro) {
+
+			$response = array(
+				'dadosFinanceiro' => $dadosFinanceiro,
+				'success' => true
+			);
+
+		} else {
+			$response = array(
+				'success' => false
+			);
+		}
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
 }

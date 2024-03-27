@@ -396,7 +396,7 @@
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
 
-                                            <div class="col-lg-4">
+                                            <div class="col-lg-6">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Grupos Macros</label>
@@ -412,7 +412,7 @@
 
                                             </div>
 
-                                            <div class="col-lg-4">
+                                            <div class="col-lg-6">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Grupos Micros</label>
@@ -426,16 +426,35 @@
                                             </div>
 
                                            
-                                            <div class="col-lg-4">
+                                            <div class="col-lg-6">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Grupo recebidos</label>
+                                                    <select class="form-select select2 select-grupo-recebidos input-obrigatorio" name="grupo-recebido">
+                                                        <option selected disabled>Selecione</option>
+                                                        <?php foreach ($grupos as $grupo) { ?>
+                                                            <option value="<?= $grupo['id']?>"><?= $grupo['nome']?></option>
+                                                        <?php }?>
+                                                        <option value="clientes">Clientes</option>
+
+                                                    </select>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Recebido</label>
                                                     <select class="form-select select2 select-recebido input-obrigatorio" name="recebido">
                                                         <option selected disabled>Selecione</option>
                                                         <?php foreach ($dadosFinanceiro as $dadoFinanceiro) { ?>
-                                                            <option value="<?= $dadoFinanceiro['id']?>"><?= $dadoFinanceiro['nome']?></option>
+                                                            <option data-nome="<?= $dadoFinanceiro['nome']?>" value="<?= $dadoFinanceiro['id']?>"><?= $dadoFinanceiro['nome']?></option>
                                                         <?php }?>
                                                     </select>
+                                                    <input type="hidden" name="nome-recebido" class="nome-recebido">
+
                                                 </div>
 
                                             </div>

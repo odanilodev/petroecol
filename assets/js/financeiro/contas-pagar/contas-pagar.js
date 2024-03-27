@@ -126,3 +126,61 @@ $(document).on('change', '.select-macros', function () {
         }
     })
 })
+
+$(document).on('change', '.select-grupo-recebidos', function () {
+
+    let grupo = $(this).val();
+
+    if (grupo == "clientes") {
+
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}finContasPagar/recebeTodosClientesAll`
+            , beforeSend: function () {
+                $('.select-recebido').attr('disabled');
+                $('.select-recebido').html('<option value="">Carregando...</option>');
+            }, success: function (data) {
+                $('.select-recebido').attr('disabled', false);
+                $('.select-recebido').html('<option value="">Selecione</option>');
+
+    
+                for (i = 0; i < data.clientes.length; i++) {
+    
+                    $('.select-recebido').append(`<option value="${data.clientes[i].id}">${data.clientes[i].nome}</option>`);
+                }
+            }
+        })
+    } else {
+
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}finDadosFinanceiros/recebeDadosFinanceiros`,
+            data: {
+                grupo: grupo
+            },
+            beforeSend: function () {
+                $('.select-recebido').attr('disabled');
+                $('.select-recebido').html('<option value="">Carregando...</option>');
+            }, success: function (data) {
+    
+                $('.select-recebido').attr('disabled', false);
+                $('.select-recebido').html('<option value="">Selecione</option>');
+
+                for (i = 0; i < data.dadosFinanceiro.length; i++) {
+    
+                    $('.select-recebido').append(`<option value="${data.dadosFinanceiro[i].id}">${data.dadosFinanceiro[i].nome}</option>`);
+                }
+            }
+        })
+
+    }
+
+})
+
+
+$(document).on('change', '.select-recebido', function () {
+
+    let nomeRecebido = $('.select-recebido option:selected').text();
+
+    $('.nome-recebido').val(nomeRecebido);
+})
