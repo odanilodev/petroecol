@@ -19,6 +19,10 @@ class FinContasReceber extends CI_Controller
             }
         }
         // FIM controle sessão
+
+		$this->load->model('SetoresEmpresa_model');
+		$this->load->model('FinDadosFinanceiros_model');
+		$this->load->model('FinContasReceber_model');
 	}
 
 	public function index()
@@ -27,11 +31,74 @@ class FinContasReceber extends CI_Controller
 		$scriptsPadraoHead = scriptsPadraoHead();
 		$scriptsPadraoFooter = scriptsPadraoFooter();
 
-		add_scripts('header', $scriptsPadraoHead);
-		add_scripts('footer', $scriptsPadraoFooter);
+		// Scripts para contas a receber
+		$scriptsContasReceberHead = scriptsFinContasReceberHead();
+		$scriptsContasReceberFooter = scriptsFinContasReceberFooter();
 
-		$this->load->view('admin/includes/painel/cabecalho');
-		$this->load->view('admin/paginas/financeiro/contas-receber.php');
+		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsContasReceberHead));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsContasReceberFooter));
+
+		$this->load->model('FinMacro_model');
+		$data['macros'] = $this->FinMacro_model->recebeMacros();
+
+		$data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
+		$data['dadosFinanceiro'] = $this->FinDadosFinanceiros_model->recebeDadosFinanceiros();
+		$data['contasReceber'] = $this->FinContasReceber_model->recebeContasReceber();
+
+		$this->load->view('admin/includes/painel/cabecalho', $data);
+		$this->load->view('admin/paginas/financeiro/contas-receber');
 		$this->load->view('admin/includes/painel/rodape');
+	}
+
+	public function cadastraContasReceber () 
+	{
+		$dadosLancamento = $this->input->post('dados');
+
+		$data['id_dado_financeiro'] = $dadosLancamento['recebido'];
+		$data['id_empresa'] = $this->session->userdata('id_empresa');
+
+		$data['valor'] = str_replace(['.', ','], ['', '.'], $dadosLancamento['valor']);
+
+		$data['id_macro'] = $dadosLancamento['macros'];
+		$data['id_micro'] = $dadosLancamento['micros'];
+		$data['observacao'] = $dadosLancamento['observacao'];
+		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-',  $dadosLancamento['data_vencimento'])));
+		$data['data_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-',  $dadosLancamento['data_emissao'])));
+
+		$success = true;
+
+		for ($i = 0; $i < $dadosLancamento['parcelas']; $i++) {
+
+			if ($i > 0) {
+				$data['data_vencimento'] = date('Y-m-d', strtotime($data['data_vencimento'] . ' +30 days'));
+			}
+
+			$retorno = $this->FinContasReceber_model->insereContasReceber($data);
+
+			// para o loop se der erro em alguma
+			if ($i == 0 && !$retorno) {
+				$success = false;
+			}
+		}
+
+		if ($success) {
+			$response = array(
+				'success' => true,
+				'title' => "Sucesso!",
+				'message' => "Contas inseridas com sucesso!",
+				'type' => "success"
+			);
+		} else {
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Falha ao inserir contas recebidas. Por favor, tente novamente.",
+				'type' => "error"
+			);
+		}
+	
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
+
 	}
 }

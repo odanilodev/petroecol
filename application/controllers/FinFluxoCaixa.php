@@ -34,7 +34,18 @@ class FinFluxoCaixa extends CI_Controller
         add_scripts('header', array_merge($scriptsPadraoHead));
         add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsFluxoFooter));
 
-        $this->load->view('admin/includes/painel/cabecalho');
+        $dataFim = new DateTime();
+
+        // Calcula a data de 30 dias atrás
+        $dataInicio = new DateTime();
+        $dataInicio->modify('-30 days');
+
+        $dataInicioFormatada = $dataInicio->format('Y-m-d');
+        $dataFimFormatada = $dataFim->format('Y-m-d');
+
+        $dados['movimentacoes'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada);
+
+        $this->load->view('admin/includes/painel/cabecalho', $dados);
         $this->load->view('admin/paginas/financeiro/fluxo-caixa.php');
         $this->load->view('admin/includes/painel/rodape');
     }
