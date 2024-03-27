@@ -79,7 +79,7 @@ const deletaContaBancaria = (id) => {
 		confirmButtonColor: '#3085d6',
 		cancelButtonColor: '#d33',
 		cancelButtonText: 'Cancelar',
-		confirmButtonText: 'Sim, inativar'
+		confirmButtonText: 'Sim, deletar'
 
 	}).then((result) => {
 
@@ -88,6 +88,48 @@ const deletaContaBancaria = (id) => {
 			$.ajax({
 				type: 'post',
 				url: `${baseUrl}finContaBancaria/deletaContaBancaria`,
+				data: {
+					id: id
+				}, success: function (data) {
+					
+					if (data.vinculo) {
+
+						inativaContaBancaria(`${data.title}`, `${data.message}`, `${data.type}`, id);
+
+					} else {
+
+						let redirect = data.type != 'error' ? `${baseUrl}finContaBancaria` : '#';
+
+						avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
+
+					}
+				}
+			})
+
+		}
+	})
+
+
+}
+function inativaContaBancaria (title, message, type, id) {
+
+	Swal.fire({
+		title: title,
+		text: message,
+		icon: type,
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		cancelButtonText: 'Cancelar',
+		confirmButtonText: 'Sim, inativar'
+
+	}).then((result) => {
+
+		if (result.isConfirmed) {
+
+			$.ajax({
+				type: 'post',
+				url: `${baseUrl}finContaBancaria/inativaContaBancaria`,
 				data: {
 					id: id
 				}, success: function (data) {

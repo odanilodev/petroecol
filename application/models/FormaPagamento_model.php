@@ -40,6 +40,27 @@ class FormaPagamento_model extends CI_Model
         return $query->row_array();
     }
 
+    public function recebeTipoFormasPagamentos($ids)
+    {
+        $result = array();
+    
+        foreach ($ids as $id) {
+            $this->db->select('id_tipo_pagamento');
+            $this->db->where('id', $id);
+            $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+            $query = $this->db->get('ci_forma_pagamento');
+    
+            $row = $query->row_array();
+            if (!empty($row)) {
+                $result[] = $row['id_tipo_pagamento'];
+            }
+        }
+    
+        return $result;
+    }
+    
+
+
     public function insereFormaPagamento($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');

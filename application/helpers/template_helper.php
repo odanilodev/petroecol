@@ -508,7 +508,9 @@ function scriptsFinContasPagarFooter()
 {
     return array(
 
-        '<script src="' . base_url('assets/js/financeiro/contas-pagar/contas-pagar.js') . '"></script>'
+        '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>',
+        '<script src="' . base_url('assets/js/financeiro/contas-pagar/contas-pagar.js') . '"></script>',
+        '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>'
 
     );
 }
