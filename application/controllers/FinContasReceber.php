@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') or exit ('No direct script access allowed');
 
 class FinContasReceber extends CI_Controller
 {
@@ -8,17 +8,17 @@ class FinContasReceber extends CI_Controller
 		parent::__construct();
 
 		//INICIO controle sessão
-        $this->load->library('Controle_sessao');
-        $res = $this->controle_sessao->controle();
-        if ($res == 'erro') {
-            if ($this->input->is_ajax_request()) {
-                $this->output->set_status_header(403);
-                exit();
-            } else {
-                redirect('login/erro', 'refresh');
-            }
-        }
-        // FIM controle sessão
+		$this->load->library('Controle_sessao');
+		$res = $this->controle_sessao->controle();
+		if ($res == 'erro') {
+			if ($this->input->is_ajax_request()) {
+				$this->output->set_status_header(403);
+				exit();
+			} else {
+				redirect('login/erro', 'refresh');
+			}
+		}
+		// FIM controle sessão
 
 		$this->load->model('SetoresEmpresa_model');
 		$this->load->model('FinDadosFinanceiros_model');
@@ -27,6 +27,10 @@ class FinContasReceber extends CI_Controller
 
 	public function index()
 	{
+
+		$this->load->model('FinContaBancaria_model');
+		$this->load->model('FinFormaTransacao_model');
+
 		// scripts padrão
 		$scriptsPadraoHead = scriptsPadraoHead();
 		$scriptsPadraoFooter = scriptsPadraoFooter();
@@ -45,12 +49,15 @@ class FinContasReceber extends CI_Controller
 		$data['dadosFinanceiro'] = $this->FinDadosFinanceiros_model->recebeDadosFinanceiros();
 		$data['contasReceber'] = $this->FinContasReceber_model->recebeContasReceber();
 
+		$data['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
+		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
+
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/financeiro/contas-receber');
 		$this->load->view('admin/includes/painel/rodape');
 	}
 
-	public function cadastraContasReceber () 
+	public function cadastraContasReceber()
 	{
 		$dadosLancamento = $this->input->post('dados');
 
@@ -62,8 +69,8 @@ class FinContasReceber extends CI_Controller
 		$data['id_macro'] = $dadosLancamento['macros'];
 		$data['id_micro'] = $dadosLancamento['micros'];
 		$data['observacao'] = $dadosLancamento['observacao'];
-		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-',  $dadosLancamento['data_vencimento'])));
-		$data['data_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-',  $dadosLancamento['data_emissao'])));
+		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
+		$data['data_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao'])));
 
 		$success = true;
 
@@ -96,9 +103,73 @@ class FinContasReceber extends CI_Controller
 				'type' => "error"
 			);
 		}
-	
+
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 
 
 	}
+
+	public function receberConta()
+	{
+		$this->load->model('FinFluxo_model');
+		$this->load->model('FinContasReceber_model');
+		$this->load->model('FinSaldoBancario_model');
+
+		$contasBancarias = $this->input->post('contasBancarias');
+		$formasPagamento = $this->input->post('formasPagamento');
+		$valores = $this->input->post('valores');
+		$obs = $this->input->post('obs');
+		$idConta = $this->input->post('idConta');
+		$idDadoFinanceiro = $this->input->post('idDadoFinanceiro');
+
+		$dataRecebimento = $this->input->post('dataRecebimento');
+
+		$dataRecebimentoFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataRecebimento)));
+
+		$valorTotalRecebido = 0;
+
+		foreach ($formasPagamento as $key => $formaPagamento) {
+
+			//Informacoes do fluxo
+			$dados['id_empresa'] = $this->session->userdata('id_empresa');
+			$dados['id_conta_bancaria'] = $contasBancarias[$key];
+			$dados['id_vinculo_conta'] = $idConta;
+			$dados['id_forma_transacao'] = $formasPagamento[$key];
+			$dados['valor'] = $valores[$key];
+			$dados['movimentacao_tabela'] = 1;
+			$dados['id_dado_financeiro'] = $idDadoFinanceiro;
+			$dados['observacao'] = $obs;
+
+			$this->FinFluxo_model->insereFluxo($dados);
+
+			//Informacoes do saldo bancario
+			$saldoAtual = $this->FinSaldoBancario_model->recebeSaldoBancario($contasBancarias[$key]);
+			$valoPagoFormatado = str_replace(['.', ','], ['', '.'], $valores[$key]); //Muda para o tipo float
+
+			$novoSaldo = $saldoAtual['saldo'] + $valoPagoFormatado;
+			$this->FinSaldoBancario_model->atualizaSaldoBancario($contasBancarias[$key], $novoSaldo);
+
+			$valorTotalRecebido += $valoPagoFormatado;
+		}
+
+		//Informacoes da a receber
+		$conta['valor_recebido'] = $valorTotalRecebido;
+		$conta['status'] = 1;
+		$conta['id_forma_transacao'] = 2;
+		$conta['data_recebimento'] = $dataRecebimentoFormatada;
+
+		$this->FinContasReceber_model->editaConta($idConta, $conta);
+
+		// retorno conta paga
+		$response = array(
+			'success' => true,
+			'message' => "Recebimento realizado com sucesso!",
+			'type' => "success"
+		);
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
+	}
+
+
 }
