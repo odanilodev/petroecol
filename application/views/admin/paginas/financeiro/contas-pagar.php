@@ -644,6 +644,15 @@
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
 
+                                        <div class="col-md-4">
+                                            <div class="mb-4">
+                                                <label class="text-body-highlight fw-bold mb-2">Data Pagamento</label>
+                                                <input class="form-control datetimepicker input-data-pagamento cursor-pointer"
+                                                    name="data_pagamento" type="text" placeholder="dd/mm/aaaa"
+                                                    data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}'/>
+                                            </div>
+                                        </div>
+
                                             <div class="campos-pagamento row">
                                                 <div class="col-lg-4 duplica-pagamento">
                                                     <div class="mb-4">
