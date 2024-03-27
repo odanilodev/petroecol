@@ -40,6 +40,7 @@ class FinContasPagar extends CI_Controller
 
 		$data['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
 		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
+
 		$data['contasPagar'] = $this->FinContasPagar_model->recebeContasPagar();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
@@ -82,7 +83,7 @@ class FinContasPagar extends CI_Controller
 
 			//Informacoes do saldo bancario
 			$saldoAtual = $this->FinSaldoBancario_model->recebeSaldoBancario($contasBancarias[$key]);
-			$valoPagoFormatado = str_replace(",", ".", $valores[$key]); //Muda para o tipo float
+			$valoPagoFormatado = str_replace(['.', ','], ['', '.'], $valores[$key]); //Muda para o tipo float
 
 			$novoSaldo = $saldoAtual['saldo'] - $valoPagoFormatado;
 			$this->FinSaldoBancario_model->atualizaSaldoBancario($contasBancarias[$key], $novoSaldo);
