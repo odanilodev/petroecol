@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') or exit ('No direct script access allowed');
 
 class FinSaldoBancario_model extends CI_Model
 {
@@ -24,7 +24,7 @@ class FinSaldoBancario_model extends CI_Model
 
     if ($this->db->affected_rows()) {
       $this->Log_model->insereLog($id_conta_bancaria);
-  }
+    }
 
     // Retorna o ID gerado pela inserção
     return $this->db->affected_rows() > 0;
@@ -39,4 +39,25 @@ class FinSaldoBancario_model extends CI_Model
 
     return $query->row_array();
   }
+
+  public function atualizaSaldoBancario($id_conta_bancaria, $novoSaldo)
+  {
+    $data = [
+      'saldo' => $novoSaldo,
+    ];
+
+    $this->db->where('id_conta_bancaria', $id_conta_bancaria);
+    $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+
+    $this->db->update('fin_saldo_bancario', $data);
+
+    if ($this->db->affected_rows()) {
+      $this->Log_model->insereLog($id_conta_bancaria);
+    }
+
+    return $this->db->affected_rows() > 0;
+
+  }
+
+
 }
