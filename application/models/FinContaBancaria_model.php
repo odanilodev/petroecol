@@ -12,26 +12,33 @@ class FinContaBancaria_model extends CI_Model
 
     public function recebeContasBancarias()
     {
-        $this->db->order_by('apelido', 'DESC');
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('fin_contas_bancarias');
+        $this->db->order_by('CB.apelido', 'DESC');
+        $this->db->join('fin_saldo_bancario SB', 'SB.id_conta_bancaria = CB.id', 'left');
+        $this->db->where('CB.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('CB.status', 1);
+        $query = $this->db->get('fin_contas_bancarias CB');
 
         return $query->result_array();
     }
 
-    public function recebeContaBancaria($id)
-    {
-        $this->db->where('id', $id);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('fin_contas_bancarias');
+    
 
-        return $query->row_array();
-    }
+    public function recebeContaBancaria($id)
+{
+    $this->db->where('CB.id', $id);
+    $this->db->join('fin_saldo_bancario SB', 'SB.id_conta_bancaria = CB.id', 'left');
+    $this->db->where('CB.id_empresa', $this->session->userdata('id_empresa'));
+    $query = $this->db->get('fin_contas_bancarias CB');
+
+    return $query->row_array();
+}
+
 
     public function recebeApelidoContaBancaria($apelido, $id)
     {
         $this->db->where('apelido', $apelido);
         $this->db->where('id <>', $id);
+        $this->db->where('status', 1);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('fin_contas_bancarias');
 
@@ -77,11 +84,24 @@ class FinContaBancaria_model extends CI_Model
     {
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->delete('fin_contas_bancarias');
+        $this->db->set('status', 0);
+        $this->db->update('fin_contas_bancarias');
 
+        // Verifica se a operação foi bem sucedida e insere um log
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);
         }
+    
+        // Retorna true se a operação foi bem sucedida
+        return $this->db->affected_rows() > 0;
+    }
+
+    public function inativaSaldoBancario($id)
+    {  
+        $this->db->where('id_conta_bancaria', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->set('status', 0);
+        $this->db->update('fin_saldo_bancario');
 
         return $this->db->affected_rows() > 0;
     }
@@ -94,12 +114,5 @@ class FinContaBancaria_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
-    public function verificaContaBancariaSaldo($id)
-    {
-        $this->db->where('id_conta_bancaria', $id);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->get('fin_saldo_bancario');
 
-        return $this->db->affected_rows() > 0;
-    }
 }
