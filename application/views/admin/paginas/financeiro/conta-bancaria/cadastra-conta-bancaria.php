@@ -32,18 +32,24 @@
                       <div class="col-md-8"></div>
 
                       <div class="mb-2 col-md-4">
-                          <div class="mb-2">
-                            <label class="form-label text-900" for="setor-conta-bancaria">Setor da Conta Bancária</label>
-                            <select name="setor-conta-bancaria" class="form-select select-setor-empresa select2">
-                              <option value="" selected>Selecione o Setor</option>
+                        <div class="mb-2">
+                          <label class="form-label text-900" for="setor-conta-bancaria">Setor da Conta Bancária</label>
+                          <select name="setor-conta-bancaria" class="form-select select-setor-empresa select2">
+                            <option value="" selected>Selecione o Setor</option>
 
-                              <?php foreach($setores as $v) { ?>
-                                <option value="<?= $v['id']?>" <?= (isset($contaBancaria['id_setor_empresa']) && $contaBancaria['id_setor_empresa'] == $v['id']) ? 'selected' : ''; ?>><?= $v['nome'];?></option>
-                              <?php }?>
+                            <?php foreach ($setores as $v) { ?>
+                              <option value="<?= $v['id'] ?>" <?= (isset($contaBancaria['id_setor_empresa']) && $contaBancaria['id_setor_empresa'] == $v['id']) ? 'selected' : ''; ?>><?= $v['nome']; ?></option>
+                            <?php } ?>
 
-                            </select>
-                          </div>
+                          </select>
                         </div>
+                      </div>
+
+                      <div class="mb-2 col-md-4">
+                        <label class="form-label text-900" for="agencia">Agência*</label>
+                        <input value="<?= $contaBancaria['agencia'] ?? "" ?>" class="form-control input-obrigatorio input-agencia mascara-agencia" type="text" id="agencia" placeholder="Digite o nome da Agência" />
+                        <div class="invalid-feedback">Preencha este campo.</div>
+                      </div>
 
                       <div class="mb-2 col-md-4">
                         <label class="form-label text-900" for="conta">Conta*</label>
@@ -56,12 +62,7 @@
                         <input value="<?= $contaBancaria['banco'] ?? "" ?>" class="form-control input-obrigatorio input-banco" type="text" name="banco" placeholder="Digite o nome do Banco" />
                       </div>
 
-                      <div class="mb-2 col-md-4">
-                        <label class="form-label text-900" for="agencia">Agência*</label>
-                        <input value="<?= $contaBancaria['agencia'] ?? "" ?>" class="form-control input-obrigatorio input-agencia mascara-agencia" type="text" id="agencia" placeholder="Digite o nome da Agência" />
-                        <div class="invalid-feedback">Preencha este campo.</div>
-                      </div>
-                      
+
                       <?php if (!$this->uri->segment(3)) : ?>
                         <div class="mb-2 col-md-4">
                           <label class="form-label text-900" for="saldo">Saldo Inicial*</label>

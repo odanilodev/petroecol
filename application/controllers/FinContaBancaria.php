@@ -121,45 +121,74 @@ class FinContaBancaria extends CI_Controller
 
 	public function deletaContaBancaria()
 	{
-			$id = $this->input->post('id');
-	
-			// Verifica se a conta bancária está vinculada ao fluxo de caixa
-			$contaVinculadaFluxo = $this->FinContaBancaria_model->verificaContaBancariaFluxo($id);
-	
-			if ($contaVinculadaFluxo) {
-					$response = array(
-							'success' => false,
-							'title' => "Algo deu errado!",
-							'id_vinculado' => $id,
-							'message' => "Esta conta bancária está vinculada ao fluxo de caixa, não é possível inativá-la.",
-							'type' => "error"
-					);
+		$id = $this->input->post('id');
+
+		// Verifica se a conta bancária está vinculada ao fluxo de caixa
+		$contaVinculadaFluxo = $this->FinContaBancaria_model->verificaContaBancariaFluxo($id);
+
+		if ($contaVinculadaFluxo) {
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Esta conta bancária está vinculada ao fluxo de caixa, não é possível exclui-la, deseja inativa-la?",
+				'type' => "error",
+				'vinculo' => true
+			);
+		} else {
+			// Tenta inativar a conta bancária
+			$retornoConta = $this->FinContaBancaria_model->deletaContaBancaria($id);
+			// Tenta inativar o saldo bancário
+			$retornoSaldo = $this->FinContaBancaria_model->deletaSaldoBancario($id);
+
+			// Verifica se ambas as operações foram bem-sucedidas
+			if ($retornoConta && $retornoSaldo) {
+				$response = array(
+					'success' => true,
+					'title' => "Sucesso!",
+					'message' => "Conta bancária e saldo bancário excluídos com sucesso!",
+					'type' => "success"
+				);
 			} else {
-					// Tenta inativar a conta bancária
-					$retornoConta = $this->FinContaBancaria_model->deletaContaBancaria($id);
-					
-					// Tenta inativar o saldo bancário
-					$retornoSaldo = $this->FinContaBancaria_model->inativaSaldoBancario($id);
-	
-					// Verifica se ambas as operações foram bem-sucedidas
-					if ($retornoConta && $retornoSaldo) {
-							$response = array(
-									'success' => true,
-									'title' => "Sucesso!",
-									'message' => "Conta bancária e saldo bancário inativados com sucesso!",
-									'type' => "success"
-							);
-					} else {
-							// Se houve um problema em uma das operações
-							$response = array(
-									'success' => false,
-									'title' => "Algo deu errado!",
-									'message' => "Não foi possível inativar a conta bancária ou o saldo bancário.",
-									'type' => "error"
-							);
-					}
+				// Se houve um problema em uma das operações
+				$response = array(
+					'success' => false,
+					'title' => "Algo deu errado!",
+					'message' => "Não foi possível excluir a conta bancária ou o saldo bancário.",
+					'type' => "error"
+				);
 			}
-	
-			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
-}	
+
+	public function inativaContaBancaria()
+	{
+		$id = $this->input->post('id');
+
+		// Tenta inativar a conta bancária
+		$retornoConta = $this->FinContaBancaria_model->inativaContaBancaria($id);
+		// Tenta inativar o saldo bancário
+		$retornoSaldo = $this->FinContaBancaria_model->inativaSaldoBancario($id);
+
+		// Verifica se ambas as operações foram bem-sucedidas
+		if ($retornoConta && $retornoSaldo) {
+			$response = array(
+				'success' => true,
+				'title' => "Sucesso!",
+				'message' => "Conta bancária e saldo bancário inativados com sucesso!",
+				'type' => "success"
+			);
+		} else {
+			// Se houve um problema em uma das operações
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Não foi possível inativar a conta bancária ou o saldo bancário.",
+				'type' => "error"
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+}
