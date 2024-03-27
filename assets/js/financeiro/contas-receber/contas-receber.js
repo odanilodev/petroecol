@@ -198,15 +198,15 @@ const receberConta = () => {
 
             if (data.success) {
 
-                $('#modalPagarConta').modal('hide');
+                $('#modalReceberConta').modal('hide');
 
                 // atualiza o front
                 $(`.valor-pago-${idConta}`).html(valorTotalFormatado);
                 $(`.tipo-status-conta-${idConta}`).removeClass('badge-phoenix-danger');
                 $(`.tipo-status-conta-${idConta}`).addClass('badge-phoenix-success');
                 $(`.icone-status-conta-${idConta}`).remove();
+                $(`.status-pagamento-table-${idConta}`).html('Recebido');
                 $(`.tipo-status-conta-${idConta}`).append(`<span class="uil-check ms-1 icone-status-conta-${idConta}" style="height:12.8px;width:12.8px;"></span>`);
-                $(`.status-pagamento-${idConta}`).html('Pago');
 
                 avisoRetorno("Sucesso!", `${data.message}`, `${data.type}`, `#`);
 

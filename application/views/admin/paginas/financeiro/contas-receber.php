@@ -192,20 +192,22 @@
                                 </td>
 
                                 <td class="align-middle text-start ps-3 status">
-                                    <span class="badge badge-phoenix fs--2 badge-phoenix-danger">
+                                    <span class="badge badge-phoenix fs--2 <?= $contaReceber['status'] ? "badge-phoenix-success" : "badge-phoenix-danger" ?> tipo-status-conta-<?= $contaReceber['id'] ?>">
                                         <span
-                                            class="badge-label cursor-pointer receber-conta status-pagamento-<?= $contaReceber['id'] ?>"
+                                            class="badge-label cursor-pointer receber-conta status-pagamento-table-<?= $contaReceber['id'] ?>"
                                             data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro'] ?>"
                                             data-id="<?= $contaReceber['id'] ?>" <?= !$contaReceber['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalReceberConta"' : '' ?>>
                                             <?= $contaReceber['status'] ? "Recebido" : "A receber" ?>
                                         </span>
-                                        <span class="ms-1" data-feather="slash" style="height:12.8px;width:12.8px;"></span>
+
+                                        <span class="ms-1 icone-status-conta-<?= $contaReceber['id'] ?>" data-feather="<?= $contaReceber['status'] ? "check" : "slash" ?>" style="height:12.8px;width:12.8px;"></span>
+                                        
                                     </span>
                                 </td>
 
                                 <td class="align-middle product white-space-nowrap">
                                     <h6 class="mb-0 text-900">
-                                        <?= $contaReceber['data_recebimento'] ? date('d/m/Y', strtotime($contaReceber['data_recebimento'])) : '' ?>
+                                        <?= $contaReceber['data_recebimento'] != "0000-00-00" ? date('d/m/Y', strtotime($contaReceber['data_recebimento'])) : '' ?>
                                     </h6>
                                 </td>
 
