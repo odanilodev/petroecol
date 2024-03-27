@@ -69,18 +69,6 @@ class FinContasPagar extends CI_Controller
 
 		foreach ($formasPagamento as $key => $formaPagamento) {
 
-			//Informacoes do fluxo
-			$dados['id_empresa'] = $this->session->userdata('id_empresa');
-			$dados['id_conta_bancaria'] = $contasBancarias[$key];
-			$dados['id_vinculo_conta'] = $idConta;
-			$dados['id_forma_transacao'] = $formasPagamento[$key];
-			$dados['valor'] = $valores[$key];
-			$dados['movimentacao_tabela'] = 0;
-			$dados['id_dado_financeiro'] = $idDadoFinanceiro;
-			$dados['observacao'] = $obs;
-
-			$this->FinFluxo_model->insereFluxo($dados);
-
 			//Informacoes do saldo bancario
 			$saldoAtual = $this->FinSaldoBancario_model->recebeSaldoBancario($contasBancarias[$key]);
 			$valoPagoFormatado = str_replace(['.', ','], ['', '.'], $valores[$key]); //Muda para o tipo float
@@ -89,6 +77,21 @@ class FinContasPagar extends CI_Controller
 			$this->FinSaldoBancario_model->atualizaSaldoBancario($contasBancarias[$key], $novoSaldo);
 
 			$valorTotalPago += $valoPagoFormatado;
+
+			//Informacoes do fluxo
+			$dados['id_empresa'] = $this->session->userdata('id_empresa');
+			$dados['id_conta_bancaria'] = $contasBancarias[$key];
+			$dados['id_vinculo_conta'] = $idConta;
+			$dados['id_forma_transacao'] = $formasPagamento[$key];
+			$dados['valor'] = $valoPagoFormatado;
+			$dados['movimentacao_tabela'] = 0;
+			$dados['data_movimentacao'] = $dataPagamentoFormatada;
+			$dados['id_dado_financeiro'] = $idDadoFinanceiro;
+			$dados['observacao'] = $obs;
+
+			$this->FinFluxo_model->insereFluxo($dados);
+
+
 		}
 
 		//Informacoes da conta a pagar
