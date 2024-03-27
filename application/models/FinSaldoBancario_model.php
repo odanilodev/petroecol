@@ -51,12 +51,12 @@ class FinSaldoBancario_model extends CI_Model
 
     $this->db->update('fin_saldo_bancario', $data);
 
-    if ($this->db->affected_rows() > 0) {
+    if ($this->db->affected_rows()) {
       $this->Log_model->insereLog($id_conta_bancaria);
-      return true;
-    } else {
-      return false;
     }
+
+    return $this->db->affected_rows() > 0;
+
   }
 
 
