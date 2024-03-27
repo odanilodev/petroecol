@@ -98,10 +98,10 @@ const cadastraContasPagar = () => {
 
 $(document).on('click', '.novo-lancamento', function () {
 
-    // $('.select2').select2({
-    //     dropdownParent: "#modalLancamentoContasPagar",
-    //     theme: "bootstrap-5",
-    // });
+    $('.select2').select2({
+        dropdownParent: "#modalLancamentoContasPagar",
+        theme: "bootstrap-5",
+    });
 
 })
 

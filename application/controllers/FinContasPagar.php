@@ -43,10 +43,6 @@ class FinContasPagar extends CI_Controller
 		$this->load->model('FinGrupos_model');
 		$data['grupos'] = $this->FinGrupos_model->recebeGrupos();
 		$data['dadosFinanceiro'] = $this->FinDadosFinanceiros_model->recebeDadosFinanceiros();
-		$scriptsContasPagarFooter = scriptsFinContasPagarFooter();
-
-		add_scripts('header', array_merge($scriptsPadraoHead));
-		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsContasPagarFooter));
 
 		$this->load->model('FinFormaTransacao_model');
 		$this->load->model('FinContaBancaria_model');
