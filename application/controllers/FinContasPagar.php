@@ -60,6 +60,8 @@ class FinContasPagar extends CI_Controller
 		$idConta = $this->input->post('idConta');
 		$idDadoFinanceiro = $this->input->post('idDadoFinanceiro');
 
+		$dataPagamento = $this->input->post('dataPagamento');
+
 		$valorTotalPago = 0;
 
 		foreach ($formasPagamento as $key => $formaPagamento) {

@@ -49,6 +49,7 @@ const realizarPagamento = () => {
     let formasPagamento = [];
     let valores = [];
     let obs = $('.obs-pagamento').val();
+    let dataPagamento = $('.input-data-pagamento').val();
     let valorTotal = 0;
 
     let idConta = $('.id-conta-pagamento').val();
@@ -89,7 +90,8 @@ const realizarPagamento = () => {
             obs: obs,
             idConta: idConta,
             valorTotal:  valorTotal,
-            idDadoFinanceiro: idDadoFinanceiro 
+            idDadoFinanceiro: idDadoFinanceiro,
+            dataPagamento: dataPagamento 
         }, beforeSend: function () {
             $(".load-form").removeClass("d-none");
             $(".btn-form").addClass("d-none");
