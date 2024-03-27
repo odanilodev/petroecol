@@ -135,6 +135,7 @@ class FinContasReceber extends CI_Controller
 			$dados['id_conta_bancaria'] = $contasBancarias[$key];
 			$dados['id_vinculo_conta'] = $idConta;
 			$dados['id_forma_transacao'] = $formasPagamento[$key];
+			$dados['data_movimentacao'] = $dataRecebimentoFormatada;
 			$dados['valor'] = $valores[$key];
 			$dados['movimentacao_tabela'] = 1;
 			$dados['id_dado_financeiro'] = $idDadoFinanceiro;
