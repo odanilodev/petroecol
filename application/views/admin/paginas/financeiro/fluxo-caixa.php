@@ -165,7 +165,6 @@
                                 </div>
                             </th>
                             <th class="sort white-space-nowrap align-middle" scope="col" data-sort="data">Data</th>
-                            <th class="sort align-middle" scope="col" data-sort="historico">Histórico</th>
                             <th class="sort align-middle" scope="col" data-sort="pagoRecebido">Pago/Recebido</th>
                             <th class="sort text-start align-middle" scope="col" data-sort="categoria">Forma de
                                 Transação</th>
@@ -179,130 +178,87 @@
 
                         <tr class="hover-actions-trigger btn-reveal-trigger position-static">
 
-                            <td class="fs--1 align-middle ps-0">
-                                <div class="form-check mb-0 fs-0">
-                                    <input class="form-check-input" type="checkbox"
-                                        data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands)","productImage":"/products/60x60/1.png","customer":{"name":"Richard Dawkins","avatar":""},"rating":5,"review":"This Fitbit is fantastic! I was trying to be in better shape and needed some motivation, so I decided to treat myself to a new Fitbit.","status":{"title":"Approved","badge":"success","icon":"check"},"time":"Just now"}' />
-                                </div>
-                            </td>
+                            <?php foreach ($movimentacoes as $movimentacao) { ?>
 
-                            <td class="align-middle data white-space-nowrap">
-                                <h6 class="mb-0 text-900">10/04/2024</h6>
-                            </td>
-
-                            <td class="align-middle historico white-space-nowrap fs--2">
-                                <h6 class="mb-0 text-900">Liquidação de conta a pagar - Five Works (Escritorio)</h6>
-                            </td>
-
-                            <td class="align-middle pagoRecebido">
-                                <h6 class="mb-0 text-900">Five Works (Escritorio)</h6>
-                            </td>
-
-                            <td class="align-middle text-start categoria">
-                                <h6 class="text-900 mb-0">PIX</h6>
-                            </td>
-
-                            <td class="align-middle text-start ps-3 tipo">
-                                <span class="badge badge-phoenix fs--2 badge-phoenix-warning">
-                                    <span class="badge-label">Saída</span>
-                                    <span class="ms-1" data-feather="trending-down"
-                                        style="height:12.8px;width:12.8px;"></span>
-                                </span>
-                            </td>
-
-                            <td class="align-middle text-center valor">
-                                <h6 class="mb-0 text-900">R$ 250,25</h6>
-                            </td>
-
-                            <td class="align-middle text-start categoria">
-                                <h6 class="text-900 mb-0">Observacao de pagamento</h6>
-                            </td>
-
-                            <td class="align-middle white-space-nowrap text-end pe-0">
-                                <div class="font-sans-serif btn-reveal-trigger position-static">
-                                    <button
-                                        class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2"
-                                        type="button" data-bs-toggle="dropdown" data-boundary="window"
-                                        aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span
-                                            class="fas fa-ellipsis-h fs--2"></span></button>
-                                    <div class="dropdown-menu dropdown-menu-end py-2">
-                                        <a class="dropdown-item" href="#!" data-bs-toggle="modal"
-                                            data-bs-target="#modalVisualizarFluxoCaixa">
-                                            <span class="fas fa-eye"></span> Visualizar
-                                        </a>
-
-
+                                <td class="fs--1 align-middle ps-0">
+                                    <div class="form-check mb-0 fs-0">
+                                        <input class="form-check-input" type="checkbox"
+                                            data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands)","productImage":"/products/60x60/1.png","customer":{"name":"Richard Dawkins","avatar":""},"rating":5,"review":"This Fitbit is fantastic! I was trying to be in better shape and needed some motivation, so I decided to treat myself to a new Fitbit.","status":{"title":"Approved","badge":"success","icon":"check"},"time":"Just now"}' />
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
 
-                        <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                <td class="align-middle data white-space-nowrap">
+                                    <h6 class="mb-0 text-900">
+                                        <?= date('d/m/Y', strtotime($movimentacao['data_movimentacao'])); ?>
+                                    </h6>
+                                </td>
 
-                            <td class="fs--1 align-middle ps-0">
-                                <div class="form-check mb-0 fs-0">
-                                    <input class="form-check-input" type="checkbox"
-                                        data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands)","productImage":"/products/60x60/1.png","customer":{"name":"Richard Dawkins","avatar":""},"rating":5,"review":"This Fitbit is fantastic! I was trying to be in better shape and needed some motivation, so I decided to treat myself to a new Fitbit.","status":{"title":"Approved","badge":"success","icon":"check"},"time":"Just now"}' />
-                                </div>
-                            </td>
-
-                            <td class="align-middle data white-space-nowrap">
-                                <h6 class="mb-0 text-900">10/04/2024</h6>
-                            </td>
-
-                            <td class="align-middle historico white-space-nowrap fs--2">
-                                <h6 class="mb-0 text-900">Liquidação de conta a pagar - Five Works (Escritorio)</h6>
-                            </td>
-
-                            <td class="align-middle pagoRecebido">
-                                <h6 class="mb-0 text-900">Five Works (Escritorio)</h6>
-                            </td>
-
-                            <td class="align-middle text-start categoria">
-                                <h6 class="text-900 mb-0">Dinheiro</h6>
-                            </td>
-
-                            <td class="align-middle text-start ps-3 tipo">
-                                <span class="badge badge-phoenix fs--2 badge-phoenix-success">
-                                    <span class="badge-label">Entrada</span>
-                                    <span class="ms-1" data-feather="trending-up"
-                                        style="height:12.8px;width:12.8px;"></span>
-                                </span>
-                            </td>
-
-                            <td class="align-middle text-center valor">
-                                <h6 class="mb-0 text-900">R$ 250,25</h6>
-                            </td>
-
-                            <td class="align-middle text-start categoria">
-                                <h6 class="text-900 mb-0">Observacao de saida</h6>
-                            </td>
-
-                            <td class="align-middle white-space-nowrap text-end pe-0">
-                                <div class="font-sans-serif btn-reveal-trigger position-static">
-                                    <button
-                                        class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2"
-                                        type="button" data-bs-toggle="dropdown" data-boundary="window"
-                                        aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span
-                                            class="fas fa-ellipsis-h fs--2"></span></button>
-                                    <div class="dropdown-menu dropdown-menu-end py-2">
-                                        <a class="dropdown-item" href="#!" data-bs-toggle="modal"
-                                            data-bs-target="#modalVisualizarFluxoCaixa">
-                                            <span class="fas fa-eye"></span> Visualizar
-                                        </a>
+                                <td class="align-middle pagoRecebido">
+                                    <h6 class="mb-0 text-900">
+                                        <?= ucfirst($movimentacao['nome_dado_financeiro']) ?>
+                                    </h6>
+                                </td>
 
 
+                                <td class="align-middle text-start categoria">
+                                    <h6 class="text-900 mb-0">
+                                        <?= $movimentacao['nome_forma_transacao'] ?>
+                                    </h6>
+                                </td>
+
+                                <td class="align-middle text-start ps-3 tipo">
+                                    <?php if ($movimentacao['movimentacao_tabela'] == 0): ?>
+                                        <span class="badge badge-phoenix fs--2 badge-phoenix-warning">
+                                            <span class="badge-label">Saída</span>
+                                            <span class="ms-1" data-feather="trending-down"
+                                                style="height:12.8px;width:12.8px;"></span>
+                                        </span>
+                                    <?php else: ?>
+                                        <span class="badge badge-phoenix fs--2 badge-phoenix-success">
+                                            <span class="badge-label">Entrada</span>
+                                            <span class="ms-1" data-feather="trending-up"
+                                                style="height:12.8px;width:12.8px;"></span>
+                                        </span>
+                                    <?php endif; ?>
+                                </td>
+
+
+                                <td class="align-middle text-center valor">
+                                    <h6 class="mb-0 text-900">
+                                        <?= 'R$ ' . number_format($movimentacao['valor'], 2, ',', '.') ?>
+                                    </h6>
+                                </td>
+
+                                <td class="align-middle text-start categoria">
+                                    <h6 class="text-900 mb-0">
+                                        <?= $movimentacao['observacao'] ?>
+                                    </h6>
+                                </td>
+
+                                <td class="align-middle white-space-nowrap text-end pe-0">
+                                    <div class="font-sans-serif btn-reveal-trigger position-static">
+                                        <button
+                                            class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2"
+                                            type="button" data-bs-toggle="dropdown" data-boundary="window"
+                                            aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span
+                                                class="fas fa-ellipsis-h fs--2"></span></button>
+                                        <div class="dropdown-menu dropdown-menu-end py-2">
+                                            <a class="dropdown-item" href="#!" data-bs-toggle="modal"
+                                                data-bs-target="#modalVisualizarFluxoCaixa">
+                                                <span class="fas fa-eye"></span> Visualizar
+                                            </a>
+
+
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
 
-
+                        <?php } ?>
 
                     </tbody>
                 </table>
             </div>
-
         </div>
     </div>
 
