@@ -85,7 +85,7 @@ class FinContasPagar extends CI_Controller
 				$data['data_vencimento'] = date('Y-m-d', strtotime($data['data_vencimento'] . ' +30 days'));
 			}
 
-			$retorno = $this->FinContasPagar_model->insereContasPagar($data);
+			$retorno = $this->FinContasPagar_model->insereConta($data);
 
 			// para o loop se der erro em alguma
 			if ($i == 0 && !$retorno) {
