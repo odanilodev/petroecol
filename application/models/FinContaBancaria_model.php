@@ -103,6 +103,12 @@ class FinContaBancaria_model extends CI_Model
         $this->db->set('status', 0);
         $this->db->update('fin_saldo_bancario');
 
+        // Verifica se a operação foi bem sucedida e insere um log
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id);
+        }
+
+
         return $this->db->affected_rows() > 0;
     }
 
@@ -126,6 +132,12 @@ class FinContaBancaria_model extends CI_Model
         $this->db->where('id_conta_bancaria', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->delete('fin_saldo_bancario');
+
+        // Verifica se a operação foi bem sucedida e insere um log
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id);
+        }
+
 
         return $this->db->affected_rows() > 0;
     }
