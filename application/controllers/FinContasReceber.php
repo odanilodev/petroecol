@@ -101,4 +101,9 @@ class FinContasReceber extends CI_Controller
 
 
 	}
+
+	public function receberConta ()
+	{
+		print_r($_POST);
+	}
 }

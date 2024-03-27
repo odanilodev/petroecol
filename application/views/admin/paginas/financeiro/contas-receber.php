@@ -146,7 +146,7 @@
                         </tr>
                     </thead>
                     <tbody class="list" id="table-latest-review-body">
-                        <?php foreach($contasReceber as $contaReceber) { ?>
+                        <?php foreach ($contasReceber as $contaReceber) { ?>
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
 
                                 <td class="fs--1 align-middle ps-0">
@@ -160,16 +160,17 @@
                                 </td>
 
                                 <td class="align-middle rating white-space-nowrap fs--2">
-                                    <h6 class="mb-0 text-900"><?= number_format($contaReceber['valor'], 2, ',', '.');?></h6>
+                                    <h6 class="mb-0 text-900"><?= number_format($contaReceber['valor'], 2, ',', '.'); ?></h6>
                                 </td>
 
                                 <td class="align-middle text-start time">
-                                    <h6 class="text-1000 mb-0"><?= $contaReceber['RECEBIDO']?></h6>
+                                    <h6 class="text-1000 mb-0"><?= $contaReceber['RECEBIDO'] ?></h6>
                                 </td>
 
                                 <td class="align-middle text-start ps-3 status">
                                     <span class="badge badge-phoenix fs--2 badge-phoenix-danger">
-                                        <span class="badge-label cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalReceberConta">A receber</span>
+                                        <span class="badge-label cursor-pointer receber-conta status-pagamento-<?= $contaReceber['id']?>" data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro']?>" data-id="<?= $contaReceber['id']?>" 
+                                        <?= !$contaReceber['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalReceberConta"' : ''?>><?= $contaReceber['status'] ? "Recebido" : "A receber" ?></span>
                                         <span class="ms-1" data-feather="slash" style="height:12.8px;width:12.8px;"></span>
                                     </span>
                                 </td>
@@ -181,7 +182,8 @@
                                 <td class="align-middle white-space-nowrap text-end pe-0">
                                     <div class="position-relative">
                                         <div class="hover-actions">
-                                            <button title="Receber Conta" class="btn btn-sm btn-phoenix-success me-1 fs--2">
+                                            <button title="Receber Conta" class="btn btn-sm btn-phoenix-success me-1 fs--2 receber-conta status-pagamento-<?= $contaReceber['id']?>" data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro']?>" data-id="<?= $contaReceber['id']?>" 
+                                                <?= !$contaReceber['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalReceberConta"' : ''?>>
                                                 <span class="fas fa-check"></span>
                                             </button>
                                             <button class="btn btn-sm btn-phoenix-danger fs--2">
@@ -199,8 +201,7 @@
                                             <a class="dropdown-item" href="#!">
                                                 <span class="fas fa-pencil"></span> Editar
                                             </a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#modalEntradaContasReceber">Receber Conta</a>
+                                            
                                         </div>
                                     </div>
                                 </td>
@@ -404,8 +405,8 @@
                                                     <label class="text-body-highlight fw-bold mb-2">Grupos Macros</label>
                                                     <select class="form-select select2 select-macros input-obrigatorio" name="macros">
                                                         <option selected disabled>Selecione</option>
-                                                        <?php foreach($macros as $macro) { ?>
-                                                            <option value="<?= $macro['id']?>"><?= $macro['nome']?></option>
+                                                        <?php foreach ($macros as $macro) { ?>
+                                                            <option value="<?= $macro['id'] ?>"><?= $macro['nome'] ?></option>
                                                         <?php } ?>
                                                     </select>
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
@@ -420,7 +421,7 @@
                                                     <label class="text-body-highlight fw-bold mb-2">Grupos Micros</label>
                                                     <select disabled class="form-select select2 select-micros input-obrigatorio" name="micros">
                                                         <option selected disabled value="">Selecione</option>
-                                                        
+
                                                     </select>
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
@@ -428,7 +429,7 @@
 
                                             </div>
 
-                                           
+
 
                                             <div class="col-lg-4">
 
@@ -437,8 +438,8 @@
                                                     <select class="form-select select2 select-recebido input-obrigatorio" name="recebido">
                                                         <option selected disabled>Selecione</option>
                                                         <?php foreach ($dadosFinanceiro as $dadoFinanceiro) { ?>
-                                                            <option value="<?= $dadoFinanceiro['id']?>"><?= $dadoFinanceiro['nome']?></option>
-                                                        <?php }?>
+                                                            <option value="<?= $dadoFinanceiro['id'] ?>"><?= $dadoFinanceiro['nome'] ?></option>
+                                                        <?php } ?>
                                                     </select>
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
@@ -473,7 +474,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data Vencimento</label>
-                                                    <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}'/>
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
@@ -484,7 +485,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data Emissão</label>
-                                                    <input class="form-control datetimepicker cursor-pointer input-data-emissao" required name="data_emissao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}'/>
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-emissao" required name="data_emissao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
@@ -522,7 +523,7 @@
 
                 <div class="modal-footer">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
-                    <button class="btn btn-success btn-form" type="button" onclick="receberConta()">Salvar</button>
+                    <button class="btn btn-primary btn-form" type="button" onclick="cadastraContasReceber()">Salvar</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
                 </div>
@@ -546,11 +547,18 @@
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
 
+                                            <div class="col-md-4">
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Data Recebimento</label>
+                                                    <input class="form-control datetimepicker input-data-recebimento cursor-pointer" name="data_recebimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                </div>
+                                            </div>
+
                                             <div class="campos-pagamento row">
                                                 <div class="col-lg-4 duplica-pagamento">
                                                     <div class="mb-4">
                                                         <label class="text-body-highlight fw-bold mb-2">Conta Bancária</label>
-                                                        <select class="form-select select2">
+                                                        <select class="form-select select2 select-conta-bancaria">
                                                             <option value="" selected disabled>Selecione</option>
                                                             <option>Bradesco</option>
                                                             <option>Santander</option>
@@ -560,7 +568,7 @@
                                                 <div class="col-lg-4 duplica-pagamento">
                                                     <div class="mb-4">
                                                         <label class="text-body-highlight fw-bold mb-2">Forma Pagamento</label>
-                                                        <select class="form-select select2">
+                                                        <select class="form-select select2 select-forma-pagamento">
                                                             <option value="" selected disabled>Selecione</option>
                                                             <option>Pix</option>
                                                             <option>Débito</option>
@@ -571,7 +579,7 @@
                                                 <div class="col-lg-3 duplica-pagamento">
                                                     <div class="mb-4">
                                                         <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                        <input class="form-control" required name="valor" type="text" placeholder="Valor">
+                                                        <input class="form-control input-valor-recebido mascara-dinheiro" required name="valor" type="text" placeholder="Valor">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-1 mt-5">
@@ -595,7 +603,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-success btn-form" type="button">Pagar Conta</button>
+                    <input type="hidden" class="id-conta-pagamento">
+                    <input type="hidden" class="id-dado-financeiro">
+                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                    <button class="btn btn-primary btn-form" type="button" onclick="receberConta()">Pagar Conta</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
                 </div>
             </div>
