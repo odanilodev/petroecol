@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') or exit ('No direct script access allowed');
 
 class FinContaBancaria_model extends CI_Model
 {
@@ -21,17 +21,17 @@ class FinContaBancaria_model extends CI_Model
         return $query->result_array();
     }
 
-    
+
 
     public function recebeContaBancaria($id)
-{
-    $this->db->where('CB.id', $id);
-    $this->db->join('fin_saldo_bancario SB', 'SB.id_conta_bancaria = CB.id', 'left');
-    $this->db->where('CB.id_empresa', $this->session->userdata('id_empresa'));
-    $query = $this->db->get('fin_contas_bancarias CB');
+    {
+        $this->db->where('CB.id', $id);
+        $this->db->join('fin_saldo_bancario SB', 'SB.id_conta_bancaria = CB.id', 'left');
+        $this->db->where('CB.id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('fin_contas_bancarias CB');
 
-    return $query->row_array();
-}
+        return $query->row_array();
+    }
 
 
     public function recebeApelidoContaBancaria($apelido, $id)
@@ -80,7 +80,7 @@ class FinContaBancaria_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function deletaContaBancaria($id)
+    public function inativaContaBancaria($id)
     {
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
@@ -91,17 +91,53 @@ class FinContaBancaria_model extends CI_Model
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);
         }
-    
+
         // Retorna true se a operação foi bem sucedida
         return $this->db->affected_rows() > 0;
     }
 
     public function inativaSaldoBancario($id)
-    {  
+    {
         $this->db->where('id_conta_bancaria', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->set('status', 0);
         $this->db->update('fin_saldo_bancario');
+
+        // Verifica se a operação foi bem sucedida e insere um log
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id);
+        }
+
+
+        return $this->db->affected_rows() > 0;
+    }
+
+    public function deletaContaBancaria($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->delete('fin_contas_bancarias');
+
+        // Verifica se a operação foi bem sucedida e insere um log
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id);
+        }
+
+        // Retorna true se a operação foi bem sucedida
+        return $this->db->affected_rows() > 0;
+    }
+
+    public function deletaSaldoBancario($id)
+    {
+        $this->db->where('id_conta_bancaria', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->delete('fin_saldo_bancario');
+
+        // Verifica se a operação foi bem sucedida e insere um log
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id);
+        }
+
 
         return $this->db->affected_rows() > 0;
     }
@@ -114,5 +150,4 @@ class FinContaBancaria_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
-
 }

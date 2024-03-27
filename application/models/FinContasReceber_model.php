@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') or exit ('No direct script access allowed');
 
 class FinContasReceber_model extends CI_Model
 {
@@ -29,6 +29,21 @@ class FinContasReceber_model extends CI_Model
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($this->db->insert_id());
+        }
+
+        return $this->db->affected_rows() > 0;
+    }
+
+    public function editaConta($id, $dados)
+    {
+        $dados['editado_em'] = date('Y-m-d H:i:s');
+
+        $this->db->where('id', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->update('fin_contas_receber', $dados);
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id);
         }
 
         return $this->db->affected_rows() > 0;
