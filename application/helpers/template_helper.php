@@ -513,6 +513,25 @@ function scriptsFinContasPagarFooter()
     );
 }
 
+//Pagina tarifas bancarias
+function scriptsFinTarifasBancariasHead()
+{
+    return array(
+        '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />',
+        '<link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />'
+    );
+}
+
+
+function scriptsFinTarifasBancariasFooter()
+{
+    return array(
+        '<script src="' . base_url('/assets/js/financeiro/tarifas-bancarias/formulario-tarifas-bancarias.js') . '"></script>',
+        '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>',
+        '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>',
+        '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>'
+    );
+}
 // Pagina de contas a receber financeiro
 function scriptsFinContasReceberHead()
 {
