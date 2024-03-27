@@ -62,6 +62,8 @@ class FinContasPagar extends CI_Controller
 
 		$dataPagamento = $this->input->post('dataPagamento');
 
+		$dataPagamentoFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataPagamento)));
+
 		$valorTotalPago = 0;
 
 		foreach ($formasPagamento as $key => $formaPagamento) {
@@ -92,19 +94,17 @@ class FinContasPagar extends CI_Controller
 		$conta['valor_pago'] = $valorTotalPago;
 		$conta['status'] = 1;
 		$conta['id_forma_transacao'] = 2;
-		$conta['data_pagamento'] = date('Y/m/d'); //data a receber do front-end
+		$conta['data_pagamento'] = $dataPagamentoFormatada;
 
 		$this->FinContasPagar_model->editaConta($idConta, $conta);
 
-
-		// retorno conta paga (adapta no seu back ai)
+		// retorno conta paga
 		$response = array(
 			'success' => true,
 			'message' => "Pagamento realizado com sucesso!",
 			'type' => "success"
 
 		);
-
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
