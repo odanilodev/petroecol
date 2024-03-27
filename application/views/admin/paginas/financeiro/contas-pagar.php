@@ -131,9 +131,7 @@
 
                         <div class="col-auto">
 
-                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn"
-                                type="button" data-bs-toggle="modal"
-                                data-bs-target="#modalLancamentoContasPagar">Lançamento</button>
+                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento" type="button" data-bs-toggle="modal" data-bs-target="#modalLancamentoContasPagar">Lançamento</button>
 
                         </div>
 
@@ -470,7 +468,7 @@
                 <div class="modal-body body-coleta">
 
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body form-entrada-pagar">
                             <div class="row g-3">
                                 <div class="col-12">
                                     <div class="col-sm-12 col-xxl-12 py-3">
@@ -479,17 +477,15 @@
                                             <div class="col-lg-6">
 
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Grupos
-                                                        Macros</label>
-                                                    <select class="form-select">
-                                                        <option>Selecione</option>
-                                                        <option>Ally Aagaard</option>
-                                                        <option>Aida Moen</option>
-                                                        <option>Niko Koss</option>
-                                                        <option>Alec Haag</option>
-                                                        <option>Lonnie Kub</option>
-                                                        <option>Ola Smith</option>
+                                                    <label class="text-body-highlight fw-bold mb-2">Grupos Macros</label>
+                                                    <select class="form-select select2 select-macros input-obrigatorio" name="macros">
+                                                        <option selected disabled>Selecione</option>
+                                                        <?php foreach($macros as $macro) { ?>
+                                                            <option value="<?= $macro['id']?>"><?= $macro['nome']?></option>
+                                                        <?php } ?>
                                                     </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                                 </div>
 
                                             </div>
@@ -497,30 +493,30 @@
                                             <div class="col-lg-6">
 
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Grupos
-                                                        Micros</label>
-                                                    <select class="form-select">
-                                                        <option>Selecione</option>
-                                                        <option>Ally Aagaard</option>
-                                                        <option>Aida Moen</option>
-                                                        <option>Niko Koss</option>
-                                                        <option>Alec Haag</option>
-                                                        <option>Lonnie Kub</option>
-                                                        <option>Ola Smith</option>
+                                                    <label class="text-body-highlight fw-bold mb-2">Grupos Micros</label>
+                                                    <select disabled class="form-select select2 select-micros input-obrigatorio" name="micros">
+                                                        <option selected disabled value="">Selecione</option>
+                                                        <!-- JS -->
                                                     </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                                                 </div>
 
                                             </div>
 
+                                           
                                             <div class="col-lg-6">
 
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Empresa</label>
-                                                    <select class="form-select select2">
-                                                        <option>Selecione</option>
-                                                        <option>Óleo</option>
-                                                        <option>Reciclagem</option>
+                                                    <label class="text-body-highlight fw-bold mb-2">Grupo recebidos</label>
+                                                    <select class="form-select select2 select-grupo-recebidos input-obrigatorio" name="grupo-recebido">
+                                                        <option selected disabled>Selecione</option>
+                                                        <?php foreach ($grupos as $grupo) { ?>
+                                                            <option value="<?= $grupo['id']?>"><?= $grupo['nome']?></option>
+                                                        <?php }?>
+                                                        <option value="clientes">Clientes</option>
+
                                                     </select>
+
                                                 </div>
 
                                             </div>
@@ -529,15 +525,14 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Recebido</label>
-                                                    <select class="form-select select2">
-                                                        <option>Selecione</option>
-                                                        <option>Ally Aagaard</option>
-                                                        <option>Aida Moen</option>
-                                                        <option>Niko Koss</option>
-                                                        <option>Alec Haag</option>
-                                                        <option>Lonnie Kub</option>
-                                                        <option>Ola Smith</option>
+                                                    <select class="form-select select2 select-recebido input-obrigatorio" name="recebido">
+                                                        <option selected disabled>Selecione</option>
+                                                        <?php foreach ($dadosFinanceiro as $dadoFinanceiro) { ?>
+                                                            <option data-nome="<?= $dadoFinanceiro['nome']?>" value="<?= $dadoFinanceiro['id']?>"><?= $dadoFinanceiro['nome']?></option>
+                                                        <?php }?>
                                                     </select>
+                                                    <input type="hidden" name="nome-recebido" class="nome-recebido">
+
                                                 </div>
 
                                             </div>
@@ -546,7 +541,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Parcelas</label>
-                                                    <select class="form-select select2">
+                                                    <select class="form-select select2" name="parcelas">
                                                         <option selected disabled>Selecione</option>
                                                         <option value="1">1x</option>
                                                         <option value="2">2x</option>
@@ -568,25 +563,22 @@
                                             <div class="col-lg-4">
 
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Data
-                                                        pagamento</label>
-                                                    <input class="form-control datetimepicker input-coleta" required
-                                                        name="data_coleta" type="text" placeholder="dd/mm/aaaa"
-                                                        data-options='{"disableMobile":true,"allowInput":true}'
-                                                        style="cursor: pointer;" />
-                                                </div>
+                                                    <label class="text-body-highlight fw-bold mb-2">Data Vencimento</label>
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}'/>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
+                                                </div>
                                             </div>
 
                                             <div class="col-lg-4">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data Emissão</label>
-                                                    <input class="form-control datetimepicker input-coleta" required
-                                                        name="data_coleta" type="text" placeholder="dd/mm/aaaa"
-                                                        data-options='{"disableMobile":true,"allowInput":true}'
-                                                        style="cursor: pointer;" />
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-emissao" required name="data_emissao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}'/>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                                 </div>
+
 
                                             </div>
 
@@ -594,8 +586,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                    <input class="form-control mascara-dinheiro" required name="valor"
-                                                        type="text" placeholder="Valor total da conta">
+                                                    <input class="form-control input-obrigatorio mascara-dinheiro" required name="valor" type="text" placeholder="Valor total da conta">
                                                 </div>
 
                                             </div>
@@ -604,7 +595,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Observação</label>
-                                                    <textarea class="form-control"></textarea>
+                                                    <textarea class="form-control" name="observacao"></textarea>
                                                 </div>
 
                                             </div>
@@ -619,8 +610,8 @@
                 </div>
 
                 <div class="modal-footer">
-
-                    <button class="btn btn-success btn-form" type="button">Salvar</button>
+                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                    <button class="btn btn-success btn-form" type="button" onclick="cadastraContasPagar()">Salvar</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
                 </div>
