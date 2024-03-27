@@ -134,4 +134,16 @@ class FinMicro extends CI_Controller
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
+	public function recebeMicrosMacro () 
+	{
+		$idMacro = $this->input->post('idMacro');
+		$microsMacro = $this->FinMicro_model->recebeMicros($idMacro);
+
+		$response = array(
+			'microsMacro' => $microsMacro
+		);
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
 }

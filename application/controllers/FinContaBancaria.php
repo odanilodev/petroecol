@@ -74,6 +74,8 @@ class FinContaBancaria extends CI_Controller
 
 		$saldoInicial = $this->input->post('saldoInicial');
 
+		$saldoInicial = str_replace(['.', ','], ['', '.'], $saldoInicial);
+
 		$dados['apelido'] = $this->input->post('apelido');
 		$dados['banco'] = $this->input->post('banco');
 		$dados['conta'] = $this->input->post('conta');
