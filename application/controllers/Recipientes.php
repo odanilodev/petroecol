@@ -123,7 +123,7 @@ class Recipientes extends CI_Controller
 	public function deletaRecipiente()
 	{
 		$id = $this->input->post('id');
-
+		
 		// Verifica se o recipiente esta vinculado a um cliente
 		$recipienteVinculadoCliente = $this->recipientes_model->verificaRecipienteCliente($id);
 
