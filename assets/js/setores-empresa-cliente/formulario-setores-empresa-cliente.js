@@ -9,7 +9,6 @@ var baseUrl = $('.base-url').val();
         $(this).val(valor === 0 ? '' : valor);
     });
 
-
 const cadastraSetorEmpresaCliente = () => {
 
     let idCliente = $('.id-cliente').val();
@@ -33,13 +32,41 @@ const cadastraSetorEmpresaCliente = () => {
 
     permissao = true;
 
-    $('.input-obrigatorio').each(function(){
-        if(!$(this).val()){
-            permissao = false;
-            avisoRetorno('Algo deu errado!', `Preencha todos os campos`, 'error', '#');
-        }    
-        
-    });
+	$(".input-obrigatorio").each(function () {
+
+		// Verifica se o valor do input atual está vazio
+		if (!$(this).val()) {
+
+            $(this).addClass('invalido');
+
+            // verifica se é select2
+            if ($(this).next().hasClass('aviso-obrigatorio')) {
+                
+                $(this).next().removeClass('d-none');
+
+            } else {
+                $(this).next().next().removeClass('d-none');
+                $(this).next().addClass('select2-obrigatorio');
+            }
+
+			permissao = false;
+
+		} else {
+
+            $(this).removeClass('invalido');
+
+            if ($(this).next().hasClass('aviso-obrigatorio')) {
+
+                $(this).next().addClass('d-none');
+
+            } else {
+                $(this).next().next().addClass('d-none');
+                $(this).next().removeClass('select2-obrigatorio');
+
+            }
+        }
+	});
+
     if (!$('.fixo-coleta').hasClass('d-none') && !diaFixoSemana) {
         permissao = false;
         avisoRetorno('Algo deu errado!', `Preencha todos os campos`, 'error', '#');

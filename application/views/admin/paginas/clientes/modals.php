@@ -251,7 +251,7 @@
                     <input type="hidden" class="id-cliente">
 
                     <label>Atribuir novos setores</label>
-                    <select class="form-select w-100 select2 select-nome-setor-empresa">
+                    <select class="form-select w-100 select2 select-nome-setor-empresa input-obrigatorio">
 
                         <option selected disabled value="">Selecione setores</option>
                         <?php foreach ($setoresEmpresa as $s) { ?>
@@ -259,6 +259,7 @@
                         <?php } ?>
 
                     </select>
+                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                 </div>
 
                 <div class="w-100 my-3 mb-4">
@@ -266,7 +267,7 @@
                     <input type="hidden" class="input-editar-setor-empresa">
 
                     <label>Atribuir frequência de coleta</label>
-                    <select class="form-select w-100 select2 select-frequencia-coleta-setor">
+                    <select class="form-select w-100 select2 select-frequencia-coleta-setor input-obrigatorio">
 
                         <option selected disabled value="">Selecione a frequência de coleta</option>
                         <?php foreach ($frequenciaColeta as $f) { ?>
@@ -274,7 +275,10 @@
                         <?php } ?>
 
                     </select>
+                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                 </div>
+
                 <div class="w-100 mb-2 col-md-12 fixo-coleta <?= ($cliente['dia_coleta_fixo'] ?? false) || ($cliente['frequencia'] ?? '') === 'Fixo' ? 'd-block' : 'd-none' ?>  ">
                     <div class="mb-2">
                         <label class="">Dia da Semana *</label>
@@ -289,7 +293,8 @@
                             <option value="Sabado" <?= (isset($cliente['dia_coleta_fixo']) && $cliente['dia_coleta_fixo'] == 'Sabado') ? 'selected' : ''; ?>>Sábado</option>
 
                         </select>
-                        <div class="invalid-feedback">Preencha este campo</div>
+                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                     </div>
                 </div>
 
@@ -301,13 +306,14 @@
                             <option value="0">Pago pra coletar</option>
                             <option value="1">Recebe pra coletar</option>
                         </select>
-                        <div class="invalid-feedback">Preencha este campo</div>
+                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                     </div>
                 </div>
 
                 <div class="mb-3 col-md-12">
                     <label>Dia de pagamento</label>
-                    <input class="form-control dia-pagamento input-obrigatorio" type="number" name="dia-pagamento" value="<?= $setoresEmpresaCliente['dia_pagamento'] ?? ''; ?>" placeholder="Dia de pagamento" />
+                    <input class="form-control dia-pagamento" type="number" name="dia-pagamento" value="<?= $setoresEmpresaCliente['dia_pagamento'] ?? ''; ?>" placeholder="Dia de pagamento" />
                 </div>
 
                 <div class="mb-3 col-md-12">
@@ -320,7 +326,7 @@
                         <?php } ?>
 
                     </select>
-                    <div class="invalid-feedback">Preencha este campo</div>
+                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                 </div>
 
                 <div class="col-md-12 mb-3">
