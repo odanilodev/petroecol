@@ -262,6 +262,7 @@ class Clientes extends CI_Controller
     public function cadastraCliente()
     {
         $dadosEmpresa = $this->input->post('dadosEmpresa');
+        $dadosEmpresa['nome'] = strtoupper($dadosEmpresa['nome']);
         $dadosEndereco = $this->input->post('dadosEndereco');
         $dadosResponsavel = $this->input->post('dadosResponsavel');
         $id = $this->input->post('id');
