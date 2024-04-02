@@ -18,7 +18,7 @@ class FinFluxo_model extends CI_Model
         return $query->result_array();
     }
 
-    public function recebeFluxoData($dataInicio, $dataFim)
+    public function recebeFluxoData($dataInicio, $dataFim, $tipoMovimentacao, $limit, $page, $count = null)
     {
         $this->db->select('
             fin_fluxo.*,
@@ -34,10 +34,25 @@ class FinFluxo_model extends CI_Model
         $this->db->where('fin_fluxo.data_movimentacao <=', $dataFim);
         $this->db->where('fin_fluxo.data_movimentacao >=', $dataInicio);
 
-        $query = $this->db->get();
+        // Verifica se o tipo de movimentação não é 'ambas', para adicionar uma restrição
+        if ($tipoMovimentacao !== 'ambas') {
+            $this->db->where('fin_fluxo.movimentacao_tabela', $tipoMovimentacao);
+        }
 
+        $this->db->order_by('fin_fluxo.data_movimentacao', 'DESC');
+
+        if ($count) {
+            return $this->db->count_all_results();
+        }
+
+        // Aplica a paginação
+        $offset = ($page - 1) * $limit;
+        $this->db->limit($limit, $offset);
+
+        $query = $this->db->get();
         return $query->result_array();
     }
+
 
 
     public function insereFluxo($dados)
