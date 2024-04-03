@@ -928,7 +928,7 @@ const novoClienteRomaneio = () => {
         theme: 'bootstrap-5'
     });
 
-    let idSetorEmpresa = $('.id-setor-empresa').val();
+    let idSetorEmpresa = $('.input-id-setor-empresa').val();
 
     recebeClientesSetor(idSetorEmpresa);
 }
