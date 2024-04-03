@@ -593,10 +593,12 @@ $(document).on('click', '.nao-coletado', function () {
         $('.input-obg-' + idCliente).removeClass('input-obrigatorio');
         $('.input-obg-' + idCliente).removeClass('invalido');
 
-        $('.aviso-msg').removeClass('d-none');
-        $('.aviso-msg').html('Preencha este campo');
-        $('.accordion-button').attr('disabled', true);
-        $('.btn-finaliza-romaneio').attr('disabled', true);
+        if ($(this).hasClass('cliente-prioridade')) {
+            $('.aviso-msg').removeClass('d-none');
+            $('.aviso-msg').html('Preencha este campo');
+            $('.accordion-button').attr('disabled', true);
+            $('.btn-finaliza-romaneio').attr('disabled', true);
+        }   
 
     } else {
 
@@ -609,8 +611,6 @@ $(document).on('click', '.nao-coletado', function () {
             $('.input-obg-' + idCliente).addClass('input-obrigatorio');
 
         }
-
-
     }
 
 })
