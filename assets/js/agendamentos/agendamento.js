@@ -779,140 +779,93 @@ const exibirClientesAgendados = (dataColeta, prioridade, status) => {
 }
 
 function imprimirClientes(clientes) {
+  
+  let htmlClientes = clientes.map((cliente, index) => {
 
-  $.each(clientes, function (index, cliente) {
+    let dataDividida = cliente.data_coleta.split('-');
+    let dataFormatada = `${dataDividida[2]}/${dataDividida[1]}/${dataDividida[0]}`;
+    let disabledStatus = cliente.status == 1 ? "disabled" : "";
+    let displayRemove = cliente.status == 1 ? "d-none" : "";
 
-    var dataDividida = cliente.data_coleta.split('-');
-
-    var dataFormatada = dataDividida[2] + '/' + dataDividida[1] + '/' + dataDividida[0];
-
-
-      let clientesTabela = `
-
-        <tr class="agendamento-${cliente.id}" data-data="${cliente.data_coleta}" data-prioridade="${cliente.prioridade}">
-          <td>${cliente.rua} ${cliente.numero}</td>
-
-          <td>
-          
-            <input ${cliente.status == 1 ? "disabled" : ""} class="form-control datetimepicker3 flatpickr-input data-modal data-modal-${cliente.id_cliente}" id="datepicker" type="text" placeholder="dd/mm/yyyy" data-options="{&quot;disableMobile&quot;:true,&quot;}" readonly="readonly" value="${dataFormatada}" data-data="${dataFormatada}" data-setor="${cliente.id_setor_empresa}" data-id="${cliente.id_cliente}"  data-agendamento="${cliente.id}" data-obs="${cliente.observacao}">
-        
-          </td>
-
-          <td>
-          
-            <input ${cliente.status == 1 ? "disabled" : ""} class="form-control datetimepicker2 flatpickr-input hora-modal hora-modal-${cliente.id_cliente}" id="timepicker1" type="text" placeholder="hora : minuto" data-options="{&quot;noCalendar&quot;:true,&quot;dateFormat&quot;:&quot;H:i&quot;,&quot;disableMobile&quot;:true}" readonly="readonly" value="${cliente.hora_coleta}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-setor="${cliente.id_setor_empresa}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
-
-      
-          </td>
-
-          <td>
-          
-            <select ${cliente.status == 1 ? "disabled" : ""} class="form-select w-100 periodo-modal periodo-modal-${cliente.id_cliente}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-setor="${cliente.id_setor_empresa}" data-obs="${cliente.observacao}">
-
-              <option disabled selected value="">Período de Coleta</option>
-
-              <option ${cliente.periodo_coleta == "Manhã" ? "selected" : ""} value="Manhã">Manhã</option>
-              <option ${cliente.periodo_coleta == "Tarde" ? "selected" : ""} value="Tarde">Tarde</option>
-              <option ${cliente.periodo_coleta == "Noite" ? "selected" : ""} value="Noite">Noite</option>
-              
-            </select>
-
-          </td>
-
-          <td>
-          
-            <select ${cliente.status == 1 ? "disabled" : ""} class="form-select w-100 select-prioridade-modal select-prioridade-modal-${cliente.id_cliente}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-setor="${cliente.id_setor_empresa}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
-
-              <option disabled selected value="">Definir prioridade</option>
-
-              <option ${cliente.prioridade == "0" ? "selected" : ""} value="0">Não</option>
-              <option ${cliente.prioridade == "1" ? "selected" : ""} value="1">Sim</option>
-              
-            </select>
-
-          </td>
-
-          <td style="text-align: center">
-
-            <input type="hidden" value="${cliente.prioridade}" class="prioridade-modal-${cliente.id_cliente}">
-
-            <a class="detalhes-modal-${cliente.id_cliente}" href="${baseUrl}clientes/detalhes/${cliente.id_cliente}" title="Mais detalhes">
-              <span class="fas fa-eye fs-1"></span>
-            </a>
-            <a class="btn-salva-modal d-none text-success salva-modal-${cliente.id_cliente}" href="#" title="Salvar Agendamento">
-              <span class="fas fa-check-circle fs-1"></span>
-            </a>
-          </td>
-
-          <td>
-            <a style="cursor: pointer" class="text-danger remove-cliente-agendamento ${cliente.status == 1 ? "d-none" : ""}" data-mes="${dataDividida[1]}" data-ano="${dataDividida[0]}" data-id="${cliente.id}" title="Cancelar agendamento">
-              <span class="fas fa-times fs-1 ml-5"></span>
-            </a>
-          </td>
-          
-          
-        </tr>
-        
-      `;
-
-    
-    let clientesAgendados = `
-
+    return `
       <div class="accordion-item agendamento-${cliente.id}" data-data="${cliente.data_coleta}" data-prioridade="${cliente.prioridade}">
-
-        <h2 class="accordion-header" id="headingThree">
+        <h2 class="accordion-header" id="heading${index}">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${index}" aria-expanded="false" aria-controls="collapse-${index}">
-          ${cliente.nome} (${cliente.SETOR})
+            ${cliente.nome} (${cliente.SETOR})
           </button>
         </h2>
-
-        <div class="accordion-collapse collapse" id="collapse-${index}" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-          <div class="accordion-boddy pt-0 table-responsive" align="center">
-
-              <table class="table tabela-clientes-agendados">
-                <thead>
-                  <tr>
-                    <th scope="col">Endereço</th>
-                    <th scope="col">Data</th>
-                    <th scope="col">Hora</th>
-                    <th scope="col">Período</th>
-                    <th scope="col">Definir prioridade</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody class="clientes-agendados text-start">
-
-                  ${clientesTabela}
-                  
-                </tbody>
-              </table>
-          
+        <div id="collapse-${index}" class="accordion-collapse collapse" aria-labelledby="heading${index}" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Endereço</th>
+                  <th scope="col">Data</th>
+                  <th scope="col">Hora</th>
+                  <th scope="col">Período</th>
+                  <th scope="col">Prioridade</th>
+                  <th scope="col">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>${cliente.rua}, ${cliente.numero}, ${cliente.cidade}</td>
+                  <td>
+                    <input ${disabledStatus} class="form-control datetimepicker3 flatpickr-input data-modal data-modal-${cliente.id_cliente}" type="text" value="${dataFormatada}" data-data="${dataFormatada}" data-setor="${cliente.id_setor_empresa}" data-id="${cliente.id_cliente}" data-agendamento="${cliente.id}" data-obs="${cliente.observacao}">
+                  </td>
+                  <td>
+                    <input ${disabledStatus} placeholder="hora : minuto" class="form-control datetimepicker2 flatpickr-input hora-modal hora-modal-${cliente.id_cliente}" type="text" value="${cliente.hora_coleta}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-setor="${cliente.id_setor_empresa}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
+                  </td>
+                  <td>
+                    <select ${disabledStatus} class="form-select periodo-modal periodo-modal-${cliente.id_cliente}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-setor="${cliente.id_setor_empresa}" data-obs="${cliente.observacao}">
+                      <option disabled value="">Período de Coleta</option>
+                      <option ${cliente.periodo_coleta == "Manhã" ? "selected" : ""} value="Manhã">Manhã</option>
+                      <option ${cliente.periodo_coleta == "Tarde" ? "selected" : ""} value="Tarde">Tarde</option>
+                      <option ${cliente.periodo_coleta == "Noite" ? "selected" : ""} value="Noite">Noite</option>
+                    </select>
+                  </td>
+                  <td>
+                    <select ${disabledStatus} class="form-select select-prioridade-modal select-prioridade-modal-${cliente.id_cliente}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-setor="${cliente.id_setor_empresa}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
+                      <option disabled value="">Definir prioridade</option>
+                      <option ${cliente.prioridade == "0" ? "selected" : ""} value="0">Não</option>
+                      <option ${cliente.prioridade == "1" ? "selected" : ""} value="1">Sim</option>
+                    </select>
+                  </td>
+                  <td>
+                    <a class="detalhes-modal-${cliente.id_cliente}" href="${baseUrl}clientes/detalhes/${cliente.id_cliente}" title="Mais detalhes">
+                      <span class="fas fa-eye fs-1"></span>
+                    </a>
+                    <a class="btn-salva-modal d-none text-success salva-modal-${cliente.id_cliente}" href="#" title="Salvar Agendamento">
+                      <span class="fas fa-check-circle fs-1"></span>
+                    </a>
+                    <a style="cursor: pointer" class="text-danger remove-cliente-agendamento ${displayRemove}" data-mes="${dataDividida[1]}" data-ano="${dataDividida[0]}" data-id="${cliente.id}" title="Cancelar agendamento">
+                      <span class="fas fa-times fs-1 ml-5"></span>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
+      </div>`;
+  }).join('');
 
-      </div>
-    `;
+  $('.accordion-clientes-agendados').html(htmlClientes); // Use .html() to replace old content
 
-
-    $('.accordion-clientes-agendados').append(clientesAgendados);
-
-    $('.datetimepicker3').flatpickr({
-      dateFormat: "d/m/Y",
-      disableMobile: true
-    });
-
-    $('.datetimepicker2').flatpickr({
-      dateFormat: "H:i",
-      disableMobile: true,
-      noCalendar: true,
-      enableTime: true
-    });
-
-   
+  // Initialize flatpickr
+  $('.datetimepicker3').flatpickr({
+    dateFormat: "d/m/Y",
+    disableMobile: true
   });
 
+  $('.datetimepicker2').flatpickr({
+    dateFormat: "H:i",
+    disableMobile: true,
+    noCalendar: true,
+    enableTime: true
+  });
 }
+
 
 // remove a opção de arrastar os eventos do calendário
 $(document).ready(function () {
