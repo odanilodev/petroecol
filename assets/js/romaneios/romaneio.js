@@ -93,8 +93,8 @@ const filtrarClientesRomaneio = () => {
                     <tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
                     
                     <td class="align-middle white-space-nowrap nome-cliente" data-id="${data.retorno[i].ID_CLIENTE}">
-                    <input class="form-check-input check-clientes-modal cursor-pointer check-element" style="margin-right:8px;" name="clientes" type="checkbox" value="${data.retorno[i].ID_CLIENTE}">
-                    ${data.retorno[i].CLIENTE}
+                        <input class="form-check-input check-clientes-modal cursor-pointer check-element" style="margin-right:8px;" name="clientes" type="checkbox" value="${data.retorno[i].ID_CLIENTE}">
+                        ${data.retorno[i].CLIENTE}
                     </td>
                     
                     </tr>
@@ -184,7 +184,8 @@ const gerarRomaneio = () => {
     // novo clientes para gerar romaneio
     let clientes = $('.ids-selecionados').val().split(',');
 
-    if (clientes.length < 1) {
+
+    if (!$('.ids-selecionados').val()) {
         avisoRetorno('Algo deu errado', 'Você precisa selecionar algum cliente para gerar o romaneio.', 'error', '#');
         permissao = false;
 
@@ -231,6 +232,11 @@ $(document).on('click', '.add-cliente', function () {
     $('#select-cliente-modal').val('').trigger('change');
     $('.div-select-modal').removeClass('d-none');
 
+    $('.select2').select2({
+        dropdownParent: "#modalRomaneio",
+        theme: 'bootstrap-5'
+    });
+
 
 })
 
@@ -262,20 +268,25 @@ $('#select-cliente-modal').change(function () {
     $('.div-select-modal').addClass('d-none');
 
     let clientes = `
+
         <tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
+                    
             <td class="align-middle white-space-nowrap nome-cliente" data-id="${idClienteNovo}">
+                <input class="form-check-input check-clientes-modal cursor-pointer check-element" style="margin-right:8px;" name="clientes" type="checkbox" value="${idClienteNovo}">
                 ${cliente}
             </td>
-
-            <td class="align-middle white-space-nowrap pt-3">
-                <div class="form-check">
-                    <input class="form-check-input check-clientes-modal" checked name="clientes" type="checkbox" value="${idClienteNovo}" style="cursor: pointer">
-                </div>
-            </td>
+        
         </tr>
     `;
 
     if (idClienteNovo) {
+
+        let todosNomesClientes = $('.todos-clientes').val();
+
+
+        $('.todos-clientes').val(`${todosNomesClientes} , ${clientes}`);
+
+        
         $('.clientes-modal-romaneio').append(clientes);
     }
 

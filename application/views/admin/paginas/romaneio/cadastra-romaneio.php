@@ -98,7 +98,9 @@
                             </tbody>
 
                         </table>
-                        <i class="fas fa-plus-square mt-2 add-cliente " style="cursor: pointer;"></i>
+
+                        <i class="fas fa-plus mt-2 add-cliente btn btn-phoenix-secondary" style="cursor: pointer; float: right"></i>
+                        
 
                     </div>
 
