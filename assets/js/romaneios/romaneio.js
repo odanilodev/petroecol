@@ -852,12 +852,13 @@ function recebeClientesSetor(idSetor) {
 
             $('#select-cliente-modal').html('<option selected disabled value="">Selecione o cliente</option>');
 
-            for (let i = 0; i < data.clientesSetor.length; i++) {
-
-                $('#select-cliente-modal').append(`<option value="${data.clientesSetor[i]['ID_CLIENTE']}">${data.clientesSetor[i]['CLIENTE']}</option>`);
-
-            }
-
+            let options = data.clientesSetor.map(cliente => {
+                return `<option value="${cliente['ID_CLIENTE']}">${cliente['CLIENTE']}</option>`;
+            });
+    
+            // Adicionando as options ao select de uma vez
+            $('#select-cliente-modal').append(options);
+    
             $('.div-select-cliente').removeClass('d-none');
 
         }
