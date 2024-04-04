@@ -779,7 +779,9 @@ const exibirClientesAgendados = (dataColeta, prioridade, status) => {
 }
 
 function imprimirClientes(clientes) {
+  
   let htmlClientes = clientes.map((cliente, index) => {
+
     let dataDividida = cliente.data_coleta.split('-');
     let dataFormatada = `${dataDividida[2]}/${dataDividida[1]}/${dataDividida[0]}`;
     let disabledStatus = cliente.status == 1 ? "disabled" : "";
@@ -809,13 +811,13 @@ function imprimirClientes(clientes) {
                 <tr>
                   <td>${cliente.rua}, ${cliente.numero}, ${cliente.cidade}</td>
                   <td>
-                    <input ${disabledStatus} class="form-control datetimepicker3" type="text" value="${dataFormatada}">
+                    <input ${disabledStatus} class="form-control datetimepicker3 flatpickr-input data-modal data-modal-${cliente.id_cliente}" type="text" value="${dataFormatada}" data-data="${dataFormatada}" data-setor="${cliente.id_setor_empresa}" data-id="${cliente.id_cliente}" data-agendamento="${cliente.id}" data-obs="${cliente.observacao}">
                   </td>
                   <td>
-                    <input ${disabledStatus} class="form-control datetimepicker2" type="text" value="${cliente.hora_coleta}">
+                    <input ${disabledStatus} placeholder="hora : minuto" class="form-control datetimepicker2 flatpickr-input hora-modal hora-modal-${cliente.id_cliente}" type="text" value="${cliente.hora_coleta}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-setor="${cliente.id_setor_empresa}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
                   </td>
                   <td>
-                    <select ${disabledStatus} class="form-select">
+                    <select ${disabledStatus} class="form-select periodo-modal periodo-modal-${cliente.id_cliente}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-data="${dataFormatada}" data-setor="${cliente.id_setor_empresa}" data-obs="${cliente.observacao}">
                       <option disabled value="">Período de Coleta</option>
                       <option ${cliente.periodo_coleta == "Manhã" ? "selected" : ""} value="Manhã">Manhã</option>
                       <option ${cliente.periodo_coleta == "Tarde" ? "selected" : ""} value="Tarde">Tarde</option>
@@ -823,7 +825,7 @@ function imprimirClientes(clientes) {
                     </select>
                   </td>
                   <td>
-                    <select ${disabledStatus} class="form-select">
+                    <select ${disabledStatus} class="form-select select-prioridade-modal select-prioridade-modal-${cliente.id_cliente}" data-id="${cliente.id_cliente}" data-hora="${cliente.hora_coleta}" data-agendamento="${cliente.id}" data-setor="${cliente.id_setor_empresa}" data-data="${dataFormatada}" data-obs="${cliente.observacao}">
                       <option disabled value="">Definir prioridade</option>
                       <option ${cliente.prioridade == "0" ? "selected" : ""} value="0">Não</option>
                       <option ${cliente.prioridade == "1" ? "selected" : ""} value="1">Sim</option>
