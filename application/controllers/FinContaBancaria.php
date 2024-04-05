@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit ('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class FinContaBancaria extends CI_Controller
 {
@@ -55,11 +55,15 @@ class FinContaBancaria extends CI_Controller
 		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsFinContaBancariaHead));
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsFinContaBancariaFooter));
 
+		//Carregamento de models necessarios
+		$this->load->model('FinBancosFinanceiros_model');
+		$this->load->model('SetoresEmpresa_model');
+
 		$id = $this->uri->segment(3);
 
 		$data['contaBancaria'] = $this->FinContaBancaria_model->recebeContaBancaria($id);
+		$data['bancosFinanceiros'] = $this->FinBancosFinanceiros_model->recebeBancosFinanceiros($id);
 
-		$this->load->model('SetoresEmpresa_model');
 		$data['setores'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
@@ -76,43 +80,40 @@ class FinContaBancaria extends CI_Controller
 		$saldoInicial = str_replace(['.', ','], ['', '.'], $saldoInicial);
 
 		$dados['apelido'] = $this->input->post('apelido');
-		$dados['banco'] = $this->input->post('banco');
+		$dados['id_banco_financeiro'] = $this->input->post('banco');
 		$dados['conta'] = $this->input->post('conta');
 		$dados['agencia'] = $this->input->post('agencia');
-		$dados['id_setor_empresa'] = $this->input->post('setorEmpresa');
 
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
+		// Verifica se já existe uma conta bancária com o mesmo apelido (excluindo a conta atual se estiver em modo de edição)
+		$contaExistente = $this->FinContaBancaria_model->recebeApelidoContaBancaria($dados['apelido'], $id);
 
-		$contaBancaria = $this->FinContaBancaria_model->recebeApelidoContaBancaria($dados['apelido'], $id); // verifica se já existe a conta bancaria
-
-		// Verifica se a conta bancaria já existe e se não é a conta bancaria que está sendo editada
-		if ($contaBancaria) {
-
-			$response = array(
+		if ($contaExistente && (!empty($id) && $contaExistente['id'] != $id || empty($id))) {
+			$response = [
 				'success' => false,
-				'message' => "Esta Conta Bancária já existe! Tente cadastrar uma diferente."
-			);
-
+				'message' => "Esse Apelido de Conta Bancária já existe! Tente cadastrar uma diferente."
+			];
 			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 		}
 
-		$retorno = $id ? $this->FinContaBancaria_model->editaContaBancaria($id, $dados) : $this->FinContaBancaria_model->insereContaBancaria($dados); // se tiver ID edita se não INSERE
-
-		if ($retorno) { // inseriu ou editou
-
-			!$id ? $this->FinSaldoBancario_model->insereSaldoBancario($retorno['inserted_id'], $saldoInicial) : '';
-
-			$response = array(
-				'success' => true,
-				'message' => $id ? 'Conta Bancaria editada com sucesso!' : 'Conta Bancaria cadastrada com sucesso!'
-			);
-		} else { // erro ao inserir ou editar
-
-			$response = array(
-				'success' => false,
-				'message' => $id ? "Erro ao editar a Conta Bancaria!" : "Erro ao cadastrar a Conta Bancaria!"
-			);
+		if (empty($id)) {
+			// Insere nova conta bancária
+			$resultado = $this->FinContaBancaria_model->insereContaBancaria($dados);
+			if ($resultado) {
+				$this->FinSaldoBancario_model->insereSaldoBancario($resultado['inserted_id'], $saldoInicial);
+				$response = ['success' => true, 'message' => 'Conta Bancária cadastrada com sucesso!'];
+			} else {
+				$response = ['success' => false, 'message' => "Erro ao cadastrar a Conta Bancária!"];
+			}
+		} else {
+			// Edita conta bancária existente
+			$resultado = $this->FinContaBancaria_model->editaContaBancaria($id, $dados);
+			if ($resultado) {
+				$response = ['success' => true, 'message' => 'Conta Bancária editada com sucesso!'];
+			} else {
+				$response = ['success' => false, 'message' => "Erro ao editar a Conta Bancária!"];
+			}
 		}
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
@@ -135,10 +136,11 @@ class FinContaBancaria extends CI_Controller
 				'vinculo' => true
 			);
 		} else {
-			// Tenta inativar a conta bancária
-			$retornoConta = $this->FinContaBancaria_model->deletaContaBancaria($id);
 			// Tenta inativar o saldo bancário
 			$retornoSaldo = $this->FinContaBancaria_model->deletaSaldoBancario($id);
+
+			// Tenta inativar a conta bancária
+			$retornoConta = $this->FinContaBancaria_model->deletaContaBancaria($id);
 
 			// Verifica se ambas as operações foram bem-sucedidas
 			if ($retornoConta && $retornoSaldo) {
