@@ -286,7 +286,7 @@ $('#select-cliente-modal').change(function () {
 
         $('.todos-clientes').val(`${todosNomesClientes} , ${clientes}`);
 
-        
+
         $('.clientes-modal-romaneio').append(clientes);
     }
 
@@ -609,7 +609,7 @@ $(document).on('click', '.nao-coletado', function () {
             $('.aviso-msg').html('Preencha este campo');
             $('.accordion-button').attr('disabled', true);
             $('.btn-finaliza-romaneio').attr('disabled', true);
-        }   
+        }
 
     } else {
 
@@ -866,10 +866,10 @@ function recebeClientesSetor(idSetor) {
             let options = data.clientesSetor.map(cliente => {
                 return `<option value="${cliente['ID_CLIENTE']}">${cliente['CLIENTE']}</option>`;
             });
-    
+
             // Adicionando as options ao select de uma vez
             $('#select-cliente-modal').append(options);
-    
+
             $('.div-select-cliente').removeClass('d-none');
 
         }
@@ -1108,3 +1108,95 @@ const deletaClienteRomaneio = (romaneio, cliente) => {
     }
 
 }
+
+const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
+
+
+    if (!$('.btn-accordion-' + idRomaneio).hasClass('collapsed')) {
+
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}romaneios/recebeRomaneioPorData`,
+            data: {
+                dataRomaneio: dataRomaneio
+            }, beforeSend: function () {
+                $('.head-romaneio').addClass('d-none');
+                $('.accortion-' + idRomaneio).html('');
+                $('.load-' + idRomaneio).removeClass('d-none');
+            }, success: function (data) {
+
+                $('.head-romaneio').removeClass('d-none');
+                $('.load-' + idRomaneio).addClass('d-none');
+
+                let htmlClientes = data.romaneios.map((romaneio, index) => {
+
+                    return `
+                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+
+                        <td class="email align-middle white-space-nowrap">
+                            ${romaneio.codigo}
+                        </td>
+            
+                        <td class="mobile_number align-middle white-space-nowrap">
+                            ${romaneio.RESPONSAVEL}
+                        </td>
+            
+                        <td class="mobile_number align-middle white-space-nowrap">
+                            ${romaneio.criado_em}
+                        </td>
+            
+                        <td class="align-middle white-space-nowrap">
+                            <i class="fas fa-check-circle ${romaneio.status == 1 ? 'text-success' : ''}"></i>
+                        </td>
+                        
+                        <td>
+                            <div class="font-sans-serif btn-reveal-trigger position-static">
+                                <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2"></span></button>
+                                <div class="dropdown-menu dropdown-menu-end py-2">
+            
+                                    <a target="_blank" class="dropdown-item" href="${baseUrl}romaneios/gerarromaneio/${romaneio.codigo}" title="Gerar Romaneio">
+                                        <span class="fas fa-download ms-1"></span> Gerar
+                                    </a>
+
+                                    ${romaneio.status == 0 ? `
+                                        <a class="dropdown-item" href="#" title="Concluir Romaneio" onclick="concluirRomaneio('${romaneio.codigo}', ${romaneio.ID_RESPONSAVEL}, '${romaneio.data_romaneio}', ${romaneio.id_setor_empresa})">
+                                            <span class="ms-1 fas fa-check-circle"></span> Concluir
+                                        </a>
+                                    ` : ''}
+
+                                    ${romaneio.status == 1 ? `
+                                        <a class="dropdown-item" href="${baseUrl}romaneios/detalhes/${romaneio.codigo}" title="Visualizar Romaneio">
+                                            <span class="ms-1" data-feather="eye"></span> Visualizar
+                                        </a>
+                                    ` : ''}
+
+                                    ${romaneio.status == 0 ? `
+                                        <a class="dropdown-item" href="#" title="Editar Romaneio" onclick='editarRomaneio(${romaneio.codigo}, ${romaneio.ID_RESPONSAVEL}, "${romaneio.data_romaneio}", ${romaneio.id_setor_empresa})'>
+                                            <span class="ms-1 fas fa-pencil"></span> Editar
+                                        </a>
+                                    ` : ''}
+
+                                    ${romaneio.status == 0 ? `
+                                        <a class="dropdown-item" href="#" title="Deletar Romaneio" ${romaneio.status == 0 ? 'disabled' : ''} onclick='deletarRomaneio(${idRomaneio})'>
+                                            <span class="fas fa-trash ms-1"></span> Deletar
+                                        </a>
+                                    ` : ''}
+
+                                </div>
+                            </div>
+                    
+                        </td>
+                    </tr>
+                `;
+                }).join('');
+
+
+
+                $('.accortion-' + idRomaneio).html(htmlClientes);
+
+            }
+        })
+    }
+}
+
+

@@ -47,6 +47,18 @@ class Romaneios extends CI_Controller
 		$this->load->view('admin/includes/painel/rodape');
 	}
 
+	public function recebeRomaneioPorData()
+	{
+		$dataRomaneio = $this->input->post('dataRomaneio');
+		$romaneios = $this->Romaneios_model->recebeRomaneioPorData($dataRomaneio);
+
+		$response = array(
+			'romaneios' => $romaneios,
+		);
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
 	public function detalhes()
 	{
 
