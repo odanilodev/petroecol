@@ -30,6 +30,7 @@ function duplicarFormasPagamento() {
     });
 
     $(".campos-duplicados").append(novaLinha);
+    $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
 
 }
 
@@ -192,6 +193,8 @@ $(document).on('click', '.realizar-pagamento', function () {
 
     $('.id-conta-pagamento').val($(this).data('id'));
     $('.id-dado-financeiro').val($(this).data('id-dado-financeiro'));
+    $('.input-valor').val($(this).data('valor'));
+    $('.valor-total-conta').html($(this).data('valor'));
 })
 
 
