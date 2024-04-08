@@ -24,107 +24,57 @@
         <?php if (!empty($ultimosRomaneios)) { ?>
 
             <div class="px-4 px-lg-6 mb-9 bg-white border-y border-300 mt-2 position-relative top-1">
-                <div class="table-responsive scrollbar ms-n1 ps-1">
 
-                    <table class="table table-lg mb-0 text-center">
-                        <thead>
-                            <tr>
-                                <th class="white-space-nowrap fs--1 align-middle ps-0">
-                                    <div class="form-check mb-0 fs-0">
-                                        <input class="form-check-input" id="checkbox-bulk-members-select" type="checkbox" data-bulk-select='{"body":"members-table-body"}' />
+
+                <div class="accordion" id="accordionExample">
+
+                    <input type="hidden" class="id-setor-empresa" value="<?= $ultimosRomaneios[0]['id_setor_empresa'] ?>">
+
+                    <?php foreach ($ultimosRomaneios as $romaneio) { ?>
+
+
+                        <div class="accordion-item border-top">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button collapsed btn-accordion-<?= $romaneio['ID_ROMANEIO'] ?>" type="button" data-bs-toggle="collapse" data-bs-target="#romaneio-<?= $romaneio['ID_ROMANEIO'] ?>" aria-expanded="true" aria-controls="romaneio-<?= $romaneio['ID_ROMANEIO'] ?>" onclick="buscarRomaneioPorData('<?= $romaneio['data_romaneio'] ?>', '<?= $romaneio['ID_ROMANEIO'] ?>')">
+                                    <?= date('d/m/Y', strtotime($romaneio['data_romaneio'])); ?>
+                                </button>
+                            </h2>
+                            <div class="accordion-collapse collapse" id="romaneio-<?= $romaneio['ID_ROMANEIO'] ?>" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                <div class="accordion-body pt-0">
+
+                                    <div class="spinner-border text-primary load-form load-<?= $romaneio['ID_ROMANEIO'] ?> ml-3 d-none" role="status" style="height: 15px; width: 15px; margin-left: 20px"></div>
+
+
+                                    <div class="table-responsive scrollbar ms-n1 ps-1">
+
+                                        <table class="table table-lg mb-0 text-center">
+                                            <thead class="head-romaneio">
+                                                <tr>
+
+                                                    <th class="sort align-middle">Código</th>
+                                                    <th class="sort align-middle">Responsável</th>
+                                                    <th class="sort align-middle">Gerado em</th>
+                                                    <th class="sort align-middle">Status</th>
+                                                    <th class="sort align-middle p-3">Ação</th>
+                                                    <th class="sort align-middle p-3"></th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody class="list accortion-<?= $romaneio['ID_ROMANEIO'] ?>" id="members-table-body">
+
+                                                <!-- JS -->
+                                            </tbody>
+                                        </table>
+
                                     </div>
-                                </th>
+                                </div>
+                            </div>
+                        </div>
 
-                                <th class="sort align-middle">Código</th>
-                                <th class="sort align-middle">Responsável</th>
-                                <th class="sort align-middle">Data Romaneio</th>
-                                <th class="sort align-middle">Gerado em</th>
-                                <th class="sort align-middle">Status</th>
-                                <th class="sort align-middle p-3">Ação</th>
-                                <th class="sort align-middle p-3"></th>
-                            </tr>
-                        </thead>
-
-                        <tbody class="list" id="members-table-body">
-
-                            <input type="hidden" class="id-setor-empresa" value="<?= $ultimosRomaneios[0]['id_setor_empresa'] ?>">
-
-                            <?php foreach ($ultimosRomaneios as $v) { ?>
-
-
-                                <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-
-                                    <td class="fs--1 align-middle ps-0 py-3">
-                                        <div class="form-check mb-0 fs-0">
-                                            <input class="form-check-input" type="checkbox" data-bulk-select-row='{"customer":{"avatar":"/team/32.webp","name":"Carry Anna"},"email":"annac34@gmail.com","mobile":"+912346578","city":"Budapest","lastActive":"34 min ago","joined":"Dec 12, 12:56 PM"}' />
-                                        </div>
-                                    </td>
-
-                                    <td class="email align-middle white-space-nowrap">
-                                        <?= $v['codigo']; ?>
-                                    </td>
-
-                                    <td class="mobile_number align-middle white-space-nowrap">
-                                        <?= $v['RESPONSAVEL']; ?>
-                                    </td>
-
-                                    <td class="mobile_number align-middle white-space-nowrap">
-                                        <?= date('d/m/Y', strtotime($v['data_romaneio'])) ?>
-                                    </td>
-
-                                    <td class="mobile_number align-middle white-space-nowrap">
-                                        <?= date('d/m/Y H:i:s', strtotime($v['criado_em'])) ?>
-                                    </td>
-
-                                    <td class="align-middle white-space-nowrap">
-                                        <i data-feather="check-circle" class="<?= $v['status'] ? 'text-success' : '' ?>"></i>
-                                    </td>
-
-                                    <td>
-                                        <div class="font-sans-serif btn-reveal-trigger position-static">
-                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2"></span></button>
-                                            <div class="dropdown-menu dropdown-menu-end py-2">
-
-                                                <a class="dropdown-item" href="<?= base_url('romaneios/gerarromaneio/' . $v['codigo']) ?>" title="Gerar Romaneio">
-                                                    <span class="fas fa-download ms-1"></span> Gerar
-                                                </a>
-
-                                                <?php if (!$v['status']) { ?>
-                                                    <a class="dropdown-item" href="#" title="Concluir Romaneio" onclick='concluirRomaneio(<?= $v["codigo"] ?>, <?= $v["ID_RESPONSAVEL"] ?>, "<?= $v["data_romaneio"] ?>", <?= $v["id_setor_empresa"] ?>)'>
-                                                        <span class="ms-1" data-feather="check-circle"></span> Concluir
-                                                    </a>
-                                                <?php } ?>
-
-                                                <?php if ($v['status']) { ?>
-                                                    <a class="dropdown-item" href="<?= base_url('romaneios/detalhes/' . $v['codigo']) ?>" title="Visualizar Romaneio">
-                                                        <span class="ms-1" data-feather="eye"></span> Visualizar
-                                                    </a>
-                                                <?php } ?>
-
-                                                <?php if (!$v['status']) { ?>
-                                                    <a class="dropdown-item" href="#" title="Editar Romaneio" onclick='editarRomaneio(<?= $v["codigo"] ?>, <?= $v["ID_RESPONSAVEL"] ?>, "<?= $v["data_romaneio"] ?>", <?= $v["id_setor_empresa"] ?>)'>
-                                                        <span class="ms-1 fas fa-pencil"></span> Editar
-                                                    </a>
-                                                <?php } ?>
-
-                                                <?php if (!$v['status']) { ?>
-                                                    <a class="dropdown-item" href="#" title="Deletar Romaneio" <?= $v['status'] ? 'disabled' : '' ?> onclick='deletarRomaneio(<?= $v["id"] ?>)'>
-                                                        <span class="fas fa-trash ms-1"></span> Deletar
-                                                    </a>
-                                                <?php } ?>
-
-                                            </div>
-                                        </div>
-
-                                    </td>
-
-                                </tr>
-
-                            <?php } ?>
-                        </tbody>
-                    </table>
+                    <?php } ?>
 
                 </div>
+
             </div>
 
         <?php } ?>
