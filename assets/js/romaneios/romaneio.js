@@ -1,7 +1,7 @@
 var baseUrl = $('.base-url').val();
 
 let filtrarClientesRomaneio = () => {
-    // Seletor cacheado para evitar chamadas desnecessárias ao DOM
+    
     let clientesModalRomaneio = $('.clientes-modal-romaneio');
     let checkTodos = `<tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
                 <td class="align-middle white-space-nowrap">
