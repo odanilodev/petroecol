@@ -93,8 +93,8 @@ const filtrarClientesRomaneio = () => {
                     <tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
                     
                     <td class="align-middle white-space-nowrap nome-cliente" data-id="${data.retorno[i].ID_CLIENTE}">
-                    <input class="form-check-input check-clientes-modal cursor-pointer check-element" style="margin-right:8px;" name="clientes" type="checkbox" value="${data.retorno[i].ID_CLIENTE}">
-                    ${data.retorno[i].CLIENTE}
+                        <input class="form-check-input check-clientes-modal cursor-pointer check-element" style="margin-right:8px;" name="clientes" type="checkbox" value="${data.retorno[i].ID_CLIENTE}">
+                        ${data.retorno[i].CLIENTE}
                     </td>
                     
                     </tr>
@@ -184,7 +184,8 @@ const gerarRomaneio = () => {
     // novo clientes para gerar romaneio
     let clientes = $('.ids-selecionados').val().split(',');
 
-    if (clientes.length < 1) {
+
+    if (!$('.ids-selecionados').val()) {
         avisoRetorno('Algo deu errado', 'Você precisa selecionar algum cliente para gerar o romaneio.', 'error', '#');
         permissao = false;
 
@@ -231,6 +232,11 @@ $(document).on('click', '.add-cliente', function () {
     $('#select-cliente-modal').val('').trigger('change');
     $('.div-select-modal').removeClass('d-none');
 
+    $('.select2').select2({
+        dropdownParent: "#modalRomaneio",
+        theme: 'bootstrap-5'
+    });
+
 
 })
 
@@ -262,20 +268,25 @@ $('#select-cliente-modal').change(function () {
     $('.div-select-modal').addClass('d-none');
 
     let clientes = `
+
         <tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
+                    
             <td class="align-middle white-space-nowrap nome-cliente" data-id="${idClienteNovo}">
+                <input class="form-check-input check-clientes-modal cursor-pointer check-element" style="margin-right:8px;" name="clientes" type="checkbox" value="${idClienteNovo}">
                 ${cliente}
             </td>
-
-            <td class="align-middle white-space-nowrap pt-3">
-                <div class="form-check">
-                    <input class="form-check-input check-clientes-modal" checked name="clientes" type="checkbox" value="${idClienteNovo}" style="cursor: pointer">
-                </div>
-            </td>
+        
         </tr>
     `;
 
     if (idClienteNovo) {
+
+        let todosNomesClientes = $('.todos-clientes').val();
+
+
+        $('.todos-clientes').val(`${todosNomesClientes} , ${clientes}`);
+
+
         $('.clientes-modal-romaneio').append(clientes);
     }
 
@@ -593,10 +604,12 @@ $(document).on('click', '.nao-coletado', function () {
         $('.input-obg-' + idCliente).removeClass('input-obrigatorio');
         $('.input-obg-' + idCliente).removeClass('invalido');
 
-        $('.aviso-msg').removeClass('d-none');
-        $('.aviso-msg').html('Preencha este campo');
-        $('.accordion-button').attr('disabled', true);
-        $('.btn-finaliza-romaneio').attr('disabled', true);
+        if ($(this).hasClass('cliente-prioridade')) {
+            $('.aviso-msg').removeClass('d-none');
+            $('.aviso-msg').html('Preencha este campo');
+            $('.accordion-button').attr('disabled', true);
+            $('.btn-finaliza-romaneio').attr('disabled', true);
+        }
 
     } else {
 
@@ -609,8 +622,6 @@ $(document).on('click', '.nao-coletado', function () {
             $('.input-obg-' + idCliente).addClass('input-obrigatorio');
 
         }
-
-
     }
 
 })
@@ -852,11 +863,12 @@ function recebeClientesSetor(idSetor) {
 
             $('#select-cliente-modal').html('<option selected disabled value="">Selecione o cliente</option>');
 
-            for (let i = 0; i < data.clientesSetor.length; i++) {
+            let options = data.clientesSetor.map(cliente => {
+                return `<option value="${cliente['ID_CLIENTE']}">${cliente['CLIENTE']}</option>`;
+            });
 
-                $('#select-cliente-modal').append(`<option value="${data.clientesSetor[i]['ID_CLIENTE']}">${data.clientesSetor[i]['CLIENTE']}</option>`);
-
-            }
+            // Adicionando as options ao select de uma vez
+            $('#select-cliente-modal').append(options);
 
             $('.div-select-cliente').removeClass('d-none');
 
@@ -928,7 +940,7 @@ const novoClienteRomaneio = () => {
         theme: 'bootstrap-5'
     });
 
-    let idSetorEmpresa = $('.id-setor-empresa').val();
+    let idSetorEmpresa = $('.input-id-setor-empresa').val();
 
     recebeClientesSetor(idSetorEmpresa);
 }
@@ -1096,3 +1108,95 @@ const deletaClienteRomaneio = (romaneio, cliente) => {
     }
 
 }
+
+const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
+
+
+    if (!$('.btn-accordion-' + idRomaneio).hasClass('collapsed')) {
+
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}romaneios/recebeRomaneioPorData`,
+            data: {
+                dataRomaneio: dataRomaneio
+            }, beforeSend: function () {
+                $('.head-romaneio').addClass('d-none');
+                $('.accortion-' + idRomaneio).html('');
+                $('.load-' + idRomaneio).removeClass('d-none');
+            }, success: function (data) {
+
+                $('.head-romaneio').removeClass('d-none');
+                $('.load-' + idRomaneio).addClass('d-none');
+
+                let htmlClientes = data.romaneios.map((romaneio, index) => {
+
+                    return `
+                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+
+                        <td class="email align-middle white-space-nowrap">
+                            ${romaneio.codigo}
+                        </td>
+            
+                        <td class="mobile_number align-middle white-space-nowrap">
+                            ${romaneio.RESPONSAVEL}
+                        </td>
+            
+                        <td class="mobile_number align-middle white-space-nowrap">
+                            ${romaneio.criado_em}
+                        </td>
+            
+                        <td class="align-middle white-space-nowrap">
+                            <i class="fas fa-check-circle ${romaneio.status == 1 ? 'text-success' : ''}"></i>
+                        </td>
+                        
+                        <td>
+                            <div class="font-sans-serif btn-reveal-trigger position-static">
+                                <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2"></span></button>
+                                <div class="dropdown-menu dropdown-menu-end py-2">
+            
+                                    <a target="_blank" class="dropdown-item" href="${baseUrl}romaneios/gerarromaneio/${romaneio.codigo}" title="Gerar Romaneio">
+                                        <span class="fas fa-download ms-1"></span> Gerar
+                                    </a>
+
+                                    ${romaneio.status == 0 ? `
+                                        <a class="dropdown-item" href="#" title="Concluir Romaneio" onclick="concluirRomaneio('${romaneio.codigo}', ${romaneio.ID_RESPONSAVEL}, '${romaneio.data_romaneio}', ${romaneio.id_setor_empresa})">
+                                            <span class="ms-1 fas fa-check-circle"></span> Concluir
+                                        </a>
+                                    ` : ''}
+
+                                    ${romaneio.status == 1 ? `
+                                        <a class="dropdown-item" href="${baseUrl}romaneios/detalhes/${romaneio.codigo}" title="Visualizar Romaneio">
+                                            <span class="ms-1" data-feather="eye"></span> Visualizar
+                                        </a>
+                                    ` : ''}
+
+                                    ${romaneio.status == 0 ? `
+                                        <a class="dropdown-item" href="#" title="Editar Romaneio" onclick='editarRomaneio(${romaneio.codigo}, ${romaneio.ID_RESPONSAVEL}, "${romaneio.data_romaneio}", ${romaneio.id_setor_empresa})'>
+                                            <span class="ms-1 fas fa-pencil"></span> Editar
+                                        </a>
+                                    ` : ''}
+
+                                    ${romaneio.status == 0 ? `
+                                        <a class="dropdown-item" href="#" title="Deletar Romaneio" ${romaneio.status == 0 ? 'disabled' : ''} onclick='deletarRomaneio(${idRomaneio})'>
+                                            <span class="fas fa-trash ms-1"></span> Deletar
+                                        </a>
+                                    ` : ''}
+
+                                </div>
+                            </div>
+                    
+                        </td>
+                    </tr>
+                `;
+                }).join('');
+
+
+
+                $('.accortion-' + idRomaneio).html(htmlClientes);
+
+            }
+        })
+    }
+}
+
+

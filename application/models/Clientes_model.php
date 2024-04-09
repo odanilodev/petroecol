@@ -37,9 +37,10 @@ class Clientes_model extends CI_Model
         }
 
         if ($filtro['nome'] ?? false) {
-            $this->db->like('LOWER(C.nome)', strtolower($filtro['nome']));
-        }
-
+            $nome = $filtro['nome'];
+            $this->db->where("LOWER(C.nome) COLLATE utf8mb4_unicode_ci LIKE LOWER('%$nome%')");
+        }        
+        
         if (($filtro['id_recipiente'] ?? false) && $filtro['id_recipiente'] != 'all') {
             $this->db->where('RC.id_recipiente', $filtro['id_recipiente']);
         }

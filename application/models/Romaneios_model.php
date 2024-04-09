@@ -51,14 +51,28 @@ class Romaneios_model extends CI_Model
         return $query->row_array();
     }
 
+    public function recebeRomaneioPorData($dataRomaneio)
+    {
+        $this->db->select('R.data_romaneio, R.id as ID_ROMANEIO, R.criado_em, R.codigo, R.status, F.nome as RESPONSAVEL, F.id as ID_RESPONSAVEL, R.id_setor_empresa');
+        $this->db->from('ci_romaneios R');
+        $this->db->join('ci_funcionarios F', 'F.id = R.id_responsavel', 'INNER');
+        $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('R.data_romaneio', $dataRomaneio);
+        $query = $this->db->get();
+        
+        return $query->result_array();
+        
+    }
+
     public function recebeUltimosRomaneios()
     {
-        $this->db->select('R.*, F.nome as RESPONSAVEL, F.id as ID_RESPONSAVEL');
+        $this->db->select('R.data_romaneio, MAX(R.id) as ID_ROMANEIO, MAX(R.criado_em) as criado_em, MAX(F.nome) as RESPONSAVEL, MAX(R.id_setor_empresa) as id_setor_empresa');
         $this->db->from('ci_romaneios R');
         $this->db->join('ci_funcionarios F', 'F.id = R.id_responsavel', 'INNER');
         $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->limit(60);
-        $this->db->order_by('R.criado_em', 'DESC');
+        $this->db->order_by('criado_em', 'DESC');
+        $this->db->group_by('R.data_romaneio');
         $query = $this->db->get();
 
         return $query->result_array();

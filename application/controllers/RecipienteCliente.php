@@ -69,7 +69,7 @@ class RecipienteCliente extends CI_Controller
 
 				$quantidadeRecipiente['quantidade'] = $recipiente['quantidade'] - $data['quantidade'];
 
-				$this->RecipienteCliente_model->editaRecipienteCliente($id_recipiente, $novaQuantidade); // altera a quantidade do cliente
+				$this->RecipienteCliente_model->editaRecipienteCliente($id_recipiente, $novaQuantidade, $dados['id_cliente']); // altera a quantidade do cliente
 
 				$this->recipientes_model->editaRecipiente($id_recipiente, $quantidadeRecipiente); // altera a quantidade no estoque
 
@@ -112,7 +112,7 @@ class RecipienteCliente extends CI_Controller
                             <i class="fas fa-times-circle delete-icon" onclick="deletaRecipienteCliente(' . $inseridoId . ')"></i>
                         </a>
 						<a href="#" class="btn-ver-recipiente" title="Editar Recipiente">
-                            <i class="fas fa-pencil-alt edita-recipiente" onclick="verRecipienteCliente(\'' . $nomeRecipiente . '\' ,  ' . $dados['quantidade'] . ')"></i>
+                            <i class="fas fa-pencil-alt edita-recipiente" onclick="verRecipienteCliente(\'' . $nomeRecipiente . '\' ,  ' . $dados['quantidade'] .', ' . $dados['id_recipiente'] .')"></i>
                         </a>
                     </span>
                 </span>';
@@ -163,7 +163,7 @@ class RecipienteCliente extends CI_Controller
 					<i class="fas fa-times-circle delete-icon" onclick="deletaRecipienteCliente(' . $v['id'] . ')"></i>
 				</a>
 				<a href="#" class="btn-ver-recipiente" title="Editar Recipiente">
-					<i class="fas fa-pencil-alt ml-5 edita-recipiente" onclick="verRecipienteCliente(\'' . $v['nome_recipiente'] . '\', ' . $v['quantidade'] . ')"></i>
+					<i class="fas fa-pencil-alt ml-5 edita-recipiente" onclick="verRecipienteCliente(\'' . $v['nome_recipiente'] . '\', ' . $v['quantidade'] . ', ' . $v['id_recipiente'] . ')"></i>
 				</a>
 			</span>';
 		}
