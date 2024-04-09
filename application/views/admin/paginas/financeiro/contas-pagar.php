@@ -131,7 +131,10 @@
 
                         <div class="col-auto">
 
-                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento" type="button" data-bs-toggle="modal" data-bs-target="#modalLancamentoContasPagar">Lançamento</button>
+                            <button
+                                class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento"
+                                type="button" data-bs-toggle="modal"
+                                data-bs-target="#modalLancamentoContasPagar">Lançamento</button>
 
                         </div>
 
@@ -477,11 +480,14 @@
                                             <div class="col-lg-6">
 
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Grupos Macros</label>
-                                                    <select class="form-select select2 select-macros input-obrigatorio" name="macros">
+                                                    <label class="text-body-highlight fw-bold mb-2">Grupos
+                                                        Macros</label>
+                                                    <select class="form-select select2 select-macros input-obrigatorio"
+                                                        name="macros">
                                                         <option selected disabled>Selecione</option>
-                                                        <?php foreach($macros as $macro) { ?>
-                                                            <option value="<?= $macro['id']?>"><?= $macro['nome']?></option>
+                                                        <?php foreach ($macros as $macro) { ?>
+                                                            <option value="<?= $macro['id'] ?>"><?= $macro['nome'] ?>
+                                                            </option>
                                                         <?php } ?>
                                                     </select>
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
@@ -493,8 +499,11 @@
                                             <div class="col-lg-6">
 
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Grupos Micros</label>
-                                                    <select disabled class="form-select select2 select-micros input-obrigatorio" name="micros">
+                                                    <label class="text-body-highlight fw-bold mb-2">Grupos
+                                                        Micros</label>
+                                                    <select disabled
+                                                        class="form-select select2 select-micros input-obrigatorio"
+                                                        name="micros">
                                                         <option selected disabled value="">Selecione</option>
                                                         <!-- JS -->
                                                     </select>
@@ -503,16 +512,20 @@
 
                                             </div>
 
-                                           
+
                                             <div class="col-lg-6">
 
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Grupo recebidos</label>
-                                                    <select class="form-select select2 select-grupo-recebidos input-obrigatorio" name="grupo-recebido">
+                                                    <label class="text-body-highlight fw-bold mb-2">Grupo
+                                                        recebidos</label>
+                                                    <select
+                                                        class="form-select select2 select-grupo-recebidos input-obrigatorio"
+                                                        name="grupo-recebido">
                                                         <option selected disabled>Selecione</option>
                                                         <?php foreach ($grupos as $grupo) { ?>
-                                                            <option value="<?= $grupo['id']?>"><?= $grupo['nome']?></option>
-                                                        <?php }?>
+                                                            <option value="<?= $grupo['id'] ?>"><?= $grupo['nome'] ?>
+                                                            </option>
+                                                        <?php } ?>
                                                         <option value="clientes">Clientes</option>
 
                                                     </select>
@@ -525,11 +538,16 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Recebido</label>
-                                                    <select class="form-select select2 select-recebido input-obrigatorio" name="recebido">
+                                                    <select
+                                                        class="form-select select2 select-recebido input-obrigatorio"
+                                                        name="recebido">
                                                         <option selected disabled>Selecione</option>
                                                         <?php foreach ($dadosFinanceiro as $dadoFinanceiro) { ?>
-                                                            <option data-nome="<?= $dadoFinanceiro['nome']?>" value="<?= $dadoFinanceiro['id']?>"><?= $dadoFinanceiro['nome']?></option>
-                                                        <?php }?>
+                                                            <option data-nome="<?= $dadoFinanceiro['nome'] ?>"
+                                                                value="<?= $dadoFinanceiro['id'] ?>">
+                                                                <?= $dadoFinanceiro['nome'] ?>
+                                                            </option>
+                                                        <?php } ?>
                                                     </select>
                                                     <input type="hidden" name="nome-recebido" class="nome-recebido">
 
@@ -563,8 +581,13 @@
                                             <div class="col-lg-4">
 
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Data Vencimento</label>
-                                                    <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}'/>
+                                                    <label class="text-body-highlight fw-bold mb-2">Data
+                                                        Vencimento</label>
+                                                    <input
+                                                        class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio"
+                                                        required name="data_vencimento" type="text"
+                                                        placeholder="dd/mm/aaaa"
+                                                        data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
@@ -574,7 +597,11 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data Emissão</label>
-                                                    <input class="form-control datetimepicker cursor-pointer input-data-emissao" required name="data_emissao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}'/>
+                                                    <input
+                                                        class="form-control datetimepicker cursor-pointer input-data-emissao"
+                                                        required name="data_emissao" type="text"
+                                                        placeholder="dd/mm/aaaa"
+                                                        data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
@@ -586,7 +613,9 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                    <input class="form-control input-obrigatorio mascara-dinheiro" required name="valor" type="text" placeholder="Valor total da conta">
+                                                    <input class="form-control input-obrigatorio mascara-dinheiro"
+                                                        required name="valor" type="text"
+                                                        placeholder="Valor total da conta">
                                                 </div>
 
                                             </div>
@@ -611,7 +640,8 @@
 
                 <div class="modal-footer">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
-                    <button class="btn btn-success btn-form" type="button" onclick="cadastraContasPagar()">Salvar</button>
+                    <button class="btn btn-success btn-form" type="button"
+                        onclick="cadastraContasPagar()">Salvar</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
                 </div>
@@ -635,14 +665,16 @@
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
 
-                                        <div class="col-md-4">
-                                            <div class="mb-4">
-                                                <label class="text-body-highlight fw-bold mb-2">Data Pagamento</label>
-                                                <input class="form-control datetimepicker input-data-pagamento cursor-pointer"
-                                                    name="data_pagamento" type="text" placeholder="dd/mm/aaaa"
-                                                    data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}'/>
+                                            <div class="col-md-4">
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Data
+                                                        Pagamento</label>
+                                                    <input
+                                                        class="form-control datetimepicker input-data-pagamento cursor-pointer"
+                                                        name="data_pagamento" type="text" placeholder="dd/mm/aaaa"
+                                                        data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                </div>
                                             </div>
-                                        </div>
 
                                             <div class="campos-pagamento row">
                                                 <div class="col-lg-4 duplica-pagamento">
@@ -653,7 +685,7 @@
                                                             <option value="" selected disabled>Selecione</option>
                                                             <?php foreach ($contasBancarias as $contaBancaria) { ?>
                                                                 <option value="<?= $contaBancaria['id_conta_bancaria'] ?>">
-                                                                    <?= $contaBancaria['banco'] ?>
+                                                                    <?= $contaBancaria['apelido'] ?>
                                                                 </option>
                                                             <?php } ?>
                                                         </select>
