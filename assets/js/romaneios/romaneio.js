@@ -360,10 +360,10 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
         let dadosClientes = `
 
-        <div class="accordion-item accordion-${clientes[i].id}">
+        <div class="accordion-item accordion-${i}">
 
             <h2 class="accordion-header" id="heading${i}">
-                <button class="accordion-button ${i != 0 ? 'collapsed' : ''}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
+                <button class="accordion-button accordion-button-${i} ${i != 0 ? 'collapsed' : ''}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="true">
                     ${clientes[i].nome} (${clientes[i].SETOR})
                     
                     <span class="cliente-${clientes[i].id}">
@@ -375,7 +375,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
             </h2>
 
             ${editar ? `
-                <div class="accordion-collapse collapse ${i == 0 ? 'show' : ''}" id="collapse${i}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-collapse collapse ${i == 0 ? 'show' : ''}" id="collapse${i}" aria-labelledby="headingOne" data-bs-parent="#accordionConcluir">
                     <div class="form-check mb-0 fs-0 d-flex justify-content-start mt-3">
                         
                         <span title="Remover Cliente" class="cursor-pointer" onclick="deletaClienteRomaneio(${codRomaneio}, ${clientes[i].id})">
@@ -385,7 +385,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                 </div>
             ` : `
 
-            <div class="accordion-collapse collapse ${i == 0 ? 'show' : ''}" id="collapse${i}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-collapse collapse ${i == 0 ? 'show' : ''}" id="collapse${i}" aria-labelledby="headingOne" data-bs-parent="#accordionConcluir">
 
                 <input type="hidden" value="${clientes[i].id}" class="input-id-cliente">
 
@@ -408,7 +408,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     <div class="col-md-4 mb-2 div-pagamento">
 
                         <label class="form-label">Forma de Pagamento</label>
-                        <select class="form-select select-pagamento w-100 campos-form-${clientes[i].id}" id="select-pagamento">
+                        <select class="form-select select-pagamento w-100 pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-pagamento">
 
                             <option disabled selected value="">Selecione</option>
                             
@@ -418,7 +418,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     <div class="col-md-4 mb-2 div-pagamento">
 
                         <label class="form-label">Valor Pago</label>
-                        <input class="form-control input-pagamento campos-form-${clientes[i].id}" type="text" placeholder="Digite valor pago" value="">
+                        <input class="form-control input-pagamento pagamento-${clientes[i].id} campos-form-${clientes[i].id}" type="text" placeholder="Digite valor pago" value="">
                     </div>
 
                     <div class="col-md-4 mb-2 mt-4 row">
@@ -433,7 +433,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                         <label class="form-label">Resíduo Coletado</label>
                         
-                        <select class="form-select select-residuo input-obg-${clientes[i].id} w-100 campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" id="select-residuo" >
+                        <select class="form-select select-residuo input-obg-${clientes[i].id} w-100 campos-form-${clientes[i].id} input-obrigatorio" data-collapse="${i}" id="select-residuo" >
 
                             <option disabled selected value="">Selecione</option>
                             
@@ -444,7 +444,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     <div class="col-md-4 mb-2">
 
                         <label class="form-label">Quantidade Coletada</label>
-                        <input class="form-control input-residuo input-obg-${clientes[i].id} campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" type="text" placeholder="Digite quantidade coletada" value="">
+                        <input class="form-control input-residuo input-obg-${clientes[i].id} campos-form-${clientes[i].id} input-obrigatorio" data-collapse="${i}" type="text" placeholder="Digite quantidade coletada" value="">
                     </div>
 
                     <div class="col-md-4 mb-2 mt-4 row">
@@ -601,6 +601,10 @@ $(document).on('click', '.nao-coletado', function () {
 
     if ($(this).is(':checked')) {
 
+        // remove os valores caso tenha sido preenchido
+        $('.input-obg-' + idCliente).val('');
+        $('.pagamento-' + idCliente).val('');
+
         $('.input-obg-' + idCliente).removeClass('input-obrigatorio');
         $('.input-obg-' + idCliente).removeClass('invalido');
 
@@ -648,11 +652,22 @@ function finalizarRomaneio() {
 
     var permissao = true;
 
+    let accordionAberto = false;
     $('.input-obrigatorio').each(function () {
 
         if (!$(this).val()) {
 
-            avisoRetorno('Algo deu errado.', 'Você precisa preencher todos os campos para concluir o romaneio', 'error', '#');
+            let collapse = $(this).data('collapse');
+
+            // abre o accordion com o input vazio
+            if (!accordionAberto) {
+
+                if (!$(`#collapse${collapse}`).hasClass('show')) {
+
+                    $(`.accordion-button-${collapse}`).trigger('click');
+                }
+                accordionAberto = true;
+            }
 
             $(this).addClass('invalido');
 
@@ -996,7 +1011,7 @@ $(document).on('click', '.adicionar-cliente', function () {
 
                         
 
-                        <div class="accordion-collapse collapse" id="collapse${idCliente}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-collapse collapse" id="collapse${idCliente}" aria-labelledby="headingOne" data-bs-parent="#accordionConcluir">
 
                             <input type="hidden" value="${idCliente}" class="input-id-cliente">
 
