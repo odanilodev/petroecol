@@ -408,7 +408,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     <div class="col-md-4 mb-2 div-pagamento">
 
                         <label class="form-label">Forma de Pagamento</label>
-                        <select class="form-select select-pagamento w-100 campos-form-${clientes[i].id}" id="select-pagamento">
+                        <select class="form-select select-pagamento w-100 pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-pagamento">
 
                             <option disabled selected value="">Selecione</option>
                             
@@ -418,7 +418,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     <div class="col-md-4 mb-2 div-pagamento">
 
                         <label class="form-label">Valor Pago</label>
-                        <input class="form-control input-pagamento campos-form-${clientes[i].id}" type="text" placeholder="Digite valor pago" value="">
+                        <input class="form-control input-pagamento pagamento-${clientes[i].id} campos-form-${clientes[i].id}" type="text" placeholder="Digite valor pago" value="">
                     </div>
 
                     <div class="col-md-4 mb-2 mt-4 row">
@@ -602,7 +602,8 @@ $(document).on('click', '.nao-coletado', function () {
     if ($(this).is(':checked')) {
 
         // remove os valores caso tenha sido preenchido
-        $('.input-obg-' + idCliente).val();
+        $('.input-obg-' + idCliente).val('');
+        $('.pagamento-' + idCliente).val('');
 
         $('.input-obg-' + idCliente).removeClass('input-obrigatorio');
         $('.input-obg-' + idCliente).removeClass('invalido');
