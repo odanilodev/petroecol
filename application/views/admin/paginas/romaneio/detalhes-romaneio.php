@@ -45,7 +45,7 @@
 
                                     <td class="mobile_number align-middle white-space-nowrap">
                                         <?php 
-                                        if ($residuos_coletados) {
+                                        if ($residuos_coletados && $quantidade_coletada) {
 
                                             foreach($residuos_coletados as $key => $idResiduos){
     
