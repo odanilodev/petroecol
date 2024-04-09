@@ -1,11 +1,18 @@
 var baseUrl = $('.base-url').val();
 
-const filtrarClientesRomaneio = () => {
-
+let filtrarClientesRomaneio = () => {
+    // Seletor cacheado para evitar chamadas desnecessárias ao DOM
+    let clientesModalRomaneio = $('.clientes-modal-romaneio');
+    let checkTodos = `<tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
+                <td class="align-middle white-space-nowrap">
+                    <input class="form-check-input check-clientes-modal cursor-pointer check-all-element" type="checkbox" style="margin-right:8px;">
+                    Clientes
+                </td>
+            </tr>`;
     $('#select-cliente-modal').val('').trigger('change');
 
-    var permissao = false;
-    var filtrarData = null;
+    let permissao = false;
+    let filtrarData = null;
 
     if (!$('#select-setor').val()) {
         avisoRetorno('Algo deu errado!', 'Selecione um setor!', 'error', '#');
@@ -30,10 +37,9 @@ const filtrarClientesRomaneio = () => {
         return;
     }
 
-
     let data_coleta = $('.input-coleta').val();
-    var dataColeta = new Date(data_coleta + "T00:00:00");
-    var hoje = new Date();
+    let dataColeta = new Date(data_coleta + "T00:00:00");
+    let hoje = new Date();
 
     if (dataColeta < new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate())) {
         avisoRetorno('Algo deu errado!', 'A data selecionada é anterior à data de hoje!', 'error', '#');
@@ -41,19 +47,10 @@ const filtrarClientesRomaneio = () => {
     }
 
     let etiquetas = $('#select-etiquetas').val();
-
     let cidades = $('#select-cidades').val();
-
     let setorEmpresa = $('#select-setor').val();
 
     if (permissao) {
-
-        let checkTodos = `<tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
-                <td class="align-middle white-space-nowrap">
-                    <input class="form-check-input check-clientes-modal cursor-pointer check-all-element" type="checkbox" style="margin-right:8px;">
-                    Clientes
-                </td>
-            </tr>`;
 
         $.ajax({
             type: "POST",
@@ -66,7 +63,7 @@ const filtrarClientesRomaneio = () => {
                 setorEmpresa: setorEmpresa
             },
             beforeSend: function () {
-                $('.clientes-modal-romaneio').html(checkTodos);
+                clientesModalRomaneio.html(checkTodos);
                 $('.load-form-romaneio').removeClass('d-none');
                 $('.btn-envia-romaneio').addClass('d-none');
 
@@ -78,7 +75,6 @@ const filtrarClientesRomaneio = () => {
                 $('.id-setor-empresa').val(setorEmpresa);
 
                 if (data.registros < 1) {
-
                     avisoRetorno('Algo deu errado!', 'Não foi encontrado nada com essas informações!', 'error', '#');
 
                 } else {
@@ -86,28 +82,22 @@ const filtrarClientesRomaneio = () => {
                 }
 
                 let todosNomesClientes = [];
-                for (i = 0; i < data.registros; i++) {
-
-
-                    let clientes = `
+                let clientesHTML = '';
+                for (let i = 0; i < data.registros; i++) {
+                    let clienteHTML = `
                     <tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
-                    
-                    <td class="align-middle white-space-nowrap nome-cliente" data-id="${data.retorno[i].ID_CLIENTE}">
-                        <input class="form-check-input check-clientes-modal cursor-pointer check-element" style="margin-right:8px;" name="clientes" type="checkbox" value="${data.retorno[i].ID_CLIENTE}">
-                        ${data.retorno[i].CLIENTE}
-                    </td>
-                    
+                        <td class="align-middle white-space-nowrap nome-cliente" data-id="${data.retorno[i].ID_CLIENTE}">
+                            <input class="form-check-input check-clientes-modal cursor-pointer check-element" style="margin-right:8px;" name="clientes" type="checkbox" value="${data.retorno[i].ID_CLIENTE}">
+                            ${data.retorno[i].CLIENTE}
+                        </td>
                     </tr>
-                    
                     `;
-
-                    $('.clientes-modal-romaneio').append(clientes);
-                    todosNomesClientes.push(clientes)
+                    clientesHTML += clienteHTML;
+                    todosNomesClientes.push(clienteHTML);
                 }
 
+                clientesModalRomaneio.append(clientesHTML);
                 $('.todos-clientes').val(todosNomesClientes);
-
-
             }
         })
     } else {
@@ -118,13 +108,14 @@ const filtrarClientesRomaneio = () => {
 
 
 
+
 // Função para atualizar a lista de clientes
 function atualizarListaClientes(nomeDigitado) {
 
     let clientesSelecionados = $('.ids-selecionados').val().split(','); // array com todos os ids que foram selecionados
     let todosNomesClientes = $('.todos-clientes').val().split(','); // array com todos os nomes dos clientes
 
-    let checkTodos = `
+    let clientesEncontrados = `
     <tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
         <td class="align-middle white-space-nowrap">
             <input class="form-check-input check-clientes-modal cursor-pointer check-all-element" type="checkbox" style="margin-right:8px;">
@@ -132,7 +123,6 @@ function atualizarListaClientes(nomeDigitado) {
         </td>
     </tr>`;
 
-    $('.clientes-modal-romaneio').html(checkTodos);
 
 
     // Usa o filter para encontrar o nome digitado no array, ignorando o caso
@@ -141,9 +131,12 @@ function atualizarListaClientes(nomeDigitado) {
     });
 
     clientesFiltrados.forEach(function (cliente) {
-        $('.clientes-modal-romaneio').append(cliente);
+
+        clientesEncontrados += cliente
 
     });
+
+    $('.clientes-modal-romaneio').html(clientesEncontrados);
 
     clientesSelecionados.forEach(function (idCliente) {
         $('.check-clientes-modal[value="' + idCliente + '"]').prop('checked', true);
