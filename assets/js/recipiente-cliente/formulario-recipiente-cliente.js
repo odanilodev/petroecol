@@ -135,8 +135,7 @@ const deletaRecipienteCliente = (idRecipienteCliente) => {
 }
 
 
-const verRecipienteCliente = (textoRecipiente, quantidadeRecipiente) => {
-
+const verRecipienteCliente = (textoRecipiente, quantidadeRecipiente, idRecipiente) => {
 
     var selectRecipiente = $('#select-recipiente');
 
@@ -147,6 +146,9 @@ const verRecipienteCliente = (textoRecipiente, quantidadeRecipiente) => {
     });
 
     optionToSelect.prop('selected', true);
+
+    $('#select-recipiente').val(idRecipiente).trigger('change');
+
 
     $('#quantidade-recipiente').val(quantidadeRecipiente);
 
