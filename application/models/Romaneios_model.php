@@ -58,6 +58,7 @@ class Romaneios_model extends CI_Model
         $this->db->join('ci_funcionarios F', 'F.id = R.id_responsavel', 'INNER');
         $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('R.data_romaneio', $dataRomaneio);
+        $this->db->order_by('criado_em', 'DESC');
         $query = $this->db->get();
         
         return $query->result_array();
