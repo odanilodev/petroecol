@@ -313,11 +313,13 @@
                     <td style="width: 15px;">
 
                         <?php
-                        foreach ($valor_total_geral as $key => $val) {
-                            if ($val['tipo_pagamento'] == 1) {
-                                echo '<p>R$' . (number_format($val['valor'], 2, ',', '.')) . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
-                            } else {
-                                echo '<p>' . $val['valor'] . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                        if (isset($valor_total_geral)) {
+                            foreach ($valor_total_geral as $key => $val) {
+                                if ($val['tipo_pagamento'] == 1) {
+                                    echo '<p>R$' . (number_format($val['valor'], 2, ',', '.')) . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                                } else {
+                                    echo '<p>' . $val['valor'] . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                                }
                             }
                         }
                         ?>
