@@ -25,6 +25,7 @@ class Romaneios extends CI_Controller
 		$this->load->model('Clientes_model');
 		$this->load->model('Romaneios_model');
 		$this->load->library('gerarRomaneio');
+		date_default_timezone_set('America/Sao_Paulo');
 	}
 
 	public function index()

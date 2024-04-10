@@ -1138,6 +1138,15 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
 
                 let htmlClientes = data.romaneios.map((romaneio, index) => {
 
+                   // separando a data e hora
+                    let partesDataHora = romaneio.criado_em.split(" ");
+                    let data = partesDataHora[0]; //só a data
+                    let hora = partesDataHora[1]; // só a hora
+
+                    // separar partes para formatar br
+                    let partesData = data.split("-");
+                    let dataCompleta = `${partesData[2]}/${partesData[1]}/${partesData[0]} ${hora}`; // data e hora formatado
+
                     return `
                     <tr class="hover-actions-trigger btn-reveal-trigger position-static">
 
@@ -1150,7 +1159,7 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
                         </td>
             
                         <td class="mobile_number align-middle white-space-nowrap">
-                            ${romaneio.criado_em}
+                            ${dataCompleta}
                         </td>
             
                         <td class="align-middle white-space-nowrap">
