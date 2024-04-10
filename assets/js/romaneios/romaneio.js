@@ -433,7 +433,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                         <label class="form-label">Resíduo Coletado</label>
                         
-                        <select class="form-select select-residuo input-obg-${clientes[i].id} w-100 campos-form-${clientes[i].id} input-obrigatorio" data-collapse="${i}" id="select-residuo" >
+                        <select class="form-select select-residuo input-obg-${clientes[i].id} w-100 campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" data-collapse="${i}" id="select-residuo" >
 
                             <option disabled selected value="">Selecione</option>
                             
@@ -444,7 +444,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     <div class="col-md-4 mb-2">
 
                         <label class="form-label">Quantidade Coletada</label>
-                        <input class="form-control input-residuo input-obg-${clientes[i].id} campos-form-${clientes[i].id} input-obrigatorio" data-collapse="${i}" type="text" placeholder="Digite quantidade coletada" value="">
+                        <input class="form-control input-residuo input-obg-${clientes[i].id} campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" data-collapse="${i}" type="text" placeholder="Digite quantidade coletada" value="">
                     </div>
 
                     <div class="col-md-4 mb-2 mt-4 row">
