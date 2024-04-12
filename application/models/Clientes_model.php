@@ -169,17 +169,7 @@ class Clientes_model extends CI_Model
         return $query->result_array();
     }
 
-    public  function recebeObservacaoAgendamentoCliente ($ids, $data_romaneio)
-    {
-        $this->db->select('observacao, id_cliente');
-        $this->db->where_in('id_cliente', $ids);
-        $this->db->where_in('data_coleta', $data_romaneio);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->from('ci_agendamentos A');
 
-        $query = $this->db->get();
-        return $query->result_array();
-    }
 
     public function insereCliente($dados)
     {
