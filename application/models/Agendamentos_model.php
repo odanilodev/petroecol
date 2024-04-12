@@ -219,4 +219,14 @@ class Agendamentos_model extends CI_Model
 
         return $query->num_rows();
     }
+
+    public  function recebeObservacaoAgendamentoCliente ($data_romaneio)
+    {
+        $this->db->select('observacao, id_cliente');
+        $this->db->where_in('data_coleta', $data_romaneio);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('ci_agendamentos');
+
+        return $query->result_array();
+    }
 }
