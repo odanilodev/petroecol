@@ -39,14 +39,14 @@
               <div>
                 <h5 class="mb-0 lh-sm text-1000">Novo Agendamento</h5>
               </div>
-              <span class="btn p-1 fs-2 text-900" type="button" data-bs-dismiss="modal" aria-label="Close">&times;</span>
+              <span class="btn p-1 fs-2 text-900 fecha-modal" type="button" data-bs-dismiss="modal" aria-label="Close">&times;</span>
             </div>
           </div>
           <div class="modal-body p-card py-0">
 
             <div class="mb-3">
 
-              <select class="form-select w-100 cliente-setor-agendamento select2" id="select-cliente-setor">
+              <select class="form-select w-100 cliente-setor-agendamento select2 input-agendamento" id="select-cliente-setor">
 
                 <option disabled selected value="">Selecione o setor</option>
                 <?php foreach ($setores as $setor) { ?>
@@ -59,7 +59,7 @@
 
             <div class="mb-3 d-none div-select-cliente">
 
-              <select class="form-select w-100 cliente-agendamento select2" id="select-cliente">
+              <select class="form-select w-100 cliente-agendamento select2 input-agendamento" id="select-cliente">
 
                 <option selected disabled value="">Selecione um cliente</option>
                 <!-- <?php foreach ($clientes as $v) { ?>
@@ -73,7 +73,7 @@
 
             <div class="mb-3 d-none div-select-cliente-etiqueta">
 
-              <select class="form-select w-100 cliente-etiqueta-agendamento select2" id="select-cliente-etiqueta">
+              <select class="form-select w-100 cliente-etiqueta-agendamento select2 input-agendamento" id="select-cliente-etiqueta">
 
                 <option disabled selected value="">Clientes por etiqueta</option>
             
@@ -85,7 +85,7 @@
             <div class="flatpickr-input-container mb-3">
 
               <div class="form-floating">
-                <input class="form-control datetimepicker data-agendamento" id="eventStartDate" type="text" name="startDate" placeholder="yyyy/mm/dd hh:mm" data-options='{"disableMobile":true,"dateFormat":"Y-m-d"}' /><span class="uil uil-calendar-alt flatpickr-icon text-700"></span>
+                <input class="form-control datetimepicker data-agendamento input-agendamento" id="eventStartDate" type="text" name="startDate" placeholder="yyyy/mm/dd hh:mm" data-options='{"disableMobile":true,"dateFormat":"Y-m-d"}' /><span class="uil uil-calendar-alt flatpickr-icon text-700"></span>
                 <label class="ps-6" for="eventStartDate">Data de Coleta *</label>
               </div>
 
@@ -94,7 +94,7 @@
             <div class="flatpickr-input-container mb-3">
 
               <div class="form-floating">
-                <input class="form-control datetimepicker horario-agendamento" id="timepicker1" type="text" name="startDate" placeholder="hh:mm" data-options='{"enableTime":true,"noCalendar":true,"disableMobile":true,"dateFormat":"H:i"}' />
+                <input class="form-control datetimepicker horario-agendamento input-agendamento" id="timepicker1" type="text" name="startDate" placeholder="hh:mm" data-options='{"enableTime":true,"noCalendar":true,"disableMobile":true,"dateFormat":"H:i"}' />
                 <span class="uil uil-clock flatpickr-icon text-700"></span>
                 <label class="ps-6" for="timepicker1">Horário</label>
               </div>
@@ -103,7 +103,7 @@
 
             <div class="mb-3">
 
-              <select class="form-select w-100 periodo-agendamento">
+              <select class="form-select w-100 periodo-agendamento input-agendamento">
 
                 <option disabled selected value="">Período de Coleta (opcional)</option>
 
@@ -116,7 +116,7 @@
             </div>
 
             <div class="form-floating my-5">
-              <textarea class="form-control obs-agendamento" id="eventDescription" placeholder="Leave a comment here" name="observacao" style="height: 128px"></textarea>
+              <textarea class="form-control obs-agendamento input-agendamento" id="eventDescription" placeholder="Leave a comment here" name="observacao" style="height: 128px"></textarea>
               <label for="eventDescription">Observação</label>
             </div>
           </div>

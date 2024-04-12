@@ -318,6 +318,11 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
 
               } else {
 
+                $('.input-agendamento').val('').trigger('change');
+                $('.div-select-cliente').addClass('d-none');
+                $('.div-select-cliente-etiqueta').addClass('d-none');
+
+
                 let dataAntiga = $('.agendamento-' + id).data('data');
                 let prioridadeAntiga = $('.agendamento-' + id).data('prioridade');
 
@@ -330,10 +335,10 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
                   if (tituloModal) {
 
                     var quantidadeAgendado = tituloModal.match(/\d+/)[0];
-                    var texto = tituloModal.replace(/^\d+\s+/, ''); 
+                    var texto = tituloModal.replace(/^\d+\s+/, '');
 
                   }
-                  
+
 
                   $('.agendamento-' + id).remove();
                   let novaQuantidadeAgendado = quantidadeAgendado - 1;
@@ -451,6 +456,14 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
 
       })
 
+      $(document).on('click', '.fecha-modal', function () {
+
+        $('.input-agendamento').val('').trigger('change');
+        $('.div-select-cliente').addClass('d-none');
+        $('.div-select-cliente-etiqueta').addClass('d-none');
+        
+      })
+
 
       // remove o cliente da data agendada
       const removeClienteAgendamento = (idAgendamento, mes, ano) => {
@@ -463,7 +476,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
         if (tituloModal) {
 
           var quantidadeAgendado = tituloModal.match(/\d+/)[0];
-          var texto = tituloModal.replace(/^\d+\s+/, ''); 
+          var texto = tituloModal.replace(/^\d+\s+/, '');
 
         }
 
@@ -622,7 +635,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
       }
 
       if (addEventModal) {
-        
+
         addEventModal.addEventListener(
           Events.SHOWN_BS_MODAL,
           ({ currentTarget }) => {
@@ -719,7 +732,7 @@ function exibirAgendamentos(currentYear, currentMonth) {
 $(document).on('click', '.agendamento', function () {
 
   $('#select-cliente').val('').trigger('change');
-  
+
   $('#select-cliente').select2({
     dropdownParent: "#addEventModal",
     theme: 'bootstrap-5' // Aplicar o tema Bootstrap 4
@@ -779,7 +792,7 @@ const exibirClientesAgendados = (dataColeta, prioridade, status) => {
 }
 
 function imprimirClientes(clientes) {
-  
+
   let htmlClientes = clientes.map((cliente, index) => {
 
     let dataDividida = cliente.data_coleta.split('-');
@@ -877,14 +890,14 @@ $(document).ready(function () {
   $('.fc-daygrid-event').css('cursor', 'pointer');
 
   $('.select2').select2({
-      theme: "bootstrap-5",
-      width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-      placeholder: $(this).data('placeholder'),
+    theme: "bootstrap-5",
+    width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+    placeholder: $(this).data('placeholder'),
   });
 });
 
 // busca os clientes por etiqueta
-function recebeClientesEtiqueta (idEtiqueta) {
+function recebeClientesEtiqueta(idEtiqueta) {
 
   let id_setor = $('#select-cliente-setor').val();
 
@@ -898,7 +911,7 @@ function recebeClientesEtiqueta (idEtiqueta) {
 
       let idsClientesEtiqueta = [];
 
-      for (let i = 0; i < data.clientesEtiqueta.length; i ++) {
+      for (let i = 0; i < data.clientesEtiqueta.length; i++) {
 
         idsClientesEtiqueta.push(data.clientesEtiqueta[i]['id_cliente']);
 
@@ -913,7 +926,7 @@ function recebeClientesEtiqueta (idEtiqueta) {
 }
 
 // seleciona os clientes por etiqueta
-$("#select-cliente-etiqueta").change(function() {
+$("#select-cliente-etiqueta").change(function () {
 
   if ($(this).val() != null) {
 
@@ -921,12 +934,12 @@ $("#select-cliente-etiqueta").change(function() {
 
     $('#select-cliente').val('').trigger('change'); // limpa o select de clientes
 
-  }   
+  }
 
 });
 
 // seleciona os clientes por nome
-$("#select-cliente").change(function() {
+$("#select-cliente").change(function () {
 
   if ($(this).val() != null) {
 
@@ -937,10 +950,10 @@ $("#select-cliente").change(function() {
   }
 
 });
-  
+
 
 // busca os clientes por setor
-function recebeClientesSetor (idSetor) {
+function recebeClientesSetor(idSetor) {
 
   $.ajax({
     type: 'POST',
@@ -949,10 +962,10 @@ function recebeClientesSetor (idSetor) {
       id_setor: idSetor
     }, success: function (data) {
 
-      $('#select-cliente').html('<option selected disabled value="">Selecione o cliente</option>'); 
+      $('#select-cliente').html('<option selected disabled value="">Selecione o cliente</option>');
 
 
-      for (let i = 0; i < data.clientesSetor.length; i ++) {
+      for (let i = 0; i < data.clientesSetor.length; i++) {
 
         $('#select-cliente').append(`<option value="${data.clientesSetor[i]['ID_CLIENTE']}">${data.clientesSetor[i]['CLIENTE']}</option>`);
 
@@ -967,7 +980,7 @@ function recebeClientesSetor (idSetor) {
 }
 
 // busca os clientes por etiqueta e setor
-function recebeClientesEtiquetaSetor (idSetor) {
+function recebeClientesEtiquetaSetor(idSetor) {
 
   $.ajax({
     type: 'POST',
@@ -976,9 +989,9 @@ function recebeClientesEtiquetaSetor (idSetor) {
       id_setor: idSetor
     }, success: function (data) {
 
-      $('#select-cliente-etiqueta').html('<option selected disabled value="">Clientes por etiqueta</option>'); 
+      $('#select-cliente-etiqueta').html('<option selected disabled value="">Clientes por etiqueta</option>');
 
-      for (let i = 0; i < data.clientesEtiquetaSetor.length; i ++) {
+      for (let i = 0; i < data.clientesEtiquetaSetor.length; i++) {
 
         $('#select-cliente-etiqueta').append(`<option value="${data.clientesEtiquetaSetor[i]['id_etiqueta']}">${data.clientesEtiquetaSetor[i]['nome']}</option>`);
 
@@ -993,7 +1006,7 @@ function recebeClientesEtiquetaSetor (idSetor) {
 }
 
 // seleciona os clientes por setor
-$("#select-cliente-setor").change(function() {
+$("#select-cliente-setor").change(function () {
 
   if ($(this).val() != null) {
 
@@ -1004,7 +1017,7 @@ $("#select-cliente-setor").change(function() {
     $('#select-cliente-etiqueta').val('').trigger('change'); // limpa o select de etiquetas
 
     $('.ids-clientes').val(''); // remove todos ids do input hidden
-  }   
+  }
 
 });
 
