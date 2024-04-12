@@ -97,7 +97,7 @@
 
         <?php foreach ($dados as $id_cliente => $dado) { ?>
 
-            <h3 style="font-weight: bold; text-transform:uppercase"><?= $dado['razao_social'] ?? $dado['nome'] ?></h3>
+            <h3 style="font-weight: bold; text-transform:uppercase"><?= $dado['nome'] ?? $dado['razao_social'] ?></h3>
             <table class="table">
                 <thead>
                     <tr>
