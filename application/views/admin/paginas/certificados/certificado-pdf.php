@@ -44,7 +44,8 @@
     <div style="width: 100%;">
 
         <div style="padding: 5px" align="center">
-            <img src="<?= base_url_upload('certificados/logos/' . $modelo_certificado['logo']) ?>" style="max-width: 200px; max-height: 100px;">
+            <img src="<?= base_url_upload('certificados/logos/' . $modelo_certificado['logo']) ?>"
+                style="max-width: 200px; max-height: 100px;">
 
             <p align="center" style="font-size: 12px;">
                 <?= $modelo_certificado['descricao']; ?>
@@ -63,34 +64,40 @@
 
                     <tr>
                         <td colspan="3">
-                            <strong><?= chave('certificados-pdf-titulo-gerador') ?>:</strong> <?= $clientes_coletas['nome'] ?>
+                            <strong><?= chave('certificados-pdf-titulo-gerador') ?>:</strong>
+                            <?= $clientes_coletas['nome'] ?>
                         </td>
                     </tr>
 
                     <tr>
                         <td colspan="3">
-                            <strong><?= chave('certificados-pdf-titulo-razao-social') ?>: </strong> <?= $clientes_coletas['razao_social'] ? $clientes_coletas['razao_social'] : "Não informado."; ?>
+                            <strong><?= chave('certificados-pdf-titulo-razao-social') ?>: </strong>
+                            <?= $clientes_coletas['razao_social'] ? $clientes_coletas['razao_social'] : "Não informado."; ?>
                         </td>
                     </tr>
 
                     <tr>
 
                         <td scope="col" style="width: 280px;">
-                            <strong><?= chave('certificados-pdf-titulo-cnpj') ?>: </strong> <?= $clientes_coletas['cnpj'] ? $clientes_coletas['cnpj'] : "Não informado." ?>
+                            <strong><?= chave('certificados-pdf-titulo-cnpj') ?>: </strong>
+                            <?= $clientes_coletas['cnpj'] ? $clientes_coletas['cnpj'] : "Não informado." ?>
                         </td>
 
                         <td scope="col" style="width: 150px;">
-                            <strong><?= chave('certificados-pdf-titulo-estado') ?>: </strong> <span><?= $clientes_coletas['estado'] ? $clientes_coletas['estado'] : "Não informado." ?></span>
+                            <strong><?= chave('certificados-pdf-titulo-estado') ?>: </strong>
+                            <span><?= $clientes_coletas['estado'] ? $clientes_coletas['estado'] : "Não informado." ?></span>
                         </td>
 
                         <td scope="col" style="width: 280px;">
-                            <strong><?= chave('certificados-pdf-titulo-telefone') ?>: </strong> <?= $clientes_coletas['telefone'] ? $clientes_coletas['telefone'] : "Não informado." ?>
+                            <strong><?= chave('certificados-pdf-titulo-telefone') ?>: </strong>
+                            <?= $clientes_coletas['telefone'] ? $clientes_coletas['telefone'] : "Não informado." ?>
                         </td>
                     </tr>
 
                     <tr>
                         <td colspan="3">
-                            <strong><?= chave('certificados-pdf-titulo-endereco') ?>: </strong> <?= "{$clientes_coletas['rua']}, {$clientes_coletas['numero']} {$clientes_coletas['bairro']} - {$clientes_coletas['cidade']} / {$clientes_coletas['estado']}" ?>
+                            <strong><?= chave('certificados-pdf-titulo-endereco') ?>: </strong>
+                            <?= "{$clientes_coletas['rua']}, {$clientes_coletas['numero']} {$clientes_coletas['bairro']} - {$clientes_coletas['cidade']} / {$clientes_coletas['estado']}" ?>
                         </td>
                     </tr>
 
@@ -112,33 +119,37 @@
                 </thead>
                 <tbody>
 
-                <?php
-
-                    foreach ($dados as $dado) :
-                        
-                        for ($i = 0; $i < count($dado['quantidade_coletada']); $i++) : 
-
-                            if ($this->uri->segment(5) && $dado['residuos'][$i] == $this->uri->segment(5)) : ?>
-
-                                <tr>
-                                    <td style="width: 15px;"><?= $dado['quantidade_coletada'][$i] ?> <?= $residuosColetatos[$dado['residuos'][$i]] ?></td>
-                                    <td style="width: 15px;"><?= $dado['dataColeta'] ?></td>
-                                </tr>
-                            
                     <?php
-                            elseif (!$this->uri->segment(5)) : ?>
+
+                    foreach ($dados as $dado):
+
+                        for ($i = 0; $i < count($dado['quantidade_coletada']); $i++):
+
+                            if ($this->uri->segment(5) && $dado['residuos'][$i] == $this->uri->segment(5)): ?>
 
                                 <tr>
-                                    <td style="width: 15px;"><?= $dado['quantidade_coletada'][$i] ?> <?= $residuosColetatos[$dado['residuos'][$i]] ?></td>
+                                    <td style="width: 15px;"><?= $dado['quantidade_coletada'][$i] ?>
+                                        <?= $residuosColetatos[$dado['residuos'][$i]] ?>
+                                    </td>
                                     <td style="width: 15px;"><?= $dado['dataColeta'] ?></td>
                                 </tr>
 
-                            <?php
+                                <?php
+                            elseif (!$this->uri->segment(5)): ?>
+
+                                <tr>
+                                    <td style="width: 15px;"><?= $dado['quantidade_coletada'][$i] ?>
+                                        <?= $residuosColetatos[$dado['residuos'][$i]] ?>
+                                    </td>
+                                    <td style="width: 15px;"><?= $dado['dataColeta'] ?></td>
+                                </tr>
+
+                                <?php
 
                             endif;
                         endfor;
                     endforeach;
-                ?>
+                    ?>
 
                 </tbody>
             </table>
@@ -152,7 +163,7 @@
     <?php if ($modelo_certificado['declaracao']) { ?>
 
         <h4 style="font-weight: bold; margin-top: 50px;">
-            <?= strtoupper(chave('declaracao'))?>
+            <?= strtoupper(chave('certificados-formulario-declaracao')) ?>
             <hr style="font-size: 0.5px;">
             <p style="font-weight: 100; font-size: 11px">
                 <?= $modelo_certificado['declaracao']; ?>
@@ -166,11 +177,13 @@
         <div align="center">
 
             <?php if ($modelo_certificado['assinatura']) { ?>
-                <img style="width: 30%; display: block; margin: 15px" src="<?= base_url_upload('certificados/assinaturas/' . $modelo_certificado['assinatura']) ?>">
+                <img style="width: 30%; display: block; margin: 15px"
+                    src="<?= base_url_upload('certificados/assinaturas/' . $modelo_certificado['assinatura']) ?>">
             <?php } ?>
 
             <?php if ($modelo_certificado['carimbo']) { ?>
-                <img style="width: 30%; display: block; margin: 15px" src="<?= base_url_upload('certificados/carimbos/' . $modelo_certificado['carimbo']) ?>">
+                <img style="width: 30%; display: block; margin: 15px"
+                    src="<?= base_url_upload('certificados/carimbos/' . $modelo_certificado['carimbo']) ?>">
             <?php } ?>
         </div>
 
