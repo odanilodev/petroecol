@@ -22,7 +22,7 @@ class FinFluxoCaixa extends CI_Controller
         // FIM controle sessão
     }
 
-    public function index()
+    public function index($page = 1)
     {
         // scripts padrão
         $scriptsPadraoHead = scriptsPadraoHead();
@@ -34,21 +34,44 @@ class FinFluxoCaixa extends CI_Controller
         add_scripts('header', array_merge($scriptsPadraoHead));
         add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsFluxoFooter));
 
-        $dataFim = new DateTime();
-
-        // Calcula a data de 30 dias atrás
+        // Define as datas padrão caso não sejam recebidas via POST
         $dataInicio = new DateTime();
         $dataInicio->modify('-30 days');
-
         $dataInicioFormatada = $dataInicio->format('Y-m-d');
+
+        $dataFim = new DateTime();
         $dataFimFormatada = $dataFim->format('Y-m-d');
 
-        $dados['movimentacoes'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada);
+        // Verifica se as datas foram recebidas via POST
+        if ($this->input->post('data_inicio') && $this->input->post('data_fim')) {
+            $dataInicioFormatada = $this->input->post('data_inicio');
+            $dataFimFormatada = $this->input->post('data_fim');
+        }
 
+        // Verifica se o tipo de movimentação foi recebido via POST
+        $tipoMovimentacao = $this->input->post('movimentacao');
+
+        // Se não houver nenhum valor recebido via POST, define 'ambas' como valor padrão
+        if ($tipoMovimentacao === null || $tipoMovimentacao === '') {
+            $tipoMovimentacao = 'ambas';
+        }
+
+        // >>>> PAGINAÇÃO <<<<<
+        $limit = 12; // Número de registros por página
+        $this->load->library('pagination');
+        $config['base_url'] = base_url('finFluxoCaixa/index');
+        $config['total_rows'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao, 0, 0, true); // Conta o total de registros
+        $config['per_page'] = $limit;
+        $config['use_page_numbers'] = TRUE;
+        $this->pagination->initialize($config);
+        // >>>> FIM PAGINAÇÃO <<<<<
+
+        $dados['movimentacoes'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao, $limit, $page);
         $this->load->view('admin/includes/painel/cabecalho', $dados);
-        $this->load->view('admin/paginas/financeiro/fluxo-caixa.php');
+        $this->load->view('admin/paginas/financeiro/fluxo-caixa');
         $this->load->view('admin/includes/painel/rodape');
     }
+
 
     public function insereMovimentacaoFluxo()
     {
