@@ -86,35 +86,39 @@ class FinContaBancaria extends CI_Controller
 
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-		// Verifica se já existe uma conta bancária com o mesmo apelido (excluindo a conta atual se estiver em modo de edição)
+		// Verifica se já existe uma conta bancária com o mesmo apelido
 		$contaExistente = $this->FinContaBancaria_model->recebeApelidoContaBancaria($dados['apelido'], $id);
 
-		if ($contaExistente && (!empty($id) && $contaExistente['id'] != $id || empty($id))) {
-			$response = [
+		if ($contaExistente) {
+
+			$response = array(
+				'title' => "Algo deu errado!",
+				'type' => "error",
 				'success' => false,
 				'message' => "Esse Apelido de Conta Bancária já existe! Tente cadastrar uma diferente."
-			];
+			);
+
 			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 		}
 
-		if (empty($id)) {
-			// Insere nova conta bancária
-			$resultado = $this->FinContaBancaria_model->insereContaBancaria($dados);
-			if ($resultado) {
-				$this->FinSaldoBancario_model->insereSaldoBancario($resultado['inserted_id'], $saldoInicial);
-				$response = ['success' => true, 'message' => 'Conta Bancária cadastrada com sucesso!'];
-			} else {
-				$response = ['success' => false, 'message' => "Erro ao cadastrar a Conta Bancária!"];
-			}
-		} else {
-			// Edita conta bancária existente
-			$resultado = $this->FinContaBancaria_model->editaContaBancaria($id, $dados);
-			if ($resultado) {
-				$response = ['success' => true, 'message' => 'Conta Bancária editada com sucesso!'];
-			} else {
-				$response = ['success' => false, 'message' => "Erro ao editar a Conta Bancária!"];
-			}
+		$retorno = $id ? $this->FinContaBancaria_model->editaContaBancaria($id, $dados) : $this->FinContaBancaria_model->insereContaBancaria($dados); // se tiver ID edita se não INSERE
+
+		if ($retorno) { // inseriu ou editou
+
+			!$id ? $this->FinSaldoBancario_model->insereSaldoBancario($retorno['inserted_id'], $saldoInicial) : '';
+
+			$response = array(
+				'success' => true,
+				'message' => $id ? 'Conta Bancária editada com sucesso!' : 'Conta Bancária cadastrada com sucesso!'
+			);
+		} else { // erro ao inserir ou editar
+
+			$response = array(
+				'success' => false,
+				'message' => $id ? "Erro ao editar a Conta Bancária!" : "Erro ao cadastrar a Conta Bancária!"
+			);
 		}
+
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
