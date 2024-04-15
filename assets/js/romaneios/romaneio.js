@@ -1136,8 +1136,6 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
                 $('.head-romaneio').removeClass('d-none');
                 $('.load-' + idRomaneio).addClass('d-none');
 
-                console.log(data)
-
                 let htmlClientes = data.romaneios.map((romaneio, index) => {
 
                    // separando a data e hora
