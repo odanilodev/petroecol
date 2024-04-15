@@ -58,8 +58,8 @@
                           <select name="banco" class="form-select select-banco select2 input-obrigatorio">
                             <option value="" selected>Selecione o Banco</option>
                             <?php foreach ($bancosFinanceiros as $bancoFinanceiro) { ?>
-                              <option value="<?= $bancoFinanceiro['id'] ?>" <?= (isset($contaBancaria['banco']) && $contaBancaria['banco'] == $bancoFinanceiro['id']) ? 'selected' : ''; ?>>
-                                <?= $bancoFinanceiro['nome']; ?>
+                              <option value="<?= $bancoFinanceiro['id'] ?>" <?= (isset($contaBancaria['id_banco_financeiro']) && $contaBancaria['id_banco_financeiro'] == $bancoFinanceiro['id']) ? 'selected' : ''; ?>>
+                                <?= $bancoFinanceiro['nome']?>
                               </option>
                             <?php } ?>
 
