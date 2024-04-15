@@ -1194,7 +1194,7 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
                                     ` : ''}
 
                                     ${romaneio.status == 0 ? `
-                                        <a class="dropdown-item" href="#" title="Deletar Romaneio" ${romaneio.status == 0 ? 'disabled' : ''} onclick='deletarRomaneio(${idRomaneio})'>
+                                        <a class="dropdown-item" href="#" title="Deletar Romaneio" ${romaneio.status == 0 ? 'disabled' : ''} onclick='deletarRomaneio(${romaneio.ID_ROMANEIO})'>
                                             <span class="fas fa-trash ms-1"></span> Deletar
                                         </a>
                                     ` : ''}
