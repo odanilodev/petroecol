@@ -118,7 +118,21 @@
 
                     <td></td>
                     <td></td>
-                    <td><?= $cliente['observacao']; ?></td>
+
+                    <td>
+                        <?php
+                        foreach ($obsAgendamento as $v) {
+                            if ($v['id_cliente'] == $cliente['id']) {
+                                echo $v['observacao'];
+                                break;
+                            }
+                        }
+                        ?>
+
+                    </td>
+
+
+
                 </tr>
             <?php
         }

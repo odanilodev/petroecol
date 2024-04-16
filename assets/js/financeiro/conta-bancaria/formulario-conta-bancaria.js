@@ -5,33 +5,51 @@ const cadastraContaBancaria = () => {
 	let id = $(".input-id").val();
 
 	let apelido = $(".input-apelido").val();
-	let banco = $(".input-banco").val();
+	let banco = $(".select-banco").val();
 	let agencia = $(".input-agencia").val();
 	let conta = $(".input-conta").val();
 	let saldoInicial = $(".input-saldo").val();
-	let setorEmpresa = $(".select-setor-empresa").val();
 
 	//Verificação de campo vazio e permissao para cadastrar
 	let permissao = true
 
 	$(".input-obrigatorio").each(function () {
+
 		// Verifica se o valor do input atual está vazio
+		if (!$(this).val()) {
 
-		if ($(this).val() == "" || $(this).val() == null) {
+            $(this).addClass('invalido');
 
-			$(this).addClass('invalido');
-			$(this).next().removeClass('d-none');
+            // verifica se é select2
+            if ($(this).next().hasClass('aviso-obrigatorio')) {
+                
+                $(this).next().removeClass('d-none');
+
+            } else {
+                $(this).next().next().removeClass('d-none');
+                $(this).next().addClass('select2-obrigatorio');
+            }
 
 			permissao = false;
 
 		} else {
 
-			$(this).removeClass('invalido');
-			$(this).next().addClass('d-none');
-		}
+            $(this).removeClass('invalido');
+
+            if ($(this).next().hasClass('aviso-obrigatorio')) {
+
+                $(this).next().addClass('d-none');
+
+            } else {
+                $(this).next().next().addClass('d-none');
+                $(this).next().removeClass('select2-obrigatorio');
+
+            }
+        }
 	});
 
 	if (permissao) {
+
 		$.ajax({
 			type: "post",
 			url: `${baseUrl}finContaBancaria/cadastraContaBancaria`,
@@ -42,7 +60,6 @@ const cadastraContaBancaria = () => {
 				agencia: agencia,
 				conta: conta,
 				saldoInicial: saldoInicial,
-				setorEmpresa: setorEmpresa
 			},
 			beforeSend: function () {
 				$(".load-form").removeClass("d-none");
@@ -60,7 +77,6 @@ const cadastraContaBancaria = () => {
 						`${baseUrl}finContaBancaria`
 					);
 
-					$('.select-setor-empresa').val('').trigger('change');
 				} else {
 					avisoRetorno("Algo deu errado!", `${data.message}`, "error", "#");
 				}

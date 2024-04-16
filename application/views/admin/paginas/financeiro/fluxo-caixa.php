@@ -73,75 +73,58 @@
                 <hr class="bg-200 mb-6 mt-3" />
             </div>
 
-            <div class="col-12">
-                <div class="row align-items-center g-4">
-                    <div class="col-12 col-md-3">
-
-
-                        <div class="ms-3">
-
-                            <input class="form-control datetimepicker" required name="data_inicio" type="text"
-                                placeholder="Data Início" data-options='{"disableMobile":true,"allowInput":true}'
-                                style="cursor: pointer;" />
-
+            <form id="filtroForm" action="<?= base_url('finFluxoCaixa/index') ?>" method="post">
+                <div class="col-12">
+                    <div class="row align-items-center g-4">
+                        <div class="col-12 col-md-3">
+                            <div class="ms-3">
+                                <input class="form-control datetimepicker" required name="data_inicio" id="data_inicio"
+                                    type="text" placeholder="Data Início"
+                                    data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;"
+                                    autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <div class="ms-3">
+                                <input class="form-control datetimepicker" required name="data_fim" id="data_fim"
+                                    type="text" placeholder="Data Fim"
+                                    data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;"
+                                    autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <div class="ms-3">
+                                <select class="select-validation select-orientacao" required name="movimentacao"
+                                    id="movimentacao">
+                                    <option selected disabled value=''>Tipo movimentação</option>
+                                    <option value="1">Entrada</option>
+                                    <option value="0">Saída</option>
+                                    <option value="ambas">Ambas</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <div class="ms-3">
+                                <button type="submit"
+                                    class="btn btn-phoenix-secondary bg-white hover-bg-100 w-100">Filtrar</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-3">
-
-                        <div class="ms-3">
-
-                            <input class="form-control datetimepicker" required name="data_fim" type="text"
-                                placeholder="Data Fim" data-options='{"disableMobile":true,"allowInput":true}'
-                                style="cursor: pointer;" />
-
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-3">
-                        <div class="ms-3">
-
-                            <select class="select-validation select-orientacao" required>
-                                <option selected disabled value=''>Empresa</option>
-                                <option value="oleo">Óleo</option>
-                                <option value="reciclagem">Reciclagem</option>
-                                <option value="ambas">Ambas</option>
-                            </select>
-
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-md-3">
-                        <div class="ms-3">
-
-                            <button type="button"
-                                class="btn btn-phoenix-secondary bg-white hover-bg-100 w-100">Filtrar</button>
-
-                        </div>
-                    </div>
-
+                    <hr class="bg-200 mb-6 mt-4" />
                 </div>
-                <hr class="bg-200 mb-6 mt-4" />
-            </div>
+            </form>
+
         </div>
     </div>
 
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div data-list='{"valueNames":["product","customer","rating","review","time"],"page":6}'>
+        <div>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3>Fluxo de caixa</h3>
                 </div>
                 <div class="col-12 col-md-auto">
                     <div class="row g-2 gy-3">
-
-                        <div class="col-auto flex-1">
-                            <div class="search-box">
-                                <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                                    <input class="form-control search-input search form-control-sm" type="search"
-                                        placeholder="Buscar" aria-label="Search" />
-                                    <span class="fas fa-search search-box-icon"></span>
-                                </form>
-                            </div>
-                        </div>
 
                         <div class="col-auto">
 
@@ -259,8 +242,20 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- Links de Paginação usando classes Bootstrap -->
+            <div class="row">
+                <div class="col-12">
+                    <nav aria-label="Page navigation" style="display: flex; float: right">
+                        <ul class="pagination mt-5">
+                            <?= $this->pagination->create_links(); ?>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </div>
     </div>
+
 
 
     <!-- Modal visualizar constas a receber -->

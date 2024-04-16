@@ -1,2 +1,2 @@
 <div class="content">
-    <?=chave('seja-bem-vindo')?>
+    <?= chave('admin-seja-bem-vindo') ?>

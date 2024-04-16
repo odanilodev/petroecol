@@ -76,7 +76,8 @@
         <div style='width: 100%; display: flex; align-items: center;'>
 
             <div style="flex: 1; text-align: left;">
-                <img src="<?= base_url('assets/img/icons/logo-slogan.jpg') ?>" alt="Logomarca" style="max-width: 45%; height: auto;">
+                <img src="<?= base_url('assets/img/icons/logo-slogan.jpg') ?>" alt="Logomarca"
+                    style="max-width: 45%; height: auto;">
             </div>
 
             <div style="flex: 1; text-align: right; margin-top: -30px;">
@@ -96,7 +97,7 @@
 
         <?php foreach ($dados as $id_cliente => $dado) { ?>
 
-            <h3 style="font-weight: bold; text-transform:uppercase"><?= $dado['razao_social'] ?></h3>
+            <h3 style="font-weight: bold; text-transform:uppercase"><?= $dado['nome'] ?? $dado['razao_social'] ?></h3>
             <table class="table">
                 <thead>
                     <tr>
@@ -117,7 +118,7 @@
                     $valor_total = [];
                     $valor_total_mensal = [];
 
-                    foreach ($dado['coletas'] as $coleta) : ?>
+                    foreach ($dado['coletas'] as $coleta): ?>
 
                         <tr>
                             <td style="width: 15px;"><?= $coleta['data_coleta'] ?></td>
@@ -130,7 +131,7 @@
                                 if ($coleta['residuos']) {
 
 
-                                    foreach ($coleta['residuos'] as $key => $residuo) :
+                                    foreach ($coleta['residuos'] as $key => $residuo):
 
                                         if (!is_numeric($coleta['quantidade_coletada'][$key])) {
                                             $coleta['quantidade_coletada'][$key] = 0;
@@ -175,27 +176,31 @@
 
                             <td style="width: 15px; display:none">
                                 <?php
-                                if ($coleta['pagamentos']) {
+                                if (!empty($coleta['pagamentos'])) {
                                     foreach ($coleta['pagamentos'] as $key => $pagamento) {
-                                        if (isset($coleta['valor_pagamento'][$key]) && !is_numeric($coleta['valor_pagamento'][$key])) {
-                                            $coleta['valor_pagamento'][$key] = 0;
+                                        if (!isset($valor_total[$pagamento])) {
+                                            $valor_total[$pagamento] = ['valor' => 0, 'tipo_pagamento' => ''];
                                         }
 
-                                        if (isset($valor_total[$pagamento])) {
-                                            $valor_total[$pagamento]['valor'] += $coleta['valor_pagamento'][$key] ?? 0;
-                                            $valor_total[$pagamento]['tipo_pagamento'] = $coleta['tipo_pagamento'][$key] ?? '';
+                                        // Assegura que o valor seja tratado corretamente como numérico ou zero.
+                                        $valorPagamento = $coleta['valor_pagamento'][$key] ?? 0;
+                                        $valorPagamento = is_numeric($valorPagamento) ? (float) $valorPagamento : 0;
+
+                                        $valor_total[$pagamento]['valor'] += $valorPagamento;
+                                        $valor_total[$pagamento]['tipo_pagamento'] = $coleta['tipo_pagamento'][$key] ?? '';
+
+                                        // Verifica se o valor é float para decidir sobre a formatação.
+                                        if (is_float($valorPagamento)) {
+                                            $formattedValue = number_format($valorPagamento, 2, ',', '.');
                                         } else {
-                                            $valor_total[$pagamento]['valor'] = $coleta['valor_pagamento'][$key] ?? 0;
-                                            $valor_total[$pagamento]['tipo_pagamento'] = $coleta['tipo_pagamento'][$key] ?? '';
+                                            // Para valores não-float, mantém a representação original (ou 0).
+                                            $formattedValue = $valorPagamento;
                                         }
 
-                                        // Verifica se o tipo de pagamento é igual a 1 e adiciona 'R$' antes do valor
-                                        if (isset($coleta['tipo_pagamento'][$key])) {
-                                            if ($coleta['tipo_pagamento'][$key] == 1) {
-                                                echo '<p>R$' . (number_format($coleta['valor_pagamento'][$key], 2, ',', '.') ?? 0) . ' ' . ($formasPagamento[$pagamento] ?? "") . '</p>';
-                                            } else {
-                                                echo '<p>' . ($coleta['valor_pagamento'][$key] ?? 0) . ' ' . ($formasPagamento[$pagamento] ?? "") . '</p>';
-                                            }
+                                        if (isset($coleta['tipo_pagamento'][$key]) && $coleta['tipo_pagamento'][$key] == 1) {
+                                            echo "<p>R$${formattedValue} " . ($formasPagamento[$pagamento] ?? "") . "</p>";
+                                        } else {
+                                            echo "<p>${formattedValue} " . ($formasPagamento[$pagamento] ?? "") . "</p>";
                                         }
                                     }
                                 }
@@ -213,7 +218,8 @@
                     <?php endforeach; ?>
 
                     <tr>
-                        <td colspan="2" align="center" style="width: 45px;"><?= $movimentacoes_por_residuo ?> movimentações</td>
+                        <td colspan="2" align="center" style="width: 45px;"><?= $movimentacoes_por_residuo ?> movimentações
+                        </td>
                         <td style="width: 15px;">
 
                             <?php
@@ -307,11 +313,13 @@
                     <td style="width: 15px;">
 
                         <?php
-                        foreach ($valor_total_geral as $key => $val) {
-                            if ($val['tipo_pagamento'] == 1) {
-                                echo '<p>R$' . (number_format($val['valor'], 2, ',', '.')) . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
-                            } else {
-                                echo '<p>' . $val['valor'] . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                        if (isset($valor_total_geral)) {
+                            foreach ($valor_total_geral as $key => $val) {
+                                if ($val['tipo_pagamento'] == 1) {
+                                    echo '<p>R$' . (number_format($val['valor'], 2, ',', '.')) . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                                } else {
+                                    echo '<p>' . $val['valor'] . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                                }
                             }
                         }
                         ?>

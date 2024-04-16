@@ -169,6 +169,8 @@ class Clientes_model extends CI_Model
         return $query->result_array();
     }
 
+
+
     public function insereCliente($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');

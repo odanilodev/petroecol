@@ -29,6 +29,8 @@ class GerarRomaneio
 
 			$data['clientes'] = $this->CI->Clientes_model->recebeClientesIds($idClientes, $romaneio['id_setor_empresa']);
 
+			$data['obsAgendamento'] = $this->CI->Agendamentos_model->recebeObservacaoAgendamentoCliente($romaneio['data_romaneio']);
+
 			$recipientes_clientes = $this->CI->RecipienteCliente_model->recebeRecipientesCliente($idClientes) ?? [];
 
 			$data['recipientes_clientes'] = $this->recipientesClientes($recipientes_clientes);

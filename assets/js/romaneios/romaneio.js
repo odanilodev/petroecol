@@ -1,11 +1,18 @@
 var baseUrl = $('.base-url').val();
 
-const filtrarClientesRomaneio = () => {
-
+let filtrarClientesRomaneio = () => {
+    
+    let clientesModalRomaneio = $('.clientes-modal-romaneio');
+    let checkTodos = `<tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
+                <td class="align-middle white-space-nowrap">
+                    <input class="form-check-input check-clientes-modal cursor-pointer check-all-element" type="checkbox" style="margin-right:8px;">
+                    Clientes
+                </td>
+            </tr>`;
     $('#select-cliente-modal').val('').trigger('change');
 
-    var permissao = false;
-    var filtrarData = null;
+    let permissao = false;
+    let filtrarData = null;
 
     if (!$('#select-setor').val()) {
         avisoRetorno('Algo deu errado!', 'Selecione um setor!', 'error', '#');
@@ -30,10 +37,9 @@ const filtrarClientesRomaneio = () => {
         return;
     }
 
-
     let data_coleta = $('.input-coleta').val();
-    var dataColeta = new Date(data_coleta + "T00:00:00");
-    var hoje = new Date();
+    let dataColeta = new Date(data_coleta + "T00:00:00");
+    let hoje = new Date();
 
     if (dataColeta < new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate())) {
         avisoRetorno('Algo deu errado!', 'A data selecionada é anterior à data de hoje!', 'error', '#');
@@ -41,19 +47,10 @@ const filtrarClientesRomaneio = () => {
     }
 
     let etiquetas = $('#select-etiquetas').val();
-
     let cidades = $('#select-cidades').val();
-
     let setorEmpresa = $('#select-setor').val();
 
     if (permissao) {
-
-        let checkTodos = `<tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
-                <td class="align-middle white-space-nowrap">
-                    <input class="form-check-input check-clientes-modal cursor-pointer check-all-element" type="checkbox" style="margin-right:8px;">
-                    Clientes
-                </td>
-            </tr>`;
 
         $.ajax({
             type: "POST",
@@ -66,7 +63,7 @@ const filtrarClientesRomaneio = () => {
                 setorEmpresa: setorEmpresa
             },
             beforeSend: function () {
-                $('.clientes-modal-romaneio').html(checkTodos);
+                clientesModalRomaneio.html(checkTodos);
                 $('.load-form-romaneio').removeClass('d-none');
                 $('.btn-envia-romaneio').addClass('d-none');
 
@@ -78,7 +75,6 @@ const filtrarClientesRomaneio = () => {
                 $('.id-setor-empresa').val(setorEmpresa);
 
                 if (data.registros < 1) {
-
                     avisoRetorno('Algo deu errado!', 'Não foi encontrado nada com essas informações!', 'error', '#');
 
                 } else {
@@ -86,28 +82,22 @@ const filtrarClientesRomaneio = () => {
                 }
 
                 let todosNomesClientes = [];
-                for (i = 0; i < data.registros; i++) {
-
-
-                    let clientes = `
+                let clientesHTML = '';
+                for (let i = 0; i < data.registros; i++) {
+                    let clienteHTML = `
                     <tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
-                    
-                    <td class="align-middle white-space-nowrap nome-cliente" data-id="${data.retorno[i].ID_CLIENTE}">
-                        <input class="form-check-input check-clientes-modal cursor-pointer check-element" style="margin-right:8px;" name="clientes" type="checkbox" value="${data.retorno[i].ID_CLIENTE}">
-                        ${data.retorno[i].CLIENTE}
-                    </td>
-                    
+                        <td class="align-middle white-space-nowrap nome-cliente" data-id="${data.retorno[i].ID_CLIENTE}">
+                            <input class="form-check-input check-clientes-modal cursor-pointer check-element" style="margin-right:8px;" name="clientes" type="checkbox" value="${data.retorno[i].ID_CLIENTE}">
+                            ${data.retorno[i].CLIENTE}
+                        </td>
                     </tr>
-                    
                     `;
-
-                    $('.clientes-modal-romaneio').append(clientes);
-                    todosNomesClientes.push(clientes)
+                    clientesHTML += clienteHTML;
+                    todosNomesClientes.push(clienteHTML);
                 }
 
+                clientesModalRomaneio.append(clientesHTML);
                 $('.todos-clientes').val(todosNomesClientes);
-
-
             }
         })
     } else {
@@ -118,13 +108,14 @@ const filtrarClientesRomaneio = () => {
 
 
 
+
 // Função para atualizar a lista de clientes
 function atualizarListaClientes(nomeDigitado) {
 
     let clientesSelecionados = $('.ids-selecionados').val().split(','); // array com todos os ids que foram selecionados
     let todosNomesClientes = $('.todos-clientes').val().split(','); // array com todos os nomes dos clientes
 
-    let checkTodos = `
+    let clientesEncontrados = `
     <tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
         <td class="align-middle white-space-nowrap">
             <input class="form-check-input check-clientes-modal cursor-pointer check-all-element" type="checkbox" style="margin-right:8px;">
@@ -132,7 +123,6 @@ function atualizarListaClientes(nomeDigitado) {
         </td>
     </tr>`;
 
-    $('.clientes-modal-romaneio').html(checkTodos);
 
 
     // Usa o filter para encontrar o nome digitado no array, ignorando o caso
@@ -141,9 +131,12 @@ function atualizarListaClientes(nomeDigitado) {
     });
 
     clientesFiltrados.forEach(function (cliente) {
-        $('.clientes-modal-romaneio').append(cliente);
+
+        clientesEncontrados += cliente
 
     });
+
+    $('.clientes-modal-romaneio').html(clientesEncontrados);
 
     clientesSelecionados.forEach(function (idCliente) {
         $('.check-clientes-modal[value="' + idCliente + '"]').prop('checked', true);
@@ -360,10 +353,10 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
         let dadosClientes = `
 
-        <div class="accordion-item accordion-${clientes[i].id}">
+        <div class="accordion-item accordion-${i}">
 
             <h2 class="accordion-header" id="heading${i}">
-                <button class="accordion-button ${i != 0 ? 'collapsed' : ''}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
+                <button class="accordion-button accordion-button-${i} ${i != 0 ? 'collapsed' : ''}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="true">
                     ${clientes[i].nome} (${clientes[i].SETOR})
                     
                     <span class="cliente-${clientes[i].id}">
@@ -375,7 +368,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
             </h2>
 
             ${editar ? `
-                <div class="accordion-collapse collapse ${i == 0 ? 'show' : ''}" id="collapse${i}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-collapse collapse ${i == 0 ? 'show' : ''}" id="collapse${i}" aria-labelledby="headingOne" data-bs-parent="#accordionConcluir">
                     <div class="form-check mb-0 fs-0 d-flex justify-content-start mt-3">
                         
                         <span title="Remover Cliente" class="cursor-pointer" onclick="deletaClienteRomaneio(${codRomaneio}, ${clientes[i].id})">
@@ -385,7 +378,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                 </div>
             ` : `
 
-            <div class="accordion-collapse collapse ${i == 0 ? 'show' : ''}" id="collapse${i}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-collapse collapse ${i == 0 ? 'show' : ''}" id="collapse${i}" aria-labelledby="headingOne" data-bs-parent="#accordionConcluir">
 
                 <input type="hidden" value="${clientes[i].id}" class="input-id-cliente">
 
@@ -408,7 +401,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     <div class="col-md-4 mb-2 div-pagamento">
 
                         <label class="form-label">Forma de Pagamento</label>
-                        <select class="form-select select-pagamento w-100 campos-form-${clientes[i].id}" id="select-pagamento">
+                        <select class="form-select select-pagamento w-100 pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-pagamento">
 
                             <option disabled selected value="">Selecione</option>
                             
@@ -418,7 +411,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     <div class="col-md-4 mb-2 div-pagamento">
 
                         <label class="form-label">Valor Pago</label>
-                        <input class="form-control input-pagamento campos-form-${clientes[i].id}" type="text" placeholder="Digite valor pago" value="">
+                        <input class="form-control input-pagamento pagamento-${clientes[i].id} campos-form-${clientes[i].id}" type="text" placeholder="Digite valor pago" value="">
                     </div>
 
                     <div class="col-md-4 mb-2 mt-4 row">
@@ -433,7 +426,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                         <label class="form-label">Resíduo Coletado</label>
                         
-                        <select class="form-select select-residuo input-obg-${clientes[i].id} w-100 campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" id="select-residuo" >
+                        <select class="form-select select-residuo input-obg-${clientes[i].id} w-100 campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" data-collapse="${i}" id="select-residuo" >
 
                             <option disabled selected value="">Selecione</option>
                             
@@ -444,7 +437,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     <div class="col-md-4 mb-2">
 
                         <label class="form-label">Quantidade Coletada</label>
-                        <input class="form-control input-residuo input-obg-${clientes[i].id} campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" type="text" placeholder="Digite quantidade coletada" value="">
+                        <input class="form-control input-residuo input-obg-${clientes[i].id} campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" data-collapse="${i}" type="text" placeholder="Digite quantidade coletada" value="">
                     </div>
 
                     <div class="col-md-4 mb-2 mt-4 row">
@@ -601,6 +594,10 @@ $(document).on('click', '.nao-coletado', function () {
 
     if ($(this).is(':checked')) {
 
+        // remove os valores caso tenha sido preenchido
+        $('.input-obg-' + idCliente).val('');
+        $('.pagamento-' + idCliente).val('');
+
         $('.input-obg-' + idCliente).removeClass('input-obrigatorio');
         $('.input-obg-' + idCliente).removeClass('invalido');
 
@@ -648,11 +645,22 @@ function finalizarRomaneio() {
 
     var permissao = true;
 
+    let accordionAberto = false;
     $('.input-obrigatorio').each(function () {
 
         if (!$(this).val()) {
 
-            avisoRetorno('Algo deu errado.', 'Você precisa preencher todos os campos para concluir o romaneio', 'error', '#');
+            let collapse = $(this).data('collapse');
+
+            // abre o accordion com o input vazio
+            if (!accordionAberto) {
+
+                if (!$(`#collapse${collapse}`).hasClass('show')) {
+
+                    $(`.accordion-button-${collapse}`).trigger('click');
+                }
+                accordionAberto = true;
+            }
 
             $(this).addClass('invalido');
 
@@ -996,7 +1004,7 @@ $(document).on('click', '.adicionar-cliente', function () {
 
                         
 
-                        <div class="accordion-collapse collapse" id="collapse${idCliente}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-collapse collapse" id="collapse${idCliente}" aria-labelledby="headingOne" data-bs-parent="#accordionConcluir">
 
                             <input type="hidden" value="${idCliente}" class="input-id-cliente">
 
@@ -1130,6 +1138,15 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
 
                 let htmlClientes = data.romaneios.map((romaneio, index) => {
 
+                   // separando a data e hora
+                    let partesDataHora = romaneio.criado_em.split(" ");
+                    let data = partesDataHora[0]; //só a data
+                    let hora = partesDataHora[1]; // só a hora
+
+                    // separar partes para formatar br
+                    let partesData = data.split("-");
+                    let dataCompleta = `${partesData[2]}/${partesData[1]}/${partesData[0]} ${hora}`; // data e hora formatado
+
                     return `
                     <tr class="hover-actions-trigger btn-reveal-trigger position-static">
 
@@ -1142,7 +1159,7 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
                         </td>
             
                         <td class="mobile_number align-middle white-space-nowrap">
-                            ${romaneio.criado_em}
+                            ${dataCompleta}
                         </td>
             
                         <td class="align-middle white-space-nowrap">
@@ -1177,7 +1194,7 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
                                     ` : ''}
 
                                     ${romaneio.status == 0 ? `
-                                        <a class="dropdown-item" href="#" title="Deletar Romaneio" ${romaneio.status == 0 ? 'disabled' : ''} onclick='deletarRomaneio(${idRomaneio})'>
+                                        <a class="dropdown-item" href="#" title="Deletar Romaneio" ${romaneio.status == 0 ? 'disabled' : ''} onclick='deletarRomaneio(${romaneio.ID_ROMANEIO})'>
                                             <span class="fas fa-trash ms-1"></span> Deletar
                                         </a>
                                     ` : ''}
