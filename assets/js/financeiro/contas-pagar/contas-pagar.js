@@ -249,6 +249,8 @@ const realizarPagamento = () => {
             $(".btn-form").addClass("d-none");
         }, success: function (data) {
 
+            atualizaFrontDadosFinanceiro(); // atualiza os valores (total pago, total em aberto, total caixa)
+
             $(".load-form").addClass("d-none");
             $(".btn-form").removeClass("d-none");
 
@@ -272,4 +274,15 @@ const realizarPagamento = () => {
         }
 
     })
+}
+
+const atualizaFrontDadosFinanceiro = () => {
+
+    let totalPagoFront = $('.total-pago-front').html();
+    let totalCaixaFront = $('.total-caixa-front').html();
+    let totalAbertoFront = $('.total-aberto-front').html();
+
+    console.log(totalPagoFront);
+    console.log(totalCaixaFront);
+    console.log(totalAbertoFront);
 }

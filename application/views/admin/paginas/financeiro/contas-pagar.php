@@ -15,8 +15,8 @@
                                     data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ 2.212.323,05</h4>
-                                <p class="text-800 fs--1 mb-0">Caixa Óleo</p>
+                                <h4 class="mb-0">R$ <span class="total-caixa-front"><?= number_format($saldoTotal['saldo'], 2, ',', '.')?></span></h4>
+                                <p class="text-800 fs--1 mb-0">Total Caixa</p>
                             </div>
                         </div>
                     </div>
@@ -31,8 +31,8 @@
                                     data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ 2.212.323,05</h4>
-                                <p class="text-800 fs--1 mb-0">Caixa Reciclagem</p>
+                                <h4 class="mb-0">R$ <span class="total-pago-front"><?= number_format($totalPago['valor_pago'], 2, ',', '.')?></span></h4>
+                                <p class="text-800 fs--1 mb-0">Total Pago</p>
                             </div>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                                     data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ 2.212.323,05</h4>
+                                <h4 class="mb-0">R$ <span class="total-aberto-front"><?= number_format($emAberto, 2, ',', '.')?></span></h4>
                                 <p class="text-800 fs--1 mb-0">Despesas em Aberto</p>
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                     <div class="col-12 col-md-3">
                         <div class="ms-3">
 
-                            <button type="button" class="btn btn-secondary w-100">Filtrar</button>
+                            <button type="button" class="btn btn-phoenix-secondary w-100">Filtrar</button>
 
                         </div>
                     </div>
