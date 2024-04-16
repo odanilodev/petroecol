@@ -1,5 +1,4 @@
 <div class="content">
-
     <div class="pb-5">
         <div class="row g-4">
             <div class="col-12 col-xxl-6">
@@ -7,12 +6,9 @@
                     <div class="col-12 col-md-4">
                         <div class="d-flex align-items-center">
                             <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-success-300"
-                                    data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100"
-                                    data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success "
-                                    data-fa-transform="shrink-2 up-8 right-6"></span>
+                                <span class="fa-solid fa-square fa-stack-2x text-success-300" data-fa-transform="down-4 rotate--10 left-4"></span>
+                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100" data-fa-transform="up-4 right-3 grow-2"></span>
+                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
                                 <h4 class="mb-0">R$ 2.212.323,05</h4>
@@ -23,12 +19,9 @@
                     <div class="col-12 col-md-4">
                         <div class="d-flex align-items-center">
                             <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-success-300"
-                                    data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100"
-                                    data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success "
-                                    data-fa-transform="shrink-2 up-8 right-6"></span>
+                                <span class="fa-solid fa-square fa-stack-2x text-success-300" data-fa-transform="down-4 rotate--10 left-4"></span>
+                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100" data-fa-transform="up-4 right-3 grow-2"></span>
+                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
                                 <h4 class="mb-0">R$ 2.212.323,05</h4>
@@ -39,12 +32,9 @@
                     <div class="col-12 col-md-4">
                         <div class="d-flex align-items-center">
                             <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-warning-300"
-                                    data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-warning-100"
-                                    data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-warning"
-                                    data-fa-transform="shrink-2 up-8 right-6"></span>
+                                <span class="fa-solid fa-square fa-stack-2x text-warning-300" data-fa-transform="down-4 rotate--10 left-4"></span>
+                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-warning-100" data-fa-transform="up-4 right-3 grow-2"></span>
+                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-warning" data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
                                 <h4 class="mb-0">R$ 2.212.323,05</h4>
@@ -111,7 +101,7 @@
     </div>
 
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div data-list='{"valueNames":["product","customer","rating","review","time"],"page":6}'>
+        <div id="members" data-list='{"valueNames":["td_vencimento","td_valor","td_valor_pago","td_status_pgto","td_data_pagamento","td_empresa","td_recebido"],"page":10,"pagination":true}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3>Contas a pagar</h3>
@@ -122,8 +112,7 @@
                         <div class="col-auto flex-1">
                             <div class="search-box">
                                 <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                                    <input class="form-control search-input search form-control-sm" type="search"
-                                        placeholder="Buscar" aria-label="Search" />
+                                    <input class="form-control search-input search form-control-sm" type="search" placeholder="Buscar" aria-label="Search" />
                                     <span class="fas fa-search search-box-icon"></span>
                                 </form>
                             </div>
@@ -131,10 +120,7 @@
 
                         <div class="col-auto">
 
-                            <button
-                                class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento"
-                                type="button" data-bs-toggle="modal"
-                                data-bs-target="#modalLancamentoContasPagar">Lançamento</button>
+                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento" type="button" data-bs-toggle="modal" data-bs-target="#modalLancamentoContasPagar">Lançamento</button>
 
                         </div>
 
@@ -147,18 +133,17 @@
                         <tr>
                             <th class="white-space-nowrap fs--1 ps-0 align-middle">
                                 <div class="form-check mb-0 fs-0">
-                                    <input class="form-check-input" id="checkbox-bulk-reviews-select" type="checkbox"
-                                        data-bulk-select='{"body":"table-latest-review-body"}' />
+                                    <input class="form-check-input" id="checkbox-bulk-reviews-select" type="checkbox" data-bulk-select='{"body":"table-latest-review-body"}' />
                                 </div>
                             </th>
-                            <th class="sort white-space-nowrap align-middle" scope="col" data-sort="product">Vencimento
+                            <th class="sort white-space-nowrap align-middle" scope="col" data-sort="Vencimento">Vencimento
                             </th>
-                            <th class="sort align-middle" scope="col" data-sort="rating">Valor</th>
-                            <th class="sort align-middle" scope="col" data-sort="review">Valor Pago</th>
-                            <th class="sort text-start ps-5 align-middle" scope="col" data-sort="status">Status</th>
-                            <th class="sort align-middle" scope="col" data-sort="review">Data do Pagamento</th>
-                            <th class="sort align-middle" scope="col" data-sort="empresa">Empresa</th>
-                            <th class="sort text-start align-middle" scope="col" data-sort="time">Recebido</th>
+                            <th class="sort align-middle" scope="col" data-sort="td_valor">Valor</th>
+                            <th class="sort align-middle" scope="col" data-sort="td_valor_pago">Valor Pago</th>
+                            <th class="sort text-start ps-5 align-middle" scope="col" data-sort="td_status_pgto">Status</th>
+                            <th class="sort align-middle" scope="col" data-sort="td_data_pagamento">Data do Pagamento</th>
+                            <th class="sort align-middle" scope="col" data-sort="td_empresa">Empresa</th>
+                            <th class="sort text-start align-middle" scope="col" data-sort="td_recebido">Recebido</th>
                             <th class="sort text-end pe-0 align-middle" scope="col"></th>
                         </tr>
                     </thead>
@@ -169,53 +154,45 @@
 
                                 <td class="fs--1 align-middle ps-0">
                                     <div class="form-check mb-0 fs-0">
-                                        <input class="form-check-input" type="checkbox"
-                                            data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands)","productImage":"/products/60x60/1.png","customer":{"name":"Richard Dawkins","avatar":""},"rating":5,"review":"This Fitbit is fantastic! I was trying to be in better shape and needed some motivation, so I decided to treat myself to a new Fitbit.","status":{"title":"Approved","badge":"success","icon":"check"},"time":"Just now"}' />
+                                        <input class="form-check-input" type="checkbox" data-bulk-select-row='' />
                                     </div>
                                 </td>
 
-                                <td class="align-middle product white-space-nowrap">
+                                <td class="align-middle product white-space-nowrap td_vencimento">
                                     <h6 class="mb-0 text-900">
                                         <?= date('d/m/Y', strtotime($contaPagar['data_vencimento'])) ?>
                                     </h6>
                                 </td>
 
 
-                                <td class="align-middle rating white-space-nowrap fs--2">
+                                <td class="align-middle rating white-space-nowrap fs--2 td_valor">
                                     <h6 class="mb-0 text-900">R$
                                         <?= number_format($contaPagar['valor'], 2, ',', '.'); ?>
                                     </h6>
                                 </td>
 
-                                <td class="align-middle review">
+                                <td class="align-middle review td_valor_pago">
                                     <h6 class="mb-0 text-900 valor-pago-<?= $contaPagar['id'] ?>">R$
                                         <?= number_format($contaPagar['valor_pago'], 2, ',', '.'); ?>
                                     </h6>
                                 </td>
 
-                                <td class="align-middle text-start ps-3 status">
-                                    <span
-                                        class="badge badge-phoenix fs--2 <?= $contaPagar['status'] ? "badge-phoenix-success" : "badge-phoenix-danger" ?> tipo-status-conta-<?= $contaPagar['id'] ?>">
-                                        <span
-                                            class="badge-label cursor-pointer realizar-pagamento status-pagamento-<?= $contaPagar['id'] ?>"
-                                            data-id="<?= $contaPagar['id'] ?>"
-                                            data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>"
-                                            <?= !$contaPagar['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalPagarConta"' : "" ?>>
+                                <td class="align-middle text-start ps-3 status td_status_pgto">
+                                    <span class="badge badge-phoenix fs--2 <?= $contaPagar['status'] ? "badge-phoenix-success" : "badge-phoenix-danger" ?> tipo-status-conta-<?= $contaPagar['id'] ?>">
+                                        <span class="badge-label cursor-pointer realizar-pagamento status-pagamento-<?= $contaPagar['id'] ?>" data-id="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" <?= !$contaPagar['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalPagarConta"' : "" ?>>
                                             <?= $contaPagar['status'] ? "Pago" : "Em aberto" ?>
                                         </span>
-                                        <span class="ms-1 icone-status-conta-<?= $contaPagar['id'] ?>"
-                                            data-feather="<?= $contaPagar['status'] ? "check" : "slash" ?>"
-                                            style="height:12.8px;width:12.8px;"></span>
+                                        <span class="ms-1 icone-status-conta-<?= $contaPagar['id'] ?>" data-feather="<?= $contaPagar['status'] ? "check" : "slash" ?>" style="height:12.8px;width:12.8px;"></span>
                                     </span>
                                 </td>
 
-                                <td class="align-middle customer white-space-nowrap">
+                                <td class="align-middle customer white-space-nowrap td_data_pagamento">
                                     <h6 class="mb-0 text-900">
                                         <?= date('d/m/Y', strtotime($contaPagar['data_pagamento'])) ?>
                                     </h6>
                                 </td>
 
-                                <td class="align-middle review">
+                                <td class="align-middle review td_empresa">
                                     <h6 class="mb-0 text-900">
                                         <?= ucfirst($contaPagar['nome']) ?>
                                     </h6>
@@ -223,7 +200,7 @@
 
 
 
-                                <td class="align-middle text-start time">
+                                <td class="align-middle text-start time td_recebido">
                                     <h6 class="text-1000 mb-0">
                                         <?= $contaPagar['RECEBIDO'] ?>
                                     </h6>
@@ -232,14 +209,9 @@
                                 <td class="align-middle white-space-nowrap text-end pe-0">
 
                                     <div class="font-sans-serif btn-reveal-trigger position-static">
-                                        <button
-                                            class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2"
-                                            type="button" data-bs-toggle="dropdown" data-boundary="window"
-                                            aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span
-                                                class="fas fa-ellipsis-h fs--2"></span></button>
+                                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2"></span></button>
                                         <div class="dropdown-menu dropdown-menu-end py-2">
-                                            <a class="dropdown-item" href="#!" data-bs-toggle="modal"
-                                                data-bs-target="#modalVisualizarContasPagar">
+                                            <a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#modalVisualizarContasPagar">
                                                 <span class="fas fa-eye"></span> Visualizar
                                             </a>
                                             <a class="dropdown-item" href="#!">
@@ -248,8 +220,7 @@
 
                                             <?php if (!$contaPagar['status']) { ?>
                                                 <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item realizar-pagamento" data-id="<?= $contaPagar['id'] ?>"
-                                                    href="#!" data-bs-toggle="modal" data-bs-target="#modalPagarConta">Realizar
+                                                <a class="dropdown-item realizar-pagamento" data-id="<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalPagarConta">Realizar
                                                     Pagamento</a>
                                             <?php } ?>
                                         </div>
@@ -261,7 +232,16 @@
                     </tbody>
                 </table>
             </div>
-
+            <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+                <div class="col-auto d-none">
+                    <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!" data-list-view="*">Ver todos<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">Ver menos<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                </div>
+                <div class="col-auto d-flex w-100 justify-content-end mt-2 mb-2">
+                    <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
+                    <ul class="mb-0 pagination"></ul>
+                    <button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -287,19 +267,15 @@
                                                     <tr>
                                                         <td class="py-2">
                                                             <div class="d-inline-flex align-items-center">
-                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
-                                                                    style="width:24px; height:24px">
-                                                                    <span
-                                                                        class="text-info-600 dark__text-info-300 fas fa-id-card-alt"
-                                                                        style="width:16px; height:16px"></span>
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300 fas fa-id-card-alt" style="width:16px; height:16px"></span>
                                                                 </div>
                                                                 <p class="fw-bold mb-0">Empresa</p>
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                         <td class="py-2">
-                                                            <div
-                                                                class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break data-coleta html-clean">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break data-coleta html-clean">
                                                                 Centro da Inteligência
                                                             </div>
                                                         </td>
@@ -308,19 +284,15 @@
                                                     <tr>
                                                         <td class="py-2">
                                                             <div class="d-inline-flex align-items-center">
-                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
-                                                                    style="width:24px; height:24px">
-                                                                    <span class="text-info-600 dark__text-info-300"
-                                                                        data-feather="calendar"
-                                                                        style="width:16px; height:16px"></span>
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300" data-feather="calendar" style="width:16px; height:16px"></span>
                                                                 </div>
                                                                 <p class="fw-bold mb-0">Data de vencimento</p>
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                         <td class="py-2">
-                                                            <div
-                                                                class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break data-coleta html-clean">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break data-coleta html-clean">
                                                                 10/04/2024
                                                             </div>
                                                         </td>
@@ -329,19 +301,15 @@
                                                     <tr>
                                                         <td class="py-2">
                                                             <div class="d-inline-flex align-items-center">
-                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
-                                                                    style="width:24px; height:24px">
-                                                                    <span class="text-info-600 dark__text-info-300"
-                                                                        data-feather="calendar"
-                                                                        style="width:16px; height:16px"></span>
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300" data-feather="calendar" style="width:16px; height:16px"></span>
                                                                 </div>
                                                                 <p class="fw-bold mb-0">Data de Emissão</p>
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                         <td class="py-2">
-                                                            <div
-                                                                class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break responsavel-coleta html-clean">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break responsavel-coleta html-clean">
                                                                 10/04/2024
                                                             </div>
                                                         </td>
@@ -350,11 +318,8 @@
                                                     <tr>
                                                         <td class="py-2">
                                                             <div class="d-inline-flex align-items-center">
-                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
-                                                                    style="width:24px; height:24px">
-                                                                    <span
-                                                                        class="text-info-600 dark__text-info-300 fas fa-money-check-alt"
-                                                                        style="width:16px; height:16px"></span>
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300 fas fa-money-check-alt" style="width:16px; height:16px"></span>
                                                                 </div>
                                                                 <p class="fw-bold mb-0">Valor</p>
                                                             </div>
@@ -362,8 +327,7 @@
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                         <td class="py-2">
 
-                                                            <div
-                                                                class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break residuos-coletados html-clean">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break residuos-coletados html-clean">
                                                                 R$ 250,25
                                                             </div>
 
@@ -373,11 +337,8 @@
                                                     <tr>
                                                         <td class="py-2">
                                                             <div class="d-inline-flex align-items-center">
-                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
-                                                                    style="width:24px; height:24px">
-                                                                    <span
-                                                                        class="text-info-600 dark__text-info-300 fas fa-money-check-alt"
-                                                                        style="width:16px; height:16px"></span>
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300 fas fa-money-check-alt" style="width:16px; height:16px"></span>
                                                                 </div>
                                                                 <p class="fw-bold mb-0">Valor Pago</p>
                                                             </div>
@@ -385,8 +346,7 @@
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                         <td class="py-2">
 
-                                                            <div
-                                                                class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break residuos-coletados html-clean">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break residuos-coletados html-clean">
                                                                 R$ 240,25
                                                             </div>
 
@@ -396,11 +356,8 @@
                                                     <tr>
                                                         <td class="py-2">
                                                             <div class="d-inline-flex align-items-center">
-                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
-                                                                    style="width:24px; height:24px">
-                                                                    <span
-                                                                        class="text-info-600 dark__text-info-300 fas fa-money-check-alt"
-                                                                        style="width:16px; height:16px"></span>
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300 fas fa-money-check-alt" style="width:16px; height:16px"></span>
                                                                 </div>
                                                                 <p class="fw-bold mb-0">Valor em Aberto</p>
                                                             </div>
@@ -408,8 +365,7 @@
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                         <td class="py-2">
 
-                                                            <div
-                                                                class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break residuos-coletados html-clean">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break residuos-coletados html-clean">
                                                                 R$ 10,00
                                                             </div>
 
@@ -419,11 +375,8 @@
                                                     <tr>
                                                         <td class="py-2">
                                                             <div class="d-inline-flex align-items-center">
-                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
-                                                                    style="width:24px; height:24px">
-                                                                    <span
-                                                                        class="text-info-600 dark__text-info-300 fas fa-money-check-alt"
-                                                                        style="width:16px; height:16px"></span>
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300 fas fa-money-check-alt" style="width:16px; height:16px"></span>
                                                                 </div>
                                                                 <p class="fw-bold mb-0">Observação</p>
                                                             </div>
@@ -431,8 +384,7 @@
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                         <td class="py-2">
 
-                                                            <div
-                                                                class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break residuos-coletados html-clean">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break residuos-coletados html-clean">
                                                                 observação detalhada aparecerá aqui
                                                             </div>
 
@@ -482,8 +434,7 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Grupos
                                                         Macros</label>
-                                                    <select class="form-select select2 select-macros input-obrigatorio"
-                                                        name="macros">
+                                                    <select class="form-select select2 select-macros input-obrigatorio" name="macros">
                                                         <option selected disabled>Selecione</option>
                                                         <?php foreach ($macros as $macro) { ?>
                                                             <option value="<?= $macro['id'] ?>"><?= $macro['nome'] ?>
@@ -501,9 +452,7 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Grupos
                                                         Micros</label>
-                                                    <select disabled
-                                                        class="form-select select2 select-micros input-obrigatorio"
-                                                        name="micros">
+                                                    <select disabled class="form-select select2 select-micros input-obrigatorio" name="micros">
                                                         <option selected disabled value="">Selecione</option>
                                                         <!-- JS -->
                                                     </select>
@@ -518,9 +467,7 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Grupo
                                                         recebidos</label>
-                                                    <select
-                                                        class="form-select select2 select-grupo-recebidos input-obrigatorio"
-                                                        name="grupo-recebido">
+                                                    <select class="form-select select2 select-grupo-recebidos input-obrigatorio" name="grupo-recebido">
                                                         <option selected disabled>Selecione</option>
                                                         <?php foreach ($grupos as $grupo) { ?>
                                                             <option value="<?= $grupo['id'] ?>"><?= $grupo['nome'] ?>
@@ -538,13 +485,10 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Recebido</label>
-                                                    <select
-                                                        class="form-select select2 select-recebido input-obrigatorio"
-                                                        name="recebido">
+                                                    <select class="form-select select2 select-recebido input-obrigatorio" name="recebido">
                                                         <option selected disabled>Selecione</option>
                                                         <?php foreach ($dadosFinanceiro as $dadoFinanceiro) { ?>
-                                                            <option data-nome="<?= $dadoFinanceiro['nome'] ?>"
-                                                                value="<?= $dadoFinanceiro['id'] ?>">
+                                                            <option data-nome="<?= $dadoFinanceiro['nome'] ?>" value="<?= $dadoFinanceiro['id'] ?>">
                                                                 <?= $dadoFinanceiro['nome'] ?>
                                                             </option>
                                                         <?php } ?>
@@ -583,11 +527,7 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data
                                                         Vencimento</label>
-                                                    <input
-                                                        class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio"
-                                                        required name="data_vencimento" type="text"
-                                                        placeholder="dd/mm/aaaa"
-                                                        data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
@@ -597,11 +537,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data Emissão</label>
-                                                    <input
-                                                        class="form-control datetimepicker cursor-pointer input-data-emissao"
-                                                        required name="data_emissao" type="text"
-                                                        placeholder="dd/mm/aaaa"
-                                                        data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-emissao" required name="data_emissao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
@@ -613,9 +549,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                    <input class="form-control input-obrigatorio mascara-dinheiro"
-                                                        required name="valor" type="text"
-                                                        placeholder="Valor total da conta">
+                                                    <input class="form-control input-obrigatorio mascara-dinheiro" required name="valor" type="text" placeholder="Valor total da conta">
                                                 </div>
 
                                             </div>
@@ -640,8 +574,7 @@
 
                 <div class="modal-footer">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
-                    <button class="btn btn-success btn-form" type="button"
-                        onclick="cadastraContasPagar()">Salvar</button>
+                    <button class="btn btn-success btn-form" type="button" onclick="cadastraContasPagar()">Salvar</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
                 </div>
@@ -669,10 +602,7 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data
                                                         Pagamento</label>
-                                                    <input
-                                                        class="form-control datetimepicker input-data-pagamento cursor-pointer"
-                                                        name="data_pagamento" type="text" placeholder="dd/mm/aaaa"
-                                                        data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <input class="form-control datetimepicker input-data-pagamento cursor-pointer" name="data_pagamento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
                                                 </div>
                                             </div>
 
@@ -709,14 +639,11 @@
                                                 <div class="col-lg-3 duplica-pagamento">
                                                     <div class="mb-4">
                                                         <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                        <input class="form-control input-valor mascara-dinheiro"
-                                                            required name="valor" type="text" placeholder="Valor">
+                                                        <input class="form-control input-valor mascara-dinheiro" required name="valor" type="text" placeholder="Valor">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-1 mt-5">
-                                                    <button title="Mais formas de pagamento" type="button"
-                                                        class="btn btn-phoenix-success"
-                                                        onclick="duplicarFormasPagamento()">+</button>
+                                                    <button title="Mais formas de pagamento" type="button" class="btn btn-phoenix-success" onclick="duplicarFormasPagamento()">+</button>
                                                 </div>
                                             </div>
                                             <div class="campos-duplicados row">
