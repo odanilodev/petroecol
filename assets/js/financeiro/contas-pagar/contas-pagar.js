@@ -117,7 +117,7 @@ $(document).on('change', '.select-macros', function () {
         data: {
             idMacro: idMacro
         }, beforeSend: function () {
-            $('.select-micros').html('<option value="">Selecione</option>');
+            $('.select-micros').html('<option disabled value="">Selecione</option>');
         }, success: function (data) {
 
             $('.select-micros').attr('disabled', false);
@@ -143,14 +143,12 @@ $(document).on('change', '.select-grupo-recebidos', function () {
                 $('.select-recebido').attr('disabled');
                 $('.select-recebido').html('<option value="">Carregando...</option>');
             }, success: function (data) {
-                $('.select-recebido').attr('disabled', false);
-                $('.select-recebido').html('<option value="">Selecione</option>');
-
-    
-                for (i = 0; i < data.clientes.length; i++) {
-    
-                    $('.select-recebido').append(`<option value="${data.clientes[i].id}">${data.clientes[i].nome}</option>`);
+                let options = '<option value="">Selecione</option>';
+                for (let i = 0; i < data.clientes.length; i++) {
+                    options += `<option value="${data.clientes[i].id}">${data.clientes[i].nome}</option>`;
                 }
+                $('.select-recebido').html(options);
+
             }
         })
     } else {

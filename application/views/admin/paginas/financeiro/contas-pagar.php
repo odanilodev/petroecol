@@ -136,15 +136,15 @@
                                     <input class="form-check-input" id="checkbox-bulk-reviews-select" type="checkbox" data-bulk-select='{"body":"table-latest-review-body"}' />
                                 </div>
                             </th>
-                            <th class="sort white-space-nowrap align-middle" scope="col" data-sort="Vencimento">Vencimento
+                            <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="Vencimento">Vencimento
                             </th>
-                            <th class="sort align-middle" scope="col" data-sort="td_valor">Valor</th>
-                            <th class="sort align-middle" scope="col" data-sort="td_valor_pago">Valor Pago</th>
-                            <th class="sort text-start ps-5 align-middle" scope="col" data-sort="td_status_pgto">Status</th>
-                            <th class="sort align-middle" scope="col" data-sort="td_data_pagamento">Data do Pagamento</th>
-                            <th class="sort align-middle" scope="col" data-sort="td_empresa">Empresa</th>
-                            <th class="sort text-start align-middle" scope="col" data-sort="td_recebido">Recebido</th>
-                            <th class="sort text-end pe-0 align-middle" scope="col"></th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Valor</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_valor_pago">Valor Pago</th>
+                            <th class="sort text-start ps-5 align-middle text-center" scope="col" data-sort="td_status_pgto">Status</th>
+                            <th class="sort align-middle text-center"style="text-align: center; vertical-align: middle;" scope="col" data-sort="td_data_pagamento text-center">Data do Pagamento</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_empresa">Empresa</th>
+                            <th class="sort text-start align-middle text-center" scope="col" data-sort="td_recebido">Recebido</th>
+                            <th class="sort text-end pe-0 align-middle text-center" scope="col"></th>
                         </tr>
                     </thead>
                     <tbody class="list" id="table-latest-review-body">
@@ -158,26 +158,26 @@
                                     </div>
                                 </td>
 
-                                <td class="align-middle product white-space-nowrap td_vencimento">
+                                <td class="align-middle product white-space-nowrap td_vencimento text-center">
                                     <h6 class="mb-0 text-900">
                                         <?= date('d/m/Y', strtotime($contaPagar['data_vencimento'])) ?>
                                     </h6>
                                 </td>
 
 
-                                <td class="align-middle rating white-space-nowrap fs--2 td_valor">
+                                <td class="align-middle rating white-space-nowrap fs--2 td_valor text-center">
                                     <h6 class="mb-0 text-900">R$
                                         <?= number_format($contaPagar['valor'], 2, ',', '.'); ?>
                                     </h6>
                                 </td>
 
-                                <td class="align-middle review td_valor_pago">
+                                <td class="align-middle review td_valor_pago text-center">
                                     <h6 class="mb-0 text-900 valor-pago-<?= $contaPagar['id'] ?>">R$
                                         <?= number_format($contaPagar['valor_pago'], 2, ',', '.'); ?>
                                     </h6>
                                 </td>
 
-                                <td class="align-middle text-start ps-3 status td_status_pgto">
+                                <td class="align-middle text-start ps-3 status td_status_pgto text-center">
                                     <span class="badge badge-phoenix fs--2 <?= $contaPagar['status'] ? "badge-phoenix-success" : "badge-phoenix-danger" ?> tipo-status-conta-<?= $contaPagar['id'] ?>">
                                         <span data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" class="badge-label cursor-pointer realizar-pagamento status-pagamento-<?= $contaPagar['id'] ?>" data-id="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" <?= !$contaPagar['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalPagarConta"' : "" ?>>
                                             <?= $contaPagar['status'] ? "Pago" : "Em aberto" ?>
@@ -186,13 +186,13 @@
                                     </span>
                                 </td>
 
-                                <td class="align-middle customer white-space-nowrap td_data_pagamento">
+                                <td class="align-middle customer white-space-nowrap td_data_pagamento text-center">
                                     <h6 class="mb-0 text-900">
-                                        <?= date('d/m/Y', strtotime($contaPagar['data_pagamento'])) ?>
+                                        <?= isset($contaPagar['data_pagamento']) ? date('d/m/Y', strtotime($contaPagar['data_pagamento'])) : '-' ?>
                                     </h6>
                                 </td>
 
-                                <td class="align-middle review td_empresa">
+                                <td class="align-middle review td_empresa text-center">
                                     <h6 class="mb-0 text-900">
                                         <?= ucfirst($contaPagar['nome']) ?>
                                     </h6>
@@ -200,8 +200,8 @@
 
 
 
-                                <td class="align-middle text-start time td_recebido">
-                                    <h6 class="text-1000 mb-0">
+                                <td class="align-middle text-start time td_recebido text-center">
+                                    <h6 class="text-900 mb-0">
                                         <?= $contaPagar['RECEBIDO'] ?>
                                     </h6>
                                 </td>
@@ -220,7 +220,7 @@
 
                                             <?php if (!$contaPagar['status']) { ?>
                                                 <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item realizar-pagamento" data-id="<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalPagarConta">Realizar
+                                                <a class="dropdown-item realizar-pagamento" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-id="<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalPagarConta">Realizar
                                                     Pagamento</a>
                                             <?php } ?>
                                         </div>
