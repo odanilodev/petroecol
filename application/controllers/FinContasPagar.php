@@ -206,16 +206,16 @@ class FinContasPagar extends CI_Controller
 		foreach ($operacoes as $operacao) {
 
 			$dataPagamentoFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $operacao['dataPagamento'])));
+			$valorTotalPago = 0;
 
 			foreach ($operacao['formasPagamento'] as $key => $formaPagamento) {
 
-				$valorTotalPago[$key] = 0;
 
 				$saldoAtual = $this->FinSaldoBancario_model->recebeSaldoBancario($operacao['contasBancarias'][$key]);
 
 				$valoPagoFormatado = str_replace(['.', ','], ['', '.'], $operacao['valores'][$key]); //Muda para o tipo float
 
-				$valorTotalPago[$key] += $valoPagoFormatado;
+				$valorTotalPago += $valoPagoFormatado;
 
 				$novoSaldo = $saldoAtual['saldo'] - $valoPagoFormatado;
 				$this->FinSaldoBancario_model->atualizaSaldoBancario($operacao['contasBancarias'][$key], $novoSaldo);
@@ -233,7 +233,7 @@ class FinContasPagar extends CI_Controller
 
 				$this->FinFluxo_model->insereFluxo($dados);
 
-				$conta['valor_pago'] = $valorTotalPago[$key];
+				$conta['valor_pago'] = $valorTotalPago;
 
 			}
 
