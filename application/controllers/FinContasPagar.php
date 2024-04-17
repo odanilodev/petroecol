@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit ('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class FinContasPagar extends CI_Controller
 {
@@ -21,7 +21,7 @@ class FinContasPagar extends CI_Controller
 		}
 		// FIM controle sessão
 		$this->load->model('FinDadosFinanceiros_model');
-		
+
 	}
 
 	public function index()
@@ -58,7 +58,7 @@ class FinContasPagar extends CI_Controller
 		$this->load->view('admin/includes/painel/rodape');
 	}
 
-	public function cadastraContasPagar () 
+	public function cadastraContasPagar()
 	{
 		$dadosLancamento = $this->input->post('dados');
 
@@ -70,8 +70,8 @@ class FinContasPagar extends CI_Controller
 		$data['id_micro'] = $dadosLancamento['micros'];
 		$data['nome'] = $dadosLancamento['nome-recebido'];
 		$data['observacao'] = $dadosLancamento['observacao'];
-		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-',  $dadosLancamento['data_vencimento'])));
-		$data['data_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-',  $dadosLancamento['data_emissao'])));
+		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
+		$data['data_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao'])));
 
 		$success = true;
 
@@ -104,7 +104,7 @@ class FinContasPagar extends CI_Controller
 				'type' => "error"
 			);
 		}
-	
+
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 
 
@@ -129,7 +129,7 @@ class FinContasPagar extends CI_Controller
 		}
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
-	
+
 	public function realizarPagamento()
 	{
 		$this->load->model('FinFluxo_model');
@@ -153,26 +153,25 @@ class FinContasPagar extends CI_Controller
 
 			//Informacoes do saldo bancario
 			$saldoAtual = $this->FinSaldoBancario_model->recebeSaldoBancario($contasBancarias[$key]);
-			$valoPagoFormatado = str_replace(['.', ','], ['', '.'], $valores[$key]); //Muda para o tipo float
+			$valorPagoFormatado = str_replace(['.', ','], ['', '.'], $valores[$key]); //Muda para o tipo float
 
-			$novoSaldo = $saldoAtual['saldo'] - $valoPagoFormatado;
+			$novoSaldo = $saldoAtual['saldo'] - $valorPagoFormatado;
 			$this->FinSaldoBancario_model->atualizaSaldoBancario($contasBancarias[$key], $novoSaldo);
 
-			$valorTotalPago += $valoPagoFormatado;
+			$valorTotalPago += $valorPagoFormatado;
 
 			//Informacoes do fluxo
 			$dados['id_empresa'] = $this->session->userdata('id_empresa');
 			$dados['id_conta_bancaria'] = $contasBancarias[$key];
 			$dados['id_vinculo_conta'] = $idConta;
 			$dados['id_forma_transacao'] = $formasPagamento[$key];
-			$dados['valor'] = $valoPagoFormatado;
+			$dados['valor'] = $valorPagoFormatado;
 			$dados['movimentacao_tabela'] = 0;
 			$dados['data_movimentacao'] = $dataPagamentoFormatada;
 			$dados['id_dado_financeiro'] = $idDadoFinanceiro;
 			$dados['observacao'] = $obs;
 
 			$this->FinFluxo_model->insereFluxo($dados);
-
 
 		}
 
@@ -194,6 +193,70 @@ class FinContasPagar extends CI_Controller
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
+	public function realizarMultiPagamentos()
+	{
+
+		$this->load->model('FinFluxo_model');
+		$this->load->model('FinContasPagar_model');
+		$this->load->model('FinSaldoBancario_model');
+
+		$operacoes = $this->input->post('operacoes');
+
+		foreach ($operacoes as $operacao) {
+
+			$dataPagamentoFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $operacao['dataPagamento'])));
+
+			foreach ($operacao['formasPagamento'] as $key => $formaPagamento) {
+
+				$valorTotalPago[$key] = 0;
+
+				$saldoAtual = $this->FinSaldoBancario_model->recebeSaldoBancario($operacao['contasBancarias'][$key]);
+
+				$valoPagoFormatado = str_replace(['.', ','], ['', '.'], $operacao['valores'][$key]); //Muda para o tipo float
+
+				$valorTotalPago[$key] += $valoPagoFormatado;
+
+				$novoSaldo = $saldoAtual['saldo'] - $valoPagoFormatado;
+				$this->FinSaldoBancario_model->atualizaSaldoBancario($operacao['contasBancarias'][$key], $novoSaldo);
+
+				//Informacoes do fluxo
+				$dados['id_empresa'] = $this->session->userdata('id_empresa');
+				$dados['id_conta_bancaria'] = $operacao['contasBancarias'][$key];
+				$dados['id_vinculo_conta'] = $operacao['idConta'];
+				$dados['id_forma_transacao'] = $formaPagamento;
+				$dados['valor'] = $valoPagoFormatado;
+				$dados['movimentacao_tabela'] = 0;
+				$dados['data_movimentacao'] = $dataPagamentoFormatada;
+				$dados['id_dado_financeiro'] = $operacao['idDadoFinanceiro'];
+				$dados['observacao'] = $operacao['observacao'];
+
+				$this->FinFluxo_model->insereFluxo($dados);
+
+				$conta['valor_pago'] = $valorTotalPago[$key];
+
+			}
+
+			$conta['status'] = 1;
+			$conta['data_pagamento'] = $dataPagamentoFormatada;
+
+			$this->FinContasPagar_model->editaConta($operacao['idConta'], $conta);
+
+		}
+
+		// retorno conta paga
+		$response = array(
+			'title' => 'Sucesso!',
+			'success' => true,
+			'message' => "Pagamento realizado com sucesso!",
+			'type' => "success"
+
+		);
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+
 
 	public function insereContaPagar()
 	{
@@ -234,6 +297,6 @@ class FinContasPagar extends CI_Controller
 
 	}
 
-	
+
 
 }

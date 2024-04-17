@@ -104,7 +104,11 @@
         <div id="members" data-list='{"valueNames":["td_vencimento","td_valor","td_valor_pago","td_status_pgto","td_data_pagamento","td_empresa","td_recebido"],"page":10,"pagination":true}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
-                    <h3>Contas a pagar</h3>
+                    <h3>Contas a pagar
+
+                        <a href="#" class="btn btn-phoenix-success d-none btn-pagar-tudo mx-2" data-bs-toggle="modal" data-bs-target="#modalPagarVariasContas"><span data-feather="dollar-sign"></span> Pagar todos</a>
+
+                    </h3>
                 </div>
                 <div class="col-12 col-md-auto">
                     <div class="row g-2 gy-3">
@@ -133,7 +137,7 @@
                         <tr>
                             <th class="white-space-nowrap fs--1 ps-0 align-middle">
                                 <div class="form-check mb-0 fs-0">
-                                    <input class="form-check-input" id="checkbox-bulk-reviews-select" type="checkbox" data-bulk-select='{"body":"table-latest-review-body"}' />
+                                    <input class="form-check-input check-all-element cursor-pointer" id="checkbox-bulk-reviews-select" type="checkbox" />
                                 </div>
                             </th>
                             <th class="sort white-space-nowrap align-middle" scope="col" data-sort="Vencimento">Vencimento
@@ -150,11 +154,11 @@
                     <tbody class="list" id="table-latest-review-body">
 
                         <?php foreach ($contasPagar as $contaPagar) { ?>
-                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                            <tr class="hover-actions-trigger btn-reveal-trigger position-static tr-pagamento">
 
                                 <td class="fs--1 align-middle ps-0">
                                     <div class="form-check mb-0 fs-0">
-                                        <input class="form-check-input" type="checkbox" data-bulk-select-row='' />
+                                        <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" data-nome-empresa="<?= ucfirst($contaPagar['nome']) ?>"/>
                                     </div>
                                 </td>
 
@@ -165,7 +169,7 @@
                                 </td>
 
 
-                                <td class="align-middle rating white-space-nowrap fs--2 td_valor">
+                                <td class="align-middle rating white-space-nowrap fs--2 td_valor <?= !$contaPagar['status'] ? 'td-valor-aberto' : '' ?>" data-valor="<?= $contaPagar['valor'] ?>">
                                     <h6 class="mb-0 text-900">R$
                                         <?= number_format($contaPagar['valor'], 2, ',', '.'); ?>
                                     </h6>
@@ -652,7 +656,7 @@
                                             <div class="col-lg-12">
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Observação</label>
-                                                    <textarea class="form-control obs-pagamento"></textarea>
+                                                    <textarea class="form-control obs-pagamento-inicio"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -670,6 +674,141 @@
                         Conta</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal pagar várias contas de uma vez -->
+    <div class="modal fade" tabindex="-1" id="modalPagarVariasContas">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Realizar pagamento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body body-coleta">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="col-sm-12 col-xxl-12 py-3">
+                                        <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+
+                                            <div class="div-pagamento-inicial row ">
+
+                                                <div class="col-md-12">
+                                                    <div class="mb-4">
+                                                        <label class="text-body-highlight fw-bold mb-2">Data
+                                                            Pagamento</label>
+                                                        <input class="form-control datetimepicker input-obrigatorio-inicio input-data-pagamento data-pagamento-inicio cursor-pointer" name="data_pagamento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-6">
+                                                    <div class="mb-4">
+                                                        <label class="text-body-highlight fw-bold mb-2">Conta Bancária</label>
+                                                        <select class="form-select select2 input-obrigatorio-inicio select-conta-bancaria-inicio">
+                                                            <option value="" selected disabled>Selecione</option>
+                                                            <?php foreach ($contasBancarias as $contaBancaria) { ?>
+                                                                <option value="<?= $contaBancaria['id_conta_bancaria'] ?>">
+                                                                    <?= $contaBancaria['apelido'] ?>
+                                                                </option>
+                                                            <?php } ?>
+                                                        </select>
+                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-6">
+                                                    <div class="mb-4">
+                                                        <label class="text-body-highlight fw-bold mb-2">Forma
+                                                            Pagamento</label>
+                                                        <select class="campos form-select select2 select-forma-pagamento-inicio input-obrigatorio-inicio">
+                                                            <option value="" selected disabled>Selecione</option>
+
+                                                            <?php foreach ($formasTransacao as $formaTransacao) { ?>
+                                                                <option value="<?= $formaTransacao['id'] ?>">
+                                                                    <?= $formaTransacao['nome'] ?>
+                                                                </option>
+                                                            <?php } ?>
+                                                        </select>
+                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="campos-pagamento-inicio row d-none">
+                                                <div class="col-lg-4 mb-4 duplica-pagamento-multiplo">
+                                                    <label class="text-body-highlight fw-bold mb-2">Conta Bancária</label>
+                                                    <select class="campos form-select select2 select-conta-bancaria conta-bancaria">
+                                                        <option value="" selected disabled>Selecione</option>
+                                                        <?php foreach ($contasBancarias as $contaBancaria) { ?>
+                                                            <option value="<?= $contaBancaria['id_conta_bancaria'] ?>">
+                                                                <?= $contaBancaria['apelido'] ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg-4 duplica-pagamento-multiplo">
+                                                    <div class="mb-4">
+                                                        <label class="text-body-highlight fw-bold mb-2">Forma Pagamento</label>
+                                                        <select class="campos form-select select2 select-forma-pagamento forma-pagamento">
+                                                            <option value="" selected disabled>Selecione</option>
+
+                                                            <?php foreach ($formasTransacao as $formaTransacao) { ?>
+                                                                <option value="<?= $formaTransacao['id'] ?>">
+                                                                    <?= $formaTransacao['nome'] ?>
+                                                                </option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 duplica-pagamento-multiplo">
+                                                    <div class="mb-4">
+                                                        <label class="text-body-highlight fw-bold mb-2">Valor</label>
+                                                        <input class="campos form-control input-valor mascara-dinheiro valor-pago" required name="valor" type="text" placeholder="Valor">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-1 mt-5">
+                                                    <button title="Mais formas de pagamento" type="button" class="btn btn-phoenix-success" onclick="duplicarFormaPagamentoModal(event)">+</button>
+                                                </div>
+                                            </div>
+                                            <div class="campos-pagamentos-novos row">
+                                                <!-- JS -->
+                                            </div>
+                                            <div class="col-lg-12 div-obs-pagamento">
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Observação</label>
+                                                    <textarea class="form-control obs-pagamento"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <div class="total-contas">
+                        Total: <span class="total-em-aberto-modal fw-bold"></span>
+                    </div>
+                    <div>
+                        <input type="hidden" class="id-conta-pagamento">
+                        <input type="hidden" class="id-dado-financeiro">
+                        <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                        <button class="btn btn-primary btn-form finalizar-varios-pagamentos btn-envia d-none" type="button" onclick="realizarVariosPagamentos()">Pagar Contas</button>
+                        <button class="btn btn-primary btn-form proxima-etapa-pagamento" type="button">Próxima Etapa</button>
+                        <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
