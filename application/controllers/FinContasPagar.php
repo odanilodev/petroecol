@@ -246,6 +246,7 @@ class FinContasPagar extends CI_Controller
 
 		// retorno conta paga
 		$response = array(
+			'title' => 'Sucesso!',
 			'success' => true,
 			'message' => "Pagamento realizado com sucesso!",
 			'type' => "success"
