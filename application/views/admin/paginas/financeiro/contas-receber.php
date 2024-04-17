@@ -178,7 +178,10 @@
 
                                 <td class="align-middle text-start ps-3 status">
                                     <span class="badge badge-phoenix fs--2 <?= $contaReceber['status'] ? "badge-phoenix-success" : "badge-phoenix-danger" ?> tipo-status-conta-<?= $contaReceber['id'] ?>">
-                                        <span class="badge-label cursor-pointer receber-conta status-pagamento-table-<?= $contaReceber['id'] ?>" data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro'] ?>" data-id="<?= $contaReceber['id'] ?>" <?= !$contaReceber['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalReceberConta"' : '' ?>>
+                                        <span data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.');?>"
+                                            class="badge-label cursor-pointer receber-conta status-pagamento-table-<?= $contaReceber['id'] ?>"
+                                            data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro'] ?>"
+                                            data-id="<?= $contaReceber['id'] ?>" <?= !$contaReceber['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalReceberConta"' : '' ?>>
                                             <?= $contaReceber['status'] ? "Recebido" : "A receber" ?>
                                         </span>
 
@@ -649,6 +652,13 @@
                         </div>
                     </div>
                 </div>
+
+                <p style="padding-left: 1rem;">Total:
+                    <span class="valor-total-conta fw-bold">
+                        <!-- JS -->
+                    </span>
+                </p>
+
                 <div class="modal-footer">
                     <input type="hidden" class="id-conta-pagamento">
                     <input type="hidden" class="id-dado-financeiro">

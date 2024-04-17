@@ -29,6 +29,7 @@ function duplicarFormasPagamento() {
     });
 
     $(".campos-duplicados").append(novaLinha);
+    $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
 
 }
 
@@ -115,7 +116,7 @@ $(document).on('change', '.select-macros', function () {
         data: {
             idMacro: idMacro
         }, beforeSend: function () {
-            $('.select-micros').html('<option value="">Selecione</option>');
+            $('.select-micros').html('<option disabled value="">Selecione</option>');
         }, success: function (data) {
 
             $('.select-micros').attr('disabled', false);
@@ -141,14 +142,12 @@ $(document).on('change', '.select-grupo-recebidos', function () {
                 $('.select-recebido').attr('disabled');
                 $('.select-recebido').html('<option value="">Carregando...</option>');
             }, success: function (data) {
-                $('.select-recebido').attr('disabled', false);
-                $('.select-recebido').html('<option value="">Selecione</option>');
-
-
-                for (i = 0; i < data.clientes.length; i++) {
-
-                    $('.select-recebido').append(`<option value="${data.clientes[i].id}">${data.clientes[i].nome}</option>`);
+                let options = '<option value="">Selecione</option>';
+                for (let i = 0; i < data.clientes.length; i++) {
+                    options += `<option value="${data.clientes[i].id}">${data.clientes[i].nome}</option>`;
                 }
+                $('.select-recebido').html(options);
+
             }
         })
     } else {
@@ -191,6 +190,8 @@ $(document).on('click', '.realizar-pagamento', function () {
 
     $('.id-conta-pagamento').val($(this).data('id'));
     $('.id-dado-financeiro').val($(this).data('id-dado-financeiro'));
+    $('.input-valor').val($(this).data('valor'));
+    $('.valor-total-conta').html(`R$ ${$(this).data('valor')}`);
 })
 
 
