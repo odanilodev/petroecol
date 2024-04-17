@@ -337,17 +337,24 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
         $('.campos-pagamentos-novos').find('.select-forma-pagamento').val(formasPagamento);
 
         $('.div-pagamento-inicial').addClass('d-none');
+        $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
+
     }
 
 })
 
 function valoresContasPagar() {
-
     let valores = [];
     let totalAberto = 0;
     $('.td-valor-aberto').each(function () {
         let valorAtual = parseFloat($(this).data('valor'));
-        valores.push(valorAtual);
+        // Formatando o valor atual como moeda BRL sem o símbolo do Real (R$)
+        let valorFormatado = valorAtual.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        }).replace('R$', '').trim();
+        
+        valores.push(valorFormatado);
         totalAberto += valorAtual;
     });
 
@@ -360,6 +367,7 @@ function valoresContasPagar() {
 
     return valores;
 }
+
 
 function idsContasPagar() {
 
@@ -394,6 +402,8 @@ function duplicarFormaPagamentoModal(event) {
     if ($('.linha-duplicada').length === 1) {
         $('.linha-duplicada').append('<hr>');
     }
+    $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
+
 }
 
 
