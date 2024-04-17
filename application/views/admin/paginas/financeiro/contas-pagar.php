@@ -610,7 +610,7 @@
                                                     <div class="mb-4">
                                                         <label class="text-body-highlight fw-bold mb-2">Conta
                                                             Bancária</label>
-                                                        <select class="form-select select2 select-conta-bancaria">
+                                                        <select class="form-select select2 select-conta-bancaria-unic">
                                                             <option value="" selected disabled>Selecione</option>
                                                             <?php foreach ($contasBancarias as $contaBancaria) { ?>
                                                                 <option value="<?= $contaBancaria['id_conta_bancaria'] ?>">
@@ -624,7 +624,7 @@
                                                     <div class="mb-4">
                                                         <label class="text-body-highlight fw-bold mb-2">Forma
                                                             Pagamento</label>
-                                                        <select class="form-select select2 select-forma-pagamento">
+                                                        <select class="form-select select2 select-forma-pagamento-unic">
                                                             <option value="" selected disabled>Selecione</option>
 
                                                             <?php foreach ($formasTransacao as $formaTransacao) { ?>
@@ -638,7 +638,7 @@
                                                 <div class="col-lg-3 duplica-pagamento">
                                                     <div class="mb-4">
                                                         <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                        <input class="form-control input-valor mascara-dinheiro input-valor-pagamento" required name="valor" type="text" placeholder="Valor">
+                                                        <input class="form-control input-valor-unic input-valor mascara-dinheiro input-valor-pagamento" required name="valor" type="text" placeholder="Valor">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-1 mt-5">
