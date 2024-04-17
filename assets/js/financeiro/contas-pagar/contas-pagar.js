@@ -212,17 +212,17 @@ const realizarPagamento = () => {
     let idConta = $('.id-conta-pagamento').val();
     let idDadoFinanceiro = $('.id-dado-financeiro').val();
 
-    $('.select-conta-bancaria').each(function () {
+    $('.select-conta-bancaria-unic').each(function () {
 
         contasBancarias.push($(this).val());
     })
 
-    $('.select-forma-pagamento').each(function () {
+    $('.select-forma-pagamento-unic').each(function () {
 
         formasPagamento.push($(this).val());
     })
 
-    $('.input-valor').each(function () {
+    $('.input-valor-unic').each(function () {
 
         valores.push($(this).val());
 
