@@ -158,7 +158,7 @@
 
                                 <td class="fs--1 align-middle ps-0">
                                     <div class="form-check mb-0 fs-0">
-                                        <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>"/>
+                                        <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" data-nome-empresa="<?= ucfirst($contaPagar['nome']) ?>"/>
                                     </div>
                                 </td>
 
@@ -744,18 +744,16 @@
 
 
                                             <div class="campos-pagamento-inicio row d-none">
-                                                <div class="col-lg-4 duplica-pagamento-multiplo">
-                                                    <div class="mb-4">
-                                                        <label class="text-body-highlight fw-bold mb-2">Conta Bancária</label>
-                                                        <select class="campos form-select select2 select-conta-bancaria conta-bancaria">
-                                                            <option value="" selected disabled>Selecione</option>
-                                                            <?php foreach ($contasBancarias as $contaBancaria) { ?>
-                                                                <option value="<?= $contaBancaria['id_conta_bancaria'] ?>">
-                                                                    <?= $contaBancaria['apelido'] ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                    </div>
+                                                <div class="col-lg-4 mb-4 duplica-pagamento-multiplo">
+                                                    <label class="text-body-highlight fw-bold mb-2">Conta Bancária</label>
+                                                    <select class="campos form-select select2 select-conta-bancaria conta-bancaria">
+                                                        <option value="" selected disabled>Selecione</option>
+                                                        <?php foreach ($contasBancarias as $contaBancaria) { ?>
+                                                            <option value="<?= $contaBancaria['id_conta_bancaria'] ?>">
+                                                                <?= $contaBancaria['apelido'] ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                    </select>
                                                 </div>
                                                 <div class="col-lg-4 duplica-pagamento-multiplo">
                                                     <div class="mb-4">
@@ -787,7 +785,7 @@
                                             <div class="col-lg-12 div-obs-pagamento">
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Observação</label>
-                                                    <textarea class="form-control obs-pagamento-inicio"></textarea>
+                                                    <textarea class="form-control obs-pagamento"></textarea>
                                                 </div>
                                             </div>
                                         </div>

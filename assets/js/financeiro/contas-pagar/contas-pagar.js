@@ -2,7 +2,6 @@ var baseUrl = $(".base-url").val();
 
 // Duplica formas de pagamento
 function duplicarFormasPagamento() {
-    // Clone o último grupo de campos dentro de .teste
     let clone = $(".campos-pagamento .duplica-pagamento").clone();
 
     // Limpe os valores dos campos clonados
@@ -316,6 +315,11 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
         $('.check-aberto').each(function () {
             idsDadoFinanceiro.push($(this).data('id-dado-financeiro'));
         });
+
+        let nomesEmpresas = [];
+        $('.check-aberto').each(function () {
+            nomesEmpresas.push($(this).data('nome-empresa'));
+        });
     
 
         for (let i = 0; i < quantidadeContasPagar; i++) {
@@ -326,7 +330,9 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
                 $(this).addClass('campo-form-' + ids[i]);
                 $(this).addClass('dado-financeiro-' + idsDadoFinanceiro[i]);
             });
-
+            
+            let tituloCampos = $('<h5 class="my-3">').text(nomesEmpresas[i]);
+            clone.prepend(tituloCampos);
             $('.campos-pagamentos-novos').append(clone);
         }
 
