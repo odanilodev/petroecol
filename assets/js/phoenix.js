@@ -7155,6 +7155,7 @@ $(document).ready(function () {
       if($('.check-element:checked').length > 1){
         
         $('.btn-excluir-tudo').removeClass('d-none');
+        $('.btn-pagar-tudo').removeClass('d-none');
       }
 
     } else {
@@ -7166,6 +7167,7 @@ $(document).ready(function () {
 
       // oculta botão para excluir tudo
       $('.btn-excluir-tudo').addClass('d-none');
+      $('.btn-pagar-tudo').addClass('d-none');
     }
 
     todosIdsSelecionados(elementsChecked);
@@ -7207,6 +7209,7 @@ $(document).ready(function () {
 
       $('.check-all-element').prop('checked', true);
       $('.btn-excluir-tudo').removeClass('d-none');
+      $('.btn-pagar-tudo').removeClass('d-none');
 
     } else {
 
@@ -7215,10 +7218,12 @@ $(document).ready(function () {
       if($('.check-element:checked').length >= 2){
 
         $('.btn-excluir-tudo').removeClass('d-none');
+        $('.btn-pagar-tudo').removeClass('d-none');
 
       } else {
 
         $('.btn-excluir-tudo').addClass('d-none');
+        $('.btn-pagar-tudo').addClass('d-none');
 
       }
     }
@@ -7245,3 +7250,43 @@ const agruparIdsCheckbox = () => {
 
 } 
 
+function verificaCamposObrigatorios () {
+
+  let permissao = true;
+  $(".input-obrigatorio-inicio").each(function () {
+
+    // Verifica se o valor do input atual está vazio
+    if (!$(this).val()) {
+
+      $(this).addClass('invalido');
+
+      // verifica se é select2
+      if ($(this).next().hasClass('aviso-obrigatorio')) {
+
+          $(this).next().removeClass('d-none');
+
+      } else {
+          $(this).next().next().removeClass('d-none');
+          $(this).next().addClass('select2-obrigatorio');
+      }
+
+      permissao = false;
+
+    } else {
+
+      $(this).removeClass('invalido');
+
+      if ($(this).next().hasClass('aviso-obrigatorio')) {
+
+          $(this).next().addClass('d-none');
+
+      } else {
+          $(this).next().next().addClass('d-none');
+          $(this).next().removeClass('select2-obrigatorio');
+
+      }
+    }
+  });
+
+  return permissao;
+}
