@@ -102,7 +102,7 @@
     </div>
 
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div id="members" data-list='{"valueNames":["td_vencimento","td_valor","td_recebido","td_status","td_data_recebimento", "td_valor_recebido"],"page":10,"pagination":true}'>
+        <div id="members" data-list='{"valueNames":["td_vencimento","td_valor", "td_valor_recebido","td_status","td_data_recebimento","td_recebido" ],"page":10,"pagination":true}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3>Contas a receber</h3>
@@ -137,14 +137,15 @@
                                     <input class="form-check-input" id="checkbox-bulk-reviews-select" type="checkbox" data-bulk-select='{"body":"table-latest-review-body"}' />
                                 </div>
                             </th>
-                            <th class="sort white-space-nowrap align-middle" scope="col" data-sort="td_vencimento">Vencimento
+                            <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="td_vencimento">Vencimento
                             </th>
-                            <th class="sort align-middle" scope="col" data-sort="td_valor">Valor</th>
-                            <th class="sort text-start align-middle" scope="col" data-sort="td_recebido">Recebido</th>
-                            <th class="sort text-start ps-5 align-middle" scope="col" data-sort="td_status">Status</th>
-                            <th class="sort white-space-nowrap align-middle" scope="col" data-sort="td_data_recebimento">Data
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Valor</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_valor_recebido">Valor Recebido</th>
+                            <th class="sort text-start ps-5 align-middle text-center" scope="col" data-sort="td_status">Status</th>
+                            <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="td_data_recebimento">Data
                                 Recebimento</th>
-                            <th class="sort align-middle" scope="col" data-sort="td_valor_recebido">Valor Recebido</th>
+                            <th class="sort text-start align-middle text-center" scope="col" data-sort="td_recebido">Recebido</th>
+                            <th class="sort text-end pe-0 align-middle" scope="col"></th>
                             <th class="sort text-end pe-0 align-middle" scope="col"></th>
                         </tr>
                     </thead>
@@ -158,25 +159,25 @@
                                     </div>
                                 </td>
 
-                                <td class="align-middle product white-space-nowrap">
+                                <td class="align-middle product white-space-nowrap text-center td_vencimento">
                                     <h6 class="mb-0 text-900">
                                         <?= date('d/m/Y', strtotime($contaReceber['data_vencimento'])) ?>
                                     </h6>
                                 </td>
 
-                                <td class="align-middle rating white-space-nowrap fs--2">
+                                <td class="align-middle rating white-space-nowrap fs--2 text-center td_valor">
                                     <h6 class="mb-0 text-900">
                                         <?= 'R$' . number_format($contaReceber['valor'], 2, ',', '.'); ?>
                                     </h6>
                                 </td>
 
-                                <td class="align-middle text-start time">
-                                    <h6 class="text-1000 mb-0">
-                                        <?= $contaReceber['RECEBIDO'] ?>
+                                <td class="align-middle rating white-space-nowrap fs--2 text-center td_valor_recebido">
+                                    <h6 class="mb-0 text-900">
+                                        <?= $contaReceber['valor_recebido'] ? 'R$' . number_format($contaReceber['valor_recebido'], 2, ',', '.') : 'Não Recebido' ?>
                                     </h6>
                                 </td>
 
-                                <td class="align-middle text-start ps-3 status">
+                                <td class="align-middle text-start ps-3 status text-center td_status">
                                     <span class="badge badge-phoenix fs--2 <?= $contaReceber['status'] ? "badge-phoenix-success" : "badge-phoenix-danger" ?> tipo-status-conta-<?= $contaReceber['id'] ?>">
                                         <span class="badge-label cursor-pointer receber-conta status-pagamento-table-<?= $contaReceber['id'] ?>" data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro'] ?>" data-id="<?= $contaReceber['id'] ?>" <?= !$contaReceber['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalReceberConta"' : '' ?>>
                                             <?= $contaReceber['status'] ? "Recebido" : "A receber" ?>
@@ -187,33 +188,23 @@
                                     </span>
                                 </td>
 
-                                <td class="align-middle product white-space-nowrap">
+                                <td class="align-middle product white-space-nowrap text-center td_data_recebimento">
                                     <h6 class="mb-0 text-900">
                                         <?= $contaReceber['data_recebimento'] != "0000-00-00" ? date('d/m/Y', strtotime($contaReceber['data_recebimento'])) : '' ?>
                                     </h6>
                                 </td>
 
-                                <td class="align-middle rating white-space-nowrap fs--2">
-                                    <h6 class="mb-0 text-900">
-                                        <?= $contaReceber['valor_recebido'] ? 'R$' . number_format($contaReceber['valor_recebido'], 2, ',', '.') : 'Não Recebido' ?>
+                                <td class="align-middle text-start time text-center td_recebido">
+                                    <h6 class="text-900 mb-0">
+                                        <?= $contaReceber['RECEBIDO'] ?>
                                     </h6>
                                 </td>
 
-                                <td class="align-middle review">
+                                <td class="align-middle review text-center">
                                     <h6 class="mb-0 text-900"></h6>
                                 </td>
 
-                                <td class="align-middle white-space-nowrap text-end pe-0">
-                                    <div class="position-relative">
-                                        <div class="hover-actions">
-                                            <button title="Receber Conta" class="btn btn-sm btn-phoenix-success me-1 fs--2 receber-conta status-pagamento-<?= $contaReceber['id'] ?>" data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro'] ?>" data-id="<?= $contaReceber['id'] ?>" <?= !$contaReceber['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalReceberConta"' : '' ?>>
-                                                <span class="fas fa-check"></span>
-                                            </button>
-                                            <button class="btn btn-sm btn-phoenix-danger fs--2">
-                                                <span class="fas fa-trash"></span>
-                                            </button>
-                                        </div>
-                                    </div>
+                                <td class="align-middle white-space-nowrap text-end pe-0 text-center">
 
                                     <div class="font-sans-serif btn-reveal-trigger position-static">
                                         <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2"></span></button>
@@ -224,7 +215,10 @@
                                             <a class="dropdown-item" href="#!">
                                                 <span class="fas fa-pencil"></span> Editar
                                             </a>
-
+                                            <?php if (!$contaReceber['status']) { ?>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item receber-conta" data-id="<?= $contaReceber['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalReceberConta">Receber Conta</a>
+                                            <?php } ?>
                                         </div>
                                     </div>
                                 </td>
@@ -248,7 +242,7 @@
     </div>
 
 
-    <!-- Modal visualizar constas a receber -->
+    <!-- Modal visualizar contas a receber -->
     <div class="modal fade" tabindex="-1" id="modalVisualizarContasReceber">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
@@ -630,7 +624,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-1 mt-5">
-                                                    <button title="Mais formas de pagamento" type="button" class="btn btn-phoenix-secondary bg-white hover-bg-100" onclick="duplicarFormasPagamento()">+</button>
+                                                    <button title="Mais formas de pagamento" type="button" class="btn btn-phoenix-success bg-white hover-bg-100" onclick="duplicarFormasPagamento()">+</button>
                                                 </div>
                                             </div>
                                             <div class="campos-duplicados row">

@@ -246,7 +246,7 @@
     </div>
 
 
-    <!-- Modal visualizar constas a pagar -->
+    <!-- Modal visualizar contas a pagar -->
     <div class="modal fade" tabindex="-1" id="modalVisualizarContasPagar">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
