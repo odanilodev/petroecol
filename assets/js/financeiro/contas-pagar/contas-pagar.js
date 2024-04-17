@@ -408,6 +408,7 @@ function realizarVariosPagamentos() {
         if (idInput) {
             idInput = idInput[1]; 
             idsDadoFinanceiro = idsDadoFinanceiro[1]; 
+            let observacao = $('.obs-pagamento-inicio').val()
             
             let operacaoExistente = operacoes.find(op => op.idConta === idInput);
             if (!operacaoExistente) {
@@ -417,7 +418,8 @@ function realizarVariosPagamentos() {
                     formasPagamento: [],
                     contasBancarias: [],
                     valores: [],
-                    dataPagamento: dataPagamento
+                    dataPagamento: dataPagamento,
+                    observacao: observacao
                 };
                 operacoes.push(novaOperacao);
                 operacaoExistente = novaOperacao;
