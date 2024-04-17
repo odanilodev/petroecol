@@ -804,7 +804,7 @@
                         <input type="hidden" class="id-dado-financeiro">
                         <div class="spinner-border text-primary load-form d-none" role="status"></div>
                         <button class="btn btn-primary btn-form finalizar-varios-pagamentos btn-envia d-none" type="button" onclick="realizarVariosPagamentos()">Pagar Contas</button>
-                        <button class="btn btn-primary btn-form proxima-etapa-pagamento" type="button">Próxima Etapa</button>
+                        <button class="btn btn-primary proxima-etapa-pagamento" type="button">Próxima Etapa</button>
                         <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
                     </div>
                 </div>

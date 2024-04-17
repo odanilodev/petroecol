@@ -458,15 +458,15 @@ function realizarVariosPagamentos() {
             operacoes: operacoes
         }, beforeSend: function () {
             $(".load-form").removeClass("d-none");
-            $(".btn-envia").addClass("d-none");
+            $(".btn-form").addClass("d-none");
         }, success: function (data) {
 
             $(".load-form").addClass("d-none");
-            $(".btn-envia").removeClass("d-none");
-
+            
             let redirect = data.type != 'error' ? `${baseUrl}finContasPagar` : '#';
-
+            
             avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
+            $(".btn-form").removeClass("d-none");
             
         }
     })
