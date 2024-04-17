@@ -458,7 +458,9 @@ function realizarVariosPagamentos() {
             $(".load-form").addClass("d-none");
             $(".btn-envia").removeClass("d-none");
 
-            avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `#`);
+            let redirect = data.type != 'error' ? `${baseUrl}finContasPagar` : '#';
+
+            avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
             
         }
     })
