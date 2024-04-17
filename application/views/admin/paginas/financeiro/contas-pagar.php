@@ -106,7 +106,7 @@
                 <div class="col-auto">
                     <h3>Contas a pagar
 
-                        <a href="#" class="btn btn-phoenix-success d-none btn-pagar-tudo mx-2" data-bs-toggle="modal" data-bs-target="#modalPagarVariasContas"><span class="fas fa-trash"></span> Pagar todos</a>
+                        <a href="#" class="btn btn-phoenix-success d-none btn-pagar-tudo mx-2" data-bs-toggle="modal" data-bs-target="#modalPagarVariasContas"><span data-feather="dollar-sign"></span> Pagar todos</a>
 
                     </h3>
                 </div>
@@ -656,7 +656,7 @@
                                             <div class="col-lg-12">
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Observação</label>
-                                                    <textarea class="form-control obs-pagamento"></textarea>
+                                                    <textarea class="form-control obs-pagamento-inicio"></textarea>
                                                 </div>
                                             </div>
                                         </div>
