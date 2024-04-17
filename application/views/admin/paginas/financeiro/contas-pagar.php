@@ -784,12 +784,12 @@
                                             <div class="campos-pagamentos-novos row">
                                                 <!-- JS -->
                                             </div>
-                                            <!-- <div class="col-lg-12 div-obs-pagamento">
+                                            <div class="col-lg-12 div-obs-pagamento">
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Observação</label>
-                                                    <textarea class="form-control obs-pagamento"></textarea>
+                                                    <textarea class="form-control obs-pagamento-inicio"></textarea>
                                                 </div>
-                                            </div> -->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
