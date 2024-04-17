@@ -135,6 +135,8 @@ function duplicarFormasPagamento() {
 $(document).on('click', '.receber-conta', function () {
 
     $('.id-conta-pagamento').val($(this).data('id'));
+    $('.input-valor-recebido').val($(this).data('valor'));
+    $('.valor-total-conta').html(`R$ ${$(this).data('valor')}`);
     $('.id-dado-financeiro').val($(this).data('id-dado-financeiro'));
 })
 

@@ -2,7 +2,6 @@ var baseUrl = $(".base-url").val();
 
 // Duplica formas de pagamento
 function duplicarFormasPagamento() {
-    // Clone o último grupo de campos dentro de .teste
     let clone = $(".campos-pagamento .duplica-pagamento").clone();
 
     // Limpe os valores dos campos clonados
@@ -30,6 +29,7 @@ function duplicarFormasPagamento() {
     });
 
     $(".campos-duplicados").append(novaLinha);
+    $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
 
 }
 
@@ -116,7 +116,7 @@ $(document).on('change', '.select-macros', function () {
         data: {
             idMacro: idMacro
         }, beforeSend: function () {
-            $('.select-micros').html('<option value="">Selecione</option>');
+            $('.select-micros').html('<option disabled value="">Selecione</option>');
         }, success: function (data) {
 
             $('.select-micros').attr('disabled', false);
@@ -142,14 +142,12 @@ $(document).on('change', '.select-grupo-recebidos', function () {
                 $('.select-recebido').attr('disabled');
                 $('.select-recebido').html('<option value="">Carregando...</option>');
             }, success: function (data) {
-                $('.select-recebido').attr('disabled', false);
-                $('.select-recebido').html('<option value="">Selecione</option>');
-
-    
-                for (i = 0; i < data.clientes.length; i++) {
-    
-                    $('.select-recebido').append(`<option value="${data.clientes[i].id}">${data.clientes[i].nome}</option>`);
+                let options = '<option value="">Selecione</option>';
+                for (let i = 0; i < data.clientes.length; i++) {
+                    options += `<option value="${data.clientes[i].id}">${data.clientes[i].nome}</option>`;
                 }
+                $('.select-recebido').html(options);
+
             }
         })
     } else {
@@ -164,12 +162,12 @@ $(document).on('change', '.select-grupo-recebidos', function () {
                 $('.select-recebido').attr('disabled');
                 $('.select-recebido').html('<option value="">Carregando...</option>');
             }, success: function (data) {
-    
+
                 $('.select-recebido').attr('disabled', false);
                 $('.select-recebido').html('<option value="">Selecione</option>');
 
                 for (i = 0; i < data.dadosFinanceiro.length; i++) {
-    
+
                     $('.select-recebido').append(`<option value="${data.dadosFinanceiro[i].id}">${data.dadosFinanceiro[i].nome}</option>`);
                 }
             }
@@ -192,6 +190,8 @@ $(document).on('click', '.realizar-pagamento', function () {
 
     $('.id-conta-pagamento').val($(this).data('id'));
     $('.id-dado-financeiro').val($(this).data('id-dado-financeiro'));
+    $('.input-valor').val($(this).data('valor'));
+    $('.valor-total-conta').html(`R$ ${$(this).data('valor')}`);
 })
 
 
@@ -229,9 +229,9 @@ const realizarPagamento = () => {
         }
 
     })
-    
+
     let valorTotalFormatado = valorTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    
+
     $.ajax({
         type: "post",
         url: baseUrl + "finContasPagar/realizarPagamento",
@@ -241,9 +241,9 @@ const realizarPagamento = () => {
             valores: valores,
             obs: obs,
             idConta: idConta,
-            valorTotal:  valorTotal,
+            valorTotal: valorTotal,
             idDadoFinanceiro: idDadoFinanceiro,
-            dataPagamento: dataPagamento 
+            dataPagamento: dataPagamento
         }, beforeSend: function () {
             $(".load-form").removeClass("d-none");
             $(".btn-form").addClass("d-none");
@@ -259,7 +259,7 @@ const realizarPagamento = () => {
                 $('#modalPagarConta').modal('hide');
 
                 // atualiza o front
-                $(`.valor-pago-${idConta}`).html(valorTotalFormatado); 
+                $(`.valor-pago-${idConta}`).html(valorTotalFormatado);
                 $(`.tipo-status-conta-${idConta}`).removeClass('badge-phoenix-danger');
                 $(`.tipo-status-conta-${idConta}`).addClass('badge-phoenix-success');
                 $(`.icone-status-conta-${idConta}`).remove();
@@ -285,4 +285,204 @@ const atualizaFrontDadosFinanceiro = () => {
     console.log(totalPagoFront);
     console.log(totalCaixaFront);
     console.log(totalAbertoFront);
+}
+
+
+$(document).on('click', '.btn-pagar-tudo', function () {
+
+    // trata o front
+    $('.proxima-etapa-pagamento').removeClass('d-none');
+    $('.finalizar-varios-pagamentos').addClass('d-none');
+    
+
+    $('.campos-pagamentos-novos .campos-pagamento-inicio').remove();
+    $('.div-pagamento-inicial').removeClass('d-none');
+
+    // zerar campos
+    $('.input-obrigatorio-inicio').each(function () {
+        $(this).val('')
+    })
+
+    valoresContasPagar();
+
+});
+
+$(document).on('click', '.proxima-etapa-pagamento', function () {
+
+    let permissao = verificaCamposObrigatorios();
+
+    if (permissao) {
+
+        $('.proxima-etapa-pagamento').addClass('d-none');
+        $('.finalizar-varios-pagamentos').removeClass('d-none');
+
+        let quantidadeContasPagar = $('.check-aberto:checked').length;
+
+        let divPagamentoInicial = $('.campos-pagamento-inicio').clone();
+
+        divPagamentoInicial.removeClass('d-none');
+
+        let valores = valoresContasPagar();
+
+        let ids = idsContasPagar();
+
+        let idsDadoFinanceiro = [];
+        $('.check-aberto').each(function () {
+            idsDadoFinanceiro.push($(this).data('id-dado-financeiro'));
+        });
+
+        let nomesEmpresas = [];
+        $('.check-aberto').each(function () {
+            nomesEmpresas.push($(this).data('nome-empresa'));
+        });
+    
+
+        for (let i = 0; i < quantidadeContasPagar; i++) {
+
+            let clone = divPagamentoInicial.clone();
+            clone.find('select, input').each(function () {
+                $(this).val(valores[i]);
+                $(this).addClass('campo-form-' + ids[i]);
+                $(this).addClass('dado-financeiro-' + idsDadoFinanceiro[i]);
+            });
+            
+            let tituloCampos = $('<h5 class="my-3">').text(nomesEmpresas[i]);
+            clone.prepend(tituloCampos);
+            $('.campos-pagamentos-novos').append(clone);
+        }
+
+        let contaBancaria = $('.select-conta-bancaria-inicio').val();
+        let formasPagamento = $('.select-forma-pagamento-inicio').val();
+
+        $('.campos-pagamentos-novos').find('.select-conta-bancaria').val(contaBancaria);
+        $('.campos-pagamentos-novos').find('.select-forma-pagamento').val(formasPagamento);
+
+        $('.div-pagamento-inicial').addClass('d-none');
+        $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
+
+    }
+
+})
+
+function valoresContasPagar() {
+    let valores = [];
+    let totalAberto = 0;
+    $('.td-valor-aberto').each(function () {
+        let valorAtual = parseFloat($(this).data('valor'));
+        // Formatando o valor atual como moeda BRL sem o símbolo do Real (R$)
+        let valorFormatado = valorAtual.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        }).replace('R$', '').trim();
+        
+        valores.push(valorFormatado);
+        totalAberto += valorAtual;
+    });
+
+    let totalFormatado = totalAberto.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    });
+
+    $('.total-em-aberto-modal').html(totalFormatado);
+
+    return valores;
+}
+
+
+function idsContasPagar() {
+
+    let ids = [];
+    $('.check-aberto').each(function () {
+        ids.push($(this).val());
+    });
+
+    return ids;
+}
+
+function duplicarFormaPagamentoModal(event) {
+
+    let camposForm = $(event.target).closest('.campos-pagamento-inicio');
+
+    let clones = camposForm.find('.duplica-pagamento-multiplo').clone();
+    clones.find('input').val('');
+    clones.find('label').html('');
+
+    // botão de remover
+    let botaoRemover = $('<button class="botao-remover btn btn-phoenix-danger">-</button>');
+    botaoRemover.click(function () {
+        linhaDuplicada.remove();
+    });
+
+    let divBotaoRemover = $('<div class="col-lg-1 mt-4"></div>').append(botaoRemover);
+
+    let linhaDuplicada = $('<div class="row linha-duplicada"></div>').append(clones, divBotaoRemover);
+
+    linhaDuplicada.insertAfter(camposForm);
+
+    if ($('.linha-duplicada').length === 1) {
+        $('.linha-duplicada').append('<hr>');
+    }
+    $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
+
+}
+
+
+function realizarVariosPagamentos() {
+    let dataPagamento = $('.data-pagamento-inicio').val();
+
+    let operacoes = [];
+
+    $('.campos-pagamentos-novos .campos').each(function () {
+        let idInput = $(this).attr('class').match(/campo-form-(\d+)/);
+        let idsDadoFinanceiro = $(this).attr('class').match(/dado-financeiro-(\d+)/);
+        if (idInput) {
+            idInput = idInput[1]; 
+            idsDadoFinanceiro = idsDadoFinanceiro[1]; 
+            let observacao = $('.obs-pagamento-inicio').val()
+            
+            let operacaoExistente = operacoes.find(op => op.idConta === idInput);
+            if (!operacaoExistente) {
+                let novaOperacao = {
+                    idConta: idInput,
+                    idDadoFinanceiro: idsDadoFinanceiro,
+                    formasPagamento: [],
+                    contasBancarias: [],
+                    valores: [],
+                    dataPagamento: dataPagamento,
+                    observacao: observacao
+                };
+                operacoes.push(novaOperacao);
+                operacaoExistente = novaOperacao;
+            }
+
+            if ($(this).hasClass('forma-pagamento')) {
+                operacaoExistente.formasPagamento.push($(this).val());
+            } else if ($(this).hasClass('conta-bancaria')) {
+                operacaoExistente.contasBancarias.push($(this).val());
+            } else if ($(this).hasClass('valor-pago')) {
+                operacaoExistente.valores.push($(this).val());
+            }
+        }
+    });
+
+    $.ajax({
+        type: "post",
+        url: `${baseUrl}finContasPagar/realizarMultiPagamentos`,
+        data: {
+            operacoes: operacoes
+        }, beforeSend: function () {
+            $(".load-form").removeClass("d-none");
+            $(".btn-form").addClass("d-none");
+        }, success: function (data) {
+
+            $(".load-form").addClass("d-none");
+            
+            let redirect = data.type != 'error' ? `${baseUrl}finContasPagar` : '#';
+            
+            avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
+            $(".btn-form").removeClass("d-none");
+            
+        }
+    })
 }
