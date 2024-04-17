@@ -121,10 +121,15 @@ $(document).on('change', '.select-macros', function () {
 
             $('.select-micros').attr('disabled', false);
 
+            let options = '<option value="">Selecione</option>';
+
             for (i = 0; i < data.microsMacro.length; i++) {
 
-                $('.select-micros').append(`<option value="${data.microsMacro[i].id}">${data.microsMacro[i].nome}</option>`);
+                options += `<option value="${data.microsMacro[i].id}">${data.microsMacro[i].nome}</option>`;
             }
+
+            $('.select-micros').html(options);
+            
         }
     })
 })
