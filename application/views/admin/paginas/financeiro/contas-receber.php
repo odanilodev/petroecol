@@ -25,7 +25,7 @@
                                 <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ <span class="total-recebido-front"><?= number_format($totalRecebido['valor'], 2, ',', '.')?></span></h4>
+                                <h4 class="mb-0">R$ <span class="total-recebido-front"><?= number_format($totalRecebido['valor_recebido'], 2, ',', '.')?></span></h4>
                                 <p class="text-800 fs--1 mb-0">Total Recebido</p>
                             </div>
                         </div>
@@ -172,8 +172,8 @@
                                 </td>
 
                                 <td class="align-middle white-space-nowrap fs--2 text-center td_valor_recebido">
-                                    <h6 class="mb-0 text-900" value="<?=$contaReceber['valor_recebido']?>">
-                                        <?= $contaReceber['valor_recebido'] ? 'R$' . number_format($contaReceber['valor_recebido'], 2, ',', '.') : 'Não Recebido' ?>
+                                    <h6 class="mb-0 text-900 valor-recebido-<?= $contaReceber['id'] ?>" value="<?=$contaReceber['valor_recebido']?>">
+                                        <?= $contaReceber['valor_recebido'] ? 'R$' . number_format($contaReceber['valor_recebido'], 2, ',', '.') : '-' ?>
                                     </h6>
                                 </td>
 
@@ -192,8 +192,8 @@
                                 </td>
 
                                 <td class="align-middle product white-space-nowrap text-center td_data_recebimento">
-                                    <h6 class="mb-0 text-900">
-                                        <?= $contaReceber['data_recebimento'] != "0000-00-00" ? date('d/m/Y', strtotime($contaReceber['data_recebimento'])) : '' ?>
+                                    <h6 class="mb-0 text-900 data-recebimento-<?= $contaReceber['id'] ?>">
+                                        <?= $contaReceber['data_recebimento'] ? date('d/m/Y', strtotime($contaReceber['data_recebimento'])) : '-' ?>
                                     </h6>
                                 </td>
 
@@ -428,7 +428,7 @@
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
 
-                                            <div class="col-lg-4">
+                                            <div class="col-lg-6">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Grupos
@@ -447,14 +447,14 @@
 
                                             </div>
 
-                                            <div class="col-lg-4">
+                                            <div class="col-lg-6">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Grupos
                                                         Micros</label>
                                                     <select disabled class="form-select select2 select-micros input-obrigatorio" name="micros">
                                                         <option selected disabled value="">Selecione</option>
-
+                                                        <!-- JS -->
                                                     </select>
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
@@ -462,9 +462,28 @@
 
                                             </div>
 
+                                            <div class="col-lg-6">
 
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Grupo
+                                                        recebidos</label>
+                                                    <select
+                                                        class="form-select select2 select-grupo-recebidos input-obrigatorio"
+                                                        name="grupo-recebido">
+                                                        <option selected disabled>Selecione</option>
+                                                        <?php foreach ($grupos as $grupo) { ?>
+                                                            <option value="<?= $grupo['id'] ?>"><?= $grupo['nome'] ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                        <option value="clientes">Clientes</option>
 
-                                            <div class="col-lg-4">
+                                                    </select>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Recebido</label>
@@ -623,7 +642,7 @@
                                                 <div class="col-lg-3 duplica-pagamento">
                                                     <div class="mb-4">
                                                         <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                        <input class="form-control input-valor-recebido mascara-dinheiro" required name="valor" type="text" placeholder="Valor">
+                                                        <input class="form-control input-valor-recebido mascara-dinheiro input-valor-unic" required name="valor" type="text" placeholder="Valor">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-1 mt-5">

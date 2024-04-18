@@ -44,6 +44,8 @@ class FinContasReceber extends CI_Controller
 
 		$this->load->model('FinMacro_model');
 		$data['macros'] = $this->FinMacro_model->recebeMacros();
+		$this->load->model('FinGrupos_model');
+		$data['grupos'] = $this->FinGrupos_model->recebeGrupos();
 
 		$data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
 		$data['dadosFinanceiro'] = $this->FinDadosFinanceiros_model->recebeDadosFinanceiros();
@@ -56,7 +58,7 @@ class FinContasReceber extends CI_Controller
 
 		$data['saldoTotal'] = $this->findadosfinanceiros->somaSaldosBancarios();
 		
-		$data['totalRecebido'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_receber', 1); // soma o valor total recebido
+		$data['totalRecebido'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor_recebido', 'fin_contas_receber', 1); // soma o valor total recebido
 		$data['emAberto'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_receber', 0); // soma o valor total em aberto
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
