@@ -165,14 +165,14 @@
                                     </h6>
                                 </td>
 
-                                <td class="align-middle rating white-space-nowrap fs--2 text-center td_valor">
-                                    <h6 class="mb-0 text-900">
+                                <td class="align-middle white-space-nowrap fs--2 text-center td_valor">
+                                    <h6 class="mb-0 text-900" value="<?= $contaReceber['valor']; ?>">
                                         <?= 'R$' . number_format($contaReceber['valor'], 2, ',', '.'); ?>
                                     </h6>
                                 </td>
 
-                                <td class="align-middle rating white-space-nowrap fs--2 text-center td_valor_recebido">
-                                    <h6 class="mb-0 text-900">
+                                <td class="align-middle white-space-nowrap fs--2 text-center td_valor_recebido">
+                                    <h6 class="mb-0 text-900" value="<?=$contaReceber['valor_recebido']?>">
                                         <?= $contaReceber['valor_recebido'] ? 'R$' . number_format($contaReceber['valor_recebido'], 2, ',', '.') : 'Não Recebido' ?>
                                     </h6>
                                 </td>
