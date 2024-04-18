@@ -139,7 +139,7 @@
                         <div class="col-4">
 
                             <div class="mt-2 mb-4">
-                                <select class="form-select w-50 mb-3 select2-edita add-novo-cliente-romaneio" id="select-cliente-modal">
+                                <select class="form-select w-100 mb-3 select2-edita add-novo-cliente-romaneio" id="select-cliente-modal">
 
                                     <option selected value="">Selecione o cliente</option>
 
@@ -159,7 +159,7 @@
 
                     <div class="row">
 
-                        <div class="accordion dados-clientes-div-editar" id="accordionExample">
+                        <div class="accordion dados-clientes-div-editar" id="accordionEditar">
 
                             <!-- Manipulado JS -->
                         </div>
