@@ -54,6 +54,13 @@ class FinContasReceber extends CI_Controller
 		$data['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
 		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
 
+		$this->load->library('finDadosFinanceiros');
+
+		$data['saldoTotal'] = $this->findadosfinanceiros->somaSaldosBancarios();
+		
+		$data['totalRecebido'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor_recebido', 'fin_contas_receber', 1); // soma o valor total recebido
+		$data['emAberto'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_receber', 0); // soma o valor total em aberto
+
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/financeiro/contas-receber');
 		$this->load->view('admin/includes/painel/rodape');

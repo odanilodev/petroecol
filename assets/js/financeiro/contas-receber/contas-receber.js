@@ -156,11 +156,12 @@ $(document).on('change', '.select-grupo-recebidos', function () {
                 $('.select-recebido').attr('disabled', false);
                 $('.select-recebido').html('<option value="">Selecione</option>');
 
-    
-                for (i = 0; i < data.clientes.length; i++) {
-    
-                    $('.select-recebido').append(`<option value="${data.clientes[i].id}">${data.clientes[i].nome}</option>`);
+                let options = '<option value="">Selecione</option>';
+                for (let i = 0; i < data.clientes.length; i++) {
+                    options += `<option value="${data.clientes[i].id}">${data.clientes[i].nome}</option>`;
                 }
+                $('.select-recebido').html(options);
+
             }
         })
     } else {
@@ -248,12 +249,15 @@ const receberConta = () => {
             $(".load-form").addClass("d-none");
             $(".btn-form").removeClass("d-none");
 
+            atualizaFrontDadosFinanceiro();
+
             if (data.success) {
 
                 $('#modalReceberConta').modal('hide');
 
                 // atualiza o front
-                $(`.valor-pago-${idConta}`).html(valorTotalFormatado);
+                $(`.valor-recebido-${idConta}`).html(valorTotalFormatado);
+                $(`.data-recebimento-${idConta}`).html(dataRecebimento);
                 $(`.tipo-status-conta-${idConta}`).removeClass('badge-phoenix-danger');
                 $(`.tipo-status-conta-${idConta}`).addClass('badge-phoenix-success');
                 $(`.icone-status-conta-${idConta}`).remove();
@@ -268,4 +272,54 @@ const receberConta = () => {
         }
 
     })
+}
+
+
+const atualizaFrontDadosFinanceiro = () => {
+
+    let totalRecebidoFront = $('.total-recebido-front').html(); 
+    let totalRecebido = formatarValorMoeda(totalRecebidoFront);
+
+    let totalCaixaFront = $('.total-caixa-front').html(); 
+    let totalCaixa = formatarValorMoeda(totalCaixaFront);
+
+
+    let totalAbertoFront = $('.total-aberto-front').html(); 
+    let totalAberto = formatarValorMoeda(totalAbertoFront);
+
+
+    let valorTotalRecebidoCompleto = $('.valor-total-conta').html().replace('R$', ''); // uso pra fazer conta e exibir o total a receber
+    valorTotalRecebidoCompleto = formatarValorMoeda(valorTotalRecebidoCompleto);
+
+    let valorTotalRecebido = 0;
+    $('.input-valor-unic').each(function () {
+        let valorNumerico = parseFloat($(this).val().replace('.', '').replace(',', '.')); 
+        valorTotalRecebido += valorNumerico;
+    });
+
+    let totalRecebidoAtualizado = totalRecebido + valorTotalRecebido;
+
+    let totalCaixaAtualizado = totalCaixa - valorTotalRecebido;
+    
+    let totalAbertoAtualizado = totalAberto - valorTotalRecebidoCompleto;
+    
+    // Formatar os valores para exibição
+    function formatarValorExibicao (valor) {
+        return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('R$', '');
+    }
+
+    let totalRecebidoAtualizadoFormatado = formatarValorExibicao(totalRecebidoAtualizado);
+    let totalCaixaAtualizadoFormatado = formatarValorExibicao(totalCaixaAtualizado);
+    let totalAbertoAtualizadoFormatado = formatarValorExibicao(totalAbertoAtualizado);
+
+    // Atualiza os valores no front
+    $('.total-recebido-front').html(totalRecebidoAtualizadoFormatado); 
+    $('.total-caixa-front').html(totalCaixaAtualizadoFormatado); 
+    $('.total-aberto-front').html(totalAbertoAtualizadoFormatado < 0 ? '0,00' : totalAbertoAtualizadoFormatado); 
+};
+
+
+
+function formatarValorMoeda (valor) {
+    return parseFloat(valor.replace(/\./g, '').replace(',', '.').replace('&nbsp;', ''));
 }
