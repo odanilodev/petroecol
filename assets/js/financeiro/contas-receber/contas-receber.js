@@ -198,6 +198,8 @@ const receberConta = () => {
             $(".load-form").addClass("d-none");
             $(".btn-form").removeClass("d-none");
 
+            atualizaFrontDadosFinanceiro();
+
             if (data.success) {
 
                 $('#modalReceberConta').modal('hide');
@@ -218,4 +220,48 @@ const receberConta = () => {
         }
 
     })
+}
+
+
+const atualizaFrontDadosFinanceiro = () => {
+
+    let totalRecebidoFront = $('.total-recebido-front').html(); 
+    let totalRecebido = formatarValorMoeda(totalRecebidoFront);
+
+    let totalCaixaFront = $('.total-caixa-front').html(); 
+    let totalCaixa = formatarValorMoeda(totalCaixaFront);
+
+
+    let totalAbertoFront = $('.total-aberto-front').html(); 
+    let totalAberto = formatarValorMoeda(totalAbertoFront);
+
+
+    let valorTotalRecebido = $('.valor-total-conta').html().replace('R$', '');
+    valorTotalRecebido = formatarValorMoeda(valorTotalRecebido);
+
+    let totalRecebidoAtualizado = totalRecebido + valorTotalRecebido;
+
+    let totalCaixaAtualizado = totalCaixa - valorTotalRecebido;
+    
+    let totalAbertoAtualizado = totalAberto - valorTotalRecebido;
+    
+    // Formatar os valores para exibição
+    function formatarValorExibicao (valor) {
+        return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('R$', '');
+    }
+
+    let totalRecebidoAtualizadoFormatado = formatarValorExibicao(totalRecebidoAtualizado);
+    let totalCaixaAtualizadoFormatado = formatarValorExibicao(totalCaixaAtualizado);
+    let totalAbertoAtualizadoFormatado = formatarValorExibicao(totalAbertoAtualizado);
+
+    // Atualiza os valores no front
+    $('.total-recebido-front').html(totalRecebidoAtualizadoFormatado); 
+    $('.total-caixa-front').html(totalCaixaAtualizadoFormatado); 
+    $('.total-aberto-front').html(totalAbertoAtualizadoFormatado < 0 ? '0,00' : totalAbertoAtualizadoFormatado); 
+};
+
+
+
+function formatarValorMoeda (valor) {
+    return parseFloat(valor.replace(/\./g, '').replace(',', '.').replace('&nbsp;', ''));
 }
