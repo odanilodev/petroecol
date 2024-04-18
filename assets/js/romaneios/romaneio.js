@@ -1,7 +1,7 @@
 var baseUrl = $('.base-url').val();
 
 let filtrarClientesRomaneio = () => {
-    
+
     let clientesModalRomaneio = $('.clientes-modal-romaneio');
     let checkTodos = `<tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
                 <td class="align-middle white-space-nowrap">
@@ -368,7 +368,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
             </h2>
 
             ${editar ? `
-                <div class="accordion-collapse collapse ${i == 0 ? 'show' : ''}" id="collapse${i}" aria-labelledby="headingOne" data-bs-parent="#accordionConcluir">
+                <div class="accordion-collapse collapse ${i == 0 ? 'show' : ''}" id="collapse${i}" aria-labelledby="headingOne" data-bs-parent="#accordionEditar">
                     <div class="form-check mb-0 fs-0 d-flex justify-content-start mt-3">
                         
                         <span title="Remover Cliente" class="cursor-pointer" onclick="deletaClienteRomaneio(${codRomaneio}, ${clientes[i].id})">
@@ -943,6 +943,8 @@ const deletarRomaneio = (id) => {
 
 const novoClienteRomaneio = () => {
 
+    $('.btn-adicionar-clientes-romaneio').attr('disalbed', true);
+
     $('.select2-edita').select2({
         dropdownParent: "#modalEditarRomaneio",
         theme: 'bootstrap-5'
@@ -980,6 +982,9 @@ $(document).on('click', '.adicionar-cliente', function () {
             cliente: idCliente
 
         }, success: function (data) {
+
+            $('.div-select-cliente').addClass('d-none');
+
 
             if (data.success) {
 
@@ -1060,9 +1065,11 @@ const editarRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpresa
 
             }, beforeSend: function () {
 
-                $('.dados-clientes-div-editar').html('');
+                $('.dados-clientes-div-editar').html('<div class="spinner-border text-primary load-clientes" role="status"></div>');
 
             }, success: function (data) {
+
+                $('.load-clientes').addClass('d-none');
 
                 exibirDadosClientes(data.retorno, data.registros, data.residuos, data.pagamentos, data.id_cliente_prioridade, true);
 
@@ -1138,7 +1145,7 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
 
                 let htmlClientes = data.romaneios.map((romaneio, index) => {
 
-                   // separando a data e hora
+                    // separando a data e hora
                     let partesDataHora = romaneio.criado_em.split(" ");
                     let data = partesDataHora[0]; //só a data
                     let hora = partesDataHora[1]; // só a hora
