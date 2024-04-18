@@ -7250,10 +7250,10 @@ const agruparIdsCheckbox = () => {
 
 } 
 
-function verificaCamposObrigatorios () {
+function verificaCamposObrigatorios (classe) {
 
   let permissao = true;
-  $(".input-obrigatorio-inicio").each(function () {
+  $(`.${classe}`).each(function () {
 
     // Verifica se o valor do input atual está vazio
     if (!$(this).val()) {
