@@ -24,7 +24,7 @@
                                 <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ <span class="total-pago-front"><?= number_format($totalPago['valor_pago'], 2, ',', '.')?></span></h4>
+                                <h4 class="mb-0">R$ <span class="total-pago-front"><?= number_format($totalPago['valor'], 2, ',', '.')?></span></h4>
                                 <p class="text-800 fs--1 mb-0">Total Pago</p>
                             </div>
                         </div>
@@ -37,7 +37,7 @@
                                 <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-warning" data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ <span class="total-aberto-front"><?= number_format($emAberto, 2, ',', '.')?></span></h4>
+                                <h4 class="mb-0">R$ <span class="total-aberto-front"><?= number_format($emAberto['valor'], 2, ',', '.')?></span></h4>
                                 <p class="text-800 fs--1 mb-0">Despesas em Aberto</p>
                             </div>
                         </div>

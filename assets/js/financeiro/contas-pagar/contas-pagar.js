@@ -193,6 +193,12 @@ $(document).on('change', '.select-recebido', function () {
 
 $(document).on('click', '.realizar-pagamento', function () {
 
+    $('.input-obrigatorio-unic').each(function () {
+        $(this).val('');
+    })
+
+    $('.obs-pagamento-inicio').val('');
+
     $('.id-conta-pagamento').val($(this).data('id'));
     $('.id-dado-financeiro').val($(this).data('id-dado-financeiro'));
     $('.input-valor').val($(this).data('valor'));
@@ -290,19 +296,20 @@ const atualizaFrontDadosFinanceiro = () => {
     let totalCaixaFront = $('.total-caixa-front').html(); 
     let totalCaixa = formatarValorMoeda(totalCaixaFront);
 
+
     let totalAbertoFront = $('.total-aberto-front').html(); 
     let totalAberto = formatarValorMoeda(totalAbertoFront);
 
-    let valorTotalPago = 0;
-    $('.input-valor-unic').each(function () {
-        let valorNumerico = formatarValorMoeda($(this).val());
-        valorTotalPago += valorNumerico;
-    });
+
+    let valorTotalPago = $('.valor-total-conta').html().replace('R$', '');
+    valorTotalPago = formatarValorMoeda(valorTotalPago);
 
     let totalPagoAtualizado = totalPago + valorTotalPago;
-    let totalCaixaAtualizado = totalCaixa - valorTotalPago;
-    let totalAbertoAtualizado = totalAberto - valorTotalPago;
 
+    let totalCaixaAtualizado = totalCaixa - valorTotalPago;
+    
+    let totalAbertoAtualizado = totalAberto - valorTotalPago;
+    
     // Formatar os valores para exibição
     function formatarValorExibicao (valor) {
         return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('R$', '');
@@ -315,12 +322,13 @@ const atualizaFrontDadosFinanceiro = () => {
     // Atualiza os valores no front
     $('.total-pago-front').html(totalPagoAtualizadoFormatado); 
     $('.total-caixa-front').html(totalCaixaAtualizadoFormatado); 
-    $('.total-aberto-front').html(totalAbertoAtualizadoFormatado); 
+    $('.total-aberto-front').html(totalAbertoAtualizadoFormatado < 0 ? '0,00' : totalAbertoAtualizadoFormatado); 
 };
 
 
+
 function formatarValorMoeda (valor) {
-    return parseFloat(valor.replace(/\./g, '').replace(',', '.'));
+    return parseFloat(valor.replace(/\./g, '').replace(',', '.').replace('&nbsp;', ''));
 }
 
 

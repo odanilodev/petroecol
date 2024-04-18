@@ -22,10 +22,11 @@ class FinDadosFinanceiros
 	}
 
 	// calcula o total pago e total recebido
-	public function totalDadosFinanceiro($coluna, $tabela)
+	public function totalDadosFinanceiro($coluna, $tabela, $status)
 	{
 		$this->CI->db->select_sum($coluna);
         $this->CI->db->where('id_empresa', $this->CI->session->userdata('id_empresa'));
+        $this->CI->db->where('status', $status);
         $query = $this->CI->db->get($tabela);
 
         return $query->row_array();
