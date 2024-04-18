@@ -44,6 +44,8 @@ class FinContasReceber extends CI_Controller
 
 		$this->load->model('FinMacro_model');
 		$data['macros'] = $this->FinMacro_model->recebeMacros();
+		$this->load->model('FinGrupos_model');
+		$data['grupos'] = $this->FinGrupos_model->recebeGrupos();
 
 		$data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
 		$data['dadosFinanceiro'] = $this->FinDadosFinanceiros_model->recebeDadosFinanceiros();
