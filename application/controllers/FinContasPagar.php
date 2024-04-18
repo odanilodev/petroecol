@@ -53,6 +53,13 @@ class FinContasPagar extends CI_Controller
 
 		$data['contasPagar'] = $this->FinContasPagar_model->recebeContasPagar();
 
+		$this->load->library('finDadosFinanceiros');
+
+		$data['saldoTotal'] = $this->findadosfinanceiros->somaSaldosBancarios();
+		
+		$data['totalPago'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 1); // soma o valor total pago
+		$data['emAberto'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 0); // soma o valor total em aberto
+
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/financeiro/contas-pagar');
 		$this->load->view('admin/includes/painel/rodape');

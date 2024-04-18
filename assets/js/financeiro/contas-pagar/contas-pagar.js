@@ -121,10 +121,15 @@ $(document).on('change', '.select-macros', function () {
 
             $('.select-micros').attr('disabled', false);
 
+            let options = '<option value="">Selecione</option>';
+
             for (i = 0; i < data.microsMacro.length; i++) {
 
-                $('.select-micros').append(`<option value="${data.microsMacro[i].id}">${data.microsMacro[i].nome}</option>`);
+                options += `<option value="${data.microsMacro[i].id}">${data.microsMacro[i].nome}</option>`;
             }
+
+            $('.select-micros').html(options);
+            
         }
     })
 })
@@ -188,6 +193,12 @@ $(document).on('change', '.select-recebido', function () {
 
 $(document).on('click', '.realizar-pagamento', function () {
 
+    $('.input-obrigatorio-unic').each(function () {
+        $(this).val('');
+    })
+
+    $('.obs-pagamento-inicio').val('');
+
     $('.id-conta-pagamento').val($(this).data('id'));
     $('.id-dado-financeiro').val($(this).data('id-dado-financeiro'));
     $('.input-valor').val($(this).data('valor'));
@@ -197,82 +208,130 @@ $(document).on('click', '.realizar-pagamento', function () {
 
 const realizarPagamento = () => {
 
-    let contasBancarias = [];
-    let formasPagamento = [];
-    let valores = [];
-    let obs = $('.obs-pagamento').val();
-    let dataPagamento = $('.input-data-pagamento').val();
-    let valorTotal = 0;
+    let permissao = verificaCamposObrigatorios('input-obrigatorio-unic');
 
-    let idConta = $('.id-conta-pagamento').val();
-    let idDadoFinanceiro = $('.id-dado-financeiro').val();
+    if (permissao) {
 
-    $('.select-conta-bancaria-unic').each(function () {
+        let contasBancarias = [];
+        let formasPagamento = [];
+        let valores = [];
+        let obs = $('.obs-pagamento').val();
+        let dataPagamento = $('.input-data-pagamento').val();
+        let valorTotal = 0;
 
-        contasBancarias.push($(this).val());
-    })
+        let idConta = $('.id-conta-pagamento').val();
+        let idDadoFinanceiro = $('.id-dado-financeiro').val();
 
-    $('.select-forma-pagamento-unic').each(function () {
+        $('.select-conta-bancaria-unic').each(function () {
 
-        formasPagamento.push($(this).val());
-    })
+            contasBancarias.push($(this).val());
+        })
 
-    $('.input-valor-unic').each(function () {
+        $('.select-forma-pagamento-unic').each(function () {
 
-        valores.push($(this).val());
+            formasPagamento.push($(this).val());
+        })
 
-        // soma o valor total
-        let valorNumerico = parseFloat($(this).val().replace(',', '.')); // Substitui ',' por '.' e converte para float
-
-        if (!isNaN(valorNumerico)) {
+        $('.input-valor-unic').each(function () {
+            valores.push($(this).val());
+        
+            // soma o valor total
+            let valorNumerico = parseFloat($(this).val().replace('.', '').replace(',', '.')); 
             valorTotal += valorNumerico;
-        }
+        });
+        
+        let valorTotalFormatado = valorTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
-    })
+        $.ajax({
+            type: "post",
+            url: baseUrl + "finContasPagar/realizarPagamento",
+            data: {
+                contasBancarias: contasBancarias,
+                formasPagamento: formasPagamento,
+                valores: valores,
+                obs: obs,
+                idConta: idConta,
+                valorTotal: valorTotal,
+                idDadoFinanceiro: idDadoFinanceiro,
+                dataPagamento: dataPagamento
+            }, beforeSend: function () {
+                $(".load-form").removeClass("d-none");
+                $(".btn-form").addClass("d-none");
+            }, success: function (data) {
 
-    let valorTotalFormatado = valorTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                atualizaFrontDadosFinanceiro(); // atualiza os valores (total pago, total em aberto, total caixa)
 
-    $.ajax({
-        type: "post",
-        url: baseUrl + "finContasPagar/realizarPagamento",
-        data: {
-            contasBancarias: contasBancarias,
-            formasPagamento: formasPagamento,
-            valores: valores,
-            obs: obs,
-            idConta: idConta,
-            valorTotal: valorTotal,
-            idDadoFinanceiro: idDadoFinanceiro,
-            dataPagamento: dataPagamento
-        }, beforeSend: function () {
-            $(".load-form").removeClass("d-none");
-            $(".btn-form").addClass("d-none");
-        }, success: function (data) {
+                $(".load-form").addClass("d-none");
+                $(".btn-form").removeClass("d-none");
 
-            $(".load-form").addClass("d-none");
-            $(".btn-form").removeClass("d-none");
+                if (data.success) {
 
-            if (data.success) {
+                    $('#modalPagarConta').modal('hide');
 
-                $('#modalPagarConta').modal('hide');
+                    // atualiza o front
+                    $(`.valor-pago-${idConta}`).html(valorTotalFormatado);
+                    $(`.data-pagamento-${idConta}`).html(dataPagamento);
+                    $(`.tipo-status-conta-${idConta}`).removeClass('badge-phoenix-danger');
+                    $(`.tipo-status-conta-${idConta}`).addClass('badge-phoenix-success');
+                    $(`.icone-status-conta-${idConta}`).remove();
+                    $(`.tipo-status-conta-${idConta}`).append(`<span class="uil-check ms-1 icone-status-conta-${idConta}" style="height:12.8px;width:12.8px;"></span>`);
+                    $(`.status-pagamento-${idConta}`).html('Pago');
 
-                // atualiza o front
-                $(`.valor-pago-${idConta}`).html(valorTotalFormatado);
-                $(`.tipo-status-conta-${idConta}`).removeClass('badge-phoenix-danger');
-                $(`.tipo-status-conta-${idConta}`).addClass('badge-phoenix-success');
-                $(`.icone-status-conta-${idConta}`).remove();
-                $(`.tipo-status-conta-${idConta}`).append(`<span class="uil-check ms-1 icone-status-conta-${idConta}" style="height:12.8px;width:12.8px;"></span>`);
-                $(`.status-pagamento-${idConta}`).html('Pago');
+                    avisoRetorno("Sucesso!", `${data.message}`, `${data.type}`, `#`);
 
-                avisoRetorno("Sucesso!", `${data.message}`, `${data.type}`, `#`);
+                }
+
 
             }
 
-
-        }
-
-    })
+        })
+    }
 }
+
+const atualizaFrontDadosFinanceiro = () => {
+
+    let totalPagoFront = $('.total-pago-front').html(); 
+    let totalPago = formatarValorMoeda(totalPagoFront);
+
+    let totalCaixaFront = $('.total-caixa-front').html(); 
+    let totalCaixa = formatarValorMoeda(totalCaixaFront);
+
+
+    let totalAbertoFront = $('.total-aberto-front').html(); 
+    let totalAberto = formatarValorMoeda(totalAbertoFront);
+
+
+    let valorTotalPago = $('.valor-total-conta').html().replace('R$', '');
+    valorTotalPago = formatarValorMoeda(valorTotalPago);
+
+    let totalPagoAtualizado = totalPago + valorTotalPago;
+
+    let totalCaixaAtualizado = totalCaixa - valorTotalPago;
+    
+    let totalAbertoAtualizado = totalAberto - valorTotalPago;
+    
+    // Formatar os valores para exibição
+    function formatarValorExibicao (valor) {
+        return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('R$', '');
+    }
+
+    let totalPagoAtualizadoFormatado = formatarValorExibicao(totalPagoAtualizado);
+    let totalCaixaAtualizadoFormatado = formatarValorExibicao(totalCaixaAtualizado);
+    let totalAbertoAtualizadoFormatado = formatarValorExibicao(totalAbertoAtualizado);
+
+    // Atualiza os valores no front
+    $('.total-pago-front').html(totalPagoAtualizadoFormatado); 
+    $('.total-caixa-front').html(totalCaixaAtualizadoFormatado); 
+    $('.total-aberto-front').html(totalAbertoAtualizadoFormatado < 0 ? '0,00' : totalAbertoAtualizadoFormatado); 
+};
+
+
+
+function formatarValorMoeda (valor) {
+    return parseFloat(valor.replace(/\./g, '').replace(',', '.').replace('&nbsp;', ''));
+}
+
+
 
 $(document).on('click', '.btn-pagar-tudo', function () {
 
@@ -295,7 +354,7 @@ $(document).on('click', '.btn-pagar-tudo', function () {
 
 $(document).on('click', '.proxima-etapa-pagamento', function () {
 
-    let permissao = verificaCamposObrigatorios();
+    let permissao = verificaCamposObrigatorios('input-obrigatorio-inicio');
 
     if (permissao) {
 

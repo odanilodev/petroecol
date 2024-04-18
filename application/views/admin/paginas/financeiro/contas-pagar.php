@@ -11,8 +11,8 @@
                                 <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ 2.212.323,05</h4>
-                                <p class="text-800 fs--1 mb-0">Caixa Óleo</p>
+                                <h4 class="mb-0">R$ <span class="total-caixa-front"><?= number_format($saldoTotal['saldo'], 2, ',', '.')?></span></h4>
+                                <p class="text-800 fs--1 mb-0">Total Caixa</p>
                             </div>
                         </div>
                     </div>
@@ -24,8 +24,8 @@
                                 <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ 2.212.323,05</h4>
-                                <p class="text-800 fs--1 mb-0">Caixa Reciclagem</p>
+                                <h4 class="mb-0">R$ <span class="total-pago-front"><?= number_format($totalPago['valor'], 2, ',', '.')?></span></h4>
+                                <p class="text-800 fs--1 mb-0">Total Pago</p>
                             </div>
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                                 <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-warning" data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ 2.212.323,05</h4>
+                                <h4 class="mb-0">R$ <span class="total-aberto-front"><?= number_format($emAberto['valor'], 2, ',', '.')?></span></h4>
                                 <p class="text-800 fs--1 mb-0">Despesas em Aberto</p>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                     <div class="col-12 col-md-3">
                         <div class="ms-3">
 
-                            <button type="button" class="btn btn-secondary w-100">Filtrar</button>
+                            <button type="button" class="btn btn-phoenix-secondary w-100">Filtrar</button>
 
                         </div>
                     </div>
@@ -192,7 +192,7 @@
 
                                 <td class="align-middle customer white-space-nowrap td_data_pagamento text-center">
                                     <h6 class="mb-0 text-900">
-                                        <?= isset($contaPagar['data_pagamento']) ? date('d/m/Y', strtotime($contaPagar['data_pagamento'])) : '-' ?>
+                                        <span class="data-pagamento-<?= $contaPagar['id'] ?>"><?= isset($contaPagar['data_pagamento']) ? date('d/m/Y', strtotime($contaPagar['data_pagamento'])) : '-' ?></span>
                                     </h6>
                                 </td>
 
@@ -601,7 +601,9 @@
                                             <div class="col-md-4">
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data Pagamento</label>
-                                                    <input class="form-control datetimepicker input-data-pagamento cursor-pointer" name="data_pagamento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <input class="form-control datetimepicker input-data-pagamento cursor-pointer input-obrigatorio-unic" name="data_pagamento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                                 </div>
                                             </div>
 
@@ -610,7 +612,7 @@
                                                     <div class="mb-4">
                                                         <label class="text-body-highlight fw-bold mb-2">Conta
                                                             Bancária</label>
-                                                        <select class="form-select select2 select-conta-bancaria-unic">
+                                                        <select class="form-select select2 select-conta-bancaria-unic input-obrigatorio-unic">
                                                             <option value="" selected disabled>Selecione</option>
                                                             <?php foreach ($contasBancarias as $contaBancaria) { ?>
                                                                 <option value="<?= $contaBancaria['id_conta_bancaria'] ?>">
@@ -618,13 +620,15 @@
                                                                 </option>
                                                             <?php } ?>
                                                         </select>
+                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4 duplica-pagamento">
                                                     <div class="mb-4">
                                                         <label class="text-body-highlight fw-bold mb-2">Forma
                                                             Pagamento</label>
-                                                        <select class="form-select select2 select-forma-pagamento-unic">
+                                                        <select class="form-select select2 select-forma-pagamento-unic input-obrigatorio-unic">
                                                             <option value="" selected disabled>Selecione</option>
 
                                                             <?php foreach ($formasTransacao as $formaTransacao) { ?>
@@ -633,12 +637,16 @@
                                                                 </option>
                                                             <?php } ?>
                                                         </select>
+                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-3 duplica-pagamento">
                                                     <div class="mb-4">
                                                         <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                        <input class="form-control input-valor-unic input-valor mascara-dinheiro input-valor-pagamento" required name="valor" type="text" placeholder="Valor">
+                                                        <input class="form-control input-valor-unic input-obrigatorio-unic input-valor mascara-dinheiro input-valor-pagamento" required name="valor" type="text" placeholder="Valor">
+                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-1 mt-5">
