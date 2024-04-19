@@ -78,18 +78,18 @@
                     <div class="row align-items-center g-4">
                         <div class="col-12 col-md-3">
                             <div class="ms-3">
-                                <input class="form-control datetimepicker" required name="data_inicio" id="data_inicio"
-                                    type="text" placeholder="Data Início"
-                                    data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;"
-                                    autocomplete="off" />
+                                <input class="form-control datetimepicker" value="<?= $dataInicio ?>" required
+                                    name="data_inicio" id="data_inicio" type="text" placeholder="Data Início"
+                                    data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}'
+                                    style="cursor: pointer;" autocomplete="off" />
                             </div>
                         </div>
                         <div class="col-12 col-md-3">
                             <div class="ms-3">
-                                <input class="form-control datetimepicker" required name="data_fim" id="data_fim"
-                                    type="text" placeholder="Data Fim"
-                                    data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;"
-                                    autocomplete="off" />
+                                <input class="form-control datetimepicker" value="<?= $dataFim ?>" required
+                                    name="data_fim" id="data_fim" type="text" placeholder="Data Fim"
+                                    data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}'
+                                    style="cursor: pointer;" autocomplete="off" />
                             </div>
                         </div>
                         <div class="col-12 col-md-3">
@@ -97,9 +97,10 @@
                                 <select class="select-validation select-orientacao" required name="movimentacao"
                                     id="movimentacao">
                                     <option selected disabled value=''>Tipo movimentação</option>
-                                    <option value="1">Entrada</option>
-                                    <option value="0">Saída</option>
-                                    <option value="ambas">Ambas</option>
+                                    <option <?= $tipoMovimentacao == 1 ? 'selected' : '' ?> value="1">Entrada</option>
+                                    <option <?= $tipoMovimentacao == 0 ? 'selected' : '' ?> value="0">Saída</option>
+                                    <option <?= $tipoMovimentacao == 'ambas' ? 'selected' : '' ?> value="ambas">Ambas
+                                    </option>
                                 </select>
                             </div>
                         </div>
