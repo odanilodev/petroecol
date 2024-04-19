@@ -215,19 +215,19 @@ const receberConta = () => {
     })
 
     $('.input-valor-recebido').each(function () {
-
+        // Remove espaços em branco e pontos de milhar e substitui ',' por '.'
         valores.push($(this).val());
-
-        // soma o valor total
-        let valorNumerico = parseFloat($(this).val().replace(',', '.')); // Substitui ',' por '.' e converte para float
-
+        let valorLimpo = $(this).val().replace(/\s|\.|/g, '').replace(',', '.'); 
+        let valorNumerico = parseFloat(valorLimpo); // Converte para float
+    
         if (!isNaN(valorNumerico)) {
             valorTotal += valorNumerico;
         }
-
     })
+    
 
     let valorTotalFormatado = valorTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
 
     $.ajax({
         type: "post",
