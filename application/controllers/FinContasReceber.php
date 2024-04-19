@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit ('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class FinContasReceber extends CI_Controller
 {
@@ -42,6 +42,41 @@ class FinContasReceber extends CI_Controller
 		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsContasReceberHead));
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsContasReceberFooter));
 
+		$dataInicio = new DateTime();
+		$dataInicio->modify('-15 days');
+		$dataInicioFormatada = $dataInicio->format('Y-m-d');
+
+		$dataFim = new DateTime();
+		$dataFim->modify('+15 days');
+		$dataFimFormatada = $dataFim->format('Y-m-d');
+
+		// Verifica se as datas foram recebidas via POST
+		if ($this->input->post('data_inicio') && $this->input->post('data_fim')) {
+			// Recebe as datas do POST
+			$dataInicioFormatada = $this->input->post('data_inicio');
+			$dataFimFormatada = $this->input->post('data_fim');
+
+			// Converte as datas para o formato americano (Y-m-d)
+			$dataInicioFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataInicioFormatada)));
+			$dataFimFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataFimFormatada)));
+
+		}
+
+		$data['dataInicio'] = $this->input->post('data_inicio');
+		$data['dataFim'] = $this->input->post('data_fim');
+
+		// Verifica se o tipo de movimentação foi recebido via POST
+		$statusConta = $this->input->post('status');
+
+		// Se não houver nenhum valor recebido via POST, define 'ambas' como valor padrão
+		if ($statusConta === null || $statusConta === '') {
+			$statusConta = 'ambas';
+		}
+
+		$data['status'] = $statusConta;
+
+
+
 		$this->load->model('FinMacro_model');
 		$data['macros'] = $this->FinMacro_model->recebeMacros();
 		$this->load->model('FinGrupos_model');
@@ -49,7 +84,7 @@ class FinContasReceber extends CI_Controller
 
 		$data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
 		$data['dadosFinanceiro'] = $this->FinDadosFinanceiros_model->recebeDadosFinanceiros();
-		$data['contasReceber'] = $this->FinContasReceber_model->recebeContasReceber();
+		$data['contasReceber'] = $this->FinContasReceber_model->recebeContasReceber($dataInicioFormatada, $dataFimFormatada, $statusConta);
 
 		$data['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
 		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
@@ -57,7 +92,7 @@ class FinContasReceber extends CI_Controller
 		$this->load->library('finDadosFinanceiros');
 
 		$data['saldoTotal'] = $this->findadosfinanceiros->somaSaldosBancarios();
-		
+
 		$data['totalRecebido'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor_recebido', 'fin_contas_receber', 1); // soma o valor total recebido
 		$data['emAberto'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_receber', 0); // soma o valor total em aberto
 
