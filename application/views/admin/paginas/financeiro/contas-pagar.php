@@ -11,7 +11,7 @@
                                 <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ <span class="total-caixa-front"><?= number_format($saldoTotal['saldo'], 2, ',', '.')?></span></h4>
+                                <h4 class="mb-0">R$ <span class="total-caixa-front"><?= number_format($saldoTotal['saldo'], 2, ',', '.') ?></span></h4>
                                 <p class="text-800 fs--1 mb-0">Total Caixa</p>
                             </div>
                         </div>
@@ -24,7 +24,7 @@
                                 <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ <span class="total-pago-front"><?= number_format($totalPago['valor'], 2, ',', '.')?></span></h4>
+                                <h4 class="mb-0">R$ <span class="total-pago-front"><?= number_format($totalPago['valor'], 2, ',', '.') ?></span></h4>
                                 <p class="text-800 fs--1 mb-0">Total Pago</p>
                             </div>
                         </div>
@@ -37,7 +37,7 @@
                                 <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-warning" data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ <span class="total-aberto-front"><?= number_format($emAberto['valor'], 2, ',', '.')?></span></h4>
+                                <h4 class="mb-0">R$ <span class="total-aberto-front"><?= number_format($emAberto['valor'], 2, ',', '.') ?></span></h4>
                                 <p class="text-800 fs--1 mb-0">Despesas em Aberto</p>
                             </div>
                         </div>
@@ -145,7 +145,7 @@
                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Valor</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor_pago">Valor Pago</th>
                             <th class="sort text-start ps-5 align-middle text-center" scope="col" data-sort="td_status_pgto">Status</th>
-                            <th class="sort align-middle text-center"style="text-align: center; vertical-align: middle;" scope="col" data-sort="td_data_pagamento text-center">Data do Pagamento</th>
+                            <th class="sort align-middle text-center" style="text-align: center; vertical-align: middle;" scope="col" data-sort="td_data_pagamento text-center">Data do Pagamento</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_empresa">Empresa</th>
                             <th class="sort text-start align-middle text-center" scope="col" data-sort="td_recebido">Recebido</th>
                             <th class="sort text-end pe-0 align-middle text-center" scope="col"></th>
@@ -158,7 +158,7 @@
 
                                 <td class="fs--1 align-middle ps-0">
                                     <div class="form-check mb-0 fs-0">
-                                        <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" data-nome-empresa="<?= ucfirst($contaPagar['nome']) ?>"/>
+                                        <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" data-nome-empresa="<?= ucfirst($contaPagar['nome']) ?>" />
                                     </div>
                                 </td>
 
@@ -167,7 +167,6 @@
                                         <?= date('d/m/Y', strtotime($contaPagar['data_vencimento'])) ?>
                                     </h6>
                                 </td>
-
 
                                 <td class="align-middle rating white-space-nowrap fs--2 td_valor text-center <?= !$contaPagar['status'] ? 'td-valor-aberto' : '' ?>" data-valor="<?= $contaPagar['valor'] ?>">
                                     <h6 class="mb-0 text-900">R$
@@ -218,11 +217,12 @@
                                             <a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#modalVisualizarContasPagar">
                                                 <span class="fas fa-eye"></span> Visualizar
                                             </a>
-                                            <a class="dropdown-item" href="#!">
-                                                <span class="fas fa-pencil"></span> Editar
-                                            </a>
 
                                             <?php if (!$contaPagar['status']) { ?>
+                                                <a class="dropdown-item editar-lancamento" href="#!" data-bs-toggle="modal" data-id="<?= $contaPagar['id'] ?>" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-bs-target="#modalEditarContasPagar">
+                                                    <span class="fas fa-pencil"></span> Editar
+                                                </a>
+
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item realizar-pagamento" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-id="<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalPagarConta">Realizar
                                                     Pagamento</a>
@@ -452,8 +452,7 @@
                                             </div>
 
                                             <div class="col-lg-6">
-
-                                                <div class="mb-4">
+                                                <div class="mb-4 ">
                                                     <label class="text-body-highlight fw-bold mb-2">Grupos
                                                         Micros</label>
                                                     <select disabled class="form-select select2 select-micros input-obrigatorio" name="micros">
@@ -469,8 +468,8 @@
                                             <div class="col-lg-6">
 
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Grupo
-                                                        recebidos</label>
+                                                    <label class="text-body-highlight fw-bold mb-2">
+                                                        Grupo de Credores</label>
                                                     <select class="form-select select2 select-grupo-recebidos input-obrigatorio" name="grupo-recebido">
                                                         <option selected disabled>Selecione</option>
                                                         <?php foreach ($grupos as $grupo) { ?>
@@ -486,7 +485,7 @@
 
                                             <div class="col-lg-6">
 
-                                                <div class="mb-4">
+                                                <div class="mb-4 ">
                                                     <label class="text-body-highlight fw-bold mb-2">Recebido</label>
                                                     <select class="form-select select2 select-recebido input-obrigatorio" name="recebido">
                                                         <option selected disabled>Selecione</option>
@@ -504,7 +503,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Parcelas</label>
-                                                    <select class="form-select select2" name="parcelas">
+                                                    <select class="form-select select2 select-parcela" name="parcelas">
                                                         <option selected disabled>Selecione</option>
                                                         <option value="1">1x</option>
                                                         <option value="2">2x</option>
@@ -554,7 +553,7 @@
 
                                             </div>
 
-                                            <div class="col-lg-8">
+                                            <div class="col-lg-8 div-observacao">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Observação</label>
@@ -574,7 +573,84 @@
 
                 <div class="modal-footer">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
-                    <button class="btn btn-success btn-form" type="button" onclick="cadastraContasPagar()">Salvar</button>
+                    <button class="btn btn-success btn-form" type="button" onclick="cadastraContasPagar('form-entrada-pagar')">Salvar</button>
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Lançamento Contas a Pagar -->
+
+    <div class="modal fade" tabindex="-1" id="modalEditarContasPagar">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editando Detalhes da conta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body body-coleta">
+
+                    <div class="card">
+                        <div class="card-body form-editar-pagamento">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="col-sm-12 col-xxl-12 py-3">
+                                        <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+
+                                            <div class="col-lg-4">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Data Vencimento</label>
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Data Emissão</label>
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-emissao" required name="data_emissao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-4">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Valor</label>
+                                                    <input class="form-control input-obrigatorio mascara-dinheiro input-editar-valor" required name="valor" type="text" placeholder="Valor total da conta">
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-12 div-observacao">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Observação</label>
+                                                    <textarea class="form-control input-observacao" name="observacao"></textarea>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <input type="hidden" class="id-editar-conta">
+                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                    <button class="btn btn-success btn-form" type="button" onclick="cadastraContasPagar('form-editar-pagamento')">Salvar</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
                 </div>
@@ -783,6 +859,8 @@
                                                     <div class="mb-4">
                                                         <label class="text-body-highlight fw-bold mb-2">Valor</label>
                                                         <input class="campos form-control input-valor mascara-dinheiro valor-pago" required name="valor" type="text" placeholder="Valor">
+                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-1 mt-5">
