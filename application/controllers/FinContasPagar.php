@@ -37,6 +37,40 @@ class FinContasPagar extends CI_Controller
 		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsContasPagarHead));
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsContasPagarFooter));
 
+		// Define as datas padrão caso não sejam recebidas via POST
+		$dataInicio = new DateTime();
+		$dataInicio->modify('-15 days');
+		$dataInicioFormatada = $dataInicio->format('Y-m-d');
+
+		$dataFim = new DateTime();
+		$dataFim->modify('+15 days');
+		$dataFimFormatada = $dataFim->format('Y-m-d');
+
+		// Verifica se as datas foram recebidas via POST
+		if ($this->input->post('data_inicio') && $this->input->post('data_fim')) {
+			// Recebe as datas do POST
+			$dataInicioFormatada = $this->input->post('data_inicio');
+			$dataFimFormatada = $this->input->post('data_fim');
+
+			// Converte as datas para o formato americano (Y-m-d)
+			$dataInicioFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataInicioFormatada)));
+			$dataFimFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataFimFormatada)));
+
+		}
+
+		$data['dataInicio'] = $this->input->post('data_inicio');
+		$data['dataFim'] = $this->input->post('data_fim');
+
+		// Verifica se o tipo de movimentação foi recebido via POST
+		$statusConta = $this->input->post('status');
+
+		// Se não houver nenhum valor recebido via POST, define 'ambas' como valor padrão
+		if ($statusConta === null || $statusConta === '') {
+			$statusConta = 'ambas';
+		}
+
+		$data['status'] = $statusConta;
+
 		$this->load->model('FinMacro_model');
 		$data['macros'] = $this->FinMacro_model->recebeMacros();
 
@@ -51,7 +85,7 @@ class FinContasPagar extends CI_Controller
 		$data['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
 		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
 
-		$data['contasPagar'] = $this->FinContasPagar_model->recebeContasPagar();
+		$data['contasPagar'] = $this->FinContasPagar_model->recebeContasPagar($dataInicioFormatada, $dataFimFormatada, $statusConta);
 
 		$this->load->library('finDadosFinanceiros');
 

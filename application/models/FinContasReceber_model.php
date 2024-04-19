@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit ('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class FinContasReceber_model extends CI_Model
 {
@@ -10,12 +10,19 @@ class FinContasReceber_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebeContasReceber()
+    public function recebeContasReceber($dataInicio, $dataFim, $status)
     {
         $this->db->select('CR.*, DF.nome as RECEBIDO');
         $this->db->from('fin_contas_receber CR');
         $this->db->join('fin_dados_financeiros DF', 'CR.id_dado_financeiro = DF.id', 'left');
         $this->db->where('CR.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('CR.data_vencimento <=', $dataFim);
+        $this->db->where('CR.data_vencimento >=', $dataInicio);
+
+        // Verifica se o tipo de movimentação não é 'ambas', para adicionar uma restrição
+        if ($status !== 'ambas') {
+            $this->db->where('CR.status', $status);
+        }
 
         $query = $this->db->get();
         return $query->result_array();
