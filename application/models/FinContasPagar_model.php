@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit ('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 
 class FinContasPagar_model extends CI_Model
@@ -11,12 +11,19 @@ class FinContasPagar_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebeContasPagar()
+    public function recebeContasPagar($dataInicio, $dataFim, $status)
     {
         $this->db->select('CP.*, DF.nome as RECEBIDO');
         $this->db->from('fin_contas_pagar CP');
         $this->db->join('fin_dados_financeiros DF', 'CP.id_dado_financeiro = DF.id', 'LEFT');
         $this->db->where('CP.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('CP.data_vencimento <=', $dataFim);
+        $this->db->where('CP.data_vencimento >=', $dataInicio);
+
+        // Verifica se o tipo de movimentação não é 'ambas', para adicionar uma restrição
+        if ($status !== 'ambas') {
+            $this->db->where('CP.status', $status);
+        }
         $query = $this->db->get();
 
         return $query->result_array();
@@ -49,6 +56,6 @@ class FinContasPagar_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
-    
+
 
 }
