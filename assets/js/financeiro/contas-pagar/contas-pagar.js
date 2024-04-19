@@ -36,13 +36,14 @@ function duplicarFormasPagamento() {
 const cadastraContasPagar = (classe) => {
 
     let idConta = $('.id-editar-conta').val();
+
     let dadosFormulario = {};
     let permissao = true;
 
     $(`.${classe}`).find(":input").each(function () {
 
         dadosFormulario[$(this).attr('name')] = $(this).val();
-
+        console.log(dadosFormulario);
         if ($(this).hasClass('input-obrigatorio') && !$(this).val()) {
 
             $(this).addClass('invalido');
@@ -102,8 +103,12 @@ const cadastraContasPagar = (classe) => {
 
 $(document).on('click', '.novo-lancamento', function () {
 
+
     $('.id-editar-conta').val('');
-    
+    $('.dados-conta').val('');
+
+    $('.select-micros').attr('disabled', true);
+    $('.select-recebido').attr('disabled', true);
 
     $('.select2').select2({
         dropdownParent: "#modalLancamentoContasPagar",
@@ -111,6 +116,7 @@ $(document).on('click', '.novo-lancamento', function () {
     });
 
 })
+
 
 $(document).on('click', '.editar-lancamento', function () {
 
@@ -164,12 +170,12 @@ $(document).on('change', '.select-macros', function () {
         data: {
             idMacro: idMacro
         }, beforeSend: function () {
-            $('.select-micros').html('<option disabled value="">Selecione</option>');
+            $('.select-micros').html('<option disabled>Selecione</option>');
         }, success: function (data) {
 
             $('.select-micros').attr('disabled', false);
 
-            let options = '<option value="">Selecione</option>';
+            let options = '<option value="" disabled >Selecione</option>';
 
             for (i = 0; i < data.microsMacro.length; i++) {
 
@@ -177,6 +183,8 @@ $(document).on('change', '.select-macros', function () {
             }
 
             $('.select-micros').html(options);
+
+            $('.select-micros').val('').trigger('change');
 
         }
     })
@@ -192,14 +200,18 @@ $(document).on('change', '.select-grupo-recebidos', function () {
             type: "post",
             url: `${baseUrl}finContasPagar/recebeTodosClientesAll`
             , beforeSend: function () {
-                $('.select-recebido').attr('disabled');
-                $('.select-recebido').html('<option value="">Carregando...</option>');
+                $('.select-recebido').attr('disabled', true);
+                $('.select-recebido').html('<option disabled>Carregando...</option>');
             }, success: function (data) {
-                let options = '<option value="">Selecione</option>';
+                $('.select-recebido').attr('disabled', false);
+
+                let options = '<option disabled="disabled" value="">Selecione</option>';
                 for (let i = 0; i < data.clientes.length; i++) {
                     options += `<option value="${data.clientes[i].id}">${data.clientes[i].nome}</option>`;
                 }
                 $('.select-recebido').html(options);
+
+                $('.select-recebido').val('').trigger('change');
 
             }
         })

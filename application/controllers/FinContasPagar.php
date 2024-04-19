@@ -165,7 +165,7 @@ class FinContasPagar extends CI_Controller
 			$response = array(
 				'success' => true,
 				'title' => "Sucesso!",
-				'message' => "Contas editadas com sucesso!",
+				'message' => "Conta editada com sucesso!",
 				'type' => "success"
 			);
 		} else {
