@@ -61,7 +61,7 @@
 
                                 <td class="mobile_number align-middle white-space-nowrap">
                                     <h6 class="fw-bold text-1100 saldo">
-                                        <?= $v['saldo'] ?>
+                                        R$ <?= number_format($v['saldo'], 2, ',', '.') ?>
                                     </h6>
                                 </td>
 
