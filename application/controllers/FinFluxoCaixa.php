@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit ('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class FinFluxoCaixa extends CI_Controller
 {
@@ -46,7 +46,14 @@ class FinFluxoCaixa extends CI_Controller
         if ($this->input->post('data_inicio') && $this->input->post('data_fim')) {
             $dataInicioFormatada = $this->input->post('data_inicio');
             $dataFimFormatada = $this->input->post('data_fim');
+
+            // Converte as datas para o formato americano (Y-m-d)
+            $dataInicioFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataInicioFormatada)));
+            $dataFimFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataFimFormatada)));
         }
+
+        $dados['dataInicio'] = $this->input->post('data_inicio');
+        $dados['dataFim'] = $this->input->post('data_fim');
 
         // Verifica se o tipo de movimentação foi recebido via POST
         $tipoMovimentacao = $this->input->post('movimentacao');
@@ -55,6 +62,8 @@ class FinFluxoCaixa extends CI_Controller
         if ($tipoMovimentacao === null || $tipoMovimentacao === '') {
             $tipoMovimentacao = 'ambas';
         }
+
+        $dados['tipoMovimentacao'] = $tipoMovimentacao;
 
         // >>>> PAGINAÇÃO <<<<<
         $limit = 12; // Número de registros por página
