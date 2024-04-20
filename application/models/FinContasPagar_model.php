@@ -29,6 +29,18 @@ class FinContasPagar_model extends CI_Model
         return $query->result_array();
     }
 
+    public function recebeContaPagar($id)
+    {
+        $this->db->select('CP.*, DF.nome as RECEBIDO, DF.id_grupo as GRUPO_CREDOR');
+        $this->db->from('fin_contas_pagar CP');
+        $this->db->join('fin_dados_financeiros DF', 'CP.id_dado_financeiro = DF.id', 'LEFT');
+        $this->db->where('CP.id', $id);
+        $this->db->where('CP.id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get();
+
+        return $query->row_array();
+    }
+
     public function insereConta($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');

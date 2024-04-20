@@ -21,7 +21,7 @@ class FinContasPagar extends CI_Controller
 		}
 		// FIM controle sessão
 		$this->load->model('FinDadosFinanceiros_model');
-
+		$this->load->model('FinContasPagar_model');
 	}
 
 	public function index()
@@ -107,8 +107,8 @@ class FinContasPagar extends CI_Controller
 		$data['id_empresa'] = $this->session->userdata('id_empresa');
 
 		$data['valor'] = str_replace(['.', ','], ['', '.'], $dadosLancamento['valor']);
-
 		$data['id_micro'] = $dadosLancamento['micros'];
+		$data['id_macro'] = $dadosLancamento['macros'];
 		$data['nome'] = $dadosLancamento['nome-recebido'];
 		$data['observacao'] = $dadosLancamento['observacao'];
 		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
@@ -147,8 +147,37 @@ class FinContasPagar extends CI_Controller
 		}
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
 
+	public function editaConta()
+	{
+		$id = $this->input->post('idConta');
+		$dadosLancamento = $this->input->post('dados');
 
+		$data['valor'] = str_replace(['.', ','], ['', '.'], $dadosLancamento['valor']);
+		$data['observacao'] = $dadosLancamento['observacao'];
+		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
+		$data['data_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao'])));
+
+		$retorno = $this->FinContasPagar_model->editaConta($id, $data);
+
+		if ($retorno) {
+			$response = array(
+				'success' => true,
+				'title' => "Sucesso!",
+				'message' => "Conta editada com sucesso!",
+				'type' => "success"
+			);
+		} else {
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Falha ao editar conta bancária. Por favor, tente novamente.",
+				'type' => "error"
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
 	public function recebeTodosClientesAll()
@@ -162,7 +191,25 @@ class FinContasPagar extends CI_Controller
 				'clientes' => $todosClientes,
 				'success' => true
 			);
+		} else {
+			$response = array(
+				'success' => false
+			);
+		}
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+	public function recebeContaPagar()
+	{
+		$id = $this->input->post('id');
+		$retorno = $this->FinContasPagar_model->recebeContaPagar($id);
 
+
+		if ($retorno) {
+
+			$response = array(
+				'conta' => $retorno,
+				'success' => true
+			);
 		} else {
 			$response = array(
 				'success' => false
@@ -213,7 +260,6 @@ class FinContasPagar extends CI_Controller
 			$dados['observacao'] = $obs;
 
 			$this->FinFluxo_model->insereFluxo($dados);
-
 		}
 
 		//Informacoes da conta a pagar
@@ -276,14 +322,12 @@ class FinContasPagar extends CI_Controller
 				$this->FinFluxo_model->insereFluxo($dados);
 
 				$conta['valor_pago'] = $valorTotalPago;
-
 			}
 
 			$conta['status'] = 1;
 			$conta['data_pagamento'] = $dataPagamentoFormatada;
 
 			$this->FinContasPagar_model->editaConta($operacao['idConta'], $conta);
-
 		}
 
 		// retorno conta paga
@@ -326,7 +370,6 @@ class FinContasPagar extends CI_Controller
 				'success' => true,
 				'message' => $id ? "Conta editada com sucesso!" : "Conta cadastrada com sucesso!"
 			);
-
 		} else {
 
 			$response = array(
@@ -336,9 +379,5 @@ class FinContasPagar extends CI_Controller
 		}
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-
 	}
-
-
-
 }
