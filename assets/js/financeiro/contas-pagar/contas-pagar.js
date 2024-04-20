@@ -43,7 +43,7 @@ const cadastraContasPagar = (classe) => {
     $(`.${classe}`).find(":input").each(function () {
 
         dadosFormulario[$(this).attr('name')] = $(this).val();
-        console.log(dadosFormulario);
+
         if ($(this).hasClass('input-obrigatorio') && !$(this).val()) {
 
             $(this).addClass('invalido');
