@@ -576,7 +576,7 @@
         </div>
     </div>
 
-    <!-- Modal Lançamento Contas a Pagar -->
+    <!-- Modal Editar Contas a Pagar -->
 
     <div class="modal fade" tabindex="-1" id="modalEditarContasPagar">
         <div class="modal-dialog modal-dialog-centered modal-lg">
