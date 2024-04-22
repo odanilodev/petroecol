@@ -105,10 +105,8 @@ class FinContasPagar extends CI_Controller
 
 		$data['id_dado_financeiro'] = $dadosLancamento['recebido'];
 		$data['id_empresa'] = $this->session->userdata('id_empresa');
-
 		$data['valor'] = str_replace(['.', ','], ['', '.'], $dadosLancamento['valor']);
 		$data['id_micro'] = $dadosLancamento['micros'];
-		$data['id_macro'] = $dadosLancamento['macros'];
 		$data['nome'] = $dadosLancamento['nome-recebido'];
 		$data['observacao'] = $dadosLancamento['observacao'];
 		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
