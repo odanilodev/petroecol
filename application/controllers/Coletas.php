@@ -38,7 +38,7 @@ class Coletas extends CI_Controller
         $dataRomaneio = $this->input->post('dataRomaneio');
 
         if ($payload) {
-            foreach ($payload as $cliente) :
+            foreach ($payload as $cliente):
                 $dados = array(
                     'id_cliente' => $cliente['idCliente'],
                     'id_responsavel' => $idResponsavel,
@@ -60,7 +60,7 @@ class Coletas extends CI_Controller
                     $this->Agendamentos_model->editaAgendamentoData($cliente['idCliente'], $dataRomaneio, $valor, $idSetorEmpresa);
                 }
 
-              
+
                 $this->agendarfrequencia->cadastraAgendamentoFrequencia($cliente['idCliente'], $dataRomaneio, $idSetorEmpresa);
 
             endforeach;
@@ -90,7 +90,7 @@ class Coletas extends CI_Controller
         $idColeta = $this->uri->segment(3) ?? null;
         $idModelo = $this->uri->segment(4) ?? null;
 
-        $modeloCertificado =  $this->Certificados_model->recebeCertificadoId($idModelo);
+        $modeloCertificado = $this->Certificados_model->recebeCertificadoId($idModelo);
 
         if ($modeloCertificado['personalizado']) {
 
@@ -139,7 +139,7 @@ class Coletas extends CI_Controller
             $coletasId = "";
 
             foreach ($coletas as $col) {
-                $coletasId .=  $col['id'] . "-";
+                $coletasId .= $col['id'] . "-";
             }
 
             $response = array(
@@ -156,7 +156,7 @@ class Coletas extends CI_Controller
         $idColeta = $this->input->post('idColeta');
         $this->load->library('detalhesColeta');
         $this->load->library('formasPagamentoChaveId');
-		$this->load->library('residuoChaveId');
+        $this->load->library('residuoChaveId');
 
         $historicoColeta = $this->detalhescoleta->detalheColeta($idColeta);
 
