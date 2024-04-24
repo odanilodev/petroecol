@@ -625,10 +625,10 @@ $(document).on('click', '.nao-coletado', function () {
 
 $(document).on('input', '.input-obs', function () {
 
-    if ($(this).val().length < 10 && $('.nao-coletado').is(':checked')) {
+    if ($(this).val().length < 1 && $('.nao-coletado').is(':checked')) {
 
         $('.aviso-msg').removeClass('d-none');
-        $('.aviso-msg').html('Este campo precisa ter no mínimo 10 caracteres');
+        $('.aviso-msg').html('Este campo precisa ser preenchido');
         $('.accordion-button').attr('disabled', true);
         $('.btn-finaliza-romaneio').attr('disabled', true);
 
