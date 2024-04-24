@@ -167,8 +167,7 @@
                                 style="text-align: center; vertical-align: middle;" scope="col"
                                 data-sort="td_data_pagamento text-center">Data do Pagamento</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_empresa">Empresa</th>
-                            <th class="sort text-start align-middle text-center" scope="col" data-sort="td_recebido">
-                                Recebido</th>
+
                             <th class="sort text-end pe-0 align-middle text-center" scope="col"></th>
                         </tr>
                     </thead>
@@ -192,7 +191,6 @@
                                         <?= date('d/m/Y', strtotime($contaPagar['data_vencimento'])) ?>
                                     </h6>
                                 </td>
-
 
                                 <td class="align-middle rating white-space-nowrap fs--2 td_valor text-center <?= !$contaPagar['status'] ? 'td-valor-aberto' : '' ?>"
                                     data-valor="<?= $contaPagar['valor'] ?>">
@@ -236,14 +234,6 @@
                                     </h6>
                                 </td>
 
-
-
-                                <td class="align-middle text-start time td_recebido text-center">
-                                    <h6 class="text-900 mb-0">
-                                        <?= $contaPagar['RECEBIDO'] ?>
-                                    </h6>
-                                </td>
-
                                 <td class="align-middle white-space-nowrap text-end pe-0">
 
                                     <div class="font-sans-serif btn-reveal-trigger position-static">
@@ -257,11 +247,15 @@
                                                 data-bs-target="#modalVisualizarContasPagar">
                                                 <span class="fas fa-eye"></span> Visualizar
                                             </a>
-                                            <a class="dropdown-item" href="#!">
-                                                <span class="fas fa-pencil"></span> Editar
-                                            </a>
 
                                             <?php if (!$contaPagar['status']) { ?>
+                                                <a class="dropdown-item editar-lancamento" href="#!" data-bs-toggle="modal"
+                                                    data-id="<?= $contaPagar['id'] ?>"
+                                                    data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>"
+                                                    data-bs-target="#modalEditarContasPagar">
+                                                    <span class="fas fa-pencil"></span> Editar
+                                                </a>
+
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item realizar-pagamento"
                                                     data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>"
@@ -497,7 +491,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Detalhes da conta</h5>
+                    <h5 class="modal-title">Novo Lançamento</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body body-coleta">
@@ -514,9 +508,10 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Grupos
                                                         Macros</label>
-                                                    <select class="form-select select2 select-macros input-obrigatorio"
+                                                    <select
+                                                        class="form-select select2 select-macros input-obrigatorio dados-conta"
                                                         name="macros">
-                                                        <option selected disabled>Selecione</option>
+                                                        <option selected disabled value="">Selecione</option>
                                                         <?php foreach ($macros as $macro) { ?>
                                                             <option value="<?= $macro['id'] ?>"><?= $macro['nome'] ?>
                                                             </option>
@@ -529,12 +524,11 @@
                                             </div>
 
                                             <div class="col-lg-6">
-
-                                                <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Grupos
+                                                <div class="mb-4 ">
+                                                    <label class="text-body-highlight fw-bold mb-2 ">Grupos
                                                         Micros</label>
                                                     <select disabled
-                                                        class="form-select select2 select-micros input-obrigatorio"
+                                                        class="form-select select2 select-micros input-obrigatorio dados-conta"
                                                         name="micros">
                                                         <option selected disabled value="">Selecione</option>
                                                         <!-- JS -->
@@ -548,12 +542,12 @@
                                             <div class="col-lg-6">
 
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Grupo
-                                                        recebidos</label>
+                                                    <label class="text-body-highlight fw-bold mb-2">
+                                                        Grupo de Credores</label>
                                                     <select
-                                                        class="form-select select2 select-grupo-recebidos input-obrigatorio"
+                                                        class="form-select select2 select-grupo-recebidos input-obrigatorio dados-conta"
                                                         name="grupo-recebido">
-                                                        <option selected disabled>Selecione</option>
+                                                        <option selected disabled value="">Selecione</option>
                                                         <?php foreach ($grupos as $grupo) { ?>
                                                             <option value="<?= $grupo['id'] ?>"><?= $grupo['nome'] ?>
                                                             </option>
@@ -561,6 +555,7 @@
                                                         <option value="clientes">Clientes</option>
 
                                                     </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
 
@@ -568,12 +563,12 @@
 
                                             <div class="col-lg-6">
 
-                                                <div class="mb-4">
+                                                <div class="mb-4 ">
                                                     <label class="text-body-highlight fw-bold mb-2">Recebido</label>
-                                                    <select
-                                                        class="form-select select2 select-recebido input-obrigatorio"
+                                                    <select disabled
+                                                        class="form-select select2 select-recebido input-obrigatorio dados-conta"
                                                         name="recebido">
-                                                        <option selected disabled>Selecione</option>
+                                                        <option selected disabled value="">Selecione</option>
                                                         <?php foreach ($dadosFinanceiro as $dadoFinanceiro) { ?>
                                                             <option data-nome="<?= $dadoFinanceiro['nome'] ?>"
                                                                 value="<?= $dadoFinanceiro['id'] ?>">
@@ -581,6 +576,7 @@
                                                             </option>
                                                         <?php } ?>
                                                     </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                                                     <input type="hidden" name="nome-recebido" class="nome-recebido">
 
                                                 </div>
@@ -591,8 +587,9 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Parcelas</label>
-                                                    <select class="form-select select2" name="parcelas">
-                                                        <option selected disabled>Selecione</option>
+                                                    <select class="form-select select2 select-parcela dados-conta"
+                                                        name="parcelas">
+                                                        <option selected disabled value="">Selecione</option>
                                                         <option value="1">1x</option>
                                                         <option value="2">2x</option>
                                                         <option value="3">3x</option>
@@ -609,6 +606,100 @@
                                                 </div>
 
                                             </div>
+
+                                            <div class="col-lg-4">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Data
+                                                        Vencimento</label>
+                                                    <input
+                                                        class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio dados-conta"
+                                                        required name="data_vencimento" type="text"
+                                                        placeholder="dd/mm/aaaa"
+                                                        data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Data Emissão</label>
+                                                    <input
+                                                        class="form-control datetimepicker cursor-pointer input-data-emissao dados-conta"
+                                                        required name="data_emissao" type="text"
+                                                        placeholder="dd/mm/aaaa"
+                                                        data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="col-lg-4">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Valor</label>
+                                                    <input
+                                                        class="form-control input-obrigatorio mascara-dinheiro dados-conta"
+                                                        required name="valor" type="text"
+                                                        placeholder="Valor total da conta">
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="col-lg-8 div-observacao">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Observação</label>
+                                                    <textarea class="form-control dados-conta"
+                                                        name="observacao"></textarea>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                    <button class="btn btn-success btn-form" type="button"
+                        onclick="cadastraContasPagar('form-entrada-pagar')">Salvar</button>
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Contas a Pagar -->
+
+    <div class="modal fade" tabindex="-1" id="modalEditarContasPagar">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editando Detalhes da conta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body body-coleta">
+
+                    <div class="card">
+                        <div class="card-body form-editar-pagar">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="col-sm-12 col-xxl-12 py-3">
+                                        <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
 
                                             <div class="col-lg-4">
 
@@ -638,25 +729,26 @@
 
                                                 </div>
 
-
                                             </div>
 
                                             <div class="col-lg-4">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                    <input class="form-control input-obrigatorio mascara-dinheiro"
+                                                    <input
+                                                        class="form-control input-obrigatorio mascara-dinheiro input-editar-valor"
                                                         required name="valor" type="text"
                                                         placeholder="Valor total da conta">
                                                 </div>
 
                                             </div>
 
-                                            <div class="col-lg-8">
+                                            <div class="col-lg-12 div-observacao">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Observação</label>
-                                                    <textarea class="form-control" name="observacao"></textarea>
+                                                    <textarea class="form-control input-observacao"
+                                                        name="observacao"></textarea>
                                                 </div>
 
                                             </div>
@@ -671,9 +763,101 @@
                 </div>
 
                 <div class="modal-footer">
+                    <input type="hidden" class="id-editar-conta">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
                     <button class="btn btn-success btn-form" type="button"
-                        onclick="cadastraContasPagar()">Salvar</button>
+                        onclick="cadastraContasPagar('form-editar-pagar')">Salvar</button>
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Lançamento Contas a Pagar -->
+
+    <div class="modal fade" tabindex="-1" id="modalEditarContasPagar">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editando Detalhes da conta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body body-coleta">
+
+                    <div class="card">
+                        <div class="card-body form-editar-pagamento">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="col-sm-12 col-xxl-12 py-3">
+                                        <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+
+                                            <div class="col-lg-4">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Data
+                                                        Vencimento</label>
+                                                    <input
+                                                        class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio"
+                                                        required name="data_vencimento" type="text"
+                                                        placeholder="dd/mm/aaaa"
+                                                        data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Data Emissão</label>
+                                                    <input
+                                                        class="form-control datetimepicker cursor-pointer input-data-emissao"
+                                                        required name="data_emissao" type="text"
+                                                        placeholder="dd/mm/aaaa"
+                                                        data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-4">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Valor</label>
+                                                    <input
+                                                        class="form-control input-obrigatorio mascara-dinheiro input-editar-valor"
+                                                        required name="valor" type="text"
+                                                        placeholder="Valor total da conta">
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-12 div-observacao">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Observação</label>
+                                                    <textarea class="form-control input-observacao"
+                                                        name="observacao"></textarea>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <input type="hidden" class="id-editar-conta">
+                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                    <button class="btn btn-success btn-form" type="button"
+                        onclick="cadastraContasPagar('form-editar-pagamento')">Salvar</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
                 </div>
@@ -904,6 +1088,8 @@
                                                         <input
                                                             class="campos form-control input-valor mascara-dinheiro valor-pago"
                                                             required name="valor" type="text" placeholder="Valor">
+                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-1 mt-5">

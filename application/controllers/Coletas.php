@@ -40,7 +40,7 @@ class Coletas extends CI_Controller
         $idColeta = $this->input->post('idColeta');
 
         if ($payload) {
-            foreach ($payload as $cliente) :
+            foreach ($payload as $cliente):
                 $dados = array(
                     'id_cliente' => $cliente['idCliente'],
                     'id_responsavel' => $idResponsavel,
@@ -74,6 +74,7 @@ class Coletas extends CI_Controller
 
                 !$idColeta ? $this->agendarfrequencia->cadastraAgendamentoFrequencia($cliente['idCliente'], $dataRomaneio, $idSetorEmpresa) : "";
 
+
             endforeach;
 
             $data['status'] = 1;
@@ -101,7 +102,7 @@ class Coletas extends CI_Controller
         $idColeta = $this->uri->segment(3) ?? null;
         $idModelo = $this->uri->segment(4) ?? null;
 
-        $modeloCertificado =  $this->Certificados_model->recebeCertificadoId($idModelo);
+        $modeloCertificado = $this->Certificados_model->recebeCertificadoId($idModelo);
 
         if ($modeloCertificado['personalizado']) {
 
@@ -150,7 +151,7 @@ class Coletas extends CI_Controller
             $coletasId = "";
 
             foreach ($coletas as $col) {
-                $coletasId .=  $col['id'] . "-";
+                $coletasId .= $col['id'] . "-";
             }
 
             $response = array(
@@ -328,7 +329,7 @@ class Coletas extends CI_Controller
                         <input type="' . ($formaPagamento['tipo_pagamento'] == "Moeda Financeira" ? "text" : "number") . '" class="form-control mascara-dinheiro input-pagamento input-obrigatorio-coleta" name="valor_' . $forma . '" value="' . $valoresPagos[$count] . '">
                         <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
                     </div>';
-                    
+
                 // Adiciona o select e o input à linha
                 $selectRow .= $selectFormaPagamento . $inputValorPagamento;
                 // Fecha a linha e adiciona ao todosSelects

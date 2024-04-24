@@ -33,12 +33,14 @@ function duplicarFormasPagamento() {
 
 }
 
-const cadastraContasPagar = () => {
+const cadastraContasPagar = (classe) => {
+
+    let idConta = $('.id-editar-conta').val();
 
     let dadosFormulario = {};
     let permissao = true;
 
-    $(".form-entrada-pagar").find(":input").each(function () {
+    $(`.${classe}`).find(":input").each(function () {
 
         dadosFormulario[$(this).attr('name')] = $(this).val();
 
@@ -77,10 +79,13 @@ const cadastraContasPagar = () => {
 
     if (permissao) {
 
+        let url = `${baseUrl}finContasPagar/${idConta ? 'editaConta' : 'cadastraContasPagar'}`;
+
         $.ajax({
             type: "post",
-            url: `${baseUrl}finContasPagar/cadastraContasPagar`,
+            url: url,
             data: {
+                idConta: idConta,
                 dados: dadosFormulario
             }, beforeSend: function () {
                 $(".load-form").removeClass("d-none");
@@ -98,10 +103,59 @@ const cadastraContasPagar = () => {
 
 $(document).on('click', '.novo-lancamento', function () {
 
+
+    $('.id-editar-conta').val('');
+    $('.dados-conta').val('');
+
+    $('.select-micros').attr('disabled', true);
+    $('.select-recebido').attr('disabled', true);
+
     $('.select2').select2({
         dropdownParent: "#modalLancamentoContasPagar",
         theme: "bootstrap-5",
     });
+
+})
+
+
+$(document).on('click', '.editar-lancamento', function () {
+
+    $('.select2').select2({
+        dropdownParent: "#modalLancamentoContasPagar",
+        theme: "bootstrap-5",
+    });
+
+    $('.input-editar-valor').val($(this).data('valor'));
+
+    let id = $(this).data('id');
+    $('.id-editar-conta').val(id);
+
+
+    $.ajax({
+        type: "post",
+        url: `${baseUrl}finContasPagar/recebeContaPagar`,
+        data: {
+            id: id
+        }, beforeSend: function () {
+
+            $('.select-micros').attr('disabled', false);
+            $('.editando').removeClass('d-none');
+
+        }, success: function (data) {
+
+            let dataVencimento = data['conta'].data_vencimento.split('-');
+            dataVencimento = dataVencimento[2] + '/' + dataVencimento[1] + '/' + dataVencimento[0];
+            $('.input-data-vencimento').val(dataVencimento);
+
+            let dataEmissao = data['conta'].data_emissao.split('-');
+            dataEmissao = dataEmissao[2] + '/' + dataEmissao[1] + '/' + dataEmissao[0];
+
+            $('.input-data-emissao').val(dataEmissao);
+
+            $('.input-observacao').text(data['conta'].observacao);
+
+        }
+    })
 
 })
 
@@ -116,12 +170,12 @@ $(document).on('change', '.select-macros', function () {
         data: {
             idMacro: idMacro
         }, beforeSend: function () {
-            $('.select-micros').html('<option disabled value="">Selecione</option>');
+            $('.select-micros').html('<option disabled>Selecione</option>');
         }, success: function (data) {
 
             $('.select-micros').attr('disabled', false);
 
-            let options = '<option value="">Selecione</option>';
+            let options = '<option value="" disabled >Selecione</option>';
 
             for (i = 0; i < data.microsMacro.length; i++) {
 
@@ -129,7 +183,9 @@ $(document).on('change', '.select-macros', function () {
             }
 
             $('.select-micros').html(options);
-            
+
+            $('.select-micros').val('').trigger('change');
+
         }
     })
 })
@@ -144,14 +200,18 @@ $(document).on('change', '.select-grupo-recebidos', function () {
             type: "post",
             url: `${baseUrl}finContasPagar/recebeTodosClientesAll`
             , beforeSend: function () {
-                $('.select-recebido').attr('disabled');
-                $('.select-recebido').html('<option value="">Carregando...</option>');
+                $('.select-recebido').attr('disabled', true);
+                $('.select-recebido').html('<option disabled>Carregando...</option>');
             }, success: function (data) {
-                let options = '<option value="">Selecione</option>';
+                $('.select-recebido').attr('disabled', false);
+
+                let options = '<option disabled="disabled" value="">Selecione</option>';
                 for (let i = 0; i < data.clientes.length; i++) {
                     options += `<option value="${data.clientes[i].id}">${data.clientes[i].nome}</option>`;
                 }
                 $('.select-recebido').html(options);
+
+                $('.select-recebido').val('').trigger('change');
 
             }
         })
@@ -205,13 +265,11 @@ $(document).on('click', '.realizar-pagamento', function () {
     $('.valor-total-conta').html(`R$ ${$(this).data('valor')}`);
 })
 
-
 const realizarPagamento = () => {
 
     let permissao = verificaCamposObrigatorios('input-obrigatorio-unic');
 
     if (permissao) {
-
         let contasBancarias = [];
         let formasPagamento = [];
         let valores = [];
@@ -234,12 +292,12 @@ const realizarPagamento = () => {
 
         $('.input-valor-unic').each(function () {
             valores.push($(this).val());
-        
+
             // soma o valor total
-            let valorNumerico = parseFloat($(this).val().replace('.', '').replace(',', '.')); 
+            let valorNumerico = parseFloat($(this).val().replace('.', '').replace(',', '.'));
             valorTotal += valorNumerico;
         });
-        
+
         let valorTotalFormatado = valorTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
         $.ajax({
@@ -287,17 +345,21 @@ const realizarPagamento = () => {
         })
     }
 }
+// Formatar os valores para exibição
+function formatarValorExibicao(valor) {
+    return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('R$', '');
+}
 
 const atualizaFrontDadosFinanceiro = () => {
 
-    let totalPagoFront = $('.total-pago-front').html(); 
+    let totalPagoFront = $('.total-pago-front').html();
     let totalPago = formatarValorMoeda(totalPagoFront);
 
-    let totalCaixaFront = $('.total-caixa-front').html(); 
+    let totalCaixaFront = $('.total-caixa-front').html();
     let totalCaixa = formatarValorMoeda(totalCaixaFront);
 
 
-    let totalAbertoFront = $('.total-aberto-front').html(); 
+    let totalAbertoFront = $('.total-aberto-front').html();
     let totalAberto = formatarValorMoeda(totalAbertoFront);
 
 
@@ -307,27 +369,24 @@ const atualizaFrontDadosFinanceiro = () => {
     let totalPagoAtualizado = totalPago + valorTotalPago;
 
     let totalCaixaAtualizado = totalCaixa - valorTotalPago;
-    
+
     let totalAbertoAtualizado = totalAberto - valorTotalPago;
-    
-    // Formatar os valores para exibição
-    function formatarValorExibicao (valor) {
-        return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('R$', '');
-    }
+
+
 
     let totalPagoAtualizadoFormatado = formatarValorExibicao(totalPagoAtualizado);
     let totalCaixaAtualizadoFormatado = formatarValorExibicao(totalCaixaAtualizado);
     let totalAbertoAtualizadoFormatado = formatarValorExibicao(totalAbertoAtualizado);
 
     // Atualiza os valores no front
-    $('.total-pago-front').html(totalPagoAtualizadoFormatado); 
-    $('.total-caixa-front').html(totalCaixaAtualizadoFormatado); 
-    $('.total-aberto-front').html(totalAbertoAtualizadoFormatado < 0 ? '0,00' : totalAbertoAtualizadoFormatado); 
+    $('.total-pago-front').html(totalPagoAtualizadoFormatado);
+    $('.total-caixa-front').html(totalCaixaAtualizadoFormatado);
+    $('.total-aberto-front').html(totalAbertoAtualizadoFormatado < 0 ? '0,00' : totalAbertoAtualizadoFormatado);
 };
 
 
 
-function formatarValorMoeda (valor) {
+function formatarValorMoeda(valor) {
     return parseFloat(valor.replace(/\./g, '').replace(',', '.').replace('&nbsp;', ''));
 }
 
@@ -338,7 +397,7 @@ $(document).on('click', '.btn-pagar-tudo', function () {
     // trata o front
     $('.proxima-etapa-pagamento').removeClass('d-none');
     $('.finalizar-varios-pagamentos').addClass('d-none');
-    
+
 
     $('.campos-pagamentos-novos .campos-pagamento-inicio').remove();
     $('.div-pagamento-inicial').removeClass('d-none');
@@ -380,7 +439,7 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
         $('.check-aberto').each(function () {
             nomesEmpresas.push($(this).data('nome-empresa'));
         });
-    
+
 
         for (let i = 0; i < quantidadeContasPagar; i++) {
 
@@ -390,7 +449,7 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
                 $(this).addClass('campo-form-' + ids[i]);
                 $(this).addClass('dado-financeiro-' + idsDadoFinanceiro[i]);
             });
-            
+
             let tituloCampos = $('<h5 class="my-3">').text(nomesEmpresas[i]);
             clone.prepend(tituloCampos);
             $('.campos-pagamentos-novos').append(clone);
@@ -419,7 +478,7 @@ function valoresContasPagar() {
             style: 'currency',
             currency: 'BRL'
         }).replace('R$', '').trim();
-        
+
         valores.push(valorFormatado);
         totalAberto += valorAtual;
     });
@@ -482,10 +541,10 @@ function realizarVariosPagamentos() {
         let idInput = $(this).attr('class').match(/campo-form-(\d+)/);
         let idsDadoFinanceiro = $(this).attr('class').match(/dado-financeiro-(\d+)/);
         if (idInput) {
-            idInput = idInput[1]; 
-            idsDadoFinanceiro = idsDadoFinanceiro[1]; 
+            idInput = idInput[1];
+            idsDadoFinanceiro = idsDadoFinanceiro[1];
             let observacao = $('.obs-pagamento-inicio').val()
-            
+
             let operacaoExistente = operacoes.find(op => op.idConta === idInput);
             if (!operacaoExistente) {
                 let novaOperacao = {
@@ -522,12 +581,12 @@ function realizarVariosPagamentos() {
         }, success: function (data) {
 
             $(".load-form").addClass("d-none");
-            
+
             let redirect = data.type != 'error' ? `${baseUrl}finContasPagar` : '#';
-            
+
             avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
             $(".btn-form").removeClass("d-none");
-            
+
         }
     })
 }

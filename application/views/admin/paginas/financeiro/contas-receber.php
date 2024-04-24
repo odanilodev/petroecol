@@ -1,5 +1,4 @@
 <div class="content">
-
     <div class="pb-5">
         <div class="row g-4">
             <div class="col-12 col-xxl-6">
@@ -62,47 +61,49 @@
                 </div>
                 <hr class="bg-200 mb-6 mt-3" />
             </div>
-
-            <form id="filtroForm" action="<?= base_url('finContasReceber/index') ?>" method="post">
-                <div class="col-12">
-                    <div class="row align-items-center g-4">
-                        <div class="col-12 col-md-3">
-                            <div class="ms-3">
-                                <input class="form-control datetimepicker" value="<?= $dataInicio ?>" required
-                                    name="data_inicio" id="data_inicio" type="text" placeholder="Data Início"
-                                    data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}'
-                                    style="cursor: pointer;" autocomplete="off" />
+            <div class="col-12 col-xxl-6">
+                <form id="filtroForm" action="<?= base_url('finContasReceber/index') ?>" method="post">
+                    <div class="col-12">
+                        <div class="row align-items-center g-4">
+                            <div class="col-12 col-md-3">
+                                <div class="ms-3">
+                                    <input class="form-control datetimepicker" value="<?= $dataInicio ?>" required
+                                        name="data_inicio" id="data_inicio" type="text" placeholder="Data Início"
+                                        data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}'
+                                        style="cursor: pointer;" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="ms-3">
+                                    <input class="form-control datetimepicker" value="<?= $dataFim ?>" required
+                                        name="data_fim" id="data_fim" type="text" placeholder="Data Fim"
+                                        data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}'
+                                        style="cursor: pointer;" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="ms-3">
+                                    <select class="select-validation select-orientacao" required name="status"
+                                        id="movimentacao">
+                                        <option selected disabled value=''>Status</option>
+                                        <option <?= $status == 1 ? 'selected' : '' ?> value="1">Recebido</option>
+                                        <option <?= $status == 0 ? 'selected' : '' ?> value="0">A receber</option>
+                                        <option <?= $status == 'ambas' ? 'selected' : '' ?> value="ambas">Ambas</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="ms-3">
+                                    <button type="submit"
+                                        class="btn btn-phoenix-secondary bg-white hover-bg-100 w-100">Filtrar</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-3">
-                            <div class="ms-3">
-                                <input class="form-control datetimepicker" value="<?= $dataFim ?>" required
-                                    name="data_fim" id="data_fim" type="text" placeholder="Data Fim"
-                                    data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}'
-                                    style="cursor: pointer;" autocomplete="off" />
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <div class="ms-3">
-                                <select class="select-validation select-orientacao" required name="status"
-                                    id="movimentacao">
-                                    <option selected disabled value=''>Status</option>
-                                    <option <?= $status == 1 ? 'selected' : '' ?> value="1">Recebido</option>
-                                    <option <?= $status == 0 ? 'selected' : '' ?> value="0">A receber</option>
-                                    <option <?= $status == 'ambas' ? 'selected' : '' ?> value="ambas">Ambas</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <div class="ms-3">
-                                <button type="submit"
-                                    class="btn btn-phoenix-secondary bg-white hover-bg-100 w-100">Filtrar</button>
-                            </div>
-                        </div>
+                        <hr class="bg-200 mb-6 mt-4" />
                     </div>
-                    <hr class="bg-200 mb-6 mt-4" />
-                </div>
-            </form>
+                </form>
+            </div>
+
         </div>
     </div>
 
@@ -152,7 +153,8 @@
                                 data-sort="td_vencimento">Vencimento
                             </th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Valor</th>
-                            <th class="sort align-middle text-center" scope="col" data-sort="td_valor_recebido">Valor
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_valor_recebido">
+                                Valor
                                 Recebido</th>
                             <th class="sort text-start ps-5 align-middle text-center" scope="col" data-sort="td_status">
                                 Status</th>
@@ -260,11 +262,11 @@
             </div>
             <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
                 <div class="col-auto d-none">
-                    <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a
-                        class="fw-semi-bold" href="#!" data-list-view="*">Ver todos<span class="fas fa-angle-right ms-1"
-                            data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!"
-                        data-list-view="less">Ver menos<span class="fas fa-angle-right ms-1"
-                            data-fa-transform="down-1"></span></a>
+                    <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info">
+                    </p><a class="fw-semi-bold" href="#!" data-list-view="*">Ver todos<span
+                            class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a
+                        class="fw-semi-bold d-none" href="#!" data-list-view="less">Ver menos<span
+                            class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
                 </div>
                 <div class="col-auto d-flex w-100 justify-content-end mt-2 mb-2">
                     <button class="page-link" data-list-pagination="prev"><span
@@ -609,7 +611,8 @@
                                             <div class="col-lg-4">
 
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Data Emissão</label>
+                                                    <label class="text-body-highlight fw-bold mb-2">Data
+                                                        Emissão</label>
                                                     <input
                                                         class="form-control datetimepicker cursor-pointer input-data-emissao"
                                                         required name="data_emissao" type="text"
@@ -762,7 +765,8 @@
                     <input type="hidden" class="id-conta-pagamento">
                     <input type="hidden" class="id-dado-financeiro">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
-                    <button class="btn btn-primary btn-form" type="button" onclick="receberConta()">Pagar Conta</button>
+                    <button class="btn btn-primary btn-form" type="button" onclick="receberConta()">Pagar
+                        Conta</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
                 </div>
             </div>
