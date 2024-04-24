@@ -236,7 +236,7 @@ class Coletas extends CI_Controller
             // cria o select para o resíduo
             $selectResiduo = '
             <div class="col-6 mb-4">
-                <select class="form-select select2 select-residuo"> 
+                <select class="form-select select2 select-residuo input-obrigatorio-coleta"> 
                     <option value="" selected disabled>Selecione</option>';
 
             foreach ($todosResiduos as $key => $residuo) {
@@ -246,12 +246,14 @@ class Coletas extends CI_Controller
 
             // fecha o select do resíduo
             $selectResiduo .= '</select>
+            <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
             </div>';
 
             // cria o input para a quantidade coletada
             $inputQuantidade = '
             <div class="col-6 mb-4">
-                <input type="text" class="form-control input-quantidade" name="quantidade_coletada[]" value="' . $quantidadeColetada[$index] . '">
+                <input type="text" class="form-control input-quantidade input-obrigatorio-coleta" name="quantidade_coletada[]" value="' . $quantidadeColetada[$index] . '">
+                <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
             </div>';
 
             // adiciona o select e o input à linha
@@ -272,7 +274,7 @@ class Coletas extends CI_Controller
             $selectRow = '<div class="row">';
             $selectFormaPagamento = '
                 <div class="col-6 mb-4">
-                    <select class="form-select select2">
+                    <select class="form-select select2 input-obrigatorio-coleta">
                         <option value="" selected disabled>Selecione</option>';
 
             foreach ($todasFormasPagamento as $key => $formaPagamento) {
@@ -280,12 +282,14 @@ class Coletas extends CI_Controller
             }
 
             $selectFormaPagamento .= '</select>
+                <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
                 </div>';
 
             // Cria o input para o valor correspondente à forma de pagamento
             $inputValorPagamento = '
                 <div class="col-6 mb-4">
-                    <input type="text" class="form-control mascara-dinheiro" name="valor_0" value="">
+                    <input type="text" class="form-control mascara-dinheiro input-obrigatorio-coleta" name="valor_0" value="">
+                    <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
                 </div>';
 
             // Adiciona o select e o input à linha
@@ -304,7 +308,7 @@ class Coletas extends CI_Controller
                 // Cria o select para a forma de pagamento
                 $selectFormaPagamento = '
                     <div class="col-6 mb-4 div-pagamento">
-                        <select class="form-select select2 select-pagamento">
+                        <select class="form-select select2 select-pagamento input-obrigatorio-coleta">
                             <option value="" selected disabled>Selecione</option>';
 
                 // Loop para cada forma de pagamento disponível
@@ -315,12 +319,14 @@ class Coletas extends CI_Controller
 
                 // Fecha o select da forma de pagamento
                 $selectFormaPagamento .= '</select>
+                    <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
                     </div>';
 
                 // Cria o input para o valor correspondente à forma de pagamento
                 $inputValorPagamento = '
                     <div class="col-6 mb-4 div-pagamento">
-                        <input type="' . ($formaPagamento['tipo_pagamento'] == "Moeda Financeira" ? "text" : "number") . '" class="form-control mascara-dinheiro input-pagamento" name="valor_' . $forma . '" value="' . $valoresPagos[$count] . '">
+                        <input type="' . ($formaPagamento['tipo_pagamento'] == "Moeda Financeira" ? "text" : "number") . '" class="form-control mascara-dinheiro input-pagamento input-obrigatorio-coleta" name="valor_' . $forma . '" value="' . $valoresPagos[$count] . '">
+                        <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
                     </div>';
                     
                 // Adiciona o select e o input à linha

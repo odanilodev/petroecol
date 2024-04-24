@@ -514,6 +514,8 @@ const salvarColetaEdit = () => {
     let dataColetaFormatada = `${dataColeta[2]}-${dataColeta[1]}-${dataColeta[0]}`;
     let idCliente = $('.input-id-cliente').val();
 
+    let permissao = verificaCamposObrigatorios('input-obrigatorio-coleta');
+
     // valores resíduos 
     let residuosSelecionados = [];
 
@@ -571,48 +573,50 @@ const salvarColetaEdit = () => {
 
     dadosClientes.push(dadosCliente);
 
-    $.ajax({
-        type: 'post',
-        url: `${baseUrl}coletas/cadastraColeta`,
-        data: {
-            idColeta: idColeta,
-            clientes: dadosClientes,
-            idResponsavel: idResponsavel,
-            dataRomaneio: dataColetaFormatada
+    if (permissao) { 
+        $.ajax({
+            type: 'post',
+            url: `${baseUrl}coletas/cadastraColeta`,
+            data: {
+                idColeta: idColeta,
+                clientes: dadosClientes,
+                idResponsavel: idResponsavel,
+                dataRomaneio: dataColetaFormatada
 
-        }, beforeSend: function () {
+            }, beforeSend: function () {
 
-            $('.load-form').removeClass('d-none');
-            $('.btn-form').addClass('d-none');
+                $('.load-form').removeClass('d-none');
+                $('.btn-form').addClass('d-none');
 
-        }, success: function (data) {
+            }, success: function (data) {
 
-            $('.load-form').addClass('d-none');
-            $('.btn-form').removeClass('d-none');
+                $('.load-form').addClass('d-none');
+                $('.btn-form').removeClass('d-none');
 
-            if (data.success) {
+                if (data.success) {
 
-                avisoRetorno('Sucesso!', data.message, 'success', `${baseUrl}clientes/detalhes/${idCliente}`);
-
-
-                $('.select-responsavel-editar option').each(function () {
-
-                    if ($(this).val() == data.responsavel) {
-                        $('.select-responsavel-editar').val(data.responsavel).trigger('change');
-                    }
-                })
-
-                $('.residuos-coletados-editar').html(data.residuosColetados);
+                    avisoRetorno('Sucesso!', data.message, 'success', `${baseUrl}clientes/detalhes/${idCliente}`);
 
 
-                $('.select2').select2({
-                    dropdownParent: ".modal-editar-coleta",
-                    theme: "bootstrap-5"
-                });
+                    $('.select-responsavel-editar option').each(function () {
+
+                        if ($(this).val() == data.responsavel) {
+                            $('.select-responsavel-editar').val(data.responsavel).trigger('change');
+                        }
+                    })
+
+                    $('.residuos-coletados-editar').html(data.residuosColetados);
+
+
+                    $('.select2').select2({
+                        dropdownParent: ".modal-editar-coleta",
+                        theme: "bootstrap-5"
+                    });
+
+                }
+
 
             }
-
-
-        }
-    })
+        })
+    }
 }
