@@ -37,6 +37,8 @@ class Coletas extends CI_Controller
         $idSetorEmpresa = $this->input->post('idSetorEmpresa'); // Recebe o id do setor responsavel pelo agendamento
         $dataRomaneio = $this->input->post('dataRomaneio');
 
+        $idColeta = $this->input->post('idColeta');
+
         if ($payload) {
             foreach ($payload as $cliente):
                 $dados = array(
@@ -46,14 +48,23 @@ class Coletas extends CI_Controller
                     'forma_pagamento' => json_encode($cliente['pagamento'] ?? ""),
                     'quantidade_coletada' => json_encode($cliente['qtdColetado'] ?? ""),
                     'valor_pago' => json_encode($cliente['valor'] ?? ""),
-                    'observacao' => $cliente['obs'],
-                    'coletado' => $cliente['coletado'],
                     'data_coleta' => $dataRomaneio,
-                    'cod_romaneio' => $codRomaneio,
                     'id_empresa' => $this->session->userdata('id_empresa'),
                 );
 
-                $inseriuColeta = $this->Coletas_model->insereColeta($dados);
+                if (isset($codRomaneio)) {
+                    $dados['cod_romaneio'] = $codRomaneio;
+                }
+
+                if (isset($cliente['coletado'])) {
+                    $dados['coletado'] = $cliente['coletado'];
+                }
+
+                if (isset($cliente['obs'])) {
+                    $dados['observacao'] = $cliente['obs'];
+                }
+
+                $inseriuColeta = !$idColeta ? $this->Coletas_model->insereColeta($dados) : $this->Coletas_model->editaColeta($idColeta, $dados);
 
                 if ($inseriuColeta && $cliente['coletado']) {
                     $valor['status'] = 1;
@@ -61,7 +72,8 @@ class Coletas extends CI_Controller
                 }
 
 
-                $this->agendarfrequencia->cadastraAgendamentoFrequencia($cliente['idCliente'], $dataRomaneio, $idSetorEmpresa);
+                !$idColeta ? $this->agendarfrequencia->cadastraAgendamentoFrequencia($cliente['idCliente'], $dataRomaneio, $idSetorEmpresa) : "";
+
 
             endforeach;
 
@@ -70,7 +82,7 @@ class Coletas extends CI_Controller
 
             $response = array(
                 'success' => true,
-                'message' => 'Coleta(s) cadastrada(s) com sucesso.'
+                'message' => $idColeta ? 'Coleta editada com Sucesso!' : 'Coleta(s) cadastrada(s) com sucesso!'
             );
         } else {
 
@@ -172,6 +184,173 @@ class Coletas extends CI_Controller
             );
         } else {
 
+            $response = array(
+                'success' => false
+            );
+        }
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
+
+    public function recebeColeta()
+    {
+        $idColeta = $this->input->post('idColeta');
+        $this->load->library('detalhesColeta');
+        $this->load->library('formasPagamentoChaveId');
+        $this->load->library('residuoChaveId');
+
+        // Todas as formas de pagamento disponíveis
+        $todasFormasPagamento = $this->formaspagamentochaveid->formaPagamentoArray() ?? null;
+
+        // detalhes da coleta
+        $historicoColeta = $this->detalhescoleta->detalheColeta($idColeta);
+
+        // nome de todos residuos
+        $todosResiduos = $this->residuochaveid->residuoArrayNomes() ?? null;
+
+
+        $responsavelColeta = json_decode($historicoColeta['coleta']['id_responsavel']);
+        $residuosColetados = json_decode($historicoColeta['coleta']['residuos_coletados']);
+        $quantidadeColetada = json_decode($historicoColeta['coleta']['quantidade_coletada']);
+        $valoresPagos = json_decode($historicoColeta['coleta']['valor_pago']);
+        $formasPagamento = json_decode($historicoColeta['coleta']['forma_pagamento']); // formas de pagamento realizada
+
+        $todosSelects = '';
+
+        // adiciona os labels
+        $todosSelects .= '  
+            <div class="row">
+                <div class="col-6">
+                    <label class="text-body-highlight fw-bold mb-2">Resíduos</label>
+                </div>
+                <div class="col-6">
+                    <label class="text-body-highlight fw-bold mb-2">Quantidade Coletada</label>
+                </div>
+            </div>
+        ';
+
+        // Loop para cada resíduo coletado
+        foreach ($residuosColetados as $index => $residuoColetado) {
+            // Inicia a div de cada linha
+            $selectRow = '<div class="row">';
+
+            // cria o select para o resíduo
+            $selectResiduo = '
+            <div class="col-6 mb-4">
+                <select class="form-select select2 select-residuo input-obrigatorio-coleta"> 
+                    <option value="" selected disabled>Selecione</option>';
+
+            foreach ($todosResiduos as $key => $residuo) {
+                $selected = ($key == $residuoColetado) ? 'selected' : '';
+                $selectResiduo .= '<option value="' . $key . '" ' . $selected . '>' . $residuo . '</option>';
+            }
+
+            // fecha o select do resíduo
+            $selectResiduo .= '</select>
+            <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
+            </div>';
+
+            // cria o input para a quantidade coletada
+            $inputQuantidade = '
+            <div class="col-6 mb-4">
+                <input type="text" class="form-control input-quantidade input-obrigatorio-coleta" name="quantidade_coletada[]" value="' . $quantidadeColetada[$index] . '">
+                <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
+            </div>';
+
+            // adiciona o select e o input à linha
+            $selectRow .= $selectResiduo . $inputQuantidade;
+
+            // fecha a linha e adiciona ao todosSelects
+            $selectRow .= '</div>';
+            $todosSelects .= $selectRow;
+        }
+
+        // Adiciona o label para as formas de pagamento
+        $todosSelects .= '<hr><div class="row"><div class="col-6"><label class="text-body-highlight fw-bold mb-2">Formas de Pagamento</label></div><div class="col-6"><label class="text-body-highlight fw-bold mb-2">Valor Pago</label></div> </div>';
+
+        // Loop para cada forma de pagamento realizada
+        if (empty($formasPagamento)) {
+
+            // Se não houver formas de pagamento, adiciona uma linha com o campo de seleção vazio
+            $selectRow = '<div class="row">';
+            $selectFormaPagamento = '
+                <div class="col-6 mb-4">
+                    <select class="form-select select2 input-obrigatorio-coleta">
+                        <option value="" selected disabled>Selecione</option>';
+
+            foreach ($todasFormasPagamento as $key => $formaPagamento) {
+                $selectFormaPagamento .= '<option value="' . $key . '" data-id-tipo-pagamento="' . $formaPagamento['tipo_pagamento'] . '">' . $formaPagamento['forma_pagamento'] . '</option>';
+            }
+
+            $selectFormaPagamento .= '</select>
+                <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
+                </div>';
+
+            // Cria o input para o valor correspondente à forma de pagamento
+            $inputValorPagamento = '
+                <div class="col-6 mb-4">
+                    <input type="text" class="form-control mascara-dinheiro input-obrigatorio-coleta" name="valor_0" value="">
+                    <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
+                </div>';
+
+            // Adiciona o select e o input à linha
+            $selectRow .= $selectFormaPagamento . $inputValorPagamento;
+            // Fecha a linha e adiciona ao todosSelects
+            $selectRow .= '</div>';
+            $todosSelects .= $selectRow;
+
+        } else {
+            // Se houver formas de pagamento, segue com o loop normalmente
+            $count = 0;
+            foreach ($formasPagamento as $key => $forma) {
+                // Inicia a div de cada linha
+                $selectRow = '<div class="row">';
+
+                // Cria o select para a forma de pagamento
+                $selectFormaPagamento = '
+                    <div class="col-6 mb-4 div-pagamento">
+                        <select class="form-select select2 select-pagamento input-obrigatorio-coleta">
+                            <option value="" selected disabled>Selecione</option>';
+
+                // Loop para cada forma de pagamento disponível
+                foreach ($todasFormasPagamento as $key => $formaPagamento) {
+                    $selected = ($key == $forma) ? 'selected' : ''; // Verifica se a forma de pagamento está no array de formasPagamento
+                    $selectFormaPagamento .= '<option value="' . $key . '" ' . $selected . ' data-id-tipo-pagamento="' . $formaPagamento['tipo_pagamento'] . '">' . $formaPagamento['forma_pagamento'] . '</option>';
+                }
+
+                // Fecha o select da forma de pagamento
+                $selectFormaPagamento .= '</select>
+                    <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
+                    </div>';
+
+                // Cria o input para o valor correspondente à forma de pagamento
+                $inputValorPagamento = '
+                    <div class="col-6 mb-4 div-pagamento">
+                        <input type="' . ($formaPagamento['tipo_pagamento'] == "Moeda Financeira" ? "text" : "number") . '" class="form-control mascara-dinheiro input-pagamento input-obrigatorio-coleta" name="valor_' . $forma . '" value="' . $valoresPagos[$count] . '">
+                        <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
+                    </div>';
+
+                // Adiciona o select e o input à linha
+                $selectRow .= $selectFormaPagamento . $inputValorPagamento;
+                // Fecha a linha e adiciona ao todosSelects
+                $selectRow .= '</div>';
+                $todosSelects .= $selectRow;
+                $count++;
+            }
+        }
+
+        if ($historicoColeta) {
+            $dataColeta = date('d/m/Y', strtotime($historicoColeta['coleta']['data_coleta']));
+
+            $response = array(
+                'success' => true,
+                'coleta' => $historicoColeta['coleta'],
+                'dataColeta' => $dataColeta,
+                'responsavel' => $responsavelColeta,
+                'formasPagamento' => $todasFormasPagamento,
+                'residuosColetados' => $todosSelects ?? null
+            );
+        } else {
             $response = array(
                 'success' => false
             );
