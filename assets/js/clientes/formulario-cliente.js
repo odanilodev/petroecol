@@ -510,7 +510,8 @@ const salvarColetaEdit = () => {
     let idColeta = $('.input-id-coleta').val();
     let dadosClientes = [];
     let idResponsavel = $('.select-responsavel-editar option:selected').val();
-    let dataColeta = $('.data-coleta-editar').val();
+    let dataColeta = $('.data-coleta-editar').val().split('/');
+    let dataColetaFormatada = `${dataColeta[2]}-${dataColeta[1]}-${dataColeta[0]}`;
     let idCliente = $('.input-id-cliente').val();
 
     // valores resíduos 
@@ -566,7 +567,6 @@ const salvarColetaEdit = () => {
         pagamento: formaPagamentoSelecionados,
         valor: valorPagamento,
         coletado: 1,
-        dataRomaneio: dataColeta
     };
 
     dadosClientes.push(dadosCliente);
@@ -577,14 +577,18 @@ const salvarColetaEdit = () => {
         data: {
             idColeta: idColeta,
             clientes: dadosClientes,
-            idResponsavel: idResponsavel
+            idResponsavel: idResponsavel,
+            dataRomaneio: dataColetaFormatada
+
         }, beforeSend: function () {
 
-            $('.body-coleta').show();
-            $('.html-clean').html('');
-            $('.residuos-coletados-editar').html('');
+            $('.load-form').removeClass('d-none');
+            $('.btn-form').addClass('d-none');
 
         }, success: function (data) {
+
+            $('.load-form').addClass('d-none');
+            $('.btn-form').removeClass('d-none');
 
             if (data.success) {
 

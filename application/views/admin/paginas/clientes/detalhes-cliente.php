@@ -849,6 +849,7 @@
 
           <div class="modal-footer">
             <input type="hidden" class="input-id-coleta">
+            <div class="spinner-border text-primary load-form d-none" role="status"></div>
             <button class="btn btn-info btn-form btn-editar-certificado" onclick="salvarColetaEdit()" type="button">Salvar</button>
             <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
