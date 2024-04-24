@@ -198,34 +198,42 @@ class Coletas extends CI_Controller
         $this->load->library('formasPagamentoChaveId');
         $this->load->library('residuoChaveId');
 
+        // Todas as formas de pagamento disponíveis
+        $todasFormasPagamento = $this->formaspagamentochaveid->formaPagamentoArray() ?? null;
+
+        // detalhes da coleta
         $historicoColeta = $this->detalhescoleta->detalheColeta($idColeta);
 
+        // nome de todos residuos
         $todosResiduos = $this->residuochaveid->residuoArrayNomes() ?? null;
+
 
         $responsavelColeta = json_decode($historicoColeta['coleta']['id_responsavel']);
         $residuosColetados = json_decode($historicoColeta['coleta']['residuos_coletados']);
         $quantidadeColetada = json_decode($historicoColeta['coleta']['quantidade_coletada']);
         $valoresPagos = json_decode($historicoColeta['coleta']['valor_pago']);
-        // Todas as formas de pagamento disponíveis
-        $todasFormasPagamento = $this->formaspagamentochaveid->formaPagamentoArray() ?? null;
+        $formasPagamento = json_decode($historicoColeta['coleta']['forma_pagamento']); // formas de pagamento realizada
 
-        // echo "<pre>"; print_r($todasFormasPagamento); exit;
-
-        // Formas de pagamento realizadas
-        $formasPagamento = json_decode($historicoColeta['coleta']['forma_pagamento']);
-
-        // Inicializa a variável para armazenar todos os selects e inputs
         $todosSelects = '';
 
-        // Adiciona o label para os resíduos
-        $todosSelects .= '<div class="row"><div class="col-6"><label class="text-body-highlight fw-bold mb-2">Resíduos</label></div><div class="col-6"><label class="text-body-highlight fw-bold mb-2">Quantidade Coletada</label></div> </div>';
+        // adiciona os labels
+        $todosSelects .= '  
+            <div class="row">
+                <div class="col-6">
+                    <label class="text-body-highlight fw-bold mb-2">Resíduos</label>
+                </div>
+                <div class="col-6">
+                    <label class="text-body-highlight fw-bold mb-2">Quantidade Coletada</label>
+                </div>
+            </div>
+        ';
 
         // Loop para cada resíduo coletado
         foreach ($residuosColetados as $index => $residuoColetado) {
             // Inicia a div de cada linha
             $selectRow = '<div class="row">';
 
-            // Cria o select para o resíduo
+            // cria o select para o resíduo
             $selectResiduo = '
             <div class="col-6 mb-4">
                 <select class="form-select select2 select-residuo"> 
@@ -236,20 +244,20 @@ class Coletas extends CI_Controller
                 $selectResiduo .= '<option value="' . $key . '" ' . $selected . '>' . $residuo . '</option>';
             }
 
-            // Fecha o select do resíduo
+            // fecha o select do resíduo
             $selectResiduo .= '</select>
             </div>';
 
-            // Cria o input para a quantidade coletada
+            // cria o input para a quantidade coletada
             $inputQuantidade = '
             <div class="col-6 mb-4">
                 <input type="text" class="form-control input-quantidade" name="quantidade_coletada[]" value="' . $quantidadeColetada[$index] . '">
             </div>';
 
-            // Adiciona o select e o input à linha
+            // adiciona o select e o input à linha
             $selectRow .= $selectResiduo . $inputQuantidade;
 
-            // Fecha a linha e adiciona ao todosSelects
+            // fecha a linha e adiciona ao todosSelects
             $selectRow .= '</div>';
             $todosSelects .= $selectRow;
         }
@@ -258,19 +266,22 @@ class Coletas extends CI_Controller
         $todosSelects .= '<hr><div class="row"><div class="col-6"><label class="text-body-highlight fw-bold mb-2">Formas de Pagamento</label></div><div class="col-6"><label class="text-body-highlight fw-bold mb-2">Valor Pago</label></div> </div>';
 
         // Loop para cada forma de pagamento realizada
-
         if (empty($formasPagamento)) {
+
             // Se não houver formas de pagamento, adiciona uma linha com o campo de seleção vazio
             $selectRow = '<div class="row">';
             $selectFormaPagamento = '
                 <div class="col-6 mb-4">
                     <select class="form-select select2">
                         <option value="" selected disabled>Selecione</option>';
+
             foreach ($todasFormasPagamento as $key => $formaPagamento) {
                 $selectFormaPagamento .= '<option value="' . $key . '" data-id-tipo-pagamento="' . $formaPagamento['tipo_pagamento'] . '">' . $formaPagamento['forma_pagamento'] . '</option>';
             }
+
             $selectFormaPagamento .= '</select>
                 </div>';
+
             // Cria o input para o valor correspondente à forma de pagamento
             $inputValorPagamento = '
                 <div class="col-6 mb-4">
@@ -282,30 +293,36 @@ class Coletas extends CI_Controller
             // Fecha a linha e adiciona ao todosSelects
             $selectRow .= '</div>';
             $todosSelects .= $selectRow;
+
         } else {
             // Se houver formas de pagamento, segue com o loop normalmente
             $count = 0;
             foreach ($formasPagamento as $key => $forma) {
                 // Inicia a div de cada linha
                 $selectRow = '<div class="row">';
+
                 // Cria o select para a forma de pagamento
                 $selectFormaPagamento = '
                     <div class="col-6 mb-4 div-pagamento">
                         <select class="form-select select2 select-pagamento">
                             <option value="" selected disabled>Selecione</option>';
+
                 // Loop para cada forma de pagamento disponível
                 foreach ($todasFormasPagamento as $key => $formaPagamento) {
                     $selected = ($key == $forma) ? 'selected' : ''; // Verifica se a forma de pagamento está no array de formasPagamento
                     $selectFormaPagamento .= '<option value="' . $key . '" ' . $selected . ' data-id-tipo-pagamento="' . $formaPagamento['tipo_pagamento'] . '">' . $formaPagamento['forma_pagamento'] . '</option>';
                 }
+
                 // Fecha o select da forma de pagamento
                 $selectFormaPagamento .= '</select>
                     </div>';
+
                 // Cria o input para o valor correspondente à forma de pagamento
                 $inputValorPagamento = '
                     <div class="col-6 mb-4 div-pagamento">
                         <input type="' . ($formaPagamento['tipo_pagamento'] == "Moeda Financeira" ? "text" : "number") . '" class="form-control mascara-dinheiro input-pagamento" name="valor_' . $forma . '" value="' . $valoresPagos[$count] . '">
                     </div>';
+                    
                 // Adiciona o select e o input à linha
                 $selectRow .= $selectFormaPagamento . $inputValorPagamento;
                 // Fecha a linha e adiciona ao todosSelects
