@@ -166,14 +166,14 @@
             <div style="width: 50%; float: left;">
                 <?php if ($modelo_certificado['assinatura']): ?>
                     <img src="<?= base_url_upload('certificados/assinaturas/' . $modelo_certificado['assinatura']) ?>"
-                        alt="Assinatura" style="width: 80%;">
+                        alt="Assinatura" style="width: 40%;">
                 <?php endif; ?>
             </div>
 
             <div style="width: 50%; float: right;">
                 <?php if ($modelo_certificado['carimbo']): ?>
                     <img src="<?= base_url_upload('certificados/carimbos/' . $modelo_certificado['carimbo']) ?>"
-                        alt="Carimbo" style="width: 70%;">
+                        alt="Carimbo" style="width: 50%;">
                 <?php endif; ?>
             </div>
         </div>
