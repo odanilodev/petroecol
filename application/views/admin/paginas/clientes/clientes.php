@@ -155,6 +155,11 @@
                                                         <span class="text-900"> Editar</span>
                                                     </a>
 
+                                                    <a class="dropdown-item" href="#" onclick="exibirEmailsCliente(<?= $v['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalEmail">
+                                                        <span class="text-900 uil-fast-mail"></span>
+                                                        <span class="text-900"> Emails</span>
+                                                    </a>
+
                                                     <a class="dropdown-item" href="#" onclick="exibirEtiquetasCliente(<?= $v['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalEtiqueta">
                                                         <span class="text-900 uil-pricetag-alt"></span>
                                                         <span class="text-900"> Etiquetas</span>
