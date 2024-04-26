@@ -31,6 +31,8 @@ class Coletas extends CI_Controller
         $this->load->model('Romaneios_model');
         $this->load->model('Agendamentos_model');
 
+        $coletaManual = $this->input->post('coletaManual'); // true quando insere coleta pela página de cliente
+
         $payload = $this->input->post('clientes');
         $codRomaneio = $this->input->post('codRomaneio');
         $idResponsavel = $this->input->post('idResponsavel');
@@ -66,14 +68,14 @@ class Coletas extends CI_Controller
 
                 $inseriuColeta = !$idColeta ? $this->Coletas_model->insereColeta($dados) : $this->Coletas_model->editaColeta($idColeta, $dados);
 
-                if ($inseriuColeta && $cliente['coletado']) {
+                if ($inseriuColeta && $cliente['coletado'] && !$coletaManual) {
                     $valor['status'] = 1;
                     $this->Agendamentos_model->editaAgendamentoData($cliente['idCliente'], $dataRomaneio, $valor, $idSetorEmpresa);
                 }
 
-
-                !$idColeta ? $this->agendarfrequencia->cadastraAgendamentoFrequencia($cliente['idCliente'], $dataRomaneio, $idSetorEmpresa) : "";
-
+                if (!$coletaManual) {
+                    !$idColeta ? $this->agendarfrequencia->cadastraAgendamentoFrequencia($cliente['idCliente'], $dataRomaneio, $idSetorEmpresa) : "";
+                } 
 
             endforeach;
 
