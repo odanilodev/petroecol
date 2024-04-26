@@ -346,3 +346,54 @@
         </div>
     </div>
 </div>
+<!-- Modal de emails para clientes -->
+<div class="modal fade modalSelect2" id="modalEmail">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><span class="editando-label d-none">Editando - </span>Emails</h5>
+                <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1"></span></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="my-2 div-emails">
+                    <!-- Manipulado ajax -->
+                </div>
+
+                <div class="add-email w-100 my-3 mb-4">
+
+                    <input type="hidden" class="id-cliente">
+                    <input type="hidden" class="email-atual">
+
+                    <label>Atribuir novo email</label>
+                    <input type="text" class="form-control w-100 input-obrigatorio-email campos-modal" id="input-email" placeholder="Digite aqui o email">
+                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                </div>
+
+                <div class="w-100 my-3 mb-4">
+                    <label>Setor do email</label>
+
+                    <select required id="id-grupo" class="form-select select-grupo select2 input-obrigatorio-email campos-modal">
+                        <option value="" selected disabled>Selecione</option>
+                        <?php foreach ($gruposEmail as $v) { ?>
+                            <option value="<?= $v['id'] ?>" <?= (isset($emails['grupo']) && $emails['grupo'] == $v['id']) ? 'selected' : ''; ?>><?= $v['grupo']; ?></option>
+                        <?php } ?>
+                    </select>
+
+                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                <input type="hidden" class="input-editar-email">
+                <button class="btn btn-success btn-salva-email btn-form" type="button" onclick="cadastraEmailCliente()">Salvar</button>
+                <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+
+            </div>
+        </div>
+    </div>
+</div>

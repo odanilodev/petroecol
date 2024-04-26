@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class EmaiCliente extends CI_Controller
+class EmailCliente extends CI_Controller
 {
 	public function __construct()
 	{
@@ -25,42 +25,73 @@ class EmaiCliente extends CI_Controller
 
 	public function cadastraEmailCliente()
 	{
-
-		$dados['id_cliente'] = $this->input->post('id_cliente');
+		$dados['id_cliente'] = $this->input->post('idCliente');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
-
-		$email_cliente = $this->input->post('emailCliente');
-		$dados['grupo'] = $this->input->post('grupo');
+		$dados['email'] = strtolower($this->input->post('emailCliente'));
+		$verificarEmail = $this->input->post('verificaEmail');
+		$dados['id_grupo'] = $this->input->post('idGrupo');
+		$nomeGrupo = $this->input->post('nomeGrupo');
+		$idEmail = $this->input->post('idEmail');
+		
+		$emailCliente = $dados['email'];
+		$grupoCliente = $dados['id_grupo'];
 
 		// todos os emails do cliente
 		$emailsNoBanco = $this->EmailCliente_model->recebeEmailCliente($dados['id_cliente']);
 
-		// verifica se o email já existe para esse cliente
-		if (in_array($email_cliente, array_column($emailsNoBanco, 'email'))) {
+		// verifica se existe id do email, para editar e se o email já existe para esse cliente
+		if ($idEmail) {
 
-			$response = array(
-				'success' => false,
-				'message' => 'Este email já está cadastrado para o cliente.'
-			);
+			if ((in_array($dados['email'], array_column($emailsNoBanco, 'email'))) && $verificarEmail != 'true') {
+
+				$response = array(
+					'success' => false,
+					'message' => 'Este email já está cadastrado para o cliente.'
+				);
+
+			} else {
+
+				if ($this->EmailCliente_model->editaEmailCliente($idEmail, $dados['id_cliente'], $dados)) {
+
+					$response = array(
+						'success' => true,
+						'id' => $idEmail,
+						'message' => 'Email editado com sucesso',
+						'email' => $emailCliente,
+						'nomeGrupo' => $nomeGrupo,
+						'grupoEmail' => $grupoCliente,
+						'editado' => true
+					);
+				}
+			}
 		} else {
 
-			$dados['email'] = $email_cliente;
+			if (in_array($dados['email'], array_column($emailsNoBanco, 'email'))) {
+
+				$response = array(
+					'success' => false,
+					'message' => 'Este email já está cadastrado para o cliente.'
+				);
+
+				return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+			}
+
 			$inseridoId = $this->EmailCliente_model->insereEmailCliente($dados);
 
 			if ($inseridoId) {
 
 				$novoEmail = '
-                <span class="badge rounded-pill badge-phoenix fs--2 badge-phoenix-info my-1 mx-1 p-2 email-' . $dados['email'] . '">
-                    <span class="badge-label">
-                        ' . $email_cliente . '
-                        <a href="#">
-                            <i class="fas fa-times-circle delete-icon" onclick="deletaEmailCliente(' . $inseridoId . ')"></i>
-                        </a>
-												<a href="#" class="btn-ver-email" title="Editar Email">
-														<i class="fas fa-pencil-alt edita-email edita-email-' . $email_cliente . '" onclick="verEmailCliente(\'' . $email_cliente . '\')"></i>
-												</a>
-                    </span>
-                </span>';
+					<span class="badge rounded-pill badge-phoenix fs--2 badge-phoenix-info my-1 mx-1 p-2 email-' . $inseridoId . '">
+						<span class="badge-label">
+								<span class="txt-email-' . $inseridoId . '">' . $emailCliente . ' - ' . $nomeGrupo . ' </span>
+								<a href="#">
+										<i class="fas fa-times-circle delete-icon" onclick="deletaEmailCliente(' . $inseridoId . ')"></i>
+								</a>
+								<a href="#" class="btn-ver-email" title="Editar Email">
+										<i class="fas fa-pencil-alt edita-email edita-email-' . $inseridoId . '" onclick="verEmailCliente(\'' . $emailCliente . '\', \'' .$grupoCliente . '\', \'' . $inseridoId . '\')"></i>
+								</a>
+						</span>
+					</span>';
 
 				$response = array(
 					'success' => true,
@@ -85,7 +116,7 @@ class EmaiCliente extends CI_Controller
 		$this->EmailCliente_model->deletaEmailCliente($id);
 	}
 
-	// exibe as etiquetas de cada cliente dentro do modal
+	// exibe os emails do cliente dentro do modal
 	public function recebeEmailCliente()
 	{
 		$id_cliente = $this->input->post('id_cliente');
@@ -95,29 +126,15 @@ class EmaiCliente extends CI_Controller
 		foreach ($emails as $v) {
 			echo '
 			<span class="fw-bold lh-2 mr-5 badge rounded-pill badge-phoenix fs--2 badge-phoenix-info my-1 mx-1 p-2 email-' . $v['id'] . '"> 
-				' . $v['email'] . '
+				<span class="txt-email-' . $v['id'] . '">' . $v['email'] . ' - ' . $v['grupo'] . '</span>
 				<a href="#">
 					<i class="fas fa-times-circle delete-icon" onclick="deletaEmailCliente(' . $v['id'] . ')"></i>
 				</a>
 				<a href="#" class="btn-ver-email" title="Editar Email">
-					<i class="fas fa-pencil-alt edita-email edita-email-' . $v['id'] . '" onclick="verResiduoCliente(\'' . $emailCliente . '\')"></i>
+					<i class="fas fa-pencil-alt edita-email edita-email-' . $v['id'] . '" onclick="verEmailCliente(\'' . $v['email'] . '\', \'' . $v['ID_GRUPO'] . '\',\'' . $v['id'] . '\')"></i>
 				</a>
 			</span>';
 		}
 	}
 
-	// public function recebeClientesEtiqueta()
-	// {
-	// 	$id_etiqueta = $this->input->post('id_etiqueta');
-	// 	$id_setor = $this->input->post('id_setor');
-
-	// 	$clientesEtiqueta = $this->EtiquetaCliente_model->recebeClientesEtiqueta($id_etiqueta, $id_setor);
-
-	// 	$response = array(
-	// 		'success' => true,
-	// 		'clientesEtiqueta' => $clientesEtiqueta
-	// 	);
-
-	// 	return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-	// }
 }

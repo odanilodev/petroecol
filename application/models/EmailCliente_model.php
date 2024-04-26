@@ -12,50 +12,43 @@ class EmailCliente_model extends CI_Model
 
     public function recebeEmailClientes()
     {
-        $this->db->select('EC.*, C.nome, E.nome');
-        $this->db->from('ci_etiqueta_cliente EC');
+        $this->db->select('EC.*, C.nome, EC.nome');
+        $this->db->from('ci_emails_cliente EC');
         $this->db->join('ci_clientes C', 'EC.id_cliente = C.id', 'inner');
-        $this->db->join('ci_etiquetas E', 'EC.id_etiqueta = E.id', 'inner');
         $this->db->where('EC.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('E.id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get();
 
         return $query->result_array();
     }
 
-    public function recebeEtiquetaCliente($id)
+    public function recebeEmailCliente($id)
     {
-        $this->db->select('EC.*, C.nome, E.nome');
-        $this->db->from('ci_etiqueta_cliente EC');
-        $this->db->join('ci_clientes C', 'EC.id_cliente = C.id', 'inner');
-        $this->db->join('ci_etiquetas E', 'EC.id_etiqueta = E.id', 'inner');
+        $this->db->select('EC.*, GE.grupo, GE.id as ID_GRUPO');
+        $this->db->from('ci_emails_cliente EC');
+        $this->db->join('ci_grupos_emails GE', 'EC.id_grupo = GE.id', 'left');
         $this->db->where('EC.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('E.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('EC.id_cliente', $id);
+        $this->db->where_in('EC.id_cliente', $id);
         $query = $this->db->get();
 
         return $query->result_array();
     }
 
-    public function recebeIdEtiquetaCliente($id, $id_cliente)
+    public function recebeNomeEmailCliente($emailCliente, $id_cliente)
     {
-        $this->db->select('EC.*, E.nome');
-        $this->db->from('ci_etiqueta_cliente EC');
-        $this->db->join('ci_etiquetas E', 'EC.id_etiqueta = E.id', 'inner');
-        $this->db->where('EC.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('E.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('EC.id_cliente', $id_cliente);
-        $this->db->where('EC.id_etiqueta', $id);
+        $this->db->select('email');
+        $this->db->from('ci_emails_cliente');
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('email', $emailCliente);
+        $this->db->where('id_cliente', $id_cliente);
         $query = $this->db->get();
+
         return $query->row_array();
     }
 
-    public function insereEtiquetaCliente($dados)
+    public function insereEmailCliente($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');
-        $this->db->insert('ci_etiqueta_cliente', $dados);
+        $this->db->insert('ci_emails_cliente', $dados);
 
         $inseridoId = $this->db->insert_id(); // Pega o ID inserido
 
@@ -66,11 +59,11 @@ class EmailCliente_model extends CI_Model
         return $inseridoId; // Retorna o ID inserido ou 0 se não foi inserido
     }
 
-    public function deletaEtiquetaCliente($id)
+    public function deletaEmailCliente($id)
     {
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->delete('ci_etiqueta_cliente');
+        $this->db->delete('ci_emails_cliente');
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);
@@ -79,11 +72,13 @@ class EmailCliente_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function deletaIdEtiquetaCliente($id)
+    public function editaEmailCliente($id, $idCliente, $dados)
     {
-        $this->db->where('id_etiqueta', $id);
+        $dados['editado_em'] = date('Y-m-d H:i:s');
+        $this->db->where('id', $id);
+        $this->db->where('id_cliente', $idCliente);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->delete('ci_etiqueta_cliente');
+        $this->db->update('ci_emails_cliente', $dados);
 
         if ($this->db->affected_rows()) {
             $this->Log_model->insereLog($id);
@@ -92,48 +87,4 @@ class EmailCliente_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function recebeClientesEtiqueta($id_etiqueta, $setorEmpresa)
-    {
-        $this->db->select('EC.id_etiqueta, EC.id_cliente, C.status');
-        $this->db->from('ci_etiqueta_cliente EC');
-        $this->db->join('ci_clientes C', 'EC.id_cliente = C.id', 'left');
-        $this->db->join('ci_setores_empresa_cliente SE', 'C.id = SE.id_cliente', 'left');
-        $this->db->where('EC.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('C.status', 1);
-        $this->db->where('SE.id_setor_empresa', $setorEmpresa);
-        $this->db->where('EC.id_etiqueta', $id_etiqueta);
-
-        $query = $this->db->get();
-
-        return $query->result_array();
-    }
-
-    public function recebeTodasEtiquetasClientes()
-    {
-        $this->db->select('EC.id_etiqueta, E.nome');
-        $this->db->from('ci_etiqueta_cliente EC');
-        $this->db->join('ci_etiquetas E', 'EC.id_etiqueta = E.id', 'inner');
-        $this->db->where('EC.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('E.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->group_by('EC.id_etiqueta, E.nome');
-        $query = $this->db->get();
-
-        return $query->result_array();
-    }
-    public function verificaEtiquetaCliente($id)
-    {
-        $this->db->select('EC.id_etiqueta, GROUP_CONCAT(DISTINCT E.nome) as nomes_etiquetas');
-        $this->db->from('ci_etiqueta_cliente EC');
-        $this->db->where_in('EC.id_etiqueta', $id);
-        $this->db->where('EC.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->join('ci_etiquetas E', 'E.id = EC.id_etiqueta', 'left');
-        $this->db->group_by('EC.id_etiqueta');
-
-        $query = $this->db->get();
-
-        $etiquetaVinculada = $query->result_array();
-
-        return $etiquetaVinculada;
-    }
 }
