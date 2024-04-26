@@ -137,4 +137,18 @@ class Coletas_model extends CI_Model
 
         return $query->row_array();
     }
+
+    public function editaColeta($idColeta, $dados)
+    {
+        $dados['editado_em'] = date('Y-m-d H:i:s');
+        $this->db->where('id', $idColeta);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->update('ci_coletas', $dados);
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($idColeta);
+        }
+
+        return $this->db->affected_rows() > 0;
+    }
 }

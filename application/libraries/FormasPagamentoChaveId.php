@@ -26,4 +26,22 @@ class FormasPagamentoChaveId
 
 		return $formasArray;
 	}
+
+	public function formaPagamentoArray(): array
+	{
+		$formasPagamento = $this->CI->FormaPagamento_model->recebeFormasPagamento();
+
+		$formasArray = [];
+
+		if ($formasPagamento) {
+			foreach ($formasPagamento as $v) {
+				$formasArray[$v['id']] = [
+					'forma_pagamento' => $v['forma_pagamento'],
+					'tipo_pagamento' => $v['TIPO_PAGAMENTO']
+				];
+			}
+		}
+
+		return $formasArray;
+	}
 }

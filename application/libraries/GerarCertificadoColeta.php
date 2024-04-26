@@ -62,12 +62,23 @@ class GerarCertificadoColeta
 			$mpdf->WriteHTML($html);
 
 			// marca d'água no PDF
+			// Marca d'água no PDF
 			if ($data['modelo_certificado']['marca_agua']) {
 				$marcaDagua = base_url_upload('certificados/marcas-agua/' . $data['modelo_certificado']['marca_agua']);
-				$rotacao = 45;
-				$mpdf->SetWatermarkImage($marcaDagua);
+
+				// Define o tamanho desejado para a marca d'água
+				$novoLargura = 50; // Largura desejada em pixels
+				$novoAltura = 50; // Altura desejada em pixels
+
+				// Define a transparência desejada
+				$transparencia = 0.1; // Por exemplo, 50% de opacidade
+
+				// Define a marca d'água com o tamanho e transparência especificados
+				$mpdf->SetWatermarkImage($marcaDagua, $alpha = $transparencia, $width = $novoLargura, $height = $novoAltura);
 				$mpdf->showWatermarkImage = true;
 			}
+
+
 
 
 			// Retorna o conteúdo do PDF

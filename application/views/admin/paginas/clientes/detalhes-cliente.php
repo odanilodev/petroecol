@@ -683,11 +683,13 @@
                             <span class="fas fa-eye text-warning"></span>
                           </button>
                         </div>
+
+
                         <div style="margin-right: 10px;">
-                          <button onclick="detalhesHistoricoColeta(<?= $coleta['ID_COLETA'] ?>)"
-                            class="btn btn-phoenix-warning <?= $coleta['coletado'] ? "" : "d-none" ?> "
-                            title="Ver Detalhes" data-bs-toggle="modal" data-bs-target=".modal-editar-coleta">
-                            <span class="fas fa-pencil text-warning"></span>
+                          <button onclick="recebeDadosColeta(<?= $coleta['ID_COLETA'] ?>, <?= $this->uri->segment(3) ?>)"
+                            class="btn btn-phoenix-info <?= !$coleta['coletado'] ? "d-none" : "" ?> "
+                            title="Editar Coleta" data-bs-toggle="modal" data-bs-target=".modal-editar-coleta">
+                            <span class="fas fa-pencil text-info"></span>
                           </button>
                         </div>
 
@@ -885,6 +887,7 @@
             </div>
 
             <input type="hidden" class="input-id-coleta">
+            <input type="hidden" class="input-id-cliente">
             <button class="btn btn-success btn-salva-etiqueta btn-form btn-gerar-certificado" type="button">Gerar
               Certificado</button>
             <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
@@ -894,95 +897,69 @@
       </div>
     </div>
 
-    <!-- Modal editar coleta -->
+    <!-- Modal Editar coleta -->
     <div class="modal fade modal-editar-coleta" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-          <form id="editar-coleta-form">
-            <div class="modal-header">
-              <h5 class="modal-title">Editar Coleta</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body body-coleta">
+          <div class="modal-header">
+            <h5 class="modal-title">Editar Coleta</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body body-coleta">
 
-              <div class="card">
-                <div class="card-body">
-                  <div class="row g-3">
-                    <div class="col-12">
-                      <div class="mb-3">
-                        <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
-                          <div class="col-sm-12 col-xxl-12 border-bottom py-3">
-                            <table class="w-100 table-stats">
-                              <tr>
-                                <td class="py-2">
-                                  <label class="fw-bold mb-0" for="data-coleta">Data da coleta</label>
-                                </td>
-                                <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                                <td class="py-2">
-                                  <input type="text" class="form-control" id="data-coleta" name="data-coleta">
-                                </td>
-                              </tr>
+            <div class="card">
+              <div class="card-body">
+                <div class="row g-3">
+                  <div class="col-12">
+                    <div class="mb-3">
+                      <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
 
-                              <tr>
-                                <td class="py-2">
-                                  <label class="fw-bold mb-0" for="responsavel-coleta">Responsável</label>
-                                </td>
-                                <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                                <td class="py-2">
-                                  <input type="text" class="form-control" id="responsavel-coleta"
-                                    name="responsavel-coleta">
-                                </td>
-                              </tr>
-
-                              <tr>
-                                <td class="py-2">
-                                  <label class="fw-bold mb-0" for="residuos-coletados">Resíduos Coletados</label>
-                                </td>
-                                <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                                <td class="py-2">
-                                  <textarea class="form-control" id="residuos-coletados" name="residuos-coletados"
-                                    rows="3"></textarea>
-                                </td>
-                              </tr>
-
-                              <tr>
-                                <td class="py-2">
-                                  <label class="fw-bold mb-0" for="total-pago">Total Pago</label>
-                                </td>
-                                <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                                <td class="py-2">
-                                  <input type="text" class="form-control" id="total-pago" name="total-pago">
-                                </td>
-                              </tr>
-
-                            </table>
-                          </div>
+                        <div class="mb-4 col-12">
+                          <label class="text-body-highlight fw-bold mb-2">Data Coleta</label>
+                          <input class="form-control datetimepicker data-coleta-editar cursor-pointer"
+                            name="data_coleta" type="text" placeholder="dd/mm/aaaa"
+                            data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                          <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                         </div>
+
+                        <div class="mb-4 col-12">
+                          <label class="text-body-highlight fw-bold mb-2">Responsável</label>
+                          <select class="form-select select2 select-responsavel-editar">
+                            <option value="" selected disabled>Selecione</option>
+                            <?php foreach ($responsaveis as $responsavel) { ?>
+                              <option value="<?= $responsavel['IDFUNCIONARIO'] ?>">
+                                <?= $responsavel['nome'] ?>
+                              </option>
+                            <?php } ?>
+                          </select>
+                          <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                        </div>
+                        <hr>
+
+
+                        <!-- Residuos e quantidades -->
+                        <div class="residuos-coletados-editar">
+                          <!-- JS -->
+                        </div>
+
+
+
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="modal-footer">
-              <div class="col-sm-12 col-xxl-12 border-bottom py-3">
-                <div class="mb-2">
-                  <label class="form-label text-900" for="modelo-certificado">Modelo do Certificado</label>
-                  <select id="modelo-certificado" class="form-select" name="modelo-certificado">
-                    <option value="" selected disabled>Selecione</option>
-                    <!-- Aqui você pode adicionar opções para o select -->
-                  </select>
-                  <div class="invalid-feedback">Preencha este campo</div>
-                </div>
-              </div>
+          <div class="modal-footer">
+            <input type="hidden" class="input-id-coleta">
+            <div class="spinner-border text-primary load-form d-none" role="status"></div>
+            <button class="btn btn-info btn-form btn-editar-certificado" onclick="salvarColetaEdit()"
+              type="button">Salvar</button>
+            <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
-              <input type="hidden" class="input-id-coleta">
-              <button class="btn btn-success btn-salva-etiqueta btn-form btn-gerar-certificado" type="submit">Gerar
-                Certificado</button>
-              <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
-            </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>

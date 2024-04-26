@@ -89,7 +89,7 @@ $(document).ready(function () {
         var cep = $(this).val().replace(/\D/g, '');
 
         if (cep.length !== 8 && cep.length >= 1) {
-            
+
             avisoRetorno('CEP inválido', 'Verifique se digitou corretamente!', 'error', '#');
             return;
 
@@ -432,3 +432,191 @@ $('.filtros-clientes').click(function () {
         placeholder: $(this).data('placeholder'),
     });
 })
+
+
+const recebeDadosColeta = (idColeta, idCliente) => {
+
+    $('.input-id-coleta').val(idColeta);
+    $('.input-id-cliente').val(idCliente);
+
+    $.ajax({
+        type: 'post',
+        url: `${baseUrl}coletas/recebeColeta`,
+        data: {
+            idColeta: idColeta,
+        }, beforeSend: function () {
+
+            $('.body-coleta').show();
+            $('.html-clean').html('');
+            $('.residuos-coletados-editar').html('');
+
+        }, success: function (data) {
+
+            if (data.success) {
+
+                $('.data-coleta-editar').val(data.dataColeta);
+
+                $('.select-responsavel-editar option').each(function () {
+
+                    if ($(this).val() == data.responsavel) {
+                        $('.select-responsavel-editar').val(data.responsavel).trigger('change');
+                    }
+                })
+
+                $('.residuos-coletados-editar').html(data.residuosColetados);
+
+
+                $('.select2').select2({
+                    dropdownParent: ".modal-editar-coleta",
+                    theme: "bootstrap-5"
+                });
+
+            }
+
+
+        }
+    })
+
+}
+
+
+
+// verifica qual é o tipo da forma de pagamento para aplicar mascara
+$(document).on('change', '.select-pagamento', function () {
+
+    let valorPagamento = $(this).closest('.div-pagamento').next('.div-pagamento').find('.input-pagamento');
+
+    if ($('option:selected', this).data('id-tipo-pagamento') == "Moeda Financeira") {
+
+        valorPagamento.attr('type', 'text');
+
+        valorPagamento.mask('000000000000000.00', { reverse: true });
+
+        // valorPagamento.val('');
+
+
+    } else {
+
+        valorPagamento.attr('type', 'number');
+        valorPagamento.unmask();
+
+    }
+
+});
+
+
+const salvarColetaEdit = () => {
+
+    let idColeta = $('.input-id-coleta').val();
+    let dadosClientes = [];
+    let idResponsavel = $('.select-responsavel-editar option:selected').val();
+    let dataColeta = $('.data-coleta-editar').val().split('/');
+    let dataColetaFormatada = `${dataColeta[2]}-${dataColeta[1]}-${dataColeta[0]}`;
+    let idCliente = $('.input-id-cliente').val();
+
+    let permissao = verificaCamposObrigatorios('input-obrigatorio-coleta');
+
+    // valores resíduos 
+    let residuosSelecionados = [];
+
+    $('.select-residuo option:selected').each(function () {
+
+        if ($(this).val() != '') {
+
+            residuosSelecionados.push($(this).val());
+        }
+    });
+
+    let qtdResiduos = [];
+
+    $('.input-quantidade').each(function () {
+
+        if ($(this).val() != '') {
+
+            qtdResiduos.push($(this).val());
+            salvarDados = true;
+        }
+    });
+
+    // valores pagamentos
+    let formaPagamentoSelecionados = [];
+
+    $('.residuos-coletados-editar').find('.div-pagamento .select-pagamento option:selected').each(function () {
+
+        if ($(this).val() != '') {
+
+            formaPagamentoSelecionados.push($(this).val());
+        }
+
+    });
+
+    let valorPagamento = [];
+
+    $('.input-pagamento').each(function () {
+
+        if ($(this).val() != '') {
+
+            valorPagamento.push($(this).val());
+        }
+
+    });
+
+
+    let dadosCliente = {
+        idCliente: idCliente,
+        residuos: residuosSelecionados,
+        qtdColetado: qtdResiduos,
+        pagamento: formaPagamentoSelecionados,
+        valor: valorPagamento,
+        coletado: 1,
+    };
+
+    dadosClientes.push(dadosCliente);
+
+    if (permissao) { 
+        $.ajax({
+            type: 'post',
+            url: `${baseUrl}coletas/cadastraColeta`,
+            data: {
+                idColeta: idColeta,
+                clientes: dadosClientes,
+                idResponsavel: idResponsavel,
+                dataRomaneio: dataColetaFormatada
+
+            }, beforeSend: function () {
+
+                $('.load-form').removeClass('d-none');
+                $('.btn-form').addClass('d-none');
+
+            }, success: function (data) {
+
+                $('.load-form').addClass('d-none');
+                $('.btn-form').removeClass('d-none');
+
+                if (data.success) {
+
+                    avisoRetorno('Sucesso!', data.message, 'success', `${baseUrl}clientes/detalhes/${idCliente}`);
+
+
+                    $('.select-responsavel-editar option').each(function () {
+
+                        if ($(this).val() == data.responsavel) {
+                            $('.select-responsavel-editar').val(data.responsavel).trigger('change');
+                        }
+                    })
+
+                    $('.residuos-coletados-editar').html(data.residuosColetados);
+
+
+                    $('.select2').select2({
+                        dropdownParent: ".modal-editar-coleta",
+                        theme: "bootstrap-5"
+                    });
+
+                }
+
+
+            }
+        })
+    }
+}
