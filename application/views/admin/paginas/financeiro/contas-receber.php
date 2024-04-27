@@ -1,5 +1,4 @@
 <div class="content">
-
     <div class="pb-5">
         <div class="row g-4">
             <div class="col-12 col-xxl-6">
@@ -125,7 +124,8 @@
                             <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="td_vencimento">Vencimento
                             </th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Valor</th>
-                            <th class="sort align-middle text-center" scope="col" data-sort="td_valor_recebido">Valor
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_valor_recebido">
+                                Valor
                                 Recebido</th>
                             <th class="sort text-start ps-5 align-middle text-center" scope="col" data-sort="td_status">
                                 Status</th>
@@ -741,7 +741,8 @@
                     <input type="hidden" class="id-conta-pagamento">
                     <input type="hidden" class="id-dado-financeiro">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
-                    <button class="btn btn-primary btn-form" type="button" onclick="receberConta()">Pagar Conta</button>
+                    <button class="btn btn-primary btn-form" type="button" onclick="receberConta()">Pagar
+                        Conta</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
                 </div>
             </div>

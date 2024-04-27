@@ -4,7 +4,7 @@
         <div class="row g-4">
             <div class="col-12 col-xxl-12">
                 <div class="row align-items-center g-4">
-                    <div class="col-12 col-md-3">
+                    <div class="col-12 col-md-4">
                         <div class="d-flex align-items-center">
                             <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
                                 <span class="fa-solid fa-square fa-stack-2x text-success-300"
@@ -15,12 +15,14 @@
                                     data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ 2.212.323,05</h4>
-                                <p class="text-800 fs--1 mb-0">Caixa Óleo</p>
+                                <h4 class="mb-0">R$ <span
+                                        class="total-caixa-front"><?= number_format($saldoTotal['saldo'], 2, ',', '.') ?></span>
+                                </h4>
+                                <p class="text-800 fs--1 mb-0">Total Caixa</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-3">
+                    <div class="col-12 col-md-4">
                         <div class="d-flex align-items-center">
                             <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
                                 <span class="fa-solid fa-square fa-stack-2x text-success-300"
@@ -31,40 +33,28 @@
                                     data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ 2.212.323,05</h4>
-                                <p class="text-800 fs--1 mb-0">Caixa Reciclagem</p>
+                                <h4 class="mb-0">R$ <span
+                                        class="total-pago-front"><?= number_format($totalSaida['valor'], 2, ',', '.') ?></span>
+                                </h4>
+                                <p class="text-800 fs--1 mb-0">Total Pago</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-3">
+                    <div class="col-12 col-md-4">
                         <div class="d-flex align-items-center">
                             <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-warning-300"
+                                <span class="fa-solid fa-square fa-stack-2x text-success-300"
                                     data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-warning-100"
+                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100"
                                     data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-warning "
+                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success "
                                     data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ 2.212.323,05</h4>
-                                <p class="text-800 fs--1 mb-0">Previsão Caixa Óleo</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-3">
-                        <div class="d-flex align-items-center">
-                            <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-warning-300"
-                                    data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-warning-100"
-                                    data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-warning "
-                                    data-fa-transform="shrink-2 up-8 right-6"></span>
-                            </span>
-                            <div class="ms-3">
-                                <h4 class="mb-0">R$ 2.212.323,05</h4>
-                                <p class="text-800 fs--1 mb-0">Previsão Caixa Reciclagem</p>
+                                <h4 class="mb-0">R$ <span
+                                        class="total-recebido-front"><?= number_format($totalEntrada['valor'], 2, ',', '.') ?></span>
+                                </h4>
+                                <p class="text-800 fs--1 mb-0">Total Recebido</p>
                             </div>
                         </div>
                     </div>

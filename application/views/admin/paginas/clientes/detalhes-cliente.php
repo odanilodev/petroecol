@@ -7,7 +7,7 @@
       </div>
       <div class="col-12 col-md-auto d-flex">
 
-        <a href="<?= base_url('clientes/formulario/' . $cliente['id'] ?? "") ?>" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
+        <a href="#" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
           <span class="fa-solid fa-edit me-sm-2"></span>
           <span class="d-none d-sm-inline">Editar </span>
         </a>
@@ -173,12 +173,13 @@
                                 <div class="d-flex bg-warning-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
                                   <span class="text-warning-600 dark__text-warning-300" data-feather="mail" style="width:16px; height:16px"></span>
                                 </div>
-                                <p class="fw-bold mb-0">Email</p>
+                                <p class="fw-bold mb-0">Email Principal</p>
                               </div>
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <a class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-900 w-100 text-break" href="mailto:<?= $cliente['email'] ?>"><?= $cliente['email'] ?></a>
+                              <a class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-900 w-100 text-break"
+                                href="mailto:<?= $cliente['email'] ?>"><?= !empty($cliente['email']) ? $cliente['email'] : 'Não cadastrado' ?></a>
                             </td>
                           </tr>
 
@@ -194,7 +195,8 @@
                               </td>
                               <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                               <td class="py-2">
-                                <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0 text-break"><?= $cliente['cnpj']; ?></div>
+                                <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0 text-break"><?= $cliente['cnpj']; ?>
+                                </div>
                               </td>
                             </tr>
                           <?php } ?>
@@ -210,7 +212,9 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0"><?= ucfirst($cliente['tipo_negocio']); ?></div>
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0">
+                                <?= ucfirst($cliente['tipo_negocio']); ?>
+                              </div>
                             </td>
                           </tr>
 
@@ -226,7 +230,8 @@
                             <td class="">:</td>
                             <td class="py-0">
                               <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0">
-                                <?= $residuosComPagamento ?></div>
+                                <?= $residuosComPagamento ?>
+                              </div>
                             </td>
                           </tr>
 
@@ -241,7 +246,7 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0 ">**Em Desenvolvimento**</div>
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0 "> - </div>
                             </td>
                           </tr>
 
@@ -266,7 +271,9 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break"><?= ucfirst($cliente['nome_responsavel']); ?></div>
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break">
+                                <?= ucfirst($cliente['nome_responsavel']); ?>
+                              </div>
                             </td>
                           </tr>
                           <tr>
@@ -280,7 +287,9 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break"><?= ucfirst($cliente['funcao_responsavel']); ?></div>
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break">
+                                <?= ucfirst($cliente['funcao_responsavel']); ?>
+                              </div>
                             </td>
                           </tr>
 
@@ -535,7 +544,13 @@
 
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade active show" id="tab-activity" role="tabpanel" aria-labelledby="activity-tab">
-            <h2 class="mb-6">Histórico de Coleta</h2>
+
+            <h2 class="mb-6">Histórico de Coleta
+              <a href="#" class="btn btn-phoenix-success px-3 px-sm-5 me-2" style="float: right;" data-bs-toggle="modal" data-bs-target=".modal-cadastrar-coleta">
+                <span class="fa-solid fas fa-recycle me-sm-2"></span>
+                <span class="d-none d-sm-inline">Nova Coleta </span>
+              </a>
+            </h2>
             <div class="row align-items-center g-3 justify-content-between justify-content-start">
 
               <div class="row">
@@ -555,7 +570,7 @@
 
                   <select class="form-select w-100 select2 id-residuo-coleta" name="residuos">
 
-                    <option disabled selected value="">Selecione residuos</option>
+                    <option disabled selected value="">Residuos</option>
                     <option value="">Todos</option>
                     <?php foreach ($residuos as $v) { ?>
                       <option value="<?= $v['id'] ?>"><?= $v['nome']; ?></option>
@@ -566,7 +581,7 @@
 
                 <div class="col-2">
 
-                  <button onclick="detalhesHistoricoColetaMassa(<?= $cliente['id'] ?>)" class="btn btn-phoenix-primary px-6">Gerar</button>
+                  <button onclick="detalhesHistoricoColetaMassa(<?= $cliente['id'] ?>)" class="btn btn-phoenix-primary px-6">Filtrar</button>
 
                 </div>
 
@@ -586,7 +601,8 @@
                       <div class="d-flex justify-content-between flex-column flex-xl-row mb-2 mb-sm-0">
 
                         <div class="flex-1 me-2">
-                          <h5 class="text-1000 lh-sm"><?= $coleta['coletado'] == 1 ? "Coleta realizada" : "Coleta não realizada" ?>
+                          <h5 class="text-1000 lh-sm">
+                            <?= $coleta['coletado'] == 1 ? "Coleta realizada" : "Coleta não realizada" ?>
                             | <span class="fw-semi-bold fs--1"><?= date('d/m/Y', strtotime($coleta['data_coleta'])) ?></span>
                           </h5>
 
@@ -596,6 +612,13 @@
                         <div style="margin-right: 10px;">
                           <button onclick="detalhesHistoricoColeta(<?= $coleta['ID_COLETA'] ?>)" class="btn btn-phoenix-warning <?= $coleta['coletado'] ? "" : "d-none" ?> " title="Ver Detalhes" data-bs-toggle="modal" data-bs-target=".modal-historico-coleta">
                             <span class="fas fa-eye text-warning"></span>
+                          </button>
+                        </div>
+
+
+                        <div style="margin-right: 10px;">
+                          <button onclick="recebeDadosColeta(<?= $coleta['ID_COLETA'] ?>, <?= $this->uri->segment(3) ?>)" class="btn btn-phoenix-info <?= !$coleta['coletado'] ? "d-none" : "" ?> " title="Editar Coleta" data-bs-toggle="modal" data-bs-target=".modal-editar-coleta">
+                            <span class="fas fa-pencil text-info"></span>
                           </button>
                         </div>
 
@@ -661,8 +684,7 @@
       </div>
     </div>
 
-
-    <!-- Modal detalhes histórico de coleta -->
+    <!-- Modal detalhes da coleta -->
     <div class="modal fade modal-historico-coleta" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
@@ -771,7 +793,9 @@
                   <option value="" selected disabled>Selecione</option>
 
                   <?php foreach ($modelos_certificado as $modelo) { ?>
-                    <option data-personalizado="<?= $modelo['personalizado'] ?>" value="<?= $modelo['id'] ?>"><?= $modelo['modelo'] ?></option>
+                    <option data-personalizado="<?= $modelo['personalizado'] ?>" value="<?= $modelo['id'] ?>">
+                      <?= $modelo['modelo'] ?>
+                    </option>
                   <?php } ?>
                 </select>
                 <div class="invalid-feedback">Preencha este campo</div>
@@ -779,7 +803,191 @@
             </div>
 
             <input type="hidden" class="input-id-coleta">
-            <button class="btn btn-success btn-salva-etiqueta btn-form btn-gerar-certificado" type="button">Gerar Certificado</button>
+            <input type="hidden" class="input-id-cliente">
+            <button class="btn btn-success btn-salva-etiqueta btn-form btn-gerar-certificado" type="button">Gerar
+              Certificado</button>
+            <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Editar coleta -->
+    <div class="modal fade modal-editar-coleta" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Editar Coleta</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body body-coleta">
+
+            <div class="card">
+              <div class="card-body">
+                <div class="row g-3">
+                  <div class="col-12">
+                    <div class="mb-3">
+                      <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+
+                        <div class="mb-4 col-12">
+                          <label class="text-body-highlight fw-bold mb-2">Data Coleta</label>
+                          <input class="form-control datetimepicker data-coleta-editar cursor-pointer" name="data_coleta" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                          <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                        </div>
+
+                        <div class="mb-4 col-12">
+                          <label class="text-body-highlight fw-bold mb-2">Responsável</label>
+                          <select class="form-select select2 select-responsavel-editar">
+                            <option value="" selected disabled>Selecione</option>
+                            <?php foreach ($responsaveis as $responsavel) { ?>
+                              <option value="<?= $responsavel['IDFUNCIONARIO'] ?>">
+                                <?= $responsavel['nome'] ?>
+                              </option>
+                            <?php } ?>
+                          </select>
+                          <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                        </div>
+                        <hr>
+
+
+                        <!-- Residuos e quantidades -->
+                        <div class="residuos-coletados-editar">
+                          <!-- JS -->
+                        </div>
+
+
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <input type="hidden" class="input-id-coleta">
+            <div class="spinner-border text-primary load-form d-none" role="status"></div>
+            <button class="btn btn-info btn-form btn-editar-certificado" onclick="salvarColetaEdit()" type="button">Salvar</button>
+            <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Adicionar nova coleta por cliente -->
+    <div class="modal fade modal-cadastrar-coleta" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Nova Coleta</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body body-coleta">
+
+            <div class="card">
+              <div class="card-body">
+                <div class="row g-3">
+                  <div class="col-12">
+                    <div class="mb-3">
+                      <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+
+                        <div class="mb-4 col-12">
+                          <label class="text-body-highlight fw-bold mb-2">Data Coleta</label>
+                          <input class="form-control datetimepicker data-coleta-cadastrar cursor-pointer obrigatorio-coleta" name="data_coleta" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                          <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                        </div>
+
+                        <div class="mb-4 col-md-12">
+                          <label class="text-body-highlight fw-bold mb-2">Responsável</label>
+                          <select class="form-select select2 select-responsavel obrigatorio-coleta">
+                            <option value="" selected disabled>Selecione</option>
+                            <?php foreach ($responsaveis as $responsavel) { ?>
+                              <option value="<?= $responsavel['IDFUNCIONARIO'] ?>">
+                                <?= $responsavel['nome'] ?>
+                              </option>
+                            <?php } ?>
+                          </select>
+                          <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                        </div>
+
+                        <div class="col-md-5 mb-2 div-pagamento">
+
+                          <label class="form-label">Forma de Pagamento</label>
+                          <select class="form-select select-pagamento w-100 select2">
+
+                            <option disabled selected value="">Selecione</option>
+
+                            <?php foreach ($formasPagamento as $v) { ?>
+                              <option data-id-tipo-pagamento="<?= $v['TIPO_PAGAMENTO'] ?>" value="<?= $v['id'] ?>"><?= $v['forma_pagamento']; ?></option>
+                            <?php } ?>
+
+                          </select>
+                        </div>
+
+                        <div class="col-md-5 mb-2 div-pagamento">
+
+                          <label class="form-label">Valor Pago</label>
+                          <input class="form-control input-pagamento" type="text" placeholder="Digite valor pago" value="">
+                        </div>
+
+                        <div class="col-md-2 mb-2 mt-4 row">
+
+                          <button class="btn btn-phoenix-success duplicar-pagamento w-25">+</button>
+
+                        </div>
+
+                        <div class="pagamentos-duplicados"></div>
+                        <hr class="my-4">
+
+                        <div class="col-md-5 mb-2 div-residuo">
+
+                          <label class="form-label">Resíduo Coletado</label>
+
+                          <select class="form-select select-residuo w-100 select2 obrigatorio-coleta">
+
+                            <option disabled selected value="">Selecione</option>
+
+                            <?php foreach ($residuos as $v) { ?>
+                              <option value="<?= $v['id'] ?>"><?= $v['nome']; ?></option>
+                            <?php } ?>
+                          </select>
+
+                        </div>
+
+                        <div class="col-md-5 mb-2">
+
+                          <label class="form-label">Quantidade Coletada</label>
+                          <input class="form-control input-residuo obrigatorio-coleta" data-collapse="0" type="text" placeholder="Digite quantidade coletada" value="">
+                        </div>
+
+                        <div class="col-md-2 mb-2 mt-4 row">
+
+                          <button class="btn btn-phoenix-success duplicar-residuo w-25">+</button>
+
+                        </div>
+
+                        <div class="residuos-duplicados"></div>
+
+                        <div class="col-12 mt-4">
+                          <label class="form-label">Observação</label>
+                          <textarea class="form-control input-obs" id="exampleTextarea" rows="3"></textarea>
+                          <div class="text-danger d-none aviso-msg">Preencha este campo.</div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <div class="spinner-border text-primary load-form d-none" role="status"></div>
+            <button class="btn btn-info btn-form btn-editar-certificado" onclick="cadastraColetaCliente(<?= $this->uri->segment(3);?>)" type="button">Salvar</button>
             <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
           </div>

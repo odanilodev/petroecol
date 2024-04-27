@@ -117,7 +117,7 @@
                         </div>
 
                         <div class="mb-2 mt-5 col-md-3">
-                          <label class="form-label">Email</label>
+                          <label class="form-label">Email Principal</label>
                           <input class="form-control campo-empresa valida-email" type="email" name="email" value="<?= $cliente['email'] ?? ''; ?>" placeholder="Email" />
                           <div class="invalid-feedback email-invalido">Preencha este campo corretamente</div>
                         </div>

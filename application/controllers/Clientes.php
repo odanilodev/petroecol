@@ -96,6 +96,10 @@ class Clientes extends CI_Controller
         $this->load->model('Grupos_model');
         $data['grupos'] = $this->Grupos_model->recebeGrupos();
 
+        // grupos emails
+        $this->load->model('GruposEmailCliente_model');
+        $data['gruposEmail'] = $this->GruposEmailCliente_model->recebeGruposEmail();
+
         // Setores Empresa 
         $this->load->model('SetoresEmpresa_model');
         $data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
@@ -221,6 +225,8 @@ class Clientes extends CI_Controller
         $this->load->model('FormaPagamento_model');
         $data['formasPagamento'] = $this->FormaPagamento_model->recebeFormasPagamento();
 
+		$this->load->model('Funcionarios_model');
+		$data['responsaveis'] = $this->Funcionarios_model->recebeResponsavelAgendamento();
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/detalhes-cliente');

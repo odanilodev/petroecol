@@ -91,8 +91,8 @@ class FinContasPagar extends CI_Controller
 
 		$data['saldoTotal'] = $this->findadosfinanceiros->somaSaldosBancarios();
 
-		$data['totalPago'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 1); // soma o valor total pago
-		$data['emAberto'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 0); // soma o valor total em aberto
+		$data['totalPago'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 1, $dataInicioFormatada, $dataFimFormatada); // soma o valor total pago
+		$data['emAberto'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 0, $dataInicioFormatada, $dataFimFormatada); // soma o valor total em aberto
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/financeiro/contas-pagar');
@@ -105,10 +105,8 @@ class FinContasPagar extends CI_Controller
 
 		$data['id_dado_financeiro'] = $dadosLancamento['recebido'];
 		$data['id_empresa'] = $this->session->userdata('id_empresa');
-
 		$data['valor'] = str_replace(['.', ','], ['', '.'], $dadosLancamento['valor']);
 		$data['id_micro'] = $dadosLancamento['micros'];
-		$data['id_macro'] = $dadosLancamento['macros'];
 		$data['nome'] = $dadosLancamento['nome-recebido'];
 		$data['observacao'] = $dadosLancamento['observacao'];
 		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
