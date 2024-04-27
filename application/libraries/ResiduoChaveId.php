@@ -26,4 +26,20 @@ class ResiduoChaveId
 
 		return $residuosArray;
 	}
+
+	public function residuoArrayNomes(): array
+	{
+		$residuos = $this->CI->Residuos_model->recebeTodosResiduos();
+
+
+		$residuosArray = [];
+
+		if ($residuos) {
+			foreach ($residuos as $v) {
+				$residuosArray[$v['id']] = $v['nome'];
+			}
+		}
+
+		return $residuosArray;
+	}
 }

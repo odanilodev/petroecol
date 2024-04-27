@@ -225,6 +225,8 @@ class Clientes extends CI_Controller
         $this->load->model('FormaPagamento_model');
         $data['formasPagamento'] = $this->FormaPagamento_model->recebeFormasPagamento();
 
+		$this->load->model('Funcionarios_model');
+		$data['responsaveis'] = $this->Funcionarios_model->recebeResponsavelAgendamento();
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/detalhes-cliente');
