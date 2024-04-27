@@ -173,12 +173,13 @@
                                 <div class="d-flex bg-warning-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
                                   <span class="text-warning-600 dark__text-warning-300" data-feather="mail" style="width:16px; height:16px"></span>
                                 </div>
-                                <p class="fw-bold mb-0">Email</p>
+                                <p class="fw-bold mb-0">Email Principal</p>
                               </div>
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <a class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-900 w-100 text-break" href="mailto:<?= $cliente['email'] ?>"><?= $cliente['email'] ?></a>
+                              <a class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-900 w-100 text-break"
+                                href="mailto:<?= $cliente['email'] ?>"><?= !empty($cliente['email']) ? $cliente['email'] : 'Não cadastrado' ?></a>
                             </td>
                           </tr>
 
@@ -245,7 +246,7 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0 ">**Em Desenvolvimento**</div>
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-sm-0 "> - </div>
                             </td>
                           </tr>
 
