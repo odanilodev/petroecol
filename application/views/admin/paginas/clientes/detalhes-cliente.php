@@ -196,7 +196,7 @@
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
                               <a class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-900 w-100 text-break"
-                                href="mailto:<?= $cliente['email'] ?? '' ?>"><?= $cliente['email'] ?? 'Não cadastrado' ?></a>
+                                href="mailto:<?= $cliente['email'] ?>"><?= !empty($cliente['email']) ? $cliente['email'] : 'Não cadastrado' ?></a>
                             </td>
                           </tr>
 

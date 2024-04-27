@@ -55,11 +55,11 @@ const cadastraEmailCliente = () => {
                 emailCliente.val('');
                 $('#id-grupo').val(null).trigger('change');
 
-                if (data.success && !data.editado) {
+                if (data.success && !data.editado) { //Cadastra
 
                     $('.div-emails').append(data.message);
 
-                } else if (data.success && data.editado) {
+                } else if (data.success && data.editado) { //Edita
 
                     let novaFuncaoClick = `verEmailCliente('${data.email}', '${data.grupoEmail}','${idEmail.val()}')`;
 
@@ -71,7 +71,7 @@ const cadastraEmailCliente = () => {
 
                     $('.editando-label').addClass('d-none');
 
-                } else if (data.message != undefined) {
+                } else {
 
                     avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
 
@@ -79,16 +79,20 @@ const cadastraEmailCliente = () => {
 
                     $('.editando-label').addClass('d-none');
 
-                } else {
-
-                    avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação`, 'error', '#');
-                
-                    idEmail.val('');
-
-                    $('.editando-label').addClass('d-none');
-
                 }
-            }
+            },
+            error: function (xhr, status, error) {
+                $(".load-form").addClass("d-none");
+                $(".btn-envia").removeClass("d-none");
+                if (xhr.status === 403) {
+                    avisoRetorno(
+                        "Algo deu errado!",
+                        `Você não tem permissão para esta ação..`,
+                        "error",
+                        "#"
+                    );
+                }
+            },
         })
     }
 
@@ -98,7 +102,7 @@ const cadastraEmailCliente = () => {
 const exibirEmailsCliente = (idCliente) => {
 
     emailCliente.val('')
-    
+
     $('#id-grupo').val(null).trigger('change');
 
     idEmail.val('');

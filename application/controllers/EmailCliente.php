@@ -32,49 +32,38 @@ class EmailCliente extends CI_Controller
 		$dados['id_grupo'] = $this->input->post('idGrupo');
 		$nomeGrupo = $this->input->post('nomeGrupo');
 		$idEmail = $this->input->post('idEmail');
-		
+
 		$emailCliente = $dados['email'];
 		$grupoCliente = $dados['id_grupo'];
 
 		// todos os emails do cliente
 		$emailsNoBanco = $this->EmailCliente_model->recebeEmailCliente($dados['id_cliente']);
 
+		// Verifica se o email existe ao cadastrar ou editar
+		if ((in_array($dados['email'], array_column($emailsNoBanco, 'email'))) && $verificarEmail != 'true') {
+
+			$response = array(
+				'success' => false,
+				'message' => 'Este email já está cadastrado para o cliente.'
+			);
+			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+		}
+
 		// verifica se existe id do email, para editar e se o email já existe para esse cliente
 		if ($idEmail) {
 
-			if ((in_array($dados['email'], array_column($emailsNoBanco, 'email'))) && $verificarEmail != 'true') {
+			$editado = $this->EmailCliente_model->editaEmailCliente($idEmail, $dados['id_cliente'], $dados);
 
-				$response = array(
-					'success' => false,
-					'message' => 'Este email já está cadastrado para o cliente.'
-				);
-
-			} else {
-
-				if ($this->EmailCliente_model->editaEmailCliente($idEmail, $dados['id_cliente'], $dados)) {
-
-					$response = array(
-						'success' => true,
-						'id' => $idEmail,
-						'message' => 'Email editado com sucesso',
-						'email' => $emailCliente,
-						'nomeGrupo' => $nomeGrupo,
-						'grupoEmail' => $grupoCliente,
-						'editado' => true
-					);
-				}
-			}
+			$response = array(
+				'success' => $editado,
+				'id' => $idEmail,
+				'message' => 'Email editado com sucesso',
+				'email' => $emailCliente,
+				'nomeGrupo' => $nomeGrupo,
+				'grupoEmail' => $grupoCliente,
+				'editado' => true
+			);
 		} else {
-
-			if (in_array($dados['email'], array_column($emailsNoBanco, 'email'))) {
-
-				$response = array(
-					'success' => false,
-					'message' => 'Este email já está cadastrado para o cliente.'
-				);
-
-				return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-			}
 
 			$inseridoId = $this->EmailCliente_model->insereEmailCliente($dados);
 
@@ -88,7 +77,7 @@ class EmailCliente extends CI_Controller
 										<i class="fas fa-times-circle delete-icon" onclick="deletaEmailCliente(' . $inseridoId . ')"></i>
 								</a>
 								<a href="#" class="btn-ver-email" title="Editar Email">
-										<i class="fas fa-pencil-alt edita-email edita-email-' . $inseridoId . '" onclick="verEmailCliente(\'' . $emailCliente . '\', \'' .$grupoCliente . '\', \'' . $inseridoId . '\')"></i>
+										<i class="fas fa-pencil-alt edita-email edita-email-' . $inseridoId . '" onclick="verEmailCliente(\'' . $emailCliente . '\', \'' . $grupoCliente . '\', \'' . $inseridoId . '\')"></i>
 								</a>
 						</span>
 					</span>';
@@ -136,5 +125,4 @@ class EmailCliente extends CI_Controller
 			</span>';
 		}
 	}
-
 }

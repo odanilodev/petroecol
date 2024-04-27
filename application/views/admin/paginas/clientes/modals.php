@@ -376,8 +376,8 @@
 
                     <select required id="id-grupo" class="form-select select-grupo select2 input-obrigatorio-email campos-modal">
                         <option value="" selected disabled>Selecione</option>
-                        <?php foreach ($gruposEmail as $v) { ?>
-                            <option value="<?= $v['id'] ?>" <?= (isset($emails['grupo']) && $emails['grupo'] == $v['id']) ? 'selected' : ''; ?>><?= $v['grupo']; ?></option>
+                        <?php foreach ($gruposEmail as $grupoEmail) { ?>
+                            <option value="<?= $grupoEmail['id'] ?>" <?= (isset($emails['grupo']) && $emails['grupo'] == $grupoEmail['id']) ? 'selected' : ''; ?>><?= $grupoEmail['grupo']; ?></option>
                         <?php } ?>
                     </select>
 
