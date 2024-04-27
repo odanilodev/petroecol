@@ -34,5 +34,17 @@ class FinDadosFinanceiros
 		return $query->row_array();
 	}
 
+	public function totalFluxoFinanceiro($coluna, $status, $dataInicio, $dataFim)
+	{
+		$this->CI->db->select_sum($coluna);
+		$this->CI->db->where('id_empresa', $this->CI->session->userdata('id_empresa'));
+		$this->CI->db->where('movimentacao_tabela', $status);
+		$this->CI->db->where('data_movimentacao >=', $dataInicio);
+		$this->CI->db->where('data_movimentacao <=', $dataFim);
+		$query = $this->CI->db->get('fin_fluxo');
+
+		return $query->row_array();
+	}
+
 
 }

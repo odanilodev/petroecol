@@ -34,7 +34,7 @@
                             </span>
                             <div class="ms-3">
                                 <h4 class="mb-0">R$ <span
-                                        class="total-pago-front"><?= number_format($totalPago['valor'], 2, ',', '.') ?></span>
+                                        class="total-pago-front"><?= number_format($totalSaida['valor'], 2, ',', '.') ?></span>
                                 </h4>
                                 <p class="text-800 fs--1 mb-0">Total Pago</p>
                             </div>
@@ -52,7 +52,7 @@
                             </span>
                             <div class="ms-3">
                                 <h4 class="mb-0">R$ <span
-                                        class="total-recebido-front"><?= number_format($totalRecebido['valor_recebido'], 2, ',', '.') ?></span>
+                                        class="total-recebido-front"><?= number_format($totalEntrada['valor'], 2, ',', '.') ?></span>
                                 </h4>
                                 <p class="text-800 fs--1 mb-0">Total Recebido</p>
                             </div>

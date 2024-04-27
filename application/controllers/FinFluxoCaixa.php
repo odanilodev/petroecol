@@ -46,10 +46,6 @@ class FinFluxoCaixa extends CI_Controller
 
         $dados['saldoTotal'] = $this->findadosfinanceiros->somaSaldosBancarios();
 
-        $dados['totalPago'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 1); // soma o valor total pago
-        $dados['totalRecebido'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor_recebido', 'fin_contas_receber', 1); // soma o valor total recebido
-
-
         // Verifica se as datas foram recebidas via POST
         if ($this->input->post('data_inicio') && $this->input->post('data_fim')) {
             $dataInicioFormatada = $this->input->post('data_inicio');
@@ -59,6 +55,10 @@ class FinFluxoCaixa extends CI_Controller
             $dataInicioFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataInicioFormatada)));
             $dataFimFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataFimFormatada)));
         }
+
+        //Soma as movimentacoes da tabela fluxo.
+        $dados['totalSaida'] = $this->findadosfinanceiros->totalFluxoFinanceiro('valor', 0, $dataInicioFormatada, $dataFimFormatada);
+        $dados['totalEntrada'] = $this->findadosfinanceiros->totalFluxoFinanceiro('valor', 1, $dataInicioFormatada, $dataFimFormatada);
 
         $dados['dataInicio'] = $this->input->post('data_inicio');
         $dados['dataFim'] = $this->input->post('data_fim');
