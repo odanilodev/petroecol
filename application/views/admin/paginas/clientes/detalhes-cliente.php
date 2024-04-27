@@ -804,7 +804,8 @@
 
             <input type="hidden" class="input-id-coleta">
             <input type="hidden" class="input-id-cliente">
-            <button class="btn btn-success btn-salva-etiqueta btn-form btn-gerar-certificado" type="button">Gerar
+            <span class="btn btn-primary btn-gerar-certificado enviar-certificado"><i class="uil-message"></i> Enviar Certificado</span>
+            <button class="btn btn-success btn-salva-etiqueta btn-form btn-gerar-certificado" type="button"><i class="uil-search"></i> Visualizar
               Certificado</button>
             <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 

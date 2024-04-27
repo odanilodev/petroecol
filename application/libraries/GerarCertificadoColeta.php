@@ -16,7 +16,7 @@ class GerarCertificadoColeta
 		$this->CI->load->model('Certificados_model');
 	}
 
-	public function gerarPdfPadrao($idColeta, $idModelo)
+	public function gerarPdfPadrao($idColeta, $idModelo, $enviarEmail = null)
 	{
 		$this->CI->load->library('detalhesColeta');
 		$this->CI->load->library('residuoChaveId');
@@ -78,11 +78,16 @@ class GerarCertificadoColeta
 				$mpdf->showWatermarkImage = true;
 			}
 
-
-
-
-			// Retorna o conteúdo do PDF
-			return $mpdf->Output('', \Mpdf\Output\Destination::INLINE, "L");
+			if ($enviarEmail == 'email') {
+				$this->CI->load->library('EmailSender');
+				$emailSender = new EmailSender();
+				$pdfContent = $mpdf->Output('', 'S');
+				$emailSender->enviarEmail('enviarCertificado', 'contato-danilo@hotmail.com', 'Certificado', $pdfContent);
+				echo 'Enviou!';
+			} else {
+				// Retorna o conteúdo do PDF
+				return $mpdf->Output('', \Mpdf\Output\Destination::INLINE, "L");
+			}
 		} else {
 
 			// scripts padrão

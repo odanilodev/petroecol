@@ -337,6 +337,12 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
 
 $(document).on('click', '.btn-gerar-certificado', function () {
 
+    let enviarCertificado = false;
+
+    if ($(this).hasClass('enviar-certificado')) {
+        enviarCertificado = true;
+    }
+
     let modeloCertificado = $('.select-modelo-certificado').val();
 
     if (!modeloCertificado) {
@@ -349,8 +355,8 @@ $(document).on('click', '.btn-gerar-certificado', function () {
     const coleta = $('.input-id-coleta').val();
     const idResiduo = $('.id-residuo-coleta').val() != null ? $('.id-residuo-coleta').val() : "";
 
-    if (idModelo && coleta) {
-        var redirect = `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}/${idResiduo}`
+    if (idModelo && coleta) {   
+        var redirect = !enviarCertificado ? `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}/${idResiduo}` : `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}/${idResiduo}/email`;
         window.open(redirect, '_blank');
     } else {
         avisoRetorno('Algo deu errado!', 'Não foi possível encontrar o certificado de coleta.', 'error', `#`);

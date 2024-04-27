@@ -1,20 +1,27 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class EmailSender {
+class EmailSender
+{
     protected $CI;
 
-    public function __construct() {
-        $this->CI =& get_instance();
+    public function __construct()
+    {
+        $this->CI = &get_instance();
         $this->CI->load->library('email');
         $this->CI->load->helper('config_master_helper');
     }
 
-    public function enviarEmail($template, $email, $assunto, $codigo = null) {
+    public function enviarEmail($template, $email, $assunto, $opcao = null)
+    {
 
         switch ($template) {
             case 'definicaoSenha':
-                $html = $this->redefinicaoSenha($codigo);
+                $html = $this->redefinicaoSenha($opcao);
+                break;
+            case 'enviarCertificado':
+                $html = $this->enviarCertificado();
+                $this->CI->email->attach($opcao, 'certificado.pdf', 'application/pdf');
                 break;
             default:
                 $html =  $this->templatePadrao();
@@ -38,19 +45,25 @@ class EmailSender {
         }
     }
 
-    private function redefinicaoSenha($codigo){
+    private function redefinicaoSenha($opcao)
+    {
 
         $html = "<h2>Olá, Você solicitou a alteração de senha em nosso sistema.</h2>";
 
-        $html .= "<p>Segue o codigo para alteração de senha -> ".$codigo."</p>";
+        $html .= "<p>Segue o código para alteração de senha -> " . $opcao . "</p>";
 
         return $html;
-
     }
 
-    private function templatePadrao(){
+    private function templatePadrao()
+    {
 
         return "<h2>Olá, temos uma mensagem para você!</h2>";
+    }
 
+    private function enviarCertificado()
+    {
+
+        return "<h2>Olá, segue o certificado em anexo!</h2>";
     }
 }

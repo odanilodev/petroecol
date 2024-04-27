@@ -103,6 +103,7 @@ class Coletas extends CI_Controller
 
         $idColeta = $this->uri->segment(3) ?? null;
         $idModelo = $this->uri->segment(4) ?? null;
+        $enviarEmail = $this->uri->segment(5) ?? null;
 
         $modeloCertificado = $this->Certificados_model->recebeCertificadoId($idModelo);
 
@@ -110,10 +111,10 @@ class Coletas extends CI_Controller
 
             switch ($idModelo) {
                 case '2':
-                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo); // alterar a função para cada cliente personalizado
+                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $enviarEmail); // alterar a função para cada cliente personalizado
                     break;
                 case '1':
-                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo); // alterar a função para cada cliente personalizado
+                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $enviarEmail); // alterar a função para cada cliente personalizado
                     break;
                 default:
 
@@ -131,7 +132,7 @@ class Coletas extends CI_Controller
             }
         } else {
 
-            $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo);
+            $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $enviarEmail);
         }
     }
 
