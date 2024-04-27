@@ -6,8 +6,6 @@
 
   $host = $this->CI->session->userdata('dominio_empresa') ?? dadosEmpresa('dominio');
 
-  var_dump($host);exit;
-
  //Configuração mail
  $config['smtp_host'] = "mail.$host";
  $config['smtp_port'] = '587';
