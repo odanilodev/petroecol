@@ -21,8 +21,7 @@ class EmailSender
                 break;
             case 'enviarCertificado':
                 $html = $this->enviarCertificado();
-                var_dump($opcao);
-                $this->CI->email->attach($opcao, 'certificado.pdf', 'application/pdf');
+                $this->CI->email->attach($opcao);
                 break;
             default:
                 $html =  $this->templatePadrao();
