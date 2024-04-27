@@ -56,4 +56,16 @@ class FinContasReceber_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
+    public function recebeContaReceber($id)
+    {
+        $this->db->select('CR.*, DF.nome as RECEBIDO, DF.id_grupo as GRUPO_CREDOR');
+        $this->db->from('fin_contas_receber CR');
+        $this->db->join('fin_dados_financeiros DF', 'CR.id_dado_financeiro = DF.id', 'LEFT');
+        $this->db->where('CR.id', $id);
+        $this->db->where('CR.id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get();
+
+        return $query->row_array();
+    }
+
 }

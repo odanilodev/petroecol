@@ -23,12 +23,14 @@ $(document).on('change', '.select-macros', function () {
     })
 })
 
-const cadastraContasReceber = () => {
+const cadastraContasReceber = (classe) => {
+
+    let idConta = $('.id-editar-conta').val();
 
     let dadosFormulario = {};
     let permissao = true;
 
-    $(".form-entrada-receber").find(":input").each(function () {
+    $(`.${classe}`).find(":input").each(function () {
 
         dadosFormulario[$(this).attr('name')] = $(this).val();
 
@@ -67,10 +69,13 @@ const cadastraContasReceber = () => {
 
     if (permissao) {
 
+        let url = `${baseUrl}finContasReceber/${idConta ? 'editaConta' : 'cadastraContasReceber'}`;
+
         $.ajax({
             type: "post",
-            url: `${baseUrl}finContasReceber/cadastraContasReceber`,
+            url: url,
             data: {
+                idConta: idConta,
                 dados: dadosFormulario
             }, beforeSend: function () {
                 $(".load-form").removeClass("d-none");
@@ -88,10 +93,56 @@ const cadastraContasReceber = () => {
 
 $(document).on('click', '.novo-lancamento', function () {
 
+    $('.id-editar-conta').val('');
+    $('.dados-conta').val('');
+
+    $('.select-micros').attr('disabled', true);
+    $('.select-recebido').attr('disabled', true);
+
     $('.select2').select2({
         dropdownParent: "#modalEntradaContasReceber",
         theme: "bootstrap-5",
     });
+})
+
+$(document).on('click', '.editar-lancamento', function () {
+
+    $('.select2').select2({
+        dropdownParent: "#modalEditarContasReceber",
+        theme: "bootstrap-5",
+    });
+
+    $('.input-editar-valor').val($(this).data('valor'));
+
+    let id = $(this).data('id');
+    $('.id-editar-conta').val(id);
+
+
+    $.ajax({
+        type: "post",
+        url: `${baseUrl}finContasReceber/recebeContaReceber`,
+        data: {
+            id: id
+        }, beforeSend: function () {
+
+            $('.select-micros').attr('disabled', false);
+            $('.editando').removeClass('d-none');
+
+        }, success: function (data) {
+
+            let dataVencimento = data['conta'].data_vencimento.split('-');
+            dataVencimento = dataVencimento[2] + '/' + dataVencimento[1] + '/' + dataVencimento[0];
+            $('.input-data-vencimento').val(dataVencimento);
+
+            let dataEmissao = data['conta'].data_emissao.split('-');
+            dataEmissao = dataEmissao[2] + '/' + dataEmissao[1] + '/' + dataEmissao[0];
+
+            $('.input-data-emissao').val(dataEmissao);
+
+            $('.input-observacao').text(data['conta'].observacao);
+
+        }
+    })
 
 })
 
@@ -150,17 +201,18 @@ $(document).on('change', '.select-grupo-recebidos', function () {
             type: "post",
             url: `${baseUrl}finContasPagar/recebeTodosClientesAll`
             , beforeSend: function () {
-                $('.select-recebido').attr('disabled');
-                $('.select-recebido').html('<option value="">Carregando...</option>');
+                $('.select-recebido').attr('disabled', true);
+                $('.select-recebido').html('<option disabled>Carregando...</option>');
             }, success: function (data) {
                 $('.select-recebido').attr('disabled', false);
-                $('.select-recebido').html('<option value="">Selecione</option>');
 
-                let options = '<option value="">Selecione</option>';
+                let options = '<option disabled="disabled" value="">Selecione</option>';
                 for (let i = 0; i < data.clientes.length; i++) {
                     options += `<option value="${data.clientes[i].id}">${data.clientes[i].nome}</option>`;
                 }
                 $('.select-recebido').html(options);
+
+                $('.select-recebido').val('').trigger('change');
 
             }
         })
@@ -176,12 +228,12 @@ $(document).on('change', '.select-grupo-recebidos', function () {
                 $('.select-recebido').attr('disabled');
                 $('.select-recebido').html('<option value="">Carregando...</option>');
             }, success: function (data) {
-    
+
                 $('.select-recebido').attr('disabled', false);
                 $('.select-recebido').html('<option value="">Selecione</option>');
 
                 for (i = 0; i < data.dadosFinanceiro.length; i++) {
-    
+
                     $('.select-recebido').append(`<option value="${data.dadosFinanceiro[i].id}">${data.dadosFinanceiro[i].nome}</option>`);
                 }
             }

@@ -218,5 +218,55 @@ class FinContasReceber extends CI_Controller
 
 	}
 
+	public function recebeContaReceber()
+	{
+		$id = $this->input->post('id');
+		$retorno = $this->FinContasReceber_model->recebeContaReceber($id);
+
+
+		if ($retorno) {
+
+			$response = array(
+				'conta' => $retorno,
+				'success' => true
+			);
+		} else {
+			$response = array(
+				'success' => false
+			);
+		}
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function editaConta()
+	{
+		$id = $this->input->post('idConta');
+		$dadosLancamento = $this->input->post('dados');
+
+		$data['valor'] = str_replace(['.', ','], ['', '.'], $dadosLancamento['valor']);
+		$data['observacao'] = $dadosLancamento['observacao'];
+		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
+		$data['data_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao'])));
+
+		$retorno = $this->FinContasReceber_model->editaConta($id, $data);
+
+		if ($retorno) {
+			$response = array(
+				'success' => true,
+				'title' => "Sucesso!",
+				'message' => "Conta editada com sucesso!",
+				'type' => "success"
+			);
+		} else {
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Falha ao editar conta. Por favor, tente novamente.",
+				'type' => "error"
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
 
 }

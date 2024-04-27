@@ -170,7 +170,7 @@ class FinContasPagar extends CI_Controller
 			$response = array(
 				'success' => false,
 				'title' => "Algo deu errado!",
-				'message' => "Falha ao editar conta bancária. Por favor, tente novamente.",
+				'message' => "Falha ao editar conta. Por favor, tente novamente.",
 				'type' => "error"
 			);
 		}
