@@ -86,7 +86,6 @@ class GerarCertificadoColeta
 				$emails = "centrodainteligencia@gmail.com, contato-danilo@hotmail.com"; // buscar emails do cliente (principal + adiconais)
 
 				$emailSender->enviarEmailAPI('enviarCertificado', $emails, 'Certificado', $pdfContent);
-				echo 'Enviou!';
 			} else {
 				// Retorna o conteúdo do PDF
 				return $mpdf->Output('', \Mpdf\Output\Destination::INLINE, "L");

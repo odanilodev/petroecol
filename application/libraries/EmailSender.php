@@ -101,15 +101,20 @@ class EmailSender
 
         // Verifica por erros
         if ($response === false) {
-            echo "Erro ao enviar a solicitação: " . curl_error($ch);
-        } else {
-            echo "Solicitação enviada com sucesso!";
-            // Aqui você pode fazer algo com a resposta, se desejar
-            // Por exemplo, você pode imprimir a resposta:
-            echo $response;
+            echo 'Erro ao enviar email!';
+            exit;
         }
 
-        // Fecha a sessão cURL
+        $res = json_decode($response, true);
+
+        if ($res['Messages'][0]['Status'] == 'success') {
+            echo 'Enviado com sucesso!';
+            exit;
+        }
+
+        echo 'Erro ao enviar email!!!';
+        exit;
+
         curl_close($ch);
     }
 
