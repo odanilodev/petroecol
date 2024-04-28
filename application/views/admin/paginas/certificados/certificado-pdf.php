@@ -83,8 +83,7 @@
     <div class="container">
 
         <div class="header">
-            <img style="max-width: 260px;"
-                src="<?= base_url_upload('certificados/logos/' . $modelo_certificado['logo']) ?>" alt="Logo">
+            <img style="max-width: 260px;" src="<?= base_url_upload('certificados/logos/' . $modelo_certificado['logo']) ?>" alt="Logo">
             <p style="font-size: 12px; padding-top: 10px;">
                 <?= $modelo_certificado['descricao']; ?>
             </p>
@@ -137,16 +136,11 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($dados as $dado): ?>
-                    <?php for ($i = 0; $i < count($dado['quantidade_coletada']); $i++): ?>
-                        <?php if ($this->uri->segment(5) && $dado['residuos'][$i] == $this->uri->segment(5)): ?>
+                <?php foreach ($dados as $dado) : ?>
+                    <?php for ($i = 0; $i < count($dado['quantidade_coletada']); $i++) : ?>
+                        <?php if ($dado['residuos'][$i]) : ?>
                             <tr>
-                                <td><?= $dado['quantidade_coletada'][$i] ?>             <?= $residuosColetatos[$dado['residuos'][$i]] ?></td>
-                                <td><?= $dado['dataColeta'] ?></td>
-                            </tr>
-                        <?php elseif (!$this->uri->segment(5)): ?>
-                            <tr>
-                                <td><?= $dado['quantidade_coletada'][$i] ?>             <?= $residuosColetatos[$dado['residuos'][$i]] ?></td>
+                                <td><?= $dado['quantidade_coletada'][$i] ?> <?= $residuosColetatos[$dado['residuos'][$i]] ?></td>
                                 <td><?= $dado['dataColeta'] ?></td>
                             </tr>
                         <?php endif; ?>
@@ -155,7 +149,7 @@
             </tbody>
         </table>
 
-        <?php if ($modelo_certificado['declaracao']): ?>
+        <?php if ($modelo_certificado['declaracao']) : ?>
             <div class="declaration">
                 <h4 style="font-weight: bold; margin-bottom: 10px;">Declaração</h4>
                 <p style="font-size: 12px;"><?= $modelo_certificado['declaracao']; ?></p>
@@ -164,16 +158,14 @@
 
         <div class="signature">
             <div style="width: 50%; float: left;">
-                <?php if ($modelo_certificado['assinatura']): ?>
-                    <img src="<?= base_url_upload('certificados/assinaturas/' . $modelo_certificado['assinatura']) ?>"
-                        alt="Assinatura" style="width: 40%;">
+                <?php if ($modelo_certificado['assinatura']) : ?>
+                    <img src="<?= base_url_upload('certificados/assinaturas/' . $modelo_certificado['assinatura']) ?>" alt="Assinatura" style="width: 40%;">
                 <?php endif; ?>
             </div>
 
             <div style="width: 50%; float: right;">
-                <?php if ($modelo_certificado['carimbo']): ?>
-                    <img src="<?= base_url_upload('certificados/carimbos/' . $modelo_certificado['carimbo']) ?>"
-                        alt="Carimbo" style="width: 50%;">
+                <?php if ($modelo_certificado['carimbo']) : ?>
+                    <img src="<?= base_url_upload('certificados/carimbos/' . $modelo_certificado['carimbo']) ?>" alt="Carimbo" style="width: 50%;">
                 <?php endif; ?>
             </div>
         </div>
