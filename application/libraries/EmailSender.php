@@ -4,12 +4,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class EmailSender
 {
     protected $CI;
+    public $emailRemetente;
+    public $nomeRemetente;
+    public $chave_api;
+    public $chave_secreta;
 
     public function __construct()
     {
         $this->CI = &get_instance();
         $this->CI->load->library('email');
         $this->CI->load->helper('config_master_helper');
+
+        $this->emailRemetente = $this->CI->session->userdata('email_empresa') ?? dadosEmpresa('email');
+        $this->nomeRemetente = $this->CI->session->userdata('nome_empresa') ?? dadosEmpresa('nome');
+        $this->chave_api = $this->CI->session->userdata('chave_api') ?? dadosEmpresa('chave_api');
+        $this->chave_secreta = $this->CI->session->userdata('chave_secreta') ?? dadosEmpresa('chave_secreta');
+
     }
 
     public function enviarEmail($template, $email, $assunto, $opcao = null)
@@ -19,18 +29,13 @@ class EmailSender
             case 'definicaoSenha':
                 $html = $this->redefinicaoSenha($opcao);
                 break;
-            case 'enviarCertificado':
-                $html = $this->enviarCertificado();
-                $this->CI->email->attach($opcao);
-                break;
             default:
                 $html =  $this->templatePadrao();
         }
 
-        $emailRemetente = $this->CI->session->userdata('email_empresa') ?? dadosEmpresa('email');
-        $nomeRemetente = $this->CI->session->userdata('nome_empresa') ?? dadosEmpresa('nome');
+        
         // Define remetente e destinatário
-        $this->CI->email->from($emailRemetente, $nomeRemetente); // Remetente
+        $this->CI->email->from($this->emailRemetente, $this->nomeRemetente); // Remetente
         $this->CI->email->to($email); // Destinatário
 
         // Define o assunto do email
@@ -59,16 +64,13 @@ class EmailSender
                 $html =  $this->templatePadrao();
         }
 
-        $emailRemetente = dadosEmpresa('email');
-
-
         // Dados da solicitação
         $data = array(
             "Messages" => array(
                 array(
                     "From" => array(
-                        "Email" => "contato@petroecol.eco.br",
-                        "Name" => "Centro da Inteligencia"
+                        "Email" => $this->emailRemetente,
+                        "Name" => $this->nomeRemetente
                     ),
                     "To" => array(
                         array(
@@ -76,12 +78,12 @@ class EmailSender
                             "Name" => "Danilo"
                         )
                     ),
-                    "Subject" => "Testando api",
-                    "TextPart" => "Danilo teste 1.",
+                    "Subject" => $assunto,
+                    "TextPart" => $html,
                     "Attachments" => array(
                         array(
                             'ContentType' => 'application/pdf',
-                            'Filename' => 'nome-do-arquivo.pdf',
+                            'Filename' => 'certificado.pdf',
                             'Base64Content' => base64_encode($opcao)
                         )
                     ),
@@ -102,7 +104,7 @@ class EmailSender
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json',
-            'Authorization: Basic ' . base64_encode("80ff2bcbd370e4210548206fa9bbc1e1:11484603ae263be81e9631015f797290")
+            'Authorization: Basic ' . base64_encode("$this->chave_api:$this->chave_secreta")
         ));
 
         // Executa a solicitação
