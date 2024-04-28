@@ -15,11 +15,13 @@ class EmailSender
         $this->CI->load->library('email');
         $this->CI->load->helper('config_master_helper');
 
-        $this->emailRemetente = $this->CI->session->userdata('email_empresa') ?? dadosEmpresa('email');
-        $this->nomeRemetente = $this->CI->session->userdata('nome_empresa') ?? dadosEmpresa('nome');
-        $this->chave_api = $this->CI->session->userdata('chave_api') ?? dadosEmpresa('chave_api');
-        $this->chave_secreta = $this->CI->session->userdata('chave_secreta') ?? dadosEmpresa('chave_secreta');
+        $this->emailRemetente = !empty($this->CI->session->userdata('email_empresa')) ? $this->CI->session->userdata('email_empresa') : dadosEmpresa('email');
 
+        $this->nomeRemetente = !empty($this->CI->session->userdata('nome_empresa')) ? $this->CI->session->userdata('nome_empresa') : dadosEmpresa('nome');
+
+        $this->chave_api = !empty($this->CI->session->userdata('chave_api')) ? $this->CI->session->userdata('chave_api') : dadosEmpresa('chave_api');
+
+        $this->chave_secreta = !empty($this->CI->session->userdata('chave_secreta')) ? $this->CI->session->userdata('chave_secreta') : dadosEmpresa('chave_secreta');
     }
 
     public function enviarEmail($template, $email, $assunto, $opcao = null)
@@ -33,25 +35,21 @@ class EmailSender
                 $html =  $this->templatePadrao();
         }
 
-        
-        // Define remetente e destinatário
         $this->CI->email->from($this->emailRemetente, $this->nomeRemetente); // Remetente
         $this->CI->email->to($email); // Destinatário
-
-        // Define o assunto do email
         $this->CI->email->subject($assunto);
+        $this->CI->email->message($html);
 
-        $this->CI->email->message($html); // conteúdo para mensagem
-
-        if ($this->CI->email->send()) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->CI->email->send() ? true : false;
     }
 
     public function enviarEmailAPI($template, $email, $assunto, $opcao = null)
     {
+
+        if (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false) { // bloquear disparo localhost
+            echo 'Não é possivel disparar email local';
+            exit;
+        }
 
         switch ($template) {
             case 'definicaoSenha':
@@ -65,31 +63,35 @@ class EmailSender
         }
 
         // Dados da solicitação
-        $data = array(
-            "Messages" => array(
-                array(
-                    "From" => array(
+        $data = [
+            "Messages" => [
+                [
+                    "From" => [
                         "Email" => $this->emailRemetente,
                         "Name" => $this->nomeRemetente
-                    ),
-                    "To" => array(
-                        array(
-                            "Email" => "centrodainteligencia@gmail.com",
-                            "Name" => "Danilo"
-                        )
-                    ),
+                    ],
+                    "To" => [],
                     "Subject" => $assunto,
                     "TextPart" => $html,
-                    "Attachments" => array(
-                        array(
+                    "Attachments" => [
+                        [
                             'ContentType' => 'application/pdf',
                             'Filename' => 'certificado.pdf',
                             'Base64Content' => base64_encode($opcao)
-                        )
-                    ),
-                )
-            )
-        );
+                        ]
+                    ],
+                ]
+            ]
+        ];
+
+        $emailsDestinatarios = ['contato-danilo@hotmail.com', 'centrodainteligencia@gmail.com.br'];
+
+        foreach ($emailsDestinatarios as $emailDestinatario) {
+            $data["Messages"][0]["To"][] = [
+                "Email" => $emailDestinatario,
+                "Name" => "Nome do Destinatário" // Você pode querer personalizar o nome do destinatário aqui
+            ];
+        }
 
         // Converte os dados para JSON
         $data_json = json_encode($data);
