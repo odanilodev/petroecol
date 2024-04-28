@@ -54,13 +54,13 @@ class EmailSender
                 break;
             case 'enviarCertificado':
                 $html = $this->enviarCertificado();
-                $this->CI->email->attach($opcao);
                 break;
             default:
                 $html =  $this->templatePadrao();
         }
 
         $emailRemetente = dadosEmpresa('email');
+
 
         // Dados da solicitação
         $data = array(
@@ -78,6 +78,13 @@ class EmailSender
                     ),
                     "Subject" => "Testando api",
                     "TextPart" => "Danilo teste 1.",
+                    "Attachments" => array(
+                        array(
+                            'ContentType' => 'application/pdf',
+                            'Filename' => 'nome-do-arquivo.pdf',
+                            'Base64Content' => base64_encode($opcao)
+                        )
+                    ),
                 )
             )
         );

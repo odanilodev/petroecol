@@ -83,11 +83,11 @@ class GerarCertificadoColeta
 				$emailSender = new EmailSender();
 				$pdfContent = $mpdf->Output('', 'S');
 				
-				$filename = 'certificado.pdf';
-				$tempFilePath = FCPATH . 'temp/' . $filename;
-				file_put_contents($tempFilePath, $pdfContent);
+				// $filename = 'certificado.pdf';
+				// $tempFilePath = FCPATH . 'temp/' . $filename;
+				// file_put_contents($tempFilePath, $pdfContent);
 
-				$emailSender->enviarEmailAPI('enviarCertificado', 'contato-danilo@hotmail.com', 'Certificado', $tempFilePath);
+				$emailSender->enviarEmailAPI('enviarCertificado', 'centrodainteligencia@gmail.com', 'Certificado', $pdfContent);
 				echo 'Enviou!';
 			} else {
 				// Retorna o conteúdo do PDF
