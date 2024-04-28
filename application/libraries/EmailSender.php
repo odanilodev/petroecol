@@ -11,6 +11,11 @@ class EmailSender
 
     public function __construct()
     {
+        if (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false) { // bloquear disparo localhost
+            echo 'Não é possivel disparar email local';
+            exit;
+        }
+
         $this->CI = &get_instance();
         $this->CI->load->library('email');
         $this->CI->load->helper('config_master_helper');
@@ -46,51 +51,33 @@ class EmailSender
     public function enviarEmailAPI($template, $email, $assunto, $opcao = null)
     {
 
-        if (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false) { // bloquear disparo localhost
-            echo 'Não é possivel disparar email local';
+        if (empty($email)) {
+            echo 'Cliente não tem email cadastrado!';
             exit;
         }
 
         switch ($template) {
-            case 'definicaoSenha':
-                $html = $this->redefinicaoSenha($opcao);
-                break;
             case 'enviarCertificado':
-                $html = $this->enviarCertificado();
+                $data = $this->enviarCertificado($assunto, $opcao);
                 break;
             default:
-                $html =  $this->templatePadrao();
+                $data =  $this->templatePadraoApi($assunto);
         }
 
-        // Dados da solicitação
-        $data = [
-            "Messages" => [
-                [
-                    "From" => [
-                        "Email" => $this->emailRemetente,
-                        "Name" => $this->nomeRemetente
-                    ],
-                    "To" => [],
-                    "Subject" => $assunto,
-                    "TextPart" => $html,
-                    "Attachments" => [
-                        [
-                            'ContentType' => 'application/pdf',
-                            'Filename' => 'certificado.pdf',
-                            'Base64Content' => base64_encode($opcao)
-                        ]
-                    ],
-                ]
-            ]
-        ];
 
-        $emailsDestinatarios = ['contato-danilo@hotmail.com', 'centrodainteligencia@gmail.com.br'];
+        if (strpos($email, ',') !== false) { // um email
+            $emailsDestinatarios = explode(',', $email);
+        } else { // varios emails
+            $emailsDestinatarios = [$email];
+        }
 
         foreach ($emailsDestinatarios as $emailDestinatario) {
-            $data["Messages"][0]["To"][] = [
-                "Email" => $emailDestinatario,
-                "Name" => "Nome do Destinatário" // Você pode querer personalizar o nome do destinatário aqui
-            ];
+            if (!empty($emailDestinatario)) {
+                $data["Messages"][0]["To"][] = [
+                    "Email" => $emailDestinatario,
+                    "Name" => "Cliente"
+                ];
+            }
         }
 
         // Converte os dados para JSON
@@ -142,9 +129,54 @@ class EmailSender
         return "<h2>Olá, temos uma mensagem para você!</h2>";
     }
 
-    private function enviarCertificado()
+    private function enviarCertificado($assunto, $opcao)
     {
 
-        return "<h2>Olá, segue o certificado em anexo!</h2>";
+        $html = "<h2>Olá, segue o certificado em anexo!</h2>";
+        // Dados da solicitação
+        $data = [
+            "Messages" => [
+                [
+                    "From" => [
+                        "Email" => $this->emailRemetente,
+                        "Name" => $this->nomeRemetente
+                    ],
+                    "To" => [],
+                    "Subject" => $assunto,
+                    "HTMLPart" => $html,
+                    "Attachments" => [
+                        [
+                            'ContentType' => 'application/pdf',
+                            'Filename' => 'certificado.pdf',
+                            'Base64Content' => base64_encode($opcao)
+                        ]
+                    ],
+                ]
+            ]
+        ];
+
+        return $data;
+    }
+
+    private function templatePadraoApi($assunto, $opcao = null)
+    {
+
+        $html = "<h2>Olá, mensagem de teste!</h2>";
+        // Dados da solicitação
+        $data = [
+            "Messages" => [
+                [
+                    "From" => [
+                        "Email" => $this->emailRemetente,
+                        "Name" => $this->nomeRemetente
+                    ],
+                    "To" => [],
+                    "Subject" => $assunto,
+                    "HTMLPart" => $html,
+                ]
+            ]
+        ];
+
+        return $data;
     }
 }
