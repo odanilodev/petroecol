@@ -67,7 +67,7 @@ class EmailSender
             "Messages" => array(
                 array(
                     "From" => array(
-                        "Email" => "contato@centrodainteligencia.com.br",
+                        "Email" => "contato@petroecol.eco.br",
                         "Name" => "Centro da Inteligencia"
                     ),
                     "To" => array(
@@ -95,7 +95,7 @@ class EmailSender
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json',
-            'Authorization: Basic ' . base64_encode("b44c4266464a36d315ff1f4035701b90:4420a01dc0b05985a8fdecc6a8e693d2")
+            'Authorization: Basic ' . base64_encode("80ff2bcbd370e4210548206fa9bbc1e1:11484603ae263be81e9631015f797290")
         ));
 
         // Executa a solicitação
