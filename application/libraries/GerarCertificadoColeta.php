@@ -87,7 +87,7 @@ class GerarCertificadoColeta
 				$tempFilePath = FCPATH . 'temp/' . $filename;
 				file_put_contents($tempFilePath, $pdfContent);
 
-				$emailSender->enviarEmail('enviarCertificado', 'contato-danilo@hotmail.com', 'Certificado', $tempFilePath);
+				$emailSender->enviarEmailAPI('enviarCertificado', 'contato-danilo@hotmail.com', 'Certificado', $tempFilePath);
 				echo 'Enviou!';
 			} else {
 				// Retorna o conteúdo do PDF
