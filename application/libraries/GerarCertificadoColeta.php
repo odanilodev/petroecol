@@ -14,10 +14,13 @@ class GerarCertificadoColeta
 		$this->CI->load->model('Clientes_model');
 		$this->CI->load->model('Coletas_model');
 		$this->CI->load->model('Certificados_model');
+		$this->CI->load->model('EmailCliente_model');
+
 	}
 
-	public function gerarPdfPadrao($idColeta, $idModelo, $enviarEmail = null)
+	public function gerarPdfPadrao($idColeta, $idModelo, $idCliente, $enviarEmail = null)
 	{
+
 		$this->CI->load->library('detalhesColeta');
 		$this->CI->load->library('residuoChaveId');
 
@@ -83,7 +86,10 @@ class GerarCertificadoColeta
 				$emailSender = new EmailSender();
 				$pdfContent = $mpdf->Output('', 'S');
 
-				$emails = "centrodainteligencia@gmail.com, contato-danilo@hotmail.com"; // buscar emails do cliente (principal + adiconais)
+				$listaEmails = $this->CI->EmailCliente_model->recebeEmailClienteCertificado($idCliente);
+
+				$emails_array = array_column($listaEmails, 'email'); // Extrai apenas os e-mails do array de resultados
+				$emails = implode(', ', $emails_array); // Junta os e-mails em uma única string, separados por vírgulas
 
 				$emailSender->enviarEmailAPI('enviarCertificado', $emails, 'Certificado', $pdfContent);
 			} else {

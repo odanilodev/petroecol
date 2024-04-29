@@ -37,7 +37,7 @@ class EmailSender
                 $html = $this->redefinicaoSenha($opcao);
                 break;
             default:
-                $html =  $this->templatePadrao();
+                $html = $this->templatePadrao();
         }
 
         $this->CI->email->from($this->emailRemetente, $this->nomeRemetente); // Remetente
@@ -61,7 +61,7 @@ class EmailSender
                 $data = $this->enviarCertificado($assunto, $opcao);
                 break;
             default:
-                $data =  $this->templatePadraoApi($assunto);
+                $data = $this->templatePadraoApi($assunto);
         }
 
 
@@ -91,10 +91,14 @@ class EmailSender
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-            'Authorization: Basic ' . base64_encode("$this->chave_api:$this->chave_secreta")
-        ));
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
+            array(
+                'Content-Type: application/json',
+                'Authorization: Basic ' . base64_encode("$this->chave_api:$this->chave_secreta")
+            )
+        );
 
         // Executa a solicitação
         $response = curl_exec($ch);

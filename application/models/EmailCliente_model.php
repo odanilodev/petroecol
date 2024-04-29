@@ -45,6 +45,18 @@ class EmailCliente_model extends CI_Model
         return $query->row_array();
     }
 
+    function recebeEmailClienteCertificado($id)
+    {
+        $this->db->select('EC.email');
+        $this->db->from('ci_emails_cliente EC');
+        $this->db->join('ci_grupos_emails GE', 'EC.id_grupo = GE.id', 'left');
+        $this->db->where('EC.id_cliente', $id);
+        $this->db->where('GE.permissao_certificado', 1); // Condição para permissao_certificado igual a 1
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+
     public function insereEmailCliente($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');

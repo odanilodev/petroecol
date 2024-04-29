@@ -75,7 +75,7 @@ class Coletas extends CI_Controller
 
                 if (!$coletaManual) {
                     !$idColeta ? $this->agendarfrequencia->cadastraAgendamentoFrequencia($cliente['idCliente'], $dataRomaneio, $idSetorEmpresa) : "";
-                } 
+                }
 
             endforeach;
 
@@ -104,6 +104,7 @@ class Coletas extends CI_Controller
         $idColeta = $this->uri->segment(3) ?? null;
         $idModelo = $this->uri->segment(4) ?? null;
         $enviarEmail = $this->uri->segment(5) ?? null;
+        $idCliente = $this->uri->segment(6) ?? null;
 
         $modeloCertificado = $this->Certificados_model->recebeCertificadoId($idModelo);
 
@@ -132,7 +133,7 @@ class Coletas extends CI_Controller
             }
         } else {
 
-            $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $enviarEmail);
+            $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $idCliente, $enviarEmail);
         }
     }
 

@@ -354,10 +354,11 @@ $(document).on('click', '.btn-gerar-certificado', function () {
     const idModelo = modeloCertificado;
     const coleta = $('.input-id-coleta').val();
     const idResiduo = $('.id-residuo-coleta').val() != null ? $('.id-residuo-coleta').val() : "";
+    const idCliente = $(this).data('id-cliente');
 
     if (idModelo && coleta) {   
-        var redirect = !enviarCertificado ? `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}/${idResiduo}` : `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}/${idResiduo}/email`;
-        window.open(redirect, '_blank');
+        var redirect = !enviarCertificado ? `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}/${idResiduo}` : `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}/${idResiduo}/email/${idCliente}`;
+        window.open(redirect, '_self');
     } else {
         avisoRetorno('Algo deu errado!', 'Não foi possível encontrar o certificado de coleta.', 'error', `#`);
     }
