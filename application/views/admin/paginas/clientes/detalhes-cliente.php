@@ -7,7 +7,7 @@
       </div>
       <div class="col-12 col-md-auto d-flex">
 
-        <a href="#" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
+        <a href="<?= base_url('clientes/formulario/' . $cliente['id'] ?? "") ?>" class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
           <span class="fa-solid fa-edit me-sm-2"></span>
           <span class="d-none d-sm-inline">Editar </span>
         </a>
