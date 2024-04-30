@@ -137,10 +137,16 @@ class Coletas extends CI_Controller
             $result = $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $idCliente, $emailsCliente, $enviarEmail);
 
             if ($result) {
-                $this->session->set_flashdata('tipo_retorno_funcao', 'email-sucesso');
+                $this->session->set_flashdata('titulo_retorno_funcao', 'Sucesso!');
+                $this->session->set_flashdata('tipo_retorno_funcao', 'success');
+                $this->session->set_flashdata('redirect_retorno_funcao', '#');
+                $this->session->set_flashdata('texto_retorno_funcao', 'Certificado enviado com sucesso!');
                 redirect($_SERVER['HTTP_REFERER']);
             } else {
-                $this->session->set_flashdata('tipo_retorno_funcao', 'email-erro');
+                $this->session->set_flashdata('titulo_retorno_funcao', 'Algo deu errado!');
+                $this->session->set_flashdata('tipo_retorno_funcao', 'error');
+                $this->session->set_flashdata('redirect_retorno_funcao', '#');
+                $this->session->set_flashdata('texto_retorno_funcao', 'Falha ao enviar o certificado!');
                 redirect($_SERVER['HTTP_REFERER']);
             }
         }
