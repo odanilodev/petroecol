@@ -99,15 +99,13 @@ class Coletas extends CI_Controller
 
     public function certificadoColeta()
     {
-
-        echo "<pre>"; print_r($this->input->post()); exit;
-        
         $this->load->library('GerarCertificadoColeta');
 
-        $idColeta = $this->uri->segment(3) ?? null;
-        $idModelo = $this->uri->segment(4) ?? null;
-        $enviarEmail = $this->uri->segment(5) ?? null;
-        $idCliente = $this->uri->segment(6) ?? null;
+        $idColeta = $this->input->post('coleta') ?? null;
+        $idModelo = $this->input->post('modelo') ?? null;
+        $enviarEmail = $this->input->post('envia-certificado') ?? null; //Recebe o valor `email` para definir que é um envio de certificado, caso contrario somente gerar.
+        $idCliente = $this->input->post('cliente') ?? null;
+        $emailsCliente = $this->input->post('emails') ?? null;
 
         $modeloCertificado = $this->Certificados_model->recebeCertificadoId($idModelo);
 
@@ -136,7 +134,7 @@ class Coletas extends CI_Controller
             }
         } else {
 
-            $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $idCliente, $enviarEmail);
+            $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $idCliente, $emailsCliente, $enviarEmail);
         }
     }
 
