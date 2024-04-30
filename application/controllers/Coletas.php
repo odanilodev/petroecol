@@ -134,7 +134,15 @@ class Coletas extends CI_Controller
             }
         } else {
 
-            $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $idCliente, $emailsCliente, $enviarEmail);
+            $result = $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $idCliente, $emailsCliente, $enviarEmail);
+
+            if ($result) {
+                $this->session->set_flashdata('tipo_retorno_funcao', 'email-sucesso');
+                redirect($_SERVER['HTTP_REFERER']);
+            } else {
+                $this->session->set_flashdata('tipo_retorno_funcao', 'email-erro');
+                redirect($_SERVER['HTTP_REFERER']);
+            }
         }
     }
 

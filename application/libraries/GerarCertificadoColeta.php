@@ -20,6 +20,9 @@ class GerarCertificadoColeta
 
 	public function gerarPdfPadrao($idColeta, $idModelo, $idCliente, $emailsCliente, $enviarEmail = null)
 	{
+		$sucesso = 'deu bom';
+		return $sucesso;
+		exit;
 
 		$this->CI->load->library('detalhesColeta');
 		$this->CI->load->library('residuoChaveId');
