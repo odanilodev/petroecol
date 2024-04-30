@@ -125,4 +125,23 @@ class EmailCliente extends CI_Controller
 			</span>';
 		}
 	}
+
+	public function recebeEmailsCliente ()
+	{
+		$this->load->model('Clientes_model');
+
+		$idCliente = $this->input->post('idCliente');
+
+		$emailPrincipal = $this->Clientes_model->recebeEmailCliente($idCliente);
+		$emailsAdicionais = $this->EmailCliente_model->recebeEmailCliente($idCliente);
+
+		$response = array(
+			'success' => true,
+			'emailPrincipal' => $emailPrincipal,
+			'emailsAdicionais' => $emailsAdicionais,
+		);
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
+	}
 }

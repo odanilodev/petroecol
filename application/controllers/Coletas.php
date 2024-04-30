@@ -99,6 +99,9 @@ class Coletas extends CI_Controller
 
     public function certificadoColeta()
     {
+
+        echo "<pre>"; print_r($this->input->post()); exit;
+        
         $this->load->library('GerarCertificadoColeta');
 
         $idColeta = $this->uri->segment(3) ?? null;
