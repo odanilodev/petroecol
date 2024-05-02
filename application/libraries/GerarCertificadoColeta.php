@@ -85,7 +85,7 @@ class GerarCertificadoColeta
 				$emailSender = new EmailSender();
 				$pdfContent = $mpdf->Output('', 'S');
 
-				$emailSender->enviarEmail('enviarCertificado', $emailsCliente, 'Certificado', $pdfContent);
+				$emailSender->enviarEmailAPI('enviarCertificado', $emailsCliente, 'Certificado', $pdfContent);
 			} else {
 				// Retorna o conteúdo do PDF
 				return $mpdf->Output('', \Mpdf\Output\Destination::INLINE, "L");
