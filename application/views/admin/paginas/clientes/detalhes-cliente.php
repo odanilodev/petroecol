@@ -903,10 +903,8 @@
 
             <input type="hidden" class="input-id-coleta">
             <input type="hidden" class="input-id-cliente">
-            <span class="btn btn-primary btn-gerar-certificado enviar-certificado"
-              data-id-cliente="<?= $this->uri->segment(3) ?>"><i class="uil-message"></i> Enviar Certificado</span>
-            <button class="btn btn-success btn-salva-etiqueta btn-form btn-gerar-certificado" type="button"><i
-                class="uil-search"></i> Visualizar
+            <button class="btn btn-primary btn-salva-etiqueta btn-form btn-gerar-certificado" type="button"><i
+                class="uil-eye"></i> Baixar
               Certificado</button>
             <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
@@ -933,6 +931,7 @@
                       <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
                         <div class="col-sm-12 col-xxl-12 border-bottom py-3">
                           <div class="table-responsive scrollbar ms-n1 ps-1">
+                            <h5 class="mb-3">Selecione algum email para enviar o certificado de coleta.</h5>
                             <table class="table table-sm fs--1 mb-0">
 
                               <thead>

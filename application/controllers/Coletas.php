@@ -101,11 +101,21 @@ class Coletas extends CI_Controller
     {
         $this->load->library('GerarCertificadoColeta');
 
-        $idColeta = $this->input->post('coleta') ?? null;
-        $idModelo = $this->input->post('modelo') ?? null;
+        $idColeta = $this->input->post('coleta') ?? $this->uri->segment(3);
+        $idModelo = $this->input->post('modelo') ?? $this->uri->segment(4);
+        
         $enviarEmail = $this->input->post('envia-certificado') ?? null; //Recebe o valor `email` para definir que é um envio de certificado, caso contrario somente gerar.
         $idCliente = $this->input->post('cliente') ?? null;
         $emailsCliente = $this->input->post('emails') ?? null;
+
+        // retorna erro caso não tenha email
+        if (!$emailsCliente) {
+            $this->session->set_flashdata('titulo_retorno_funcao', 'Algo deu errado!');
+            $this->session->set_flashdata('tipo_retorno_funcao', 'error');
+            $this->session->set_flashdata('redirect_retorno_funcao', '#');
+            $this->session->set_flashdata('texto_retorno_funcao', 'Selecione algum email para enviar o certificado');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
 
         $modeloCertificado = $this->Certificados_model->recebeCertificadoId($idModelo);
 
@@ -136,13 +146,13 @@ class Coletas extends CI_Controller
 
             $result = $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $idCliente, $emailsCliente, $enviarEmail);
 
-            if ($result) {
+            if ($result && $enviarEmail) {
                 $this->session->set_flashdata('titulo_retorno_funcao', 'Sucesso!');
                 $this->session->set_flashdata('tipo_retorno_funcao', 'success');
                 $this->session->set_flashdata('redirect_retorno_funcao', '#');
                 $this->session->set_flashdata('texto_retorno_funcao', 'Certificado enviado com sucesso!');
                 redirect($_SERVER['HTTP_REFERER']);
-            } else {
+            } else if (!$result && $enviarEmail){
                 $this->session->set_flashdata('titulo_retorno_funcao', 'Algo deu errado!');
                 $this->session->set_flashdata('tipo_retorno_funcao', 'error');
                 $this->session->set_flashdata('redirect_retorno_funcao', '#');
