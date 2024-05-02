@@ -36,6 +36,9 @@ class EmailSender
             case 'definicaoSenha':
                 $html = $this->redefinicaoSenha($opcao);
                 break;
+            case 'enviarCertificado':
+                $html = $this->enviarCertificado($assunto, $opcao);
+                break;
             default:
                 $html = $this->templatePadrao();
         }

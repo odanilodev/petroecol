@@ -20,7 +20,6 @@ class GerarCertificadoColeta
 
 	public function gerarPdfPadrao($idColeta, $idModelo, $idCliente, $emailsCliente, $enviarEmail = null)
 	{
-
 		$this->CI->load->library('detalhesColeta');
 		$this->CI->load->library('residuoChaveId');
 
@@ -86,7 +85,7 @@ class GerarCertificadoColeta
 				$emailSender = new EmailSender();
 				$pdfContent = $mpdf->Output('', 'S');
 
-				$emailSender->enviarEmailAPI('enviarCertificado', $emailsCliente, 'Certificado', $pdfContent);
+				$emailSender->enviarEmail('enviarCertificado', $emailsCliente, 'Certificado', $pdfContent);
 			} else {
 				// Retorna o conteúdo do PDF
 				return $mpdf->Output('', \Mpdf\Output\Destination::INLINE, "L");
