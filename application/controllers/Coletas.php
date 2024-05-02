@@ -109,7 +109,7 @@ class Coletas extends CI_Controller
         $emailsCliente = $this->input->post('emails') ?? null;
 
         // retorna erro caso não tenha email
-        if (!$emailsCliente) {
+        if (!$emailsCliente && $emailsCliente) {
             $this->session->set_flashdata('titulo_retorno_funcao', 'Algo deu errado!');
             $this->session->set_flashdata('tipo_retorno_funcao', 'error');
             $this->session->set_flashdata('redirect_retorno_funcao', '#');
