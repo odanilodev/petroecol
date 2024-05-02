@@ -52,8 +52,8 @@ class EmailSender
     {
 
         if (empty($email)) {
-            echo 'Cliente não tem email cadastrado!';
-            exit;
+            //echo 'Cliente não tem email cadastrado!';
+            return false;
         }
 
         switch ($template) {
@@ -105,21 +105,23 @@ class EmailSender
 
         // Verifica por erros
         if ($response === false) {
-            echo 'Erro ao enviar email!';
-            exit;
+            //echo 'Erro ao enviar email!';
+            return false;
         }
 
         $res = json_decode($response, true);
 
         if ($res['Messages'][0]['Status'] == 'success') {
-            echo 'Enviado com sucesso!';
-            exit;
+            //echo 'Enviado com sucesso!';
+            return true;
         }
 
-        echo 'Erro ao enviar email!!!';
-        exit;
-
         curl_close($ch);
+
+        //echo 'Erro ao enviar email!!!';
+        return false;
+
+
     }
 
     private function redefinicaoSenha($opcao)
