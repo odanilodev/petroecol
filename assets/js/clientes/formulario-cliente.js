@@ -247,8 +247,64 @@ const alteraStatusCliente = (id) => {
     })
 }
 
+const emailsCertificadoColeta = (idColeta, idCliente) => {
 
-const detalhesHistoricoColeta = (idColeta) => {
+    detalhesHistoricoColeta(idColeta, '.data-coleta-certificado'); // exibe os detalhes
+
+    // busca os emails
+    $.ajax({
+        type: 'post',
+        url: `${baseUrl}emailCliente/recebeEmailsCliente`,
+        data: {
+            idCliente: idCliente
+        }, success: function (data) {
+
+            let emailPrincipal = `
+                <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                    <td class="align-middle white-space-nowrap email-cliente text-1000" data-email="${data['emailPrincipal'].email}" style="padding-left: 4px;">
+                        <input class="form-check-input check-clientes-modal cursor-pointer check-element" style="margin-right:8px;" name="clientes" type="checkbox" value="${data['emailPrincipal'].email}">
+                        ${data['emailPrincipal'].email}
+                    </td>
+
+                    <td class="align-middle white-space-nowrap email-cliente text-1000 " data-email="${data['emailPrincipal'].email}">
+                        Principal
+                    </td>
+                </tr>
+            `;
+
+            let emailsAdicionais = emailPrincipal;
+
+            for (i = 0; i < data['emailsAdicionais'].length; i++) {
+
+                emailsAdicionais += `
+                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                        <td class="align-middle white-space-nowrap email-cliente" data-email="${data['emailsAdicionais'][i].email}" style="padding-left: 4px;">
+                            <input class="form-check-input check-clientes-modal cursor-pointer check-element" style="margin-right:8px;" name="clientes" type="checkbox" value="${data['emailsAdicionais'][i].email}">
+                            ${data['emailsAdicionais'][i].email}
+                        </td>
+
+                        <td class="align-middle white-space-nowrap email-cliente" data-email="${data['emailsAdicionais'][i].email}">
+                            ${data['emailsAdicionais'][i].grupo}
+                        </td>
+                    </tr>
+                `;
+            }
+
+            $('.emails-cliente').html(emailsAdicionais);
+
+        }, error: function (xhr, status, error) {
+
+            $('.btn-finaliza-romaneio').removeClass('d-none');
+            $('.load-form-modal-romaneio').addClass('d-none');
+            if (xhr.status === 403) {
+                avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação..`, 'error', '#');
+            }
+        }
+    })
+
+}
+
+const detalhesHistoricoColeta = (idColeta, classe) => {
 
     $('.input-id-coleta').val(idColeta);
 
@@ -281,7 +337,7 @@ const detalhesHistoricoColeta = (idColeta) => {
                     $('.residuos-coletados').append(quantidadeColetada)
                 }
 
-                $('.data-coleta').html(data.dataColeta);
+                $(classe ? classe : '.data-coleta').html(data.dataColeta);
                 $('.responsavel-coleta').html(data.coleta.nome_responsavel);
 
             } else {
@@ -335,6 +391,15 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
 
 }
 
+$(document).on('click', '.btn-envia-certificado', function (e) {
+
+    if ($('.emails-clientes-selecionados').val() && $('.select-modelo-certificado').val() != 'null'){
+
+        $('.btn-form').addClass('d-none');
+        $('.load-form').removeClass('d-none')
+    }
+});
+
 $(document).on('click', '.btn-gerar-certificado', function () {
 
     let modeloCertificado = $('.select-modelo-certificado').val();
@@ -347,11 +412,10 @@ $(document).on('click', '.btn-gerar-certificado', function () {
 
     const idModelo = modeloCertificado;
     const coleta = $('.input-id-coleta').val();
-    const idResiduo = $('.id-residuo-coleta').val() != null ? $('.id-residuo-coleta').val() : "";
 
     if (idModelo && coleta) {
-        var redirect = `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}/${idResiduo}`
-        window.open(redirect, '_blank');
+        var redirect = `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}`;
+        window.open(redirect, '_self');
     } else {
         avisoRetorno('Algo deu errado!', 'Não foi possível encontrar o certificado de coleta.', 'error', `#`);
     }
