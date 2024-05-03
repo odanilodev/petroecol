@@ -990,11 +990,12 @@
               <input type="hidden" required class="emails-clientes-selecionados" name="emails">
               <input type="hidden" required name="envia-certificado" value="email">
 
-              <button class="btn btn-primary btn-form" type="submit">
+              <button class="btn btn-primary btn-form btn-envia-certificado" type="submit">
                 <i class="uil-message"></i> Enviar Certificado
               </button>
 
               <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+              <div class="spinner-border text-primary load-form d-none" role="status"></div>
 
             </div>
 

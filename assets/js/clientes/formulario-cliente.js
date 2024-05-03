@@ -391,6 +391,15 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
 
 }
 
+$(document).on('click', '.btn-envia-certificado', function (e) {
+
+    if ($('.emails-clientes-selecionados').val() && $('.select-modelo-certificado').val() != 'null'){
+
+        $('.btn-form').addClass('d-none');
+        $('.load-form').removeClass('d-none')
+    }
+});
+
 $(document).on('click', '.btn-gerar-certificado', function () {
 
     let modeloCertificado = $('.select-modelo-certificado').val();
