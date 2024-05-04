@@ -352,6 +352,8 @@ const detalhesHistoricoColeta = (idColeta, classe) => {
 
 const detalhesHistoricoColetaMassa = (idCliente) => {
 
+    $('.btn-enviar-certificado').removeClass('d-none');
+
     const dataInicio = $('.data-inicio-coleta').val();
     const dataFim = $('.data-fim-coleta').val();
     const idResiduo = $('.id-residuo-coleta').val();
@@ -478,13 +480,7 @@ $(document).ready(function () {
     $('#select-select-classificacao-cliente').val('').trigger('change');
 
     $('.select2').select2({
-        theme: "bootstrap-5",
-        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-        placeholder: $(this).data('placeholder'),
-    });
-
-    $('.select2').select2({
-        dropdownParent: ".modal-cadastrar-coleta",
+        // dropdownParent: ".modal-cadastrar-coleta",
         theme: "bootstrap-5",
     });
 
