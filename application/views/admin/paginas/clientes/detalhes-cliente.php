@@ -903,9 +903,10 @@
 
             <input type="hidden" class="input-id-coleta">
             <input type="hidden" class="input-id-cliente">
-            <button class="btn btn-primary btn-salva-etiqueta btn-form btn-gerar-certificado" type="button"><i
-                class="uil-eye"></i> Baixar
-              Certificado</button>
+            <button class="btn btn-primary btn-salva-etiqueta btn-form btn-gerar-certificado d-none" type="button">
+              <i class="uil-eye"></i> 
+              Baixar Certificado
+            </button>
             <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
           </div>
@@ -990,7 +991,13 @@
               <input type="hidden" required class="emails-clientes-selecionados" name="emails">
               <input type="hidden" required name="envia-certificado" value="email">
 
-              <button class="btn btn-primary btn-form btn-envia-certificado" type="submit">
+              <input type="hidden" class="input-id-cliente">
+
+              <button class="btn btn-info btn-salva-etiqueta btn-form btn-gerar-certificado" type="button">
+                <i class="uil-eye"></i> Baixar Certificado
+              </button>
+
+              <button class="btn btn-success btn-form btn-envia-certificado" type="submit">
                 <i class="uil-message"></i> Enviar Certificado
               </button>
 

@@ -249,7 +249,12 @@ const alteraStatusCliente = (id) => {
 
 const emailsCertificadoColeta = (idColeta, idCliente) => {
 
-    detalhesHistoricoColeta(idColeta, '.data-coleta-certificado'); // exibe os detalhes
+    if (idColeta) {
+
+        $('.btn-gerar-certificado').addClass('d-none');
+
+        detalhesHistoricoColeta(idColeta, '.data-coleta-certificado'); // exibe os detalhes
+    }
 
     // busca os emails
     $.ajax({
@@ -371,15 +376,14 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
             dataInicio: dataInicio,
             dataFim: dataFim,
             residuo: idResiduo
-        }, beforeSend: function () {
-
-            $('.body-coleta').hide();
-
         }, success: function (data) {
-
+            
             if (data.success) {
+                
+                $('.btn-gerar-certificado').removeClass('d-none')
+                emailsCertificadoColeta(null, idCliente);
 
-                $('.modal-historico-coleta').modal('show');
+                $('.modal-certificado-coleta').modal('show');
 
                 $('.input-id-coleta').val(data.coletasId);
 
