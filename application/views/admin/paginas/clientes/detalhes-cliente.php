@@ -903,7 +903,7 @@
 
             <input type="hidden" class="input-id-coleta">
             <input type="hidden" class="input-id-cliente">
-            <button class="btn btn-primary btn-salva-etiqueta btn-form btn-gerar-certificado d-none" type="button">
+            <button class="btn btn-primary btn-salva-etiqueta btn-form btn-gerar-certificado" type="button">
               <i class="uil-eye"></i> 
               Baixar Certificado
             </button>
@@ -990,8 +990,6 @@
               <input type="hidden" value="<?= $this->uri->segment(3) ?>" name="cliente">
               <input type="hidden" required class="emails-clientes-selecionados" name="emails">
               <input type="hidden" required name="envia-certificado" value="email">
-
-              <input type="hidden" class="input-id-cliente">
 
               <button class="btn btn-info btn-salva-etiqueta btn-form btn-gerar-certificado" type="button">
                 <i class="uil-eye"></i> Baixar Certificado

@@ -408,7 +408,7 @@ $(document).on('click', '.btn-envia-certificado', function (e) {
 
 $(document).on('click', '.btn-gerar-certificado', function () {
 
-    let modeloCertificado = $('.select-modelo-certificado').val();
+    let modeloCertificado = $(this).closest('.modal-footer').find('.select-modelo-certificado').val();
 
     if (!modeloCertificado) {
 
