@@ -48,6 +48,11 @@
               </a>
             </li>
 
+            <a class="dropdown-item" href="#" onclick="exibirEmailsCliente(<?= $cliente['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalEmail">
+              <span class="text-900 uil-fast-mail"></span>
+              <span class="text-900"> Emails</span>
+            </a>
+
             <li>
               <a class="dropdown-item" href="#" onclick="exibirResiduoCliente(<?= $cliente['id'] ?>)"
                 data-bs-toggle="modal" data-bs-target="#modalResiduo">
@@ -194,8 +199,7 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <a class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-900 w-100 text-break"
-                                href="mailto:<?= $cliente['email'] ?>"><?= !empty($cliente['email']) ? $cliente['email'] : 'Não cadastrado' ?></a>
+                              <a class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-900 w-100 text-break" href="mailto:<?= $cliente['email'] ?>"><?= !empty($cliente['email']) ? $cliente['email'] : 'Não cadastrado' ?></a>
                             </td>
                           </tr>
 
@@ -1194,8 +1198,7 @@
 
           <div class="modal-footer">
             <div class="spinner-border text-primary load-form d-none" role="status"></div>
-            <button class="btn btn-info btn-form btn-editar-certificado"
-              onclick="cadastraColetaCliente(<?= $this->uri->segment(3); ?>)" type="button">Salvar</button>
+            <button class="btn btn-info btn-form btn-editar-certificado" onclick="cadastraColetaCliente(<?= $this->uri->segment(3); ?>)" type="button">Salvar</button>
             <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
           </div>

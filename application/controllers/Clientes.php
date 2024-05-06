@@ -140,16 +140,16 @@ class Clientes extends CI_Controller
 
         if (!empty($data['residuoCliente'])) {
             $residuosFormatados = [];
-        
+
             foreach ($data['residuoCliente'] as $residuo) {
                 $residuosFormatados[] = ucfirst($residuo['nome']) . ' (' . ucfirst($residuo['forma_pagamento']) . ')';
             }
-        
+
             $data['residuosComPagamento'] = implode(', ', $residuosFormatados);
         } else {
             $data['residuosComPagamento'] = "Nenhum resíduo encontrado.";
         }
-        
+
         $data['coletas'] = $this->Coletas_model->recebeColetasCliente($id);
 
         $data['cliente'] = $this->Clientes_model->recebeCliente($id);
@@ -181,6 +181,10 @@ class Clientes extends CI_Controller
         // todas etiquetas 
         $this->load->model('Etiquetas_model');
         $data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
+
+        // grupos emails
+        $this->load->model('GruposEmailCliente_model');
+        $data['gruposEmail'] = $this->GruposEmailCliente_model->recebeGruposEmail();
 
         // grupos
         $this->load->model('Grupos_model');
@@ -225,8 +229,8 @@ class Clientes extends CI_Controller
         $this->load->model('FormaPagamento_model');
         $data['formasPagamento'] = $this->FormaPagamento_model->recebeFormasPagamento();
 
-		$this->load->model('Funcionarios_model');
-		$data['responsaveis'] = $this->Funcionarios_model->recebeResponsavelAgendamento();
+        $this->load->model('Funcionarios_model');
+        $data['responsaveis'] = $this->Funcionarios_model->recebeResponsavelAgendamento();
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/detalhes-cliente');
