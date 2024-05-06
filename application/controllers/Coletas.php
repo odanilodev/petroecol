@@ -75,7 +75,7 @@ class Coletas extends CI_Controller
 
                 if (!$coletaManual) {
                     !$idColeta ? $this->agendarfrequencia->cadastraAgendamentoFrequencia($cliente['idCliente'], $dataRomaneio, $idSetorEmpresa) : "";
-                } 
+                }
 
             endforeach;
 
@@ -101,8 +101,21 @@ class Coletas extends CI_Controller
     {
         $this->load->library('GerarCertificadoColeta');
 
-        $idColeta = $this->uri->segment(3) ?? null;
-        $idModelo = $this->uri->segment(4) ?? null;
+        $idColeta = $this->input->post('coleta') ?? $this->uri->segment(3);
+        $idModelo = $this->input->post('modelo') ?? $this->uri->segment(4);
+        
+        $enviarEmail = $this->input->post('envia-certificado') ?? null; //Recebe o valor `email` para definir que é um envio de certificado, caso contrario somente gerar.
+        $idCliente = $this->input->post('cliente') ?? null;
+        $emailsCliente = $this->input->post('emails') ?? null;
+
+        // retorna erro caso não tenha email
+        if (!$emailsCliente && $enviarEmail) {
+            $this->session->set_flashdata('titulo_retorno_funcao', 'Algo deu errado!');
+            $this->session->set_flashdata('tipo_retorno_funcao', 'error');
+            $this->session->set_flashdata('redirect_retorno_funcao', '#');
+            $this->session->set_flashdata('texto_retorno_funcao', 'Selecione algum email para enviar o certificado');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
 
         $modeloCertificado = $this->Certificados_model->recebeCertificadoId($idModelo);
 
@@ -110,10 +123,10 @@ class Coletas extends CI_Controller
 
             switch ($idModelo) {
                 case '2':
-                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo); // alterar a função para cada cliente personalizado
+                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $enviarEmail); // alterar a função para cada cliente personalizado
                     break;
                 case '1':
-                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo); // alterar a função para cada cliente personalizado
+                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $enviarEmail); // alterar a função para cada cliente personalizado
                     break;
                 default:
 
@@ -131,7 +144,21 @@ class Coletas extends CI_Controller
             }
         } else {
 
-            $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo);
+            $result = $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $idCliente, $emailsCliente, $enviarEmail);
+
+            if ($result && $enviarEmail) {
+                $this->session->set_flashdata('titulo_retorno_funcao', 'Sucesso!');
+                $this->session->set_flashdata('tipo_retorno_funcao', 'success');
+                $this->session->set_flashdata('redirect_retorno_funcao', '#');
+                $this->session->set_flashdata('texto_retorno_funcao', 'Certificado enviado com sucesso!');
+                redirect($_SERVER['HTTP_REFERER']);
+            } else if (!$result && $enviarEmail){
+                $this->session->set_flashdata('titulo_retorno_funcao', 'Algo deu errado!');
+                $this->session->set_flashdata('tipo_retorno_funcao', 'error');
+                $this->session->set_flashdata('redirect_retorno_funcao', '#');
+                $this->session->set_flashdata('texto_retorno_funcao', 'Falha ao enviar o certificado!');
+                redirect($_SERVER['HTTP_REFERER']);
+            }
         }
     }
 

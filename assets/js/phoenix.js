@@ -7170,6 +7170,7 @@ $(document).ready(function () {
       $('.btn-pagar-tudo').addClass('d-none');
     }
 
+    $('.emails-clientes-selecionados').val(elementsChecked); // ids para enviar certificados de coleta emails
     todosIdsSelecionados(elementsChecked);
 
   });
@@ -7191,7 +7192,7 @@ $(document).ready(function () {
     }
 
     todosIdsSelecionados(elementsChecked);
-
+    $('.emails-clientes-selecionados').val(elementsChecked); // ids para enviar certificados de coleta emails
     // Verifica se todos os checkboxes individuais estão marcados
     verificaTodosCheckbox();
   });
