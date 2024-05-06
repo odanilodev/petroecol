@@ -249,7 +249,12 @@ const alteraStatusCliente = (id) => {
 
 const emailsCertificadoColeta = (idColeta, idCliente) => {
 
-    detalhesHistoricoColeta(idColeta, '.data-coleta-certificado'); // exibe os detalhes
+    if (idColeta) {
+
+        $('.btn-gerar-certificado').addClass('d-none');
+
+        detalhesHistoricoColeta(idColeta, '.data-coleta-certificado'); // exibe os detalhes
+    }
 
     // busca os emails
     $.ajax({
@@ -352,6 +357,8 @@ const detalhesHistoricoColeta = (idColeta, classe) => {
 
 const detalhesHistoricoColetaMassa = (idCliente) => {
 
+    $('.btn-enviar-certificado').removeClass('d-none');
+
     const dataInicio = $('.data-inicio-coleta').val();
     const dataFim = $('.data-fim-coleta').val();
     const idResiduo = $('.id-residuo-coleta').val();
@@ -369,15 +376,14 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
             dataInicio: dataInicio,
             dataFim: dataFim,
             residuo: idResiduo
-        }, beforeSend: function () {
-
-            $('.body-coleta').hide();
-
         }, success: function (data) {
-
+            
             if (data.success) {
+                
+                $('.btn-gerar-certificado').removeClass('d-none')
+                emailsCertificadoColeta(null, idCliente);
 
-                $('.modal-historico-coleta').modal('show');
+                $('.modal-certificado-coleta').modal('show');
 
                 $('.input-id-coleta').val(data.coletasId);
 
@@ -402,7 +408,7 @@ $(document).on('click', '.btn-envia-certificado', function (e) {
 
 $(document).on('click', '.btn-gerar-certificado', function () {
 
-    let modeloCertificado = $('.select-modelo-certificado').val();
+    let modeloCertificado = $(this).closest('.modal-footer').find('.select-modelo-certificado').val();
 
     if (!modeloCertificado) {
 
@@ -478,13 +484,7 @@ $(document).ready(function () {
     $('#select-select-classificacao-cliente').val('').trigger('change');
 
     $('.select2').select2({
-        theme: "bootstrap-5",
-        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-        placeholder: $(this).data('placeholder'),
-    });
-
-    $('.select2').select2({
-        dropdownParent: ".modal-cadastrar-coleta",
+        // dropdownParent: ".modal-cadastrar-coleta",
         theme: "bootstrap-5",
     });
 
