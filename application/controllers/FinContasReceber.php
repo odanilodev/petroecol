@@ -269,4 +269,30 @@ class FinContasReceber extends CI_Controller
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
+	public function deletarConta()
+	{
+		$idConta = $this->input->post('idConta');
+
+		$retorno = $this->FinContasReceber_model->deletaConta($idConta);
+
+		if ($retorno) {
+			$response = array(
+				'success' => true,
+				'title' => "Sucesso!",
+				'message' => "Conta deletada com sucesso!",
+				'type' => "success"
+			);
+		} else {
+
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Não foi possivel deletar a conta!",
+				'type' => "error"
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
 }

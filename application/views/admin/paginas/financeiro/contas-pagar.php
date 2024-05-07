@@ -256,6 +256,10 @@
                                                     <span class="fas fa-pencil"></span> Editar
                                                 </a>
 
+                                                <a class="dropdown-item editar-lancamento" href="#" onclick="deletaContaPagar(<?= $contaPagar['id'] ?>)">
+                                                    <span class="fas fa-trash"></span> Excluir
+                                                </a>
+
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item realizar-pagamento"
                                                     data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>"
