@@ -4,14 +4,14 @@
         <div class="row g-4">
             <div class="col-12 col-xxl-12">
                 <div class="row align-items-center g-4">
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-3">
                         <div class="d-flex align-items-center">
                             <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-success-300"
+                                <span class="fa-solid fa-square fa-stack-2x text-secondary-300"
                                     data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100"
+                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-secondary-100"
                                     data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success "
+                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-secondary "
                                     data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
@@ -22,25 +22,25 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-3">
                         <div class="d-flex align-items-center">
                             <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-success-300"
+                                <span class="fa-solid fa-square fa-stack-2x text-danger-300"
                                     data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100"
+                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-danger-100"
                                     data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success "
+                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-danger "
                                     data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
                                 <h4 class="mb-0">R$ <span
                                         class="total-pago-front"><?= number_format($totalSaida['valor'], 2, ',', '.') ?></span>
                                 </h4>
-                                <p class="text-800 fs--1 mb-0">Total Pago</p>
+                                <p class="text-800 fs--1 mb-0">Total Saida</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-3">
                         <div class="d-flex align-items-center">
                             <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
                                 <span class="fa-solid fa-square fa-stack-2x text-success-300"
@@ -54,7 +54,26 @@
                                 <h4 class="mb-0">R$ <span
                                         class="total-recebido-front"><?= number_format($totalEntrada['valor'], 2, ',', '.') ?></span>
                                 </h4>
-                                <p class="text-800 fs--1 mb-0">Total Recebido</p>
+                                <p class="text-800 fs--1 mb-0">Total Entrada</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                        <div class="d-flex align-items-center">
+                            <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
+                                <span class="fa-solid fa-square fa-stack-2x text-primary-300"
+                                    data-fa-transform="down-4 rotate--10 left-4"></span>
+                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-primary-100"
+                                    data-fa-transform="up-4 right-3 grow-2"></span>
+                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-primary "
+                                    data-fa-transform="shrink-2 up-8 right-6"></span>
+                            </span>
+                            <div class="ms-3">
+                                <h4 class="mb-0">R$ <span
+                                        class="total-recebido-front"><?= number_format($balancoFinanceiro, 2, ',', '.') ?></span>
+                                </h4>
+                                <p class="text-800 fs--1 mb-0">Balanço</p>
                             </div>
                         </div>
                     </div>
