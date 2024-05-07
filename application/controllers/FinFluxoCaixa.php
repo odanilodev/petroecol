@@ -10,6 +10,7 @@ class FinFluxoCaixa extends CI_Controller
         //INICIO controle sessão
         $this->load->library('Controle_sessao');
         $this->load->model('FinFluxo_model');
+
         $res = $this->controle_sessao->controle();
         if ($res == 'erro') {
             if ($this->input->is_ajax_request()) {
@@ -43,6 +44,16 @@ class FinFluxoCaixa extends CI_Controller
         $dataFimFormatada = $dataFim->format('Y-m-d');
 
         $this->load->library('finDadosFinanceiros');
+
+        $this->load->model('FinGrupos_model');
+        $this->load->model('FinFormaTransacao_model');
+        $this->load->model('FinContaBancaria_model');
+
+        $dados['grupos'] = $this->FinGrupos_model->recebeGrupos();
+
+        $dados['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
+        $dados['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
+
 
         $dados['saldoTotal'] = $this->findadosfinanceiros->somaSaldosBancarios();
 
@@ -92,7 +103,7 @@ class FinFluxoCaixa extends CI_Controller
 
     public function insereMovimentacaoFluxo()
     {
-        $scriptsFluxoFooter = scriptsFinFluxoFooter();
+        $this->load->model('FinSaldoBancario_model');
 
         $dados['id_empresa'] = $this->session->userdata('id_empresa');
         $dados['id_conta_bancaria'] = $this->input->post('id_conta_bancaria');
@@ -102,27 +113,35 @@ class FinFluxoCaixa extends CI_Controller
         $dados['valor'] = $this->input->post('valor');
         $dados['movimentacao_tabela'] = $this->input->post('movimentacao_tabela');
         $dados['id_dado_financeiro'] = $this->input->post('id_dado_financeiro');
+        $dados['data_movimentacao'] = $this->input->post('data_movimentacao');
+
         $dados['observacao'] = $this->input->post('observacao');
+
+        $saldoAtual = $this->FinSaldoBancario_model->recebeSaldoBancario($dados['id_conta_bancaria']);
+
+        $valorMovimentacaoFormatado = str_replace(['.', ','], ['', '.'], $dados['valor']); //Muda para o tipo float
+
+        if ($dados['movimentacao_tabela'] == 1) {
+            $novoSaldo = $saldoAtual['saldo'] + $valorMovimentacaoFormatado;
+        } else {
+            $novoSaldo = $saldoAtual['saldo'] - $valorMovimentacaoFormatado;
+        }
+
+        $retornoConta = $this->FinSaldoBancario_model->atualizaSaldoBancario($dados['id_conta_bancaria'], $novoSaldo);
 
         $retorno = $this->FinFluxo_model->insereFluxo($dados);
 
-        print_r($retorno);
-        exit;
+        $response = array(
+            'success' => $retornoConta ? true : false,
+            'message' => $retornoConta ? 'Saldo alterado com sucesso.' : 'Erro ao alterar o saldo.',
+            'type' => $retornoConta ? 'success' : 'error'
+        );
 
-        if ($retorno) {
-
-            $response = array(
-                'success' => true,
-                'message' => 'Movimentação registrada!'
-            );
-
-        } else {
-
-            $response = array(
-                'success' => false,
-                'message' => "Erro ao registrar movimentação"
-            );
-        }
+        $response = array(
+            'success' => $retorno ? true : false,
+            'message' => $retorno ? 'Movimentação registrada com sucesso.' : 'Erro ao registrar movimentação.',
+            'type' => $retorno ? 'success' : 'error'
+        );
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 
