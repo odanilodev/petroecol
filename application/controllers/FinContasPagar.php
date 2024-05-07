@@ -55,7 +55,6 @@ class FinContasPagar extends CI_Controller
 			// Converte as datas para o formato americano (Y-m-d)
 			$dataInicioFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataInicioFormatada)));
 			$dataFimFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataFimFormatada)));
-
 		}
 
 		$data['dataInicio'] = $this->input->post('data_inicio');
@@ -373,6 +372,32 @@ class FinContasPagar extends CI_Controller
 			$response = array(
 				'success' => false,
 				'message' => $id ? "Erro ao editar a Conta!" : "Erro ao cadastrar a Conta!"
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function deletarConta()
+	{
+		$idConta = $this->input->post('idConta');
+
+		$retorno = $this->FinContasPagar_model->deletaConta($idConta);
+
+		if ($retorno) {
+			$response = array(
+				'success' => true,
+				'title' => "Sucesso!",
+				'message' => "Conta deletada com sucesso!",
+				'type' => "success"
+			);
+		} else {
+
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Não foi possivel deletar a conta!",
+				'type' => "error"
 			);
 		}
 

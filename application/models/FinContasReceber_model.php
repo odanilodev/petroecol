@@ -68,4 +68,18 @@ class FinContasReceber_model extends CI_Model
         return $query->row_array();
     }
 
+    public function deletaConta($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->where('status', 0);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->delete('fin_contas_receber');
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id);
+        }
+
+        return $this->db->affected_rows() > 0;
+    }
+
 }

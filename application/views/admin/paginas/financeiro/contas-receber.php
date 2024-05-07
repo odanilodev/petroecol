@@ -206,6 +206,10 @@
                                                     <span class="fas fa-pencil"></span> Editar
                                                 </a>
 
+                                                <a class="dropdown-item editar-lancamento" href="#" onclick="deletaContaReceber(<?= $contaReceber['id'] ?>)">
+                                                    <span class="fas fa-trash"></span> Excluir
+                                                </a>
+
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item receber-conta" data-id="<?= $contaReceber['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalReceberConta">Receber
                                                     Conta</a>

@@ -375,3 +375,40 @@ const atualizaFrontDadosFinanceiro = () => {
 function formatarValorMoeda (valor) {
     return parseFloat(valor.replace(/\./g, '').replace(',', '.').replace('&nbsp;', ''));
 }
+
+
+const deletaContaReceber = (idConta) => {
+
+    Swal.fire({
+        title: 'Você tem certeza?',
+        text: "Esta ação não poderá ser revertida",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Sim, deletar'
+
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+
+            $.ajax({
+                type: "post",
+                url: `${baseUrl}finContasReceber/deletarConta`,
+                data: {
+                    idConta: idConta
+                }, success: function (data) {
+        
+                    let redirect = data.type != 'error' ? `${baseUrl}finContasReceber` : '#';
+        
+                    avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
+        
+                }
+            })
+
+        }
+    })
+
+
+}
