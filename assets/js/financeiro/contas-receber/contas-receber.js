@@ -308,6 +308,8 @@ const receberConta = () => {
                 $('#modalReceberConta').modal('hide');
 
                 // atualiza o front
+                $(`.status-pagamento-table-${idConta}`).removeClass('cursor-pointer');
+                $(`.status-pagamento-table-${idConta}`).removeAttr('data-bs-target');
                 $(`.valor-recebido-${idConta}`).html(valorTotalFormatado);
                 $(`.data-recebimento-${idConta}`).html(dataRecebimento);
                 $(`.tipo-status-conta-${idConta}`).removeClass('badge-phoenix-danger');
@@ -376,6 +378,49 @@ function formatarValorMoeda (valor) {
     return parseFloat(valor.replace(/\./g, '').replace(',', '.').replace('&nbsp;', ''));
 }
 
+// Formatar os valores para exibição
+function formatarValorExibicao(valor) {
+    return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('R$', '');
+}
+
+const visualizarConta = (idConta) => {
+
+    $.ajax({
+        type: "post",
+        url: `${baseUrl}finContasReceber/visualizarConta`,
+        data: {
+            idConta: idConta
+        }, beforeSend: function () {
+            $('.html-clean').html('');
+        }, success: function (data) {
+
+            let dataEmissao = formatarDatas(data['conta'].data_emissao);
+            let dataVencimento = formatarDatas(data['conta'].data_vencimento);
+            let valorConta = formatarValorExibicao(parseFloat(data['conta'].valor));
+            let valorRecebido = formatarValorExibicao(parseFloat(data['conta'].valor_recebido));
+
+            $('.nome-empresa').html(data['conta'].RECEBIDO);
+            $('.data-vencimento').html(dataVencimento);
+            $('.data-emissao').html(dataEmissao);
+            $('.valor-conta').html(valorConta);
+            $('.obs-conta').html(data['conta'].observacao);
+
+            if (data['conta'].valor_recebido) {
+                let dataRecebimento = formatarDatas(data['conta'].data_recebimento);
+                $('.div-valor-recebido').removeClass('d-none');
+                $('.valor-recebido').html(valorRecebido);
+                $('.div-data-recebimento').removeClass('d-none');
+                $('.data-recebimento').html(dataRecebimento);
+
+            } else {
+                $('.div-valor-recebido').addClass('d-none');
+            }
+
+
+        }
+    })
+
+}
 
 const deletaContaReceber = (idConta) => {
 

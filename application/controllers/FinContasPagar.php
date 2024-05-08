@@ -379,6 +379,22 @@ class FinContasPagar extends CI_Controller
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
+	public function visualizarConta()
+	{
+		$idConta = $this->input->post('idConta');
+
+		$conta = $this->FinContasPagar_model->recebeContaPagar($idConta);
+
+		if ($conta) {
+			$response = array(
+				'success' => true,
+				'conta' => $conta
+			);
+		} 
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
 	public function deletarConta()
 	{
 		$idConta = $this->input->post('idConta');
