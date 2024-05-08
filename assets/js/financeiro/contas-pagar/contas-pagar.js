@@ -300,6 +300,8 @@ const realizarPagamento = () => {
 
         let valorTotalFormatado = valorTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
+        // alert(valorTotalFormatado); return;
+
         $.ajax({
             type: "post",
             url: baseUrl + "finContasPagar/realizarPagamento",
@@ -364,17 +366,20 @@ const atualizaFrontDadosFinanceiro = () => {
     let totalAbertoFront = $('.total-aberto-front').html();
     let totalAberto = formatarValorMoeda(totalAbertoFront);
 
+    let valorTotalConta = $('.valor-total-conta').html().replace('R$', '');
+    valorTotalConta = formatarValorMoeda(valorTotalConta);
 
-    let valorTotalPago = $('.valor-total-conta').html().replace('R$', '');
-    valorTotalPago = formatarValorMoeda(valorTotalPago);
+    let valorTotalPago = 0;
+    $('.input-valor-unic').each(function () {
+        let valorNumerico = parseFloat($(this).val().replace('.', '').replace(',', '.')); 
+        valorTotalPago += valorNumerico;
+    });
 
-    let totalPagoAtualizado = totalPago + valorTotalPago;
+    let totalPagoAtualizado = totalPago + valorTotalConta;
 
     let totalCaixaAtualizado = totalCaixa - valorTotalPago;
 
-    let totalAbertoAtualizado = totalAberto - valorTotalPago;
-
-
+    let totalAbertoAtualizado = totalAberto - valorTotalConta;
 
     let totalPagoAtualizadoFormatado = formatarValorExibicao(totalPagoAtualizado);
     let totalCaixaAtualizadoFormatado = formatarValorExibicao(totalCaixaAtualizado);
