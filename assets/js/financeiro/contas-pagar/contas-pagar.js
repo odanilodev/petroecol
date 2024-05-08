@@ -608,7 +608,7 @@ const visualizarConta = (idConta) => {
             let dataVencimento = formatarDatas(data['conta'].data_vencimento);
             let valorConta = formatarValorExibicao(parseFloat(data['conta'].valor));
             let valorPago = formatarValorExibicao(parseFloat(data['conta'].valor_pago));
-            
+
             $('.nome-empresa').html(data['conta'].RECEBIDO);
             $('.data-vencimento').html(dataVencimento);
             $('.data-emissao').html(dataEmissao);
@@ -616,14 +616,17 @@ const visualizarConta = (idConta) => {
             $('.obs-conta').html(data['conta'].observacao);
 
             if (data['conta'].valor_pago) {
+                let dataPagamento = formatarDatas(data['conta'].data_pagamento);
                 $('.div-valor-pago').removeClass('d-none');
                 $('.valor-pago').html(valorPago);
+                $('.div-data-pagamento').removeClass('d-none');
+                $('.data-pagamento').html(dataPagamento);
 
             } else {
                 $('.div-valor-pago').addClass('d-none');
             }
 
-            
+
         }
     })
 

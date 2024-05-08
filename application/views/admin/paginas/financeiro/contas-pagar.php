@@ -304,6 +304,25 @@
                                                         </td>
                                                     </tr>
 
+                                                    <tr class="div-data-pagamento d-none">
+                                                        <td class="py-2 w-50">
+                                                            <div class="d-inline-flex align-items-center">
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300" data-feather="calendar" style="width:16px; height:16px"></span>
+                                                                </div>
+                                                                <p class="fw-bold mb-0">Data de Pagamento</p>
+                                                            </div>
+                                                        </td>
+                                                        <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                                                        <td class="py-2 w-50">
+
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break data-pagamento html-clean">
+                                                                <!-- JS -->
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+
                                                     <tr>
                                                         <td class="py-2 w-50">
                                                             <div class="d-inline-flex align-items-center">
@@ -336,25 +355,6 @@
                                                         <td class="py-2 w-50">
 
                                                             <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break valor-pago html-clean">
-                                                                <!-- JS -->
-                                                            </div>
-
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr class="div-valor-aberto d-none">
-                                                        <td class="py-2 w-50">
-                                                            <div class="d-inline-flex align-items-center">
-                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                                                    <span class="text-info-600 dark__text-info-300 fas fa-money-check-alt" style="width:16px; height:16px"></span>
-                                                                </div>
-                                                                <p class="fw-bold mb-0">Valor em Aberto</p>
-                                                            </div>
-                                                        </td>
-                                                        <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                                                        <td class="py-2 w-50">
-
-                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break valor-aberto html-clean">
                                                                 <!-- JS -->
                                                             </div>
 
