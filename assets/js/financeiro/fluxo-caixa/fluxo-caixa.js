@@ -48,6 +48,9 @@ $(document).ready(function () {
     });
 });
 
+function formatarValorExibicao(valor) {
+    return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
 
 const visualizarFluxo = (id) => {
 
@@ -61,14 +64,13 @@ const visualizarFluxo = (id) => {
         },
          success: function (data) {
             
-            let dataFluxo = data.dadosFluxo.DATA_FLUXO.split('-');
-            let dataFluxoFormatada = `${dataFluxo[2]}/${dataFluxo[1]}/${dataFluxo[0]}`
+            let dataFluxo = formatarDatas(data.dadosFluxo.DATA_FLUXO);
+            let valorFluxo = formatarValorExibicao(parseFloat(data['dadosFluxo'].valor));
 
-            $('.data-fluxo').html('Movimentação do dia ' + dataFluxoFormatada);
+            $('.data-fluxo').html('Movimentação do dia ' + dataFluxo);
             $('.macro-micro').html(data['dadosFluxo'].NOME_MACRO + ' / ' + data['dadosFluxo'].NOME_MICRO);
             $('.recebido').html(data['dadosFluxo'].RECEBIDO);
-            $('.valor-fluxo').html('R$' + data['dadosFluxo'].valor);
-            
+            $('.valor-fluxo').html(valorFluxo);
             $('.forma-pagamento').html(data['dadosFluxo'].FORMAPAGAMENTO);
             $('.observacao').html(data['dadosFluxo'].observacao);
 
