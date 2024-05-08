@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit ('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class FinFluxo_model extends CI_Model
 {
@@ -68,4 +68,19 @@ class FinFluxo_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
+    public function recebeMovimentoFluxo($id)
+    {
+        $this->db->select('DF.nome as RECEBIDO, F.valor, FT.nome as FORMAPAGAMENTO, MA.nome as NOME_MACRO, MI.nome as NOME_MICRO, F.data_movimentacao as DATA_FLUXO, F.observacao as OBSERVACAOFLUXO');
+        $this->db->from('fin_fluxo F');
+        $this->db->join('fin_forma_transacao FT', 'F.id_forma_transacao = FT.id', 'left');
+        $this->db->join('fin_dados_financeiros DF', 'F.id_dado_financeiro = DF.id', 'left');
+        $this->db->join('fin_contas_pagar CP', 'F.id_vinculo_conta = CP.id', 'left');
+        $this->db->join('fin_macros MA', 'CP.id_macro = MA.id', 'left');
+        $this->db->join('fin_micros MI', 'CP.id_micro = MI.id', 'left');
+        $this->db->where('F.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('F.id', $id);
+
+        $query = $this->db->get();
+        return $query->row_array();
+    }
 }

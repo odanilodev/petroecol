@@ -7,16 +7,12 @@
                     <div class="col-12 col-md-4">
                         <div class="d-flex align-items-center">
                             <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-success-300"
-                                    data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100"
-                                    data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success "
-                                    data-fa-transform="shrink-2 up-8 right-6"></span>
+                                <span class="fa-solid fa-square fa-stack-2x text-success-300" data-fa-transform="down-4 rotate--10 left-4"></span>
+                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100" data-fa-transform="up-4 right-3 grow-2"></span>
+                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ <span
-                                        class="total-caixa-front"><?= number_format($saldoTotal['saldo'], 2, ',', '.') ?></span>
+                                <h4 class="mb-0">R$ <span class="total-caixa-front"><?= number_format($saldoTotal['saldo'], 2, ',', '.') ?></span>
                                 </h4>
                                 <p class="text-800 fs--1 mb-0">Total Caixa</p>
                             </div>
@@ -25,16 +21,12 @@
                     <div class="col-12 col-md-4">
                         <div class="d-flex align-items-center">
                             <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-success-300"
-                                    data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100"
-                                    data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success "
-                                    data-fa-transform="shrink-2 up-8 right-6"></span>
+                                <span class="fa-solid fa-square fa-stack-2x text-success-300" data-fa-transform="down-4 rotate--10 left-4"></span>
+                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100" data-fa-transform="up-4 right-3 grow-2"></span>
+                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ <span
-                                        class="total-pago-front"><?= number_format($totalSaida['valor'], 2, ',', '.') ?></span>
+                                <h4 class="mb-0">R$ <span class="total-pago-front"><?= number_format($totalSaida['valor'], 2, ',', '.') ?></span>
                                 </h4>
                                 <p class="text-800 fs--1 mb-0">Total Pago</p>
                             </div>
@@ -43,16 +35,12 @@
                     <div class="col-12 col-md-4">
                         <div class="d-flex align-items-center">
                             <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-success-300"
-                                    data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100"
-                                    data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success "
-                                    data-fa-transform="shrink-2 up-8 right-6"></span>
+                                <span class="fa-solid fa-square fa-stack-2x text-success-300" data-fa-transform="down-4 rotate--10 left-4"></span>
+                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100" data-fa-transform="up-4 right-3 grow-2"></span>
+                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ <span
-                                        class="total-recebido-front"><?= number_format($totalEntrada['valor'], 2, ',', '.') ?></span>
+                                <h4 class="mb-0">R$ <span class="total-recebido-front"><?= number_format($totalEntrada['valor'], 2, ',', '.') ?></span>
                                 </h4>
                                 <p class="text-800 fs--1 mb-0">Total Recebido</p>
                             </div>
@@ -68,24 +56,17 @@
                     <div class="row align-items-center g-4">
                         <div class="col-12 col-md-3">
                             <div class="ms-3">
-                                <input class="form-control datetimepicker" value="<?= $dataInicio ?>" required
-                                    name="data_inicio" id="data_inicio" type="text" placeholder="Data Início"
-                                    data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}'
-                                    style="cursor: pointer;" autocomplete="off" />
+                                <input class="form-control datetimepicker" value="<?= $dataInicio ?>" required name="data_inicio" id="data_inicio" type="text" placeholder="Data Início" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
                             </div>
                         </div>
                         <div class="col-12 col-md-3">
                             <div class="ms-3">
-                                <input class="form-control datetimepicker" value="<?= $dataFim ?>" required
-                                    name="data_fim" id="data_fim" type="text" placeholder="Data Fim"
-                                    data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}'
-                                    style="cursor: pointer;" autocomplete="off" />
+                                <input class="form-control datetimepicker" value="<?= $dataFim ?>" required name="data_fim" id="data_fim" type="text" placeholder="Data Fim" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
                             </div>
                         </div>
                         <div class="col-12 col-md-3">
                             <div class="ms-3">
-                                <select class="select-validation select-orientacao" required name="movimentacao"
-                                    id="movimentacao">
+                                <select class="select-validation select-orientacao" required name="movimentacao" id="movimentacao">
                                     <option selected disabled value=''>Tipo movimentação</option>
                                     <option <?= $tipoMovimentacao == 1 ? 'selected' : '' ?> value="1">Entrada</option>
                                     <option <?= $tipoMovimentacao == 0 ? 'selected' : '' ?> value="0">Saída</option>
@@ -96,8 +77,7 @@
                         </div>
                         <div class="col-12 col-md-3">
                             <div class="ms-3">
-                                <button type="submit"
-                                    class="btn btn-phoenix-secondary bg-white hover-bg-100 w-100">Filtrar</button>
+                                <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 w-100">Filtrar</button>
                             </div>
                         </div>
                     </div>
@@ -119,8 +99,7 @@
 
                         <div class="col-auto">
 
-                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn"
-                                type="button" data-bs-toggle="modal" data-bs-target="#modalEntradaContasPagar">Novo
+                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn" type="button" data-bs-toggle="modal" data-bs-target="#modalEntradaContasPagar">Novo
                                 Lançamento</button>
 
                         </div>
@@ -134,8 +113,7 @@
                         <tr>
                             <th class="white-space-nowrap fs--1 ps-0 align-middle">
                                 <div class="form-check mb-0 fs-0">
-                                    <input class="form-check-input" id="checkbox-bulk-reviews-select" type="checkbox"
-                                        data-bulk-select='{"body":"table-latest-review-body"}' />
+                                    <input class="form-check-input" id="checkbox-bulk-reviews-select" type="checkbox" data-bulk-select='{"body":"table-latest-review-body"}' />
                                 </div>
                             </th>
                             <th class="sort white-space-nowrap align-middle" scope="col" data-sort="data">Data</th>
@@ -156,8 +134,7 @@
 
                                 <td class="fs--1 align-middle ps-0">
                                     <div class="form-check mb-0 fs-0">
-                                        <input class="form-check-input" type="checkbox"
-                                            data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands)","productImage":"/products/60x60/1.png","customer":{"name":"Richard Dawkins","avatar":""},"rating":5,"review":"This Fitbit is fantastic! I was trying to be in better shape and needed some motivation, so I decided to treat myself to a new Fitbit.","status":{"title":"Approved","badge":"success","icon":"check"},"time":"Just now"}' />
+                                        <input class="form-check-input" type="checkbox" data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands)","productImage":"/products/60x60/1.png","customer":{"name":"Richard Dawkins","avatar":""},"rating":5,"review":"This Fitbit is fantastic! I was trying to be in better shape and needed some motivation, so I decided to treat myself to a new Fitbit.","status":{"title":"Approved","badge":"success","icon":"check"},"time":"Just now"}' />
                                     </div>
                                 </td>
 
@@ -181,17 +158,15 @@
                                 </td>
 
                                 <td class="align-middle text-start ps-3 tipo">
-                                    <?php if ($movimentacao['movimentacao_tabela'] == 0): ?>
+                                    <?php if ($movimentacao['movimentacao_tabela'] == 0) : ?>
                                         <span class="badge badge-phoenix fs--2 badge-phoenix-warning">
                                             <span class="badge-label">Saída</span>
-                                            <span class="ms-1" data-feather="trending-down"
-                                                style="height:12.8px;width:12.8px;"></span>
+                                            <span class="ms-1" data-feather="trending-down" style="height:12.8px;width:12.8px;"></span>
                                         </span>
-                                    <?php else: ?>
+                                    <?php else : ?>
                                         <span class="badge badge-phoenix fs--2 badge-phoenix-success">
                                             <span class="badge-label">Entrada</span>
-                                            <span class="ms-1" data-feather="trending-up"
-                                                style="height:12.8px;width:12.8px;"></span>
+                                            <span class="ms-1" data-feather="trending-up" style="height:12.8px;width:12.8px;"></span>
                                         </span>
                                     <?php endif; ?>
                                 </td>
@@ -211,14 +186,9 @@
 
                                 <td class="align-middle white-space-nowrap text-end pe-0">
                                     <div class="font-sans-serif btn-reveal-trigger position-static">
-                                        <button
-                                            class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2"
-                                            type="button" data-bs-toggle="dropdown" data-boundary="window"
-                                            aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span
-                                                class="fas fa-ellipsis-h fs--2"></span></button>
+                                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2"></span></button>
                                         <div class="dropdown-menu dropdown-menu-end py-2">
-                                            <a class="dropdown-item" href="#!" data-bs-toggle="modal"
-                                                data-bs-target="#modalVisualizarFluxoCaixa">
+                                            <a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#modalVisualizarFluxoCaixa" onclick="visualizarFluxo(<?= $movimentacao['id'] ?>)">
                                                 <span class="fas fa-eye"></span> Visualizar
                                             </a>
 
@@ -226,9 +196,9 @@
                                         </div>
                                     </div>
                                 </td>
-                            </tr>
+                        </tr>
 
-                        <?php } ?>
+                    <?php } ?>
 
                     </tbody>
                 </table>
@@ -249,12 +219,12 @@
 
 
 
-    <!-- Modal visualizar constas a receber -->
+    <!-- Modal visualizar contas a receber -->
     <div class="modal fade" tabindex="-1" id="modalVisualizarFluxoCaixa">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Entrada dia 10/04/2024</h5>
+                    <h5 class="modal-title data-fluxo"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body body-coleta">
@@ -270,20 +240,16 @@
                                                     <tr>
                                                         <td class="py-2">
                                                             <div class="d-inline-flex align-items-center">
-                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
-                                                                    style="width:24px; height:24px">
-                                                                    <span
-                                                                        class="text-info-600 dark__text-info-300 fas fa-id-card-alt"
-                                                                        style="width:16px; height:16px"></span>
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300 fas fa-id-card-alt" style="width:16px; height:16px"></span>
                                                                 </div>
-                                                                <p class="fw-bold mb-0">Categoria</p>
+                                                                <p class="fw-bold mb-0">Grupo Macro/Micro</p>
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                         <td class="py-2">
-                                                            <div
-                                                                class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break data-coleta html-clean">
-                                                                Conta de Água
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break macro-micro html-clean">
+
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -291,20 +257,15 @@
                                                     <tr>
                                                         <td class="py-2">
                                                             <div class="d-inline-flex align-items-center">
-                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
-                                                                    style="width:24px; height:24px">
-                                                                    <span class="text-info-600 dark__text-info-300"
-                                                                        data-feather="calendar"
-                                                                        style="width:16px; height:16px"></span>
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300" data-feather="calendar" style="width:16px; height:16px"></span>
                                                                 </div>
                                                                 <p class="fw-bold mb-0">Recebido</p>
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                         <td class="py-2">
-                                                            <div
-                                                                class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break data-coleta html-clean">
-                                                                Five Works (Escritorio)
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break recebido html-clean">
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -312,21 +273,16 @@
                                                     <tr>
                                                         <td class="py-2">
                                                             <div class="d-inline-flex align-items-center">
-                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
-                                                                    style="width:24px; height:24px">
-                                                                    <span class="text-info-600 dark__text-info-300"
-                                                                        data-feather="calendar"
-                                                                        style="width:16px; height:16px"></span>
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300" data-feather="calendar" style="width:16px; height:16px"></span>
                                                                 </div>
                                                                 <p class="fw-bold mb-0">Valor</p>
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                         <td class="py-2">
-                                                            <div
-                                                                class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break responsavel-coleta html-clean">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break valor-fluxo html-clean">
 
-                                                                R$ 250,25
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -334,21 +290,34 @@
                                                     <tr>
                                                         <td class="py-2">
                                                             <div class="d-inline-flex align-items-center">
-                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
-                                                                    style="width:24px; height:24px">
-                                                                    <span
-                                                                        class="text-info-600 dark__text-info-300 fas fa-money-check-alt"
-                                                                        style="width:16px; height:16px"></span>
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300 fas fa-money-check-alt" style="width:16px; height:16px"></span>
                                                                 </div>
-                                                                <p class="fw-bold mb-0">Histórico</p>
+                                                                <p class="fw-bold mb-0">Forma Pagamento</p>
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                         <td class="py-2">
 
-                                                            <div
-                                                                class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break residuos-coletados html-clean">
-                                                                Liquidação de conta a pagar - Five Works (Escritorio)
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break forma-pagamento html-clean">
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td class="py-2">
+                                                            <div class="d-inline-flex align-items-center">
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300 fas fa-message" style="width:16px; height:16px"></span>
+                                                                </div>
+                                                                <p class="fw-bold mb-0">Observação</p>
+                                                            </div>
+                                                        </td>
+                                                        <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                                                        <td class="py-2">
+
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break observacao html-clean">
                                                             </div>
 
                                                         </td>
@@ -410,8 +379,7 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Cadastro
                                                         Financeiro</label>
-                                                    <select name="cadastroFinanceiro"
-                                                        class="form-select select-tipo-conta">
+                                                    <select name="cadastroFinanceiro" class="form-select select-tipo-conta">
                                                         <option selected disabled>Selecione</option>
                                                         <option value="1">Ronaldo Fornecedor</option>
                                                         <option value="2">Saulo Cliente</option>
@@ -424,10 +392,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data</label>
-                                                    <input class="form-control datetimepicker input-coleta" required
-                                                        name="data_movimentacao" type="text" placeholder="dd/mm/aaaa"
-                                                        data-options='{"disableMobile":true,"allowInput":true}'
-                                                        style="cursor: pointer;" />
+                                                    <input class="form-control datetimepicker input-coleta" required name="data_movimentacao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
                                                 </div>
 
                                             </div>
@@ -448,8 +413,7 @@
 
                                             <div class="col-lg-4">
                                                 <div class="mb-4">
-                                                    <label
-                                                        class="text-body-highlight fw-bold mb-2 label-forma-pagamento">Forma
+                                                    <label class="text-body-highlight fw-bold mb-2 label-forma-pagamento">Forma
                                                         Pagamento</label>
                                                     <select name='formaPagamento' class="form-select select2">
                                                         <option selected disabled>Selecione</option>
@@ -464,8 +428,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                    <input class="form-control" required name="valor" type="text"
-                                                        placeholder="Valor">
+                                                    <input class="form-control" required name="valor" type="text" placeholder="Valor">
                                                 </div>
 
                                             </div>
