@@ -138,8 +138,9 @@
 
                         <div class="col-auto">
 
-                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn"
-                                type="button" data-bs-toggle="modal" data-bs-target="#modalEntradaContasPagar">Novo
+                            <button
+                                class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn btn-novo-lancamento"
+                                type="button" data-bs-toggle="modal" data-bs-target="#modalEntradaFluxo">Novo
                                 Lançamento</button>
 
                         </div>
@@ -393,8 +394,7 @@
     </div>
 
     <!-- Modal Incluir lançamento Caixa -->
-
-    <div class="modal fade" tabindex="-1" id="modalEntradaContasPagar">
+    <div class="modal fade" tabindex="-1" id="modalEntradaFluxo">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -410,83 +410,127 @@
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
 
-                                            <div class="col-lg-4">
+                                            <div class="col-lg-6">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Tipo</label>
-                                                    <select class="form-select select-tipo-conta">
+                                                    <select
+                                                        class="form-select input-fluxo-obrigatorio select-tipo-conta">
                                                         <option selected disabled>Selecione</option>
                                                         <option value="1">Entrada</option>
                                                         <option value="0">Saída</option>
 
                                                     </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                                 </div>
 
                                             </div>
 
-                                            <div class="col-lg-4">
-
-                                                <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Cadastro
-                                                        Financeiro</label>
-                                                    <select name="cadastroFinanceiro"
-                                                        class="form-select select-tipo-conta">
-                                                        <option selected disabled>Selecione</option>
-                                                        <option value="1">Ronaldo Fornecedor</option>
-                                                        <option value="2">Saulo Cliente</option>
-                                                    </select>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="col-lg-4">
+                                            <div class="col-lg-6">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data</label>
-                                                    <input class="form-control datetimepicker input-coleta" required
-                                                        name="data_movimentacao" type="text" placeholder="dd/mm/aaaa"
-                                                        data-options='{"disableMobile":true,"allowInput":true}'
+                                                    <input
+                                                        class="form-control datetimepicker input-fluxo-obrigatorio input-coleta"
+                                                        required name="data_movimentacao" type="text"
+                                                        placeholder="dd/mm/aaaa"
+                                                        data-options='{"disableMobile":true,"allowInput":true, "dateFormat": "d/m/Y"}'
                                                         style="cursor: pointer;" />
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Grupo
+                                                        recebidos</label>
+                                                    <select
+                                                        class="form-select select2 select-grupo-recebidos select2 input-fluxo-obrigatorio"
+                                                        name="grupo-recebido">
+                                                        <option selected disabled>Selecione</option>
+                                                        <?php foreach ($grupos as $grupo) { ?>
+                                                            <option value="<?= $grupo['id'] ?>"><?= $grupo['nome'] ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                        <option value="clientes">Clientes</option>
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Recebido</label>
+                                                    <select
+                                                        class="form-select select2 select-recebido select2 input-fluxo-obrigatorio"
+                                                        name="cadastroFinanceiro">
+                                                        <option selected disabled>Selecione</option>
+                                                        <?php foreach ($dadosFinanceiro as $dadoFinanceiro) { ?>
+                                                            <option value="<?= $dadoFinanceiro['id'] ?>">
+                                                                <?= $dadoFinanceiro['nome'] ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                                 </div>
 
                                             </div>
 
                                             <div class="col-lg-4">
-
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Conta
                                                         Bancária</label>
-                                                    <select name='contaBancaria' class="form-select select2">
-                                                        <option selected disabled>Selecione</option>
-                                                        <option value="24">Bradesco</option>
-                                                        <option value="25">Santander</option>
+                                                    <select name="contaBancaria"
+                                                        class="form-select select2 select-conta-bancaria input-fluxo-obrigatorio">
+                                                        <option value="" selected disabled>Selecione</option>
+                                                        <?php foreach ($contasBancarias as $contaBancaria) { ?>
+                                                            <option value="<?= $contaBancaria['id_conta_bancaria'] ?>">
+                                                                <?= $contaBancaria['apelido'] ?>
+                                                            </option>
+                                                        <?php } ?>
                                                     </select>
-                                                </div>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
+                                                </div>
                                             </div>
 
                                             <div class="col-lg-4">
                                                 <div class="mb-4">
-                                                    <label
-                                                        class="text-body-highlight fw-bold mb-2 label-forma-pagamento">Forma
+                                                    <label class="text-body-highlight fw-bold mb-2">Forma
                                                         Pagamento</label>
-                                                    <select name='formaPagamento' class="form-select select2">
-                                                        <option selected disabled>Selecione</option>
-                                                        <option value="1">Pix</option>
-                                                        <option value="1">Débito</option>
-                                                        <option value="1">Crédito</option>
+                                                    <select name="formaPagamento"
+                                                        class="form-select select2 select-forma-pagamento select2 input-fluxo-obrigatorio">
+                                                        <option value="" selected disabled>
+                                                            Selecione</option>
+                                                        <?php foreach ($formasTransacao as $formaTransacao) { ?>
+                                                            <option value="<?= $formaTransacao['id'] ?>">
+                                                                <?= $formaTransacao['nome'] ?>
+                                                            </option>
+                                                        <?php } ?>
                                                     </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-4">
-
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                    <input class="form-control" required name="valor" type="text"
-                                                        placeholder="Valor">
-                                                </div>
+                                                    <input
+                                                        class="form-control input-valor-recebido mascara-dinheiro input-valor-unic input-fluxo-obrigatorio"
+                                                        required name="valor" type="text" placeholder="Valor">
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
+                                                </div>
                                             </div>
 
 
@@ -511,7 +555,7 @@
                 <div class="modal-footer">
 
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
-                    <button class="btn btn-success btn-form" type="button">Salvar</button>
+                    <button class="btn btn-success btn-form btn-insere-fluxo" type="button">Salvar</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
                 </div>

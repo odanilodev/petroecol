@@ -116,6 +116,7 @@ class FinContasReceber extends CI_Controller
 		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
 		$data['data_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao'])));
 
+
 		$success = true;
 
 		for ($i = 0; $i < $dadosLancamento['parcelas']; $i++) {
