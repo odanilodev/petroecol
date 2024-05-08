@@ -62,6 +62,15 @@ $(document).on('change', '.select-grupo-recebidos', function () {
 })
 
 
+$(document).on('click', '.btn-novo-lancamento', function() {
+
+    $('.select2').select2({
+        dropdownParent: "#modalEntradaFluxo",
+        theme: "bootstrap-5",
+    });
+
+})
+
 $(document).on('change', '.select-recebido', function () {
 
     let nomeRecebido = $('.select-recebido option:selected').text();
@@ -71,6 +80,7 @@ $(document).on('change', '.select-recebido', function () {
 
 
 $(document).on('click', '.btn-insere-fluxo', function() {
+
 
     let permissao = true;
 
@@ -99,12 +109,11 @@ $(document).on('click', '.btn-insere-fluxo', function() {
                 $('.btn-form').addClass('d-none'); 
             },
             success: function (data) {
-                avisoRetorno(data.message, data.message, data.type, `${baseUrl}finFluxoCaixa`);
-                
+                avisoRetorno(data.title, data.message, data.type, `${baseUrl}finFluxoCaixa`);                
             },
             error: function (xhr, status, error) {
                 // Tratamento de erro
-                alert('Erro ao salvar dados: ' + error);
+                avisoRetorno('Algo deu errado!', error, 'error', `#`);
             }           
         });
         

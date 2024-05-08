@@ -119,8 +119,9 @@
 
                         <div class="col-auto">
 
-                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn"
-                                type="button" data-bs-toggle="modal" data-bs-target="#modalEntradaContasPagar">Novo
+                            <button
+                                class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn btn-novo-lancamento"
+                                type="button" data-bs-toggle="modal" data-bs-target="#modalEntradaFluxo">Novo
                                 Lançamento</button>
 
                         </div>
@@ -374,8 +375,7 @@
     </div>
 
     <!-- Modal Incluir lançamento Caixa -->
-
-    <div class="modal fade" tabindex="-1" id="modalEntradaContasPagar">
+    <div class="modal fade" tabindex="-1" id="modalEntradaFluxo">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -416,7 +416,7 @@
                                                         class="form-control datetimepicker input-fluxo-obrigatorio input-coleta"
                                                         required name="data_movimentacao" type="text"
                                                         placeholder="dd/mm/aaaa"
-                                                        data-options='{"disableMobile":true,"allowInput":true}'
+                                                        data-options='{"disableMobile":true,"allowInput":true, "dateFormat": "d/m/Y"}'
                                                         style="cursor: pointer;" />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
@@ -430,7 +430,7 @@
                                                     <label class="text-body-highlight fw-bold mb-2">Grupo
                                                         recebidos</label>
                                                     <select
-                                                        class="form-select select2 select-grupo-recebidos  input-fluxo-obrigatorio"
+                                                        class="form-select select2 select-grupo-recebidos select2 input-fluxo-obrigatorio"
                                                         name="grupo-recebido">
                                                         <option selected disabled>Selecione</option>
                                                         <?php foreach ($grupos as $grupo) { ?>
@@ -451,7 +451,7 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Recebido</label>
                                                     <select
-                                                        class="form-select select2 select-recebido input-fluxo-obrigatorio"
+                                                        class="form-select select2 select-recebido select2 input-fluxo-obrigatorio"
                                                         name="cadastroFinanceiro">
                                                         <option selected disabled>Selecione</option>
                                                         <?php foreach ($dadosFinanceiro as $dadoFinanceiro) { ?>
@@ -489,7 +489,7 @@
                                                     <label class="text-body-highlight fw-bold mb-2">Forma
                                                         Pagamento</label>
                                                     <select name="formaPagamento"
-                                                        class="form-select select2 select-forma-pagamento input-fluxo-obrigatorio">
+                                                        class="form-select select2 select-forma-pagamento select2 input-fluxo-obrigatorio">
                                                         <option value="" selected disabled>
                                                             Selecione</option>
                                                         <?php foreach ($formasTransacao as $formaTransacao) { ?>

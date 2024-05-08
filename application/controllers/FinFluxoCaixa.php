@@ -30,9 +30,10 @@ class FinFluxoCaixa extends CI_Controller
         $scriptsPadraoFooter = scriptsPadraoFooter();
 
         // Scripts para Fluxo
+        $scriptsFluxoHead = scriptsFinFluxoHead();
         $scriptsFluxoFooter = scriptsFinFluxoFooter();
 
-        add_scripts('header', array_merge($scriptsPadraoHead));
+        add_scripts('header', array_merge($scriptsPadraoHead, $scriptsFluxoHead));
         add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsFluxoFooter));
 
         // Define as datas padrão caso não sejam recebidas via POST
@@ -113,18 +114,24 @@ class FinFluxoCaixa extends CI_Controller
         $dados['valor'] = $this->input->post('valor');
         $dados['movimentacao_tabela'] = $this->input->post('movimentacao_tabela');
         $dados['id_dado_financeiro'] = $this->input->post('id_dado_financeiro');
-        $dados['data_movimentacao'] = $this->input->post('data_movimentacao');
+        $data_movimentacao = $this->input->post('data_movimentacao');
+
+        $dados['data_movimentacao'] = date('Y-m-d', strtotime(str_replace('/', '-', $data_movimentacao)));
 
         $dados['observacao'] = $this->input->post('observacao');
 
-        $saldoAtual = $this->FinSaldoBancario_model->recebeSaldoBancario($dados['id_conta_bancaria']);
+        if (!$dados['id_vinculo_conta']) {
 
-        $valorMovimentacaoFormatado = str_replace(['.', ','], ['', '.'], $dados['valor']); //Muda para o tipo float
+            $saldoAtual = $this->FinSaldoBancario_model->recebeSaldoBancario($dados['id_conta_bancaria']);
 
-        if ($dados['movimentacao_tabela'] == 1) {
-            $novoSaldo = $saldoAtual['saldo'] + $valorMovimentacaoFormatado;
-        } else {
-            $novoSaldo = $saldoAtual['saldo'] - $valorMovimentacaoFormatado;
+            $valorMovimentacaoFormatado = str_replace(['.', ','], ['', '.'], $dados['valor']); //Muda para o tipo float
+
+            if ($dados['movimentacao_tabela']) {
+                $novoSaldo = $saldoAtual['saldo'] + $valorMovimentacaoFormatado;
+            } else {
+                $novoSaldo = $saldoAtual['saldo'] - $valorMovimentacaoFormatado;
+            }
+
         }
 
         $retornoConta = $this->FinSaldoBancario_model->atualizaSaldoBancario($dados['id_conta_bancaria'], $novoSaldo);
@@ -134,12 +141,14 @@ class FinFluxoCaixa extends CI_Controller
         $response = array(
             'success' => $retornoConta ? true : false,
             'message' => $retornoConta ? 'Saldo alterado com sucesso.' : 'Erro ao alterar o saldo.',
+            'title' => $retornoConta ? 'Sucesso!' : 'Algo deu errado!',
             'type' => $retornoConta ? 'success' : 'error'
         );
 
         $response = array(
             'success' => $retorno ? true : false,
             'message' => $retorno ? 'Movimentação registrada com sucesso.' : 'Erro ao registrar movimentação.',
+            'title' => $retornoConta ? 'Sucesso!' : 'Algo deu errado!',
             'type' => $retorno ? 'success' : 'error'
         );
 
