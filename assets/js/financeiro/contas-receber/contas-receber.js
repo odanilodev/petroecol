@@ -353,7 +353,7 @@ const atualizaFrontDadosFinanceiro = () => {
 
     let totalRecebidoAtualizado = totalRecebido + valorTotalRecebido;
 
-    let totalCaixaAtualizado = totalCaixa - valorTotalRecebido;
+    let totalCaixaAtualizado = totalCaixa + valorTotalRecebido;
     
     let totalAbertoAtualizado = totalAberto - valorTotalRecebidoCompleto;
     
