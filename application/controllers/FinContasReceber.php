@@ -269,6 +269,22 @@ class FinContasReceber extends CI_Controller
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
+	public function visualizarConta()
+	{
+		$idConta = $this->input->post('idConta');
+
+		$conta = $this->FinContasReceber_model->recebeContaReceber($idConta);
+
+		if ($conta) {
+			$response = array(
+				'success' => true,
+				'conta' => $conta
+			);
+		} 
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
 	public function deletarConta()
 	{
 		$idConta = $this->input->post('idConta');
