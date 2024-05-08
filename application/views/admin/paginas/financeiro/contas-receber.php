@@ -197,7 +197,7 @@
                                     <div class="font-sans-serif btn-reveal-trigger position-static">
                                         <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2"></span></button>
                                         <div class="dropdown-menu dropdown-menu-end py-2">
-                                            <a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#modalVisualizarContasReceber">
+                                            <a class="dropdown-item" href="#" onclick="visualizarConta(<?= $contaReceber['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalVisualizarContasReceber">
                                                 <span class="fas fa-eye"></span> Visualizar
                                             </a>
                                             <?php if (!$contaReceber['status']) { ?>
@@ -256,7 +256,7 @@
                                             <div class="col-sm-12 col-xxl-12 border-bottom py-3">
                                                 <table class="w-100 table-stats">
                                                     <tr>
-                                                        <td class="py-2">
+                                                        <td class="py-2 w-50">
                                                             <div class="d-inline-flex align-items-center">
                                                                 <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
                                                                     <span class="text-info-600 dark__text-info-300 fas fa-id-card-alt" style="width:16px; height:16px"></span>
@@ -265,15 +265,15 @@
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                                                        <td class="py-2">
-                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break data-coleta html-clean">
-                                                                Centro da Inteligência
+                                                        <td class="py-2 w-50">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break nome-empresa html-clean">
+                                                                <!-- JS -->
                                                             </div>
                                                         </td>
                                                     </tr>
 
                                                     <tr>
-                                                        <td class="py-2">
+                                                        <td class="py-2 w-50">
                                                             <div class="d-inline-flex align-items-center">
                                                                 <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
                                                                     <span class="text-info-600 dark__text-info-300" data-feather="calendar" style="width:16px; height:16px"></span>
@@ -282,15 +282,15 @@
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                                                        <td class="py-2">
-                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break data-coleta html-clean">
-                                                                10/04/2024
+                                                        <td class="py-2 w-50">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break data-vencimento html-clean">
+                                                                <!-- JS -->
                                                             </div>
                                                         </td>
                                                     </tr>
 
                                                     <tr>
-                                                        <td class="py-2">
+                                                        <td class="py-2 w-50">
                                                             <div class="d-inline-flex align-items-center">
                                                                 <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
                                                                     <span class="text-info-600 dark__text-info-300" data-feather="calendar" style="width:16px; height:16px"></span>
@@ -299,15 +299,34 @@
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                                                        <td class="py-2">
-                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break responsavel-coleta html-clean">
-                                                                10/04/2024
+                                                        <td class="py-2 w-50">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break data-emissao html-clean">
+                                                                <!-- JS -->
                                                             </div>
                                                         </td>
                                                     </tr>
 
+                                                    <tr class="div-data-recebimento d-none">
+                                                        <td class="py-2 w-50">
+                                                            <div class="d-inline-flex align-items-center">
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300" data-feather="calendar" style="width:16px; height:16px"></span>
+                                                                </div>
+                                                                <p class="fw-bold mb-0">Data de Recebimento</p>
+                                                            </div>
+                                                        </td>
+                                                        <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                                                        <td class="py-2 w-50">
+
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break data-recebimento html-clean">
+                                                                <!-- JS -->
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+
                                                     <tr>
-                                                        <td class="py-2">
+                                                        <td class="py-2 w-50">
                                                             <div class="d-inline-flex align-items-center">
                                                                 <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
                                                                     <span class="text-info-600 dark__text-info-300 fas fa-money-check-alt" style="width:16px; height:16px"></span>
@@ -316,67 +335,48 @@
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                                                        <td class="py-2">
+                                                        <td class="py-2 w-50">
 
-                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break residuos-coletados html-clean">
-                                                                R$ 250,25
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break valor-conta html-clean">
+                                                                <!-- JS -->
                                                             </div>
 
                                                         </td>
                                                     </tr>
 
-                                                    <tr>
-                                                        <td class="py-2">
+                                                    <tr class="div-valor-recebido d-none">
+                                                        <td class="py-2 w-50">
                                                             <div class="d-inline-flex align-items-center">
                                                                 <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
                                                                     <span class="text-info-600 dark__text-info-300 fas fa-money-check-alt" style="width:16px; height:16px"></span>
                                                                 </div>
-                                                                <p class="fw-bold mb-0">Valor Pago</p>
+                                                                <p class="fw-bold mb-0">Valor Recebido</p>
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                                                        <td class="py-2">
+                                                        <td class="py-2 w-50">
 
-                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break residuos-coletados html-clean">
-                                                                R$ 240,25
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break valor-recebido html-clean">
+                                                                <!-- JS -->
                                                             </div>
 
                                                         </td>
                                                     </tr>
 
                                                     <tr>
-                                                        <td class="py-2">
+                                                        <td class="py-2 w-50">
                                                             <div class="d-inline-flex align-items-center">
                                                                 <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                                                    <span class="text-info-600 dark__text-info-300 fas fa-money-check-alt" style="width:16px; height:16px"></span>
-                                                                </div>
-                                                                <p class="fw-bold mb-0">Valor em Aberto</p>
-                                                            </div>
-                                                        </td>
-                                                        <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                                                        <td class="py-2">
-
-                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break residuos-coletados html-clean">
-                                                                R$ 10,00
-                                                            </div>
-
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td class="py-2">
-                                                            <div class="d-inline-flex align-items-center">
-                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                                                    <span class="text-info-600 dark__text-info-300 fas fa-money-check-alt" style="width:16px; height:16px"></span>
+                                                                    <span class="text-info-600 dark__text-info-300 fas fa-message" style="width:16px; height:16px"></span>
                                                                 </div>
                                                                 <p class="fw-bold mb-0">Observação</p>
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                                                        <td class="py-2">
+                                                        <td class="py-2 w-50">
 
-                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break residuos-coletados html-clean">
-                                                                observação detalhada aparecerá aqui
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break obs-conta html-clean">
+                                                                <!-- JS -->
                                                             </div>
 
                                                         </td>
@@ -394,14 +394,12 @@
 
                 <div class="modal-footer">
 
-                    <button class="btn btn-success btn-form" type="button">Realizar Pagamento</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
                 </div>
             </div>
         </div>
     </div>
-
     <!-- Modal Entrada Contas a receber -->
 
     <div class="modal fade" tabindex="-1" id="modalEntradaContasReceber">
