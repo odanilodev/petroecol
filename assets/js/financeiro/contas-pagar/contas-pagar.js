@@ -327,6 +327,8 @@ const realizarPagamento = () => {
                     $('#modalPagarConta').modal('hide');
 
                     // atualiza o front
+                    $(`.status-pagamento-${idConta}`).removeClass('cursor-pointer');
+                    $(`.status-pagamento-${idConta}`).removeAttr('data-bs-target');
                     $(`.valor-pago-${idConta}`).html(valorTotalFormatado);
                     $(`.data-pagamento-${idConta}`).html(dataPagamento);
                     $(`.tipo-status-conta-${idConta}`).removeClass('badge-phoenix-danger');
@@ -591,6 +593,45 @@ function realizarVariosPagamentos() {
     })
 }
 
+const visualizarConta = (idConta) => {
+
+    $.ajax({
+        type: "post",
+        url: `${baseUrl}finContasPagar/visualizarConta`,
+        data: {
+            idConta: idConta
+        }, beforeSend: function () {
+            $('.html-clean').html('');
+        }, success: function (data) {
+
+            let dataEmissao = formatarDatas(data['conta'].data_emissao);
+            let dataVencimento = formatarDatas(data['conta'].data_vencimento);
+            let valorConta = formatarValorExibicao(parseFloat(data['conta'].valor));
+            let valorPago = formatarValorExibicao(parseFloat(data['conta'].valor_pago));
+
+            $('.nome-empresa').html(data['conta'].RECEBIDO);
+            $('.data-vencimento').html(dataVencimento);
+            $('.data-emissao').html(dataEmissao);
+            $('.valor-conta').html(valorConta);
+            $('.obs-conta').html(data['conta'].observacao);
+
+            if (data['conta'].valor_pago) {
+                let dataPagamento = formatarDatas(data['conta'].data_pagamento);
+                $('.div-valor-pago').removeClass('d-none');
+                $('.valor-pago').html(valorPago);
+                $('.div-data-pagamento').removeClass('d-none');
+                $('.data-pagamento').html(dataPagamento);
+
+            } else {
+                $('.div-valor-pago').addClass('d-none');
+            }
+
+
+        }
+    })
+
+}
+
 const deletaContaPagar = (idConta) => {
 
     Swal.fire({
@@ -613,11 +654,11 @@ const deletaContaPagar = (idConta) => {
                 data: {
                     idConta: idConta
                 }, success: function (data) {
-        
+
                     let redirect = data.type != 'error' ? `${baseUrl}finContasPagar` : '#';
-        
+
                     avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
-        
+
                 }
             })
 
