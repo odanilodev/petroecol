@@ -604,9 +604,10 @@ const visualizarConta = (idConta) => {
             $('.html-clean').html('');
         }, success: function (data) {
 
-            let dataEmissao = formatarDatas(data['conta'].data_vencimento);
+            let dataEmissao = formatarDatas(data['conta'].data_emissao);
             let dataVencimento = formatarDatas(data['conta'].data_vencimento);
             let valorConta = formatarValorExibicao(parseFloat(data['conta'].valor));
+            let valorPago = formatarValorExibicao(parseFloat(data['conta'].valor_pago));
             
             $('.nome-empresa').html(data['conta'].RECEBIDO);
             $('.data-vencimento').html(dataVencimento);
@@ -616,17 +617,13 @@ const visualizarConta = (idConta) => {
 
             if (data['conta'].valor_pago) {
                 $('.div-valor-pago').removeClass('d-none');
-                $('.valor-pago').html(data['conta'].valor_pago);
-                $('.div-valor-aberto').addClass('d-none');
+                $('.valor-pago').html(valorPago);
 
-            }
-
-            if (data['conta'].status == 0) {
+            } else {
                 $('.div-valor-pago').addClass('d-none');
-                $('.div-valor-aberto').removeClass('d-none');
-                $('.valor-aberto').html(data['conta'].valor);
-
             }
+
+            
         }
     })
 
