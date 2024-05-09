@@ -19,6 +19,7 @@ class FinDre extends CI_Controller
 			}
 		}
 		// FIM controle sessão
+		$this->load->model('FinDre_model');
 		$this->load->library('finDadosFinanceiros');
 	}
 
@@ -56,19 +57,21 @@ class FinDre extends CI_Controller
 		}
 
 		//soma as movimentacoes da tabela fluxo.
-		$data['totalSaida'] = $this->findadosfinanceiros->totalFluxoFinanceiro('valor', 0, $dataInicioFormatada, $dataFimFormatada);
-		$data['totalEntrada'] = $this->findadosfinanceiros->totalFluxoFinanceiro('valor', 1, $dataInicioFormatada, $dataFimFormatada);
+		$data['despesa'] = $this->findadosfinanceiros->totalFluxoFinanceiro('valor', 0, $dataInicioFormatada, $dataFimFormatada);
+		$data['faturamento'] = $this->findadosfinanceiros->totalFluxoFinanceiro('valor', 1, $dataInicioFormatada, $dataFimFormatada);
 
-		$data['balancoFinanceiro'] = $data['totalEntrada']['valor'] - $data['totalSaida']['valor'];
+		$data['balancoFinanceiro'] = $data['faturamento']['valor'] - $data['despesa']['valor'];
 
-		if (!empty($data['totalEntrada']['valor'])) {
+		if (!empty($data['faturamento']['valor'])) {
 
-			$data['porcentagemFaturamento'] = ($data['totalEntrada']['valor'] - $data['totalSaida']['valor']) / $data['totalEntrada']['valor'] * 100;
+			$data['porcentagemFaturamento'] = ($data['faturamento']['valor'] - $data['despesa']['valor']) / $data['faturamento']['valor'] * 100;
 		} else {
 			$data['porcentagemFaturamento'] = 0;
 		}
 
-		
+		$data['despesas'] = $this->FinDre_model->recebeDre($dataInicioFormatada, $dataFimFormatada);
+
+		// echo "<pre>"; print_r($data['despesas']); exit;
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/financeiro/dre');

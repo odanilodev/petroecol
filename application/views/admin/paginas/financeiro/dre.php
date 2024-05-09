@@ -12,7 +12,7 @@
                                 <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ <?= number_format($totalEntrada['valor'], 2, ',', '.') ?></span></h4>
+                                <h4 class="mb-0">R$ <?= number_format($faturamento['valor'], 2, ',', '.') ?></span></h4>
                                 <p class="text-800 fs--1 mb-0">Faturamento - <?= $dataInicio ? "$dataInicio - $dataFim" : "Últimos 30 dias" ?></p>
                             </div>
                         </div>
@@ -25,7 +25,7 @@
                                 <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-danger " data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ <?= number_format($totalSaida['valor'], 2, ',', '.') ?></span></h4>
+                                <h4 class="mb-0">R$ <?= number_format($despesa['valor'], 2, ',', '.') ?></span></h4>
                                 <p class="text-800 fs--1 mb-0">Total Despesas - <?= $dataInicio ? "$dataInicio - $dataFim" : "Últimos 30 dias" ?></p>
                             </div>
                         </div>
@@ -94,7 +94,7 @@
         <div data-list='{"valueNames":["td_tipo","td_valor","td_porcentagem"],"page":40,"pagination":true}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
-                    <h3>DRE</h3>
+                    <h3>Despesas</h3>
                 </div>
 
             </div>
@@ -103,7 +103,7 @@
                     <thead>
                         <tr class="text-center">
                             <th class="sort align-middle" scope="col" data-sort="td_tipo">Tipo de despesa</th>
-                            <th class="sort ps-5 align-middle" scope="col" data-sort="td_valor">Valor</th>
+                            <th class="sort ps-5 align-middle" scope="col" data-sort="td_valor">Valor Pago</th>
                             <th class="sort ps-5 align-middle" scope="col" data-sort="td_porcentagem">% em relação ao faturamento</th>
                             <th class="sort text-end pe-0 align-middle" scope="col"></th>
                         </tr>
@@ -116,19 +116,20 @@
 
                                 <td class="align-middle td_tipo">
                                     <h6 class="text-900 mb-0">
-                                        Teste
+                                        <?= $despesa['MACRO']?>
                                     </h6>
                                 </td>
 
                                 <td class="align-middle td_valor">
                                     <h6 class="mb-0 text-900">
-                                        R$ 200,25
+                                        R$ <?= number_format($despesa['total_pago'], 2, ',', '.') ?>
+
                                     </h6>
                                 </td>
 
                                 <td class="align-middle td_porcentagem">
                                     <h6 class="text-900 mb-0">
-                                        0,16%
+                                        <?= ($faturamento['valor'] - $despesa['total_pago']) / $faturamento['valor'] * 100 ?>%
                                     </h6>
                                 </td>
 
