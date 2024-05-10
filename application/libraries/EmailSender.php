@@ -124,15 +124,10 @@ class EmailSender
 
     private function redefinicaoSenha($opcao)
     {
-        $CI = &get_instance();
 
-        $codigoSeparado = implode('|', str_split($opcao));
+        $html = "<h2>Olá, Você solicitou a alteração de senha em nosso sistema.</h2>";
 
-        $data = array(
-            'codigo' => explode('|', $codigoSeparado)
-        );
-
-        $html = $this->$CI->load->view('admin/paginas/template-emails/redefinir-senha', $data);
+        $html .= "<p>Segue o código para alteração de senha -> " . $opcao . "</p>";
 
         return $html;
     }
