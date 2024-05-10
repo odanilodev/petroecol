@@ -8,7 +8,7 @@
   <title>Email Template</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-..." crossorigin="anonymous">
   <style>
-    body {
+    /* body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #f8f9fa;
       margin: 0;
@@ -71,7 +71,7 @@
       margin-top: 20px;
       color: #6c757d;
       font-size: 14px;
-    }
+    } */
   </style>
 </head>
 
@@ -93,7 +93,7 @@
         </div>
       </div>
       <div class="line"></div>
-      <h2>llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllãllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllòllllllllllllllllllllllllllllló</h2>
+      <h2>llllllllllllllllããlllllllllóólllll</h2>
 
     </div>
     <div class="footer">
