@@ -101,8 +101,7 @@
         </div>
       </div>
       <div class="line"></div>
-      <p>Por favor, utilize o código acima para redefinir sua senha. Este código é válido por um período limitado de tempo.</p>
-      <p>Caso não tenha sido você quem solicitou a troca de senha, por favor, desconsidere este e-mail.</p>
+      <?= $texto ?>
     </div>
     <div class="footer">
       © 2024 Petroecol. Todos os direitos reservados.
