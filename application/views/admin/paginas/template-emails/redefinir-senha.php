@@ -25,7 +25,7 @@
     }
 
     .container {
-      max-width: 600px;
+      max-width: 90%;
       padding: 20px;
       border-radius: 15px;
       box-shadow: 0px 2px 6px rgba(1, 55, 56, 0.1);
