@@ -101,7 +101,7 @@
         </div>
       </div>
       <div class="line"></div>
-      <p>Por favor, utilize o código acima para redefinir sua senha.</p>
+      Por favor, utilize o código acima para redefinir sua senha.
 
     </div>
     <div class="footer">
