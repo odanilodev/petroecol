@@ -124,8 +124,6 @@ class EmailSender
 
     private function redefinicaoSenha($opcao)
     {
-        $CI = &get_instance();
-
         $codigoSeparado = implode('|', str_split($opcao));
 
         $data = array(
