@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
   <meta charset="UTF-8">
@@ -89,12 +89,12 @@
       <div class="code-container">
         <h2>Código de Redefinição de Senha</h2>
         <div class="code mt-4">
-          <div class="code-digit"><?= $codigo[0] ?></div>
-          <div class="code-digit"><?= $codigo[1] ?></div>
-          <div class="code-digit"><?= $codigo[2] ?></div>
-          <div class="code-digit"><?= $codigo[3] ?></div>
-          <div class="code-digit"><?= $codigo[4] ?></div>
-          <div class="code-digit"><?= $codigo[5] ?></div>
+          <div class="code-digit">1</div>
+          <div class="code-digit">2</div>
+          <div class="code-digit">3</div>
+          <div class="code-digit">4</div>
+          <div class="code-digit">5</div>
+          <div class="code-digit">6</div>
         </div>
       </div>
       <div class="line"></div>
