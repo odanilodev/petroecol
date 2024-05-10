@@ -86,7 +86,7 @@
   <div class="email-container">
     <div class="container">
       <div class="logo">
-        <img src=<?=base_url('assets/img/icons/logo.png')?> alt="Logo da Empresa" width="200">
+        <img src=<?=base_url('assets/img/icons/logo.jpg')?> alt="Logo da Empresa" width="200">
       </div>
       <div class="code-container">
         <h2>Código de Redefinição de Senha</h2>
