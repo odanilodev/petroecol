@@ -69,11 +69,6 @@
       margin: 20px 0;
     }
 
-    p {
-      font-size: 16px;
-      line-height: 1.6;
-    }
-
     .footer {
       text-align: center;
       margin-top: 20px;
