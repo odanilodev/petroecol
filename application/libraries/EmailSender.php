@@ -125,7 +125,7 @@ class EmailSender
     private function redefinicaoSenha($opcao)
     {
         $codigoSeparado = implode('|', str_split($opcao));
-        $texto = "<p>Por favor, utilize o código acima para redefinir sua senha. Este código é válido por um período limitado de tempo.\n\nCaso não tenha sido você quem solicitou a troca de senha, por favor, desconsidere este e-mail.</p>";
+        $texto = "Por favor, utilize o código acima para redefinir sua senha. Este código é válido por um período limitado de tempo.\n\nCaso não tenha sido você quem solicitou a troca de senha, por favor, desconsidere este e-mail.";
 
 
         $data = array(
