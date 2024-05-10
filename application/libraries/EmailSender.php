@@ -43,7 +43,6 @@ class EmailSender
         $this->CI->email->from($this->emailRemetente, $this->nomeRemetente); // Remetente
         $this->CI->email->to($email); // Destinatário
         $this->CI->email->subject($assunto);
-        $this->CI->email->set_mailtype("html");
         $this->CI->email->set_charset("utf-8");
 
         $this->CI->email->message($html);
