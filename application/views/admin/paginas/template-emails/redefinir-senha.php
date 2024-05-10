@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Email Template</title>
-    <link rel="stylesheet" href="<?=base_url('/assets/css/template-emails/redefinir-senha.css')?>">
 </head>
 <body>
     <div class="email-container">
@@ -15,12 +14,6 @@
             <div class="code-container">
                 <h2>Código de Redefinição de Senha</h2>
                 <div class="code mt-4">
-                    <div class="code-digit"><?=$codigo[0]?></div>
-                    <div class="code-digit"><?=$codigo[1]?></div>
-                    <div class="code-digit"><?=$codigo[2]?></div>
-                    <div class="code-digit"><?=$codigo[3]?></div>
-                    <div class="code-digit"><?=$codigo[4]?></div>
-                    <div class="code-digit"><?=$codigo[5]?></div>
                 </div>
             </div>
             <div class="line"></div>

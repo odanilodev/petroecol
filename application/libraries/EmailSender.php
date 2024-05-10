@@ -125,9 +125,7 @@ class EmailSender
     private function redefinicaoSenha($opcao)
     {
 
-        $html = "<h2>Olá, Você solicitou a alteração de senha em nosso sistema.</h2>";
-
-        $html .= "<p>Segue o código para alteração de senha -> " . $opcao . "</p>";
+        $html = $this->CI->load->view('admin/paginas/template-emails/redefinir-senha');
 
         return $html;
     }
