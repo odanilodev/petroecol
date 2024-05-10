@@ -101,8 +101,8 @@
         </div>
       </div>
       <div class="line"></div>
-      <h2>Por favor, utilize o código acima para redefinir sua senha. Este código é válido por um período limitado de tempo.</h2>
-      <h2>Caso não tenha sido você quem solicitou a troca de senha, por favor, desconsidere este e-mail.</h2>
+      <h2>lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll</h2>
+
     </div>
     <div class="footer">
       © 2024 Petroecol. Todos os direitos reservados.
