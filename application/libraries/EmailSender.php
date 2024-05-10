@@ -34,7 +34,7 @@ class EmailSender
 
         switch ($template) {
             case 'definicaoSenha':
-                $html = $this->redefinicaoSenha($opcao);
+                $html = $this->CI->load->view('admin/paginas/template-emails/redefinir-senha', null, true);
                 break;
             default:
                 $html = $this->templatePadrao();
