@@ -10,11 +10,11 @@ class Login extends CI_Controller
 
     public function esqueceuSenha()
     {
-        $scriptsPadraoHead = scriptsPadraoHead();
-        $scriptsPadraoFooter = scriptsPadraoFooter();
-        $scriptsLoginFooter = array('<script src="' . base_url('assets/js/login/recupera-senha.js') . '"></script>');
-        add_scripts('header', $scriptsPadraoHead);
-        add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsLoginFooter));
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
+		$scriptsLoginFooter = array('<script src="' . base_url('assets/js/login/recupera-senha.js') . '"></script>');
+		add_scripts('header', $scriptsPadraoHead);
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsLoginFooter));
 
         $this->load->view('admin/includes/login/cabecalho');
         $this->load->view('admin/login/redefine-senha');
@@ -75,10 +75,7 @@ class Login extends CI_Controller
             return $this->output->set_content_type('application/json')->set_output(json_encode($response));
         }
 
-        $numbers = str_pad(rand(100000, 999999), 6, '0', STR_PAD_LEFT); // Gera um número aleatório e faz o padding
-        $numbers_array = str_split($numbers); // Transforma a string em um array de caracteres
-        $result = implode('|', $numbers_array); // Junta os caracteres do array usando o pipe como delimitador
-        
+        $codigo = str_pad(rand(100000, 999999), 6, '0', STR_PAD_LEFT);
         $dataCriacao = date('Y-m-d H:i:s');
         $dataValidade = date('Y-m-d H:i:s', strtotime($dataCriacao) + (30 * 60));
 
@@ -93,7 +90,7 @@ class Login extends CI_Controller
 
         if ($insercaoBemSucedida) {
             $emailSender->enviarEmail('definicaoSenha', $email, $assunto, $codigo);
-            $response = array(
+             $response = array(
                 'success' => true,
                 'message' => 'Token enviado com sucesso'
             );
@@ -105,6 +102,7 @@ class Login extends CI_Controller
         }
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
     }
 
     public function redefineSenha()
@@ -123,14 +121,14 @@ class Login extends CI_Controller
             $novaSenhaHash = password_hash($novaSenha, PASSWORD_DEFAULT);
             $dados['senha'] = $novaSenhaHash;
             $dados['id_empresa'] = $usuario['id_empresa'];
-
+            
             $resultado = $this->Usuarios_model->redefinirSenha($id, $dados);
 
             // Verifica se aletrou a senha
             if ($resultado) {
                 $response = array(
-                    'success' => true,
-                    'message' => "Senha alterada com sucesso!"
+                'success' => true,
+                'message' => "Senha alterada com sucesso!"
                 );
             } else {
                 $response = array(
@@ -217,13 +215,13 @@ class Login extends CI_Controller
     public function erro()
     {
         // scripts padrão
-        $scriptsPadraoHead = scriptsPadraoHead();
-        $scriptsPadraoFooter = scriptsPadraoFooter();
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
 
         add_scripts('header', $scriptsPadraoHead);
         add_scripts('footer', $scriptsPadraoFooter);
 
-
+        
         // Destrói a sessão
         $this->session->sess_destroy();
 
