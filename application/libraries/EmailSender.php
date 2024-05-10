@@ -130,7 +130,7 @@ class EmailSender
             'codigo' => explode('|', $codigoSeparado),
         );
 
-        $html = $this->CI->load->view('admin/paginas/template-emails/redefinir-senha', $data, TRUE);
+        $html = $this->CI->load->view('admin/paginas/template-emails/redefinir-senha', null, TRUE);
 
         return $html;
     }
