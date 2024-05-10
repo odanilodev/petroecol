@@ -132,7 +132,7 @@ class EmailSender
             'codigo' => explode('|', $codigoSeparado)
         );
 
-        $html = $this->$CI->view('admin/paginas/template-emails/redefinir-senha', $data);
+        $html = '<h1>oi</h1>';
 
         return $html;
     }
