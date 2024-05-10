@@ -124,13 +124,15 @@ class EmailSender
 
     private function redefinicaoSenha($opcao)
     {
+        $CI = &get_instance();
+
         $codigoSeparado = implode('|', str_split($opcao));
 
         $data = array(
             'codigo' => explode('|', $codigoSeparado)
         );
 
-        $html = '<h1>oi</h1>';
+        $html = $this->$CI->load->view('admin/paginas/template-emails/redefinir-senha', $data);
 
         return $html;
     }
