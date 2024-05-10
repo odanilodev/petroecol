@@ -24,6 +24,14 @@
       align-items: center;
     }
 
+    .container {
+      max-width: 600px;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0px 2px 6px rgba(1, 55, 56, 0.1);
+      background-color: #fff;
+    }
+
     .logo {
       text-align: center;
       margin-bottom: 20px;
@@ -93,7 +101,7 @@
         </div>
       </div>
       <div class="line"></div>
-      <p>oração do pai nosso</p>
+      <p>tetão de negão</p>
 
     </div>
     <div class="footer">
