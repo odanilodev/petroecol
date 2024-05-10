@@ -25,7 +25,7 @@
     }
 
     .container {
-      max-width: 90%;
+      max-width: 600px;
       padding: 20px;
       border-radius: 15px;
       box-shadow: 0px 2px 6px rgba(1, 55, 56, 0.1);
@@ -101,8 +101,8 @@
         </div>
       </div>
       <div class="line"></div>
-      Por favor, utilize o código acima para redefinir sua senha. <br> 
-      Este código é válido por um período limitado de tempo.
+        <p>Por favor, utilize o código acima para redefinir sua senha. </p>
+        <p>Este código é válido por um período limitado de tempo.</p>
 
     </div>
     <div class="footer">
