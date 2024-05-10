@@ -1,4 +1,4 @@
-'<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,8 +6,72 @@
     <title>Email Template</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="<?=base_url('/assets/css/template-emails/redefinir-senha.css')?>">
-
+    <style>
+        /* Custom CSS */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            color: #013738; /* verde escuro */
+        }
+        .email-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            border-radius: 15px; /* Border-radius aumentado */
+            box-shadow: 0px 2px 6px rgba(1, 55, 56, 0.1); /* Sombra sutil */
+            background-color: #fff;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .code-container {
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .code {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .code-digit {
+            width: 50px;
+            height: 50px;
+            background-color: #e9ecef; /* branco */
+            border: 2px solid #013738; /* verde escuro */
+            border-radius: 10px;
+            margin: 0 5px;
+            font-size: 24px;
+            line-height: 50px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .line {
+            border-top: 2px solid #013738; /* verde escuro */
+            margin: 20px 0;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #6c757d; /* cinza */
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
     <div class="email-container">
@@ -37,4 +101,3 @@
     </div>
 </body>
 </html>
-'
