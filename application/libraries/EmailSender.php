@@ -33,9 +33,6 @@ class EmailSender
     {
 
         switch ($template) {
-            case 'definicaoSenha':
-                $html = $this->redefinicaoSenha($opcao);
-                break;
             default:
                 $html = $this->templatePadrao();
         }
@@ -61,7 +58,7 @@ class EmailSender
                 $data = $this->enviarCertificado($assunto, $opcao);
                 break;
             case 'definicaoSenha':
-                $data = $this->redefinicaoSenhaApi($opcao);
+                $data = $this->redefinicaoSenhaApi($assunto, $opcao);
                 break;
             default:
                 $data = $this->templatePadraoApi($assunto);
@@ -125,20 +122,7 @@ class EmailSender
         return false;
     }
 
-    private function redefinicaoSenha($opcao)
-    {
-        $codigoSeparado = implode('|', str_split($opcao));
-
-        $data = array(
-            'codigo' => explode('|', $codigoSeparado),
-        );
-
-        $html = $this->CI->load->view('admin/paginas/template-emails/redefinir-senha', $data, TRUE);
-
-        return $html;
-    }
-
-    private function redefinicaoSenhaApi($opcao)
+    private function redefinicaoSenhaApi($assunto, $opcao)
     {
         $codigoSeparado = implode('|', str_split($opcao));
 
@@ -158,13 +142,6 @@ class EmailSender
                     "To" => [],
                     "Subject" => $assunto,
                     "HTMLPart" => $html,
-                    "Attachments" => [
-                        [
-                            'ContentType' => 'application/pdf',
-                            'Filename' => 'certificado.pdf',
-                            'Base64Content' => base64_encode($opcao)
-                        ]
-                    ],
                 ]
             ]
         ];
