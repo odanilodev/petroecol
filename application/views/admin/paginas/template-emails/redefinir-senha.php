@@ -101,7 +101,7 @@
         </div>
       </div>
       <div class="line"></div>
-      Por favor, utilize o código acima para redefinir sua senha.
+      Por favor, utilize o código acima para redefinir sua senha. Este código é válido por um período limitado de tempo.\n\nCaso não tenha sido você quem solicitou a troca de senha, por favor, desconsidere este e-mail.
 
     </div>
     <div class="footer">
