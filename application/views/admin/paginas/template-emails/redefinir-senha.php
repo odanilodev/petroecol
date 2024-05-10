@@ -1,29 +1,40 @@
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Firs ffsfsf sfs  fs s fsfsfs fs fs fsfs  fsf sfsf sf sf sf s fs f s f sf sfsfsdt</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
-</table>
+'<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Template</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?=base_url('/assets/css/template-emails/redefinir-senha.css')?>">
+
+</head>
+<body>
+    <div class="email-container">
+        <div class="container">
+            <div class="logo">
+            <img src="https://www.petroecol.eco.br/petroecol/assets/img/icons/logo.png" alt="Logo da Empresa" width="200">
+            </div>
+            <div class="code-container">
+                <h2>Código de Redefinição de Senha</h2>
+                <div class="code mt-4">
+                    <div class="code-digit"><?=$codigo[0]?></div>
+                    <div class="code-digit"><?=$codigo[1]?></div>
+                    <div class="code-digit"><?=$codigo[2]?></div>
+                    <div class="code-digit"><?=$codigo[3]?></div>
+                    <div class="code-digit"><?=$codigo[4]?></div>
+                    <div class="code-digit"><?=$codigo[5]?></div>
+                </div>
+            </div>
+            <div class="line"></div>
+            <p>Por favor, utilize o código acima para redefinir sua senha. Este código é válido por um período limitado de tempo.</p>
+            <p>Caso não tenha sido você quem solicitou a troca de senha, por favor, desconsidere este e-mail.</p>
+
+        </div>
+        <div class="footer">
+            © 2024 Petroecol. Todos os direitos reservados.
+        </div>
+    </div>
+</body>
+</html>
+'
