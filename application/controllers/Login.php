@@ -89,7 +89,7 @@ class Login extends CI_Controller
         $insercaoBemSucedida = $this->Token_model->insereToken($dadosToken);
 
         if ($insercaoBemSucedida) {
-            $emailSender->enviarEmail('definicaoSenha', $email, $assunto, $codigo);
+            $emailSender->enviarEmailAPI('definicaoSenha', $email, $assunto, $codigo);
              $response = array(
                 'success' => true,
                 'message' => 'Token enviado com sucesso'

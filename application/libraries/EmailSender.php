@@ -60,6 +60,9 @@ class EmailSender
             case 'enviarCertificado':
                 $data = $this->enviarCertificado($assunto, $opcao);
                 break;
+            case 'definicaoSenha':
+                $data = $this->redefinicaoSenhaApi($opcao);
+                break;
             default:
                 $data = $this->templatePadraoApi($assunto);
         }
@@ -124,9 +127,49 @@ class EmailSender
 
     private function redefinicaoSenha($opcao)
     {
-        $html = $this->CI->load->view('admin/paginas/template-emails/redefinir-senha', null, TRUE);
+        $codigoSeparado = implode('|', str_split($opcao));
+
+        $data = array(
+            'codigo' => explode('|', $codigoSeparado),
+        );
+
+        $html = $this->CI->load->view('admin/paginas/template-emails/redefinir-senha', $data, TRUE);
 
         return $html;
+    }
+
+    private function redefinicaoSenhaApi($opcao)
+    {
+        $codigoSeparado = implode('|', str_split($opcao));
+
+        $data = array(
+            'codigo' => explode('|', $codigoSeparado),
+        );
+
+        $html = $this->CI->load->view('admin/paginas/template-emails/redefinir-senha', $data, TRUE);
+        // Dados da solicitação
+        $data = [
+            "Messages" => [
+                [
+                    "From" => [
+                        "Email" => $this->emailRemetente,
+                        "Name" => $this->nomeRemetente
+                    ],
+                    "To" => [],
+                    "Subject" => $assunto,
+                    "HTMLPart" => $html,
+                    "Attachments" => [
+                        [
+                            'ContentType' => 'application/pdf',
+                            'Filename' => 'certificado.pdf',
+                            'Base64Content' => base64_encode($opcao)
+                        ]
+                    ],
+                ]
+            ]
+        ];
+
+        return $data;
     }
 
     private function templatePadrao()
