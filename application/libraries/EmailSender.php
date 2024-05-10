@@ -120,12 +120,11 @@ class EmailSender
 
         //echo 'Erro ao enviar email!!!';
         return false;
-
-
     }
 
     private function redefinicaoSenha($opcao)
     {
+        $CI = &get_instance();
 
         $codigoSeparado = implode('|', str_split($opcao));
 
@@ -133,7 +132,7 @@ class EmailSender
             'codigo' => explode('|', $codigoSeparado)
         );
 
-        $html = $this->load->view('admin/paginas/template-emails/redefinir-senha', $data);
+        $html = $this->$CI->view('admin/paginas/template-emails/redefinir-senha', $data);
 
         return $html;
     }
