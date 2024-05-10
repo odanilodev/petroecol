@@ -93,7 +93,7 @@
         </div>
       </div>
       <div class="line"></div>
-      <h2>llllllllllllllllããlllllllllóólllll</h2>
+      <h2>oração do pai nosso</h2>
 
     </div>
     <div class="footer">
