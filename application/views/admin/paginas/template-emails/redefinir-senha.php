@@ -98,14 +98,14 @@
         <img src="https://www.petroecol.eco.br/petroecol/assets/img/icons/logo.png" alt="Logo da Empresa" width="200">
       </div>
       <div class="code-container">
-        <h2>Código de Redefinição de Senha Por favor, utilize o código acima para redefinir sua senha. Este código é válido por um período limitado de tempo.</h2>
+        <h2>Código de Redefinição de Senha</h2>
         <div class="code mt-4">
-          <div class="code-digit">0</div>
-          <div class="code-digit">1</div>
-          <div class="code-digit">2</div>
-          <div class="code-digit">3</div>
-          <div class="code-digit">4</div>
-          <div class="code-digit">5</div>
+          <div class="code-digit"><?= $codigo[0] ?></div>
+          <div class="code-digit"><?= $codigo[1] ?></div>
+          <div class="code-digit"><?= $codigo[2] ?></div>
+          <div class="code-digit"><?= $codigo[3] ?></div>
+          <div class="code-digit"><?= $codigo[4] ?></div>
+          <div class="code-digit"><?= $codigo[5] ?></div>
         </div>
       </div>
       <div class="line"></div>
