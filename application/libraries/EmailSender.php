@@ -144,7 +144,8 @@ class EmailSender
     private function enviarCertificado($assunto, $opcao)
     {
 
-        $html = "<h2>Olá, segue o certificado em anexo!</h2>";
+        $html = $this->CI->load->view('admin/paginas/template-emails/redefinir-senha');
+        
         // Dados da solicitação
         $data = [
             "Messages" => [
