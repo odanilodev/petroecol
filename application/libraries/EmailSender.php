@@ -159,7 +159,9 @@ class EmailSender
     {
         $this->load->helper('config_master_helper');
 
-        $dados['emailEmpresa'] = dadosEmpresaEmail($this->session->userdata('id_empresa'));
+        $dados['emailEmpresa'] = dadosEmpresaCliente($this->session->userdata('id_empresa'), 'email');
+        $dados['telPrimario'] = dadosEmpresaCliente($this->session->userdata('id_empresa'), 'telefone_primario');
+        $dados['telSecundario'] = dadosEmpresaCliente($this->session->userdata('id_empresa'), 'telefone_secundario');
 
         $html = $this->load->view('admin/paginas/template-emails/enviar-certificado', $dados, TRUE);
 

@@ -12,12 +12,12 @@ if (!function_exists('dadosEmpresa')) {
         return $resultado;
     }
 
-    function dadosEmpresaEmail($idEmpresa)
+    function dadosEmpresaCliente($idEmpresa, $dadosEmpresaCliente)
     {
         $CI = &get_instance();
         $CI->load->model('Empresas_model');
 
-        $resultado = $CI->Empresas_model->recebeEmpresa($idEmpresa);
+        $resultado = $CI->Empresas_model->recebeEmpresa($idEmpresa, $dadosEmpresaCliente);
 
         return $resultado['email'];
 
