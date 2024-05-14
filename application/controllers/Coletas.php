@@ -42,7 +42,7 @@ class Coletas extends CI_Controller
         $idColeta = $this->input->post('idColeta');
 
         if ($payload) {
-            foreach ($payload as $cliente):
+            foreach ($payload as $cliente) :
                 $dados = array(
                     'id_cliente' => $cliente['idCliente'],
                     'id_responsavel' => $idResponsavel,
@@ -103,7 +103,7 @@ class Coletas extends CI_Controller
 
         $idColeta = $this->input->post('coleta') ?? $this->uri->segment(3);
         $idModelo = $this->input->post('modelo') ?? $this->uri->segment(4);
-        
+
         $enviarEmail = $this->input->post('envia-certificado') ?? null; //Recebe o valor `email` para definir que é um envio de certificado, caso contrario somente gerar.
         $idCliente = $this->input->post('cliente') ?? null;
         $emailsCliente = $this->input->post('emails') ?? null;
@@ -152,7 +152,7 @@ class Coletas extends CI_Controller
                 $this->session->set_flashdata('redirect_retorno_funcao', '#');
                 $this->session->set_flashdata('texto_retorno_funcao', 'Certificado enviado com sucesso!');
                 redirect($_SERVER['HTTP_REFERER']);
-            } else if (!$result && $enviarEmail){
+            } else if (!$result && $enviarEmail) {
                 $this->session->set_flashdata('titulo_retorno_funcao', 'Algo deu errado!');
                 $this->session->set_flashdata('tipo_retorno_funcao', 'error');
                 $this->session->set_flashdata('redirect_retorno_funcao', '#');
@@ -327,7 +327,6 @@ class Coletas extends CI_Controller
             // Fecha a linha e adiciona ao todosSelects
             $selectRow .= '</div>';
             $todosSelects .= $selectRow;
-
         } else {
             // Se houver formas de pagamento, segue com o loop normalmente
             $count = 0;
@@ -386,5 +385,33 @@ class Coletas extends CI_Controller
         }
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
+
+    public function deletaColeta()
+    {
+        $id = $this->input->post('idColeta');
+
+        $retorno = $this->Coletas_model->deletaColeta($id);
+
+        if ($retorno) { // alterou status
+
+            $response = array(
+                'success' => true,
+                'title' => "Sucesso!",
+                'message' => 'Coleta deletada com sucesso!',
+                'type' => "success"
+            );
+        } else { // erro ao deletar
+
+            $response = array(
+                'success' => false,
+                'title' => "Algo deu errado!",
+                'message' => 'Não foi possível deletar a coleta.',
+                'type' => "error"
+            );
+        }
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
     }
 }

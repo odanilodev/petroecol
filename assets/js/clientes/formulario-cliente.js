@@ -353,6 +353,46 @@ const detalhesHistoricoColeta = (idColeta, classe) => {
         }
     })
 
+} 
+
+const deletaColeta = (idColeta, idCliente) => {
+
+    Swal.fire({
+        title: 'Você tem certeza?',
+        text: "Esta ação não poderá ser revertida",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Sim, deletar'
+
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+
+            $.ajax({
+                type: 'post',
+                url: `${baseUrl}coletas/deletaColeta`,
+                data: {
+                    idColeta: idColeta,
+                }, beforeSend: function () {
+        
+                    $('.body-coleta').show();
+                    $('.html-clean').html('');
+        
+                }, success: function (data) {
+
+                    let redirect = data.success ? `${baseUrl}/clientes/detalhes/${idCliente}` : '#';
+        
+                    avisoRetorno(data.title, data.message, data.type, redirect);
+        
+                }
+            })
+        
+        }
+    })
+
 }
 
 const detalhesHistoricoColetaMassa = (idCliente) => {
