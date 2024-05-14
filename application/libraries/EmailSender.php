@@ -34,7 +34,7 @@ class EmailSender
 
         switch ($template) {
             case 'definicaoSenha':
-                $html = $this->redefinicaoSenha($opcao);
+                $data = $this->redefinicaoSenhaApi($assunto, $opcao);
                 break;
             default:
                 $html = $this->templatePadrao();
@@ -122,17 +122,31 @@ class EmailSender
         return false;
     }
 
-    private function redefinicaoSenha($opcao)
+    private function redefinicaoSenhaApi($assunto, $opcao)
     {
         $codigoSeparado = implode('|', str_split($opcao));
 
         $data = array(
-            'codigo' => explode('|', $codigoSeparado)
+            'codigo' => explode('|', $codigoSeparado),
         );
 
-        $html = $this->CI->load->view('admin/paginas/template-emails/redefinir-senha', $data);
+        $html = $this->CI->load->view('admin/paginas/template-emails/redefinir-senha', $data, TRUE);
+        // Dados da solicitação
+        $data = [
+            "Messages" => [
+                [
+                    "From" => [
+                        "Email" => $this->emailRemetente,
+                        "Name" => $this->nomeRemetente
+                    ],
+                    "To" => [],
+                    "Subject" => $assunto,
+                    "HTMLPart" => $html,
+                ]
+            ]
+        ];
 
-        return $html;
+        return $data;
     }
 
     private function templatePadrao()
