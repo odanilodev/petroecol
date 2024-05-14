@@ -1,3 +1,5 @@
+<?php $this->load->helper('meu_helper'); ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -76,7 +78,7 @@
       </div>
       <div class="contact-info">
         <p>Em caso de dúvidas ou para mais informações, entre em contato conosco:</p>
-        <p>Email: atendimento@petroecol.com.br</p>
+        <p>Email: <?= $emailEmpresa ?></p>
         <p>Telefone Fixo: (14) 3208-7835</p>
         <p>Whatsapp: (14) 99714-4385</p>
       </div>

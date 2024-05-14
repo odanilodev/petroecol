@@ -157,9 +157,12 @@ class EmailSender
 
     private function enviarCertificado($assunto, $opcao)
     {
+        $this->load->helper('config_master_helper');
 
-        $html = $this->CI->load->view('admin/paginas/template-emails/redefinir-senha', array(), TRUE);
-        
+        $dados['emailEmpresa'] = dadosEmpresaEmail($this->session->userdata('id_empresa'));
+
+        $html = $this->load->view('admin/paginas/template-emails/enviar-certificado', $dados, TRUE);
+
         // Dados da solicitação
         $data = [
             "Messages" => [

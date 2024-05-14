@@ -11,4 +11,15 @@ if (!function_exists('dadosEmpresa')) {
 
         return $resultado;
     }
+
+    function dadosEmpresaEmail($idEmpresa)
+    {
+        $CI = &get_instance();
+        $CI->load->model('Empresas_model');
+
+        $resultado = $CI->Empresas_model->recebeEmpresa($idEmpresa);
+
+        return $resultado['email'];
+
+    }
 }
