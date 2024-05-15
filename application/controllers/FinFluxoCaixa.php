@@ -158,4 +158,25 @@ class FinFluxoCaixa extends CI_Controller
 
     }
 
+    public function recebeMovimentoFluxo()
+    {
+        $id = $this->input->post('idFluxo');
+
+        $dadosFluxo = $this->FinFluxo_model->recebeMovimentoFluxo($id);
+
+        if ($dadosFluxo) {
+            $response = array(
+                'success' => true,
+                'dadosFluxo' => $dadosFluxo,
+                'type' => 'success'
+            );
+        } else {
+            $response = array(
+                'success' => false,
+                'type' => 'error'
+            );
+        }
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
+
 }

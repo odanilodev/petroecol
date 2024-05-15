@@ -121,3 +121,43 @@ $(document).on('click', '.btn-insere-fluxo', function() {
     
 });
 
+function formatarValorExibicao(valor) {
+    return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+const visualizarFluxo = (id) => {
+
+    $.ajax({
+        url: `${baseUrl}finFluxoCaixa/recebeMovimentoFluxo`,
+        type: 'POST',
+        data: {
+            idFluxo: id
+        },beforeSend: function(){
+            $('.html-clean').html('');
+        },
+         success: function (data) {
+
+            let dataFluxo = formatarDatas(data.dadosFluxo.DATA_FLUXO);
+            let valorFluxo = formatarValorExibicao(parseFloat(data['dadosFluxo'].valor));
+
+            $('.data-fluxo').html('Movimentação do dia ' + dataFluxo);
+            $('.macro-micro').html(data['dadosFluxo'].NOME_MACRO + ' / ' + data['dadosFluxo'].NOME_MICRO);
+            $('.recebido').html(data['dadosFluxo'].RECEBIDO);
+            $('.valor-fluxo').html(valorFluxo);
+            $('.forma-pagamento').html(data['dadosFluxo'].FORMAPAGAMENTO);
+            $('.observacao').html(data['dadosFluxo'].observacao);
+
+        },
+        error: function (xhr, status, error) {
+            if (xhr.status === 403) {
+                avisoRetorno(
+                    "Algo deu errado!",
+                    `Você não tem permissão para esta ação..`,
+                    "error",
+                    "#"
+                );
+            }
+        },
+    });
+}
+
