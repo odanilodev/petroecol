@@ -32,13 +32,13 @@ class EmailSender
     public function enviarEmail($template, $email, $assunto, $opcao = null)
     {
 
-        switch ($template) {
-            case 'definicaoSenha':
-                $data = $this->redefinicaoSenhaApi($assunto, $opcao);
-                break;
-            default:
-                $html = $this->templatePadrao();
-        }
+        // switch ($template) {
+        //     case 'definicaoSenha':
+        //         $data = $this->redefinicaoSenhaApi($assunto, $opcao);
+        //         break;
+        //     default:
+        //         $html = $this->templatePadrao();
+        // }
 
         $this->CI->email->from($this->emailRemetente, $this->nomeRemetente); // Remetente
         $this->CI->email->to($email); // Destinatário
@@ -59,6 +59,9 @@ class EmailSender
         switch ($template) {
             case 'enviarCertificado':
                 $data = $this->enviarCertificado($assunto, $opcao);
+                break;
+            case 'definicaoSenha':
+                $data = $this->redefinicaoSenhaApi($assunto, $opcao);
                 break;
             default:
                 $data = $this->templatePadraoApi($assunto);
