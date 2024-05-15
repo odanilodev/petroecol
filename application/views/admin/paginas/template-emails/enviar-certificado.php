@@ -76,9 +76,9 @@
       </div>
       <div class="contact-info">
         <p>Em caso de dúvidas ou para mais informações, entre em contato conosco:</p>
-        <p>Email: <?= $emailEmpresa ?></p>
-        <p>Telefone Fixo: <?= $telPrimario ?></p>
-        <p>Whatsapp: <?= $telSecundario ?></p>
+        <p>Email: <?= $emailEmpresa ? $emailEmpresa ?></p>
+        <p>Telefone Fixo: <?= $telPrimario ? $telPrimario : 'Nenhum telefone cadastrado.' ?></p>
+        <p>Whatsapp: <?= $telSecundario ? $telSecundario: 'Nenhum whatsapp cadastrado.' ?></p>
       </div>
     </div>
     <div class="footer">

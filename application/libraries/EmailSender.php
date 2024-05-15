@@ -60,6 +60,9 @@ class EmailSender
             case 'enviarCertificado':
                 $data = $this->enviarCertificado($assunto, $opcao);
                 break;
+            case 'definicaoSenha':
+                $data = $this->redefinicaoSenhaApi($assunto, $opcao);
+                break;
             default:
                 $data = $this->templatePadraoApi($assunto);
         }
@@ -141,7 +144,7 @@ class EmailSender
                     ],
                     "To" => [],
                     "Subject" => $assunto,
-                    "HTMLPart" => $html,
+                    "HTMLPart" => $html
                 ]
             ]
         ];
@@ -204,7 +207,7 @@ class EmailSender
                     ],
                     "To" => [],
                     "Subject" => $assunto,
-                    "HTMLPart" => $html,
+                    "HTMLPart" => $html
                 ]
             ]
         ];
