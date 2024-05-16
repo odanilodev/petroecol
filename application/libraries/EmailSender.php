@@ -50,6 +50,11 @@ class EmailSender
 
     public function enviarEmailAPI($template, $email, $assunto, $dadosColeta, $opcao = null)
     {
+        
+
+        echo '<pre>';
+        print_r($dadosColeta);
+        exit;
 
         if (empty($email)) {
             //echo 'Cliente não tem email cadastrado!';
@@ -160,9 +165,7 @@ class EmailSender
 
     private function enviarCertificado($assunto, $dadosColeta, $opcao)
     {
-        echo '<pre>';
-        print_r($dadosColeta);
-        exit;
+
 
         if (count($dadosColeta) > 1) {
             // Pegar a primeira data de coleta
