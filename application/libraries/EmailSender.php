@@ -50,9 +50,6 @@ class EmailSender
 
     public function enviarEmailAPI($template, $email, $assunto, $opcao = null, $dadosColeta)
     {
-        echo '<pre>';
-        print_r($dadosColeta);
-        exit;
 
         if (empty($email)) {
             //echo 'Cliente não tem email cadastrado!';
@@ -61,7 +58,7 @@ class EmailSender
 
         switch ($template) {
             case 'enviarCertificado':
-                $data = $this->enviarCertificado($assunto, $opcao);
+                $data = $this->enviarCertificado($assunto, $opcao, $dadosColeta);
                 break;
             case 'definicaoSenha':
                 $data = $this->redefinicaoSenhaApi($assunto, $opcao);
@@ -161,8 +158,25 @@ class EmailSender
         return "<h2>Olá, temos uma mensagem para você!</h2>";
     }
 
-    private function enviarCertificado($assunto, $opcao)
+    private function enviarCertificado($assunto, $opcao, $dadosColeta)
     {
+
+        if (count($dadosColeta) > 1) {
+            // Pegar a primeira data de coleta
+            $primeiraDataColeta = reset($dadosColeta)['data_coleta'];
+            
+            // Pegar a última data de coleta
+            $ultimaDataColeta = end($dadosColeta)['data_coleta'];
+            
+            // Extrair o mês das datas
+            $dados['mesPrimeiraData'] = date('m', strtotime($primeiraDataColeta));
+            $dados['mesUltimaData'] = date('m', strtotime($ultimaDataColeta));
+            
+        } else {
+            // Se houver apenas uma data de coleta
+            $dataColetaUnica = reset($dadosColeta)['data_coleta'];
+            $dados['mesDataColetaUnica'] = date('m', strtotime($dataColetaUnica));
+        }
 
         $html = $this->load->view('admin/paginas/template-emails/enviar-certificado', $dados, TRUE);
         // Dados da solicitação
