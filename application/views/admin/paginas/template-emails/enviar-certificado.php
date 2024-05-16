@@ -41,7 +41,7 @@
     <img src="https://www.petroecol.eco.br/petroecol/assets/img/icons/logo.png" alt="Logo da Empresa" width="200">
   </div>
   <h3>Certificado em anexo</h3>
-  <p>Certificado de destinação final referente <?= $mesUltimaData ? 'ao mês ' . $mesPrimeiraData . ' até ' . $mesUltimaData : 'ao mês ' . $mesDataColetaUnica ?>.</p>
+  <p>Certificado de destinação final referente <?= isset($mesUltimaData) ? 'ao mês ' . $mesPrimeiraData . ' até ' . $mesUltimaData : 'ao mês ' . $mesDataColetaUnica ?>.</p>
   <div class="footer">
     © 2024 Petroecol. Todos os direitos reservados.
   </div>
