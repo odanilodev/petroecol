@@ -48,7 +48,7 @@ class EmailSender
         return $this->CI->email->send() ? true : false;
     }
 
-    public function enviarEmailAPI($template, $email, $assunto, $opcao = null)
+    public function enviarEmailAPI($template, $email, $assunto, $opcao = null, $dadosColeta = null)
     {
 
         if (empty($email)) {
@@ -58,7 +58,10 @@ class EmailSender
 
         switch ($template) {
             case 'enviarCertificado':
-                $data = $this->enviarCertificado($assunto, $opcao);
+                $data = $this->enviarCertificado($assunto, $dadosColeta, $opcao);
+                break;
+            case 'definicaoSenha':
+                $data = $this->redefinicaoSenhaApi($assunto, $opcao);
                 break;
             default:
                 $data = $this->templatePadraoApi($assunto);
@@ -155,10 +158,29 @@ class EmailSender
         return "<h2>Olá, temos uma mensagem para você!</h2>";
     }
 
-    private function enviarCertificado($assunto, $opcao)
+    private function enviarCertificado($assunto, $opcao, $dadosColeta)
     {
 
-        $html = "<h2>Olá, segue o certificado em anexo!</h2>";
+
+        if (count($dadosColeta) > 1) {
+            // Pegar a primeira data de coleta
+            $primeiraDataColeta = explode('/', reset($dadosColeta)['dataColeta']);
+            
+            // Pegar a última data de coleta
+            $ultimaDataColeta = explode('/', end($dadosColeta)['dataColeta']);
+
+            
+            // Extrair o mês das datas
+            $dados['mesPrimeiraData'] = $primeiraDataColeta[1] . '/' . $primeiraDataColeta[2];
+            $dados['mesUltimaData'] = $ultimaDataColeta[1] . '/' . $ultimaDataColeta[2];
+            
+        } else {
+            // Se houver apenas uma data de coleta
+            $dataColetaUnica = explode('/', reset($dadosColeta)['dataColeta']);
+            $dados['mesDataColetaUnica'] =  $dataColetaUnica[1] . '/' . $dataColetaUnica[2];
+        }
+
+        $html = $this->CI->load->view('admin/paginas/template-emails/enviar-certificado', $dados, TRUE);
         // Dados da solicitação
         $data = [
             "Messages" => [
