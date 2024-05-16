@@ -158,7 +158,7 @@ class EmailSender
         return "<h2>Olá, temos uma mensagem para você!</h2>";
     }
 
-    private function enviarCertificado($assunto, $dadosColeta, $opcao)
+    private function enviarCertificado($assunto, $opcao, $dadosColeta)
     {
 
 
