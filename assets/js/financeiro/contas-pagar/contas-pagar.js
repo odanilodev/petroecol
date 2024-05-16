@@ -110,10 +110,13 @@ $(document).on('click', '.novo-lancamento', function () {
     $('.select-micros').attr('disabled', true);
     $('.select-recebido').attr('disabled', true);
 
-    $('.select2').select2({
-        dropdownParent: "#modalLancamentoContasPagar",
-        theme: "bootstrap-5",
-    });
+    carregaSelect2('select2', 'modalLancamentoContasPagar');
+
+})
+
+$(document).on('click', '.realizar-pagamento', function () {
+
+    carregaSelect2('select2', 'modalPagarConta');
 
 })
 
@@ -371,7 +374,7 @@ const atualizaFrontDadosFinanceiro = () => {
 
     let valorTotalPago = 0;
     $('.input-valor-unic').each(function () {
-        let valorNumerico = parseFloat($(this).val().replace('.', '').replace(',', '.')); 
+        let valorNumerico = parseFloat($(this).val().replace('.', '').replace(',', '.'));
         valorTotalPago += valorNumerico;
     });
 
