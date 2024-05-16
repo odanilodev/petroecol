@@ -17,7 +17,7 @@ class Empresas_model extends CI_Model
         return $query->result_array();
     }
 
-    public function recebeEmpresa($id, $dados)
+    public function recebeEmpresa($id, $dados = NULL)
     {
         $this->db->select($dados);
         $this->db->where('id', $id);
