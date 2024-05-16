@@ -48,7 +48,7 @@ class EmailSender
         return $this->CI->email->send() ? true : false;
     }
 
-    public function enviarEmailAPI($template, $email, $assunto, $dadosColeta, $opcao = null)
+    public function enviarEmailAPI($template, $email, $assunto, $opcao = null, $dadosColeta)
     {
 
         if (empty($email)) {
