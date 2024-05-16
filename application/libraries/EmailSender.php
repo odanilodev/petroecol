@@ -160,31 +160,25 @@ class EmailSender
 
     private function enviarCertificado($assunto, $dadosColeta, $opcao)
     {
+
+
         if (count($dadosColeta) > 1) {
             // Pegar a primeira data de coleta
-            $primeiraDataColeta = reset($dadosColeta)['dataColeta'];
-
+            $primeiraDataColeta = explode('/', reset($dadosColeta)['dataColeta']);
+            
             // Pegar a última data de coleta
-            $ultimaDataColeta = end($dadosColeta)['dataColeta'];
+            $ultimaDataColeta = explode('/', end($dadosColeta)['dataColeta']);
 
-            // Converter o formato da data brasileira para o formato do PHP
-            $dataFormatadaPrimeira = DateTime::createFromFormat('d-m-Y', $primeiraDataColeta)->format('Y-m-d');
-            $dataFormatadaUltima = DateTime::createFromFormat('d-m-Y', $ultimaDataColeta)->format('Y-m-d');
-
+            
             // Extrair o mês das datas
-            $dados['mesPrimeiraData'] = date('m', strtotime($dataFormatadaPrimeira));
-            $dados['mesUltimaData'] = date('m', strtotime($dataFormatadaUltima));
+            $dados['mesPrimeiraData'] = $primeiraDataColeta[1];
+            $dados['mesUltimaData'] = $ultimaDataColeta[1];
+            
         } else {
             // Se houver apenas uma data de coleta
-            $dataColetaUnica = reset($dadosColeta)['dataColeta'];
-
-            // Converter o formato da data brasileira para o formato do PHP
-            $dataFormatadaUnica = DateTime::createFromFormat('d-m-Y', $dataColetaUnica)->format('Y-m-d');
-
-            // Extrair o mês da data
-            $dados['mesDataColetaUnica'] = date('m', strtotime($dataFormatadaUnica));
+            $dataColetaUnica = explode('/', reset($dadosColeta)['dataColeta']);
+            $dados['mesDataColetaUnica'] =  $dataColetaUnica[1];
         }
-
 
         $html = $this->CI->load->view('admin/paginas/template-emails/enviar-certificado', $dados, TRUE);
         // Dados da solicitação
