@@ -56,11 +56,9 @@ class EmailSender
             return false;
         }
 
-        echo $template;
-        echo '<br>';
-        echo $assunto;
-        echo '<br>';
-        echo $opcao;
+
+        print_r($opcao);
+        exit;
 
         switch ($template) {
             case 'enviarCertificado':
