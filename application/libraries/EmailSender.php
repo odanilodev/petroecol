@@ -56,10 +56,6 @@ class EmailSender
             return false;
         }
 
-
-        print_r($opcao);
-        exit;
-
         switch ($template) {
             case 'enviarCertificado':
                 $data = $this->enviarCertificado($assunto, $dadosColeta, $opcao);
