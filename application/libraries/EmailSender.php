@@ -171,13 +171,13 @@ class EmailSender
 
             
             // Extrair o mês das datas
-            $dados['mesPrimeiraData'] = $primeiraDataColeta[1];
-            $dados['mesUltimaData'] = $ultimaDataColeta[1];
+            $dados['mesPrimeiraData'] = $primeiraDataColeta[1] . '/' . $primeiraDataColeta[2];
+            $dados['mesUltimaData'] = $ultimaDataColeta[1] . '/' . $ultimaDataColeta[2];
             
         } else {
             // Se houver apenas uma data de coleta
             $dataColetaUnica = explode('/', reset($dadosColeta)['dataColeta']);
-            $dados['mesDataColetaUnica'] =  $dataColetaUnica[1];
+            $dados['mesDataColetaUnica'] =  $dataColetaUnica[1] . '/' . $dataColetaUnica[2];
         }
 
         $html = $this->CI->load->view('admin/paginas/template-emails/enviar-certificado', $dados, TRUE);

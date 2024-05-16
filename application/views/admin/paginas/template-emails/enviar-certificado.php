@@ -25,7 +25,7 @@
       margin: auto;
       margin-top: 20px;
       border-radius: 15px;
-      box-shadow: 0px 2px 6px rgba(1, 55, 56, 0.1);
+      box-shadow: 0px 2px 6px rgba(1, 55, 56, 0.1) !important;
     }
 
     .card-body {
@@ -55,10 +55,11 @@
       <div class="logo">
         <img src="https://www.petroecol.eco.br/petroecol/assets/img/icons/logo.png" alt="Logo da Empresa" width="200">
       </div>
-      <h3>Certificado em anexo</h3>
-      <p>Certificado de destinação final referente <?= isset($mesUltimaData) ? 'aos mêses ' . $mesPrimeiraData . ' até ' . $mesUltimaData : 'ao mês ' . $mesDataColetaUnica ?>.</p>
+      <h3>Certificado em Anexo</h3>
+      <p>Certificado de destinação final referente <?= isset($mesUltimaData) ? 'ao período de ' . $mesPrimeiraData . ' até ' . $mesUltimaData : 'ao mês de ' . $mesDataColetaUnica ?>.</p>
+      <p>Por favor, verifique o arquivo anexo para mais detalhes.</p>
       <div class="footer">
-        © 2024 Petroecol. Todos os direitos reservados.
+        © <?= date('Y') ?> Petroecol. Todos os direitos reservados.
       </div>
     </div>
   </div>
