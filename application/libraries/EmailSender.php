@@ -48,8 +48,11 @@ class EmailSender
         return $this->CI->email->send() ? true : false;
     }
 
-    public function enviarEmailAPI($template, $email, $assunto, $opcao = null)
+    public function enviarEmailAPI($template, $email, $assunto, $opcao = null, $dadosColeta)
     {
+        echo '<pre>';
+        print_r($dadosColeta);
+        exit;
 
         if (empty($email)) {
             //echo 'Cliente não tem email cadastrado!';
@@ -160,11 +163,6 @@ class EmailSender
 
     private function enviarCertificado($assunto, $opcao)
     {
-        $this->load->helper('config_master_helper');
-
-        $dados['emailEmpresa'] = dadosEmpresaCliente($this->session->userdata('id_empresa'), 'email');
-        $dados['telPrimario'] = dadosEmpresaCliente($this->session->userdata('id_empresa'), 'telefone_primario');
-        $dados['telSecundario'] = dadosEmpresaCliente($this->session->userdata('id_empresa'), 'telefone_secundario');
 
         $html = $this->load->view('admin/paginas/template-emails/enviar-certificado', $dados, TRUE);
 
