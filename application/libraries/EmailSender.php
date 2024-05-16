@@ -48,8 +48,11 @@ class EmailSender
         return $this->CI->email->send() ? true : false;
     }
 
-    public function enviarEmailAPI($template, $email, $assunto, $opcao = null)
+    public function enviarEmailAPI($template, $email, $assunto, $opcao = null, $dadosColeta)
     {
+        echo '<pre>';
+        print_r($dadosColeta);
+        exit;
 
         if (empty($email)) {
             //echo 'Cliente não tem email cadastrado!';
@@ -59,6 +62,9 @@ class EmailSender
         switch ($template) {
             case 'enviarCertificado':
                 $data = $this->enviarCertificado($assunto, $opcao);
+                break;
+            case 'definicaoSenha':
+                $data = $this->redefinicaoSenhaApi($assunto, $opcao);
                 break;
             default:
                 $data = $this->templatePadraoApi($assunto);
@@ -158,7 +164,7 @@ class EmailSender
     private function enviarCertificado($assunto, $opcao)
     {
 
-        $html = "<h2>Olá, segue o certificado em anexo!</h2>";
+        $html = $this->load->view('admin/paginas/template-emails/enviar-certificado', $dados, TRUE);
         // Dados da solicitação
         $data = [
             "Messages" => [
