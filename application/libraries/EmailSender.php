@@ -48,7 +48,7 @@ class EmailSender
         return $this->CI->email->send() ? true : false;
     }
 
-    public function enviarEmailAPI($template, $email, $assunto, $opcao = null, $dadosColeta)
+    public function enviarEmailAPI($template, $email, $assunto, $dadosColeta, $opcao = null)
     {
 
         if (empty($email)) {
@@ -58,7 +58,7 @@ class EmailSender
 
         switch ($template) {
             case 'enviarCertificado':
-                $data = $this->enviarCertificado($assunto, $opcao, $dadosColeta);
+                $data = $this->enviarCertificado($assunto, $dadosColeta, $opcao);
                 break;
             case 'definicaoSenha':
                 $data = $this->redefinicaoSenhaApi($assunto, $opcao);
@@ -158,8 +158,11 @@ class EmailSender
         return "<h2>Olá, temos uma mensagem para você!</h2>";
     }
 
-    private function enviarCertificado($assunto, $opcao, $dadosColeta)
+    private function enviarCertificado($assunto, $dadosColeta, $opcao)
     {
+        echo '<pre>';
+        print_r($dadosColeta);
+        exit;
 
         if (count($dadosColeta) > 1) {
             // Pegar a primeira data de coleta
@@ -178,7 +181,7 @@ class EmailSender
             $dados['mesDataColetaUnica'] = date('m', strtotime($dataColetaUnica));
         }
 
-        $html = $this->load->view('admin/paginas/template-emails/enviar-certificado', $dados, TRUE);
+        $html = $this->CI->load->view('admin/paginas/template-emails/enviar-certificado', $dados, TRUE);
         // Dados da solicitação
         $data = [
             "Messages" => [
