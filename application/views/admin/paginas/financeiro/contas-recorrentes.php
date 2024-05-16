@@ -1,7 +1,7 @@
 <div class="content">
 
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div id="members" data-list='{"valueNames":["td_credor","td_micro"],"pagination":true}'>
+        <div id="members" data-list='{"valueNames":["td_micro","td_credor","td_dia"],"pagination":true}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3>Contas recorrentes
@@ -33,9 +33,10 @@
                 <table class="table fs--1 mb-0 border-top border-200">
                     <thead>
                         <tr>
-                            <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="td_micro">Micro</th>
-                            <th class="sort align-middle text-center" scope="col" data-sort="td_credor">Credor</th>
-                            <th class="sort text-end pe-0 align-middle text-center" scope="col"></th>
+                            <th class="white-space-nowrap align-middle text-center" scope="col" data-sort="td_micro">Micro</th>
+                            <th class="align-middle text-center" scope="col" data-sort="td_credor">Credor</th>
+                            <th class="align-middle text-center" scope="col" data-sort="td_dia">Dia de Pagamento</th>
+                            <th class="text-end pe-0 align-middle text-center" scope="col"></th>
                         </tr>
                     </thead>
                     <tbody class="list" id="table-latest-review-body">
@@ -44,7 +45,7 @@
 
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static tr-pagamento">
 
-                                <td class="align-middle customer white-space-nowrap td_data_pagamento text-center">
+                                <td class="align-middle customer white-space-nowrap td_data_pagamento text-center td_micro">
                                     <h6 class="mb-0 text-900">
                                         <?= $contaRecorrente['MICRO']; ?>
                                     </h6>
@@ -52,6 +53,10 @@
 
                                 <td class="align-middle review td_credor text-center">
                                     <h6 class="mb-0 text-900"><?= $contaRecorrente['RECEBIDO']; ?></h6>
+                                </td>
+
+                                <td class="align-middle review td_dia text-center">
+                                    <h6 class="mb-0 text-900"><?= $contaRecorrente['dia_pagamento']; ?></h6>
                                 </td>
 
                                 <td class="align-middle white-space-nowrap text-end pe-0">
@@ -97,7 +102,17 @@
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
 
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-4">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Dia de Pagamento</label>
+                                                    <input type="number" name="dia_pagamento" class="form-control input-dia-pagamento input-obrigatorio" placeholder="Dia de pagamento">
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-4">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Grupos Macros</label>
@@ -114,7 +129,7 @@
 
                                             </div>
 
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-4">
                                                 <div class="mb-4 ">
                                                     <label class="text-body-highlight fw-bold mb-2 ">Grupos Micros</label>
                                                     <select disabled class="form-select select2 select-micros input-obrigatorio dados-conta" name="id_micro">

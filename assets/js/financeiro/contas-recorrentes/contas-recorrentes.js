@@ -103,6 +103,13 @@ const cadastraContasRecorrentes = (classe) => {
     let dadosFormulario = {};
     let permissao = verificaCamposObrigatorios('input-obrigatorio');
 
+    if ($('.input-dia-pagamento').val() > 31) {
+        permissao = false;
+        $('.input-dia-pagamento').next().removeClass('d-none');
+        $('.input-dia-pagamento').next().html('Digite um valor entre 1 e 31');
+        $('.input-dia-pagamento').addClass('invalido');
+    }
+
     $(`.${classe}`).find(":input").each(function () {
 
         dadosFormulario[$(this).attr('name')] = $(this).val();
@@ -147,13 +154,15 @@ const visualizarConta = (idConta) => {
             $('.select-micros').prop('disabled', false);
             $('.select-recebido').prop('disabled', false);
 
+            $('.input-dia-pagamento').val(data['conta'].dia_pagamento);
+
             $('.select-macros').val(data['conta'].id_macro).trigger('change');
             $('.select-grupo-recebidos').val(data['conta'].GRUPO_CREDOR).trigger('change');
 
             $(setTimeout(() => {
                 $('.select-micros').val(data['conta'].id_micro).trigger('change');
                 $('.select-recebido').val(data['conta'].ID_RECEBIDO).trigger('change');
-            }, 300));
+            }, 550));
 
 
 

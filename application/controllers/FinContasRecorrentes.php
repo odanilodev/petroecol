@@ -60,6 +60,7 @@ class FinContasRecorrentes extends CI_Controller
 		$data['id_dado_financeiro'] = $dadosLancamento['recebido'];
 		$data['id_empresa'] = $this->session->userdata('id_empresa');
 		$data['id_micro'] = $dadosLancamento['id_micro'];
+		$data['dia_pagamento'] = $dadosLancamento['dia_pagamento'];
 
 		$retorno = $idConta ? $this->FinContasRecorrentes_model->editaConta($idConta, $data) : $this->FinContasRecorrentes_model->insereConta($data);
 
