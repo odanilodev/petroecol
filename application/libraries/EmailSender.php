@@ -50,11 +50,6 @@ class EmailSender
 
     public function enviarEmailAPI($template, $email, $assunto, $dadosColeta, $opcao = null)
     {
-        
-
-        echo '<pre>';
-        print_r($dadosColeta);
-        exit;
 
         if (empty($email)) {
             //echo 'Cliente não tem email cadastrado!';
@@ -169,10 +164,10 @@ class EmailSender
 
         if (count($dadosColeta) > 1) {
             // Pegar a primeira data de coleta
-            $primeiraDataColeta = reset($dadosColeta)['data_coleta'];
+            $primeiraDataColeta = reset($dadosColeta)['dataColeta'];
             
             // Pegar a última data de coleta
-            $ultimaDataColeta = end($dadosColeta)['data_coleta'];
+            $ultimaDataColeta = end($dadosColeta)['dataColeta'];
             
             // Extrair o mês das datas
             $dados['mesPrimeiraData'] = date('m', strtotime($primeiraDataColeta));
@@ -180,7 +175,7 @@ class EmailSender
             
         } else {
             // Se houver apenas uma data de coleta
-            $dataColetaUnica = reset($dadosColeta)['data_coleta'];
+            $dataColetaUnica = reset($dadosColeta)['dataColeta'];
             $dados['mesDataColetaUnica'] = date('m', strtotime($dataColetaUnica));
         }
 
