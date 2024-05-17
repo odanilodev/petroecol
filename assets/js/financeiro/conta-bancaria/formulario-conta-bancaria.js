@@ -9,6 +9,8 @@ const cadastraContaBancaria = () => {
 	let agencia = $(".input-agencia").val();
 	let conta = $(".input-conta").val();
 	let saldoInicial = $(".input-saldo").val();
+	let setorEmpresa = $(".select-setor").val();
+
 
 	//Verificação de campo vazio e permissao para cadastrar
 	let permissao = true
@@ -60,6 +62,7 @@ const cadastraContaBancaria = () => {
 				agencia: agencia,
 				conta: conta,
 				saldoInicial: saldoInicial,
+				setor: setorEmpresa
 			},
 			beforeSend: function () {
 				$(".load-form").removeClass("d-none");
