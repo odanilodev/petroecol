@@ -1,5 +1,5 @@
 <div class="content">
-    <div id="members" data-list='{"valueNames":["apelido", "banco", "agencia", "saldo"],"page":10,"pagination":true}'>
+    <div id="members" data-list='{"valueNames":["setor", "apelido", "banco", "agencia", "saldo"],"page":10,"pagination":true}'>
         <div class="row align-items-center justify-content-between g-3 mb-4">
 
             <div class="col-auto">
