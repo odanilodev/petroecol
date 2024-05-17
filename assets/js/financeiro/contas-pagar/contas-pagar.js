@@ -1,46 +1,5 @@
 var baseUrl = $(".base-url").val();
 
-// Duplica formas de pagamento
-// function duplicarFormasPagamento() {
-//     let clone = $(".campos-pagamento .duplica-pagamento").clone();
-
-//     // Limpe os valores dos campos clonados
-//     clone.find("select").val("");
-//     clone.find("input").val("");
-//     clone.find("label").remove();
-//     clone.find("select").removeClass("select2");
-//     clone.find("select").addClass("select22");
-
-//     $(`.select22`).select2({
-//         dropdownParent: `#modalPagarConta`,
-//         theme: "bootstrap-5",
-//     });
-
-//     let btnRemove = `
-//         <div class="col-md-1 mt-0">            
-//             <button type="button" class="btn btn-phoenix-danger deleta-dicionario" >
-//                 <span class="fas fa-minus"></span>
-//             </button>
-//         </div>
-//     `;
-//     //por padrão row vem com margin e padding - classes retiram
-//     let novaLinha = $('<div class="row m-0 p-0"></div>');
-
-//     // imprime os elementos dentro da div row
-//     novaLinha.append(clone);
-//     novaLinha.append(btnRemove);
-
-//     $(novaLinha).find(`.deleta-dicionario`).on('click', function () {
-
-//         novaLinha.remove();
-//     });
-
-//     $(".campos-duplicados").append(novaLinha);
-//     $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
-
-// }
-
-
 
 $(document).on('click', '.duplicar-pagamento', function () {
 
