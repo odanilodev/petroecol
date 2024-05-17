@@ -41,6 +41,29 @@ class FinContasPagar_model extends CI_Model
         return $query->row_array();
     }
 
+    public function recebeIdMacroContaPagar($id)
+    {
+        $this->db->select('id_macro');
+        $this->db->from('fin_contas_pagar');
+        $this->db->where('id', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get();
+
+        return $query->row_array();
+    }
+
+    public function recebeIdMicroContaPagar($id)
+    {
+        $this->db->select('id_micro');
+        $this->db->from('fin_contas_pagar');
+        $this->db->where('id', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get();
+
+        return $query->row_array();
+    }
+
+
     public function insereConta($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');

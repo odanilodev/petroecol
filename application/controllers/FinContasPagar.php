@@ -235,6 +235,11 @@ class FinContasPagar extends CI_Controller
 
 		$valorTotalPago = 0;
 
+		$micro = $this->FinContasPagar_model->recebeIdMicroContaPagar($idConta);
+
+		$macro = $this->FinContasPagar_model->recebeIdMacroContaPagar($idConta);
+
+
 		foreach ($formasPagamento as $key => $formaPagamento) {
 
 			//Informacoes do saldo bancario
@@ -251,6 +256,8 @@ class FinContasPagar extends CI_Controller
 			$dados['id_conta_bancaria'] = $contasBancarias[$key];
 			$dados['id_vinculo_conta'] = $idConta;
 			$dados['id_forma_transacao'] = $formasPagamento[$key];
+			$dados['id_macro'] = $macro['id_macro'];
+			$dados['id_micro'] = $micro['id_micro'];
 			$dados['valor'] = $valorPagoFormatado;
 			$dados['movimentacao_tabela'] = 0;
 			$dados['data_movimentacao'] = $dataPagamentoFormatada;
@@ -288,14 +295,18 @@ class FinContasPagar extends CI_Controller
 
 		$operacoes = $this->input->post('operacoes');
 
+
 		foreach ($operacoes as $operacao) {
 
 			$dataPagamentoFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $operacao['dataPagamento'])));
 
+			$micro = $this->FinContasPagar_model->recebeIdMicroContaPagar($operacao['idConta']);
+
+			$macro = $this->FinContasPagar_model->recebeIdMacroContaPagar($operacao['idConta']);
+
 			$valorTotalPago = 0;
 
 			foreach ($operacao['formasPagamento'] as $key => $formaPagamento) {
-
 
 				$saldoAtual = $this->FinSaldoBancario_model->recebeSaldoBancario($operacao['contasBancarias'][$key]);
 
@@ -309,6 +320,8 @@ class FinContasPagar extends CI_Controller
 				//Informacoes do fluxo
 				$dados['id_empresa'] = $this->session->userdata('id_empresa');
 				$dados['id_conta_bancaria'] = $operacao['contasBancarias'][$key];
+				$dados['id_macro'] = $macro['id_macro'];
+				$dados['id_micro'] = $micro['id_micro'];
 				$dados['id_vinculo_conta'] = $operacao['idConta'];
 				$dados['id_forma_transacao'] = $formaPagamento;
 				$dados['valor'] = $valoPagoFormatado;
@@ -390,7 +403,7 @@ class FinContasPagar extends CI_Controller
 				'success' => true,
 				'conta' => $conta
 			);
-		} 
+		}
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}

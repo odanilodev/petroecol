@@ -173,6 +173,10 @@ class FinContasReceber extends CI_Controller
 
 		$valorTotalRecebido = 0;
 
+		$micro = $this->FinContasReceber_model->recebeIdMicroContaReceber($idConta);
+
+		$macro = $this->FinContasReceber_model->recebeIdMacroContaReceber($idConta);
+
 		foreach ($formasPagamento as $key => $formaPagamento) {
 
 			//Informacoes do saldo bancario
@@ -190,6 +194,8 @@ class FinContasReceber extends CI_Controller
 			$dados['id_conta_bancaria'] = $contasBancarias[$key];
 			$dados['id_vinculo_conta'] = $idConta;
 			$dados['id_forma_transacao'] = $formasPagamento[$key];
+			$dados['id_macro'] = $macro['id_macro'];
+			$dados['id_micro'] = $micro['id_micro'];
 			$dados['data_movimentacao'] = $dataRecebimentoFormatada;
 			$dados['valor'] = $valoPagoFormatado;
 			$dados['movimentacao_tabela'] = 1;
@@ -281,7 +287,7 @@ class FinContasReceber extends CI_Controller
 				'success' => true,
 				'conta' => $conta
 			);
-		} 
+		}
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}

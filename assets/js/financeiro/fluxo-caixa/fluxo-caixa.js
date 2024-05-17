@@ -61,6 +61,35 @@ $(document).on('change', '.select-grupo-recebidos', function () {
 
 })
 
+$(document).on('change', '.select-macros', function () {
+
+    let idMacro = $(this).val();
+
+    $.ajax({
+        type: "post",
+        url: `${baseUrl}finMicro/recebeMicrosMacro`,
+        data: {
+            idMacro: idMacro
+        }, beforeSend: function () {
+            $('.select-micros').html('<option disabled>Selecione</option>');
+        }, success: function (data) {
+
+            $('.select-micros').attr('disabled', false);
+
+            let options = '<option value="" disabled >Selecione</option>';
+
+            for (i = 0; i < data.microsMacro.length; i++) {
+
+                options += `<option value="${data.microsMacro[i].id}">${data.microsMacro[i].nome}</option>`;
+            }
+
+            $('.select-micros').html(options);
+
+            $('.select-micros').val('').trigger('change');
+
+        }
+    })
+})
 
 $(document).on('click', '.btn-novo-lancamento', function() {
 
@@ -94,6 +123,8 @@ $(document).on('click', '.btn-insere-fluxo', function() {
         data_movimentacao: $('input[name="data_movimentacao"]').val(),
         id_conta_bancaria: $('select[name="contaBancaria"]').val(), 
         id_forma_transacao: $('select[name="formaPagamento"]').val(), 
+        macros: $('select[name="macros"]').val(), 
+        micros: $('select[name="micros"]').val(), 
         valor: $('input[name="valor"]').val(),
         observacao: $('textarea[name="observacao"]').val() 
     };
@@ -112,7 +143,7 @@ $(document).on('click', '.btn-insere-fluxo', function() {
                 avisoRetorno(data.title, data.message, data.type, `${baseUrl}finFluxoCaixa`);                
             },
             error: function (xhr, status, error) {
-                // Tratamento de erro
+                //Tratamento de erro
                 avisoRetorno('Algo deu errado!', error, 'error', `#`);
             }           
         });
