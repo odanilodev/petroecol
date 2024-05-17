@@ -24,13 +24,13 @@
                 <table class="table table-sm fs--1 mb-0">
                     <thead>
                         <tr>
-                            <th class="sort align-middle" scope="col" data-sort="setor">Setor</th>
-                            <th class="sort align-middle" scope="col" data-sort="apelido">Apelido</th>
-                            <th class="sort align-middle" scope="col" data-sort="banco">Banco</th>
-                            <th class="sort align-middle" scope="col" data-sort="agencia">Agência</th>
-                            <th class="sort align-middle" scope="col" data-sort="saldo">Saldo</th>
-                            <th class="sort align-middle pe-3">Editar</th>
-                            <th class="sort align-middle pe-3">Inativar</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="setor">Setor</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="apelido">Apelido</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="banco">Banco</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="agencia">Agência</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="saldo">Saldo</th>
+                            <th class="sort align-middle text-center pe-3">Editar</th>
+                            <th class="sort align-middle text-center pe-3">Inativar</th>
                         </tr>
                     </thead>
 
@@ -39,43 +39,43 @@
                         <?php foreach ($contasBancarias as $v) { ?>
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
 
-                                <td class="mobile_number align-middle white-space-nowrap">
+                                <td class="align-middle text-center white-space-nowrap">
                                     <h6 class="fw-bold text-1000 setor">
                                         <?= $v['SETOR'] ?>
                                     </h6>
                                 </td>
 
-                                <td class="mobile_number align-middle white-space-nowrap">
+                                <td class="align-middle text-center white-space-nowrap">
                                     <h6 class="fw-bold text-900 apelido">
                                         <?= $v['apelido'] ?>
                                     </h6>
                                 </td>
 
-                                <td class="mobile_number align-middle white-space-nowrap">
+                                <td class="align-middle text-center white-space-nowrap">
                                     <h6 class="fw-bold text-900 banco">
                                         <?= $v['nome_banco_financeiro'] ?>
                                     </h6>
                                 </td>
 
-                                <td class="mobile_number align-middle white-space-nowrap">
+                                <td class="align-middle text-center white-space-nowrap">
                                     <h6 class="fw-bold text-900 agencia">
                                         <?= $v['agencia'] ?>
                                     </h6>
                                 </td>
 
-                                <td class="mobile_number align-middle white-space-nowrap">
+                                <td class="align-middle text-center white-space-nowrap">
                                     <h6 class="fw-bold text-900 saldo">
                                         R$ <?= number_format($v['saldo'], 2, ',', '.') ?>
                                     </h6>
                                 </td>
 
-                                <td class="align-middle white-space-nowrap">
+                                <td class="align-middle text-center white-space-nowrap">
                                     <a href="<?= base_url('finContaBancaria/formulario/' . $v['id_conta_bancaria']) ?>" class="btn btn-info">
                                         <span class="fas fa-pencil ms-1"></span>
                                     </a>
                                 </td>
 
-                                <td class="align-middle white-space-nowrap">
+                                <td class="align-middle text-center white-space-nowrap">
                                     <a href="#" class="btn btn-danger" onclick="deletaContaBancaria(<?= $v['id_conta_bancaria'] ?>)">
                                         <span class="fas fa-trash ms-1"></span>
                                     </a>
