@@ -664,75 +664,73 @@
                 <div class="modal-body body-coleta">
                     <div class="card">
                         <div class="card-body">
-                            <div class="row g-3">
-                                <div class="col-12">
-                                    <div class="col-sm-12 col-xxl-12 py-3">
-                                        <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+                            <div class="col-12">
+                                <div class="col-sm-12 col-xxl-12 py-3">
+                                    <div class="mx-0 row">
+                                        <div class="col-md-4">
+                                            <div class="mb-4">
+                                                <label class="text-body-highlight fw-bold mb-2">Data
+                                                    Pagamento</label>
+                                                <input class="form-control datetimepicker input-data-pagamento cursor-pointer input-obrigatorio-unic" name="data_pagamento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
-                                            <div class="col-md-4">
+                                            </div>
+                                        </div>
+
+                                        <div class="campos-pagamento row">
+                                            <div class="col-md-4 duplica-pagamento">
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Data
-                                                        Pagamento</label>
-                                                    <input class="form-control datetimepicker input-data-pagamento cursor-pointer input-obrigatorio-unic" name="data_pagamento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <label class="text-body-highlight fw-bold mb-2">Conta
+                                                        Bancária</label>
+                                                    <select class="form-select select2 select-conta-bancaria-unic input-obrigatorio-unic">
+                                                        <option value="" selected disabled>Selecione</option>
+                                                        <?php foreach ($contasBancarias as $contaBancaria) { ?>
+                                                            <option value="<?= $contaBancaria['id_conta_bancaria'] ?>">
+                                                                <?= $contaBancaria['apelido'] ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                    </select>
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
                                             </div>
-
-                                            <div class="campos-pagamento row">
-                                                <div class="col-lg-4 duplica-pagamento">
-                                                    <div class="mb-4">
-                                                        <label class="text-body-highlight fw-bold mb-2">Conta
-                                                            Bancária</label>
-                                                        <select class="form-select select2 select-conta-bancaria-unic input-obrigatorio-unic">
-                                                            <option value="" selected disabled>Selecione</option>
-                                                            <?php foreach ($contasBancarias as $contaBancaria) { ?>
-                                                                <option value="<?= $contaBancaria['id_conta_bancaria'] ?>">
-                                                                    <?= $contaBancaria['apelido'] ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 duplica-pagamento">
-                                                    <div class="mb-4">
-                                                        <label class="text-body-highlight fw-bold mb-2">Forma
-                                                            Pagamento</label>
-                                                        <select class="form-select select2 select-forma-pagamento-unic input-obrigatorio-unic">
-                                                            <option value="" selected disabled>Selecione</option>
-
-                                                            <?php foreach ($formasTransacao as $formaTransacao) { ?>
-                                                                <option value="<?= $formaTransacao['id'] ?>">
-                                                                    <?= $formaTransacao['nome'] ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3 duplica-pagamento">
-                                                    <div class="mb-4">
-                                                        <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                        <input class="form-control input-valor-unic input-obrigatorio-unic input-valor mascara-dinheiro input-valor-pagamento" required name="valor" type="text" placeholder="Valor">
-                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-1 mt-5">
-                                                    <button title="Mais formas de pagamento" type="button" class="btn btn-phoenix-success" onclick="duplicarFormasPagamento()">+</button>
-                                                </div>
-                                            </div>
-                                            <div class="campos-duplicados row">
-                                                <!-- JS -->
-                                            </div>
-                                            <div class="col-lg-12">
+                                            <div class="col-md-4 duplica-pagamento">
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Observação</label>
-                                                    <textarea class="form-control obs-pagamento-inicio"></textarea>
+                                                    <label class="text-body-highlight fw-bold mb-2">Forma
+                                                        Pagamento</label>
+                                                    <select class="form-select select2 select-forma-pagamento-unic input-obrigatorio-unic">
+                                                        <option value="" selected disabled>Selecione</option>
+
+                                                        <?php foreach ($formasTransacao as $formaTransacao) { ?>
+                                                            <option value="<?= $formaTransacao['id'] ?>">
+                                                                <?= $formaTransacao['nome'] ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                                                 </div>
+                                            </div>
+                                            <div class="col-md-3 duplica-pagamento">
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Valor</label>
+                                                    <input class="form-control input-valor-unic input-obrigatorio-unic input-valor mascara-dinheiro input-valor-pagamento" required name="valor" type="text" placeholder="Valor">
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 mt-5">
+                                                <button title="Mais formas de pagamento" type="button" class="btn btn-phoenix-success duplicar-pagamento">+</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="campos-duplicados">
+                                            <!-- JS -->
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-4">
+                                                <label class="text-body-highlight fw-bold mb-2">Observação</label>
+                                                <textarea class="form-control obs-pagamento-inicio"></textarea>
                                             </div>
                                         </div>
                                     </div>
