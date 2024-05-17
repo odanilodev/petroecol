@@ -1,37 +1,110 @@
 var baseUrl = $(".base-url").val();
 
 // Duplica formas de pagamento
-function duplicarFormasPagamento() {
-    let clone = $(".campos-pagamento .duplica-pagamento").clone();
+// function duplicarFormasPagamento() {
+//     let clone = $(".campos-pagamento .duplica-pagamento").clone();
 
-    // Limpe os valores dos campos clonados
-    clone.find("select").val("");
-    clone.find("input").val("");
-    clone.find("label").remove();
+//     // Limpe os valores dos campos clonados
+//     clone.find("select").val("");
+//     clone.find("input").val("");
+//     clone.find("label").remove();
+//     clone.find("select").removeClass("select2");
+//     clone.find("select").addClass("select22");
 
-    let btnRemove = `
-        <div class="col-md-1 mt-0">            
-            <button type="button" class="btn btn-phoenix-danger deleta-dicionario" >
-                <span class="fas fa-minus"></span>
-            </button>
+//     $(`.select22`).select2({
+//         dropdownParent: `#modalPagarConta`,
+//         theme: "bootstrap-5",
+//     });
+
+//     let btnRemove = `
+//         <div class="col-md-1 mt-0">            
+//             <button type="button" class="btn btn-phoenix-danger deleta-dicionario" >
+//                 <span class="fas fa-minus"></span>
+//             </button>
+//         </div>
+//     `;
+//     //por padrão row vem com margin e padding - classes retiram
+//     let novaLinha = $('<div class="row m-0 p-0"></div>');
+
+//     // imprime os elementos dentro da div row
+//     novaLinha.append(clone);
+//     novaLinha.append(btnRemove);
+
+//     $(novaLinha).find(`.deleta-dicionario`).on('click', function () {
+
+//         novaLinha.remove();
+//     });
+
+//     $(".campos-duplicados").append(novaLinha);
+//     $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
+
+// }
+
+
+
+$(document).on('click', '.duplicar-pagamento', function () {
+
+    duplicarElemento();
+
+    carregaSelect2('select2', 'modalPagarConta');
+});
+
+
+// duplica forma de pagamento e residuos
+function duplicarElemento() {
+
+    // Pega os options do select
+    let optionsContaBancaria = $('.select-conta-bancaria-unic').html();
+    let optionsFormaPagamento = $('.select-forma-pagamento-unic').html();
+
+    let contaBancaria = `
+        <div class="col-md-4 mb-2 mt-2">
+            <select class="select2 form-select select-conta-bancaria-unic w-100">
+            ${optionsContaBancaria}
+            </select>
         </div>
     `;
-    //por padrão row vem com margin e padding - classes retiram
-    let novaLinha = $('<div class="row m-0 p-0"></div>');
+
+    let formaPagamento = `
+        <div class="col-md-4 mb-2 mt-2">
+            <select class="select2 form-select select-forma-pagamento-unic w-100">
+                ${optionsFormaPagamento}
+            </select>
+        </div>
+    `;
+
+    let inputValor = `
+        <div class="col-md-3 mb-2">
+            <input class="form-control mt-2 input-valor" type="text" placeholder="Digite o valor" value="">
+        </div>
+    `;
+
+    let btnRemove = $(`
+    <div class="col-md-1 mb-2 mt-1">
+
+        <button class="btn btn-phoenix-danger remover-inputs w-25">-</button>
+
+    </div>`);
+
+    // div com row para cada grupo ficar em row diferente
+    let novaLinha = $('<div class="row"></div>');
 
     // imprime os elementos dentro da div row
-    novaLinha.append(clone);
+    novaLinha.append(contaBancaria);
+    novaLinha.append(formaPagamento);
+    novaLinha.append(inputValor);
     novaLinha.append(btnRemove);
 
-    $(novaLinha).find(`.deleta-dicionario`).on('click', function () {
+    //remove a linha duplicada
+    btnRemove.find(`.remover-inputs`).on('click', function () {
 
         novaLinha.remove();
     });
 
-    $(".campos-duplicados").append(novaLinha);
-    $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
+    $(`.campos-duplicados`).append(novaLinha);
 
 }
+
 
 const cadastraContasPagar = (classe) => {
 
