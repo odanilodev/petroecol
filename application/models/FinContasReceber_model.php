@@ -68,6 +68,28 @@ class FinContasReceber_model extends CI_Model
         return $query->row_array();
     }
 
+    public function recebeIdMacroContaReceber($id)
+    {
+        $this->db->select('id_macro');
+        $this->db->from('fin_contas_receber');
+        $this->db->where('id', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get();
+
+        return $query->row_array();
+    }
+
+    public function recebeIdMicroContaReceber($id)
+    {
+        $this->db->select('id_micro');
+        $this->db->from('fin_contas_receber');
+        $this->db->where('id', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get();
+
+        return $query->row_array();
+    }
+
     public function deletaConta($id)
     {
         $this->db->where('id', $id);

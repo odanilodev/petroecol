@@ -49,6 +49,9 @@ class FinFluxoCaixa extends CI_Controller
         $this->load->model('FinGrupos_model');
         $this->load->model('FinFormaTransacao_model');
         $this->load->model('FinContaBancaria_model');
+        $this->load->model('FinMacro_model');
+
+        $dados['macros'] = $this->FinMacro_model->recebeMacros();
 
         $dados['grupos'] = $this->FinGrupos_model->recebeGrupos();
 
@@ -116,7 +119,10 @@ class FinFluxoCaixa extends CI_Controller
         $dados['valor'] = $this->input->post('valor');
         $dados['movimentacao_tabela'] = $this->input->post('movimentacao_tabela');
         $dados['id_dado_financeiro'] = $this->input->post('id_dado_financeiro');
+        $dados['id_micro'] = $this->input->post('micros');
+        $dados['id_macro'] = $this->input->post('macros');
         $data_movimentacao = $this->input->post('data_movimentacao');
+
 
         $dados['data_movimentacao'] = date('Y-m-d', strtotime(str_replace('/', '-', $data_movimentacao)));
 
