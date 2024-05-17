@@ -83,6 +83,8 @@ class FinContaBancaria extends CI_Controller
 		$dados['id_banco_financeiro'] = $this->input->post('banco');
 		$dados['conta'] = $this->input->post('conta');
 		$dados['agencia'] = $this->input->post('agencia');
+		$dados['id_setor_empresa'] = $this->input->post('setor');
+
 
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 

@@ -12,13 +12,13 @@ class FinContaBancaria_model extends CI_Model
 
     public function recebeContasBancarias()
     {   
-        $this->db->select('CB.*, SB.*, CB.id as ID_CB');
+        $this->db->select('CB.*, SB.*, BF.nome as nome_banco_financeiro, SE.nome as SETOR');
         $this->db->order_by('CB.apelido', 'DESC');
         $this->db->join('fin_saldo_bancario SB', 'SB.id_conta_bancaria = CB.id', 'left');
+        $this->db->join('ci_setores_empresa SE', 'SE.id = CB.id_setor_empresa', 'left');
         $this->db->join('fin_bancos_financeiros BF', 'BF.id = CB.id_banco_financeiro', 'left');
         $this->db->where('CB.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('CB.status', 1);
-        $this->db->select('CB.*, SB.*, BF.nome as nome_banco_financeiro');
 
         $query = $this->db->get('fin_contas_bancarias CB');
 
