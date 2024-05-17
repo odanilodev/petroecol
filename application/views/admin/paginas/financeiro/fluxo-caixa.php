@@ -7,11 +7,11 @@
                     <div class="col-12 col-md-3">
                         <div class="d-flex align-items-center">
                             <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-secondary-300"
+                                <span class="fa-solid fa-square fa-stack-2x text-info-300"
                                     data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-secondary-100"
+                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-info-100"
                                     data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-secondary "
+                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-info "
                                     data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
@@ -182,26 +182,26 @@
                                     </div>
                                 </td>
 
-                                <td class="align-middle data white-space-nowrap">
+                                <td class="align-middle text-center data white-space-nowrap">
                                     <h6 class="mb-0 text-900 text-center">
                                         <?= date('d/m/Y', strtotime($movimentacao['data_movimentacao'])); ?>
                                     </h6>
                                 </td>
 
-                                <td class="align-middle pagoRecebido">
+                                <td class="align-middle text-center pagoRecebido">
                                     <h6 class="mb-0 text-900">
                                         <?= ucfirst($movimentacao['nome_dado_financeiro']) ?>
                                     </h6>
                                 </td>
 
 
-                                <td class="align-middle categoria">
+                                <td class="align-middle text-center categoria">
                                     <h6 class="text-900 mb-0">
                                         <?= $movimentacao['nome_forma_transacao'] ?>
                                     </h6>
                                 </td>
 
-                                <td class="align-middle ps-3 tipo">
+                                <td class="align-middle text-center ps-3 tipo">
                                     <?php if ($movimentacao['movimentacao_tabela'] == 0): ?>
                                         <span class="badge badge-phoenix fs--2 badge-phoenix-warning">
                                             <span class="badge-label">Saída</span>
@@ -218,8 +218,8 @@
                                 </td>
 
 
-                                <td class="align-middle valor">
-                                    <h6 class="mb-0 text-900">
+                                <td class="align-middle text-center valor">
+                                    <h6 class="mb-0 text-900 text-center">
                                         <?= 'R$ ' . number_format($movimentacao['valor'], 2, ',', '.') ?>
                                     </h6>
                                 </td>
