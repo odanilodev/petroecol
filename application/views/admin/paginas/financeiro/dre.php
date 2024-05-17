@@ -129,7 +129,9 @@
 
                                 <td class="align-middle td_porcentagem">
                                     <h6 class="text-900 mb-0">
-                                        <?= ($faturamento['valor'] - $despesa['total_pago']) / $faturamento['valor'] * 100 ?>%
+
+                                        <?php $porcentagemFatura = ($faturamento['valor'] - $despesa['total_pago']) / $faturamento['valor'] * 100;?>
+                                        <?=  number_format($porcentagemFatura, 2, ',', '.') ?>%
                                     </h6>
                                 </td>
 
