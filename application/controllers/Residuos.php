@@ -35,19 +35,7 @@ class Residuos extends CI_Controller
 		add_scripts('header', array_merge($scriptsPadraoHead));
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsResiduoFooter));
 
-		// >>>> PAGINAÇÃO <<<<<
-		$limit = 12; // Número de residuos por página
-		$this->load->library('pagination');
-		$config['base_url'] = base_url('residuos/index');
-		$config['total_rows'] = $this->Residuos_model->recebeResiduos($limit, $page, true); // true para contar
-		$config['per_page'] = $limit;
-		$config['use_page_numbers'] = TRUE; // Usar números de página em vez de offset
-		$this->pagination->initialize($config);
-		// >>>> FIM PAGINAÇÃO <<<<<
-
 		$data['residuos'] = $this->Residuos_model->recebeResiduos($limit, $page);
-
-		// echo "<pre>"; print_r($data['residuos']); exit;
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/residuos/residuos');
