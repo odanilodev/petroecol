@@ -18,24 +18,27 @@ function duplicarElemento() {
 
     let contaBancaria = `
         <div class="col-md-4 mb-2 mt-2">
-            <select class="select2 form-select select-conta-bancaria-unic w-100">
+            <select class="select2 form-select select-conta-bancaria-unic w-100 input-obrigatorio">
             ${optionsContaBancaria}
             </select>
+            <div class="d-none aviso-obrigatorio">Preencha este campo</div>
         </div>
     `;
 
     let formaPagamento = `
         <div class="col-md-4 mb-2 mt-2">
-            <select class="select2 form-select select-forma-pagamento-unic w-100">
+            <select class="select2 form-select select-forma-pagamento-unic w-100 input-obrigatorio">
                 ${optionsFormaPagamento}
             </select>
+            <div class="d-none aviso-obrigatorio">Preencha este campo</div>
         </div>
     `;
 
     let inputValor = `
-        <div class="col-md-3 mb-2">
+        <div class="col-md-3 mb-2 input-obrigatorio">
             <input class="form-control mt-2 input-valor" type="text" placeholder="Digite o valor" value="">
         </div>
+        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
     `;
 
     let btnRemove = $(`
@@ -149,7 +152,6 @@ $(document).on('click', '.novo-lancamento', function () {
 $(document).on('click', '.realizar-pagamento', function () {
 
     carregaSelect2('select2', 'modalPagarConta');
-
 })
 
 
@@ -335,8 +337,6 @@ const realizarPagamento = () => {
 
         let valorTotalFormatado = valorTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
-        // alert(valorTotalFormatado); return;
-
         $.ajax({
             type: "post",
             url: baseUrl + "finContasPagar/realizarPagamento",
@@ -431,7 +431,6 @@ const atualizaFrontDadosFinanceiro = () => {
 function formatarValorMoeda(valor) {
     return parseFloat(valor.replace(/\./g, '').replace(',', '.').replace('&nbsp;', ''));
 }
-
 
 
 $(document).on('click', '.btn-pagar-tudo', function () {
