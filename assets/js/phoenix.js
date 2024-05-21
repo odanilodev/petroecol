@@ -7177,6 +7177,7 @@ $(document).ready(function () {
 
   // clique para selecionar um por um
   $(document).on('change', '.check-element', function () {
+    
     let value = $(this).val();
 
     if ($(this).prop('checked') ) {
@@ -7194,7 +7195,7 @@ $(document).ready(function () {
     todosIdsSelecionados(elementsChecked);
     $('.emails-clientes-selecionados').val(elementsChecked); // ids para enviar certificados de coleta emails
     // Verifica se todos os checkboxes individuais estão marcados
-    verificaTodosCheckbox();
+    verificaTodosCheckbox(this);
   });
 
   // verifica os checkbox quando carrega a pagina
@@ -7203,7 +7204,7 @@ $(document).ready(function () {
   });
 
   // verifica se todos estão checked
-  function verificaTodosCheckbox() {
+  function verificaTodosCheckbox(btnClicado) {
 
     // se todos estiverem checked, deixa o checkbox que seleciona todos checked também
     if ($('.check-element:checked').length == $('.check-element').length &&  $('.check-element').length > 1) {
@@ -7216,10 +7217,15 @@ $(document).ready(function () {
 
       $('.check-all-element').prop('checked', false);
 
-      if($('.check-element:checked').length >= 2){
+      if ($('.check-element:checked').length >= 2) {
 
+        if ($(btnClicado).hasClass('check-aberto')) {
+
+          $('.btn-pagar-tudo').removeClass('d-none');
+          
+        }
+  
         $('.btn-excluir-tudo').removeClass('d-none');
-        $('.btn-pagar-tudo').removeClass('d-none');
 
       } else {
 

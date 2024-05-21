@@ -149,12 +149,6 @@ $(document).on('click', '.novo-lancamento', function () {
 
 })
 
-$(document).on('click', '.realizar-pagamento', function () {
-
-    carregaSelect2('select2', 'modalPagarConta');
-})
-
-
 $(document).on('click', '.editar-lancamento', function () {
 
     $('.select2').select2({
@@ -195,6 +189,7 @@ $(document).on('click', '.editar-lancamento', function () {
     })
 
 })
+
 
 
 $(document).on('change', '.select-macros', function () {
@@ -300,6 +295,8 @@ $(document).on('click', '.realizar-pagamento', function () {
     $('.id-dado-financeiro').val($(this).data('id-dado-financeiro'));
     $('.input-valor').val($(this).data('valor'));
     $('.valor-total-conta').html(`R$ ${$(this).data('valor')}`);
+
+    carregaSelect2('select2', 'modalPagarConta');
 })
 
 const realizarPagamento = () => {
@@ -434,6 +431,8 @@ function formatarValorMoeda(valor) {
 
 
 $(document).on('click', '.btn-pagar-tudo', function () {
+
+    carregaSelect2('select2', 'modalPagarVariasContas');
 
     // trata o front
     $('.proxima-etapa-pagamento').removeClass('d-none');

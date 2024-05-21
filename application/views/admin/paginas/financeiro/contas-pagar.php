@@ -828,7 +828,7 @@
                                                 <div class="col-lg-4 mb-4 duplica-pagamento-multiplo">
                                                     <label class="text-body-highlight fw-bold mb-2">Conta
                                                         Bancária</label>
-                                                    <select class="campos form-select select2 select-conta-bancaria conta-bancaria">
+                                                    <select class="campos form-select select-conta-bancaria conta-bancaria">
                                                         <option value="" selected disabled>Selecione</option>
                                                         <?php foreach ($contasBancarias as $contaBancaria) { ?>
                                                             <option value="<?= $contaBancaria['id_conta_bancaria'] ?>">
@@ -841,7 +841,7 @@
                                                     <div class="mb-4">
                                                         <label class="text-body-highlight fw-bold mb-2">Forma
                                                             Pagamento</label>
-                                                        <select class="campos form-select select2 select-forma-pagamento forma-pagamento">
+                                                        <select class="campos form-select select-forma-pagamento forma-pagamento">
                                                             <option value="" selected disabled>Selecione</option>
 
                                                             <?php foreach ($formasTransacao as $formaTransacao) { ?>
@@ -864,6 +864,7 @@
                                                     <button title="Mais formas de pagamento" type="button" class="btn btn-phoenix-success" onclick="duplicarFormaPagamentoModal(event)">+</button>
                                                 </div>
                                             </div>
+                                            
                                             <div class="campos-pagamentos-novos row">
                                                 <!-- JS -->
                                             </div>
