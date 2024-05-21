@@ -91,4 +91,18 @@ class FinDre extends CI_Controller
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 
 	}
+
+	public function recebeValoresMicros()
+	{
+		$idMicro = $this->input->post('idMicro');
+
+		$retorno = $this->FinDre_model->recebeValoresMicrosDre($idMicro);
+
+		$response = array(
+			'success' => true,
+			'retorno' => $retorno
+		);
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
 }

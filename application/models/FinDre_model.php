@@ -31,13 +31,27 @@ class FinDre_model extends CI_Model
 
     public function visualizarMicrosDre($idMacro)
     {
-        $this->db->select('MC.nome, M.nome as MACRO');
+        $this->db->select('MC.nome, M.nome as MACRO, F.id_micro');
         $this->db->from('fin_fluxo F');
         $this->db->join('fin_macros M', 'F.id_macro = M.id', 'left');
         $this->db->join('fin_micros MC', 'F.id_micro = MC.id', 'left');
         $this->db->where('F.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('F.id_macro', $idMacro);
-        $this->db->group_by('MC.nome');
+        $this->db->group_by('MC.nome, F.id_micro');
+        $query = $this->db->get();
+        return $query->result_array();
+
+    }
+
+    public function recebeValoresMicrosDre($idMicro)
+    {
+        $this->db->select('SUM(F.valor) as VALOR_TOTAL_MICRO, M.nome');
+        $this->db->from('fin_fluxo F');
+        $this->db->join('fin_micros M', 'F.id_micro = M.id', 'left');
+        $this->db->where('F.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('F.movimentacao_tabela', 0);
+        $this->db->where('F.id_micro', $idMicro);
+        $this->db->group_by('F.id_micro');
         $query = $this->db->get();
         return $query->result_array();
 

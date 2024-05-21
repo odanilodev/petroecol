@@ -622,6 +622,7 @@ function scriptsFinContasRecorrentesFooter()
 function scriptsFinDreFooter()
 {
     return array(
+        '<script src="' . base_url('assets/js/helpers-js/formatar-moeda-real.js') . '"></script>',
         '<script src="' . base_url('assets/js/financeiro/dre/dre.js') . '"></script>'
     );
 }

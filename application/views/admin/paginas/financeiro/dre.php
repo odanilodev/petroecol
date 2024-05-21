@@ -13,6 +13,7 @@
                             </span>
                             <div class="ms-3">
                                 <h4 class="mb-0">R$ <?= number_format($faturamento['valor'], 2, ',', '.') ?></span></h4>
+                                <input type="hidden" class="valor-faturamento" value="<?= $faturamento['valor'] ?>">
                                 <p class="text-800 fs--1 mb-0">Faturamento - <?= $dataInicio ? "$dataInicio - $dataFim" : "Últimos 30 dias" ?></p>
                             </div>
                         </div>
@@ -143,7 +144,7 @@
                                     <div class="font-sans-serif btn-reveal-trigger position-static">
                                         <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2"></span></button>
                                         <div class="dropdown-menu dropdown-menu-end py-2">
-                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalVisualizarDre" onclick="visualizarDre(<?= $despesa['ID_MACRO']?>)">
+                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalVisualizarDre" onclick="visualizarDre(<?= $despesa['ID_MACRO'] ?>)">
                                                 <span class="fas fa-eye"></span> Visualizar
                                             </a>
                                         </div>
@@ -178,7 +179,7 @@
                                     <div class="mb-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
                                             <div class="col-sm-12 col-xxl-12 border-bottom py-3">
-                                                <table class="w-100 table-stats">
+                                                <table class="w-100 table-stats d-none">
                                                     <tr>
                                                         <td class="py-2 w-50">
                                                             <div class="d-inline-flex align-items-center">
@@ -214,6 +215,23 @@
                                                     </tr>
 
                                                 </table>
+
+
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col" class="text-center">Micros</th>
+                                                            <th scope="col" class="text-center">Valor</th>
+                                                            <th scope="col" class="text-center">% em relação ao faturamento</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="tabela-micros">
+                                                        <!-- JS -->
+                                                    </tbody>
+                                                </table>
+
+
+
                                             </div>
                                         </div>
                                     </div>
