@@ -33,7 +33,7 @@ function buscaValoresMicros(idMicro) {
 
             let valorFaturamento = $('.valor-faturamento').val(); 
 
-            let micros = 'oi';
+            let micros = '';
 
             for (i = 0; i < data['retorno'].length; i++) {
 
