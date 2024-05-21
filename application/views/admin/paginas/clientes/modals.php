@@ -303,6 +303,7 @@
                             <option value="" selected disabled>Selecione</option>
                             <option value="0">Pago pra coletar</option>
                             <option value="1">Recebe pra coletar</option>
+                            <option value="2">Doação</option>
                         </select>
                         <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
