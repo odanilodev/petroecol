@@ -199,7 +199,7 @@ class Romaneios extends CI_Controller
 
 		// residuos
 		$this->load->model('Residuos_model');
-		$residuos = $this->Residuos_model->recebeTodosResiduos();
+		$residuos = $this->Residuos_model->recebeResiduoSetor($idSetorEmpresa);
 
 		// formas de pagamentos
 		$this->load->model('FormaPagamento_model');
