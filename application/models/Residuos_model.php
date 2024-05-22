@@ -48,6 +48,14 @@ class Residuos_model extends CI_Model
 
         return $query->row_array();
     }
+    public function recebeResiduoSetor($idSetor)
+    {
+        $this->db->where('id_setor_empresa', $idSetor);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('ci_residuos');
+
+        return $query->result_array();
+    }
 
     public function recebeResiduoNome($nome,$id)
     {
