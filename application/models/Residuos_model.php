@@ -24,7 +24,7 @@ class Residuos_model extends CI_Model
         $this->db->from('ci_residuos R');
         $this->db->join('ci_grupo_residuos GR', 'R.id_grupo = GR.id', 'inner');
         $this->db->join('ci_setores_empresa SE', 'R.id_setor_empresa = SE.id', 'inner');
-        $this->db->order_by('R.nome', 'DESC');
+        $this->db->order_by('R.nome', 'ASC');
         $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
@@ -35,11 +35,12 @@ class Residuos_model extends CI_Model
     public function recebeTodosResiduos()
     {
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->order_by('nome', 'ASC'); 
         $query = $this->db->get('ci_residuos');
-
+    
         return $query->result_array();
     }
-
+    
     public function recebeResiduo($id)
     {
         $this->db->where('id', $id);
