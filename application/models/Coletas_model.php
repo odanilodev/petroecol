@@ -88,34 +88,26 @@ class Coletas_model extends CI_Model
         $this->db->where_in('id_cliente', $id_cliente);
         $this->db->where('data_coleta >=', $data_inicio);
         $this->db->where('data_coleta <=', $data_fim);
-        $this->db->where('coletado', 1);
-        $this->db->order_by('id_cliente, data_coleta');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('coletado', 1);
+        $this->db->where('status', 1);
+        $this->db->order_by('id_cliente, data_coleta');
 
         $query = $this->db->get();
-
-        // $result_array = [];
-
-        // foreach ($query->result_array() as $row) {
-        //     if (!isset($result_array[$row['id_cliente']])) {
-        //         $result_array[$row['id_cliente']] = [];
-        //     }
-
-        //     $result_array[$row['id_cliente']][] = $row['id'];
-        // }
 
         return $query->result_array();
     }
 
     public function recebeColetasCliente($idCliente)
     {
-        $this->db->select('ci_coletas.*, ci_coletas.id as ID_COLETA, ci_funcionarios.nome as nome_responsavel');
-        $this->db->from('ci_coletas');
-        $this->db->join('ci_funcionarios', 'ci_coletas.id_responsavel = ci_funcionarios.id', 'left');
-        $this->db->where('ci_coletas.id_cliente', $idCliente);
-        $this->db->where('ci_coletas.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->select('CO.*, CO.id as ID_COLETA, ci_funcionarios.nome as nome_responsavel');
+        $this->db->from('ci_coletas CO');
+        $this->db->join('ci_funcionarios', 'CO.id_responsavel = ci_funcionarios.id', 'left');
+        $this->db->where('CO.id_cliente', $idCliente);
+        $this->db->where('CO.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('CO.status', 1);
         $this->db->order_by('data_coleta', 'desc');
-        $this->db->group_by('ci_coletas.id');
+        $this->db->group_by('CO.id');
 
         $query = $this->db->get();
 
@@ -141,6 +133,20 @@ class Coletas_model extends CI_Model
     public function editaColeta($idColeta, $dados)
     {
         $dados['editado_em'] = date('Y-m-d H:i:s');
+        $this->db->where('id', $idColeta);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->update('ci_coletas', $dados);
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($idColeta);
+        }
+
+        return $this->db->affected_rows() > 0;
+    }
+
+    public function deletaColeta($idColeta)
+    {
+        $dados['status'] = 0;
         $this->db->where('id', $idColeta);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->update('ci_coletas', $dados);

@@ -151,6 +151,7 @@ class SetoresEmpresaCliente_model extends CI_Model
         $this->db->from('ci_clientes C');
         $this->db->where('C.status', 1);
         $this->db->join('ci_coletas CO', 'CO.id_cliente = C.id', 'RIGHT');
+        $this->db->where('CO.status', 1);
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->group_by('C.id');
         $query = $this->db->get();
