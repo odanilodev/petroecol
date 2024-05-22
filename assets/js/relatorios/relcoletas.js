@@ -65,6 +65,12 @@ const relatorioColetas = () => {
     // verificar campos cliente e grupos
     let grupos = $('#select-grupos').val();
     let residuos = $('#select-residuos').val();
+
+    if (residuos.length === 0) {
+        avisoRetorno('Algo deu errado!', 'Selecione algum resíduo!', 'error', '#');
+        permissao = false;
+        return;
+    }
     
     let clientes = $('#select-clientes').val();
     if (grupos.length === 0 && clientes.length === 0) {
