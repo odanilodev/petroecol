@@ -23,7 +23,7 @@ class Residuos extends CI_Controller
 		$this->load->model('Residuos_model');
 	}
 
-	public function index($page = 1)
+	public function index()
 	{
 		// scripts padrão
 		$scriptsPadraoHead = scriptsPadraoHead();
@@ -35,7 +35,7 @@ class Residuos extends CI_Controller
 		add_scripts('header', array_merge($scriptsPadraoHead));
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsResiduoFooter));
 
-		$data['residuos'] = $this->Residuos_model->recebeResiduos($limit, $page);
+		$data['residuos'] = $this->Residuos_model->recebeResiduos();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/residuos/residuos');
