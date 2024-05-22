@@ -47,6 +47,10 @@ class Relatorios extends CI_Controller
 		$this->load->model('SetoresEmpresaCliente_model');
         $data['setores'] = $this->SetoresEmpresaCliente_model->recebeSetoresEmpresaClientes();
 
+		// residuos
+		$this->load->model('Residuos_model');
+		$data['residuos'] = $this->Residuos_model->recebeTodosResiduos();
+
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/relatorios/relcoletas/relcoletas');
 		$this->load->view('admin/includes/painel/rodape');
@@ -63,6 +67,8 @@ class Relatorios extends CI_Controller
 		$data_fim = $this->input->post('data_fim');
 		$setor = $this->input->post('setor');
 		$filtrar_geral = $this->input->post('filtrar_geral');
+		$residuos = $this->input->post('residuos');
+
 
 		if (!empty($this->input->post('grupos'))) {
 			$clientes = array_column($this->GrupoCliente_model->recebeIdClientesPorGrupos($grupos), 'id_cliente');
@@ -71,10 +77,10 @@ class Relatorios extends CI_Controller
 		$this->load->model('Coletas_model');
 		$idsColetasClientes = array_column($this->Coletas_model->recebeIdColetasClientesAll($clientes, $data_inicio, $data_fim), 'id');
 
-		$this->gerarPdfRelatorioColetas($idsColetasClientes, $filtrar_geral);
+		$this->gerarPdfRelatorioColetas($idsColetasClientes, $residuos, $filtrar_geral);
 	}
 
-	public function gerarPdfRelatorioColetas($idColetaClientes, $filtrar_geral)
+	public function gerarPdfRelatorioColetas($idColetaClientes, $idsResiduos, $filtrar_geral)
 	{
 		$this->load->library('detalhesColeta');
 		$this->load->library('formasPagamentoChaveId');
@@ -120,6 +126,8 @@ class Relatorios extends CI_Controller
 			$data['filtrar_geral'] = $filtrar_geral;	
 
 			$data['dados'] = $this->estruturaColetas($dados);
+
+			$data['ids_residuos'] = explode(',', $idsResiduos);
 
 			$mpdf = new Mpdf;
 			$html = $this->load->view('admin/paginas/relatorios/relcoletas/relcoletas-pdf', $data, true);
