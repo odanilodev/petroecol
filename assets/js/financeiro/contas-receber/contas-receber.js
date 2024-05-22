@@ -133,14 +133,15 @@ $(document).on('click', '.editar-lancamento', function () {
             let dataVencimento = data['conta'].data_vencimento.split('-');
             dataVencimento = dataVencimento[2] + '/' + dataVencimento[1] + '/' + dataVencimento[0];
             $('.input-data-vencimento').val(dataVencimento);
-
+            
             let dataEmissao = data['conta'].data_emissao.split('-');
             dataEmissao = dataEmissao[2] + '/' + dataEmissao[1] + '/' + dataEmissao[0];
-
+            
             $('.input-data-emissao').val(dataEmissao);
-
+            
             $('.input-observacao').text(data['conta'].observacao);
-
+            
+            $('.select-setor-empresa').val(data['conta'].id_setor_empresa).trigger('change');
         }
     })
 
@@ -400,6 +401,7 @@ const visualizarConta = (idConta) => {
             let valorRecebido = formatarValorExibicao(parseFloat(data['conta'].valor_recebido));
 
             $('.nome-empresa').html(data['conta'].RECEBIDO);
+            $('.setor-empresa').html(data['conta'].SETOR);
             $('.data-vencimento').html(dataVencimento);
             $('.data-emissao').html(dataEmissao);
             $('.valor-conta').html(valorConta);

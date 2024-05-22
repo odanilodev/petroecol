@@ -75,7 +75,9 @@ class FinContasReceber extends CI_Controller
 
 		$data['status'] = $statusConta;
 
-
+		// Setores Empresa 
+		$this->load->model('SetoresEmpresa_model');
+		$data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
 
 		$this->load->model('FinMacro_model');
 		$data['macros'] = $this->FinMacro_model->recebeMacros();
@@ -113,6 +115,7 @@ class FinContasReceber extends CI_Controller
 		$data['id_macro'] = $dadosLancamento['macros'];
 		$data['id_micro'] = $dadosLancamento['micros'];
 		$data['observacao'] = $dadosLancamento['observacao'];
+		$data['id_setor_empresa'] = $dadosLancamento['setor'];
 		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
 		$data['data_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao'])));
 
@@ -254,6 +257,8 @@ class FinContasReceber extends CI_Controller
 		$data['observacao'] = $dadosLancamento['observacao'];
 		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
 		$data['data_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao'])));
+		$data['id_setor_empresa'] = $dadosLancamento['setor'];
+
 
 		$retorno = $this->FinContasReceber_model->editaConta($id, $data);
 
