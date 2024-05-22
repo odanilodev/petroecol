@@ -64,6 +64,14 @@ const relatorioColetas = () => {
 
     // verificar campos cliente e grupos
     let grupos = $('#select-grupos').val();
+    let residuos = $('#select-residuos').val();
+
+    if (residuos.length === 0) {
+        avisoRetorno('Algo deu errado!', 'Selecione algum resíduo!', 'error', '#');
+        permissao = false;
+        return;
+    }
+    
     let clientes = $('#select-clientes').val();
     if (grupos.length === 0 && clientes.length === 0) {
         avisoRetorno('Algo deu errado!', 'Preencha o campo grupos ou clientes!', 'error', '#');
@@ -105,6 +113,12 @@ const relatorioColetas = () => {
             'type': 'hidden',
             'name': 'clientes',
             'value': clientes
+        }));
+
+        form.append($('<input>', {
+            'type': 'hidden',
+            'name': 'residuos',
+            'value': residuos
         }));
 
         form.append($('<input>', {

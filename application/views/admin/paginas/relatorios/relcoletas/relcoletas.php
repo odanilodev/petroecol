@@ -11,7 +11,7 @@
 
                             <div class="row">
 
-                                <div class="mb-2 col-md-2">
+                                <div class="mb-2 col-md-4">
                                     <label>Setores</label>
                                     <select id="select-setor" class="form-select w-100 mb-3 select2">
 
@@ -25,7 +25,7 @@
                                     </select>
                                 </div>
 
-                                <div class="mb-2 col-md-3">
+                                <div class="mb-2 col-md-4">
                                     <label>Grupos de clientes</label>
                                     <select id="select-grupos" class="form-select w-100 mb-3 select2" multiple data-placeholder="Grupos">
 
@@ -36,7 +36,7 @@
                                     </select>
                                 </div>
 
-                                <div class="mb-2 col-md-3">
+                                <div class="mb-2 col-md-4">
                                     <label>Clientes</label>
                                     <select id="select-clientes" class="form-select w-100 mb-3 select2" multiple data-placeholder="Clientes">
                                         <?php foreach ($clientes as $cliente) { ?>
@@ -45,12 +45,23 @@
                                     </select>
                                 </div>
 
-                                <div class="col-md-2 mb-2">
+                                <div class="mb-2 col-md-4">
+                                    <label>Resíduos</label>
+                                    <select id="select-residuos" class="form-select w-100 mb-3 select2" multiple data-placeholder="Resíduos">
+
+                                        <?php foreach ($residuos as $residuo) { ?>
+                                            <option value="<?= $residuo['id'] ?>"><?= $residuo['nome'] ?></option>
+                                        <?php } ?>
+
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4 mb-2">
                                     <label>Data Inicio</label>
                                     <input class="form-control datetimepicker input-data-inicio" required name="data_inicio" type="text" placeholder="Data Inicio" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
                                 </div>
 
-                                <div class="col-md-2 mb-2">
+                                <div class="col-md-4 mb-2">
                                     <label>Data Fim</label>
                                     <input class="form-control datetimepicker input-data-fim" required name="data_fim" type="text" placeholder="Data Fim" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
                                     <span><input id="filtrar-geral" type="checkbox"/><small> Filtrar geral</small></span>
