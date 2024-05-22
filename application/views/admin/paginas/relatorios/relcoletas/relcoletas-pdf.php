@@ -80,7 +80,7 @@
             </div>
 
             <div style="flex: 1; text-align: right; margin-top: -30px;">
-                <h3 style="font-weight: bold; text-transform: uppercase;">Relatório de clientes</h3>
+                <h3 style="font-weight: bold; text-transform: uppercase;">Relatório de coletas</h3>
             </div>
 
         </div>
@@ -116,18 +116,18 @@
                     $valor_total = [];
                     $valor_total_mensal = [];
 
-                    $idEspecificoResiduo = $ids_residuos; // Array de IDs específicos dos resíduos
+                    $idEspecificoResiduo = $ids_residuos;
 
                     foreach ($dado['coletas'] as $coleta) :
                         $residuoEncontrado = false;
                         foreach ($coleta['residuos'] as $residuo) {
-                            if (in_array($residuo, $idEspecificoResiduo)) {
+                            if (in_array($residuo,$idEspecificoResiduo)) {
                                 $residuoEncontrado = true;
                                 break;
                             }
                         }
 
-                        // exibe a linha da tabela só se tiver algum residuo especifico
+                        // Exibe a linha da tabela só se tiver algum resíduo específico
                         if ($residuoEncontrado) :
                     ?>
                             <tr>
@@ -144,16 +144,18 @@
                                                 $coleta['quantidade_coletada'][$key] = 0;
                                             }
 
-                                            // Calcula a quantidade movimentada
                                             if (isset($movimentado[$residuo])) {
                                                 $movimentado[$residuo] += $coleta['quantidade_coletada'][$key] ?? 0;
+                                                if (isset($residuoPagamentoCliente[$id_cliente])) {
+                                                    if (isset($residuoPagamentoCliente[$id_cliente][$residuo][1])) {
+                                                        $valor_total_mensal[$residuoPagamentoCliente[$id_cliente][$residuo][1]] += ($coleta['quantidade_coletada'][$key] ?? 0) * ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0);
+                                                    }
+                                                }
                                             } else {
                                                 $movimentado[$residuo] = $coleta['quantidade_coletada'][$key] ?? 0;
-                                            }
-
-                                            // Calcula o valor total mensal
-                                            if (isset($residuoPagamentoCliente[$id_cliente][$residuo][1])) {
-                                                $valor_total_mensal[$residuoPagamentoCliente[$id_cliente][$residuo][1]] = ($coleta['quantidade_coletada'][$key] ?? 0) * ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0);
+                                                if (isset($residuoPagamentoCliente[$id_cliente][$residuo][1])) {
+                                                    $valor_total_mensal[$residuoPagamentoCliente[$id_cliente][$residuo][1]] = ($coleta['quantidade_coletada'][$key] ?? 0) * ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0);
+                                                }
                                             }
 
                                             if ($filtrar_geral) {
@@ -168,7 +170,10 @@
 
                                             $movimentacoes_por_residuo++;
                                             $movimentacoes_por_residuo_geral++;
+                                        } else {
+                                            unset($coleta['pagamentos'][$key]);
                                         }
+
                                     endforeach;
                                     ?>
                                 </td>
@@ -197,7 +202,7 @@
                                             }
 
                                             if (isset($coleta['tipo_pagamento'][$key]) && $coleta['tipo_pagamento'][$key] == 1) {
-                                                echo "<p>R$ ${formattedValue} " . ($formasPagamento[$pagamento] ?? "") . "</p>";
+                                                echo "<p>R$${formattedValue} " . ($formasPagamento[$pagamento] ?? "") . "</p>";
                                             } else {
                                                 echo "<p>${formattedValue} " . ($formasPagamento[$pagamento] ?? "") . "</p>";
                                             }
@@ -212,7 +217,8 @@
                                     </td>
                                 <?php } ?>
                             </tr>
-                    <?php endif; // fecha a verificação de resíduo encontrado
+
+                    <?php endif; // Fecha a verificação de resíduo encontrado
                     endforeach; ?>
 
                     <tr>
@@ -239,7 +245,7 @@
                                     $valor_total_geral[$key]['tipo_pagamento'] = $val['tipo_pagamento'];
                                 }
                                 if ($val['tipo_pagamento'] == 1) {
-                                    echo '<p> R$ ' . (number_format($val['valor'], 2, ',', '.')) . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                                    echo '<p> R$' . (number_format($val['valor'], 2, ',', '.')) . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
                                 } else {
                                     echo '<p>' . $val['valor'] . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
                                 }
