@@ -80,7 +80,7 @@
             </div>
 
             <div style="flex: 1; text-align: right; margin-top: -30px;">
-                <h3 style="font-weight: bold; text-transform: uppercase;">Relatório de clientes</h3>
+                <h3 style="font-weight: bold; text-transform: uppercase;">Relatório de coletas</h3>
             </div>
 
         </div>
