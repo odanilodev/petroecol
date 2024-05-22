@@ -11,22 +11,14 @@ class Residuos_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebeResiduos($limit, $page, $count = null)
+    public function recebeResiduos()
     {
-        if ($count) {
-            $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-            $query = $this->db->get('ci_residuos');
-            return $query->num_rows();
-        }
-
-        $offset = ($page - 1) * $limit;
         $this->db->select('R.*, GR.nome_grupo, SE.nome as SETOR');
         $this->db->from('ci_residuos R');
         $this->db->join('ci_grupo_residuos GR', 'R.id_grupo = GR.id', 'inner');
         $this->db->join('ci_setores_empresa SE', 'R.id_setor_empresa = SE.id', 'inner');
         $this->db->order_by('R.nome', 'ASC');
         $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->limit($limit, $offset);
         $query = $this->db->get();
 
         return $query->result_array();
@@ -58,7 +50,7 @@ class Residuos_model extends CI_Model
         return $query->result_array();
     }
 
-    public function recebeResiduoNome($nome,$id)
+    public function recebeResiduoNome($nome, $id)
     {
         $this->db->where('nome', $nome);
         $this->db->where('id <>', $id);
@@ -122,5 +114,4 @@ class Residuos_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
-
 }
