@@ -67,6 +67,10 @@ class FinContasPagar extends CI_Controller
 		if ($statusConta === null || $statusConta === '') {
 			$statusConta = 'ambas';
 		}
+		
+		// Setores Empresa 
+        $this->load->model('SetoresEmpresa_model');
+        $data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
 
 		$data['status'] = $statusConta;
 
@@ -108,6 +112,7 @@ class FinContasPagar extends CI_Controller
 		$data['id_micro'] = $dadosLancamento['micros'];
 		$data['id_macro'] = $dadosLancamento['macros'];
 		$data['nome'] = $dadosLancamento['nome-recebido'];
+		$data['id_setor_empresa'] = $dadosLancamento['setor'];
 		$data['observacao'] = $dadosLancamento['observacao'];
 		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
 		$data['data_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao'])));
@@ -154,8 +159,10 @@ class FinContasPagar extends CI_Controller
 
 		$data['valor'] = str_replace(['.', ','], ['', '.'], $dadosLancamento['valor']);
 		$data['observacao'] = $dadosLancamento['observacao'];
+		$data['id_setor_empresa'] = $dadosLancamento['setor'];
 		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
 		$data['data_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao'])));
+
 
 		$retorno = $this->FinContasPagar_model->editaConta($id, $data);
 

@@ -257,6 +257,22 @@
                                                         <td class="py-2 w-50">
                                                             <div class="d-inline-flex align-items-center">
                                                                 <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300 fas fa-id-card" style="width:16px; height:16px"></span>
+                                                                </div>
+                                                                <p class="fw-bold mb-0">Setor</p>
+                                                            </div>
+                                                        </td>
+                                                        <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                                                        <td class="py-2 w-50">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break setor-empresa html-clean">
+                                                                <!-- JS -->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="py-2 w-50">
+                                                            <div class="d-inline-flex align-items-center">
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
                                                                     <span class="text-info-600 dark__text-info-300 fas fa-id-card-alt" style="width:16px; height:16px"></span>
                                                                 </div>
                                                                 <p class="fw-bold mb-0">Empresa</p>
@@ -416,6 +432,22 @@
                                 <div class="col-12">
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+
+                                            <div class="col-lg-12">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Setor da Empresa</label>
+                                                    <select class="form-select select2 select-setor-empresa input-obrigatorio dados-conta" name="setor">
+                                                        <option selected disabled value="">Selecione</option>
+                                                        <?php foreach ($setoresEmpresa as $setor) { ?>
+                                                            <option value="<?= $setor['id'] ?>"><?= $setor['nome'] ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                </div>
+
+                                            </div>
 
                                             <div class="col-lg-6">
 
@@ -591,6 +623,21 @@
                                 <div class="col-12">
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+
+                                            <div class="col-lg-12">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Setor da Empresa</label>
+                                                    <select class="form-select select2 select-setor-empresa input-obrigatorio" name="setor">
+                                                        <option selected disabled value="">Selecione</option>
+                                                        <?php foreach ($setoresEmpresa as $setor) { ?>
+                                                            <option value="<?= $setor['id'] ?>"><?= $setor['nome'] ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                </div>
+
+                                            </div>
 
                                             <div class="col-lg-4">
 
@@ -864,7 +911,7 @@
                                                     <button title="Mais formas de pagamento" type="button" class="btn btn-phoenix-success" onclick="duplicarFormaPagamentoModal(event)">+</button>
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="campos-pagamentos-novos row">
                                                 <!-- JS -->
                                             </div>
