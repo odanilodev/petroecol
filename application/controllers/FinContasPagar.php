@@ -410,15 +410,15 @@ class FinContasPagar extends CI_Controller
 
 	public function deletarConta()
 	{
-		$idConta = $this->input->post('idConta');
+		$idsContas = $this->input->post('ids');
 
-		$retorno = $this->FinContasPagar_model->deletaConta($idConta);
+		$retorno = $this->FinContasPagar_model->deletaConta($idsContas);
 
 		if ($retorno) {
 			$response = array(
 				'success' => true,
 				'title' => "Sucesso!",
-				'message' => "Conta deletada com sucesso!",
+				'message' => "Conta(s) deletada(s) com sucesso!",
 				'type' => "success"
 			);
 		} else {
@@ -426,7 +426,7 @@ class FinContasPagar extends CI_Controller
 			$response = array(
 				'success' => false,
 				'title' => "Algo deu errado!",
-				'message' => "Não foi possivel deletar a conta!",
+				'message' => "Não foi possivel deletar a(s) conta(s)!",
 				'type' => "error"
 			);
 		}

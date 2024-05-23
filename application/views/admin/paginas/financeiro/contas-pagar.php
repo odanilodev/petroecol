@@ -95,6 +95,9 @@
 
                         <a href="#" class="btn btn-phoenix-success d-none btn-pagar-tudo mx-2" data-bs-toggle="modal" data-bs-target="#modalPagarVariasContas"><span data-feather="dollar-sign"></span> Pagar
                             todos</a>
+                        <a href="#" class="btn btn-phoenix-danger d-none btn-excluir-contas mx-2" onclick="deletaContaPagar()"><span class="fas fa-trash"></span> Excluir tudo</a>
+
+
 
                     </h3>
                 </div>
@@ -864,7 +867,7 @@
                                                     <button title="Mais formas de pagamento" type="button" class="btn btn-phoenix-success" onclick="duplicarFormaPagamentoModal(event)">+</button>
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="campos-pagamentos-novos row">
                                                 <!-- JS -->
                                             </div>
