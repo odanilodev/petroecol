@@ -189,10 +189,24 @@ class Agendamentos_model extends CI_Model
 
     }
 
+    public function proximaColetaCliente($id)
+    {
+        $this->db->select('data_coleta'); 
+        $this->db->where('id_cliente', $id);
+        $this->db->where('status', 0);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->order_by('data_coleta', 'desc'); 
+        $this->db->limit(1); 
+        $query = $this->db->get('ci_agendamentos');
+
+        return $query->row()->data_coleta ?? null; 
+
+    }
 
     public function contaAgendamentoCLiente($id)
     {
         $this->db->where('id_cliente', $id);
+        $this->db->where('status', 0);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_agendamentos');
 

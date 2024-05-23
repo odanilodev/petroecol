@@ -224,6 +224,7 @@ class Clientes extends CI_Controller
         $this->load->helper('formatar');
 
         $data['ultima_coleta'] = formatarData($this->Agendamentos_model->ultimaColetaCLiente($id));
+        $data['proxima_coleta'] = formatarData($this->Agendamentos_model->proximaColetaCLiente($id));
 
         // formas de pagamento
         $this->load->model('FormaPagamento_model');
