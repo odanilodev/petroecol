@@ -170,8 +170,6 @@
 
                                             $movimentacoes_por_residuo++;
                                             $movimentacoes_por_residuo_geral++;
-                                        } else {
-                                            unset($coleta['pagamentos'][$key]);
                                         }
 
                                     endforeach;
