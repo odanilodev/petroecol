@@ -7151,10 +7151,12 @@ $(document).ready(function () {
         elementsChecked.push($(this).val());
       });
 
-      // Exibe botão para excluir tudo
+      // Exibe botão geral
       if($('.check-element:checked').length > 1){
-        
         $('.btn-excluir-tudo').removeClass('d-none');
+      }
+
+      if($('.check-aberto:checked').length > 1){
         $('.btn-pagar-tudo').removeClass('d-none');
       }
 
