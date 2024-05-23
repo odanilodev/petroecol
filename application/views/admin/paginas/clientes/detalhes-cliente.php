@@ -138,8 +138,8 @@
                   <div class="d-flex align-items-center">
                     <p class="mb-0 me-2"> Próxima Coleta</p>
                     <div>
-                      <span class="d-inline-block lh-sm me-1" data-feather="clock" style="height:16px;width:16px;"></span>
-                      <span class="d-inline-block lh-sm"> 25/10/2023</span>
+                      <span class="d-inline-block lh-sm me-1" data-feather="calendar" style="height:16px;width:16px;"></span>
+                      <span class="d-inline-block lh-sm"> <?= $proxima_coleta; ?></span>
                     </div>
                   </div>
                 </div>
