@@ -86,7 +86,7 @@
         </div>
     </div>
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div id="members" data-list='{"valueNames":["td_vencimento","td_valor", "td_valor_recebido","td_status","td_data_recebimento","td_recebido" ],"page":10,"pagination":true}'>
+        <div id="members" data-list='{"valueNames":["td_vencimento","td_valor", "td_valor_recebido","td_status","td_data_recebimento","td_recebido","td_setor"],"page":10,"pagination":true}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3>Contas a receber</h3>
@@ -121,6 +121,7 @@
                                     <input class="form-check-input" id="checkbox-bulk-reviews-select" type="checkbox" data-bulk-select='{"body":"table-latest-review-body"}' />
                                 </div>
                             </th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
                             <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="td_vencimento">Vencimento
                             </th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Valor</th>
@@ -145,6 +146,12 @@
                                     <div class="form-check mb-0 fs-0">
                                         <input class="form-check-input" type="checkbox" data-bulk-select-row='' />
                                     </div>
+                                </td>
+
+                                <td class="align-middle product white-space-nowrap text-center td_setor">
+                                    <h6 class="mb-0 text-1000">
+                                        <?= $contaReceber['SETOR']; ?>
+                                    </h6>
                                 </td>
 
                                 <td class="align-middle product white-space-nowrap text-center td_vencimento">

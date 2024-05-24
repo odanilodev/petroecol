@@ -12,9 +12,10 @@ class FinContasReceber_model extends CI_Model
 
     public function recebeContasReceber($dataInicio, $dataFim, $status)
     {
-        $this->db->select('CR.*, DF.nome as RECEBIDO');
+        $this->db->select('CR.*, DF.nome as RECEBIDO, SE.nome as SETOR');
         $this->db->from('fin_contas_receber CR');
         $this->db->join('fin_dados_financeiros DF', 'CR.id_dado_financeiro = DF.id', 'left');
+        $this->db->join('ci_setores_empresa SE', 'CR.id_setor_empresa = SE.id', 'LEFT');
         $this->db->where('CR.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('CR.data_vencimento <=', $dataFim);
         $this->db->where('CR.data_vencimento >=', $dataInicio);
