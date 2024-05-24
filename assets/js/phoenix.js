@@ -7104,6 +7104,76 @@ function alteraTema() {
   }
 }
 
+// Função para definir um cookie
+function setCookie(name, value) {
+  let expires = "";
+  let date = new Date();
+  date.setFullYear(date.getFullYear() + 100);
+  expires = "; expires=" + date.toUTCString();
+  document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+
+function getCookie(name) {
+  let nameEQ = name + "=";
+  let ca = document.cookie.split(';');
+  for(let i=0;i < ca.length;i++) {
+    let c = ca[i];
+    while (c.charAt(0)==' ') c = c.substring(1,c.length);
+    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+  }
+  return null;
+}
+
+// troca textos do sistema (uppercase e lowercase)
+$(document).on('click', '.altera-texto-tema', function () {
+
+  let tipoFonte = $('#alteraFontes').val();
+
+  if (tipoFonte == 'uppercase') {
+
+    $('.icone-minusculo').removeClass('d-none');
+    $('.icone-maiusculo').addClass('d-none');
+    $('#body').css('text-transform', 'none');
+
+    $('#alteraFontes').val('lowercase');
+    setCookie('fonte', 'lowercase');
+
+  } else {
+
+    $('#body').css('text-transform', 'uppercase');
+    $('.icone-minusculo').addClass('d-none');
+    $('.icone-maiusculo').removeClass('d-none');
+    $('#alteraFontes').val('uppercase');
+    $('button').css('text-transform', 'uppercase');
+
+    setCookie('fonte', 'uppercase'); 
+  }
+});
+
+// verifica se ta salvo no cookie e se é uppercase ou lowcase
+$(function () {
+
+  let fonte = getCookie('fonte');
+
+  if (fonte == 'uppercase') {
+
+    $('#body').css('text-transform', 'uppercase');
+    $('.icone-minusculo').addClass('d-none');
+    $('.icone-maiusculo').removeClass('d-none');
+    $('button').css('text-transform', 'uppercase');
+
+  } else {
+
+    $('#body').css('text-transform', 'none');
+    $('.icone-minusculo').removeClass('d-none');
+    $('.icone-maiusculo').addClass('d-none');
+    $('button').css('text-transform', 'none');
+
+  }
+  
+});
+
+
 // Cria alerta com flashdata
 $(document).ready(function(){
 
