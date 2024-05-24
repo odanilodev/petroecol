@@ -30,10 +30,13 @@ class Coletas extends CI_Controller
         $this->load->library('ResiduosOrdenados');
 
         $coletas = $this->Coletas_model->recebeColetas();
-        
-        foreach ($coletas as $coleta) {
-            $id = $coleta['id'];
 
+        foreach ($coletas as $coleta) {
+
+            $id = $coleta['id'];
+            if ($coleta['residuos_coletados'] = '""' || $coleta['quantidade_coletada'] = '""') {
+                continue;
+            }
             $residuoColetado = json_decode($coleta['residuos_coletados'], true);
             $quantidadeColetada = json_decode($coleta['quantidade_coletada'], true);
 
@@ -44,7 +47,6 @@ class Coletas extends CI_Controller
 
             $this->Coletas_model->editaColeta($id, $dados);
         }
-
     }
     public function cadastraColeta()
     {
