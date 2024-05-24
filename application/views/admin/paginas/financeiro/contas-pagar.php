@@ -88,7 +88,7 @@
     </div>
 
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div id="members" data-list='{"valueNames":["td_vencimento","td_valor","td_valor_pago","td_status_pgto","td_data_pagamento","td_empresa","td_recebido"],"page":10,"pagination":true}'>
+        <div id="members" data-list='{"valueNames":["td_vencimento","td_valor","td_valor_pago","td_status_pgto","td_data_pagamento","td_empresa","td_recebido","td_setor"],"page":10,"pagination":true}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3>Contas a pagar
@@ -136,6 +136,7 @@
                             <th class="sort text-start ps-5 align-middle text-center" scope="col" data-sort="td_status_pgto">Status</th>
                             <th class="sort align-middle text-center" style="text-align: center; vertical-align: middle;" scope="col" data-sort="td_data_pagamento text-center">Data do Pagamento</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_empresa">Empresa</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
 
                             <th class="sort text-end pe-0 align-middle text-center" scope="col"></th>
                         </tr>
@@ -190,6 +191,12 @@
                                     </h6>
                                 </td>
 
+                                <td class="align-middle product white-space-nowrap td_setor text-center">
+                                    <h6 class="mb-0 text-900">
+                                        <?= $contaPagar['SETOR']; ?>
+                                    </h6>
+                                </td>
+
                                 <td class="align-middle white-space-nowrap text-end pe-0">
 
                                     <div class="font-sans-serif btn-reveal-trigger position-static">
@@ -200,16 +207,16 @@
                                             </a>
 
                                             <?php if (!$contaPagar['status']) { ?>
-                                                <a class="dropdown-item editar-lancamento" href="#!" data-bs-toggle="modal" data-id="<?= $contaPagar['id'] ?>" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-bs-target="#modalEditarContasPagar">
+                                                <a class="dropdown-item editar-lancamento btn-editar-<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal" data-id="<?= $contaPagar['id'] ?>" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-bs-target="#modalEditarContasPagar">
                                                     <span class="fas fa-pencil"></span> Editar
                                                 </a>
 
-                                                <a class="dropdown-item editar-lancamento" href="#" onclick="deletaContaPagar(<?= $contaPagar['id'] ?>)">
+                                                <a class="dropdown-item editar-lancamento btn-excluir-<?= $contaPagar['id'] ?>" href="#" onclick="deletaContaPagar(<?= $contaPagar['id'] ?>)">
                                                     <span class="fas fa-trash"></span> Excluir
                                                 </a>
 
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item realizar-pagamento" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-id="<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalPagarConta">Realizar
+                                                <div class="dropdown-divider btn-realizar-pagamento-<?= $contaPagar['id'] ?>"></div>
+                                                <a class="dropdown-item realizar-pagamento btn-realizar-pagamento-<?= $contaPagar['id'] ?>" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-id="<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalPagarConta">Realizar
                                                     Pagamento</a>
                                             <?php } ?>
                                         </div>
@@ -253,6 +260,22 @@
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
                                             <div class="col-sm-12 col-xxl-12 border-bottom py-3">
                                                 <table class="w-100 table-stats">
+                                                    <tr>
+                                                        <td class="py-2 w-50">
+                                                            <div class="d-inline-flex align-items-center">
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300 fas fa-id-card" style="width:16px; height:16px"></span>
+                                                                </div>
+                                                                <p class="fw-bold mb-0">Setor</p>
+                                                            </div>
+                                                        </td>
+                                                        <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                                                        <td class="py-2 w-50">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break setor-empresa html-clean">
+                                                                <!-- JS -->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
                                                     <tr>
                                                         <td class="py-2 w-50">
                                                             <div class="d-inline-flex align-items-center">
@@ -416,6 +439,22 @@
                                 <div class="col-12">
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+
+                                            <div class="col-lg-12">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Setor da Empresa</label>
+                                                    <select class="form-select select2 select-setor-empresa input-obrigatorio dados-conta" name="setor">
+                                                        <option selected disabled value="">Selecione</option>
+                                                        <?php foreach ($setoresEmpresa as $setor) { ?>
+                                                            <option value="<?= $setor['id'] ?>"><?= $setor['nome'] ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                </div>
+
+                                            </div>
 
                                             <div class="col-lg-6">
 
@@ -591,6 +630,21 @@
                                 <div class="col-12">
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+
+                                            <div class="col-lg-12">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Setor da Empresa</label>
+                                                    <select class="form-select select2 select-setor-empresa input-obrigatorio" name="setor">
+                                                        <option selected disabled value="">Selecione</option>
+                                                        <?php foreach ($setoresEmpresa as $setor) { ?>
+                                                            <option value="<?= $setor['id'] ?>"><?= $setor['nome'] ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                </div>
+
+                                            </div>
 
                                             <div class="col-lg-4">
 
@@ -864,7 +918,7 @@
                                                     <button title="Mais formas de pagamento" type="button" class="btn btn-phoenix-success" onclick="duplicarFormaPagamentoModal(event)">+</button>
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="campos-pagamentos-novos row">
                                                 <!-- JS -->
                                             </div>

@@ -13,9 +13,10 @@ class FinContasPagar_model extends CI_Model
 
     public function recebeContasPagar($dataInicio, $dataFim, $status)
     {
-        $this->db->select('CP.*, DF.nome as RECEBIDO');
+        $this->db->select('CP.*, DF.nome as RECEBIDO, SE.nome as SETOR');
         $this->db->from('fin_contas_pagar CP');
         $this->db->join('fin_dados_financeiros DF', 'CP.id_dado_financeiro = DF.id', 'LEFT');
+        $this->db->join('ci_setores_empresa SE', 'CP.id_setor_empresa = SE.id', 'LEFT');
         $this->db->where('CP.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('CP.data_vencimento <=', $dataFim);
         $this->db->where('CP.data_vencimento >=', $dataInicio);
@@ -31,9 +32,10 @@ class FinContasPagar_model extends CI_Model
 
     public function recebeContaPagar($id)
     {
-        $this->db->select('CP.*, DF.nome as RECEBIDO, DF.id_grupo as GRUPO_CREDOR');
+        $this->db->select('CP.*, DF.nome as RECEBIDO, DF.id_grupo as GRUPO_CREDOR, SE.nome as SETOR');
         $this->db->from('fin_contas_pagar CP');
         $this->db->join('fin_dados_financeiros DF', 'CP.id_dado_financeiro = DF.id', 'LEFT');
+        $this->db->join('ci_setores_empresa SE', 'CP.id_setor_empresa = SE.id', 'LEFT');
         $this->db->where('CP.id', $id);
         $this->db->where('CP.id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get();

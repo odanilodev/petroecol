@@ -151,10 +151,7 @@ $(document).on('click', '.novo-lancamento', function () {
 
 $(document).on('click', '.editar-lancamento', function () {
 
-    $('.select2').select2({
-        dropdownParent: "#modalLancamentoContasPagar",
-        theme: "bootstrap-5",
-    });
+    carregaSelect2('select2', 'modalEditarContasPagar');
 
     $('.input-editar-valor').val($(this).data('valor'));
 
@@ -184,6 +181,8 @@ $(document).on('click', '.editar-lancamento', function () {
             $('.input-data-emissao').val(dataEmissao);
 
             $('.input-observacao').text(data['conta'].observacao);
+
+            $('.select-setor-empresa').val(data['conta'].id_setor_empresa).trigger('change');
 
         }
     })
@@ -361,6 +360,11 @@ const realizarPagamento = () => {
                     $('#modalPagarConta').modal('hide');
 
                     // atualiza o front
+
+                    $(`.btn-editar-${idConta}`).remove();
+                    $(`.btn-excluir-${idConta}`).remove();
+                    $(`.btn-realizar-pagamento-${idConta}`).remove();
+
                     $(`.status-pagamento-${idConta}`).removeClass('cursor-pointer');
                     $(`.status-pagamento-${idConta}`).removeAttr('data-bs-target');
                     $(`.valor-pago-${idConta}`).html(valorTotalFormatado);
@@ -648,6 +652,7 @@ const visualizarConta = (idConta) => {
             let valorPago = formatarValorExibicao(parseFloat(data['conta'].valor_pago));
 
             $('.nome-empresa').html(data['conta'].RECEBIDO);
+            $('.setor-empresa').html(data['conta'].SETOR);
             $('.data-vencimento').html(dataVencimento);
             $('.data-emissao').html(dataEmissao);
             $('.valor-conta').html(valorConta);
