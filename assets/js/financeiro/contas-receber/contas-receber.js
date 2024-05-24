@@ -309,6 +309,11 @@ const receberConta = () => {
                 $('#modalReceberConta').modal('hide');
 
                 // atualiza o front
+
+                $(`.btn-editar-${idConta}`).remove();
+                $(`.btn-excluir-${idConta}`).remove();
+                $(`.btn-receber-pagamento-${idConta}`).remove();
+
                 $(`.status-pagamento-table-${idConta}`).removeClass('cursor-pointer');
                 $(`.status-pagamento-table-${idConta}`).removeAttr('data-bs-target');
                 $(`.valor-recebido-${idConta}`).html(valorTotalFormatado);

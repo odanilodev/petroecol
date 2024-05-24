@@ -207,16 +207,16 @@
                                             </a>
                                             <?php if (!$contaReceber['status']) { ?>
 
-                                                <a class="dropdown-item editar-lancamento" href="#!" data-bs-toggle="modal" data-id="<?= $contaReceber['id'] ?>" data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" data-bs-target="#modalEditarContasReceber">
+                                                <a class="dropdown-item editar-lancamento btn-editar-<?= $contaReceber['id'] ?>" href="#!" data-bs-toggle="modal" data-id="<?= $contaReceber['id'] ?>" data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" data-bs-target="#modalEditarContasReceber">
                                                     <span class="fas fa-pencil"></span> Editar
                                                 </a>
 
-                                                <a class="dropdown-item editar-lancamento" href="#" onclick="deletaContaReceber(<?= $contaReceber['id'] ?>)">
+                                                <a class="dropdown-item btn-excluir-<?= $contaReceber['id'] ?>" href="#" onclick="deletaContaReceber(<?= $contaReceber['id'] ?>)">
                                                     <span class="fas fa-trash"></span> Excluir
                                                 </a>
 
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item receber-conta" data-id="<?= $contaReceber['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalReceberConta">Receber
+                                                <div class="dropdown-divider btn-receber-pagamento-<?= $contaReceber['id'] ?>"></div>
+                                                <a data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" class="dropdown-item receber-conta btn-receber-pagamento-<?= $contaReceber['id'] ?>" data-id="<?= $contaReceber['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalReceberConta">Receber
                                                     Conta</a>
                                             <?php } ?>
                                         </div>
@@ -798,7 +798,7 @@
                     <input type="hidden" class="id-conta-pagamento">
                     <input type="hidden" class="id-dado-financeiro">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
-                    <button class="btn btn-primary btn-form" type="button" onclick="receberConta()">Pagar
+                    <button class="btn btn-primary btn-form" type="button" onclick="receberConta()">Receber
                         Conta</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
                 </div>
