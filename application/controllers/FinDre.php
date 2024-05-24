@@ -30,10 +30,10 @@ class FinDre extends CI_Controller
 		$scriptsPadraoFooter = scriptsPadraoFooter();
 
 		// scripts para contas bancarias
-		$scriptsFinContaBancariaFooter = scriptsFinContaBancariaFooter();
+		$scriptsFinDreFooter = scriptsFinDreFooter();
 
 		add_scripts('header', array_merge($scriptsPadraoHead));
-		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsFinContaBancariaFooter));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsFinDreFooter));
 
 		$data['dataInicio'] = $this->input->post('data_inicio');
         $data['dataFim'] = $this->input->post('data_fim');
@@ -70,11 +70,39 @@ class FinDre extends CI_Controller
 		}
 
 		$data['despesas'] = $this->FinDre_model->recebeDre($dataInicioFormatada, $dataFimFormatada);
-
-		// echo "<pre>"; print_r($data['despesas']); exit;
+		
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/financeiro/dre');
 		$this->load->view('admin/includes/painel/rodape');
+	}
+
+	public function visualizarMicrosDre()
+	{
+		$id = $this->input->post('id');
+
+		$retorno = $this->FinDre_model->visualizarMicrosDre($id);
+
+		$response = array(
+			'success' => true,
+			'retorno' => $retorno
+		);
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
+	}
+
+	public function recebeValoresMicros()
+	{
+		$idMicro = $this->input->post('idMicro');
+
+		$retorno = $this->FinDre_model->recebeValoresMicrosDre($idMicro);
+
+		$response = array(
+			'success' => true,
+			'retorno' => $retorno
+		);
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 }

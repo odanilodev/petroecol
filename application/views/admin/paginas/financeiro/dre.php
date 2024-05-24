@@ -13,6 +13,7 @@
                             </span>
                             <div class="ms-3">
                                 <h4 class="mb-0">R$ <?= number_format($faturamento['valor'], 2, ',', '.') ?></span></h4>
+                                <input type="hidden" class="valor-faturamento" value="<?= $faturamento['valor'] ?>">
                                 <p class="text-800 fs--1 mb-0">Faturamento - <?= $dataInicio ? "$dataInicio - $dataFim" : "Últimos 30 dias" ?></p>
                             </div>
                         </div>
@@ -116,22 +117,26 @@
 
                                 <td class="align-middle td_tipo">
                                     <h6 class="text-900 mb-0">
-                                        <?= $despesa['MACRO']?>
+                                        <?= $despesa['MACRO'] ?>
                                     </h6>
                                 </td>
 
                                 <td class="align-middle td_valor">
                                     <h6 class="mb-0 text-900">
                                         R$ <?= number_format($despesa['total_pago'], 2, ',', '.') ?>
-
                                     </h6>
                                 </td>
 
                                 <td class="align-middle td_porcentagem">
                                     <h6 class="text-900 mb-0">
-
-                                        <?php $porcentagemFatura = ($faturamento['valor'] - $despesa['total_pago']) / $faturamento['valor'] * 100;?>
-                                        <?=  number_format($porcentagemFatura, 2, ',', '.') ?>%
+                                        <?php
+                                        if ($faturamento['valor']) {
+                                            $porcentagemFatura = ($faturamento['valor'] - $despesa['total_pago']) / $faturamento['valor'] * 100;
+                                            $porcentagemFatura = 100 - $porcentagemFatura;
+                                            echo number_format($porcentagemFatura, 2, ',', '.') . '%';
+                                        } else {
+                                            echo '0,00%';
+                                        } ?>
                                     </h6>
                                 </td>
 
@@ -139,7 +144,7 @@
                                     <div class="font-sans-serif btn-reveal-trigger position-static">
                                         <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2"></span></button>
                                         <div class="dropdown-menu dropdown-menu-end py-2">
-                                            <a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#modalVisualizarFluxoCaixa">
+                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalVisualizarDre" onclick="visualizarDre(<?= $despesa['ID_MACRO'] ?>)">
                                                 <span class="fas fa-eye"></span> Visualizar
                                             </a>
                                         </div>
@@ -151,6 +156,96 @@
 
                     </tbody>
                 </table>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- Modal visualizar DRE -->
+    <div class="modal fade" tabindex="-1" id="modalVisualizarDre">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalhes</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body body-coleta">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+                                            <div class="col-sm-12 col-xxl-12 border-bottom py-3">
+                                                <table class="w-100 table-stats d-none">
+                                                    <tr>
+                                                        <td class="py-2 w-50">
+                                                            <div class="d-inline-flex align-items-center">
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300" data-feather="bookmark" style="width:16px; height:16px"></span>
+                                                                </div>
+                                                                <p class="fw-bold mb-0">Tipo de despesa</p>
+                                                            </div>
+                                                        </td>
+                                                        <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                                                        <td class="py-2 w-50">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break tipo-despesa html-clean">
+                                                                <!-- JS -->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td class="py-2 w-50">
+                                                            <div class="d-inline-flex align-items-center">
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300" data-feather="bookmark" style="width:16px; height:16px"></span>
+                                                                </div>
+                                                                <p class="fw-bold mb-0">Micros</p>
+                                                            </div>
+                                                        </td>
+                                                        <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                                                        <td class="py-2 w-50">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break nomes-micros html-clean">
+                                                                <!-- JS -->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                </table>
+
+
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col" class="text-center">Micros</th>
+                                                            <th scope="col" class="text-center">Valor</th>
+                                                            <th scope="col" class="text-center">% em relação ao faturamento</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="tabela-micros">
+                                                        <!-- JS -->
+                                                    </tbody>
+                                                </table>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+
+                </div>
             </div>
         </div>
     </div>
