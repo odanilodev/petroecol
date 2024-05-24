@@ -121,7 +121,6 @@
                                     <input class="form-check-input" id="checkbox-bulk-reviews-select" type="checkbox" data-bulk-select='{"body":"table-latest-review-body"}' />
                                 </div>
                             </th>
-                            <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
                             <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="td_vencimento">Vencimento
                             </th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Valor</th>
@@ -134,6 +133,8 @@
                                 Recebimento</th>
                             <th class="sort text-start align-middle text-center" scope="col" data-sort="td_recebido">
                                 Recebido</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
+
                             <th class="sort text-end pe-0 align-middle" scope="col"></th>
                             <th class="sort text-end pe-0 align-middle" scope="col"></th>
                         </tr>
@@ -146,12 +147,6 @@
                                     <div class="form-check mb-0 fs-0">
                                         <input class="form-check-input" type="checkbox" data-bulk-select-row='' />
                                     </div>
-                                </td>
-
-                                <td class="align-middle product white-space-nowrap text-center td_setor">
-                                    <h6 class="mb-0 text-1000">
-                                        <?= $contaReceber['SETOR']; ?>
-                                    </h6>
                                 </td>
 
                                 <td class="align-middle product white-space-nowrap text-center td_vencimento">
@@ -195,10 +190,13 @@
                                     </h6>
                                 </td>
 
-                                <td class="align-middle review text-center">
-                                    <h6 class="mb-0 text-900"></h6>
-                                </td>
 
+                                <td class="align-middle product white-space-nowrap text-center td_setor">
+                                    <h6 class="mb-0 text-900">
+                                        <?= $contaReceber['SETOR']; ?>
+                                    </h6>
+                                </td>
+                                
                                 <td class="align-middle white-space-nowrap text-end pe-0 text-center">
 
                                     <div class="font-sans-serif btn-reveal-trigger position-static">

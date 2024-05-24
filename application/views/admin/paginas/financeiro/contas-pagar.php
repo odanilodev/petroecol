@@ -128,7 +128,6 @@
                                     <input class="form-check-input check-all-element cursor-pointer" id="checkbox-bulk-reviews-select" type="checkbox" />
                                 </div>
                             </th>
-                            <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
                             <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="Vencimento">Vencimento
                             </th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Valor</th>
@@ -137,6 +136,7 @@
                             <th class="sort text-start ps-5 align-middle text-center" scope="col" data-sort="td_status_pgto">Status</th>
                             <th class="sort align-middle text-center" style="text-align: center; vertical-align: middle;" scope="col" data-sort="td_data_pagamento text-center">Data do Pagamento</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_empresa">Empresa</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
 
                             <th class="sort text-end pe-0 align-middle text-center" scope="col"></th>
                         </tr>
@@ -150,12 +150,6 @@
                                     <div class="form-check mb-0 fs-0">
                                         <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" data-nome-empresa="<?= ucfirst($contaPagar['nome']) ?>" />
                                     </div>
-                                </td>
-
-                                <td class="align-middle product white-space-nowrap td_setor text-center">
-                                    <h6 class="mb-0 text-1000">
-                                        <?= $contaPagar['SETOR']; ?>
-                                    </h6>
                                 </td>
 
                                 <td class="align-middle product white-space-nowrap td_vencimento text-center">
@@ -194,6 +188,12 @@
                                 <td class="align-middle review td_empresa text-center">
                                     <h6 class="mb-0 text-900">
                                         <?= ucfirst($contaPagar['nome']) ?>
+                                    </h6>
+                                </td>
+
+                                <td class="align-middle product white-space-nowrap td_setor text-center">
+                                    <h6 class="mb-0 text-900">
+                                        <?= $contaPagar['SETOR']; ?>
                                     </h6>
                                 </td>
 
