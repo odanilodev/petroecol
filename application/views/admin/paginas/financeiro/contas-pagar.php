@@ -88,7 +88,7 @@
     </div>
 
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div id="members" data-list='{"valueNames":["td_vencimento","td_valor","td_valor_pago","td_status_pgto","td_data_pagamento","td_empresa","td_recebido"],"page":10,"pagination":true}'>
+        <div id="members" data-list='{"valueNames":["td_vencimento","td_valor","td_valor_pago","td_status_pgto","td_data_pagamento","td_empresa","td_recebido","td_setor"],"page":10,"pagination":true}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3>Contas a pagar
@@ -128,6 +128,7 @@
                                     <input class="form-check-input check-all-element cursor-pointer" id="checkbox-bulk-reviews-select" type="checkbox" />
                                 </div>
                             </th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
                             <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="Vencimento">Vencimento
                             </th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Valor</th>
@@ -149,6 +150,12 @@
                                     <div class="form-check mb-0 fs-0">
                                         <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" data-nome-empresa="<?= ucfirst($contaPagar['nome']) ?>" />
                                     </div>
+                                </td>
+
+                                <td class="align-middle product white-space-nowrap td_setor text-center">
+                                    <h6 class="mb-0 text-1000">
+                                        <?= $contaPagar['SETOR']; ?>
+                                    </h6>
                                 </td>
 
                                 <td class="align-middle product white-space-nowrap td_vencimento text-center">
