@@ -156,6 +156,28 @@
 
                     </div>
 
+                    <div class="col-12 row">
+
+                        <div class="col-4">
+
+                            <div class="mt-2 mb-4">
+
+                                <label>Motorista</label>
+                                <select class="form-select w-100 mb-3 select2" id="select-editar-motorista">
+
+                                    <option selected disabled value="">Alterar Motorista</option>
+
+                                    <?php foreach ($responsaveis as $responsavel) { ?>
+                                        <option value="<?= $responsavel['IDFUNCIONARIO']?>"><?= $responsavel['nome']?></option>
+                                    <?php } ?>
+
+                                </select>
+                                <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                            </div>
+                        </div>
+
+                    </div>
+
 
                     <div class="row">
 
@@ -171,7 +193,7 @@
 
                 <div class="modal-footer">
                     <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Salvar</button>
+                    <button type="button" class="btn btn-primary btn-salva-edicao-romaneio">Salvar</button>
                     <input type="hidden" class="id_responsavel">
                     <input type="hidden" class="code_romaneio">
                     <input type="hidden" class="data_romaneio">

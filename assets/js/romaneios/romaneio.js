@@ -1050,6 +1050,10 @@ const editarRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpresa
     $('#modalEditarRomaneio').modal('show');
     $('.btn-adicionar-clientes-romaneio').removeClass('d-none');
 
+    carregaSelect2('select2', 'modalEditarRomaneio');
+
+    $('#select-editar-motorista').val(idResponsavel).trigger('change');
+
     $('.id_responsavel').val(idResponsavel);
     $('.code_romaneio').val(codRomaneio);
     $('.data_romaneio').val(dataRomaneio);
@@ -1078,8 +1082,38 @@ const editarRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpresa
 
     }
 
-
 }
+
+$(document).on('click', '.btn-salva-edicao-romaneio', function () {
+
+    let idMotorista = $('#select-editar-motorista').val();
+    let codRomaneio = $('.code_romaneio').val();
+
+    $.ajax({
+        type: 'post',
+        url: `${baseUrl}romaneios/editaMotoristaRomaneio`,
+        data: {
+            idMotorista: idMotorista,
+            codRomaneio: codRomaneio
+
+        }, beforeSend: function () {
+
+            $('.load-form-modal-romaneio').removeClass('d-none');
+            $('.btn-salva-edicao-romaneio').addClass('d-none');
+
+        }, success: function (data) {
+
+            $('.load-form-modal-romaneio').addClass('d-none');
+            $('.btn-salva-edicao-romaneio').removeClass('d-none');
+
+
+            avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${baseUrl}romaneios`);
+
+
+        }
+    })
+
+})
 
 const deletaClienteRomaneio = (romaneio, cliente) => {
 
