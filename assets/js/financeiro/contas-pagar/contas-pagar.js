@@ -677,6 +677,14 @@ const visualizarConta = (idConta) => {
 
 const deletaContaPagar = (idConta) => {
 
+    let idsAgrupados = agruparIdsCheckbox();
+
+    if(idsAgrupados.length >= 2) {
+        var ids = idsAgrupados;
+    } else {
+        var ids = [idConta];
+    }
+
     Swal.fire({
         title: 'Você tem certeza?',
         text: "Esta ação não poderá ser revertida",
@@ -695,7 +703,7 @@ const deletaContaPagar = (idConta) => {
                 type: "post",
                 url: `${baseUrl}finContasPagar/deletarConta`,
                 data: {
-                    idConta: idConta
+                    ids: ids
                 }, success: function (data) {
 
                     let redirect = data.type != 'error' ? `${baseUrl}finContasPagar` : '#';
