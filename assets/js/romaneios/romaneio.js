@@ -1089,29 +1089,35 @@ $(document).on('click', '.btn-salva-edicao-romaneio', function () {
     let idMotorista = $('#select-editar-motorista').val();
     let codRomaneio = $('.code_romaneio').val();
 
-    $.ajax({
-        type: 'post',
-        url: `${baseUrl}romaneios/editaMotoristaRomaneio`,
-        data: {
-            idMotorista: idMotorista,
-            codRomaneio: codRomaneio
+    if (idMotorista != $('.id_responsavel').val()) {
+        $.ajax({
+            type: 'post',
+            url: `${baseUrl}romaneios/editaMotoristaRomaneio`,
+            data: {
+                idMotorista: idMotorista,
+                codRomaneio: codRomaneio
+    
+            }, beforeSend: function () {
+    
+                $('.load-form-modal-romaneio').removeClass('d-none');
+                $('.btn-salva-edicao-romaneio').addClass('d-none');
+    
+            }, success: function (data) {
+    
+                $('.load-form-modal-romaneio').addClass('d-none');
+                $('.btn-salva-edicao-romaneio').removeClass('d-none');
+    
+    
+                avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${baseUrl}romaneios`);
+    
+    
+            }
+        })
+    } else {
+        $('#modalEditarRomaneio').modal('hide');
+    }
 
-        }, beforeSend: function () {
-
-            $('.load-form-modal-romaneio').removeClass('d-none');
-            $('.btn-salva-edicao-romaneio').addClass('d-none');
-
-        }, success: function (data) {
-
-            $('.load-form-modal-romaneio').addClass('d-none');
-            $('.btn-salva-edicao-romaneio').removeClass('d-none');
-
-
-            avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${baseUrl}romaneios`);
-
-
-        }
-    })
+    
 
 })
 
