@@ -43,6 +43,10 @@ class Romaneios extends CI_Controller
 
 		$data['ultimosRomaneios'] = $this->Romaneios_model->recebeUltimosRomaneios();
 
+		$this->load->model('Funcionarios_model');
+
+		$data['responsaveis'] = $this->Funcionarios_model->recebeResponsavelAgendamento();
+
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/romaneio/romaneios');
 		$this->load->view('admin/includes/painel/rodape');
@@ -330,6 +334,36 @@ class Romaneios extends CI_Controller
 
 		);
 
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function editaMotoristaRomaneio()
+	{
+		$codRomaneio = $this->input->post('codRomaneio');
+		$data['id_responsavel'] = $this->input->post('idMotorista');
+
+		$retorno = $this->Romaneios_model->editaRomaneioCodigo($codRomaneio, $data);
+
+		if ($retorno) {
+
+			$response = array(
+				'title' => 'Sucesso!',
+				'message' => 'Romaneio editado com sucesso!',
+				'type' => 'success'
+	
+			);
+	
+		} else {
+
+			$response = array(
+				'title' => 'Algo deu errado!',
+				'message' => 'Falha ao editar o romaneio!',
+				'type' => 'error'
+	
+			);
+
+		}
+		
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
