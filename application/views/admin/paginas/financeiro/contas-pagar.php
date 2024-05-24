@@ -207,16 +207,16 @@
                                             </a>
 
                                             <?php if (!$contaPagar['status']) { ?>
-                                                <a class="dropdown-item editar-lancamento" href="#!" data-bs-toggle="modal" data-id="<?= $contaPagar['id'] ?>" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-bs-target="#modalEditarContasPagar">
+                                                <a class="dropdown-item editar-lancamento btn-editar-<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal" data-id="<?= $contaPagar['id'] ?>" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-bs-target="#modalEditarContasPagar">
                                                     <span class="fas fa-pencil"></span> Editar
                                                 </a>
 
-                                                <a class="dropdown-item editar-lancamento" href="#" onclick="deletaContaPagar(<?= $contaPagar['id'] ?>)">
+                                                <a class="dropdown-item editar-lancamento btn-excluir-<?= $contaPagar['id'] ?>" href="#" onclick="deletaContaPagar(<?= $contaPagar['id'] ?>)">
                                                     <span class="fas fa-trash"></span> Excluir
                                                 </a>
 
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item realizar-pagamento" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-id="<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalPagarConta">Realizar
+                                                <div class="dropdown-divider btn-realizar-pagamento-<?= $contaPagar['id'] ?>"></div>
+                                                <a class="dropdown-item realizar-pagamento btn-realizar-pagamento-<?= $contaPagar['id'] ?>" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-id="<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalPagarConta">Realizar
                                                     Pagamento</a>
                                             <?php } ?>
                                         </div>

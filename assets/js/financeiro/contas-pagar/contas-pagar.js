@@ -360,6 +360,11 @@ const realizarPagamento = () => {
                     $('#modalPagarConta').modal('hide');
 
                     // atualiza o front
+
+                    $(`.btn-editar-${idConta}`).remove();
+                    $(`.btn-excluir-${idConta}`).remove();
+                    $(`.btn-realizar-pagamento-${idConta}`).remove();
+
                     $(`.status-pagamento-${idConta}`).removeClass('cursor-pointer');
                     $(`.status-pagamento-${idConta}`).removeAttr('data-bs-target');
                     $(`.valor-pago-${idConta}`).html(valorTotalFormatado);
