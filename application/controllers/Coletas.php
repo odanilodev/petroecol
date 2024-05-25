@@ -34,7 +34,7 @@ class Coletas extends CI_Controller
         foreach ($coletas as $coleta) {
 
             $id = $coleta['id'];
-            if ($coleta['coletado'] = '1') {
+            if ($coleta['coletado'] = 1) {
                 
             $residuoColetado = json_decode($coleta['residuos_coletados'], true);
             $quantidadeColetada = json_decode($coleta['quantidade_coletada'], true);
