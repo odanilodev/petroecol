@@ -34,12 +34,13 @@ class Coletas extends CI_Controller
         foreach ($coletas as $coleta) {
 
             $id = $coleta['id'];
-            if ($coleta['residuos_coletados'] = '""' || $coleta['quantidade_coletada'] = '""') {
-                continue;
-            }
+            if ($coleta['coletado'] = '1') {
+                
             $residuoColetado = json_decode($coleta['residuos_coletados'], true);
             $quantidadeColetada = json_decode($coleta['quantidade_coletada'], true);
 
+            }
+            
             $residuoOrdenado = $this->residuosordenados->ordenarResiduos($residuoColetado, $quantidadeColetada);
 
             $dados['residuos_coletados'] = json_encode($residuoOrdenado['id_residuo']);
