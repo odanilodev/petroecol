@@ -98,7 +98,8 @@
 
                 <tr style="font-size: 11px;">
                     <td><?= $cliente['nome']; ?> <?= in_array($cliente['id'], array_column($id_cliente_prioridade, 'id_cliente')) ? '<span style="font-weight: bold; font-size: 20px">*</span>' : '' ?></td>
-                    <td><?= "{$cliente['rua']}, {$cliente['numero']} {$cliente['bairro']}"; ?></td>
+                    <td> <?= "{$cliente['rua']}, {$cliente['numero']} {$cliente['bairro']}" . (!empty($cliente['complemento']) ? ",<br><br> {$cliente['complemento']}" : ''); ?>
+                    </td>
                     <td><?= $cliente['telefone']; ?></td>
                     <td>
                         <p><?= $cliente['forma_pagamento']; ?></p><br>
