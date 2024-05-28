@@ -55,7 +55,7 @@
                             <div class="ms-3">
                                 <h4 class="mb-0">R$ <span class="total-setor-front"><?= number_format($porSetor['saldo'], 2, ',', '.') ?></span>
                                 </h4>
-                                <p class="text-800 fs--1 mb-0">Saldo do Setor <?=$nomeSaldoSetor?></p>
+                                <p class="text-800 fs--1 mb-0">Saldo do Setor <?= $nomeSaldoSetor ?></p>
                             </div>
                         </div>
                     </div>
@@ -67,7 +67,9 @@
                 <form id="filtroForm" action="<?= base_url('finContasPagar/') ?>" method="post">
                     <div class="col-12">
                         <div class="row align-items-center g-4">
+
                             <h4 class="ms-3">Filtrar resultados</h4>
+
                             <div class="col-12 col-md-3">
                                 <div class="ms-3">
                                     <input class="form-control datetimepicker" value="<?= $dataInicio ?>" required name="data_inicio" id="data_inicio" type="text" placeholder="Selecione a data de início" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
@@ -101,11 +103,17 @@
                                 </div>
                             </div>
                             <input type="hidden" name="nomeSetor" id="nomeSetor">
+
                             <div class="col-12 col-md-2">
                                 <div class="ms-3">
-                                    <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 w-100">Filtrar</button>
+                                    <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 <?=!$dataInicio ? 'w-100' : '';?>">Filtrar</button>
+
+                                    <?php if ($dataInicio) { ?>
+                                        <a href="<?= base_url('finContasPagar'); ?>" class="btn btn-phoenix-danger"><i class="fas fa-ban"></i></a>
+                                    <?php } ?>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </form>
