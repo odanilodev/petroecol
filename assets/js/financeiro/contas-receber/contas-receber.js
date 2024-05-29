@@ -334,6 +334,11 @@ const receberConta = () => {
     })
 }
 
+$('.select-setor').on('change',function(){
+
+    $('#nomeSetor').val($(this).find('option:selected').text());
+
+});
 
 const atualizaFrontDadosFinanceiro = () => {
 
@@ -347,6 +352,8 @@ const atualizaFrontDadosFinanceiro = () => {
     let totalAbertoFront = $('.total-aberto-front').html(); 
     let totalAberto = formatarValorMoeda(totalAbertoFront);
 
+    let valorSetorFront = $('.total-setor-front').html();
+    valorSetorFront = formatarValorMoeda(valorSetorFront);
 
     let valorTotalRecebidoCompleto = $('.valor-total-conta').html().replace('R$', ''); // uso pra fazer conta e exibir o total a receber
     valorTotalRecebidoCompleto = formatarValorMoeda(valorTotalRecebidoCompleto);
@@ -359,9 +366,13 @@ const atualizaFrontDadosFinanceiro = () => {
 
     let totalRecebidoAtualizado = totalRecebido + valorTotalRecebido;
 
+    let valorSetorFrontAtualizado = valorSetorFront - totalAbertoFront;
+
     let totalCaixaAtualizado = totalCaixa + valorTotalRecebido;
     
     let totalAbertoAtualizado = totalAberto - valorTotalRecebidoCompleto;
+
+    let valorSetorFrontAtualizadoFormatado = formatarValorExibicao(valorSetorFrontAtualizado);
     
     // Formatar os valores para exibição
     function formatarValorExibicao (valor) {
@@ -375,7 +386,8 @@ const atualizaFrontDadosFinanceiro = () => {
     // Atualiza os valores no front
     $('.total-recebido-front').html(totalRecebidoAtualizadoFormatado); 
     $('.total-caixa-front').html(totalCaixaAtualizadoFormatado); 
-    $('.total-aberto-front').html(totalAbertoAtualizadoFormatado < 0 ? '0,00' : totalAbertoAtualizadoFormatado); 
+    $('.total-aberto-front').html(totalAbertoAtualizadoFormatado < 0 ? '0,00' : totalAbertoAtualizadoFormatado);
+    $('.total-setor-front').html(valorSetorFrontAtualizadoFormatado < 0 ? '0,00' : valorSetorFrontAtualizadoFormatado); 
 };
 
 

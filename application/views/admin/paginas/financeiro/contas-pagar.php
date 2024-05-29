@@ -109,7 +109,7 @@
                                     <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 <?=!$dataInicio ? 'w-100' : '';?>">Filtrar</button>
 
                                     <?php if ($dataInicio) { ?>
-                                        <a href="<?= base_url('finContasPagar'); ?>" class="btn btn-phoenix-danger"><i class="fas fa-ban"></i></a>
+                                        <a href="<?= base_url('finContasPagar'); ?>" class="btn btn-phoenix-danger" title="Limpar Filtro"><i class="fas fa-ban"></i></a>
                                     <?php } ?>
                                 </div>
                             </div>
