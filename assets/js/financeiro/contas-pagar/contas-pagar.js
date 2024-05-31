@@ -390,6 +390,12 @@ function formatarValorExibicao(valor) {
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('R$', '');
 }
 
+$('.select-setor').on('change',function(){
+    
+    $('#nomeSetor').val($(this).find('option:selected').text());
+    
+});
+
 const atualizaFrontDadosFinanceiro = () => {
 
     let totalPagoFront = $('.total-pago-front').html();
@@ -398,9 +404,11 @@ const atualizaFrontDadosFinanceiro = () => {
     let totalCaixaFront = $('.total-caixa-front').html();
     let totalCaixa = formatarValorMoeda(totalCaixaFront);
 
-
     let totalAbertoFront = $('.total-aberto-front').html();
     let totalAberto = formatarValorMoeda(totalAbertoFront);
+
+    let valorSetorFront = $('.total-setor-front').html();
+    valorSetorFront = formatarValorMoeda(valorSetorFront);
 
     let valorTotalConta = $('.valor-total-conta').html().replace('R$', '');
     valorTotalConta = formatarValorMoeda(valorTotalConta);
@@ -417,14 +425,18 @@ const atualizaFrontDadosFinanceiro = () => {
 
     let totalAbertoAtualizado = totalAberto - valorTotalConta;
 
+    let valorSetorFrontAtualizado = valorSetorFront - valorTotalPago;
+
     let totalPagoAtualizadoFormatado = formatarValorExibicao(totalPagoAtualizado);
     let totalCaixaAtualizadoFormatado = formatarValorExibicao(totalCaixaAtualizado);
     let totalAbertoAtualizadoFormatado = formatarValorExibicao(totalAbertoAtualizado);
+    let valorSetorFrontAtualizadoFormatado = formatarValorExibicao(valorSetorFrontAtualizado);
 
     // Atualiza os valores no front
     $('.total-pago-front').html(totalPagoAtualizadoFormatado);
     $('.total-caixa-front').html(totalCaixaAtualizadoFormatado);
     $('.total-aberto-front').html(totalAbertoAtualizadoFormatado < 0 ? '0,00' : totalAbertoAtualizadoFormatado);
+    $('.total-setor-front').html(valorSetorFrontAtualizadoFormatado < 0 ? '0,00' : valorSetorFrontAtualizadoFormatado);
 };
 
 

@@ -11,7 +11,7 @@ class FinContasPagar_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebeContasPagar($dataInicio, $dataFim, $status)
+    public function recebeContasPagar($dataInicio, $dataFim, $status, $setor)
     {
         $this->db->select('CP.*, DF.nome as RECEBIDO, SE.nome as SETOR');
         $this->db->from('fin_contas_pagar CP');
@@ -20,11 +20,17 @@ class FinContasPagar_model extends CI_Model
         $this->db->where('CP.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('CP.data_vencimento <=', $dataFim);
         $this->db->where('CP.data_vencimento >=', $dataInicio);
-
+        
         // Verifica se o tipo de movimentação não é 'ambas', para adicionar uma restrição
         if ($status !== 'ambas') {
             $this->db->where('CP.status', $status);
         }
+
+        // Adiciona a cláusula do setor apenas se $setor não for null
+        if ($setor !== 'todos') {
+            $this->db->where('CP.id_setor_empresa', $setor);
+        }
+
         $query = $this->db->get();
 
         return $query->result_array();

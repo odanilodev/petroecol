@@ -59,6 +59,7 @@ class FinContasPagar extends CI_Controller
 
 		$data['dataInicio'] = $this->input->post('data_inicio');
 		$data['dataFim'] = $this->input->post('data_fim');
+		$data['nomeSaldoSetor'] = $this->input->post('nomeSetor');
 
 		// Verifica se o tipo de movimentação foi recebido via POST
 		$statusConta = $this->input->post('status');
@@ -67,12 +68,19 @@ class FinContasPagar extends CI_Controller
 		if ($statusConta === null || $statusConta === '') {
 			$statusConta = 'ambas';
 		}
-		
+
+		$setorEmpresa = $this->input->post('setor');
+
+		if ($setorEmpresa === null || $setorEmpresa === '') {
+			$setorEmpresa = 'todos';
+		}
+
 		// Setores Empresa 
-        $this->load->model('SetoresEmpresa_model');
-        $data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
+		$this->load->model('SetoresEmpresa_model');
+		$data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
 
 		$data['status'] = $statusConta;
+		$data['idSetor'] = $setorEmpresa;
 
 		$this->load->model('FinMacro_model');
 		$data['macros'] = $this->FinMacro_model->recebeMacros();
@@ -88,14 +96,31 @@ class FinContasPagar extends CI_Controller
 		$data['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
 		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
 
-		$data['contasPagar'] = $this->FinContasPagar_model->recebeContasPagar($dataInicioFormatada, $dataFimFormatada, $statusConta);
+		$data['contasPagar'] = $this->FinContasPagar_model->recebeContasPagar($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa);
 
 		$this->load->library('finDadosFinanceiros');
 
 		$data['saldoTotal'] = $this->findadosfinanceiros->somaSaldosBancarios();
 
-		$data['totalPago'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 1, $dataInicioFormatada, $dataFimFormatada); // soma o valor total pago
-		$data['emAberto'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 0, $dataInicioFormatada, $dataFimFormatada); // soma o valor total em aberto
+
+		if ($statusConta == '1' || $statusConta == 'ambas') {
+
+			$data['totalPago'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 1, $dataInicioFormatada, $dataFimFormatada, $setorEmpresa); // soma o valor total pago
+
+		} else {
+			$data['totalPago']['valor'] = '00';
+			
+		}
+
+		if ($statusConta == '0' || $statusConta == 'ambas') {
+
+			$data['emAberto'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 0, $dataInicioFormatada, $dataFimFormatada, $setorEmpresa); // soma o valor total em aberto
+
+		} else {
+			$data['emAberto']['valor'] = '00';
+		}
+
+		$data['porSetor'] = $this->findadosfinanceiros->somaSaldosBancariosSetor($setorEmpresa); // soma o valor total do setor específico
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/financeiro/contas-pagar');

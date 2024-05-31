@@ -10,7 +10,7 @@ class FinContasReceber_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebeContasReceber($dataInicio, $dataFim, $status)
+    public function recebeContasReceber($dataInicio, $dataFim, $status, $setor)
     {
         $this->db->select('CR.*, DF.nome as RECEBIDO, SE.nome as SETOR');
         $this->db->from('fin_contas_receber CR');
@@ -23,6 +23,11 @@ class FinContasReceber_model extends CI_Model
         // Verifica se o tipo de movimentação não é 'ambas', para adicionar uma restrição
         if ($status !== 'ambas') {
             $this->db->where('CR.status', $status);
+        }
+
+        // Adiciona a cláusula do setor apenas se $setor não for null
+        if ($setor !== 'todos') {
+            $this->db->where('CR.id_setor_empresa', $setor);
         }
 
         $query = $this->db->get();
@@ -105,5 +110,4 @@ class FinContasReceber_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
-
 }
