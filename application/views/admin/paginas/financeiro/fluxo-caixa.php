@@ -2,109 +2,92 @@
 
     <div class="pb-5">
         <div class="row g-4">
-            <div class="col-12 col-xxl-12">
-                <div class="row align-items-center g-4">
-                    <div class="col-12 col-md-3">
-                        <div class="d-flex align-items-center">
-                            <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-info-300"
-                                    data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-info-100"
-                                    data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-info "
-                                    data-fa-transform="shrink-2 up-8 right-6"></span>
-                            </span>
-                            <div class="ms-3">
-                                <h4 class="mb-0">R$ <span
-                                        class="total-caixa-front"><?= number_format($saldoTotal['saldo'], 2, ',', '.') ?></span>
-                                </h4>
-                                <p class="text-800 fs--1 mb-0">Total Caixa</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-3">
-                        <div class="d-flex align-items-center">
-                            <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-danger-300"
-                                    data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-danger-100"
-                                    data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-danger "
-                                    data-fa-transform="shrink-2 up-8 right-6"></span>
-                            </span>
-                            <div class="ms-3">
-                                <h4 class="mb-0">R$ <span
-                                        class="total-pago-front"><?= number_format($totalSaida['valor'], 2, ',', '.') ?></span>
-                                </h4>
-                                <p class="text-800 fs--1 mb-0">Total Saida</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-3">
-                        <div class="d-flex align-items-center">
-                            <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-success-300"
-                                    data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100"
-                                    data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success "
-                                    data-fa-transform="shrink-2 up-8 right-6"></span>
-                            </span>
-                            <div class="ms-3">
-                                <h4 class="mb-0">R$ <span
-                                        class="total-recebido-front"><?= number_format($totalEntrada['valor'], 2, ',', '.') ?></span>
-                                </h4>
-                                <p class="text-800 fs--1 mb-0">Total Entrada</p>
-                            </div>
-                        </div>
-                    </div>
+            <?php if (permissaoComponentes('saldos-fluxo-caixa')) { ?>
 
-                    <div class="col-12 col-md-3">
-                        <div class="d-flex align-items-center">
-                            <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-primary-300"
-                                    data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-primary-100"
-                                    data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-primary "
-                                    data-fa-transform="shrink-2 up-8 right-6"></span>
-                            </span>
-                            <div class="ms-3">
-                                <h4 class="mb-0">R$ <span
-                                        class="total-recebido-front"><?= number_format($balancoFinanceiro, 2, ',', '.') ?></span>
-                                </h4>
-                                <p class="text-800 fs--1 mb-0">Balanço</p>
+                <div class="col-12 col-xxl-12">
+                    <div class="row align-items-center g-4">
+                        <div class="col-12 col-md-3">
+                            <div class="d-flex align-items-center">
+                                <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
+                                    <span class="fa-solid fa-square fa-stack-2x text-info-300" data-fa-transform="down-4 rotate--10 left-4"></span>
+                                    <span class="fa-solid fa-circle fa-stack-2x stack-circle text-info-100" data-fa-transform="up-4 right-3 grow-2"></span>
+                                    <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-info " data-fa-transform="shrink-2 up-8 right-6"></span>
+                                </span>
+                                <div class="ms-3">
+                                    <h4 class="mb-0">R$ <span class="total-caixa-front"><?= number_format($saldoTotal['saldo'], 2, ',', '.') ?></span>
+                                    </h4>
+                                    <p class="text-800 fs--1 mb-0">Total Caixa</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="col-12 col-md-3">
+                            <div class="d-flex align-items-center">
+                                <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
+                                    <span class="fa-solid fa-square fa-stack-2x text-danger-300" data-fa-transform="down-4 rotate--10 left-4"></span>
+                                    <span class="fa-solid fa-circle fa-stack-2x stack-circle text-danger-100" data-fa-transform="up-4 right-3 grow-2"></span>
+                                    <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-danger " data-fa-transform="shrink-2 up-8 right-6"></span>
+                                </span>
+                                <div class="ms-3">
+                                    <h4 class="mb-0">R$ <span class="total-pago-front"><?= number_format($totalSaida['valor'], 2, ',', '.') ?></span>
+                                    </h4>
+                                    <p class="text-800 fs--1 mb-0">Total Saida</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <div class="d-flex align-items-center">
+                                <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
+                                    <span class="fa-solid fa-square fa-stack-2x text-success-300" data-fa-transform="down-4 rotate--10 left-4"></span>
+                                    <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100" data-fa-transform="up-4 right-3 grow-2"></span>
+                                    <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
+                                </span>
+                                <div class="ms-3">
+                                    <h4 class="mb-0">R$ <span class="total-recebido-front"><?= number_format($totalEntrada['valor'], 2, ',', '.') ?></span>
+                                    </h4>
+                                    <p class="text-800 fs--1 mb-0">Total Entrada</p>
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="col-12 col-md-3">
+                            <div class="d-flex align-items-center">
+                                <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
+                                    <span class="fa-solid fa-square fa-stack-2x text-primary-300" data-fa-transform="down-4 rotate--10 left-4"></span>
+                                    <span class="fa-solid fa-circle fa-stack-2x stack-circle text-primary-100" data-fa-transform="up-4 right-3 grow-2"></span>
+                                    <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-primary " data-fa-transform="shrink-2 up-8 right-6"></span>
+                                </span>
+                                <div class="ms-3">
+                                    <h4 class="mb-0">R$ <span class="total-recebido-front"><?= number_format($balancoFinanceiro, 2, ',', '.') ?></span>
+                                    </h4>
+                                    <p class="text-800 fs--1 mb-0">Balanço</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <hr class="bg-200 mb-6 mt-3" />
                 </div>
-                <hr class="bg-200 mb-6 mt-3" />
-            </div>
+            <?php } ?>
 
             <form id="filtroForm" action="<?= base_url('finFluxoCaixa/index') ?>" method="post">
                 <div class="col-12">
                     <div class="row align-items-center g-4">
+
+                    <h4 class="ms-3 mt-5">Filtrar resultados</h4>
+
                         <div class="col-12 col-md-3">
                             <div class="ms-3">
-                                <input class="form-control datetimepicker" value="<?= $dataInicio ?>" required
-                                    name="data_inicio" id="data_inicio" type="text" placeholder="Data Início"
-                                    data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}'
-                                    style="cursor: pointer;" autocomplete="off" />
+                                <input class="form-control datetimepicker" value="<?= $dataInicio ?>" required name="data_inicio" id="data_inicio" type="text" placeholder="Data Início" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
                             </div>
                         </div>
                         <div class="col-12 col-md-3">
                             <div class="ms-3">
-                                <input class="form-control datetimepicker" value="<?= $dataFim ?>" required
-                                    name="data_fim" id="data_fim" type="text" placeholder="Data Fim"
-                                    data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}'
-                                    style="cursor: pointer;" autocomplete="off" />
+                                <input class="form-control datetimepicker" value="<?= $dataFim ?>" required name="data_fim" id="data_fim" type="text" placeholder="Data Fim" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
                             </div>
                         </div>
                         <div class="col-12 col-md-3">
                             <div class="ms-3">
-                                <select class="select-validation select-orientacao" required name="movimentacao"
-                                    id="movimentacao">
+                                <select class="select-validation select-orientacao" required name="movimentacao" id="movimentacao">
                                     <option selected disabled value=''>Tipo movimentação</option>
                                     <option <?= $tipoMovimentacao == 1 ? 'selected' : '' ?> value="1">Entrada</option>
                                     <option <?= $tipoMovimentacao == 0 ? 'selected' : '' ?> value="0">Saída</option>
@@ -115,8 +98,7 @@
                         </div>
                         <div class="col-12 col-md-3">
                             <div class="ms-3">
-                                <button type="submit"
-                                    class="btn btn-phoenix-secondary bg-white hover-bg-100 w-100">Filtrar</button>
+                                <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 w-100">Filtrar</button>
                             </div>
                         </div>
                     </div>
@@ -138,9 +120,7 @@
 
                         <div class="col-auto">
 
-                            <button
-                                class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn btn-novo-lancamento"
-                                type="button" data-bs-toggle="modal" data-bs-target="#modalEntradaFluxo">Novo
+                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn btn-novo-lancamento" type="button" data-bs-toggle="modal" data-bs-target="#modalEntradaFluxo">Novo
                                 Lançamento</button>
 
                         </div>
@@ -154,8 +134,7 @@
                         <tr class="text-center">
                             <th class="white-space-nowrap fs--1 ps-0 align-middle">
                                 <div class="form-check mb-0 fs-0">
-                                    <input class="form-check-input" id="checkbox-bulk-reviews-select" type="checkbox"
-                                        data-bulk-select='{"body":"table-latest-review-body"}' />
+                                    <input class="form-check-input" id="checkbox-bulk-reviews-select" type="checkbox" data-bulk-select='{"body":"table-latest-review-body"}' />
                                 </div>
                             </th>
                             <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="data">
@@ -177,8 +156,7 @@
 
                                 <td class="fs--1 align-middle ps-0">
                                     <div class="form-check mb-0 fs-0">
-                                        <input class="form-check-input" type="checkbox"
-                                            data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands)","productImage":"/products/60x60/1.png","customer":{"name":"Richard Dawkins","avatar":""},"rating":5,"review":"This Fitbit is fantastic! I was trying to be in better shape and needed some motivation, so I decided to treat myself to a new Fitbit.","status":{"title":"Approved","badge":"success","icon":"check"},"time":"Just now"}' />
+                                        <input class="form-check-input" type="checkbox" data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands)","productImage":"/products/60x60/1.png","customer":{"name":"Richard Dawkins","avatar":""},"rating":5,"review":"This Fitbit is fantastic! I was trying to be in better shape and needed some motivation, so I decided to treat myself to a new Fitbit.","status":{"title":"Approved","badge":"success","icon":"check"},"time":"Just now"}' />
                                     </div>
                                 </td>
 
@@ -202,17 +180,15 @@
                                 </td>
 
                                 <td class="align-middle text-center ps-3 tipo">
-                                    <?php if ($movimentacao['movimentacao_tabela'] == 0): ?>
+                                    <?php if ($movimentacao['movimentacao_tabela'] == 0) : ?>
                                         <span class="badge badge-phoenix fs--2 badge-phoenix-warning">
                                             <span class="badge-label">Saída</span>
-                                            <span class="ms-1" data-feather="trending-down"
-                                                style="height:12.8px;width:12.8px;"></span>
+                                            <span class="ms-1" data-feather="trending-down" style="height:12.8px;width:12.8px;"></span>
                                         </span>
-                                    <?php else: ?>
+                                    <?php else : ?>
                                         <span class="badge badge-phoenix fs--2 badge-phoenix-success">
                                             <span class="badge-label">Entrada</span>
-                                            <span class="ms-1" data-feather="trending-up"
-                                                style="height:12.8px;width:12.8px;"></span>
+                                            <span class="ms-1" data-feather="trending-up" style="height:12.8px;width:12.8px;"></span>
                                         </span>
                                     <?php endif; ?>
                                 </td>
@@ -232,15 +208,9 @@
 
                                 <td class="align-middle white-space-nowrap text-end pe-0">
                                     <div class="font-sans-serif btn-reveal-trigger position-static">
-                                        <button
-                                            class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2"
-                                            type="button" data-bs-toggle="dropdown" data-boundary="window"
-                                            aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span
-                                                class="fas fa-ellipsis-h fs--2"></span></button>
+                                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2"></span></button>
                                         <div class="dropdown-menu dropdown-menu-end py-2">
-                                            <a class="dropdown-item" href="#!" data-bs-toggle="modal"
-                                                data-bs-target="#modalVisualizarFluxoCaixa"
-                                                onclick="visualizarFluxo(<?= $movimentacao['id'] ?>)">
+                                            <a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#modalVisualizarFluxoCaixa" onclick="visualizarFluxo(<?= $movimentacao['id'] ?>)">
                                                 <span class="fas fa-eye"></span> Visualizar
                                             </a>
 
@@ -292,19 +262,15 @@
                                                     <tr>
                                                         <td class="py-2">
                                                             <div class="d-inline-flex align-items-center">
-                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
-                                                                    style="width:24px; height:24px">
-                                                                    <span
-                                                                        class="text-info-600 dark__text-info-300 fas fa-id-card-alt"
-                                                                        style="width:16px; height:16px"></span>
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300 fas fa-id-card-alt" style="width:16px; height:16px"></span>
                                                                 </div>
                                                                 <p class="fw-bold mb-0">Grupo Macro/Micro</p>
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                         <td class="py-2">
-                                                            <div
-                                                                class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break macro-micro html-clean">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break macro-micro html-clean">
                                                                 Conta de Água
                                                             </div>
                                                         </td>
@@ -313,19 +279,15 @@
                                                     <tr>
                                                         <td class="py-2">
                                                             <div class="d-inline-flex align-items-center">
-                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
-                                                                    style="width:24px; height:24px">
-                                                                    <span class="text-info-600 dark__text-info-300"
-                                                                        data-feather="calendar"
-                                                                        style="width:16px; height:16px"></span>
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300" data-feather="calendar" style="width:16px; height:16px"></span>
                                                                 </div>
                                                                 <p class="fw-bold mb-0">Recebido</p>
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                         <td class="py-2">
-                                                            <div
-                                                                class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break recebido data-coleta html-clean">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break recebido data-coleta html-clean">
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -333,20 +295,15 @@
                                                     <tr>
                                                         <td class="py-2">
                                                             <div class="d-inline-flex align-items-center">
-                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
-                                                                    style="width:24px; height:24px">
-                                                                    <span
-                                                                        class="text-info-600 dark__text-info-300 fas fa-money-check-alt"
-                                                                        data-feather="calendar"
-                                                                        style="width:16px; height:16px"></span>
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300 fas fa-money-check-alt" data-feather="calendar" style="width:16px; height:16px"></span>
                                                                 </div>
                                                                 <p class="fw-bold mb-0">Valor</p>
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                         <td class="py-2">
-                                                            <div
-                                                                class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break valor-fluxo html-clean">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break valor-fluxo html-clean">
 
                                                             </div>
                                                         </td>
@@ -355,11 +312,8 @@
                                                     <tr>
                                                         <td class="py-2">
                                                             <div class="d-inline-flex align-items-center">
-                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
-                                                                    style="width:24px; height:24px">
-                                                                    <span
-                                                                        class="text-info-600 dark__text-info-300 fas fa-money-check-alt"
-                                                                        style="width:16px; height:16px"></span>
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300 fas fa-money-check-alt" style="width:16px; height:16px"></span>
                                                                 </div>
                                                                 <p class="fw-bold mb-0">Forma Pagamento</p>
                                                             </div>
@@ -367,8 +321,7 @@
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                         <td class="py-2">
 
-                                                            <div
-                                                                class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break forma-pagamento html-clean">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break forma-pagamento html-clean">
 
                                                             </div>
 
@@ -378,11 +331,8 @@
                                                     <tr>
                                                         <td class="py-2">
                                                             <div class="d-inline-flex align-items-center">
-                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
-                                                                    style="width:24px; height:24px">
-                                                                    <span
-                                                                        class="text-info-600 dark__text-info-300 fas fa-message"
-                                                                        style="width:16px; height:16px"></span>
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300 fas fa-message" style="width:16px; height:16px"></span>
                                                                 </div>
                                                                 <p class="fw-bold mb-0">Observação</p>
                                                             </div>
@@ -390,8 +340,7 @@
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                         <td class="py-2">
 
-                                                            <div
-                                                                class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break observacao html-clean">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break observacao html-clean">
 
                                                             </div>
 
@@ -438,8 +387,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Tipo</label>
-                                                    <select
-                                                        class="form-select input-fluxo-obrigatorio select-tipo-conta">
+                                                    <select class="form-select input-fluxo-obrigatorio select-tipo-conta">
                                                         <option selected disabled>Selecione</option>
                                                         <option value="1">Entrada</option>
                                                         <option value="0">Saída</option>
@@ -455,12 +403,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data</label>
-                                                    <input
-                                                        class="form-control datetimepicker input-fluxo-obrigatorio input-coleta"
-                                                        required name="data_movimentacao" type="text"
-                                                        placeholder="dd/mm/aaaa"
-                                                        data-options='{"disableMobile":true,"allowInput":true, "dateFormat": "d/m/Y"}'
-                                                        style="cursor: pointer;" />
+                                                    <input class="form-control datetimepicker input-fluxo-obrigatorio input-coleta" required name="data_movimentacao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true, "dateFormat": "d/m/Y"}' style="cursor: pointer;" />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
@@ -472,9 +415,7 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Grupos
                                                         Macros</label>
-                                                    <select
-                                                        class="form-select select2 select-macros input-fluxo-obrigatorio dados-conta"
-                                                        name="macros">
+                                                    <select class="form-select select2 select-macros input-fluxo-obrigatorio dados-conta" name="macros">
                                                         <option selected disabled value="">Selecione</option>
                                                         <?php foreach ($macros as $macro) { ?>
                                                             <option value="<?= $macro['id'] ?>"><?= $macro['nome'] ?>
@@ -491,9 +432,7 @@
                                                 <div class="mb-4 ">
                                                     <label class="text-body-highlight fw-bold mb-2 ">Grupos
                                                         Micros</label>
-                                                    <select disabled
-                                                        class="form-select select2 select-micros input-fluxo-obrigatorio dados-conta"
-                                                        name="micros">
+                                                    <select disabled class="form-select select2 select-micros input-fluxo-obrigatorio dados-conta" name="micros">
                                                         <option selected disabled value="">Selecione</option>
                                                         <!-- JS -->
                                                     </select>
@@ -507,9 +446,7 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Grupo
                                                         recebidos</label>
-                                                    <select
-                                                        class="form-select select2 select-grupo-recebidos select2 input-fluxo-obrigatorio"
-                                                        name="grupo-recebido">
+                                                    <select class="form-select select2 select-grupo-recebidos select2 input-fluxo-obrigatorio" name="grupo-recebido">
                                                         <option selected disabled>Selecione</option>
                                                         <?php foreach ($grupos as $grupo) { ?>
                                                             <option value="<?= $grupo['id'] ?>"><?= $grupo['nome'] ?>
@@ -528,9 +465,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Recebido</label>
-                                                    <select
-                                                        class="form-select select2 select-recebido select2 input-fluxo-obrigatorio"
-                                                        name="cadastroFinanceiro">
+                                                    <select class="form-select select2 select-recebido select2 input-fluxo-obrigatorio" name="cadastroFinanceiro">
                                                         <option selected disabled>Selecione</option>
                                                         <?php foreach ($dadosFinanceiro as $dadoFinanceiro) { ?>
                                                             <option value="<?= $dadoFinanceiro['id'] ?>">
@@ -548,8 +483,7 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Conta
                                                         Bancária</label>
-                                                    <select name="contaBancaria"
-                                                        class="form-select select2 select-conta-bancaria input-fluxo-obrigatorio">
+                                                    <select name="contaBancaria" class="form-select select2 select-conta-bancaria input-fluxo-obrigatorio">
                                                         <option value="" selected disabled>Selecione</option>
                                                         <?php foreach ($contasBancarias as $contaBancaria) { ?>
                                                             <option value="<?= $contaBancaria['id_conta_bancaria'] ?>">
@@ -566,8 +500,7 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Forma
                                                         Pagamento</label>
-                                                    <select name="formaPagamento"
-                                                        class="form-select select2 select-forma-pagamento select2 input-fluxo-obrigatorio">
+                                                    <select name="formaPagamento" class="form-select select2 select-forma-pagamento select2 input-fluxo-obrigatorio">
                                                         <option value="" selected disabled>
                                                             Selecione</option>
                                                         <?php foreach ($formasTransacao as $formaTransacao) { ?>
@@ -584,9 +517,7 @@
                                             <div class="col-lg-4">
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                    <input
-                                                        class="form-control input-valor-recebido mascara-dinheiro input-valor-unic input-fluxo-obrigatorio"
-                                                        required name="valor" type="text" placeholder="Valor">
+                                                    <input class="form-control input-valor-recebido mascara-dinheiro input-valor-unic input-fluxo-obrigatorio" required name="valor" type="text" placeholder="Valor">
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>

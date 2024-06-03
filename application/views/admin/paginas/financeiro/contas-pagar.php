@@ -1,74 +1,77 @@
 <div class="content">
     <div class="pb-5">
         <div class="row g-4">
-            <div class="col-12 col-xxl-12">
-                <div class="row align-items-center g-4">
-                    <div class="col-12 col-md-3">
-                        <div class="d-flex align-items-center">
-                            <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-success-300" data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100" data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
-                            </span>
-                            <div class="ms-3">
-                                <h4 class="mb-0">R$ <span class="total-caixa-front"><?= number_format($saldoTotal['saldo'], 2, ',', '.') ?></span>
-                                </h4>
-                                <p class="text-800 fs--1 mb-0">Total Caixa</p>
+            <?php if (permissaoComponentes('saldos-contas-pagar')) : ?>
+                <div class="col-12 col-xxl-12">
+                    <div class="row align-items-center g-4">
+                        <div class="col-12 col-md-3">
+                            <div class="d-flex align-items-center">
+                                <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
+                                    <span class="fa-solid fa-square fa-stack-2x text-success-300" data-fa-transform="down-4 rotate--10 left-4"></span>
+                                    <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100" data-fa-transform="up-4 right-3 grow-2"></span>
+                                    <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
+                                </span>
+                                <div class="ms-3">
+                                    <h4 class="mb-0">R$ <span class="total-caixa-front"><?= number_format($saldoTotal['saldo'], 2, ',', '.') ?></span>
+                                    </h4>
+                                    <h4 class="mb-0"></h4>
+                                    <p class="text-800 fs--1 mb-0">Total Caixa</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <div class="d-flex align-items-center">
+                                <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
+                                    <span class="fa-solid fa-square fa-stack-2x text-success-300" data-fa-transform="down-4 rotate--10 left-4"></span>
+                                    <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100" data-fa-transform="up-4 right-3 grow-2"></span>
+                                    <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
+                                </span>
+                                <div class="ms-3">
+                                    <h4 class="mb-0">R$ <span class="total-pago-front"><?= number_format($totalPago['valor'], 2, ',', '.') ?></span>
+                                    </h4>
+                                    <p class="text-800 fs--1 mb-0">Total Pago</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <div class="d-flex align-items-center">
+                                <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
+                                    <span class="fa-solid fa-square fa-stack-2x text-warning-300" data-fa-transform="down-4 rotate--10 left-4"></span>
+                                    <span class="fa-solid fa-circle fa-stack-2x stack-circle text-warning-100" data-fa-transform="up-4 right-3 grow-2"></span>
+                                    <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-warning" data-fa-transform="shrink-2 up-8 right-6"></span>
+                                </span>
+                                <div class="ms-3">
+                                    <h4 class="mb-0">R$ <span class="total-aberto-front"><?= number_format($emAberto['valor'], 2, ',', '.') ?></span>
+                                    </h4>
+                                    <p class="text-800 fs--1 mb-0">Despesas em Aberto</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <div class="d-flex align-items-center">
+                                <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
+                                    <span class="fa-solid fa-square fa-stack-2x text-info-300" data-fa-transform="down-4 rotate--10 left-4"></span>
+                                    <span class="fa-solid fa-circle fa-stack-2x stack-circle text-info-100" data-fa-transform="up-4 right-3 grow-2"></span>
+                                    <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-info" data-fa-transform="shrink-2 up-8 right-6"></span>
+                                </span>
+                                <div class="ms-3">
+                                    <h4 class="mb-0">R$ <span class="total-setor-front"><?= number_format($porSetor['saldo'], 2, ',', '.') ?></span>
+                                    </h4>
+                                    <p class="text-800 fs--1 mb-0">Saldo do Setor <?= $nomeSaldoSetor ?></p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-3">
-                        <div class="d-flex align-items-center">
-                            <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-success-300" data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100" data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
-                            </span>
-                            <div class="ms-3">
-                                <h4 class="mb-0">R$ <span class="total-pago-front"><?= number_format($totalPago['valor'], 2, ',', '.') ?></span>
-                                </h4>
-                                <p class="text-800 fs--1 mb-0">Total Pago</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-3">
-                        <div class="d-flex align-items-center">
-                            <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-warning-300" data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-warning-100" data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-warning" data-fa-transform="shrink-2 up-8 right-6"></span>
-                            </span>
-                            <div class="ms-3">
-                                <h4 class="mb-0">R$ <span class="total-aberto-front"><?= number_format($emAberto['valor'], 2, ',', '.') ?></span>
-                                </h4>
-                                <p class="text-800 fs--1 mb-0">Despesas em Aberto</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-3">
-                        <div class="d-flex align-items-center">
-                            <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-info-300" data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-info-100" data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-info" data-fa-transform="shrink-2 up-8 right-6"></span>
-                            </span>
-                            <div class="ms-3">
-                                <h4 class="mb-0">R$ <span class="total-setor-front"><?= number_format($porSetor['saldo'], 2, ',', '.') ?></span>
-                                </h4>
-                                <p class="text-800 fs--1 mb-0">Saldo do Setor <?= $nomeSaldoSetor ?></p>
-                            </div>
-                        </div>
-                    </div>
+                    <hr class="bg-200 mb-6 mt-3" />
                 </div>
-                <hr class="bg-200 mb-6 mt-3" />
-            </div>
+            <?php endif ?>
 
             <div class="col-12 col-xxl-12 mt-0">
                 <form id="filtroForm" action="<?= base_url('finContasPagar/') ?>" method="post">
                     <div class="col-12">
                         <div class="row align-items-center g-4">
 
-                            <h4 class="ms-3">Filtrar resultados</h4>
+                            <h4 class="ms-3 mt-5">Filtrar resultados</h4>
 
                             <div class="col-12 col-md-3">
                                 <div class="ms-3">
@@ -106,7 +109,7 @@
 
                             <div class="col-12 col-md-2">
                                 <div class="ms-3">
-                                    <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 <?=!$dataInicio ? 'w-100' : '';?>">Filtrar</button>
+                                    <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 <?= !$dataInicio ? 'w-100' : ''; ?>">Filtrar</button>
 
                                     <?php if ($dataInicio) { ?>
                                         <a href="<?= base_url('finContasPagar'); ?>" class="btn btn-phoenix-danger" title="Limpar Filtro"><i class="fas fa-ban"></i></a>
@@ -210,12 +213,13 @@
 
                                 <td class="align-middle text-start ps-3 status td_status_pgto text-center">
                                     <span class="badge badge-phoenix fs--2 <?= $contaPagar['status'] ? "badge-phoenix-success" : "badge-phoenix-danger" ?> tipo-status-conta-<?= $contaPagar['id'] ?>">
-                                        <span data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" class="badge-label cursor-pointer realizar-pagamento status-pagamento-<?= $contaPagar['id'] ?>" data-id="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" <?= !$contaPagar['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalPagarConta"' : "" ?>>
+                                        <span data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" class="badge-label cursor-pointer realizar-pagamento status-pagamento-<?= $contaPagar['id'] ?>" data-id="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" <?php if ($contaPagar['status']) { ?> onclick="visualizarConta(<?= $contaPagar['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalVisualizarContasPagar" <?php } else { ?> data-bs-toggle="modal" data-bs-target="#modalPagarConta" <?php } ?> <?php if (!permissaoComponentes('saldos-contas-pagar')) { ?>style="pointer-events: none;" <?php } ?>>
                                             <?= $contaPagar['status'] ? "Pago" : "Em aberto" ?>
                                         </span>
                                         <span class="ms-1 icone-status-conta-<?= $contaPagar['id'] ?>" data-feather="<?= $contaPagar['status'] ? "check" : "slash" ?>" style="height:12.8px;width:12.8px;"></span>
                                     </span>
                                 </td>
+
 
                                 <td class="align-middle customer white-space-nowrap td_data_pagamento text-center">
                                     <h6 class="mb-0 text-900">
@@ -243,19 +247,20 @@
                                             <a class="dropdown-item" href="#" onclick="visualizarConta(<?= $contaPagar['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalVisualizarContasPagar">
                                                 <span class="fas fa-eye"></span> Visualizar
                                             </a>
+                                            <?php if (permissaoComponentes('saldos-contas-pagar')) { ?>
+                                                <?php if (!$contaPagar['status']) { ?>
+                                                    <a class="dropdown-item editar-lancamento btn-editar-<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal" data-id="<?= $contaPagar['id'] ?>" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-bs-target="#modalEditarContasPagar">
+                                                        <span class="fas fa-pencil"></span> Editar
+                                                    </a>
 
-                                            <?php if (!$contaPagar['status']) { ?>
-                                                <a class="dropdown-item editar-lancamento btn-editar-<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal" data-id="<?= $contaPagar['id'] ?>" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-bs-target="#modalEditarContasPagar">
-                                                    <span class="fas fa-pencil"></span> Editar
-                                                </a>
+                                                    <a class="dropdown-item editar-lancamento btn-excluir-<?= $contaPagar['id'] ?>" href="#" onclick="deletaContaPagar(<?= $contaPagar['id'] ?>)">
+                                                        <span class="fas fa-trash"></span> Excluir
+                                                    </a>
 
-                                                <a class="dropdown-item editar-lancamento btn-excluir-<?= $contaPagar['id'] ?>" href="#" onclick="deletaContaPagar(<?= $contaPagar['id'] ?>)">
-                                                    <span class="fas fa-trash"></span> Excluir
-                                                </a>
-
-                                                <div class="dropdown-divider btn-realizar-pagamento-<?= $contaPagar['id'] ?>"></div>
-                                                <a class="dropdown-item realizar-pagamento btn-realizar-pagamento-<?= $contaPagar['id'] ?>" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-id="<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalPagarConta">Realizar
-                                                    Pagamento</a>
+                                                    <div class="dropdown-divider btn-realizar-pagamento-<?= $contaPagar['id'] ?>"></div>
+                                                    <a class="dropdown-item realizar-pagamento btn-realizar-pagamento-<?= $contaPagar['id'] ?>" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-id="<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalPagarConta">Realizar
+                                                        Pagamento</a>
+                                                <?php } ?>
                                             <?php } ?>
                                         </div>
                                     </div>

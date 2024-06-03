@@ -1,73 +1,76 @@
 <div class="content">
     <div class="pb-5">
         <div class="row g-4">
-            <div class="col-12 col-xxl-12">
-                <div class="row align-items-center g-4">
-                    <div class="col-12 col-md-3">
-                        <div class="d-flex align-items-center">
-                            <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-success-300" data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100" data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
-                            </span>
-                            <div class="ms-3">
-                                <h4 class="mb-0">R$ <span class="total-caixa-front"><?= number_format($saldoTotal['saldo'], 2, ',', '.') ?></span>
-                                </h4>
-                                <p class="text-800 fs--1 mb-0">Total Caixa</p>
+            <?php if (permissaoComponentes('saldos-contas-receber')) { ?>
+                <div class="col-12 col-xxl-12">
+                    <div class="row align-items-center g-4">
+                        <div class="col-12 col-md-3">
+                            <div class="d-flex align-items-center">
+                                <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
+                                    <span class="fa-solid fa-square fa-stack-2x text-success-300" data-fa-transform="down-4 rotate--10 left-4"></span>
+                                    <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100" data-fa-transform="up-4 right-3 grow-2"></span>
+                                    <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
+                                </span>
+                                <div class="ms-3">
+                                    <h4 class="mb-0">R$ <span class="total-caixa-front"><?= number_format($saldoTotal['saldo'], 2, ',', '.') ?></span>
+                                    </h4>
+                                    <p class="text-800 fs--1 mb-0">Total Caixa</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-12 col-md-3">
-                        <div class="d-flex align-items-center">
-                            <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-success-300" data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100" data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
-                            </span>
-                            <div class="ms-3">
-                                <h4 class="mb-0">R$ <span class="total-recebido-front"><?= number_format($totalRecebido['valor_recebido'], 2, ',', '.') ?></span>
-                                </h4>
-                                <p class="text-800 fs--1 mb-0">Total Recebido</p>
+                        <div class="col-12 col-md-3">
+                            <div class="d-flex align-items-center">
+                                <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
+                                    <span class="fa-solid fa-square fa-stack-2x text-success-300" data-fa-transform="down-4 rotate--10 left-4"></span>
+                                    <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100" data-fa-transform="up-4 right-3 grow-2"></span>
+                                    <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
+                                </span>
+                                <div class="ms-3">
+                                    <h4 class="mb-0">R$ <span class="total-recebido-front"><?= number_format($totalRecebido['valor_recebido'], 2, ',', '.') ?></span>
+                                    </h4>
+                                    <p class="text-800 fs--1 mb-0">Total Recebido</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-12 col-md-3">
-                        <div class="d-flex align-items-center">
-                            <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-warning-300" data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-warning-100" data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-warning" data-fa-transform="shrink-2 up-8 right-6"></span>
-                            </span>
-                            <div class="ms-3">
-                                <h4 class="mb-0">R$ <span class="total-aberto-front"><?= number_format($emAberto['valor'], 2, ',', '.') ?></span>
-                                </h4>
-                                <p class="text-800 fs--1 mb-0">A Receber</p>
+                        <div class="col-12 col-md-3">
+                            <div class="d-flex align-items-center">
+                                <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
+                                    <span class="fa-solid fa-square fa-stack-2x text-warning-300" data-fa-transform="down-4 rotate--10 left-4"></span>
+                                    <span class="fa-solid fa-circle fa-stack-2x stack-circle text-warning-100" data-fa-transform="up-4 right-3 grow-2"></span>
+                                    <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-warning" data-fa-transform="shrink-2 up-8 right-6"></span>
+                                </span>
+                                <div class="ms-3">
+                                    <h4 class="mb-0">R$ <span class="total-aberto-front"><?= number_format($emAberto['valor'], 2, ',', '.') ?></span>
+                                    </h4>
+                                    <p class="text-800 fs--1 mb-0">A Receber</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-12 col-md-3">
-                        <div class="d-flex align-items-center">
-                            <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-info-300" data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-info-100" data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-info" data-fa-transform="shrink-2 up-8 right-6"></span>
-                            </span>
-                            <div class="ms-3">
-                                <h4 class="mb-0">R$ <span class="total-setor-front"><?= number_format($porSetor['saldo'], 2, ',', '.') ?></span>
-                                </h4>
-                                <p class="text-800 fs--1 mb-0">Saldo do Setor <?= $nomeSaldoSetor ?></p>
+                        <div class="col-12 col-md-3">
+                            <div class="d-flex align-items-center">
+                                <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
+                                    <span class="fa-solid fa-square fa-stack-2x text-info-300" data-fa-transform="down-4 rotate--10 left-4"></span>
+                                    <span class="fa-solid fa-circle fa-stack-2x stack-circle text-info-100" data-fa-transform="up-4 right-3 grow-2"></span>
+                                    <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-info" data-fa-transform="shrink-2 up-8 right-6"></span>
+                                </span>
+                                <div class="ms-3">
+                                    <h4 class="mb-0">R$ <span class="total-setor-front"><?= number_format($porSetor['saldo'], 2, ',', '.') ?></span>
+                                    </h4>
+                                    <p class="text-800 fs--1 mb-0">Saldo do Setor <?= $nomeSaldoSetor ?></p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
+                    <hr class="bg-200 mb-6 mt-3" />
                 </div>
-                <hr class="bg-200 mb-6 mt-3" />
-            </div>
+            <?php } ?>
+
             <div class="col-12 col-xxl-12 mt-0">
                 <form id="filtroForm" action="<?= base_url('finContasReceber/') ?>" method="post">
                     <div class="col-12">
                         <div class="row align-items-center g-4">
-                            <h4 class="ms-3">Filtrar resultados</h4>
+                            <h4 class="ms-3 mt-5">Filtrar resultados</h4>
                             <div class="col-12 col-md-3">
                                 <div class="ms-3">
                                     <input class="form-control datetimepicker" value="<?= $dataInicio ?>" required name="data_inicio" id="data_inicio" type="text" placeholder="Selecione a data de início" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
@@ -80,7 +83,7 @@
                             </div>
                             <div class="col-12 col-md-2">
                                 <div class="ms-3">
-                                    <select class="select-validation select-orientacao" required name="status" id="movimentacao">                       
+                                    <select class="select-validation select-orientacao" required name="status" id="movimentacao">
                                         <option <?= $status == 'ambas' ? 'selected' : '' ?> disabled> Status da conta</option>
                                         <option <?= $status == '0' ? 'selected' : '' ?> value="0">A receber</option>
                                         <option <?= $status == '1' ? 'selected' : '' ?> value="1">Recebida</option>
@@ -202,14 +205,13 @@
 
                                 <td class="align-middle text-start ps-3 status text-center td_status">
                                     <span class="badge badge-phoenix fs--2 <?= $contaReceber['status'] ? "badge-phoenix-success" : "badge-phoenix-danger" ?> tipo-status-conta-<?= $contaReceber['id'] ?>">
-                                        <span data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" class="badge-label cursor-pointer receber-conta status-pagamento-table-<?= $contaReceber['id'] ?>" data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro'] ?>" data-id="<?= $contaReceber['id'] ?>" <?= !$contaReceber['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalReceberConta"' : '' ?>>
+                                        <span data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" class="badge-label cursor-pointer receber-conta status-pagamento-table-<?= $contaReceber['id'] ?>" data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro'] ?>" data-id="<?= $contaReceber['id'] ?>" <?php if (!$contaReceber['status'] && permissaoComponentes('saldos-contas-receber')) { ?> data-bs-toggle="modal" data-bs-target="#modalReceberConta" <?php } else { ?> onclick="visualizarConta(<?= $contaReceber['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalVisualizarContasReceber" <?php } ?> <?php if (!permissaoComponentes('saldos-contas-receber')) { ?>style="pointer-events: none;" <?php } ?>>
                                             <?= $contaReceber['status'] ? "Recebido" : "A receber" ?>
                                         </span>
-
                                         <span class="ms-1 icone-status-conta-<?= $contaReceber['id'] ?>" data-feather="<?= $contaReceber['status'] ? "check" : "slash" ?>" style="height:12.8px;width:12.8px;"></span>
-
                                     </span>
                                 </td>
+
 
                                 <td class="align-middle product white-space-nowrap text-center td_data_recebimento">
                                     <h6 class="mb-0 text-900 data-recebimento-<?= $contaReceber['id'] ?>">
@@ -238,20 +240,24 @@
                                             <a class="dropdown-item" href="#" onclick="visualizarConta(<?= $contaReceber['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalVisualizarContasReceber">
                                                 <span class="fas fa-eye"></span> Visualizar
                                             </a>
-                                            <?php if (!$contaReceber['status']) { ?>
+                                            <?php if (permissaoComponentes('saldos-contas-receber')) { ?>
 
-                                                <a class="dropdown-item editar-lancamento btn-editar-<?= $contaReceber['id'] ?>" href="#!" data-bs-toggle="modal" data-id="<?= $contaReceber['id'] ?>" data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" data-bs-target="#modalEditarContasReceber">
-                                                    <span class="fas fa-pencil"></span> Editar
-                                                </a>
+                                                <?php if (!$contaReceber['status']) { ?>
 
-                                                <a class="dropdown-item btn-excluir-<?= $contaReceber['id'] ?>" href="#" onclick="deletaContaReceber(<?= $contaReceber['id'] ?>)">
-                                                    <span class="fas fa-trash"></span> Excluir
-                                                </a>
+                                                    <a class="dropdown-item editar-lancamento btn-editar-<?= $contaReceber['id'] ?>" href="#!" data-bs-toggle="modal" data-id="<?= $contaReceber['id'] ?>" data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" data-bs-target="#modalEditarContasReceber">
+                                                        <span class="fas fa-pencil"></span> Editar
+                                                    </a>
 
-                                                <div class="dropdown-divider btn-receber-pagamento-<?= $contaReceber['id'] ?>"></div>
-                                                <a data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" class="dropdown-item receber-conta btn-receber-pagamento-<?= $contaReceber['id'] ?>" data-id="<?= $contaReceber['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalReceberConta">Receber
-                                                    Conta</a>
+                                                    <a class="dropdown-item btn-excluir-<?= $contaReceber['id'] ?>" href="#" onclick="deletaContaReceber(<?= $contaReceber['id'] ?>)">
+                                                        <span class="fas fa-trash"></span> Excluir
+                                                    </a>
+
+                                                    <div class="dropdown-divider btn-receber-pagamento-<?= $contaReceber['id'] ?>"></div>
+                                                    <a data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" class="dropdown-item receber-conta btn-receber-pagamento-<?= $contaReceber['id'] ?>" data-id="<?= $contaReceber['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalReceberConta">Receber
+                                                        Conta</a>
+                                                <?php } ?>
                                             <?php } ?>
+
                                         </div>
                                     </div>
                                 </td>
