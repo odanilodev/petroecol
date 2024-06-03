@@ -45,6 +45,10 @@ class FinContasRecorrentes extends CI_Controller
 
 		$data['contasRecorrentes'] = $this->FinContasRecorrentes_model->recebeContasRecorrentes();
 
+		// Setores Empresa 
+		$this->load->model('SetoresEmpresa_model');
+		$data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
+
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/financeiro/contas-recorrentes');
 		$this->load->view('admin/includes/painel/rodape');
@@ -59,6 +63,7 @@ class FinContasRecorrentes extends CI_Controller
 		$data['id_empresa'] = $this->session->userdata('id_empresa');
 		$data['id_micro'] = $dadosLancamento['id_micro'];
 		$data['dia_pagamento'] = $dadosLancamento['dia_pagamento'];
+		$data['id_setor_empresa'] = $dadosLancamento['setor'];
 
 		$retorno = $idConta ? $this->FinContasRecorrentes_model->editaConta($idConta, $data) : $this->FinContasRecorrentes_model->insereConta($data);
 
