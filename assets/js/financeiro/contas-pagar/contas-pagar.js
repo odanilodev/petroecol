@@ -552,9 +552,9 @@ $(document).on('click', '.btn-proxima-etapa-recorrente', function () {
             }, success: function (data) {
 
                 let dataAtual = new Date();
-                let mesAtual = (dataAtual.getMonth() + 1).toString().padStart(2, '0');
-                let anoAtual = dataAtual.getFullYear();
+                let mesAtual = (dataAtual.getMonth());
 
+                let anoAtual = dataAtual.getFullYear();
 
                 $('#modalSelecionarContasPagarRecorrentes').modal('hide');
 
@@ -578,16 +578,14 @@ $(document).on('click', '.btn-proxima-etapa-recorrente', function () {
                         </div>
 
                         <input type="hidden" class="aviso-obrigatorio" name="recebido" value="${data.contas[i].ID_RECEBIDO}">
-                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                         <input type="hidden" class="aviso-obrigatorio" name="nome-recebido" value="${data.contas[i].RECEBIDO}">
-                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                         <input type="hidden" class="aviso-obrigatorio" name="micros" value="${data.contas[i].ID_MICRO}">
-                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                         <input type="hidden" class="aviso-obrigatorio" name="macros" value="${data.contas[i].id_macro}">
-                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                        <input type="hidden" class="aviso-obrigatorio" name="setor" value="${data.contas[i].id_setor_empresa}">
 
                     `;
                 }
@@ -812,7 +810,7 @@ const visualizarConta = (idConta) => {
             $('.html-clean').html('');
         }, success: function (data) {
 
-            let dataEmissao = formatarDatas(data['conta'].data_emissao);
+            let dataEmissao = data['conta'].data_emissao ? formatarDatas(data['conta'].data_emissao) : "";
             let dataVencimento = formatarDatas(data['conta'].data_vencimento);
             let valorConta = formatarValorExibicao(parseFloat(data['conta'].valor));
             let valorPago = formatarValorExibicao(parseFloat(data['conta'].valor_pago));
