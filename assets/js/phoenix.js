@@ -7208,66 +7208,122 @@ $(document).ready(function () {
 });
 
 
-let elementosChecados = [];
+  let elementsChecked = [];
 
-// Atualiza o array de elementos checados e a visibilidade dos botões
-function atualizarElementosChecados(elemento) {
-  elementosChecados = $(`${elemento}:checked`).map(function () {
-    return $(this).val();
-  }).get();
+  // clique para selecionar todos os checkboxes
+  $(document).on('change', '.check-all-element', function () {
+
+    if ($(this).prop('checked')) {
+      $('.check-element').prop("checked", true);
+
+      $('.check-element').each(function () {
+        elementsChecked.push($(this).val());
+      });
+
+      // Exibe botão para excluir tudo
+      if($('.check-element:checked').length > 1){
+        
+        $('.btn-excluir-tudo').removeClass('d-none');
+        $('.btn-pagar-tudo').removeClass('d-none');
+      }
+
+    } else {
+      // desmarca todos se o checkbox de selecionar todos estiver desmarcado
+      $('.check-element').prop("checked", false);
+
+      // deixa o array vazio novamente
+      elementsChecked = []; 
+
+      // oculta botão para excluir tudo
+      $('.btn-excluir-tudo').addClass('d-none');
+      $('.btn-pagar-tudo').addClass('d-none');
+    }
+
+    $('.emails-clientes-selecionados').val(elementsChecked); // ids para enviar certificados de coleta emails
+    todosIdsSelecionados(elementsChecked);
+
+  });
+
+  // clique para selecionar um por um
+  $(document).on('change', '.check-element', function () {
+    
+    let value = $(this).val();
+
+    if ($(this).prop('checked') ) {
+
+      // adiciona no array se ainda não estiver, não deixando duplicar valores no array
+      if (!elementsChecked.includes(value)) {
+        elementsChecked.push(value);
+      }
+
+    } else {
+      // remove o elemento clicado e recria o array sem o elemento que foi removido
+      elementsChecked = elementsChecked.filter(item => item !== value);
+    }
+
+    todosIdsSelecionados(elementsChecked);
+    $('.emails-clientes-selecionados').val(elementsChecked); // ids para enviar certificados de coleta emails
+    // Verifica se todos os checkboxes individuais estão marcados
+    verificaTodosCheckbox(this);
+  });
+
+  // verifica os checkbox quando carrega a pagina
+  $(window).on('load', function () {
+    verificaTodosCheckbox();
+  });
+
+  // verifica se todos estão checked
+  function verificaTodosCheckbox(btnClicado) {
+
+    // se todos estiverem checked, deixa o checkbox que seleciona todos checked também
+    if ($('.check-element:checked').length == $('.check-element').length &&  $('.check-element').length > 1) {
+
+      $('.check-all-element').prop('checked', true);
+      $('.btn-excluir-tudo').removeClass('d-none');
+      $('.btn-pagar-tudo').removeClass('d-none');
+
+    } else {
+
+      $('.check-all-element').prop('checked', false);
+
+      if ($('.check-element:checked').length >= 2) {
+
+        if ($(btnClicado).hasClass('check-aberto')) {
+
+          $('.btn-pagar-tudo').removeClass('d-none');
+          
+        }
   
-  $('.emails-clientes-selecionados').val(elementosChecados);
-  todosIdsSelecionados(elementosChecados);
+        $('.btn-excluir-tudo').removeClass('d-none');
 
-  let totalChecados = elementosChecados.length;
-  let totalAbertosChecados = $('.check-aberto:checked').length;
+      } else {
 
-  let mostrarExcluirTudo = totalChecados > 1;
-  let mostrarPagarTudo = totalAbertosChecados > 1;
+        $('.btn-excluir-tudo').addClass('d-none');
+        $('.btn-pagar-tudo').addClass('d-none');
 
-  $('.btn-excluir-tudo').toggleClass('d-none', !mostrarExcluirTudo);
-  $('.btn-pagar-tudo').toggleClass('d-none', !mostrarPagarTudo);
-  $('.btn-excluir-contas').toggleClass('d-none', !mostrarPagarTudo);
-}
-
-// Verifica se todos os checkboxes individuais estão marcados
-function verificarTodosCheckboxes(elemento, checkTodos) {
-  let todosChecados = $(elemento).length === $(`${elemento}:checked`).length && $(elemento).length > 1;
-  $(checkTodos).prop('checked', todosChecados);
-}
-
-// Clique para selecionar todos os checkboxes
-$(document).on('change', '.check-all-element', function () {
-  let estaChecado = $(this).prop('checked');
-  $('.check-element').prop('checked', estaChecado);
-  atualizarElementosChecados('.check-element');
-});
-
-// Clique para selecionar um por um
-$(document).on('change', '.check-element', function () {
-  atualizarElementosChecados('.check-element');
-  verificarTodosCheckboxes('.check-element', '.check-all-element');
-});
-
-// Verifica os checkboxes quando carrega a página
-$(window).on('load', function () {
-  verificarTodosCheckboxes('.check-element', '.check-all-element');
-  atualizarElementosChecados('.check-element');
-});
+      }
+    }
+  }
 
 
-
-// Salva todos os IDs selecionados para fazer a busca no modal de romaneio e manter os clientes selecionados
-function todosIdsSelecionados(ids) {
+// salva todos ids selected pra fazer a busca no modal de romaneio e manter os clientes selecionados
+function todosIdsSelecionados (ids) {
   $('.ids-selecionados').val(ids);
 }
 
-// Função auxiliar para agrupar IDs de checkboxes
 const agruparIdsCheckbox = () => {
-  return $('.check-element:checked').map(function () {
-    return $(this).val();
-  }).get();
-};
+
+  let idsArray = [];
+
+  $('.check-element:checked').each(function(){
+
+    idsArray.push($(this).val())
+
+  });
+
+  return idsArray;
+
+} 
 
 function verificaCamposObrigatorios (classe) {
 

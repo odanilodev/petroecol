@@ -430,6 +430,12 @@ function formatarValorExibicao(valor) {
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('R$', '');
 }
 
+$('.select-setor').on('change',function(){
+    
+    $('#nomeSetor').val($(this).find('option:selected').text());
+    
+});
+
 const atualizaFrontDadosFinanceiro = () => {
 
     let totalPagoFront = $('.total-pago-front').html();
@@ -438,9 +444,11 @@ const atualizaFrontDadosFinanceiro = () => {
     let totalCaixaFront = $('.total-caixa-front').html();
     let totalCaixa = formatarValorMoeda(totalCaixaFront);
 
-
     let totalAbertoFront = $('.total-aberto-front').html();
     let totalAberto = formatarValorMoeda(totalAbertoFront);
+
+    let valorSetorFront = $('.total-setor-front').html();
+    valorSetorFront = formatarValorMoeda(valorSetorFront);
 
     let valorTotalConta = $('.valor-total-conta').html().replace('R$', '');
     valorTotalConta = formatarValorMoeda(valorTotalConta);
@@ -457,14 +465,18 @@ const atualizaFrontDadosFinanceiro = () => {
 
     let totalAbertoAtualizado = totalAberto - valorTotalConta;
 
+    let valorSetorFrontAtualizado = valorSetorFront - valorTotalPago;
+
     let totalPagoAtualizadoFormatado = formatarValorExibicao(totalPagoAtualizado);
     let totalCaixaAtualizadoFormatado = formatarValorExibicao(totalCaixaAtualizado);
     let totalAbertoAtualizadoFormatado = formatarValorExibicao(totalAbertoAtualizado);
+    let valorSetorFrontAtualizadoFormatado = formatarValorExibicao(valorSetorFrontAtualizado);
 
     // Atualiza os valores no front
     $('.total-pago-front').html(totalPagoAtualizadoFormatado);
     $('.total-caixa-front').html(totalCaixaAtualizadoFormatado);
     $('.total-aberto-front').html(totalAbertoAtualizadoFormatado < 0 ? '0,00' : totalAbertoAtualizadoFormatado);
+    $('.total-setor-front').html(valorSetorFrontAtualizadoFormatado < 0 ? '0,00' : valorSetorFrontAtualizadoFormatado);
 };
 
 
@@ -555,12 +567,12 @@ $(document).on('click', '.btn-proxima-etapa-recorrente', function () {
                 for (i = 0; i < data.contas.length; i++) {
                     camposContas += `
                         <div class="col-12 ${i > 0 ? 'mt-5' : ''}">${data.contas[i].RECEBIDO}</div>
-                        <div class="col-4 mt-3"> 
+                        <div class="col-12 col-md-6 mt-3"> 
                             <input class="form-control input-obrigatorio-recorrente datetimepicker cursor-pointer" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' value="${data.contas[i].dia_pagamento}/${mesAtual}/${anoAtual}" name="data_vencimento"/>
                             <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                         </div>
 
-                        <div class="col-4 mt-3">
+                        <div class="col-12 col-md-6 mt-3">
                             <input class="form-control input-obrigatorio-recorrente mascara-dinheiro" name="valor" type="text" placeholder="Valor" />
                             <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                         </div>
