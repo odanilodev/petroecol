@@ -75,7 +75,7 @@ const cadastraContasPagar = (classe) => {
     let dadosFormulario = {};
     let permissao = true;
 
-    $(`.${classe}`).find(":input").each(function () {
+    $(`.${classe}`).find(":input").each(function (index) {
 
         dadosFormulario[$(this).attr('name')] = $(this).val();
 
@@ -135,6 +135,46 @@ const cadastraContasPagar = (classe) => {
         })
     }
 }
+
+const cadastraMultiplasContasPagar = (classe) => {
+    let dadosFormulario = {};
+    let permissao = true;
+
+    $(`.${classe}`).find(":input").each(function (index) {
+        let inputName = $(this).attr('name');
+        let inputValue = $(this).val();
+
+        // Inicializa o campo como um array se não estiver definido
+        if (!dadosFormulario[inputName]) {
+            dadosFormulario[inputName] = [];
+        }
+
+        // Adiciona o valor ao array
+        dadosFormulario[inputName].push(inputValue);
+
+        permissao = verificaCamposObrigatorios('input-obrigatorio-recorrente');
+    });
+
+    if (permissao) {
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}finContasPagar/cadastraMultiplasContasPagar`,
+            data: {
+                dados: dadosFormulario
+            }, 
+            beforeSend: function () {
+                $(".load-form").removeClass("d-none");
+                $(".btn-form").addClass("d-none");
+            }, 
+            success: function (data) {
+                $(".load-form").addClass("d-none");
+                $(".btn-form").removeClass("d-none");
+                avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${baseUrl}finContasPagar`);
+            }
+        });
+    }
+};
+
 
 $(document).on('click', '.novo-lancamento', function () {
 
@@ -467,6 +507,120 @@ $(document).on('click', '.btn-pagar-tudo', function () {
 
 });
 
+// constas recorrentes
+$(document).on('click', '.btn-proxima-etapa-lancamento', function () {
+
+    $('.check-element').prop('checked', false);
+    $('.check-all-element').prop('checked', false);
+
+    $('.btn-excluir-contas').addClass('d-none');
+    $('.btn-pagar-tudo').addClass('d-none');
+
+    let permissao = verificaCamposObrigatorios('select-tipo-conta');
+
+    if (permissao) {
+        if ($('.select-tipo-conta').val() == "comum") {
+
+            $('#modalLancamentoContasPagar').modal('show');
+
+        } else {
+
+            $('#modalSelecionarContasPagarRecorrentes').modal('show');
+
+        }
+    }
+})
+
+
+$(document).on('click', '.btn-proxima-etapa-recorrente', function () {
+
+    let idsAgrupados = agruparIdsCheckbox();
+
+    let camposContas = '';
+
+
+    if (idsAgrupados.length > 0) {
+
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}finContasRecorrentes/recebeVariasContasRecorrentes`,
+            data: {
+                idsContas: idsAgrupados
+            }, beforeSend: function () {
+                $(".load-form").removeClass("d-none");
+                $(".btn-form").addClass("d-none");
+            }, success: function (data) {
+
+                let dataAtual = new Date();
+                let mesAtual = (dataAtual.getMonth() + 1).toString().padStart(2, '0');
+                let anoAtual = dataAtual.getFullYear();
+
+
+                $('#modalSelecionarContasPagarRecorrentes').modal('hide');
+
+                $('#modalLancamentoContasPagarRecorrentes').modal('show');
+
+
+                $(".load-form").addClass("d-none");
+                $(".btn-form").removeClass("d-none");
+
+                for (i = 0; i < data.contas.length; i++) {
+                    camposContas += `
+                        <div class="col-12 ${i > 0 ? 'mt-5' : ''}">${data.contas[i].RECEBIDO}</div>
+                        <div class="col-12 col-md-6 mt-3"> 
+                            <input class="form-control input-obrigatorio-recorrente datetimepicker cursor-pointer" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' value="${data.contas[i].dia_pagamento}/${mesAtual}/${anoAtual}" name="data_vencimento"/>
+                            <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                        </div>
+
+                        <div class="col-12 col-md-6 mt-3">
+                            <input class="form-control input-obrigatorio-recorrente mascara-dinheiro" name="valor" type="text" placeholder="Valor" />
+                            <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                        </div>
+
+                        <input type="hidden" class="aviso-obrigatorio" name="recebido" value="${data.contas[i].ID_RECEBIDO}">
+                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                        <input type="hidden" class="aviso-obrigatorio" name="nome-recebido" value="${data.contas[i].RECEBIDO}">
+                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                        <input type="hidden" class="aviso-obrigatorio" name="micros" value="${data.contas[i].ID_MICRO}">
+                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                        <input type="hidden" class="aviso-obrigatorio" name="macros" value="${data.contas[i].id_macro}">
+                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                    `;
+                }
+
+                $('.lista-contas-recorrentes').html(camposContas);
+
+                $('.datetimepicker').flatpickr({
+                    dateFormat: "d/m/Y",
+                    disableMobile: true
+                });
+
+                $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
+
+
+            }
+        })
+    }
+})
+
+// Clique para selecionar todos as contas recorrentes
+$(document).on('change', '.modal-dialog .check-all-modal-element', function () {
+    let estaChecado = $(this).prop('checked');
+    $('.check-element-modal').prop('checked', estaChecado);
+    atualizarElementosChecados('.check-element-modal');
+});
+
+// Clique para selecionar um por um
+$(document).on('change', '.check-element-modal', function () {
+    atualizarElementosChecados('.check-element-modal');
+    verificarTodosCheckboxes('.check-element-modal', '.check-all-modal-element');
+});
+
+
 $(document).on('click', '.proxima-etapa-pagamento', function () {
 
     let permissao = verificaCamposObrigatorios('input-obrigatorio-inicio');
@@ -691,7 +845,7 @@ const deletaContaPagar = (idConta) => {
 
     let idsAgrupados = agruparIdsCheckbox();
 
-    if(idsAgrupados.length >= 2) {
+    if (idsAgrupados.length >= 2) {
         var ids = idsAgrupados;
     } else {
         var ids = [idConta];

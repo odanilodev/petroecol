@@ -122,6 +122,10 @@ class FinContasPagar extends CI_Controller
 
 		$data['porSetor'] = $this->findadosfinanceiros->somaSaldosBancariosSetor($setorEmpresa); // soma o valor total do setor específico
 
+		// contas recorrentes
+		$this->load->model('FinContasRecorrentes_model');
+		$data['contasRecorrentes'] = $this->FinContasRecorrentes_model->recebeContasRecorrentes();
+
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/financeiro/contas-pagar');
 		$this->load->view('admin/includes/painel/rodape');
@@ -155,6 +159,53 @@ class FinContasPagar extends CI_Controller
 			// para o loop se der erro em alguma
 			if ($i == 0 && !$retorno) {
 				$success = false;
+			}
+		}
+
+		if ($success) {
+			$response = array(
+				'success' => true,
+				'title' => "Sucesso!",
+				'message' => "Contas inseridas com sucesso!",
+				'type' => "success"
+			);
+		} else {
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Falha ao inserir contas recebidas. Por favor, tente novamente.",
+				'type' => "error"
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function cadastraMultiplasContasPagar()
+	{
+		$dadosLancamento = $this->input->post('dados');
+
+		$data['id_empresa'] = $this->session->userdata('id_empresa');
+
+		$success = true;
+
+		for ($i = 0; $i < count($dadosLancamento['data_vencimento']); $i++) {
+
+			$data['data_vencimento'] = $dadosLancamento['data_vencimento'][$i];
+			$data['id_dado_financeiro'] = $dadosLancamento['recebido'][$i];
+			$data['valor'] = str_replace(['.', ','], ['', '.'], $dadosLancamento['valor'][$i]);
+			$data['id_micro'] = $dadosLancamento['micros'][$i];
+			$data['id_macro'] = $dadosLancamento['macros'][$i];
+			$data['nome'] = $dadosLancamento['nome-recebido'][$i];
+			$data['id_setor_empresa'] = 3;
+			$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'][$i])));
+
+			$retorno = $this->FinContasPagar_model->insereConta($data);
+
+			// para o loop se der erro em alguma
+			if (!$retorno) {
+				$success = false;
+				break; // interrompe o loop se ocorrer um erro
 			}
 		}
 
