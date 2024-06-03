@@ -7134,6 +7134,8 @@ $(document).on('click', '.altera-texto-tema', function () {
     $('.icone-minusculo').removeClass('d-none');
     $('.icone-maiusculo').addClass('d-none');
     $('#body').css('text-transform', 'none');
+    $('button').css('text-transform', 'none');
+    
 
     $('#alteraFontes').val('lowercase');
     setCookie('fonte', 'lowercase');
@@ -7205,56 +7207,55 @@ $(document).ready(function () {
   });
 });
 
-$(document).ready(function () {
 
-  let elementosChecados = [];
+let elementosChecados = [];
 
-  // Atualiza o array de elementos checados e a visibilidade dos botões
-  function atualizarElementosChecados() {
-    elementosChecados = $('.check-element:checked').map(function () {
-      return $(this).val();
-    }).get();
-    
-    $('.emails-clientes-selecionados').val(elementosChecados);
-    todosIdsSelecionados(elementosChecados);
+// Atualiza o array de elementos checados e a visibilidade dos botões
+function atualizarElementosChecados(elemento) {
+  elementosChecados = $(`${elemento}:checked`).map(function () {
+    return $(this).val();
+  }).get();
+  
+  $('.emails-clientes-selecionados').val(elementosChecados);
+  todosIdsSelecionados(elementosChecados);
 
-    let totalChecados = elementosChecados.length;
-    let totalAbertosChecados = $('.check-aberto:checked').length;
+  let totalChecados = elementosChecados.length;
+  let totalAbertosChecados = $('.check-aberto:checked').length;
 
-    let mostrarExcluirTudo = totalChecados > 1;
-    let mostrarPagarTudo = totalAbertosChecados > 1;
+  let mostrarExcluirTudo = totalChecados > 1;
+  let mostrarPagarTudo = totalAbertosChecados > 1;
 
-    $('.btn-excluir-tudo').toggleClass('d-none', !mostrarExcluirTudo);
-    $('.btn-pagar-tudo').toggleClass('d-none', !mostrarPagarTudo);
-    $('.btn-excluir-contas').toggleClass('d-none', !mostrarPagarTudo);
-  }
+  $('.btn-excluir-tudo').toggleClass('d-none', !mostrarExcluirTudo);
+  $('.btn-pagar-tudo').toggleClass('d-none', !mostrarPagarTudo);
+  $('.btn-excluir-contas').toggleClass('d-none', !mostrarPagarTudo);
+}
 
-  // Verifica se todos os checkboxes individuais estão marcados
-  function verificarTodosCheckboxes() {
-    let todosChecados = $('.check-element').length === $('.check-element:checked').length && $('.check-element').length > 1;
-    $('.check-all-element').prop('checked', todosChecados);
-  }
+// Verifica se todos os checkboxes individuais estão marcados
+function verificarTodosCheckboxes(elemento, checkTodos) {
+  let todosChecados = $(elemento).length === $(`${elemento}:checked`).length && $(elemento).length > 1;
+  $(checkTodos).prop('checked', todosChecados);
+}
 
-  // Clique para selecionar todos os checkboxes
-  $(document).on('change', '.check-all-element', function () {
-    let estaChecado = $(this).prop('checked');
-    $('.check-element').prop('checked', estaChecado);
-    atualizarElementosChecados();
-  });
-
-  // Clique para selecionar um por um
-  $(document).on('change', '.check-element', function () {
-    atualizarElementosChecados();
-    verificarTodosCheckboxes();
-  });
-
-  // Verifica os checkboxes quando carrega a página
-  $(window).on('load', function () {
-    verificarTodosCheckboxes();
-    atualizarElementosChecados();
-  });
-
+// Clique para selecionar todos os checkboxes
+$(document).on('change', '.check-all-element', function () {
+  let estaChecado = $(this).prop('checked');
+  $('.check-element').prop('checked', estaChecado);
+  atualizarElementosChecados('.check-element');
 });
+
+// Clique para selecionar um por um
+$(document).on('change', '.check-element', function () {
+  atualizarElementosChecados('.check-element');
+  verificarTodosCheckboxes('.check-element', '.check-all-element');
+});
+
+// Verifica os checkboxes quando carrega a página
+$(window).on('load', function () {
+  verificarTodosCheckboxes('.check-element', '.check-all-element');
+  atualizarElementosChecados('.check-element');
+});
+
+
 
 // Salva todos os IDs selecionados para fazer a busca no modal de romaneio e manter os clientes selecionados
 function todosIdsSelecionados(ids) {

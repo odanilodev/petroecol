@@ -115,7 +115,7 @@
 
                         <div class="col-auto">
 
-                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento" type="button" data-bs-toggle="modal" data-bs-target="#modalLancamentoContasPagar">Lançamento</button>
+                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento" type="button" data-bs-toggle="modal" data-bs-target="#modalTipoContasPagar">Lançamento</button>
 
                         </div>
 
@@ -425,7 +425,59 @@
         </div>
     </div>
 
-    <!-- Modal Lançamento Contas a Pagar -->
+    <!-- Modal escolher tipo de lançamento Contas a Pagar -->
+
+    <div class="modal fade" tabindex="-1" id="modalTipoContasPagar">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Novo Lançamento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body body-coleta">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="col-sm-12 col-xxl-12 py-3">
+                                        <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+
+                                            <div class="col-lg-12">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Tipo de conta</label>
+                                                    <select class="form-select select-tipo-conta" name="tipo-conta">
+                                                        <option selected disabled value="">Selecione</option>
+                                                        <option value="comum">Comum</option>
+                                                        <option value="recorrente">Recorrente</option>
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+                    <button class="btn btn-info btn-form btn-proxima-etapa-lancamento" type="button">Próxima Etapa</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Lançamento Contas a Pagar Comum -->
 
     <div class="modal fade" tabindex="-1" id="modalLancamentoContasPagar">
         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -461,7 +513,7 @@
 
                                             <div class="col-lg-6">
 
-                                                <div class="mb-4">
+                                                <div class="mb-4 div-select-macro">
                                                     <label class="text-body-highlight fw-bold mb-2">Grupos
                                                         Macros</label>
                                                     <select class="form-select select2 select-macros input-obrigatorio dados-conta" name="macros">
@@ -478,7 +530,7 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <div class="mb-4 ">
+                                                <div class="mb-4 div-select-micro">
                                                     <label class="text-body-highlight fw-bold mb-2 ">Grupos
                                                         Micros</label>
                                                     <select disabled class="form-select select2 select-micros input-obrigatorio dados-conta" name="micros">
@@ -608,8 +660,129 @@
 
                 <div class="modal-footer">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Voltar</button>
                     <button class="btn btn-success btn-form" type="button" onclick="cadastraContasPagar('form-entrada-pagar')">Salvar</button>
-                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Contas a Pagar Recorrentes -->
+
+    <div class="modal fade" tabindex="-1" id="modalSelecionarContasPagarRecorrentes">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Selecione as contas recorrentes</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body body-coleta">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="col-sm-12 col-xxl-12 py-3">
+                                        <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+                                            <div class="table-responsive mx-n1 px-1 scrollbar">
+                                                <table class="table fs--1 mb-0 border-top border-200">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="white-space-nowrap fs--1 ps-0 align-middle">
+                                                                <div class="form-check mb-0 fs-0">
+                                                                    <input class="form-check-input check-all-modal-element cursor-pointer" id="checkbox-bulk-reviews-select" type="checkbox" />
+                                                                </div>
+                                                            </th>
+                                                            <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Credor</th>
+                                                            <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Micro</th>
+                                                            <th class="sort text-start ps-5 align-middle text-center" scope="col" data-sort="td_status_pgto">Dia do Pagamento</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="list" id="table-latest-review-body">
+
+                                                        <?php foreach ($contasRecorrentes as $contaRecorrente) { ?>
+                                                            <tr class="hover-actions-trigger btn-reveal-trigger position-static tr-pagamento">
+
+                                                                <td class="fs--1 align-middle ps-0">
+                                                                    <div class="form-check mb-0 fs-0">
+                                                                        <input class="form-check-input check-element-modal check-element cursor-pointer" type="checkbox" value="<?= $contaRecorrente['id'] ?>" />
+                                                                    </div>
+                                                                </td>
+
+                                                                <td class="align-middle product white-space-nowrap td_vencimento text-center">
+                                                                    <h6 class="mb-0 text-900">
+                                                                        <?= $contaRecorrente['RECEBIDO'] ?>
+                                                                    </h6>
+                                                                </td>
+
+                                                                <td class="align-middle product white-space-nowrap td_vencimento text-center">
+                                                                    <h6 class="mb-0 text-900">
+                                                                        <?= $contaRecorrente['MICRO'] ?>
+                                                                    </h6>
+                                                                </td>
+
+                                                                <td class="align-middle rating white-space-nowrap fs--2 td_valor text-center">
+                                                                    <h6 class="mb-0 text-900">
+                                                                        <?= $contaRecorrente['dia_pagamento']; ?>
+                                                                    </h6>
+                                                                </td>
+                                                                
+                                                            </tr>
+
+                                                        <?php } ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Voltar</button>
+                    <button class="btn btn-info btn-form btn-proxima-etapa-recorrente" type="button">Próxima etapa</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" id="modalLancamentoContasPagarRecorrentes">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Novo Lançamento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body body-coleta">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="col-sm-12 col-xxl-12 py-3">
+                                        <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0 lista-contas-recorrentes form-entrada-pagar-recorrentes">
+                                           <!-- JS -->
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Voltar</button>
+                    <button class="btn btn-success btn-form" type="button" onclick="cadastraMultiplasContasPagar('form-entrada-pagar-recorrentes')">Salvar</button>
 
                 </div>
             </div>
@@ -701,7 +874,7 @@
                 <div class="modal-footer">
                     <input type="hidden" class="id-editar-conta">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
-                    <button class="btn btn-success btn-form" type="button" onclick="cadastraContasPagar('form-editar-pagar')">Salvar</button>
+                    <button class="btn btn-success btn-form" type="button" onclick="cadastraMultiplasContasPagar('form-editar-pagar')">Salvar</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
                 </div>

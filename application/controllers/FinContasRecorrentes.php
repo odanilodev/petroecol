@@ -45,8 +45,6 @@ class FinContasRecorrentes extends CI_Controller
 
 		$data['contasRecorrentes'] = $this->FinContasRecorrentes_model->recebeContasRecorrentes();
 
-		// echo "<pre>"; print_r($data['contasRecorrentes']); exit;
-
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/financeiro/contas-recorrentes');
 		$this->load->view('admin/includes/painel/rodape');
@@ -80,25 +78,6 @@ class FinContasRecorrentes extends CI_Controller
 			);
 		}
 
-		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-	}
-
-	public function recebeTodosClientesAll()
-	{
-		$this->load->model('Clientes_model');
-		$todosClientes = $this->Clientes_model->recebeTodosClientesAll();
-
-		if ($todosClientes) {
-
-			$response = array(
-				'clientes' => $todosClientes,
-				'success' => true
-			);
-		} else {
-			$response = array(
-				'success' => false
-			);
-		}
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
@@ -143,4 +122,29 @@ class FinContasRecorrentes extends CI_Controller
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
+	public function recebeVariasContasRecorrentes()
+	{
+		$idContasContas = $this->input->post('idsContas');
+
+		$retorno = $this->FinContasRecorrentes_model->recebeVariasContasRecorrentes($idContasContas);
+
+		if ($retorno) {
+			$response = array(
+				'success' => true,
+				'contas' => $retorno
+			);
+		} else {
+
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Não foi possivel deletar a conta!",
+				'type' => "error"
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+	
 }
