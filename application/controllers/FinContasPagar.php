@@ -197,7 +197,7 @@ class FinContasPagar extends CI_Controller
 			$data['id_micro'] = $dadosLancamento['micros'][$i];
 			$data['id_macro'] = $dadosLancamento['macros'][$i];
 			$data['nome'] = $dadosLancamento['nome-recebido'][$i];
-			$data['id_setor_empresa'] = $dadosLancamento['id-setor'][$i];
+			$data['id_setor_empresa'] = 3;
 			$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'][$i])));
 
 			$retorno = $this->FinContasPagar_model->insereConta($data);
