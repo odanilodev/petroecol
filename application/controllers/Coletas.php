@@ -24,38 +24,6 @@ class Coletas extends CI_Controller
         // FIM controle sessão
         $this->load->model('Coletas_model');
     }
-    public function apagarDepois()
-    {
-        $this->load->library('ResiduosOrdenados');
-        $coletas = $this->Coletas_model->recebeColetas();
-
-        foreach ($coletas as $coleta) {
-            $id = $coleta['id'];
-
-            if ($coleta['coletado'] == 1) {
-                //Se a coleta ocorreu iremos ordenar os residuos com a library
-                $residuoColetado = json_decode($coleta['residuos_coletados'], true);
-                $quantidadeColetada = json_decode($coleta['quantidade_coletada'], true);
-
-                if (json_last_error() !== JSON_ERROR_NONE) {
-                    continue;
-                }
-                //Para ordenar residuos é necessário que seja um array, caso contrário não existe ordenação a ser realizada
-                if (is_array($residuoColetado) && is_array($quantidadeColetada)) {
-                    //utilizamos a library passando os dois parâmetros
-                    $residuoOrdenado = $this->residuosordenados->ordenarResiduos($residuoColetado, $quantidadeColetada);
-
-                    //Se tratando de um json, damos encode e editamos a tabela em questão
-                    $dados['residuos_coletados'] = json_encode($residuoOrdenado['id_residuo']);
-                    $dados['quantidade_coletada'] = json_encode($residuoOrdenado['qtd_residuo']);
-
-                    $this->Coletas_model->editaColeta($id, $dados);
-                } else {
-                    continue;
-                }
-            }
-        }
-    }
 
     public function cadastraColeta()
     {
