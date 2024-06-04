@@ -202,6 +202,8 @@ class Clientes extends CI_Controller
         $this->load->model('SetoresEmpresaCliente_model');
         $data['setoresEmpresaCliente'] = $this->SetoresEmpresaCliente_model->recebeSetoresEmpresaClientes();
 
+        $data['setoresEmpresaClienteInd'] = $this->SetoresEmpresaCliente_model->recebeSetoresEmpresaCliente($id);
+
         if (!empty($data['setoresEmpresaCliente'])) {
             $nomesSetores = array_column($data['setoresEmpresaCliente'], 'nome');
             $data['nomesSetores'] = implode(', ', $nomesSetores);

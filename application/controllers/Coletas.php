@@ -51,8 +51,13 @@ class Coletas extends CI_Controller
                     'quantidade_coletada' => json_encode($cliente['qtdColetado'] ?? ""),
                     'valor_pago' => json_encode($cliente['valor'] ?? ""),
                     'data_coleta' => $dataRomaneio,
+                    'id_setor_empresa' => $idSetorEmpresa,
                     'id_empresa' => $this->session->userdata('id_empresa'),
                 );
+
+                if (isset($cliente['idSetorEmpresa'])) {
+                    $dados['id_setor_empresa'] = $cliente['idSetorEmpresa'];
+                }
 
                 if (isset($codRomaneio)) {
                     $dados['cod_romaneio'] = $codRomaneio;

@@ -806,6 +806,7 @@ const cadastraColetaCliente = (idCliente) => {
     let permissao = verificaCamposObrigatorios('obrigatorio-coleta');
 
     let idResponsavel = $('.select-responsavel').val();
+    let setorEmpresa = $('.select-setor-empresa').val();
     let dataColeta = $('.data-coleta-cadastrar').val().split('/');
     let dataColetaFormatada = `${dataColeta[2]}-${dataColeta[1]}-${dataColeta[0]}`;
 
@@ -853,6 +854,7 @@ const cadastraColetaCliente = (idCliente) => {
 
     let dadosCliente = {
         idCliente: idCliente,
+        idSetorEmpresa: setorEmpresa,
         residuos: residuosSelecionados,
         qtdColetado: qtdResiduos,
         pagamento: formaPagamentoSelecionados,
