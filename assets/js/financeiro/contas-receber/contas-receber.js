@@ -133,14 +133,15 @@ $(document).on('click', '.editar-lancamento', function () {
             let dataVencimento = data['conta'].data_vencimento.split('-');
             dataVencimento = dataVencimento[2] + '/' + dataVencimento[1] + '/' + dataVencimento[0];
             $('.input-data-vencimento').val(dataVencimento);
-
+            
             let dataEmissao = data['conta'].data_emissao.split('-');
             dataEmissao = dataEmissao[2] + '/' + dataEmissao[1] + '/' + dataEmissao[0];
-
+            
             $('.input-data-emissao').val(dataEmissao);
-
+            
             $('.input-observacao').text(data['conta'].observacao);
-
+            
+            $('.select-setor-empresa').val(data['conta'].id_setor_empresa).trigger('change');
         }
     })
 
@@ -308,6 +309,11 @@ const receberConta = () => {
                 $('#modalReceberConta').modal('hide');
 
                 // atualiza o front
+
+                $(`.btn-editar-${idConta}`).remove();
+                $(`.btn-excluir-${idConta}`).remove();
+                $(`.btn-receber-pagamento-${idConta}`).remove();
+
                 $(`.status-pagamento-table-${idConta}`).removeClass('cursor-pointer');
                 $(`.status-pagamento-table-${idConta}`).removeAttr('data-bs-target');
                 $(`.valor-recebido-${idConta}`).html(valorTotalFormatado);
@@ -328,6 +334,11 @@ const receberConta = () => {
     })
 }
 
+$('.select-setor').on('change',function(){
+
+    $('#nomeSetor').val($(this).find('option:selected').text());
+
+});
 
 const atualizaFrontDadosFinanceiro = () => {
 
@@ -341,6 +352,8 @@ const atualizaFrontDadosFinanceiro = () => {
     let totalAbertoFront = $('.total-aberto-front').html(); 
     let totalAberto = formatarValorMoeda(totalAbertoFront);
 
+    let valorSetorFront = $('.total-setor-front').html();
+    valorSetorFront = formatarValorMoeda(valorSetorFront);
 
     let valorTotalRecebidoCompleto = $('.valor-total-conta').html().replace('R$', ''); // uso pra fazer conta e exibir o total a receber
     valorTotalRecebidoCompleto = formatarValorMoeda(valorTotalRecebidoCompleto);
@@ -353,9 +366,13 @@ const atualizaFrontDadosFinanceiro = () => {
 
     let totalRecebidoAtualizado = totalRecebido + valorTotalRecebido;
 
+    let valorSetorFrontAtualizado = valorSetorFront - totalAbertoFront;
+
     let totalCaixaAtualizado = totalCaixa + valorTotalRecebido;
     
     let totalAbertoAtualizado = totalAberto - valorTotalRecebidoCompleto;
+
+    let valorSetorFrontAtualizadoFormatado = formatarValorExibicao(valorSetorFrontAtualizado);
     
     // Formatar os valores para exibição
     function formatarValorExibicao (valor) {
@@ -369,7 +386,8 @@ const atualizaFrontDadosFinanceiro = () => {
     // Atualiza os valores no front
     $('.total-recebido-front').html(totalRecebidoAtualizadoFormatado); 
     $('.total-caixa-front').html(totalCaixaAtualizadoFormatado); 
-    $('.total-aberto-front').html(totalAbertoAtualizadoFormatado < 0 ? '0,00' : totalAbertoAtualizadoFormatado); 
+    $('.total-aberto-front').html(totalAbertoAtualizadoFormatado < 0 ? '0,00' : totalAbertoAtualizadoFormatado);
+    $('.total-setor-front').html(valorSetorFrontAtualizadoFormatado < 0 ? '0,00' : valorSetorFrontAtualizadoFormatado); 
 };
 
 
@@ -400,6 +418,7 @@ const visualizarConta = (idConta) => {
             let valorRecebido = formatarValorExibicao(parseFloat(data['conta'].valor_recebido));
 
             $('.nome-empresa').html(data['conta'].RECEBIDO);
+            $('.setor-empresa').html(data['conta'].SETOR);
             $('.data-vencimento').html(dataVencimento);
             $('.data-emissao').html(dataEmissao);
             $('.valor-conta').html(valorConta);

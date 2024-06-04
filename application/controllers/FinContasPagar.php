@@ -59,6 +59,7 @@ class FinContasPagar extends CI_Controller
 
 		$data['dataInicio'] = $this->input->post('data_inicio');
 		$data['dataFim'] = $this->input->post('data_fim');
+		$data['nomeSaldoSetor'] = $this->input->post('nomeSetor');
 
 		// Verifica se o tipo de movimentação foi recebido via POST
 		$statusConta = $this->input->post('status');
@@ -68,7 +69,18 @@ class FinContasPagar extends CI_Controller
 			$statusConta = 'ambas';
 		}
 
+		$setorEmpresa = $this->input->post('setor');
+
+		if ($setorEmpresa === null || $setorEmpresa === '') {
+			$setorEmpresa = 'todos';
+		}
+
+		// Setores Empresa 
+		$this->load->model('SetoresEmpresa_model');
+		$data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
+
 		$data['status'] = $statusConta;
+		$data['idSetor'] = $setorEmpresa;
 
 		$this->load->model('FinMacro_model');
 		$data['macros'] = $this->FinMacro_model->recebeMacros();
@@ -84,14 +96,35 @@ class FinContasPagar extends CI_Controller
 		$data['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
 		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
 
-		$data['contasPagar'] = $this->FinContasPagar_model->recebeContasPagar($dataInicioFormatada, $dataFimFormatada, $statusConta);
+		$data['contasPagar'] = $this->FinContasPagar_model->recebeContasPagar($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa);
 
 		$this->load->library('finDadosFinanceiros');
 
 		$data['saldoTotal'] = $this->findadosfinanceiros->somaSaldosBancarios();
 
-		$data['totalPago'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 1, $dataInicioFormatada, $dataFimFormatada); // soma o valor total pago
-		$data['emAberto'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 0, $dataInicioFormatada, $dataFimFormatada); // soma o valor total em aberto
+
+		if ($statusConta == '1' || $statusConta == 'ambas') {
+
+			$data['totalPago'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 1, $dataInicioFormatada, $dataFimFormatada, $setorEmpresa); // soma o valor total pago
+
+		} else {
+			$data['totalPago']['valor'] = '00';
+			
+		}
+
+		if ($statusConta == '0' || $statusConta == 'ambas') {
+
+			$data['emAberto'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 0, $dataInicioFormatada, $dataFimFormatada, $setorEmpresa); // soma o valor total em aberto
+
+		} else {
+			$data['emAberto']['valor'] = '00';
+		}
+
+		$data['porSetor'] = $this->findadosfinanceiros->somaSaldosBancariosSetor($setorEmpresa); // soma o valor total do setor específico
+
+		// contas recorrentes
+		$this->load->model('FinContasRecorrentes_model');
+		$data['contasRecorrentes'] = $this->FinContasRecorrentes_model->recebeContasRecorrentes();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/financeiro/contas-pagar');
@@ -108,6 +141,7 @@ class FinContasPagar extends CI_Controller
 		$data['id_micro'] = $dadosLancamento['micros'];
 		$data['id_macro'] = $dadosLancamento['macros'];
 		$data['nome'] = $dadosLancamento['nome-recebido'];
+		$data['id_setor_empresa'] = $dadosLancamento['setor'];
 		$data['observacao'] = $dadosLancamento['observacao'];
 		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
 		$data['data_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao'])));
@@ -147,6 +181,53 @@ class FinContasPagar extends CI_Controller
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
+	public function cadastraMultiplasContasPagar()
+	{
+		$dadosLancamento = $this->input->post('dados');
+
+		$data['id_empresa'] = $this->session->userdata('id_empresa');
+
+		$success = true;
+
+		for ($i = 0; $i < count($dadosLancamento['data_vencimento']); $i++) {
+
+			$data['data_vencimento'] = $dadosLancamento['data_vencimento'][$i];
+			$data['id_dado_financeiro'] = $dadosLancamento['recebido'][$i];
+			$data['valor'] = str_replace(['.', ','], ['', '.'], $dadosLancamento['valor'][$i]);
+			$data['id_micro'] = $dadosLancamento['micros'][$i];
+			$data['id_macro'] = $dadosLancamento['macros'][$i];
+			$data['nome'] = $dadosLancamento['nome-recebido'][$i];
+			$data['id_setor_empresa'] = $dadosLancamento['setor'][$i];
+			$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'][$i])));
+
+			$retorno = $this->FinContasPagar_model->insereConta($data);
+
+			// para o loop se der erro em alguma
+			if (!$retorno) {
+				$success = false;
+				break; // interrompe o loop se ocorrer um erro
+			}
+		}
+
+		if ($success) {
+			$response = array(
+				'success' => true,
+				'title' => "Sucesso!",
+				'message' => "Contas inseridas com sucesso!",
+				'type' => "success"
+			);
+		} else {
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Falha ao inserir contas recebidas. Por favor, tente novamente.",
+				'type' => "error"
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
 	public function editaConta()
 	{
 		$id = $this->input->post('idConta');
@@ -154,8 +235,10 @@ class FinContasPagar extends CI_Controller
 
 		$data['valor'] = str_replace(['.', ','], ['', '.'], $dadosLancamento['valor']);
 		$data['observacao'] = $dadosLancamento['observacao'];
+		$data['id_setor_empresa'] = $dadosLancamento['setor'];
 		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
 		$data['data_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao'])));
+
 
 		$retorno = $this->FinContasPagar_model->editaConta($id, $data);
 
@@ -410,15 +493,15 @@ class FinContasPagar extends CI_Controller
 
 	public function deletarConta()
 	{
-		$idConta = $this->input->post('idConta');
+		$idsContas = $this->input->post('ids');
 
-		$retorno = $this->FinContasPagar_model->deletaConta($idConta);
+		$retorno = $this->FinContasPagar_model->deletaConta($idsContas);
 
 		if ($retorno) {
 			$response = array(
 				'success' => true,
 				'title' => "Sucesso!",
-				'message' => "Conta deletada com sucesso!",
+				'message' => "Conta(s) deletada(s) com sucesso!",
 				'type' => "success"
 			);
 		} else {
@@ -426,7 +509,7 @@ class FinContasPagar extends CI_Controller
 			$response = array(
 				'success' => false,
 				'title' => "Algo deu errado!",
-				'message' => "Não foi possivel deletar a conta!",
+				'message' => "Não foi possivel deletar a(s) conta(s)!",
 				'type' => "error"
 			);
 		}

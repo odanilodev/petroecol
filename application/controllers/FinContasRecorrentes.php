@@ -45,7 +45,9 @@ class FinContasRecorrentes extends CI_Controller
 
 		$data['contasRecorrentes'] = $this->FinContasRecorrentes_model->recebeContasRecorrentes();
 
-		// echo "<pre>"; print_r($data['contasRecorrentes']); exit;
+		// Setores Empresa 
+		$this->load->model('SetoresEmpresa_model');
+		$data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/financeiro/contas-recorrentes');
@@ -61,6 +63,7 @@ class FinContasRecorrentes extends CI_Controller
 		$data['id_empresa'] = $this->session->userdata('id_empresa');
 		$data['id_micro'] = $dadosLancamento['id_micro'];
 		$data['dia_pagamento'] = $dadosLancamento['dia_pagamento'];
+		$data['id_setor_empresa'] = $dadosLancamento['setor'];
 
 		$retorno = $idConta ? $this->FinContasRecorrentes_model->editaConta($idConta, $data) : $this->FinContasRecorrentes_model->insereConta($data);
 
@@ -80,25 +83,6 @@ class FinContasRecorrentes extends CI_Controller
 			);
 		}
 
-		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-	}
-
-	public function recebeTodosClientesAll()
-	{
-		$this->load->model('Clientes_model');
-		$todosClientes = $this->Clientes_model->recebeTodosClientesAll();
-
-		if ($todosClientes) {
-
-			$response = array(
-				'clientes' => $todosClientes,
-				'success' => true
-			);
-		} else {
-			$response = array(
-				'success' => false
-			);
-		}
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
@@ -143,4 +127,29 @@ class FinContasRecorrentes extends CI_Controller
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
+	public function recebeVariasContasRecorrentes()
+	{
+		$idContasContas = $this->input->post('idsContas');
+
+		$retorno = $this->FinContasRecorrentes_model->recebeVariasContasRecorrentes($idContasContas);
+
+		if ($retorno) {
+			$response = array(
+				'success' => true,
+				'contas' => $retorno
+			);
+		} else {
+
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Não foi possivel deletar a conta!",
+				'type' => "error"
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+	
 }

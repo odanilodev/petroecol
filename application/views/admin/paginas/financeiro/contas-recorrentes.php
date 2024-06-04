@@ -64,10 +64,10 @@
                                     <div class="font-sans-serif btn-reveal-trigger position-static">
                                         <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2"></span></button>
                                         <div class="dropdown-menu dropdown-menu-end py-2">
-                                            <a class="dropdown-item" href="#" onclick="visualizarConta(<?= $contaRecorrente['ID_CONTA']?>)" data-bs-toggle="modal" data-bs-target="#modalNovaContaRecorrente">
+                                            <a class="dropdown-item" href="#" onclick="visualizarConta(<?= $contaRecorrente['ID_CONTA'] ?>)" data-bs-toggle="modal" data-bs-target="#modalNovaContaRecorrente">
                                                 <span class="fas fa-pencil"></span> Editar
                                             </a>
-                                            <a class="dropdown-item" href="#" onclick="deletarConta(<?= $contaRecorrente['ID_CONTA']?>)">
+                                            <a class="dropdown-item" href="#" onclick="deletarConta(<?= $contaRecorrente['ID_CONTA'] ?>)">
                                                 <span class="fas fa-trash"></span> Excluir
                                             </a>
                                         </div>
@@ -101,6 +101,20 @@
                                 <div class="col-12">
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+
+                                            <div class="col-12">
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Setor da Empresa</label>
+
+                                                    <select class="select-validation input-obrigatorio select-setor select2" required name="setor" id="setor">
+                                                        <option selected disabled>Selecione o setor</option>
+                                                        <?php foreach ($setoresEmpresa as $setor) { ?>
+                                                            <option value="<?= $setor['id'] ?>"><?= $setor['nome'] ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                </div>
+                                            </div>
 
                                             <div class="col-lg-4">
 

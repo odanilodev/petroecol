@@ -59,11 +59,11 @@ class FinContasReceber extends CI_Controller
 			// Converte as datas para o formato americano (Y-m-d)
 			$dataInicioFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataInicioFormatada)));
 			$dataFimFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataFimFormatada)));
-
 		}
 
 		$data['dataInicio'] = $this->input->post('data_inicio');
 		$data['dataFim'] = $this->input->post('data_fim');
+		$data['nomeSaldoSetor'] = $this->input->post('nomeSetor');
 
 		// Verifica se o tipo de movimentação foi recebido via POST
 		$statusConta = $this->input->post('status');
@@ -75,7 +75,17 @@ class FinContasReceber extends CI_Controller
 
 		$data['status'] = $statusConta;
 
+		$setorEmpresa = $this->input->post('setor');
 
+		if ($setorEmpresa === null || $setorEmpresa === '') {
+			$setorEmpresa = 'todos';
+		}
+
+		$data['idSetor'] = $setorEmpresa;
+
+		// Setores Empresa 
+		$this->load->model('SetoresEmpresa_model');
+		$data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
 
 		$this->load->model('FinMacro_model');
 		$data['macros'] = $this->FinMacro_model->recebeMacros();
@@ -84,7 +94,7 @@ class FinContasReceber extends CI_Controller
 
 		$data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
 		$data['dadosFinanceiro'] = $this->FinDadosFinanceiros_model->recebeDadosFinanceiros();
-		$data['contasReceber'] = $this->FinContasReceber_model->recebeContasReceber($dataInicioFormatada, $dataFimFormatada, $statusConta);
+		$data['contasReceber'] = $this->FinContasReceber_model->recebeContasReceber($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa);
 
 		$data['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
 		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
@@ -93,8 +103,22 @@ class FinContasReceber extends CI_Controller
 
 		$data['saldoTotal'] = $this->findadosfinanceiros->somaSaldosBancarios();
 
-		$data['totalRecebido'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor_recebido', 'fin_contas_receber', 1, $dataInicioFormatada, $dataFimFormatada); // soma o valor total recebido
-		$data['emAberto'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_receber', 0, $dataInicioFormatada, $dataFimFormatada); // soma o valor total em aberto
+		if ($statusConta == '1' || $statusConta == 'ambas') {
+			$data['totalRecebido'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor_recebido', 'fin_contas_receber', 1, $dataInicioFormatada, $dataFimFormatada, $setorEmpresa); // soma o valor total recebido
+
+		} else {
+			$data['totalRecebido']['valor_recebido'] = '00';
+		}
+
+		if ($statusConta == '0' || $statusConta == 'ambas') {
+
+			$data['emAberto'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_receber', 0, $dataInicioFormatada, $dataFimFormatada, $setorEmpresa); // soma o valor total a receber
+
+		} else {
+			$data['emAberto']['valor'] = '00';
+		}
+
+		$data['porSetor'] = $this->findadosfinanceiros->somaSaldosBancariosSetor($setorEmpresa); // soma o valor total do setor específico
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/financeiro/contas-receber');
@@ -113,6 +137,7 @@ class FinContasReceber extends CI_Controller
 		$data['id_macro'] = $dadosLancamento['macros'];
 		$data['id_micro'] = $dadosLancamento['micros'];
 		$data['observacao'] = $dadosLancamento['observacao'];
+		$data['id_setor_empresa'] = $dadosLancamento['setor'];
 		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
 		$data['data_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao'])));
 
@@ -150,8 +175,6 @@ class FinContasReceber extends CI_Controller
 		}
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-
-
 	}
 
 	public function receberConta()
@@ -203,7 +226,6 @@ class FinContasReceber extends CI_Controller
 			$dados['observacao'] = $obs;
 
 			$this->FinFluxo_model->insereFluxo($dados);
-
 		}
 
 		//Informacoes da a receber
@@ -222,7 +244,6 @@ class FinContasReceber extends CI_Controller
 		);
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-
 	}
 
 	public function recebeContaReceber()
@@ -254,6 +275,8 @@ class FinContasReceber extends CI_Controller
 		$data['observacao'] = $dadosLancamento['observacao'];
 		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
 		$data['data_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao'])));
+		$data['id_setor_empresa'] = $dadosLancamento['setor'];
+
 
 		$retorno = $this->FinContasReceber_model->editaConta($id, $data);
 
@@ -317,5 +340,4 @@ class FinContasReceber extends CI_Controller
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
-
 }

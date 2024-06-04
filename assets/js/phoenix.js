@@ -7134,6 +7134,8 @@ $(document).on('click', '.altera-texto-tema', function () {
     $('.icone-minusculo').removeClass('d-none');
     $('.icone-maiusculo').addClass('d-none');
     $('#body').css('text-transform', 'none');
+    $('button').css('text-transform', 'none');
+    
 
     $('#alteraFontes').val('lowercase');
     setCookie('fonte', 'lowercase');
@@ -7205,9 +7207,6 @@ $(document).ready(function () {
   });
 });
 
-
-
-$(document).ready(function () {
 
   let elementsChecked = [];
 
@@ -7306,7 +7305,6 @@ $(document).ready(function () {
     }
   }
 
-});
 
 // salva todos ids selected pra fazer a busca no modal de romaneio e manter os clientes selecionados
 function todosIdsSelecionados (ids) {

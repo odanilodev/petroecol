@@ -75,7 +75,7 @@ const cadastraContasPagar = (classe) => {
     let dadosFormulario = {};
     let permissao = true;
 
-    $(`.${classe}`).find(":input").each(function () {
+    $(`.${classe}`).find(":input").each(function (index) {
 
         dadosFormulario[$(this).attr('name')] = $(this).val();
 
@@ -136,6 +136,46 @@ const cadastraContasPagar = (classe) => {
     }
 }
 
+const cadastraMultiplasContasPagar = (classe) => {
+    let dadosFormulario = {};
+    let permissao = true;
+
+    $(`.${classe}`).find(":input").each(function (index) {
+        let inputName = $(this).attr('name');
+        let inputValue = $(this).val();
+
+        // Inicializa o campo como um array se não estiver definido
+        if (!dadosFormulario[inputName]) {
+            dadosFormulario[inputName] = [];
+        }
+
+        // Adiciona o valor ao array
+        dadosFormulario[inputName].push(inputValue);
+
+        permissao = verificaCamposObrigatorios('input-obrigatorio-recorrente');
+    });
+
+    if (permissao) {
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}finContasPagar/cadastraMultiplasContasPagar`,
+            data: {
+                dados: dadosFormulario
+            }, 
+            beforeSend: function () {
+                $(".load-form").removeClass("d-none");
+                $(".btn-form").addClass("d-none");
+            }, 
+            success: function (data) {
+                $(".load-form").addClass("d-none");
+                $(".btn-form").removeClass("d-none");
+                avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${baseUrl}finContasPagar`);
+            }
+        });
+    }
+};
+
+
 $(document).on('click', '.novo-lancamento', function () {
 
 
@@ -151,10 +191,7 @@ $(document).on('click', '.novo-lancamento', function () {
 
 $(document).on('click', '.editar-lancamento', function () {
 
-    $('.select2').select2({
-        dropdownParent: "#modalLancamentoContasPagar",
-        theme: "bootstrap-5",
-    });
+    carregaSelect2('select2', 'modalEditarContasPagar');
 
     $('.input-editar-valor').val($(this).data('valor'));
 
@@ -184,6 +221,8 @@ $(document).on('click', '.editar-lancamento', function () {
             $('.input-data-emissao').val(dataEmissao);
 
             $('.input-observacao').text(data['conta'].observacao);
+
+            $('.select-setor-empresa').val(data['conta'].id_setor_empresa).trigger('change');
 
         }
     })
@@ -361,6 +400,11 @@ const realizarPagamento = () => {
                     $('#modalPagarConta').modal('hide');
 
                     // atualiza o front
+
+                    $(`.btn-editar-${idConta}`).remove();
+                    $(`.btn-excluir-${idConta}`).remove();
+                    $(`.btn-realizar-pagamento-${idConta}`).remove();
+
                     $(`.status-pagamento-${idConta}`).removeClass('cursor-pointer');
                     $(`.status-pagamento-${idConta}`).removeAttr('data-bs-target');
                     $(`.valor-pago-${idConta}`).html(valorTotalFormatado);
@@ -386,6 +430,12 @@ function formatarValorExibicao(valor) {
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('R$', '');
 }
 
+$('.select-setor').on('change',function(){
+    
+    $('#nomeSetor').val($(this).find('option:selected').text());
+    
+});
+
 const atualizaFrontDadosFinanceiro = () => {
 
     let totalPagoFront = $('.total-pago-front').html();
@@ -394,9 +444,11 @@ const atualizaFrontDadosFinanceiro = () => {
     let totalCaixaFront = $('.total-caixa-front').html();
     let totalCaixa = formatarValorMoeda(totalCaixaFront);
 
-
     let totalAbertoFront = $('.total-aberto-front').html();
     let totalAberto = formatarValorMoeda(totalAbertoFront);
+
+    let valorSetorFront = $('.total-setor-front').html();
+    valorSetorFront = formatarValorMoeda(valorSetorFront);
 
     let valorTotalConta = $('.valor-total-conta').html().replace('R$', '');
     valorTotalConta = formatarValorMoeda(valorTotalConta);
@@ -413,14 +465,18 @@ const atualizaFrontDadosFinanceiro = () => {
 
     let totalAbertoAtualizado = totalAberto - valorTotalConta;
 
+    let valorSetorFrontAtualizado = valorSetorFront - valorTotalPago;
+
     let totalPagoAtualizadoFormatado = formatarValorExibicao(totalPagoAtualizado);
     let totalCaixaAtualizadoFormatado = formatarValorExibicao(totalCaixaAtualizado);
     let totalAbertoAtualizadoFormatado = formatarValorExibicao(totalAbertoAtualizado);
+    let valorSetorFrontAtualizadoFormatado = formatarValorExibicao(valorSetorFrontAtualizado);
 
     // Atualiza os valores no front
     $('.total-pago-front').html(totalPagoAtualizadoFormatado);
     $('.total-caixa-front').html(totalCaixaAtualizadoFormatado);
     $('.total-aberto-front').html(totalAbertoAtualizadoFormatado < 0 ? '0,00' : totalAbertoAtualizadoFormatado);
+    $('.total-setor-front').html(valorSetorFrontAtualizadoFormatado < 0 ? '0,00' : valorSetorFrontAtualizadoFormatado);
 };
 
 
@@ -450,6 +506,118 @@ $(document).on('click', '.btn-pagar-tudo', function () {
     valoresContasPagar();
 
 });
+
+// constas recorrentes
+$(document).on('click', '.btn-proxima-etapa-lancamento', function () {
+
+    $('.check-element').prop('checked', false);
+    $('.check-all-element').prop('checked', false);
+
+    $('.btn-excluir-contas').addClass('d-none');
+    $('.btn-pagar-tudo').addClass('d-none');
+
+    let permissao = verificaCamposObrigatorios('select-tipo-conta');
+
+    if (permissao) {
+        if ($('.select-tipo-conta').val() == "comum") {
+
+            $('#modalLancamentoContasPagar').modal('show');
+
+        } else {
+
+            $('#modalSelecionarContasPagarRecorrentes').modal('show');
+
+        }
+    }
+})
+
+
+$(document).on('click', '.btn-proxima-etapa-recorrente', function () {
+
+    let idsAgrupados = agruparIdsCheckbox();
+
+    let camposContas = '';
+
+
+    if (idsAgrupados.length > 0) {
+
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}finContasRecorrentes/recebeVariasContasRecorrentes`,
+            data: {
+                idsContas: idsAgrupados
+            }, beforeSend: function () {
+                $(".load-form").removeClass("d-none");
+                $(".btn-form").addClass("d-none");
+            }, success: function (data) {
+
+                let dataAtual = new Date();
+                let mesAtual = (dataAtual.getMonth());
+
+                let anoAtual = dataAtual.getFullYear();
+
+                $('#modalSelecionarContasPagarRecorrentes').modal('hide');
+
+                $('#modalLancamentoContasPagarRecorrentes').modal('show');
+
+
+                $(".load-form").addClass("d-none");
+                $(".btn-form").removeClass("d-none");
+
+                for (i = 0; i < data.contas.length; i++) {
+                    camposContas += `
+                        <div class="col-12 ${i > 0 ? 'mt-5' : ''}">${data.contas[i].RECEBIDO}</div>
+                        <div class="col-12 col-md-6 mt-3"> 
+                            <input class="form-control input-obrigatorio-recorrente datetimepicker cursor-pointer" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' value="${data.contas[i].dia_pagamento}/${mesAtual}/${anoAtual}" name="data_vencimento"/>
+                            <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                        </div>
+
+                        <div class="col-12 col-md-6 mt-3">
+                            <input class="form-control input-obrigatorio-recorrente mascara-dinheiro" name="valor" type="text" placeholder="Valor" />
+                            <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                        </div>
+
+                        <input type="hidden" class="aviso-obrigatorio" name="recebido" value="${data.contas[i].ID_RECEBIDO}">
+
+                        <input type="hidden" class="aviso-obrigatorio" name="nome-recebido" value="${data.contas[i].RECEBIDO}">
+
+                        <input type="hidden" class="aviso-obrigatorio" name="micros" value="${data.contas[i].ID_MICRO}">
+
+                        <input type="hidden" class="aviso-obrigatorio" name="macros" value="${data.contas[i].id_macro}">
+
+                        <input type="hidden" class="aviso-obrigatorio" name="setor" value="${data.contas[i].id_setor_empresa}">
+
+                    `;
+                }
+
+                $('.lista-contas-recorrentes').html(camposContas);
+
+                $('.datetimepicker').flatpickr({
+                    dateFormat: "d/m/Y",
+                    disableMobile: true
+                });
+
+                $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
+
+
+            }
+        })
+    }
+})
+
+// Clique para selecionar todos as contas recorrentes
+$(document).on('change', '.modal-dialog .check-all-modal-element', function () {
+    let estaChecado = $(this).prop('checked');
+    $('.check-element-modal').prop('checked', estaChecado);
+    atualizarElementosChecados('.check-element-modal');
+});
+
+// Clique para selecionar um por um
+$(document).on('change', '.check-element-modal', function () {
+    atualizarElementosChecados('.check-element-modal');
+    verificarTodosCheckboxes('.check-element-modal', '.check-all-modal-element');
+});
+
 
 $(document).on('click', '.proxima-etapa-pagamento', function () {
 
@@ -642,12 +810,13 @@ const visualizarConta = (idConta) => {
             $('.html-clean').html('');
         }, success: function (data) {
 
-            let dataEmissao = formatarDatas(data['conta'].data_emissao);
+            let dataEmissao = data['conta'].data_emissao ? formatarDatas(data['conta'].data_emissao) : "";
             let dataVencimento = formatarDatas(data['conta'].data_vencimento);
             let valorConta = formatarValorExibicao(parseFloat(data['conta'].valor));
             let valorPago = formatarValorExibicao(parseFloat(data['conta'].valor_pago));
 
             $('.nome-empresa').html(data['conta'].RECEBIDO);
+            $('.setor-empresa').html(data['conta'].SETOR);
             $('.data-vencimento').html(dataVencimento);
             $('.data-emissao').html(dataEmissao);
             $('.valor-conta').html(valorConta);
@@ -672,6 +841,14 @@ const visualizarConta = (idConta) => {
 
 const deletaContaPagar = (idConta) => {
 
+    let idsAgrupados = agruparIdsCheckbox();
+
+    if (idsAgrupados.length >= 2) {
+        var ids = idsAgrupados;
+    } else {
+        var ids = [idConta];
+    }
+
     Swal.fire({
         title: 'Você tem certeza?',
         text: "Esta ação não poderá ser revertida",
@@ -690,7 +867,7 @@ const deletaContaPagar = (idConta) => {
                 type: "post",
                 url: `${baseUrl}finContasPagar/deletarConta`,
                 data: {
-                    idConta: idConta
+                    ids: ids
                 }, success: function (data) {
 
                     let redirect = data.type != 'error' ? `${baseUrl}finContasPagar` : '#';

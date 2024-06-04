@@ -1,9 +1,9 @@
 <div class="content">
     <div class="pb-5">
         <div class="row g-4">
-            <div class="col-12 col-xxl-6">
+            <div class="col-12 col-xxl-12">
                 <div class="row align-items-center g-4">
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-3">
                         <div class="d-flex align-items-center">
                             <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
                                 <span class="fa-solid fa-square fa-stack-2x text-success-300" data-fa-transform="down-4 rotate--10 left-4"></span>
@@ -17,7 +17,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-3">
                         <div class="d-flex align-items-center">
                             <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
                                 <span class="fa-solid fa-square fa-stack-2x text-success-300" data-fa-transform="down-4 rotate--10 left-4"></span>
@@ -31,7 +31,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-3">
                         <div class="d-flex align-items-center">
                             <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
                                 <span class="fa-solid fa-square fa-stack-2x text-warning-300" data-fa-transform="down-4 rotate--10 left-4"></span>
@@ -45,40 +45,75 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="col-12 col-md-3">
+                        <div class="d-flex align-items-center">
+                            <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
+                                <span class="fa-solid fa-square fa-stack-2x text-info-300" data-fa-transform="down-4 rotate--10 left-4"></span>
+                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-info-100" data-fa-transform="up-4 right-3 grow-2"></span>
+                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-info" data-fa-transform="shrink-2 up-8 right-6"></span>
+                            </span>
+                            <div class="ms-3">
+                                <h4 class="mb-0">R$ <span class="total-setor-front"><?= number_format($porSetor['saldo'], 2, ',', '.') ?></span>
+                                </h4>
+                                <p class="text-800 fs--1 mb-0">Saldo do Setor <?= $nomeSaldoSetor ?></p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <hr class="bg-200 mb-6 mt-3" />
             </div>
 
-            <div class="col-12 col-xxl-6">
-                <form id="filtroForm" action="<?= base_url('finContasPagar/index') ?>" method="post">
+            <div class="col-12 col-xxl-12 mt-0">
+                <form id="filtroForm" action="<?= base_url('finContasPagar/') ?>" method="post">
                     <div class="col-12">
                         <div class="row align-items-center g-4">
+
+                            <h4 class="ms-3">Filtrar resultados</h4>
+
                             <div class="col-12 col-md-3">
                                 <div class="ms-3">
-                                    <input class="form-control datetimepicker" value="<?= $dataInicio ?>" required name="data_inicio" id="data_inicio" type="text" placeholder="Data Início" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
+                                    <input class="form-control datetimepicker" value="<?= $dataInicio ?>" required name="data_inicio" id="data_inicio" type="text" placeholder="Selecione a data de início" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
                                 </div>
                             </div>
                             <div class="col-12 col-md-3">
                                 <div class="ms-3">
-                                    <input class="form-control datetimepicker" value="<?= $dataFim ?>" required name="data_fim" id="data_fim" type="text" placeholder="Data Fim" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
+                                    <input class="form-control datetimepicker" value="<?= $dataFim ?>" required name="data_fim" id="data_fim" type="text" placeholder="Seleciona a data final" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
                                 </div>
                             </div>
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-2">
                                 <div class="ms-3">
                                     <select class="select-validation select-orientacao" required name="status" id="status">
-                                        <option selected disabled value=''>Status</option>
-                                        <option <?= $status == 0 ? 'selected' : '' ?> value="0">A pagar</option>
-                                        <option <?= $status == 1 ? 'selected' : '' ?> value="1">Pago</option>
-                                        <option <?= $status == 'ambas' ? 'selected' : '' ?> value="ambas">Ambas</option>
+                                        <option <?= $status == 'ambas' ? 'selected' : '' ?> disabled> Status da conta</option>
+                                        <option <?= $status == '0' ? 'selected' : '' ?> value="0">Em aberto</option>
+                                        <option <?= $status == '1' ? 'selected' : '' ?> value="1">Paga</option>
+                                        <option <?= $status == 'ambas' && $this->uri->segment(2) == 'index' ? 'selected' : '' ?> value="ambas">Ambos</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-2">
                                 <div class="ms-3">
-                                    <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 w-100">Filtrar</button>
+                                    <select class="select-validation select-setor" required name="setor" id="setor">
+                                        <option selected disabled>Setor da conta</option>
+                                        <option <?= $idSetor == 'todos' ? 'selected' : '' ?> value="todos">Todos</option>
+                                        <?php foreach ($setoresEmpresa as $setor) { ?>
+                                            <option <?= $idSetor == $setor['id'] ? 'selected' : '' ?> value="<?= $setor['id'] ?>"><?= $setor['nome'] ?>
+                                            </option>
+                                        <?php } ?>
+                                    </select>
                                 </div>
                             </div>
+                            <input type="hidden" name="nomeSetor" id="nomeSetor">
+
+                            <div class="col-12 col-md-2">
+                                <div class="ms-3">
+                                    <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 <?=!$dataInicio ? 'w-100' : '';?>">Filtrar</button>
+
+                                    <?php if ($dataInicio) { ?>
+                                        <a href="<?= base_url('finContasPagar'); ?>" class="btn btn-phoenix-danger" title="Limpar Filtro"><i class="fas fa-ban"></i></a>
+                                    <?php } ?>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </form>
@@ -88,13 +123,16 @@
     </div>
 
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div id="members" data-list='{"valueNames":["td_vencimento","td_valor","td_valor_pago","td_status_pgto","td_data_pagamento","td_empresa","td_recebido"],"page":10,"pagination":true}'>
+        <div id="members" data-list='{"valueNames":["td_vencimento","td_valor","td_valor_pago","td_status_pgto","td_data_pagamento","td_empresa","td_recebido","td_setor"],"page":10,"pagination":true}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3>Contas a pagar
 
                         <a href="#" class="btn btn-phoenix-success d-none btn-pagar-tudo mx-2" data-bs-toggle="modal" data-bs-target="#modalPagarVariasContas"><span data-feather="dollar-sign"></span> Pagar
                             todos</a>
+                        <a href="#" class="btn btn-phoenix-danger d-none btn-excluir-contas mx-2" onclick="deletaContaPagar()"><span class="fas fa-trash"></span> Excluir tudo</a>
+
+
 
                     </h3>
                 </div>
@@ -112,7 +150,7 @@
 
                         <div class="col-auto">
 
-                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento" type="button" data-bs-toggle="modal" data-bs-target="#modalLancamentoContasPagar">Lançamento</button>
+                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento" type="button" data-bs-toggle="modal" data-bs-target="#modalTipoContasPagar">Lançamento</button>
 
                         </div>
 
@@ -136,6 +174,7 @@
                             <th class="sort text-start ps-5 align-middle text-center" scope="col" data-sort="td_status_pgto">Status</th>
                             <th class="sort align-middle text-center" style="text-align: center; vertical-align: middle;" scope="col" data-sort="td_data_pagamento text-center">Data do Pagamento</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_empresa">Empresa</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
 
                             <th class="sort text-end pe-0 align-middle text-center" scope="col"></th>
                         </tr>
@@ -190,6 +229,12 @@
                                     </h6>
                                 </td>
 
+                                <td class="align-middle product white-space-nowrap td_setor text-center">
+                                    <h6 class="mb-0 text-900">
+                                        <?= $contaPagar['SETOR']; ?>
+                                    </h6>
+                                </td>
+
                                 <td class="align-middle white-space-nowrap text-end pe-0">
 
                                     <div class="font-sans-serif btn-reveal-trigger position-static">
@@ -200,16 +245,16 @@
                                             </a>
 
                                             <?php if (!$contaPagar['status']) { ?>
-                                                <a class="dropdown-item editar-lancamento" href="#!" data-bs-toggle="modal" data-id="<?= $contaPagar['id'] ?>" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-bs-target="#modalEditarContasPagar">
+                                                <a class="dropdown-item editar-lancamento btn-editar-<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal" data-id="<?= $contaPagar['id'] ?>" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-bs-target="#modalEditarContasPagar">
                                                     <span class="fas fa-pencil"></span> Editar
                                                 </a>
 
-                                                <a class="dropdown-item editar-lancamento" href="#" onclick="deletaContaPagar(<?= $contaPagar['id'] ?>)">
+                                                <a class="dropdown-item editar-lancamento btn-excluir-<?= $contaPagar['id'] ?>" href="#" onclick="deletaContaPagar(<?= $contaPagar['id'] ?>)">
                                                     <span class="fas fa-trash"></span> Excluir
                                                 </a>
 
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item realizar-pagamento" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-id="<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalPagarConta">Realizar
+                                                <div class="dropdown-divider btn-realizar-pagamento-<?= $contaPagar['id'] ?>"></div>
+                                                <a class="dropdown-item realizar-pagamento btn-realizar-pagamento-<?= $contaPagar['id'] ?>" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-id="<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalPagarConta">Realizar
                                                     Pagamento</a>
                                             <?php } ?>
                                         </div>
@@ -253,6 +298,22 @@
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
                                             <div class="col-sm-12 col-xxl-12 border-bottom py-3">
                                                 <table class="w-100 table-stats">
+                                                    <tr>
+                                                        <td class="py-2 w-50">
+                                                            <div class="d-inline-flex align-items-center">
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300 fas fa-id-card" style="width:16px; height:16px"></span>
+                                                                </div>
+                                                                <p class="fw-bold mb-0">Setor</p>
+                                                            </div>
+                                                        </td>
+                                                        <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                                                        <td class="py-2 w-50">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break setor-empresa html-clean">
+                                                                <!-- JS -->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
                                                     <tr>
                                                         <td class="py-2 w-50">
                                                             <div class="d-inline-flex align-items-center">
@@ -399,7 +460,59 @@
         </div>
     </div>
 
-    <!-- Modal Lançamento Contas a Pagar -->
+    <!-- Modal escolher tipo de lançamento Contas a Pagar -->
+
+    <div class="modal fade" tabindex="-1" id="modalTipoContasPagar">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Novo Lançamento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body body-coleta">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="col-sm-12 col-xxl-12 py-3">
+                                        <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+
+                                            <div class="col-lg-12">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Tipo de conta</label>
+                                                    <select class="form-select select-tipo-conta" name="tipo-conta">
+                                                        <option selected disabled value="">Selecione</option>
+                                                        <option value="comum">Comum</option>
+                                                        <option value="recorrente">Recorrente</option>
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+                    <button class="btn btn-info btn-form btn-proxima-etapa-lancamento" type="button">Próxima Etapa</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Lançamento Contas a Pagar Comum -->
 
     <div class="modal fade" tabindex="-1" id="modalLancamentoContasPagar">
         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -417,9 +530,25 @@
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
 
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-12">
 
                                                 <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Setor da Empresa</label>
+                                                    <select class="form-select select2 select-setor-empresa input-obrigatorio dados-conta" name="setor">
+                                                        <option selected disabled value="">Selecione</option>
+                                                        <?php foreach ($setoresEmpresa as $setor) { ?>
+                                                            <option value="<?= $setor['id'] ?>"><?= $setor['nome'] ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+
+                                                <div class="mb-4 div-select-macro">
                                                     <label class="text-body-highlight fw-bold mb-2">Grupos
                                                         Macros</label>
                                                     <select class="form-select select2 select-macros input-obrigatorio dados-conta" name="macros">
@@ -436,7 +565,7 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <div class="mb-4 ">
+                                                <div class="mb-4 div-select-micro">
                                                     <label class="text-body-highlight fw-bold mb-2 ">Grupos
                                                         Micros</label>
                                                     <select disabled class="form-select select2 select-micros input-obrigatorio dados-conta" name="micros">
@@ -566,8 +695,129 @@
 
                 <div class="modal-footer">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Voltar</button>
                     <button class="btn btn-success btn-form" type="button" onclick="cadastraContasPagar('form-entrada-pagar')">Salvar</button>
-                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Contas a Pagar Recorrentes -->
+
+    <div class="modal fade" tabindex="-1" id="modalSelecionarContasPagarRecorrentes">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Selecione as contas recorrentes</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body body-coleta">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="col-sm-12 col-xxl-12 py-3">
+                                        <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+                                            <div class="table-responsive mx-n1 px-1 scrollbar">
+                                                <table class="table fs--1 mb-0 border-top border-200">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="white-space-nowrap fs--1 ps-0 align-middle">
+                                                                <div class="form-check mb-0 fs-0">
+                                                                    <input class="form-check-input check-all-modal-element cursor-pointer" id="checkbox-bulk-reviews-select" type="checkbox" />
+                                                                </div>
+                                                            </th>
+                                                            <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Credor</th>
+                                                            <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Micro</th>
+                                                            <th class="sort text-start ps-5 align-middle text-center" scope="col" data-sort="td_status_pgto">Dia do Pagamento</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="list" id="table-latest-review-body">
+
+                                                        <?php foreach ($contasRecorrentes as $contaRecorrente) { ?>
+                                                            <tr class="hover-actions-trigger btn-reveal-trigger position-static tr-pagamento">
+
+                                                                <td class="fs--1 align-middle ps-0">
+                                                                    <div class="form-check mb-0 fs-0">
+                                                                        <input class="form-check-input check-element-modal check-element cursor-pointer" type="checkbox" value="<?= $contaRecorrente['id'] ?>" />
+                                                                    </div>
+                                                                </td>
+
+                                                                <td class="align-middle product white-space-nowrap td_vencimento text-center">
+                                                                    <h6 class="mb-0 text-900">
+                                                                        <?= $contaRecorrente['RECEBIDO'] ?>
+                                                                    </h6>
+                                                                </td>
+
+                                                                <td class="align-middle product white-space-nowrap td_vencimento text-center">
+                                                                    <h6 class="mb-0 text-900">
+                                                                        <?= $contaRecorrente['MICRO'] ?>
+                                                                    </h6>
+                                                                </td>
+
+                                                                <td class="align-middle rating white-space-nowrap fs--2 td_valor text-center">
+                                                                    <h6 class="mb-0 text-900">
+                                                                        <?= $contaRecorrente['dia_pagamento']; ?>
+                                                                    </h6>
+                                                                </td>
+                                                                
+                                                            </tr>
+
+                                                        <?php } ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Voltar</button>
+                    <button class="btn btn-info btn-form btn-proxima-etapa-recorrente" type="button">Próxima etapa</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" id="modalLancamentoContasPagarRecorrentes">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Novo Lançamento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body body-coleta">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="col-sm-12 col-xxl-12 py-3">
+                                        <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0 lista-contas-recorrentes form-entrada-pagar-recorrentes">
+                                           <!-- JS -->
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Voltar</button>
+                    <button class="btn btn-success btn-form" type="button" onclick="cadastraMultiplasContasPagar('form-entrada-pagar-recorrentes')">Salvar</button>
 
                 </div>
             </div>
@@ -591,6 +841,21 @@
                                 <div class="col-12">
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+
+                                            <div class="col-lg-12">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Setor da Empresa</label>
+                                                    <select class="form-select select2 select-setor-empresa input-obrigatorio" name="setor">
+                                                        <option selected disabled value="">Selecione</option>
+                                                        <?php foreach ($setoresEmpresa as $setor) { ?>
+                                                            <option value="<?= $setor['id'] ?>"><?= $setor['nome'] ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                </div>
+
+                                            </div>
 
                                             <div class="col-lg-4">
 
@@ -644,7 +909,7 @@
                 <div class="modal-footer">
                     <input type="hidden" class="id-editar-conta">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
-                    <button class="btn btn-success btn-form" type="button" onclick="cadastraContasPagar('form-editar-pagar')">Salvar</button>
+                    <button class="btn btn-success btn-form" type="button" onclick="cadastraMultiplasContasPagar('form-editar-pagar')">Salvar</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
                 </div>
@@ -864,7 +1129,7 @@
                                                     <button title="Mais formas de pagamento" type="button" class="btn btn-phoenix-success" onclick="duplicarFormaPagamentoModal(event)">+</button>
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="campos-pagamentos-novos row">
                                                 <!-- JS -->
                                             </div>

@@ -10,11 +10,12 @@ class FinContasReceber_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebeContasReceber($dataInicio, $dataFim, $status)
+    public function recebeContasReceber($dataInicio, $dataFim, $status, $setor)
     {
-        $this->db->select('CR.*, DF.nome as RECEBIDO');
+        $this->db->select('CR.*, DF.nome as RECEBIDO, SE.nome as SETOR');
         $this->db->from('fin_contas_receber CR');
         $this->db->join('fin_dados_financeiros DF', 'CR.id_dado_financeiro = DF.id', 'left');
+        $this->db->join('ci_setores_empresa SE', 'CR.id_setor_empresa = SE.id', 'LEFT');
         $this->db->where('CR.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('CR.data_vencimento <=', $dataFim);
         $this->db->where('CR.data_vencimento >=', $dataInicio);
@@ -22,6 +23,11 @@ class FinContasReceber_model extends CI_Model
         // Verifica se o tipo de movimentação não é 'ambas', para adicionar uma restrição
         if ($status !== 'ambas') {
             $this->db->where('CR.status', $status);
+        }
+
+        // Adiciona a cláusula do setor apenas se $setor não for null
+        if ($setor !== 'todos') {
+            $this->db->where('CR.id_setor_empresa', $setor);
         }
 
         $query = $this->db->get();
@@ -58,9 +64,10 @@ class FinContasReceber_model extends CI_Model
 
     public function recebeContaReceber($id)
     {
-        $this->db->select('CR.*, DF.nome as RECEBIDO, DF.id_grupo as GRUPO_CREDOR');
+        $this->db->select('CR.*, DF.nome as RECEBIDO, DF.id_grupo as GRUPO_CREDOR, SE.nome as SETOR');
         $this->db->from('fin_contas_receber CR');
         $this->db->join('fin_dados_financeiros DF', 'CR.id_dado_financeiro = DF.id', 'LEFT');
+        $this->db->join('ci_setores_empresa SE', 'CR.id_setor_empresa = SE.id', 'LEFT');
         $this->db->where('CR.id', $id);
         $this->db->where('CR.id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get();
@@ -103,5 +110,4 @@ class FinContasReceber_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
-
 }
