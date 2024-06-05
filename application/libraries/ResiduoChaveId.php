@@ -20,7 +20,7 @@ class ResiduoChaveId
 
 		if ($residuos) {
 			foreach ($residuos as $v) {
-				$residuosArray[$v['id']] = $v['unidade_medida'] . ' -> ' . $v['nome'];
+				$residuosArray[$v['id']] = $v['unidade_medida'] . ' de ' . $v['nome'];
 			}
 		}
 
