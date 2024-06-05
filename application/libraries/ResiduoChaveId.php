@@ -20,15 +20,21 @@ class ResiduoChaveId
 
 		if ($residuos) {
 			foreach ($residuos as $v) {
-				$residuosArray[$v['id']] = $v['unidade_medida'] . ' de ' . $v['nome'];
+				$residuosArray[$v['id']] = [
+					'unidade_medida' => $v['unidade_medida'],
+					'nome' => $v['nome']
+				];
 			}
 		}
 
 		// Ordena o array pela string completa dos valores
-		asort($residuosArray);
+		uasort($residuosArray, function ($a, $b) {
+			return strcmp($a['unidade_medida'] . ' de ' . $a['nome'], $b['unidade_medida'] . ' de ' . $b['nome']);
+		});
 
 		return $residuosArray;
 	}
+
 
 	public function residuoArrayNomes(): array
 	{

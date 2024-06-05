@@ -103,7 +103,7 @@
             <?php foreach ($ids_residuos as $id_residuo) { ?>
 
                 <h3 style="font-weight: bold; text-transform:uppercase">
-                    <?= ($dado['nome'] ?? $dado['razao_social']) . ' - ' . (isset($residuos[$id_residuo]) && strpos($residuos[$id_residuo], '->') !== false ? trim(explode('->', $residuos[$id_residuo])[1]) : ''); ?>
+                    <?= ($dado['nome'] ?? $dado['razao_social']) . ' - ' . ($residuos[$id_residuo]['nome'] ?? ''); ?>
                 </h3>
                 <table class="table">
                     <thead>
@@ -153,9 +153,9 @@
                                                 }
 
                                                 if ($filtrar_geral) {
-                                                    echo '<p>' . $quantidade . ' ' . ($residuos[$residuo] ?? "") . '</p>';
+                                                    echo '<p>' . $quantidade . ' ' . ($residuos[$residuo]['unidade_medida'] ?? "") . ' de ' . ($residuos[$residuo]['nome'] ?? "") . '</p>';
                                                 } else {
-                                                    echo '<p>' . $quantidade . ' ' . ($residuos[$residuo] ?? "") . ' (' . ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0) . ')</p>';
+                                                    echo '<p>' . $quantidade . ' ' . ($residuos[$residuo]['unidade_medida'] ?? "") . ' de ' . ($residuos[$residuo]['nome'] ?? "") . ' (' . ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0) . ')</p>';
                                                 }
 
                                                 if (isset($residuoPagamentoCliente[$id_cliente][$residuo][1])) {
@@ -216,7 +216,7 @@
                                     } else {
                                         $movimentado_geral[$key] = $mov;
                                     }
-                                    echo '<p>' . $mov . ' ' . ($residuos[$key] ?? "") . '</p>';
+                                    echo '<p>' . $mov . ' ' . ($residuos[$key]['unidade_medida'] ?? "") . ' de ' . ($residuos[$key]['nome'] ?? "") . '</p>';
                                 }
                                 ?>
                             </td>
@@ -237,16 +237,10 @@
                                 }
                                 ?>
                             </td>
-
                             <?php if (!$filtrar_geral) { ?>
                                 <td style="width: 15px;">
                                     <?php
                                     foreach ($valor_total_mensal as $key => $val) {
-                                        if (isset($valor_total_mensal_geral[$key])) {
-                                            $valor_total_mensal_geral[$key] += $val;
-                                        } else {
-                                            $valor_total_mensal_geral[$key] = $val;
-                                        }
                                         echo '<p>' . $val . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
                                     }
                                     ?>
@@ -258,11 +252,10 @@
             <?php } ?>
         <?php } ?>
 
-        <h3 style="font-weight: bold; text-transform:uppercase">TOTAIS</h3>
+        <h3 style="font-weight: bold; text-transform:uppercase">Total Geral</h3>
         <table class="table">
             <thead>
                 <tr>
-                    <th style="width: 15px;" scope="col">Quantidade</th>
                     <th style="width: 15px;" scope="col">Movimentado</th>
                     <th style="width: 15px;" scope="col">Total</th>
                     <?php if (!$filtrar_geral) { ?>
@@ -272,11 +265,10 @@
             </thead>
             <tbody>
                 <tr>
-                    <td align="center" style="width: 45px;"><?= $movimentacoes_por_residuo_geral ?> movimentações</td>
                     <td style="width: 15px;">
                         <?php
                         foreach ($movimentado_geral as $key => $mov) {
-                            echo '<p>' . $mov . ' ' . ($residuos[$key] ?? "") . '</p>';
+                            echo '<p>' . $mov . ' ' . ($residuos[$key]['unidade_medida'] ?? "") . ' de ' . ($residuos[$key]['nome'] ?? "") . '</p>';
                         }
                         ?>
                     </td>
@@ -305,11 +297,10 @@
                 </tr>
             </tbody>
         </table>
-
     </div>
 
     <div class="footer">
-        Relatório gerado em <?= date('d/m/Y'); ?>
+        <p>&copy; <?= date('Y') ?> - Empresa de Coleta de Resíduos</p>
     </div>
 
 </body>
