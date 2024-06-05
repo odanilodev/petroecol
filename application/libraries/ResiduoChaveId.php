@@ -15,18 +15,18 @@ class ResiduoChaveId
 	public function residuoArrayChaveId(): array
 	{
 		$residuos = $this->CI->Residuos_model->recebeTodosResiduos();
-	
+
 		$residuosArray = [];
-	
+
 		if ($residuos) {
 			foreach ($residuos as $v) {
-				$residuosArray[$v['id']] = $v['unidade_medida'] . ' de ' . $v['nome'];
+				$residuosArray[$v['id']] = $v['unidade_medida'] . ' -> ' . $v['nome'];
 			}
 		}
-	
+
 		// Ordena o array pela string completa dos valores
 		asort($residuosArray);
-	
+
 		return $residuosArray;
 	}
 

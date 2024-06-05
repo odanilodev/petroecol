@@ -103,7 +103,7 @@
             <?php foreach ($ids_residuos as $id_residuo) { ?>
 
                 <h3 style="font-weight: bold; text-transform:uppercase">
-                    <?= ($dado['nome'] ?? $dado['razao_social']) . ' - ' . ($residuos[$id_residuo] ?? '') ?>
+                    <?= ($dado['nome'] ?? $dado['razao_social']) . ' - ' . (isset($residuos[$id_residuo]) && strpos($residuos[$id_residuo], '->') !== false ? trim(explode('->', $residuos[$id_residuo])[1]) : ''); ?>
                 </h3>
                 <table class="table">
                     <thead>
