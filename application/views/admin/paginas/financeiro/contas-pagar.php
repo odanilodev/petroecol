@@ -123,7 +123,7 @@
     </div>
 
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div id="members" data-list='{"valueNames":["td_vencimento","td_valor","td_valor_pago","td_status_pgto","td_data_pagamento","td_empresa","td_recebido","td_setor"],"page":10,"pagination":true}'>
+        <div id="members" data-list='{"valueNames":["td_vencimento","td_valor","td_valor_pago","td_status_pgto","td_data_pagamento","td_empresa","td_recebido","td_setor", "td_observacao"],"page":10,"pagination":true}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3>Contas a pagar
@@ -175,7 +175,8 @@
                             <th class="sort align-middle text-center" style="text-align: center; vertical-align: middle;" scope="col" data-sort="td_data_pagamento text-center">Data do Pagamento</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_empresa">Empresa</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
-
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_observacao">Observação</th>
+                            
                             <th class="sort text-end pe-0 align-middle text-center" scope="col"></th>
                         </tr>
                     </thead>
@@ -232,6 +233,12 @@
                                 <td class="align-middle product white-space-nowrap td_setor text-center">
                                     <h6 class="mb-0 text-900">
                                         <?= $contaPagar['SETOR']; ?>
+                                    </h6>
+                                </td>
+
+                                <td class="align-middle product white-space-nowrap td_setor text-center">
+                                    <h6 class="mb-0 text-900">
+                                        <?= $contaPagar['observacao']; ?>
                                     </h6>
                                 </td>
 
