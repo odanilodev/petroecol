@@ -167,7 +167,7 @@
                             <th class="sort text-start align-middle text-center" scope="col" data-sort="td_recebido">
                                 Recebido</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
-                            <th class="sort align-middle text-center" scope="col" data-sort="td_observacao">Observacao</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_observacao">Observação</th>
 
                             <th class="sort text-end pe-0 align-middle" scope="col"></th>
                             <th class="sort text-end pe-0 align-middle" scope="col"></th>
