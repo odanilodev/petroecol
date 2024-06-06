@@ -100,156 +100,166 @@
 
         <?php foreach ($dados as $id_cliente => $dado) { ?>
 
-            <?php foreach ($ids_residuos as $id_residuo) { ?>
+            <?php foreach ($ids_residuos as $id_residuo) {
+                $has_coletas = false;
+                foreach ($dado['coletas'] as $coleta) {
+                    if (in_array($id_residuo, $coleta['residuos'])) {
+                        $has_coletas = true;
+                        break;
+                    }
+                }
 
-                <h3 style="font-weight: bold; text-transform:uppercase">
-                    <?= ($dado['nome'] ?? $dado['razao_social']) . ' - ' . ($residuos[$id_residuo]['nome'] ?? ''); ?>
-                </h3>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th style="width: 15px;" scope="col">Data</th>
-                            <th style="width: 15px;" scope="col">Motorista</th>
-                            <th style="width: 15px;" scope="col">Movimentado</th>
-                            <th style="width: 15px;" scope="col">Total</th>
-                            <?php if (!$filtrar_geral) { ?>
-                                <th style="width: 15px;" scope="col">Total Base</th>
-                            <?php } ?>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $movimentacoes_por_residuo = 0;
-                        $movimentado = [];
-                        $valor_total = [];
-                        $valor_total_mensal = [];
-                        foreach ($dado['coletas'] as $coleta):
-                            if (in_array($id_residuo, $coleta['residuos'])): ?>
-                                <tr>
-                                    <td style="width: 15px;"><?= $coleta['data_coleta'] ?></td>
-                                    <td style="width: 15px;"><?= $coleta['motorista'] ?></td>
-                                    <td style="width: 15px;">
-                                        <?php
-                                        $valor_base_cliente = '';
-                                        foreach ($coleta['residuos'] as $key => $residuo):
-                                            if ($residuo == $id_residuo):
-                                                $quantidade = $coleta['quantidade_coletada'][$key] ?? 0;
-                                                if (!is_numeric($quantidade)) {
-                                                    $quantidade = 0;
-                                                }
+                if ($has_coletas) {
+                    ?>
+                    <h3 style="font-weight: bold; text-transform:uppercase">
+                        <?= ($dado['nome'] ?? $dado['razao_social']) . ' - ' . ($residuos[$id_residuo]['nome'] ?? ''); ?>
+                    </h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 15px;" scope="col">Data</th>
+                                <th style="width: 15px;" scope="col">Motorista</th>
+                                <th style="width: 15px;" scope="col">Movimentado</th>
+                                <th style="width: 15px;" scope="col">Total</th>
+                                <?php if (!$filtrar_geral) { ?>
+                                    <th style="width: 15px;" scope="col">Total Base</th>
+                                <?php } ?>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $movimentacoes_por_residuo = 0;
+                            $movimentado = [];
+                            $valor_total = [];
+                            $valor_total_mensal = [];
+                            foreach ($dado['coletas'] as $coleta):
+                                if (in_array($id_residuo, $coleta['residuos'])): ?>
+                                    <tr>
+                                        <td style="width: 15px;"><?= $coleta['data_coleta'] ?></td>
+                                        <td style="width: 15px;"><?= $coleta['motorista'] ?></td>
+                                        <td style="width: 15px;">
+                                            <?php
+                                            $valor_base_cliente = '';
+                                            foreach ($coleta['residuos'] as $key => $residuo):
+                                                if ($residuo == $id_residuo):
+                                                    $quantidade = $coleta['quantidade_coletada'][$key] ?? 0;
+                                                    if (!is_numeric($quantidade)) {
+                                                        $quantidade = 0;
+                                                    }
 
-                                                if (isset($movimentado[$residuo])) {
-                                                    $movimentado[$residuo] += $quantidade;
-                                                    if (isset($residuoPagamentoCliente[$id_cliente])) {
+                                                    if (isset($movimentado[$residuo])) {
+                                                        $movimentado[$residuo] += $quantidade;
+                                                        if (isset($residuoPagamentoCliente[$id_cliente])) {
+                                                            if (isset($residuoPagamentoCliente[$id_cliente][$residuo][1])) {
+                                                                $valor_total_mensal[$residuoPagamentoCliente[$id_cliente][$residuo][1]] += $quantidade * ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0);
+                                                            }
+                                                        }
+                                                    } else {
+                                                        $movimentado[$residuo] = $quantidade;
                                                         if (isset($residuoPagamentoCliente[$id_cliente][$residuo][1])) {
-                                                            $valor_total_mensal[$residuoPagamentoCliente[$id_cliente][$residuo][1]] += $quantidade * ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0);
+                                                            $valor_total_mensal[$residuoPagamentoCliente[$id_cliente][$residuo][1]] = $quantidade * ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0);
                                                         }
                                                     }
-                                                } else {
-                                                    $movimentado[$residuo] = $quantidade;
-                                                    if (isset($residuoPagamentoCliente[$id_cliente][$residuo][1])) {
-                                                        $valor_total_mensal[$residuoPagamentoCliente[$id_cliente][$residuo][1]] = $quantidade * ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0);
+
+                                                    if ($filtrar_geral) {
+                                                        echo '<p>' . $quantidade . ' ' . ($residuos[$residuo]['unidade_medida'] ?? "") . ' de ' . ($residuos[$residuo]['nome'] ?? "") . '</p>';
+                                                    } else {
+                                                        echo '<p>' . $quantidade . ' ' . ($residuos[$residuo]['unidade_medida'] ?? "") . ' de ' . ($residuos[$residuo]['nome'] ?? "") . ' (' . ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0) . ')</p>';
                                                     }
-                                                }
 
-                                                if ($filtrar_geral) {
-                                                    echo '<p>' . $quantidade . ' ' . ($residuos[$residuo]['unidade_medida'] ?? "") . ' de ' . ($residuos[$residuo]['nome'] ?? "") . '</p>';
-                                                } else {
-                                                    echo '<p>' . $quantidade . ' ' . ($residuos[$residuo]['unidade_medida'] ?? "") . ' de ' . ($residuos[$residuo]['nome'] ?? "") . ' (' . ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0) . ')</p>';
-                                                }
+                                                    if (isset($residuoPagamentoCliente[$id_cliente][$residuo][1])) {
+                                                        $valor_base_cliente .= '<p>' . $quantidade * ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0) . ' ' . ($formasPagamento[$residuoPagamentoCliente[$id_cliente][$residuo][1]] ?? '') . '</p>';
+                                                    }
 
-                                                if (isset($residuoPagamentoCliente[$id_cliente][$residuo][1])) {
-                                                    $valor_base_cliente .= '<p>' . $quantidade * ($residuoPagamentoCliente[$id_cliente][$residuo][0] ?? 0) . ' ' . ($formasPagamento[$residuoPagamentoCliente[$id_cliente][$residuo][1]] ?? '') . '</p>';
-                                                }
-
-                                                $movimentacoes_por_residuo++;
-                                                $movimentacoes_por_residuo_geral++;
-                                            endif;
-                                        endforeach;
-                                        ?>
-                                    </td>
-
-                                    <td style="width: 15px;">
-                                        <?php
-                                        foreach ($coleta['pagamentos'] as $key => $pagamento) {
-                                            if (!isset($valor_total[$pagamento])) {
-                                                $valor_total[$pagamento] = ['valor' => 0, 'tipo_pagamento' => ''];
-                                            }
-
-                                            $valorPagamento = $coleta['valor_pagamento'][$key] ?? 0;
-                                            $valorPagamento = is_numeric($valorPagamento) ? (float) $valorPagamento : 0;
-                                            $valor_total[$pagamento]['valor'] += $valorPagamento;
-                                            $valor_total[$pagamento]['tipo_pagamento'] = $coleta['tipo_pagamento'][$key] ?? '';
-
-                                            if (is_float($valorPagamento)) {
-                                                $formattedValue = number_format($valorPagamento, 2, ',', '.');
-                                            } else {
-                                                $formattedValue = $valorPagamento;
-                                            }
-
-                                            if (isset($coleta['tipo_pagamento'][$key]) && $coleta['tipo_pagamento'][$key] == 1) {
-                                                echo "<p>R$${formattedValue} " . ($formasPagamento[$pagamento] ?? "") . "</p>";
-                                            } else {
-                                                echo "<p>${formattedValue} " . ($formasPagamento[$pagamento] ?? "") . "</p>";
-                                            }
-                                        }
-                                        ?>
-                                    </td>
-
-                                    <?php if (!$filtrar_geral) { ?>
-                                        <td style="width: 15px;">
-                                            <?= $valor_base_cliente ?>
+                                                    $movimentacoes_por_residuo++;
+                                                    $movimentacoes_por_residuo_geral++;
+                                                endif;
+                                            endforeach;
+                                            ?>
                                         </td>
-                                    <?php } ?>
-                                </tr>
-                            <?php endif;
-                        endforeach; ?>
 
-                        <tr>
-                            <td colspan="2" align="center" style="width: 45px;"><?= $movimentacoes_por_residuo ?> movimentações
-                            </td>
-                            <td style="width: 15px;">
-                                <?php
-                                foreach ($movimentado as $key => $mov) {
-                                    if (isset($movimentado_geral[$key])) {
-                                        $movimentado_geral[$key] += $mov;
-                                    } else {
-                                        $movimentado_geral[$key] = $mov;
-                                    }
-                                    echo '<p>' . $mov . ' ' . ($residuos[$key]['unidade_medida'] ?? "") . ' de ' . ($residuos[$key]['nome'] ?? "") . '</p>';
-                                }
-                                ?>
-                            </td>
-                            <td style="width: 15px;">
-                                <?php
-                                foreach ($valor_total as $key => $val) {
-                                    if (isset($valor_total_geral[$key])) {
-                                        $valor_total_geral[$key]['valor'] += $val['valor'];
-                                    } else {
-                                        $valor_total_geral[$key]['valor'] = $val['valor'];
-                                        $valor_total_geral[$key]['tipo_pagamento'] = $val['tipo_pagamento'];
-                                    }
-                                    if ($val['tipo_pagamento'] == 1) {
-                                        echo '<p> R$' . (number_format($val['valor'], 2, ',', '.')) . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
-                                    } else {
-                                        echo '<p>' . $val['valor'] . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
-                                    }
-                                }
-                                ?>
-                            </td>
-                            <?php if (!$filtrar_geral) { ?>
+                                        <td style="width: 15px;">
+                                            <?php
+                                            foreach ($coleta['pagamentos'] as $key => $pagamento) {
+                                                if (!isset($valor_total[$pagamento])) {
+                                                    $valor_total[$pagamento] = ['valor' => 0, 'tipo_pagamento' => ''];
+                                                }
+
+                                                $valorPagamento = $coleta['valor_pagamento'][$key] ?? 0;
+                                                $valorPagamento = is_numeric($valorPagamento) ? (float) $valorPagamento : 0;
+                                                $valor_total[$pagamento]['valor'] += $valorPagamento;
+                                                $valor_total[$pagamento]['tipo_pagamento'] = $coleta['tipo_pagamento'][$key] ?? '';
+
+                                                if (is_float($valorPagamento)) {
+                                                    $formattedValue = number_format($valorPagamento, 2, ',', '.');
+                                                } else {
+                                                    $formattedValue = $valorPagamento;
+                                                }
+
+                                                if (isset($coleta['tipo_pagamento'][$key]) && $coleta['tipo_pagamento'][$key] == 1) {
+                                                    echo "<p>R$${formattedValue} " . ($formasPagamento[$pagamento] ?? "") . "</p>";
+                                                } else {
+                                                    echo "<p>${formattedValue} " . ($formasPagamento[$pagamento] ?? "") . "</p>";
+                                                }
+                                            }
+                                            ?>
+                                        </td>
+
+                                        <?php if (!$filtrar_geral) { ?>
+                                            <td style="width: 15px;">
+                                                <?= $valor_base_cliente ?>
+                                            </td>
+                                        <?php } ?>
+                                    </tr>
+                                <?php endif;
+                            endforeach; ?>
+
+                            <tr>
+                                <td colspan="2" align="center" style="width: 45px;"><?= $movimentacoes_por_residuo ?> movimentações
+                                </td>
                                 <td style="width: 15px;">
                                     <?php
-                                    foreach ($valor_total_mensal as $key => $val) {
-                                        echo '<p>' . $val . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                                    foreach ($movimentado as $key => $mov) {
+                                        if (isset($movimentado_geral[$key])) {
+                                            $movimentado_geral[$key] += $mov;
+                                        } else {
+                                            $movimentado_geral[$key] = $mov;
+                                        }
+                                        echo '<p>' . $mov . ' ' . ($residuos[$key]['unidade_medida'] ?? "") . ' de ' . ($residuos[$key]['nome'] ?? "") . '</p>';
                                     }
                                     ?>
                                 </td>
-                            <?php } ?>
-                        </tr>
-                    </tbody>
-                </table>
-            <?php } ?>
+                                <td style="width: 15px;">
+                                    <?php
+                                    foreach ($valor_total as $key => $val) {
+                                        if (isset($valor_total_geral[$key])) {
+                                            $valor_total_geral[$key]['valor'] += $val['valor'];
+                                        } else {
+                                            $valor_total_geral[$key]['valor'] = $val['valor'];
+                                            $valor_total_geral[$key]['tipo_pagamento'] = $val['tipo_pagamento'];
+                                        }
+                                        if ($val['tipo_pagamento'] == 1) {
+                                            echo '<p> R$' . (number_format($val['valor'], 2, ',', '.')) . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                                        } else {
+                                            echo '<p>' . $val['valor'] . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                                        }
+                                    }
+                                    ?>
+                                </td>
+                                <?php if (!$filtrar_geral) { ?>
+                                    <td style="width: 15px;">
+                                        <?php
+                                        foreach ($valor_total_mensal as $key => $val) {
+                                            echo '<p>' . $val . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                                        }
+                                        ?>
+                                    </td>
+                                <?php } ?>
+                            </tr>
+                        </tbody>
+                    </table>
+                <?php }
+            } ?>
         <?php } ?>
 
         <h3 style="font-weight: bold; text-transform:uppercase">Total Geral</h3>

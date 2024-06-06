@@ -20,6 +20,24 @@ class ResiduoChaveId
 
 		if ($residuos) {
 			foreach ($residuos as $v) {
+				$residuosArray[$v['id']] = $v['unidade_medida'] . ' de ' . $v['nome'];
+			}
+		}
+
+		// Ordena o array pela string completa dos valores
+		asort($residuosArray);
+
+		return $residuosArray;
+	}
+
+	public function residuoArrayChaveIdUnidadeMedida(): array
+	{
+		$residuos = $this->CI->Residuos_model->recebeTodosResiduos();
+
+		$residuosArray = [];
+
+		if ($residuos) {
+			foreach ($residuos as $v) {
 				$residuosArray[$v['id']] = [
 					'unidade_medida' => $v['unidade_medida'],
 					'nome' => $v['nome']
@@ -34,7 +52,6 @@ class ResiduoChaveId
 
 		return $residuosArray;
 	}
-
 
 	public function residuoArrayNomes(): array
 	{
