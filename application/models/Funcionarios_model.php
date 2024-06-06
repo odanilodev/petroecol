@@ -126,4 +126,32 @@ class Funcionarios_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+    public function recebeSaldoFuncionario($id)
+    {
+        $this->db->select('F.saldo');
+        $this->db->from('ci_funcionarios F');
+        $this->db->where('F.id', $id);
+        $this->db->where('F.status', 1);
+        $this->db->where('F.id_empresa', $this->session->userdata('id_empresa'));
+
+        $query = $this->db->get();
+
+        return $query->row_array();
+    }
+
+    public function atualizaSaldoFuncionario($idResponsavel, $novoSaldoFuncionario)
+    {
+        $dados['editado_em'] = date('Y-m-d H:i:s');
+        $dados['saldo'] = $novoSaldoFuncionario;
+        $this->db->where('id', $idResponsavel);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->update('ci_funcionarios', $dados);
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($idResponsavel);
+        }
+
+        return $this->db->affected_rows() > 0;
+    }
 }

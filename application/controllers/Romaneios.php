@@ -98,7 +98,7 @@ class Romaneios extends CI_Controller
 		$this->load->view('admin/includes/painel/rodape');
 	}
 
-	public function gerarRomaneioEtiqueta()
+	public function gerarRomaneio()
 	{
 		$codigo = time();
 
@@ -129,7 +129,7 @@ class Romaneios extends CI_Controller
 	}
 
 
-	public function gerarRomaneio()
+	public function gerarRomaneioPdf()
 	{
 		$codigo = $this->uri->segment(3);
 		$this->gerarromaneio->gerarPdf($codigo);
@@ -158,6 +158,13 @@ class Romaneios extends CI_Controller
 
 		$this->load->model('SetoresEmpresaCliente_model');
 		$data['setores'] = $this->SetoresEmpresaCliente_model->recebeSetoresEmpresaClientes();
+
+		$this->load->model('FinFormaTransacao_model');
+		$this->load->model('FinContaBancaria_model');
+		$this->load->model('FinContasPagar_model');
+
+		$data['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
+		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/romaneio/cadastra-romaneio');

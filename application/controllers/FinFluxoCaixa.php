@@ -164,6 +164,53 @@ class FinFluxoCaixa extends CI_Controller
 
     }
 
+    public function insereMovimentacaoRomaneioFluxo()
+    {
+        $this->load->model('FinSaldoBancario_model');
+
+        $idResponsavel = $this->input->post('responsavel');
+
+		$this->load->model('Funcionarios_model');
+
+        $dadosFluxo = $this->input->post('dadosFluxo');
+
+        $dados['id_empresa'] = $this->session->userdata('id_empresa');
+
+        // $valorTotalSaida = 0;
+
+        for ($i = 0; $i < count($dadosFluxo['id_micro']); $i++) {
+
+            $dados['id_conta_bancaria'] = $dadosFluxo['conta-bancaria'][$i];
+
+            $dados['id_forma_transacao'] = $dadosFluxo['forma-pagamento'][$i];
+            $dados['valor'] = str_replace(['.', ','], ['', '.'], $dadosFluxo['valor'][$i]);
+            $dados['movimentacao_tabela'] = 0; // sempre saída
+
+            // $dados['id_dado_financeiro'] = $this->input->post('id_dado_financeiro'); // boto oq aqui????
+
+            $dados['id_micro'] = $dadosFluxo['id_micro'][$i];
+            $dados['id_macro'] = $dadosFluxo['id_macro'][$i];
+            $dados['data_movimentacao'] = date('Y-m-d');
+
+            $this->FinFluxo_model->insereFluxo($dados); // insere a movimentação no fluxo
+
+
+            // atualiza as contas bancarias
+            $saldoAtualContaBancaria = $this->FinSaldoBancario_model->recebeSaldoBancario($dadosFluxo['conta-bancaria'][$i]);
+            $novoSaldoContaBancaria = $saldoAtualContaBancaria['saldo'] - $dados['valor'];
+            $this->FinSaldoBancario_model->atualizaSaldoBancario($dadosFluxo['conta-bancaria'][$i],  $novoSaldoContaBancaria);
+            
+            // atualiza o saldo do responsavel
+            $saldoAtualFuncionario = $this->Funcionarios_model->recebeSaldoFuncionario($idResponsavel);
+            $novoSaldoFuncionario =  $saldoAtualFuncionario['saldo'] + $dados['valor'];
+            $this->Funcionarios_model->atualizaSaldoFuncionario($idResponsavel, $novoSaldoFuncionario);
+
+        }
+
+        return true;
+
+    }
+
     public function recebeMovimentoFluxo()
     {
         $id = $this->input->post('idFluxo');
