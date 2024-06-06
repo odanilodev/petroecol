@@ -160,9 +160,7 @@ function duplicarFormasPagamento() {
 
     let btnRemove = `
         <div class="col-md-1 mt-0">            
-            <button type="button" class="btn btn-phoenix-danger deleta-dicionario" >
-                <span class="fas fa-minus"></span>
-            </button>
+            <button class="btn btn-phoenix-danger deleta-dicionario" >-</button>
         </div>
     `;
     //por padrão row vem com margin e padding - classes retiram

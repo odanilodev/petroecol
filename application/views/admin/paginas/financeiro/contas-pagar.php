@@ -994,11 +994,11 @@
                                             <div class="col-md-1 mt-5">
                                                 <button title="Mais formas de pagamento" type="button" class="btn btn-phoenix-success duplicar-pagamento">+</button>
                                             </div>
+                                            <div class="campos-duplicados">
+                                                <!-- JS -->
+                                            </div>
                                         </div>
 
-                                        <div class="campos-duplicados">
-                                            <!-- JS -->
-                                        </div>
                                         <div class="col-md-12">
                                             <div class="mb-4">
                                                 <label class="text-body-highlight fw-bold mb-2">Observação</label>

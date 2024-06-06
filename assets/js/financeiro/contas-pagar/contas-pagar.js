@@ -42,14 +42,14 @@ function duplicarElemento() {
     `;
 
     let btnRemove = $(`
-    <div class="col-md-1 mb-2 mt-1">
+    <div class="col-md-1 mt-1">
 
-        <button class="btn btn-phoenix-danger remover-inputs w-25">-</button>
+        <button class="btn btn-phoenix-danger remover-inputs">-</button>
 
     </div>`);
 
     // div com row para cada grupo ficar em row diferente
-    let novaLinha = $('<div class="row"></div>');
+    let novaLinha = $('<div class="row mb-3"></div>');
 
     // imprime os elementos dentro da div row
     novaLinha.append(contaBancaria);
