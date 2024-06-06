@@ -10,7 +10,7 @@
             </div>
             <div class="px-4 px-lg-6 mb-9 bg-white border-y border-300 mt-2 position-relative top-1">
                 <div class="table-responsive scrollbar ms-n1 ps-1">
-                    <table class="table table-lg mb-0 table-hover text-center">
+                    <table class="table table-lg mb-0 text-center">
                         <thead>
                             <tr>
 
