@@ -592,7 +592,7 @@
               </div>
 
               <?php foreach ($coletas as $coleta) { ?>
-                
+
                 <div class="border-bottom py-4">
 
                   <div class="d-flex">
@@ -606,7 +606,7 @@
 
                         <div class="flex-1 me-2">
                           <h5 class="text-1000 lh-sm">
-                            <?= $coleta['coletado'] == 1 ? "Coleta realizada (" . $coleta['SETOR_COLETA'] . ")" : "Coleta não realizada" ?>
+                            <?= $coleta['coletado'] == 1 ? "Coleta realizada (" . ($coleta['SETOR_COLETA'] ? $coleta['SETOR_COLETA'] : $coleta['SETOR_NOVA_COLETA']) . ")" : "Coleta não realizada" ?>
                             | <span class="fw-semi-bold fs--1"><?= date('d/m/Y', strtotime($coleta['data_coleta'])) ?></span>
                           </h5>
 
@@ -1015,7 +1015,7 @@
                     <div class="mb-3">
                       <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
 
-                      <div class="mb-4 col-md-12">
+                        <div class="mb-4 col-md-12">
                           <label class="text-body-highlight fw-bold mb-2">Setor Empresa</label>
                           <select class="form-select select2 select-setor-empresa obrigatorio-coleta">
                             <option value="" selected disabled>Selecione</option>
