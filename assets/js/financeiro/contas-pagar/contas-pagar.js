@@ -566,7 +566,7 @@ $(document).on('click', '.btn-proxima-etapa-recorrente', function () {
 
                 for (i = 0; i < data.contas.length; i++) {
                     camposContas += `
-                        <div class="col-12 ${i > 0 ? 'mt-5' : ''}">${data.contas[i].RECEBIDO}</div>
+                        <div class="col-12 ${i > 0 ? 'mt-5' : ''}">${data.contas[i].RECEBIDO ?? data.contas[i].CLIENTE}</div>
                         <div class="col-12 col-md-6 mt-3"> 
                             <input class="form-control input-obrigatorio-recorrente datetimepicker cursor-pointer" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' value="${data.contas[i].dia_pagamento}/${mesAtual}/${anoAtual}" name="data_vencimento"/>
                             <div class="d-none aviso-obrigatorio">Preencha este campo</div>
@@ -579,7 +579,7 @@ $(document).on('click', '.btn-proxima-etapa-recorrente', function () {
 
                         <input type="hidden" class="aviso-obrigatorio" name="recebido" value="${data.contas[i].ID_RECEBIDO}">
 
-                        <input type="hidden" class="aviso-obrigatorio" name="nome-recebido" value="${data.contas[i].RECEBIDO}">
+                        <input type="hidden" class="aviso-obrigatorio" name="nome-recebido" value="${data.contas[i].RECEBIDO ?? data.contas[i].CLIENTE}">
 
                         <input type="hidden" class="aviso-obrigatorio" name="micros" value="${data.contas[i].ID_MICRO}">
 

@@ -755,7 +755,9 @@
 
                                                                 <td class="align-middle product white-space-nowrap td_vencimento text-center">
                                                                     <h6 class="mb-0 text-900">
-                                                                        <?= $contaRecorrente['RECEBIDO'] ?>
+
+                                                                        <?= $contaRecorrente['RECEBIDO'] ? ucfirst($contaRecorrente['RECEBIDO']) : ucfirst($contaRecorrente['CLIENTE']);?>
+
                                                                     </h6>
                                                                 </td>
 
