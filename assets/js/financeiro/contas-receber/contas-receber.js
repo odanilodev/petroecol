@@ -415,10 +415,16 @@ const visualizarConta = (idConta) => {
             let valorConta = formatarValorExibicao(parseFloat(data['conta'].valor));
             let valorRecebido = formatarValorExibicao(parseFloat(data['conta'].valor_recebido));
 
-            $('.nome-empresa').html(data['conta'].RECEBIDO);
+            if (data['conta'].RECEBIDO) {
+                $('.nome-empresa').html(data['conta'].RECEBIDO);
+            } else {
+                $('.nome-empresa').html(data['conta'].CLIENTE);
+            }
+
             $('.setor-empresa').html(data['conta'].SETOR);
             $('.data-vencimento').html(dataVencimento);
-            $('.data-emissao').html(dataEmissao);
+            
+            $('.data-emissao').html(data['conta'].data_emissao != '1969-12-31' ? dataEmissao : "");
             $('.valor-conta').html(valorConta);
             $('.obs-conta').html(data['conta'].observacao);
 

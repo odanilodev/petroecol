@@ -219,7 +219,7 @@
 
                                 <td class="align-middle text-start time text-center td_recebido">
                                     <h6 class="text-900 mb-0">
-                                        <?= $contaReceber['RECEBIDO'] ?>
+                                        <?= $contaReceber['RECEBIDO'] ? ucfirst($contaReceber['RECEBIDO']) : ucfirst($contaReceber['CLIENTE']);?>
                                     </h6>
                                 </td>
 

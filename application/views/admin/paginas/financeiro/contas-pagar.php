@@ -187,7 +187,7 @@
 
                                 <td class="fs--1 align-middle ps-0">
                                     <div class="form-check mb-0 fs-0">
-                                        <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" data-nome-empresa="<?= ucfirst($contaPagar['nome']) ?>" />
+                                        <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" data-nome-empresa="<?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>" />
                                     </div>
                                 </td>
 
@@ -226,7 +226,8 @@
 
                                 <td class="align-middle review td_empresa text-center">
                                     <h6 class="mb-0 text-900">
-                                        <?= ucfirst($contaPagar['nome']) ?>
+
+                                        <?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']);?>
                                     </h6>
                                 </td>
 
@@ -754,7 +755,9 @@
 
                                                                 <td class="align-middle product white-space-nowrap td_vencimento text-center">
                                                                     <h6 class="mb-0 text-900">
-                                                                        <?= $contaRecorrente['RECEBIDO'] ?>
+
+                                                                        <?= $contaRecorrente['RECEBIDO'] ? ucfirst($contaRecorrente['RECEBIDO']) : ucfirst($contaRecorrente['CLIENTE']);?>
+
                                                                     </h6>
                                                                 </td>
 
