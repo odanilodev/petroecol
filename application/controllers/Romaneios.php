@@ -163,6 +163,9 @@ class Romaneios extends CI_Controller
 		$this->load->model('FinContaBancaria_model');
 		$this->load->model('FinContasPagar_model');
 
+		$this->load->model('FinMacro_model');
+		$data['macros'] = $this->FinMacro_model->recebeMacros();
+
 		$data['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
 		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
 

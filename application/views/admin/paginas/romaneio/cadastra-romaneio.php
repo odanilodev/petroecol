@@ -165,8 +165,39 @@
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0 form-verba-responsavel-coleta">
 
-                                            <input type="hidden" name="id_macro" value="14">
-                                            <input type="hidden" name="id_micro" value="100">
+
+                                            <div class="row">
+                                                <div class="col-lg-6">
+
+                                                    <div class="mb-4">
+                                                        <label class="text-body-highlight fw-bold mb-2">Grupos
+                                                            Macros</label>
+                                                        <select class="form-select select2 select-macros input-obrigatorio-verba" name="id_macro">
+                                                            <option selected disabled value="">Selecione</option>
+                                                            <?php foreach ($macros as $macro) { ?>
+                                                                <option value="<?= $macro['id'] ?>"><?= $macro['nome'] ?>
+                                                                </option>
+                                                            <?php } ?>
+                                                        </select>
+                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-lg-6">
+                                                    <div class="mb-4 ">
+                                                        <label class="text-body-highlight fw-bold mb-2 ">Grupos
+                                                            Micros</label>
+                                                        <select disabled class="form-select select2 select-micros input-obrigatorio-verba" name="id_micro">
+                                                            <option selected disabled value="">Selecione</option>
+                                                            <!-- JS -->
+                                                        </select>
+                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
 
                                             <div class="campos-pagamento row">
                                                 <div class="col-lg-4 duplica-pagamento">

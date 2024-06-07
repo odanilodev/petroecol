@@ -359,7 +359,9 @@ function duplicarElementos() {
     novaLinha.append(formaPagamento);
     novaLinha.append(inputValor);
     novaLinha.append(btnRemove);
-    novaLinha.append(`<input type="hidden" name="id_macro" value="14"><input type="hidden" name="id_micro" value="100">`); // macro Custo Operacional micro insumo de produção
+    let idMacro = $('.select-macros option:selected').val();
+    let idMicro = $('.select-micros option:selected').val();
+    novaLinha.append(`<input type="hidden" name="id_macro" value="${idMacro}"><input type="hidden" name="id_micro" value="${idMicro}">`); // macro Custo Operacional micro insumo de produção
 
     //remove a linha duplicada
     btnRemove.find(`.remover-inputs`).on('click', function () {
@@ -1416,4 +1418,32 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
     }
 }
 
+$(document).on('change', '.select-macros', function () {
 
+    let idMacro = $(this).val();
+
+    $.ajax({
+        type: "post",
+        url: `${baseUrl}finMicro/recebeMicrosMacro`,
+        data: {
+            idMacro: idMacro
+        }, beforeSend: function () {
+            $('.select-micros').html('<option disabled>Selecione</option>');
+        }, success: function (data) {
+
+            $('.select-micros').attr('disabled', false);
+
+            let options = '<option value="" disabled >Selecione</option>';
+
+            for (i = 0; i < data.microsMacro.length; i++) {
+
+                options += `<option value="${data.microsMacro[i].id}">${data.microsMacro[i].nome}</option>`;
+            }
+
+            $('.select-micros').html(options);
+
+            $('.select-micros').val('').trigger('change');
+
+        }
+    })
+})

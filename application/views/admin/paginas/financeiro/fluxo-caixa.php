@@ -500,8 +500,7 @@
                                                 <div class="mb-4 ">
                                                     <label class="text-body-highlight fw-bold mb-2 ">Grupos
                                                         Micros</label>
-                                                    <select disabled
-                                                        class="form-select select2 select-micros input-fluxo-obrigatorio dados-conta"
+                                                    <select disabled class="form-select select2 select-micros input-fluxo-obrigatorio dados-conta"
                                                         name="micros">
                                                         <option selected disabled value="">Selecione</option>
                                                         <!-- JS -->
