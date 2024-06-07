@@ -815,7 +815,12 @@ const visualizarConta = (idConta) => {
             let valorConta = formatarValorExibicao(parseFloat(data['conta'].valor));
             let valorPago = formatarValorExibicao(parseFloat(data['conta'].valor_pago));
 
-            $('.nome-empresa').html(data['conta'].RECEBIDO);
+            if (data['conta'].RECEBIDO) {
+                $('.nome-empresa').html(data['conta'].RECEBIDO);
+            } else {
+                $('.nome-empresa').html(data['conta'].CLIENTE);
+            }
+
             $('.setor-empresa').html(data['conta'].SETOR);
             $('.data-vencimento').html(dataVencimento);
             $('.data-emissao').html(dataEmissao);
