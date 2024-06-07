@@ -353,7 +353,7 @@ const detalhesHistoricoColeta = (idColeta, classe) => {
         }
     })
 
-} 
+}
 
 const deletaColeta = (idColeta, idCliente) => {
 
@@ -377,19 +377,19 @@ const deletaColeta = (idColeta, idCliente) => {
                 data: {
                     idColeta: idColeta,
                 }, beforeSend: function () {
-        
+
                     $('.body-coleta').show();
                     $('.html-clean').html('');
-        
+
                 }, success: function (data) {
 
                     let redirect = data.success ? `${baseUrl}/clientes/detalhes/${idCliente}` : '#';
-        
+
                     avisoRetorno(data.title, data.message, data.type, redirect);
-        
+
                 }
             })
-        
+
         }
     })
 
@@ -417,9 +417,9 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
             dataFim: dataFim,
             residuo: idResiduo
         }, success: function (data) {
-            
+
             if (data.success) {
-                
+
                 $('.btn-gerar-certificado').removeClass('d-none')
                 emailsCertificadoColeta(null, idCliente);
 
@@ -439,7 +439,7 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
 
 $(document).on('click', '.btn-envia-certificado', function (e) {
 
-    if ($('.emails-clientes-selecionados').val() && $('.select-modelo-certificado').val() != 'null'){
+    if ($('.emails-clientes-selecionados').val() && $('.select-modelo-certificado').val() != 'null') {
 
         $('.btn-form').addClass('d-none');
         $('.load-form').removeClass('d-none')
@@ -611,6 +611,47 @@ $(document).on('change', '.select-pagamento', function () {
         valorPagamento.unmask();
 
     }
+
+});
+
+$(document).on('change', '.select-setor-empresa', function () {
+
+    let idSetor = $(this).val();
+
+    $('.input-residuo').map(function () {
+        $(this).val('');
+    });
+
+    $('.residuos-duplicados').html('');
+
+    $.ajax({
+        type: 'post',
+        url: `${baseUrl}residuos/recebeResiduosSetor`,
+        data: {
+            idSetor: idSetor,
+
+        }, success: function (data) {
+
+            let option = '<option disabled selected>Selecione</option>';
+
+            for (i = 0; i < data.residuos.length; i++) {
+
+                option += `<option value="${data.residuos[i].id}">${data.residuos[i].nome}</option>`;
+            }
+
+            $('.select-residuo').html(option);
+
+        }, error: function (xhr, status, error) {
+            if (xhr.status === 403) {
+                avisoRetorno(
+                    "Algo deu errado!",
+                    `Você não tem permissão para esta ação..`,
+                    "error",
+                    "#"
+                );
+            }
+        },
+    })
 
 });
 

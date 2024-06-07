@@ -1019,9 +1019,9 @@
                           <label class="text-body-highlight fw-bold mb-2">Setor Empresa</label>
                           <select class="form-select select2 select-setor-empresa obrigatorio-coleta">
                             <option value="" selected disabled>Selecione</option>
-                            <?php foreach ($setoresEmpresaClienteInd as $setorEmpresaCliente) { ?>
-                              <option value="<?= $setorEmpresaCliente['id'] ?>">
-                                <?= $setorEmpresaCliente['nome'] ?>
+                            <?php foreach ($setoresEmpresa as $setorEmpresa) { ?>
+                              <option value="<?= $setorEmpresa['id'] ?>">
+                                <?= $setorEmpresa['nome'] ?>
                               </option>
                             <?php } ?>
                           </select>
@@ -1086,8 +1086,8 @@
 
                             <option disabled selected value="">Selecione</option>
 
-                            <?php foreach ($residuos as $v) { ?>
-                              <option value="<?= $v['id'] ?>"><?= $v['nome']; ?></option>
+                            <?php foreach ($residuosSetor as $residuoSetor) { ?>
+                              <option value="<?= $residuoSetor['id'] ?>"><?= $residuoSetor['nome']; ?></option>
                             <?php } ?>
                           </select>
 

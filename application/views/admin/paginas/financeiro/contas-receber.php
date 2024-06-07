@@ -80,7 +80,7 @@
                             </div>
                             <div class="col-12 col-md-2">
                                 <div class="ms-3">
-                                    <select class="select-validation select-orientacao" required name="status" id="movimentacao">                       
+                                    <select class="select-validation select-orientacao" required name="status" id="movimentacao">
                                         <option <?= $status == 'ambas' ? 'selected' : '' ?> disabled> Status da conta</option>
                                         <option <?= $status == '0' ? 'selected' : '' ?> value="0">A receber</option>
                                         <option <?= $status == '1' ? 'selected' : '' ?> value="1">Recebida</option>
@@ -119,7 +119,7 @@
         </div>
     </div>
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div id="members" data-list='{"valueNames":["td_vencimento","td_valor", "td_valor_recebido","td_status","td_data_recebimento","td_recebido","td_setor"],"page":10,"pagination":true}'>
+        <div id="members" data-list='{"valueNames":["td_vencimento","td_valor", "td_valor_recebido","td_status","td_data_recebimento","td_recebido","td_setor", "td_observacao"],"page":10,"pagination":true}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3>Contas a receber</h3>
@@ -167,6 +167,7 @@
                             <th class="sort text-start align-middle text-center" scope="col" data-sort="td_recebido">
                                 Recebido</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_observacao">Observação</th>
 
                             <th class="sort text-end pe-0 align-middle" scope="col"></th>
                             <th class="sort text-end pe-0 align-middle" scope="col"></th>
@@ -227,6 +228,12 @@
                                 <td class="align-middle product white-space-nowrap text-center td_setor">
                                     <h6 class="mb-0 text-900">
                                         <?= $contaReceber['SETOR']; ?>
+                                    </h6>
+                                </td>
+
+                                <td class="align-middle product white-space-nowrap text-center td_observacao">
+                                    <h6 class="mb-0 text-900">
+                                        <?= $contaReceber['observacao']; ?>
                                     </h6>
                                 </td>
 
