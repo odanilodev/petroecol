@@ -28,6 +28,7 @@ class Coletas extends CI_Controller
     public function cadastraColeta()
     {
         $this->load->library('agendarFrequencia');
+        $this->load->library('residuosOrdenados');
         $this->load->model('Romaneios_model');
         $this->load->model('Agendamentos_model');
 
@@ -41,14 +42,18 @@ class Coletas extends CI_Controller
 
         $idColeta = $this->input->post('idColeta');
 
+
         if ($payload) {
             foreach ($payload as $cliente) :
+
+                $retorno = $this->residuosordenados->ordenarResiduos($cliente['residuos'], $cliente['qtdColetado']);
+
                 $dados = array(
                     'id_cliente' => $cliente['idCliente'],
                     'id_responsavel' => $idResponsavel,
-                    'residuos_coletados' => json_encode($cliente['residuos'] ?? ""),
+                    'residuos_coletados' => json_encode($retorno['id_residuo'] ?? ""),
                     'forma_pagamento' => json_encode($cliente['pagamento'] ?? ""),
-                    'quantidade_coletada' => json_encode($cliente['qtdColetado'] ?? ""),
+                    'quantidade_coletada' => json_encode($retorno['qtd_residuo'] ?? ""),
                     'valor_pago' => json_encode($cliente['valor'] ?? ""),
                     'data_coleta' => $dataRomaneio,
                     'id_empresa' => $this->session->userdata('id_empresa'),
@@ -412,6 +417,5 @@ class Coletas extends CI_Controller
         }
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-
     }
 }
