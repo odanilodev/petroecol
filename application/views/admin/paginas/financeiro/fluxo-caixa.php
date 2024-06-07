@@ -190,7 +190,16 @@
 
                                 <td class="align-middle text-center pagoRecebido">
                                     <h6 class="mb-0 text-900">
-                                        <?= $movimentacao['nome_dado_financeiro'] ? ucfirst($movimentacao['nome_dado_financeiro']) : ucfirst($movimentacao['FUNCIONARIO'])?>
+
+                                        <?php 
+                                            if ($movimentacao['nome_dado_financeiro']) { 
+                                                echo ucfirst($movimentacao['nome_dado_financeiro']);
+                                            } else if (($movimentacao['FUNCIONARIO'])) {
+                                                echo ucfirst($movimentacao['FUNCIONARIO']);
+                                            } else {
+                                                echo ucfirst($movimentacao['CLIENTE']);
+                                            }
+                                        ?>
                                     </h6>
                                 </td>
 
@@ -507,9 +516,7 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Grupo
                                                         recebidos</label>
-                                                    <select
-                                                        class="form-select select2 select-grupo-recebidos select2 input-fluxo-obrigatorio"
-                                                        name="grupo-recebido">
+                                                    <select class="form-select select2 select-grupo-recebidos select2 input-fluxo-obrigatorio" name="grupo-recebido">
                                                         <option selected disabled>Selecione</option>
                                                         <?php foreach ($grupos as $grupo) { ?>
                                                             <option value="<?= $grupo['id'] ?>"><?= $grupo['nome'] ?>

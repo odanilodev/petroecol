@@ -118,10 +118,16 @@ class FinFluxoCaixa extends CI_Controller
         $dados['id_forma_transacao'] = $this->input->post('id_forma_transacao');
         $dados['valor'] = $this->input->post('valor');
         $dados['movimentacao_tabela'] = $this->input->post('movimentacao_tabela');
-        $dados['id_dado_financeiro'] = $this->input->post('id_dado_financeiro');
         $dados['id_micro'] = $this->input->post('micros');
         $dados['id_macro'] = $this->input->post('macros');
         $data_movimentacao = $this->input->post('data_movimentacao');
+        $grupoRecebido = $this->input->post('grupo_recebido');
+
+        if ($grupoRecebido == 'clientes') {
+            $dados['id_cliente'] = $this->input->post('id_dado_financeiro');
+        } else {
+            $dados['id_dado_financeiro'] = $this->input->post('id_dado_financeiro');
+        }
 
 
         $dados['data_movimentacao'] = date('Y-m-d', strtotime(str_replace('/', '-', $data_movimentacao)));
