@@ -176,8 +176,6 @@ class FinFluxoCaixa extends CI_Controller
 
         $dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-        // $valorTotalSaida = 0;
-
         for ($i = 0; $i < count($dadosFluxo['id_micro']); $i++) {
 
             $dados['id_conta_bancaria'] = $dadosFluxo['conta-bancaria'][$i];
@@ -186,11 +184,10 @@ class FinFluxoCaixa extends CI_Controller
             $dados['valor'] = str_replace(['.', ','], ['', '.'], $dadosFluxo['valor'][$i]);
             $dados['movimentacao_tabela'] = 0; // sempre saída
 
-            // $dados['id_dado_financeiro'] = $this->input->post('id_dado_financeiro'); // boto oq aqui????
-
             $dados['id_micro'] = $dadosFluxo['id_micro'][$i];
             $dados['id_macro'] = $dadosFluxo['id_macro'][$i];
             $dados['data_movimentacao'] = date('Y-m-d');
+            $dados['id_funcionario'] = $idResponsavel;
 
             $this->FinFluxo_model->insereFluxo($dados); // insere a movimentação no fluxo
 
