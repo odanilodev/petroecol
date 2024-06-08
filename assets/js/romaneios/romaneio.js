@@ -263,26 +263,30 @@ $(document).on('click', '.btn-salva-verba-responsavel', function () {
 
         let responsavel = $('#select-responsavel').val();
 
-        $.ajax({
-            type: 'post',
-            url: `${baseUrl}finFluxoCaixa/insereMovimentacaoRomaneioFluxo`,
-            data: {
-                dadosFluxo: dadosFormulario,
-                responsavel: responsavel
+        if (permissao) {
 
-            }, beforeSend: function () {
+            $.ajax({
+                type: 'post',
+                url: `${baseUrl}finFluxoCaixa/insereMovimentacaoRomaneioFluxo`,
+                data: {
+                    dadosFluxo: dadosFormulario,
+                    responsavel: responsavel
+    
+                }, beforeSend: function () {
+    
+                    $('.load-form-pagamento').removeClass('d-none');
+                    $('.btn-salva-verba-responsavel').addClass('d-none');
+    
+                }, success: function (data) {
+    
+                    $('.load-form-pagamento').addClass('d-none');
+                    $('.btn-salva-verba-responsavel').removeClass('d-none');
+    
+                    gerarRomaneio();
+                }
+            })
+        }
 
-                $('.load-form-pagamento').removeClass('d-none');
-                $('.btn-salva-verba-responsavel').addClass('d-none');
-
-            }, success: function (data) {
-
-                $('.load-form-pagamento').addClass('d-none');
-                $('.btn-salva-verba-responsavel').removeClass('d-none');
-
-                gerarRomaneio();
-            }
-        })
 
     }
 })
@@ -291,9 +295,15 @@ $(document).on('click', '.check-sem-verba', function () {
 
     if ($(this).is(':checked')) {
 
+        $('.duplicar-pagamento').prop('disabled', true);
+        $('.duplicar-pagamento').addClass('text-success');
+
         $('.input-obrigatorio-verba').each(function () {
             $(this).removeClass('invalido');
             $(this).next().removeClass('select2-obrigatorio');
+            $(this).val('').trigger('change');
+            $(this).val('');
+            $(this).attr('disabled', true);
         })
 
         $('.aviso-obrigatorio').each(function () {
@@ -301,6 +311,15 @@ $(document).on('click', '.check-sem-verba', function () {
         })
 
         $('.campos-duplicados').html('');
+    } else {
+
+        $('.duplicar-pagamento').prop('disabled', false);
+        $('.duplicar-pagamento').removeClass('text-success');
+
+        $('.input-obrigatorio-verba').each(function () {
+            $(this).attr('disabled', false)
+        })
+
     }
 })
 

@@ -182,32 +182,35 @@ class FinFluxoCaixa extends CI_Controller
 
         $dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-        for ($i = 0; $i < count($dadosFluxo['id_micro']); $i++) {
+        if (!empty($dadosFluxo['valor'][0])) {
 
-            $dados['id_conta_bancaria'] = $dadosFluxo['conta-bancaria'][$i];
+            for ($i = 0; $i < count($dadosFluxo['id_micro']); $i++) {
 
-            $dados['id_forma_transacao'] = $dadosFluxo['forma-pagamento'][$i];
-            $dados['valor'] = str_replace(['.', ','], ['', '.'], $dadosFluxo['valor'][$i]);
-            $dados['movimentacao_tabela'] = 0; // sempre saída
+                $dados['id_conta_bancaria'] = $dadosFluxo['conta-bancaria'][$i];
 
-            $dados['id_micro'] = $dadosFluxo['id_micro'][$i];
-            $dados['id_macro'] = $dadosFluxo['id_macro'][$i];
-            $dados['data_movimentacao'] = date('Y-m-d');
-            $dados['id_funcionario'] = $idResponsavel;
+                $dados['id_forma_transacao'] = $dadosFluxo['forma-pagamento'][$i];
+                $dados['valor'] = str_replace(['.', ','], ['', '.'], $dadosFluxo['valor'][$i]);
+                $dados['movimentacao_tabela'] = 0; // sempre saída
 
-            $this->FinFluxo_model->insereFluxo($dados); // insere a movimentação no fluxo
+                $dados['id_micro'] = $dadosFluxo['id_micro'][$i];
+                $dados['id_macro'] = $dadosFluxo['id_macro'][$i];
+                $dados['data_movimentacao'] = date('Y-m-d');
+                $dados['id_funcionario'] = $idResponsavel;
+
+                $this->FinFluxo_model->insereFluxo($dados); // insere a movimentação no fluxo
 
 
-            // atualiza as contas bancarias
-            $saldoAtualContaBancaria = $this->FinSaldoBancario_model->recebeSaldoBancario($dadosFluxo['conta-bancaria'][$i]);
-            $novoSaldoContaBancaria = $saldoAtualContaBancaria['saldo'] - $dados['valor'];
-            $this->FinSaldoBancario_model->atualizaSaldoBancario($dadosFluxo['conta-bancaria'][$i],  $novoSaldoContaBancaria);
-            
-            // atualiza o saldo do responsavel
-            $saldoAtualFuncionario = $this->Funcionarios_model->recebeSaldoFuncionario($idResponsavel);
-            $novoSaldoFuncionario =  $saldoAtualFuncionario['saldo'] + $dados['valor'];
-            $this->Funcionarios_model->atualizaSaldoFuncionario($idResponsavel, $novoSaldoFuncionario);
+                // atualiza as contas bancarias
+                $saldoAtualContaBancaria = $this->FinSaldoBancario_model->recebeSaldoBancario($dadosFluxo['conta-bancaria'][$i]);
+                $novoSaldoContaBancaria = $saldoAtualContaBancaria['saldo'] - $dados['valor'];
+                $this->FinSaldoBancario_model->atualizaSaldoBancario($dadosFluxo['conta-bancaria'][$i],  $novoSaldoContaBancaria);
+                
+                // atualiza o saldo do responsavel
+                $saldoAtualFuncionario = $this->Funcionarios_model->recebeSaldoFuncionario($idResponsavel);
+                $novoSaldoFuncionario =  $saldoAtualFuncionario['saldo'] + $dados['valor'];
+                $this->Funcionarios_model->atualizaSaldoFuncionario($idResponsavel, $novoSaldoFuncionario);
 
+            }
         }
 
         return true;
