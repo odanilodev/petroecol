@@ -69,19 +69,19 @@
                                 </td>
 
                                 <td class="align-middle white-space-nowrap text-center">
-                                    <a href="<?= base_url('funcionarios/detalhes/' . $v['id']) ?>" class="btn btn-warning">
+                                    <a href="<?= base_url('funcionarios/detalhes/' . $v['id']) ?>" class="btn btn-phoenix-warning">
                                         <span class="fas fa-eye ms-1"></span>
                                     </a>
                                 </td>
 
                                 <td class="align-middle white-space-nowrap text-center">
-                                    <a href="<?= base_url('funcionarios/formulario/' . $v['id']) ?>" class="btn btn-info">
+                                    <a href="<?= base_url('funcionarios/formulario/' . $v['id']) ?>" class="btn btn-phoenix-info">
                                         <span class="fas fa-pencil ms-1"></span>
                                     </a>
                                 </td>
 
                                 <td class="align-middle white-space-nowrap text-center">
-                                    <a href="#" class="btn btn-danger" onclick="deletarFuncionario(<?= $v['id'] ?>)">
+                                    <a href="#" class="btn btn-phoenix-danger" onclick="deletarFuncionario(<?= $v['id'] ?>)">
                                         <span class="fas fa-trash ms-1"></span>
                                     </a>
                                 </td>
