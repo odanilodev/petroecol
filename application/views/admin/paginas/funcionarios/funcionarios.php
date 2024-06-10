@@ -1,5 +1,5 @@
 <div class="content">
-    <div id="members" data-list='{"valueNames":["customer","email","mobile_number","city","last_active","joined"],"page":10,"pagination":true}'>
+    <div id="members" data-list='{"valueNames":["nome","cpf","saldo"],"page":10,"pagination":true}'>
         <div class="row align-items-center justify-content-between g-3 mb-4">
 
             <div class="col-auto">
@@ -30,11 +30,12 @@
                                 </div>
                             </th>
 
-                            <th class="sort align-middle" scope="col" data-sort="customer">Funcionario</th>
-                            <th class="sort align-middle" scope="col" data-sort="email">CPF</th>
-                            <th class="sort align-middle" scope="col" data-sort="email">Detalhes</th>
-                            <th class="sort align-middle pe-3">Editar</th>
-                            <th class="sort align-middle pe-3">Excluir</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="nome">Funcionario</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="cpf">CPF</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="saldo">Saldo</th>
+                            <th class="sort align-middle pe-3 text-center">Detalhes</th>
+                            <th class="sort align-middle pe-3 text-center">Editar</th>
+                            <th class="sort align-middle pe-3 text-center">Excluir</th>
                         </tr>
                     </thead>
 
@@ -42,45 +43,48 @@
 
                         <?php foreach ($funcionarios as $v) { ?>
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-
-                                <td class="fs--1 align-middle ps-0 py-3">
+                                <td class="fs--1 align-middle ps-0 py-3 text-center">
                                     <div class="form-check mb-0 fs-0">
                                         <input class="form-check-input" type="checkbox" data-bulk-select-row='{"customer":{"avatar":"/team/32.webp","name":"Carry Anna"},"email":"annac34@gmail.com","mobile":"+912346578","city":"Budapest","lastActive":"34 min ago","joined":"Dec 12, 12:56 PM"}' />
                                     </div>
                                 </td>
 
-                                <td class="customer align-middle white-space-nowrap">
-                                    <a class="d-flex align-items-center text-900" href="<?= base_url('funcionarios/detalhes/') . $v['id'] ?>">
+                                <td class="customer align-middle white-space-nowrap text-center">
+                                    <a class="d-flex justify-content-center align-items-center text-900" href="<?= base_url('funcionarios/detalhes/') . $v['id'] ?>">
                                         <div class="avatar avatar-m">
                                             <img class="rounded-circle" src="<?= $v['foto_perfil'] ? base_url_upload('funcionarios/perfil/' . ($v['foto_perfil'])) : base_url('assets/img/icons/sem_foto.jpg') ?>">
                                         </div>
-                                        <h6 class="mb-0 ms-3 fw-semi-bold"><?= $v['nome'] ?></h6>
+                                        <h6 class="mb-0 ms-3 fw-semi-bold nome"><?= $v['nome'] ?></h6>
                                     </a>
                                 </td>
 
-
-                                <td class="mobile_number align-middle white-space-nowrap">
+                                <td class="mobile_number align-middle white-space-nowrap cpf text-center">
                                     <h6 class="fw-bold text-1100"><?= $v['cpf'] ?></h6>
                                 </td>
 
-                                <td class="align-middle white-space-nowrap">
+                                <td class="mobile_number align-middle white-space-nowrap saldo text-center">
+                                    <h6 class="fw-bold text-1100">
+                                        <?= isset($v['saldo']) ? 'R$ ' . number_format($v['saldo'], 2, ',', '.') : 'R$ 0,00' ?>
+                                    </h6>
+                                </td>
+
+                                <td class="align-middle white-space-nowrap text-center">
                                     <a href="<?= base_url('funcionarios/detalhes/' . $v['id']) ?>" class="btn btn-warning">
                                         <span class="fas fa-eye ms-1"></span>
                                     </a>
                                 </td>
 
-                                <td class="align-middle white-space-nowrap">
+                                <td class="align-middle white-space-nowrap text-center">
                                     <a href="<?= base_url('funcionarios/formulario/' . $v['id']) ?>" class="btn btn-info">
                                         <span class="fas fa-pencil ms-1"></span>
                                     </a>
                                 </td>
 
-                                <td class="align-middle white-space-nowrap">
+                                <td class="align-middle white-space-nowrap text-center">
                                     <a href="#" class="btn btn-danger" onclick="deletarFuncionario(<?= $v['id'] ?>)">
                                         <span class="fas fa-trash ms-1"></span>
                                     </a>
                                 </td>
-
                             </tr>
 
                         <?php } ?>
