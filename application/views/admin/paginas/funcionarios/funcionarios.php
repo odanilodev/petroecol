@@ -30,7 +30,7 @@
                                 </div>
                             </th>
 
-                            <th class="sort align-middle text-center" scope="col" data-sort="nome">Funcionario</th>
+                            <th class="sort align-middle" scope="col" data-sort="nome">Funcionario</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="cpf">CPF</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="saldo">Saldo</th>
                             <th class="sort align-middle pe-3 text-center">Detalhes</th>
@@ -49,8 +49,8 @@
                                     </div>
                                 </td>
 
-                                <td class="customer align-middle white-space-nowrap text-center">
-                                    <a class="d-flex justify-content-center align-items-center text-900" href="<?= base_url('funcionarios/detalhes/') . $v['id'] ?>">
+                                <td class="customer align-middle white-space-nowrap">
+                                    <a class="d-flex align-items-center text-900" href="<?= base_url('funcionarios/detalhes/') . $v['id'] ?>">
                                         <div class="avatar avatar-m">
                                             <img class="rounded-circle" src="<?= $v['foto_perfil'] ? base_url_upload('funcionarios/perfil/' . ($v['foto_perfil'])) : base_url('assets/img/icons/sem_foto.jpg') ?>">
                                         </div>
