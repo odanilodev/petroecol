@@ -276,46 +276,45 @@
             </thead>
             <tbody>
                 <?php foreach ($residuos as $id_residuo => $residuo_info): ?>
-                    <tr>
-                        <td style="width: 15px;"><?= $residuo_info['nome'] ?? "Desconhecido"; ?></td>
-                        <td style="width: 15px;">
-                            <?php
-                            if (isset($movimentado_geral[$id_residuo])) {
-                                echo '<p>' . $movimentado_geral[$id_residuo] . ' ' . $residuo_info['unidade_medida'] . '</p>';
-                            } else {
-                                echo '<p>0 ' . $residuo_info['unidade_medida'] . '</p>';
-                            }
-                            ?>
-                        </td>
-                        <td style="width: 15px;">
-                            <?php
-                            if (isset($valor_total_geral[$id_residuo])) {
-                                $val = $valor_total_geral[$id_residuo];
-                                if ($val['tipo_pagamento'] == 1) {
-                                    echo '<p>R$ ' . (number_format($val['valor'], 2, ',', '.')) . ' ' . ($formasPagamento[$id_residuo] ?? "") . '</p>';
-                                } else {
-                                    echo '<p>' . $val['valor'] . ' ' . ($formasPagamento[$id_residuo] ?? "") . '</p>';
-                                }
-                            } else {
-                                echo '<p>0</p>';
-                            }
-                            ?>
-                        </td>
-                        <?php if (!$filtrar_geral) { ?>
+                    <?php if (isset($movimentado_geral[$id_residuo]) && $movimentado_geral[$id_residuo] > 0): ?>
+                        <tr>
+                            <td style="width: 15px;"><?= $residuo_info['nome'] ?? "Desconhecido"; ?></td>
                             <td style="width: 15px;">
                                 <?php
-                                if (isset($valor_total_mensal_geral[$id_residuo])) {
-                                    echo '<p>' . $valor_total_mensal_geral[$id_residuo] . ' ' . ($formasPagamento[$id_residuo] ?? "") . '</p>';
+                                echo '<p>' . $movimentado_geral[$id_residuo] . ' ' . $residuo_info['unidade_medida'] . '</p>';
+                                ?>
+                            </td>
+                            <td style="width: 15px;">
+                                <?php
+                                if (isset($valor_total_geral[$id_residuo])) {
+                                    $val = $valor_total_geral[$id_residuo];
+                                    if ($val['tipo_pagamento'] == 1) {
+                                        echo '<p>R$ ' . (number_format($val['valor'], 2, ',', '.')) . ' ' . ($formasPagamento[$id_residuo] ?? "") . '</p>';
+                                    } else {
+                                        echo '<p>' . $val['valor'] . ' ' . ($formasPagamento[$id_residuo] ?? "") . '</p>';
+                                    }
                                 } else {
                                     echo '<p>0</p>';
                                 }
                                 ?>
                             </td>
-                        <?php } ?>
-                    </tr>
+                            <?php if (!$filtrar_geral) { ?>
+                                <td style="width: 15px;">
+                                    <?php
+                                    if (isset($valor_total_mensal_geral[$id_residuo])) {
+                                        echo '<p>' . $valor_total_mensal_geral[$id_residuo] . ' ' . ($formasPagamento[$id_residuo] ?? "") . '</p>';
+                                    } else {
+                                        echo '<p>0</p>';
+                                    }
+                                    ?>
+                                </td>
+                            <?php } ?>
+                        </tr>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </tbody>
         </table>
+
 
     </div>
 
