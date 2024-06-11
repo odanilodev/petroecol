@@ -1015,6 +1015,19 @@
                     <div class="mb-3">
                       <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
 
+                        <div class="mb-4 col-md-12">
+                          <label class="text-body-highlight fw-bold mb-2">Setor da Empresa</label>
+                          <select class="form-select select2 select-setor obrigatorio-coleta">
+                            <option value="" selected disabled>Selecione</option>
+                            <?php foreach ($setoresEmpresa as $setor) { ?>
+                              <option value="<?= $setor['id'] ?>">
+                                <?= $setor['nome'] ?>
+                              </option>
+                            <?php } ?>
+                          </select>
+                          <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                        </div>
+
                         <div class="mb-4 col-12">
                           <label class="text-body-highlight fw-bold mb-2">Data Coleta</label>
                           <input class="form-control datetimepicker data-coleta-cadastrar cursor-pointer obrigatorio-coleta" name="data_coleta" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />

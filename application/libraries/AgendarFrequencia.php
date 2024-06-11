@@ -25,7 +25,10 @@ class AgendarFrequencia
 		$hora_ultima_coleta = $ultimoAgendamentoCliente['hora_coleta'] ?? null;
 
 		$data_coleta_obj = new DateTime($data_coleta);
-		$data_coleta_obj->modify('+' . $dias_coleta['dia'] . ' days'); // add dias 
+		if (isset($dias_coleta['dia'])) {
+
+			$data_coleta_obj->modify('+' . $dias_coleta['dia'] . ' days'); // add dias 
+		}
 		$nova_data_coleta = $data_coleta_obj->format('Y-m-d');
 
 		$dados['id_cliente'] = $id_cliente;
