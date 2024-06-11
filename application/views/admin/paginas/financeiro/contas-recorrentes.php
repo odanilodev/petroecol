@@ -52,7 +52,9 @@
                                 </td>
 
                                 <td class="align-middle review td_credor text-center">
-                                    <h6 class="mb-0 text-900"><?= $contaRecorrente['RECEBIDO']; ?></h6>
+                                    <h6 class="mb-0 text-900">
+                                        <?= $contaRecorrente['RECEBIDO'] ? ucfirst($contaRecorrente['RECEBIDO']) : ucfirst($contaRecorrente['CLIENTE']);?>
+                                    </h6>
                                 </td>
 
                                 <td class="align-middle review td_dia text-center">

@@ -129,7 +129,12 @@ class FinContasReceber extends CI_Controller
 	{
 		$dadosLancamento = $this->input->post('dados');
 
-		$data['id_dado_financeiro'] = $dadosLancamento['recebido'];
+		if ($dadosLancamento['grupo-recebido'] == 'clientes') {
+			$data['id_cliente'] = $dadosLancamento['recebido'];
+		} else {
+			$data['id_dado_financeiro'] = $dadosLancamento['recebido'];
+		}
+
 		$data['id_empresa'] = $this->session->userdata('id_empresa');
 
 		$data['valor'] = str_replace(['.', ','], ['', '.'], $dadosLancamento['valor']);
@@ -189,6 +194,7 @@ class FinContasReceber extends CI_Controller
 		$obs = $this->input->post('obs');
 		$idConta = $this->input->post('idConta');
 		$idDadoFinanceiro = $this->input->post('idDadoFinanceiro');
+		$idDadoCliente = $this->input->post('idDadoCliente');
 
 		$dataRecebimento = $this->input->post('dataRecebimento');
 
@@ -223,6 +229,7 @@ class FinContasReceber extends CI_Controller
 			$dados['valor'] = $valoPagoFormatado;
 			$dados['movimentacao_tabela'] = 1;
 			$dados['id_dado_financeiro'] = $idDadoFinanceiro;
+			$dados['id_cliente'] = $idDadoCliente;
 			$dados['observacao'] = $obs;
 
 			$this->FinFluxo_model->insereFluxo($dados);

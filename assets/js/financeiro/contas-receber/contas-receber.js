@@ -160,9 +160,7 @@ function duplicarFormasPagamento() {
 
     let btnRemove = `
         <div class="col-md-1 mt-0">            
-            <button type="button" class="btn btn-phoenix-danger deleta-dicionario" >
-                <span class="fas fa-minus"></span>
-            </button>
+            <button class="btn btn-phoenix-danger deleta-dicionario" >-</button>
         </div>
     `;
     //por padrão row vem com margin e padding - classes retiram
@@ -190,6 +188,7 @@ $(document).on('click', '.receber-conta', function () {
     $('.input-valor-recebido').val($(this).data('valor'));
     $('.valor-total-conta').html(`R$ ${$(this).data('valor')}`);
     $('.id-dado-financeiro').val($(this).data('id-dado-financeiro'));
+    $('.id-dado-cliente').val($(this).data('id-dado-cliente'));
 })
 
 $(document).on('change', '.select-grupo-recebidos', function () {
@@ -256,6 +255,7 @@ const receberConta = () => {
 
     let idConta = $('.id-conta-pagamento').val();
     let idDadoFinanceiro = $('.id-dado-financeiro').val();
+    let idDadoCliente = $('.id-dado-cliente').val();
 
     $('.select-conta-bancaria').each(function () {
 
@@ -293,6 +293,7 @@ const receberConta = () => {
             idConta: idConta,
             valorTotal: valorTotal,
             idDadoFinanceiro: idDadoFinanceiro,
+            idDadoCliente: idDadoCliente,
             dataRecebimento: dataRecebimento
         }, beforeSend: function () {
             $(".load-form").removeClass("d-none");
@@ -417,10 +418,16 @@ const visualizarConta = (idConta) => {
             let valorConta = formatarValorExibicao(parseFloat(data['conta'].valor));
             let valorRecebido = formatarValorExibicao(parseFloat(data['conta'].valor_recebido));
 
-            $('.nome-empresa').html(data['conta'].RECEBIDO);
+            if (data['conta'].RECEBIDO) {
+                $('.nome-empresa').html(data['conta'].RECEBIDO);
+            } else {
+                $('.nome-empresa').html(data['conta'].CLIENTE);
+            }
+
             $('.setor-empresa').html(data['conta'].SETOR);
             $('.data-vencimento').html(dataVencimento);
-            $('.data-emissao').html(dataEmissao);
+            
+            $('.data-emissao').html(data['conta'].data_emissao != '1969-12-31' ? dataEmissao : "");
             $('.valor-conta').html(valorConta);
             $('.obs-conta').html(data['conta'].observacao);
 

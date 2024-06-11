@@ -157,11 +157,18 @@ const visualizarConta = (idConta) => {
             $('.input-dia-pagamento').val(data['conta'].dia_pagamento);
 
             $('.select-macros').val(data['conta'].id_macro).trigger('change');
-            $('.select-grupo-recebidos').val(data['conta'].GRUPO_CREDOR).trigger('change');
+
+            $('.select-setor').val(data['conta'].id_setor_empresa).trigger('change');
+
+            if (data['conta'].GRUPO_CREDOR) {
+                $('.select-grupo-recebidos').val(data['conta'].GRUPO_CREDOR).trigger('change');
+            } else {
+                $('.select-grupo-recebidos').val('clientes').trigger('change');
+            }
 
             $(setTimeout(() => {
                 $('.select-micros').val(data['conta'].id_micro).trigger('change');
-                $('.select-recebido').val(data['conta'].ID_RECEBIDO).trigger('change');
+                $('.select-recebido').val(data['conta'].ID_RECEBIDO ?? data['conta'].ID_CLIENTE).trigger('change');
             }, 550));
 
 

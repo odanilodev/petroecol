@@ -42,14 +42,14 @@ function duplicarElemento() {
     `;
 
     let btnRemove = $(`
-    <div class="col-md-1 mb-2 mt-1">
+    <div class="col-md-1 mt-1">
 
-        <button class="btn btn-phoenix-danger remover-inputs w-25">-</button>
+        <button class="btn btn-phoenix-danger remover-inputs">-</button>
 
     </div>`);
 
     // div com row para cada grupo ficar em row diferente
-    let novaLinha = $('<div class="row"></div>');
+    let novaLinha = $('<div class="row mb-3"></div>');
 
     // imprime os elementos dentro da div row
     novaLinha.append(contaBancaria);
@@ -332,6 +332,7 @@ $(document).on('click', '.realizar-pagamento', function () {
 
     $('.id-conta-pagamento').val($(this).data('id'));
     $('.id-dado-financeiro').val($(this).data('id-dado-financeiro'));
+    $('.id-dado-cliente').val($(this).data('id-dado-cliente'));
     $('.input-valor').val($(this).data('valor'));
     $('.valor-total-conta').html(`R$ ${$(this).data('valor')}`);
 
@@ -352,6 +353,7 @@ const realizarPagamento = () => {
 
         let idConta = $('.id-conta-pagamento').val();
         let idDadoFinanceiro = $('.id-dado-financeiro').val();
+        let idDadoCliente = $('.id-dado-cliente').val();
 
         $('.select-conta-bancaria-unic').each(function () {
 
@@ -384,6 +386,7 @@ const realizarPagamento = () => {
                 idConta: idConta,
                 valorTotal: valorTotal,
                 idDadoFinanceiro: idDadoFinanceiro,
+                idDadoCliente: idDadoCliente,
                 dataPagamento: dataPagamento
             }, beforeSend: function () {
                 $(".load-form").removeClass("d-none");
@@ -566,7 +569,7 @@ $(document).on('click', '.btn-proxima-etapa-recorrente', function () {
 
                 for (i = 0; i < data.contas.length; i++) {
                     camposContas += `
-                        <div class="col-12 ${i > 0 ? 'mt-5' : ''}">${data.contas[i].RECEBIDO}</div>
+                        <div class="col-12 ${i > 0 ? 'mt-5' : ''}">${data.contas[i].RECEBIDO ?? data.contas[i].CLIENTE}</div>
                         <div class="col-12 col-md-6 mt-3"> 
                             <input class="form-control input-obrigatorio-recorrente datetimepicker cursor-pointer" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' value="${data.contas[i].dia_pagamento}/${mesAtual}/${anoAtual}" name="data_vencimento"/>
                             <div class="d-none aviso-obrigatorio">Preencha este campo</div>
@@ -579,7 +582,7 @@ $(document).on('click', '.btn-proxima-etapa-recorrente', function () {
 
                         <input type="hidden" class="aviso-obrigatorio" name="recebido" value="${data.contas[i].ID_RECEBIDO}">
 
-                        <input type="hidden" class="aviso-obrigatorio" name="nome-recebido" value="${data.contas[i].RECEBIDO}">
+                        <input type="hidden" class="aviso-obrigatorio" name="nome-recebido" value="${data.contas[i].RECEBIDO ?? data.contas[i].CLIENTE}">
 
                         <input type="hidden" class="aviso-obrigatorio" name="micros" value="${data.contas[i].ID_MICRO}">
 
@@ -815,7 +818,12 @@ const visualizarConta = (idConta) => {
             let valorConta = formatarValorExibicao(parseFloat(data['conta'].valor));
             let valorPago = formatarValorExibicao(parseFloat(data['conta'].valor_pago));
 
-            $('.nome-empresa').html(data['conta'].RECEBIDO);
+            if (data['conta'].RECEBIDO) {
+                $('.nome-empresa').html(data['conta'].RECEBIDO);
+            } else {
+                $('.nome-empresa').html(data['conta'].CLIENTE);
+            }
+
             $('.setor-empresa').html(data['conta'].SETOR);
             $('.data-vencimento').html(dataVencimento);
             $('.data-emissao').html(dataEmissao);
