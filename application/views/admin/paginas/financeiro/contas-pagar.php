@@ -164,7 +164,6 @@
                                 </div>
                             </th>
                             <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="td_vencimento">Vencimento
-                            <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="td_vencimento">Vencimento
                             </th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Valor</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor_pago">Valor Pago
@@ -206,7 +205,7 @@
                                     </div>
                                 </td>
 
-                                <td class="align-middle review td_valor_pago text-center">
+                                <td class="align-middle review text-center">
                                     <h6 class="mb-0 text-900 valor-pago-<?= $contaPagar['id'] ?>">R$
                                         <?= number_format($contaPagar['valor_pago'], 2, ',', '.'); ?>
                                     </h6>
