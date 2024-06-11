@@ -34,24 +34,26 @@
         h3 {
             font-weight: bold;
             text-transform: uppercase;
-            margin-top: 30px;
+            margin-top: 20px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
+            font-size: 12px;
         }
 
         th,
         td {
             border: 1px solid #dddddd;
             text-align: left;
-            padding: 10px;
+            padding: 7px;
         }
 
         th {
             background-color: #f2f2f2;
+            font-weight: bold;
         }
 
         .declaration {
@@ -64,6 +66,7 @@
         .signature {
             text-align: center;
             margin-top: 30px;
+            overflow: hidden;
         }
 
         .signature img {
@@ -71,8 +74,11 @@
             margin: 15px;
         }
 
-        .signature img:first-child {
-            margin-right: 20px;
+        .residue-header {
+            background-color: #e0e0e0;
+            font-weight: bold;
+            padding: 8px;
+            margin-top: 20px;
         }
     </style>
 
@@ -83,20 +89,16 @@
     <div class="container">
 
         <div class="header">
-            <img style="max-width: 260px;" src="<?= base_url_upload('certificados/logos/' . $modelo_certificado['logo']) ?>" alt="Logo">
-            <p style="font-size: 12px; padding-top: 10px;">
-                <?= $modelo_certificado['descricao']; ?>
-            </p>
+            <img style="max-width: 260px;"
+                src="<?= base_url_upload('certificados/logos/' . $modelo_certificado['logo']) ?>" alt="Logo">
+            <p style="font-size: 12px; padding-top: 10px;"><?= $modelo_certificado['descricao']; ?></p>
         </div>
 
         <h3><?= $modelo_certificado['titulo']; ?></h3>
 
         <table>
             <tr>
-                <th colspan="3"><?= chave('certificados-pdf-titulo-gerador') ?>:</th>
-            </tr>
-            <tr>
-                <td colspan="3"><?= $clientes_coletas['nome'] ?></td>
+                <th colspan="3"><?= chave('certificados-pdf-titulo-gerador') ?>: <?= $clientes_coletas['nome'] ?></th>
             </tr>
             <tr>
                 <td colspan="3">
@@ -128,28 +130,56 @@
 
         <h3>Resíduos Coletados</h3>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Qtd / Tipo do Resíduo</th>
-                    <th>Data</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($dados as $dado) : ?>
-                    <?php for ($i = 0; $i < count($dado['quantidade_coletada']); $i++) : ?>
-                        <?php if ($dado['residuos'][$i]) : ?>
-                            <tr>
-                                <td><?= $dado['quantidade_coletada'][$i] ?> <?= $residuosColetatos[$dado['residuos'][$i]] ?></td>
-                                <td><?= $dado['dataColeta'] ?></td>
-                            </tr>
-                        <?php endif; ?>
-                    <?php endfor; ?>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+        <?php
+        // Agrupar os dados por tipo de resíduo
+        $coletasPorResiduo = [];
+        foreach ($dados as $dado) {
+            foreach ($dado['quantidade_coletada'] as $i => $quantidade) {
+                $dataColeta = $dado['dataColeta'];
+                $residuo = $dado['residuos'][$i];
+                if (!isset($coletasPorResiduo[$residuo])) {
+                    $coletasPorResiduo[$residuo] = [];
+                }
+                $coletasPorResiduo[$residuo][] = ['quantidade' => $quantidade, 'data' => $dataColeta];
+            }
+        }
+        ?>
 
-        <?php if ($modelo_certificado['declaracao']) : ?>
+        <?php foreach ($coletasPorResiduo as $residuo => $coletas): ?>
+            <?php
+            $totalQuantidade = 0;
+            foreach ($coletas as $coleta) {
+                $totalQuantidade += $coleta['quantidade'];
+            }
+            ?>
+
+            <div class="residue-section">
+                <div class="residue-header"><?= $residuosColetatos[$residuo]['nome'] ?></div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Quantidade</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($coletas as $coleta): ?>
+                            <tr>
+                                <td><?= $coleta['quantidade'] ?>         <?= $residuosColetatos[$residuo]['unidade_medida'] ?></td>
+                                <td><?= $coleta['data'] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        <tr>
+                            <td><strong>Total Coletado: <?= $totalQuantidade ?>
+                                    <?= $residuosColetatos[$residuo]['unidade_medida'] ?></strong></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        <?php endforeach; ?>
+
+        <?php if ($modelo_certificado['declaracao']): ?>
             <div class="declaration">
                 <h4 style="font-weight: bold; margin-bottom: 10px;">Declaração</h4>
                 <p style="font-size: 12px;"><?= $modelo_certificado['declaracao']; ?></p>
@@ -158,18 +188,19 @@
 
         <div class="signature">
             <div style="width: 50%; float: left;">
-                <?php if ($modelo_certificado['assinatura']) : ?>
-                    <img src="<?= base_url_upload('certificados/assinaturas/' . $modelo_certificado['assinatura']) ?>" alt="Assinatura" style="width: 40%;">
+                <?php if ($modelo_certificado['assinatura']): ?>
+                    <img src="<?= base_url_upload('certificados/assinaturas/' . $modelo_certificado['assinatura']) ?>"
+                        alt="Assinatura" style="width: 40%;">
                 <?php endif; ?>
             </div>
 
             <div style="width: 50%; float: right;">
-                <?php if ($modelo_certificado['carimbo']) : ?>
-                    <img src="<?= base_url_upload('certificados/carimbos/' . $modelo_certificado['carimbo']) ?>" alt="Carimbo" style="width: 50%;">
+                <?php if ($modelo_certificado['carimbo']): ?>
+                    <img src="<?= base_url_upload('certificados/carimbos/' . $modelo_certificado['carimbo']) ?>"
+                        alt="Carimbo" style="width: 50%;">
                 <?php endif; ?>
             </div>
         </div>
-
 
     </div>
 
