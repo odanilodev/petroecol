@@ -37,7 +37,7 @@ class FinFluxo_model extends CI_Model
             $this->db->where('fin_fluxo.movimentacao_tabela', $tipoMovimentacao);
         }
 
-        $this->db->order_by('fin_fluxo.criado_em', 'DESC');
+        $this->db->order_by('fin_fluxo.data_movimentacao', 'DESC');
 
         if ($count) {
             return $this->db->count_all_results();
