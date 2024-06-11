@@ -67,22 +67,21 @@
                 <form id="filtroForm" action="<?= base_url('finContasPagar/') ?>" method="post">
                     <div class="col-12">
                         <div class="row align-items-center g-4">
-
                             <h4 class="ms-3">Filtrar resultados</h4>
 
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-3" style="padding:0;">
                                 <div class="ms-3">
                                     <input class="form-control datetimepicker" value="<?= $dataInicio ?>" required name="data_inicio" id="data_inicio" type="text" placeholder="Selecione a data de início" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
                                 </div>
                             </div>
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-3" style="padding:0;">
                                 <div class="ms-3">
                                     <input class="form-control datetimepicker" value="<?= $dataFim ?>" required name="data_fim" id="data_fim" type="text" placeholder="Seleciona a data final" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
                                 </div>
                             </div>
-                            <div class="col-12 col-md-2">
+                            <div class="col-12 col-md-2" style="padding:0;">
                                 <div class="ms-3">
-                                    <select class="select-validation select-orientacao" required name="status" id="status">
+                                    <select class="form-control select-validation select-orientacao" required name="status" id="status">
                                         <option <?= $status == 'ambas' ? 'selected' : '' ?> disabled> Status da conta</option>
                                         <option <?= $status == '0' ? 'selected' : '' ?> value="0">Em aberto</option>
                                         <option <?= $status == '1' ? 'selected' : '' ?> value="1">Paga</option>
@@ -90,9 +89,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-2">
+                            <div class="col-12 col-md-2" style="padding:0;">
                                 <div class="ms-3">
-                                    <select class="select-validation select-setor" required name="setor" id="setor">
+                                    <select class="form-control select-validation select-setor" required name="setor" id="setor">
                                         <option selected disabled>Setor da conta</option>
                                         <option <?= $idSetor == 'todos' ? 'selected' : '' ?> value="todos">Todos</option>
                                         <?php foreach ($setoresEmpresa as $setor) { ?>
@@ -104,10 +103,9 @@
                             </div>
                             <input type="hidden" name="nomeSetor" id="nomeSetor">
 
-                            <div class="col-12 col-md-2">
-                                <div class="ms-3">
-                                    <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 <?= !$dataInicio ? 'w-100' : ''; ?>">Filtrar</button>
-
+                            <div class="col-12 col-md-2" style="padding:0;">
+                                <div class="d-flex ms-3">
+                                    <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= !$dataInicio ? 'w-100' : ''; ?>">Filtrar</button>
                                     <?php if ($dataInicio) { ?>
                                         <a href="<?= base_url('finContasPagar'); ?>" class="btn btn-phoenix-danger" title="Limpar Filtro"><i class="fas fa-ban"></i></a>
                                     <?php } ?>
@@ -117,7 +115,6 @@
                         </div>
                     </div>
                 </form>
-                <hr class="bg-200 mb-6 mt-4" />
             </div>
         </div>
     </div>
@@ -198,15 +195,21 @@
                                 </td>
 
                                 <td class="align-middle rating white-space-nowrap fs--2 text-center <?= !$contaPagar['status'] ? 'td-valor-aberto' : '' ?>" data-valor="<?= $contaPagar['valor'] ?>">
-                                    <h6 class="mb-0 text-900 td_valor">R$
-                                        <?= $contaPagar['valor']; ?>
+                                    <h6 class="mb-0 text-900">R$
+                                        <?= number_format($contaPagar['valor'], 2, ',', '.'); ?>
                                     </h6>
+                                    <div class="td_valor">
+                                        <input type="hidden" value="<?= $contaPagar['valor'] ?>">
+                                    </div>
                                 </td>
 
                                 <td class="align-middle review td_valor_pago text-center">
                                     <h6 class="mb-0 text-900 valor-pago-<?= $contaPagar['id'] ?>">R$
                                         <?= number_format($contaPagar['valor_pago'], 2, ',', '.'); ?>
                                     </h6>
+                                    <div class="td_valor_pago">
+                                        <input type="hidden" value="<?= $contaPagar['valor_pago'] ?>">
+                                    </div>
                                 </td>
 
                                 <td class="align-middle text-start ps-3 status td_status_pgto text-center">
