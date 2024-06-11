@@ -106,7 +106,7 @@
 
                             <div class="col-12 col-md-2">
                                 <div class="ms-3">
-                                    <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 <?=!$dataInicio ? 'w-100' : '';?>">Filtrar</button>
+                                    <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 <?= !$dataInicio ? 'w-100' : ''; ?>">Filtrar</button>
 
                                     <?php if ($dataInicio) { ?>
                                         <a href="<?= base_url('finContasPagar'); ?>" class="btn btn-phoenix-danger" title="Limpar Filtro"><i class="fas fa-ban"></i></a>
@@ -166,7 +166,7 @@
                                     <input class="form-check-input check-all-element cursor-pointer" id="checkbox-bulk-reviews-select" type="checkbox" />
                                 </div>
                             </th>
-                            <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="Vencimento">Vencimento
+                            <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="td_vencimento">Vencimento
                             </th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Valor</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor_pago">Valor Pago
@@ -176,7 +176,7 @@
                             <th class="sort align-middle text-center" scope="col" data-sort="td_empresa">Empresa</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_observacao">Observação</th>
-                            
+
                             <th class="sort text-end pe-0 align-middle text-center" scope="col"></th>
                         </tr>
                     </thead>
@@ -187,7 +187,7 @@
 
                                 <td class="fs--1 align-middle ps-0">
                                     <div class="form-check mb-0 fs-0">
-                                        <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" data-nome-empresa="<?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>" data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>"/>
+                                        <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" data-nome-empresa="<?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>" data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>" />
                                     </div>
                                 </td>
 
@@ -197,9 +197,9 @@
                                     </h6>
                                 </td>
 
-                                <td class="align-middle rating white-space-nowrap fs--2 td_valor text-center <?= !$contaPagar['status'] ? 'td-valor-aberto' : '' ?>" data-valor="<?= $contaPagar['valor'] ?>">
-                                    <h6 class="mb-0 text-900">R$
-                                        <?= number_format($contaPagar['valor'], 2, ',', '.'); ?>
+                                <td class="align-middle rating white-space-nowrap fs--2 text-center <?= !$contaPagar['status'] ? 'td-valor-aberto' : '' ?>" data-valor="<?= $contaPagar['valor'] ?>">
+                                    <h6 class="mb-0 text-900 td_valor">R$
+                                        <?= $contaPagar['valor']; ?>
                                     </h6>
                                 </td>
 
@@ -227,7 +227,7 @@
                                 <td class="align-middle review td_empresa text-center">
                                     <h6 class="mb-0 text-900">
 
-                                        <?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']);?>
+                                        <?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>
                                     </h6>
                                 </td>
 
@@ -756,7 +756,7 @@
                                                                 <td class="align-middle product white-space-nowrap td_vencimento text-center">
                                                                     <h6 class="mb-0 text-900">
 
-                                                                        <?= $contaRecorrente['RECEBIDO'] ? ucfirst($contaRecorrente['RECEBIDO']) : ucfirst($contaRecorrente['CLIENTE']);?>
+                                                                        <?= $contaRecorrente['RECEBIDO'] ? ucfirst($contaRecorrente['RECEBIDO']) : ucfirst($contaRecorrente['CLIENTE']); ?>
 
                                                                     </h6>
                                                                 </td>
@@ -772,7 +772,7 @@
                                                                         <?= $contaRecorrente['dia_pagamento']; ?>
                                                                     </h6>
                                                                 </td>
-                                                                
+
                                                             </tr>
 
                                                         <?php } ?>
@@ -814,7 +814,7 @@
                                 <div class="col-12">
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0 lista-contas-recorrentes form-entrada-pagar-recorrentes">
-                                           <!-- JS -->
+                                            <!-- JS -->
                                         </div>
                                     </div>
 
