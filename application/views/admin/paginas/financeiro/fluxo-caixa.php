@@ -190,7 +190,7 @@
 
                                 <td class="align-middle text-center pagoRecebido">
                                     <h6 class="mb-0 text-900">
-                                        <?= ucfirst($movimentacao['nome_dado_financeiro']) ?>
+                                        <?= $movimentacao['nome_dado_financeiro'] ? ucfirst($movimentacao['nome_dado_financeiro']) : ucfirst($movimentacao['CLIENTE']) ?>
                                     </h6>
                                 </td>
 

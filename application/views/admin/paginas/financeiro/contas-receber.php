@@ -202,7 +202,7 @@
 
                                 <td class="align-middle text-start ps-3 status text-center td_status">
                                     <span class="badge badge-phoenix fs--2 <?= $contaReceber['status'] ? "badge-phoenix-success" : "badge-phoenix-danger" ?> tipo-status-conta-<?= $contaReceber['id'] ?>">
-                                        <span data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" class="badge-label cursor-pointer receber-conta status-pagamento-table-<?= $contaReceber['id'] ?>" data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro'] ?>" data-id="<?= $contaReceber['id'] ?>" <?= !$contaReceber['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalReceberConta"' : '' ?>>
+                                        <span data-id-dado-cliente="<?= $contaReceber['id_cliente'] ?>" data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" class="badge-label cursor-pointer receber-conta status-pagamento-table-<?= $contaReceber['id'] ?>" data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro'] ?>" data-id="<?= $contaReceber['id'] ?>" <?= !$contaReceber['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalReceberConta"' : '' ?>>
                                             <?= $contaReceber['status'] ? "Recebido" : "A receber" ?>
                                         </span>
 
@@ -249,7 +249,7 @@
                                                 </a>
 
                                                 <div class="dropdown-divider btn-receber-pagamento-<?= $contaReceber['id'] ?>"></div>
-                                                <a data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" class="dropdown-item receber-conta btn-receber-pagamento-<?= $contaReceber['id'] ?>" data-id="<?= $contaReceber['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalReceberConta">Receber
+                                                <a data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" class="dropdown-item receber-conta btn-receber-pagamento-<?= $contaReceber['id'] ?>" data-id="<?= $contaReceber['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalReceberConta" data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro'] ?>" data-id-dado-cliente="<?= $contaReceber['id_cliente'] ?>">Receber
                                                     Conta</a>
                                             <?php } ?>
                                         </div>
@@ -830,6 +830,7 @@
                 <div class="modal-footer">
                     <input type="hidden" class="id-conta-pagamento">
                     <input type="hidden" class="id-dado-financeiro">
+                    <input type="hidden" class="id-dado-cliente">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
                     <button class="btn btn-primary btn-form" type="button" onclick="receberConta()">Receber
                         Conta</button>

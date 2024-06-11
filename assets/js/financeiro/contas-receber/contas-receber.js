@@ -188,6 +188,7 @@ $(document).on('click', '.receber-conta', function () {
     $('.input-valor-recebido').val($(this).data('valor'));
     $('.valor-total-conta').html(`R$ ${$(this).data('valor')}`);
     $('.id-dado-financeiro').val($(this).data('id-dado-financeiro'));
+    $('.id-dado-cliente').val($(this).data('id-dado-cliente'));
 })
 
 $(document).on('change', '.select-grupo-recebidos', function () {
@@ -254,6 +255,7 @@ const receberConta = () => {
 
     let idConta = $('.id-conta-pagamento').val();
     let idDadoFinanceiro = $('.id-dado-financeiro').val();
+    let idDadoCliente = $('.id-dado-cliente').val();
 
     $('.select-conta-bancaria').each(function () {
 
@@ -291,6 +293,7 @@ const receberConta = () => {
             idConta: idConta,
             valorTotal: valorTotal,
             idDadoFinanceiro: idDadoFinanceiro,
+            idDadoCliente: idDadoCliente,
             dataRecebimento: dataRecebimento
         }, beforeSend: function () {
             $(".load-form").removeClass("d-none");

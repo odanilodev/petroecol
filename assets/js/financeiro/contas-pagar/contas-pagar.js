@@ -332,6 +332,7 @@ $(document).on('click', '.realizar-pagamento', function () {
 
     $('.id-conta-pagamento').val($(this).data('id'));
     $('.id-dado-financeiro').val($(this).data('id-dado-financeiro'));
+    $('.id-dado-cliente').val($(this).data('id-dado-cliente'));
     $('.input-valor').val($(this).data('valor'));
     $('.valor-total-conta').html(`R$ ${$(this).data('valor')}`);
 
@@ -352,6 +353,7 @@ const realizarPagamento = () => {
 
         let idConta = $('.id-conta-pagamento').val();
         let idDadoFinanceiro = $('.id-dado-financeiro').val();
+        let idDadoCliente = $('.id-dado-cliente').val();
 
         $('.select-conta-bancaria-unic').each(function () {
 
@@ -384,6 +386,7 @@ const realizarPagamento = () => {
                 idConta: idConta,
                 valorTotal: valorTotal,
                 idDadoFinanceiro: idDadoFinanceiro,
+                idDadoCliente: idDadoCliente,
                 dataPagamento: dataPagamento
             }, beforeSend: function () {
                 $(".load-form").removeClass("d-none");
