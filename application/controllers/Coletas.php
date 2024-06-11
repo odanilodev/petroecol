@@ -42,7 +42,7 @@ class Coletas extends CI_Controller
         $idColeta = $this->input->post('idColeta');
 
         if ($payload) {
-            foreach ($payload as $cliente) :
+            foreach ($payload as $cliente):
                 $dados = array(
                     'id_cliente' => $cliente['idCliente'],
                     'id_responsavel' => $idResponsavel,

@@ -34,20 +34,21 @@
         h3 {
             font-weight: bold;
             text-transform: uppercase;
-            margin-top: 30px;
+            margin-top: 20px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
+            font-size: 12px;
         }
 
         th,
         td {
             border: 1px solid #dddddd;
             text-align: left;
-            padding: 12px;
+            padding: 7px;
         }
 
         th {
@@ -73,14 +74,11 @@
             margin: 15px;
         }
 
-        .date-header {
+        .residue-header {
             background-color: #e0e0e0;
             font-weight: bold;
-            padding: 10px;
-        }
-
-        .date-section {
-            margin-top: 30px;
+            padding: 8px;
+            margin-top: 20px;
         }
     </style>
 
@@ -133,37 +131,49 @@
         <h3>Resíduos Coletados</h3>
 
         <?php
-        // Agrupar os dados por data de coleta
-        $coletasPorData = [];
+        // Agrupar os dados por tipo de resíduo
+        $coletasPorResiduo = [];
         foreach ($dados as $dado) {
             foreach ($dado['quantidade_coletada'] as $i => $quantidade) {
                 $dataColeta = $dado['dataColeta'];
                 $residuo = $dado['residuos'][$i];
-                if (!isset($coletasPorData[$dataColeta])) {
-                    $coletasPorData[$dataColeta] = [];
+                if (!isset($coletasPorResiduo[$residuo])) {
+                    $coletasPorResiduo[$residuo] = [];
                 }
-                $coletasPorData[$dataColeta][] = ['quantidade' => $quantidade, 'residuo' => $residuo];
+                $coletasPorResiduo[$residuo][] = ['quantidade' => $quantidade, 'data' => $dataColeta];
             }
         }
         ?>
 
-        <?php foreach ($coletasPorData as $data => $coletas): ?>
-            <div class="date-section">
-                <div class="date-header"><?= $data ?></div>
+        <?php foreach ($coletasPorResiduo as $residuo => $coletas): ?>
+            <?php
+            $totalQuantidade = 0;
+            foreach ($coletas as $coleta) {
+                $totalQuantidade += $coleta['quantidade'];
+            }
+            ?>
+
+            <div class="residue-section">
+                <div class="residue-header"><?= $residuosColetatos[$residuo]['nome'] ?></div>
                 <table>
                     <thead>
                         <tr>
-                            <th>Tipo do Resíduo</th>
                             <th>Quantidade</th>
+                            <th>Data</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($coletas as $coleta): ?>
                             <tr>
-                                <td><?= $residuosColetatos[$coleta['residuo']] ?></td>
-                                <td><?= $coleta['quantidade'] ?></td>
+                                <td><?= $coleta['quantidade'] ?>         <?= $residuosColetatos[$residuo]['unidade_medida'] ?></td>
+                                <td><?= $coleta['data'] ?></td>
                             </tr>
                         <?php endforeach; ?>
+                        <tr>
+                            <td><strong>Total Coletado: <?= $totalQuantidade ?>
+                                    <?= $residuosColetatos[$residuo]['unidade_medida'] ?></strong></td>
+                            <td></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
