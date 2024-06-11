@@ -164,6 +164,7 @@
                                 </div>
                             </th>
                             <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="td_vencimento">Vencimento
+                            <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="td_vencimento">Vencimento
                             </th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Valor</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor_pago">Valor Pago
@@ -173,6 +174,7 @@
                             <th class="sort align-middle text-center" scope="col" data-sort="td_empresa">Empresa</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_observacao">Observação</th>
+
 
                             <th class="sort text-end pe-0 align-middle text-center" scope="col"></th>
                         </tr>
@@ -184,6 +186,7 @@
 
                                 <td class="fs--1 align-middle ps-0">
                                     <div class="form-check mb-0 fs-0">
+                                        <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" data-nome-empresa="<?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>" data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>" />
                                         <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" data-nome-empresa="<?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>" data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>" />
                                     </div>
                                 </td>
@@ -230,6 +233,7 @@
                                 <td class="align-middle review td_empresa text-center">
                                     <h6 class="mb-0 text-900">
 
+                                        <?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>
                                         <?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>
                                     </h6>
                                 </td>
@@ -760,6 +764,7 @@
                                                                     <h6 class="mb-0 text-900">
 
                                                                         <?= $contaRecorrente['RECEBIDO'] ? ucfirst($contaRecorrente['RECEBIDO']) : ucfirst($contaRecorrente['CLIENTE']); ?>
+                                                                        <?= $contaRecorrente['RECEBIDO'] ? ucfirst($contaRecorrente['RECEBIDO']) : ucfirst($contaRecorrente['CLIENTE']); ?>
 
                                                                     </h6>
                                                                 </td>
@@ -775,6 +780,7 @@
                                                                         <?= $contaRecorrente['dia_pagamento']; ?>
                                                                     </h6>
                                                                 </td>
+
 
                                                             </tr>
 
@@ -817,6 +823,7 @@
                                 <div class="col-12">
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0 lista-contas-recorrentes form-entrada-pagar-recorrentes">
+                                            <!-- JS -->
                                             <!-- JS -->
                                         </div>
                                     </div>
