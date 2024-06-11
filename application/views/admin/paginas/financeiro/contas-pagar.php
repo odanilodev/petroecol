@@ -187,7 +187,7 @@
 
                                 <td class="fs--1 align-middle ps-0">
                                     <div class="form-check mb-0 fs-0">
-                                        <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" data-nome-empresa="<?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>" />
+                                        <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" data-nome-empresa="<?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>" data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>"/>
                                     </div>
                                 </td>
 
@@ -211,7 +211,7 @@
 
                                 <td class="align-middle text-start ps-3 status td_status_pgto text-center">
                                     <span class="badge badge-phoenix fs--2 <?= $contaPagar['status'] ? "badge-phoenix-success" : "badge-phoenix-danger" ?> tipo-status-conta-<?= $contaPagar['id'] ?>">
-                                        <span data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" class="badge-label cursor-pointer realizar-pagamento status-pagamento-<?= $contaPagar['id'] ?>" data-id="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" <?= !$contaPagar['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalPagarConta"' : "" ?>>
+                                        <span data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" class="badge-label cursor-pointer realizar-pagamento status-pagamento-<?= $contaPagar['id'] ?>" data-id="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" <?= !$contaPagar['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalPagarConta"' : "" ?> data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>">
                                             <?= $contaPagar['status'] ? "Pago" : "Em aberto" ?>
                                         </span>
                                         <span class="ms-1 icone-status-conta-<?= $contaPagar['id'] ?>" data-feather="<?= $contaPagar['status'] ? "check" : "slash" ?>" style="height:12.8px;width:12.8px;"></span>
@@ -262,7 +262,7 @@
                                                 </a>
 
                                                 <div class="dropdown-divider btn-realizar-pagamento-<?= $contaPagar['id'] ?>"></div>
-                                                <a class="dropdown-item realizar-pagamento btn-realizar-pagamento-<?= $contaPagar['id'] ?>" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-id="<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalPagarConta">Realizar
+                                                <a class="dropdown-item realizar-pagamento btn-realizar-pagamento-<?= $contaPagar['id'] ?>" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-id="<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalPagarConta" data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>">Realizar
                                                     Pagamento</a>
                                             <?php } ?>
                                         </div>
@@ -1024,6 +1024,7 @@
                 <div class="modal-footer">
                     <input type="hidden" class="id-conta-pagamento">
                     <input type="hidden" class="id-dado-financeiro">
+                    <input type="hidden" class="id-dado-cliente">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
                     <button class="btn btn-primary btn-form" type="button" onclick="realizarPagamento()">Pagar
                         Conta</button>
@@ -1163,6 +1164,7 @@
                     <div>
                         <input type="hidden" class="id-conta-pagamento">
                         <input type="hidden" class="id-dado-financeiro">
+                        <input type="hidden" class="id-dado-cliente">
                         <div class="spinner-border text-primary load-form d-none" role="status"></div>
                         <button class="btn btn-primary btn-form finalizar-varios-pagamentos btn-envia d-none" type="button" onclick="realizarVariosPagamentos()">Pagar Contas</button>
                         <button class="btn btn-primary proxima-etapa-pagamento" type="button">Próxima Etapa</button>

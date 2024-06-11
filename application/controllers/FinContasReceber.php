@@ -194,6 +194,7 @@ class FinContasReceber extends CI_Controller
 		$obs = $this->input->post('obs');
 		$idConta = $this->input->post('idConta');
 		$idDadoFinanceiro = $this->input->post('idDadoFinanceiro');
+		$idDadoCliente = $this->input->post('idDadoCliente');
 
 		$dataRecebimento = $this->input->post('dataRecebimento');
 
@@ -228,6 +229,7 @@ class FinContasReceber extends CI_Controller
 			$dados['valor'] = $valoPagoFormatado;
 			$dados['movimentacao_tabela'] = 1;
 			$dados['id_dado_financeiro'] = $idDadoFinanceiro;
+			$dados['id_cliente'] = $idDadoCliente;
 			$dados['observacao'] = $obs;
 
 			$this->FinFluxo_model->insereFluxo($dados);
