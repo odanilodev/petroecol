@@ -71,12 +71,12 @@
 
                             <div class="col-12 col-md-3" style="padding:0;">
                                 <div class="ms-3">
-                                    <input class="form-control datetimepicker" value="<?= $dataInicio ?>" required name="data_inicio" id="data_inicio" type="text" placeholder="Selecione a data de início" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
+                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataInicio ?>" required name="data_inicio" id="data_inicio" type="text" placeholder="Selecione a data de início" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
                                 </div>
                             </div>
                             <div class="col-12 col-md-3" style="padding:0;">
                                 <div class="ms-3">
-                                    <input class="form-control datetimepicker" value="<?= $dataFim ?>" required name="data_fim" id="data_fim" type="text" placeholder="Seleciona a data final" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
+                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataFim ?>" required name="data_fim" id="data_fim" type="text" placeholder="Seleciona a data final" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
                                 </div>
                             </div>
                             <div class="col-12 col-md-2" style="padding:0;">
@@ -657,9 +657,9 @@
                                             <div class="col-lg-4">
 
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Data
-                                                        Vencimento</label>
-                                                    <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio dados-conta" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <label class="text-body-highlight fw-bold mb-2">Data Vencimento</label>
+                                                    
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio dados-conta mascara-data" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true, "allowInput":true, "dateFormat":"d/m/Y"}' />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
@@ -669,11 +669,9 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data Emissão</label>
-                                                    <input class="form-control datetimepicker cursor-pointer input-data-emissao dados-conta" required name="data_emissao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-emissao dados-conta mascara-data" required name="data_emissao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true, "allowInput":true, "dateFormat":"d/m/Y"}' />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
-
                                                 </div>
-
 
                                             </div>
 
@@ -743,6 +741,7 @@
                                                                     <input class="form-check-input check-all-modal-element cursor-pointer" id="checkbox-bulk-reviews-select" type="checkbox" />
                                                                 </div>
                                                             </th>
+                                                            <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
                                                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Credor</th>
                                                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Micro</th>
                                                             <th class="sort text-start ps-5 align-middle text-center" scope="col" data-sort="td_status_pgto">Dia do Pagamento</th>
@@ -762,7 +761,14 @@
                                                                 <td class="align-middle product white-space-nowrap td_vencimento text-center">
                                                                     <h6 class="mb-0 text-900">
 
-                                                                        <?= $contaRecorrente['RECEBIDO'] ? ucfirst($contaRecorrente['RECEBIDO']) : ucfirst($contaRecorrente['CLIENTE']); ?>
+                                                                        <?= ucfirst($contaRecorrente['SETOR']); ?>
+
+                                                                    </h6>
+                                                                </td>
+
+                                                                <td class="align-middle product white-space-nowrap td_vencimento text-center">
+                                                                    <h6 class="mb-0 text-900">
+
                                                                         <?= $contaRecorrente['RECEBIDO'] ? ucfirst($contaRecorrente['RECEBIDO']) : ucfirst($contaRecorrente['CLIENTE']); ?>
 
                                                                     </h6>
@@ -881,7 +887,7 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data
                                                         Vencimento</label>
-                                                    <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio mascara-data" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
@@ -891,7 +897,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data Emissão</label>
-                                                    <input class="form-control datetimepicker cursor-pointer input-data-emissao" required name="data_emissao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-emissao mascara-data" required name="data_emissao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
@@ -956,7 +962,7 @@
                                             <div class="mb-4">
                                                 <label class="text-body-highlight fw-bold mb-2">Data
                                                     Pagamento</label>
-                                                <input class="form-control datetimepicker input-data-pagamento cursor-pointer input-obrigatorio-unic" name="data_pagamento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                <input class="form-control datetimepicker input-data-pagamento cursor-pointer input-obrigatorio-unic mascara-data" name="data_pagamento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
                                                 <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                             </div>
@@ -1067,7 +1073,7 @@
                                                     <div class="mb-4">
                                                         <label class="text-body-highlight fw-bold mb-2">Data
                                                             Pagamento</label>
-                                                        <input class="form-control datetimepicker input-obrigatorio-inicio input-data-pagamento data-pagamento-inicio cursor-pointer" name="data_pagamento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                        <input class="form-control datetimepicker input-obrigatorio-inicio input-data-pagamento data-pagamento-inicio cursor-pointer mascara-data" name="data_pagamento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
                                                         <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                     </div>
