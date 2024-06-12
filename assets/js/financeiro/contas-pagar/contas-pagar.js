@@ -503,7 +503,8 @@ $(document).on('click', '.btn-pagar-tudo', function () {
 
     // zerar campos
     $('.input-obrigatorio-inicio').each(function () {
-        $(this).val('')
+        $(this).val('');
+        $(this).val('').trigger('change');
     })
 
     valoresContasPagar();
@@ -685,7 +686,9 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
 function valoresContasPagar() {
     let valores = [];
     let totalAberto = 0;
-    $('.td-valor-aberto').each(function () {
+
+    $('.check-aberto:checked').each(function () {
+
         let valorAtual = parseFloat($(this).data('valor'));
         // Formatando o valor atual como moeda BRL sem o símbolo do Real (R$)
         let valorFormatado = valorAtual.toLocaleString('pt-BR', {
@@ -815,8 +818,6 @@ const visualizarConta = (idConta) => {
         }, beforeSend: function () {
             $('.html-clean').html('');
         }, success: function (data) {
-
-            console.log(data)
 
             let dataEmissao = data['conta'].data_emissao ? formatarDatas(data['conta'].data_emissao) : "";
             let dataVencimento = formatarDatas(data['conta'].data_vencimento);
