@@ -185,8 +185,8 @@
 
                                 <td class="fs--1 align-middle ps-0">
                                     <div class="form-check mb-0 fs-0">
-                                        <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" data-nome-empresa="<?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>" data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>" />
-                                        <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" data-nome-empresa="<?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>" data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>" />
+                                        <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" data-nome-empresa="<?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>" data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>" data-valor="<?= $contaPagar['valor'] ?>"/>
+                                        
                                     </div>
                                 </td>
 
@@ -196,7 +196,7 @@
                                     </h6>
                                 </td>
 
-                                <td class="align-middle rating white-space-nowrap fs--2 text-center <?= !$contaPagar['status'] ? 'td-valor-aberto' : '' ?>" data-valor="<?= $contaPagar['valor'] ?>">
+                                <td class="align-middle rating white-space-nowrap fs--2 text-center">
                                     <h6 class="mb-0 text-900">R$
                                         <?= number_format($contaPagar['valor'], 2, ',', '.'); ?>
                                     </h6>
