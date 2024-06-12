@@ -743,6 +743,7 @@
                                                                     <input class="form-check-input check-all-modal-element cursor-pointer" id="checkbox-bulk-reviews-select" type="checkbox" />
                                                                 </div>
                                                             </th>
+                                                            <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
                                                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Credor</th>
                                                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Micro</th>
                                                             <th class="sort text-start ps-5 align-middle text-center" scope="col" data-sort="td_status_pgto">Dia do Pagamento</th>
@@ -762,7 +763,14 @@
                                                                 <td class="align-middle product white-space-nowrap td_vencimento text-center">
                                                                     <h6 class="mb-0 text-900">
 
-                                                                        <?= $contaRecorrente['RECEBIDO'] ? ucfirst($contaRecorrente['RECEBIDO']) : ucfirst($contaRecorrente['CLIENTE']); ?>
+                                                                        <?= ucfirst($contaRecorrente['SETOR']); ?>
+
+                                                                    </h6>
+                                                                </td>
+
+                                                                <td class="align-middle product white-space-nowrap td_vencimento text-center">
+                                                                    <h6 class="mb-0 text-900">
+
                                                                         <?= $contaRecorrente['RECEBIDO'] ? ucfirst($contaRecorrente['RECEBIDO']) : ucfirst($contaRecorrente['CLIENTE']); ?>
 
                                                                     </h6>
