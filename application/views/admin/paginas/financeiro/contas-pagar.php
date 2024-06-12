@@ -233,7 +233,6 @@
                                     <h6 class="mb-0 text-900">
 
                                         <?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>
-                                        <?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>
                                     </h6>
                                 </td>
 
@@ -328,6 +327,42 @@
                                                             </div>
                                                         </td>
                                                     </tr>
+
+                                                    <tr>
+                                                        <td class="py-2 w-50">
+                                                            <div class="d-inline-flex align-items-center">
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300 fas fa-tag" style="width:16px; height:16px"></span>
+                                                                </div>
+                                                                <p class="fw-bold mb-0">Macro</p>
+                                                            </div>
+                                                        </td>
+                                                        <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                                                        <td class="py-2 w-50">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break nome-macro html-clean">
+                                                                <!-- JS -->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td class="py-2 w-50">
+                                                            <div class="d-inline-flex align-items-center">
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300 fas fa-tag" style="width:16px; height:16px"></span>
+                                                                </div>
+                                                                <p class="fw-bold mb-0">Micro</p>
+                                                            </div>
+                                                        </td>
+                                                        <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                                                        <td class="py-2 w-50">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break nome-micro html-clean">
+                                                                <!-- JS -->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+
                                                     <tr>
                                                         <td class="py-2 w-50">
                                                             <div class="d-inline-flex align-items-center">
@@ -828,7 +863,6 @@
                                 <div class="col-12">
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0 lista-contas-recorrentes form-entrada-pagar-recorrentes">
-                                            <!-- JS -->
                                             <!-- JS -->
                                         </div>
                                     </div>

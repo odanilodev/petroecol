@@ -41,12 +41,15 @@ class FinContasPagar_model extends CI_Model
 
     public function recebeContaPagar($id)
     {
-        $this->db->select('CP.*, DF.nome as RECEBIDO, DF.id_grupo as GRUPO_CREDOR, SE.nome as SETOR, ci_clientes.nome as CLIENTE');
+        $this->db->select('CP.*, DF.nome as RECEBIDO, DF.id_grupo as GRUPO_CREDOR, SE.nome as SETOR, ci_clientes.nome as CLIENTE, M.nome as MACRO, MICROS.nome as MICRO');
         $this->db->from('fin_contas_pagar CP');
         $this->db->join('fin_dados_financeiros DF', 'CP.id_dado_financeiro = DF.id', 'LEFT');
         $this->db->join('ci_setores_empresa SE', 'CP.id_setor_empresa = SE.id', 'LEFT');
 
         $this->db->join('ci_clientes', 'CP.id_cliente = ci_clientes.id', 'left'); // recebido/pago (cliente)
+
+        $this->db->join('fin_macros M', 'CP.id_macro = M.id', 'left');
+        $this->db->join('fin_micros MICROS', 'CP.id_micro = MICROS.id', 'left');
 
         $this->db->where('CP.id', $id);
         $this->db->where('CP.id_empresa', $this->session->userdata('id_empresa'));

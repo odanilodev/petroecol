@@ -816,6 +816,8 @@ const visualizarConta = (idConta) => {
             $('.html-clean').html('');
         }, success: function (data) {
 
+            console.log(data)
+
             let dataEmissao = data['conta'].data_emissao ? formatarDatas(data['conta'].data_emissao) : "";
             let dataVencimento = formatarDatas(data['conta'].data_vencimento);
             let valorConta = formatarValorExibicao(parseFloat(data['conta'].valor));
@@ -832,6 +834,8 @@ const visualizarConta = (idConta) => {
             $('.data-emissao').html(dataEmissao);
             $('.valor-conta').html(valorConta);
             $('.obs-conta').html(data['conta'].observacao);
+            $('.nome-macro').html(data['conta'].MACRO);
+            $('.nome-micro').html(data['conta'].MICRO);
 
             if (data['conta'].valor_pago) {
                 let dataPagamento = formatarDatas(data['conta'].data_pagamento);
