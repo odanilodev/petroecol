@@ -799,6 +799,15 @@ $(document).on('click', '.duplicar-pagamento', function () {
 
 });
 
+$(document).on('click', '.btn-nova-coleta', function () {
+
+    $('.select2').select2({
+        dropdownParent: ".modal-cadastrar-coleta",
+        theme: "bootstrap-5",
+    });
+
+});
+
 const cadastraColetaCliente = (idCliente) => {
 
     let dadosClientes = [];

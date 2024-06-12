@@ -550,7 +550,7 @@
           <div class="tab-pane fade active show" id="tab-activity" role="tabpanel" aria-labelledby="activity-tab">
 
             <h2 class="mb-6">Histórico de Coleta
-              <a href="#" class="btn btn-phoenix-success px-3 px-sm-5 me-2" style="float: right;" data-bs-toggle="modal" data-bs-target=".modal-cadastrar-coleta">
+              <a href="#" class="btn btn-phoenix-success px-3 px-sm-5 me-2 btn-nova-coleta" style="float: right;" data-bs-toggle="modal" data-bs-target=".modal-cadastrar-coleta">
                 <span class="fa-solid fas fa-recycle me-sm-2"></span>
                 <span class="d-none d-sm-inline">Nova Coleta </span>
               </a>
