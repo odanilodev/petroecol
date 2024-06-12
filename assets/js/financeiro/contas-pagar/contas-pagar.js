@@ -604,7 +604,7 @@ $(document).on('click', '.btn-proxima-etapa-recorrente', function () {
                 });
 
                 $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
-
+                $('.mascara-data').mask('00/00/0000');
 
             }
         })

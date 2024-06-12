@@ -78,14 +78,15 @@
         ?>
                 <thead>
                     <tr style="font-size: 14px;">
-                        <th>Nome Cliente</th>
-                        <th>Endereço</th>
-                        <th>Telefone</th>
-                        <th>Forma de Pagto</th>
-                        <th>Recipientes</th>
-                        <th>Qtde Retirado</th>
-                        <th>Valor Pago</th>
-                        <th>Observação</th>
+                        <th style="text-align: center;">Nome Cliente</th>
+                        <th style="text-align: center;">Endereço</th>
+                        <th style="text-align: center;">Telefone</th>
+                        <th style="text-align: center;">Forma de Pagto</th>
+                        <th style="text-align: center;">Recipientes</th>
+                        <th style="text-align: center;">Qtde Retirado</th>
+                        <th style="text-align: center;">Valor Pago</th>
+                        <th style="text-align: center;">Última Coleta</th>
+                        <th style="text-align: center;">Observação</th>
                     </tr>
                 </thead>
 
@@ -121,6 +122,15 @@
 
                     <td></td>
                     <td></td>
+
+                    <td style="text-align: center;">
+                        <?php
+                            $chave = $cliente['id'];
+
+                            echo "<p>" . date('d/m/Y', strtotime($ultimas_coletas[$chave]['data_coleta'])) . "</p>";
+                            
+                        ?>
+                    </td>
 
                     <td>
                         <?php

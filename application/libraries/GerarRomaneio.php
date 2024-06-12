@@ -27,6 +27,10 @@ class GerarRomaneio
 
 			$idClientes = json_decode($romaneio['clientes'], true);
 
+			$this->CI->load->model('Coletas_model');
+
+			$data['ultimas_coletas'] = $this->CI->Coletas_model->ultimaColetaCLiente($idClientes);
+
 			$data['clientes'] = $this->CI->Clientes_model->recebeClientesIds($idClientes, $romaneio['id_setor_empresa']);
 
 			$data['obsAgendamento'] = $this->CI->Agendamentos_model->recebeObservacaoAgendamentoCliente($romaneio['data_romaneio']);
