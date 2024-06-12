@@ -127,7 +127,10 @@
                         <?php
                             $chave = $cliente['id'];
 
-                            echo "<p>" . date('d/m/Y', strtotime($ultimas_coletas[$chave]['data_coleta'])) . "</p>";
+                            if (isset($ultimas_coletas[$chave]['data_coleta'])) {
+
+                                echo "<p>" . date('d/m/Y', strtotime($ultimas_coletas[$chave]['data_coleta'])) . "</p>";
+                            }
                             
                         ?>
                     </td>
