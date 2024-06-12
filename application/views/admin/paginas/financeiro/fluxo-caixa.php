@@ -456,7 +456,7 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data</label>
                                                     <input
-                                                        class="form-control datetimepicker input-fluxo-obrigatorio input-coleta"
+                                                        class="form-control datetimepicker input-fluxo-obrigatorio input-coleta mascara-data"
                                                         required name="data_movimentacao" type="text"
                                                         placeholder="dd/mm/aaaa"
                                                         data-options='{"disableMobile":true,"allowInput":true, "dateFormat": "d/m/Y"}'
