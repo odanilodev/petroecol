@@ -571,7 +571,7 @@ $(document).on('click', '.btn-proxima-etapa-recorrente', function () {
                     camposContas += `
                         <div class="col-12 ${i > 0 ? 'mt-5' : ''}">${data.contas[i].RECEBIDO ?? data.contas[i].CLIENTE}</div>
                         <div class="col-12 col-md-6 mt-3"> 
-                            <input class="form-control input-obrigatorio-recorrente datetimepicker cursor-pointer" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' value="${data.contas[i].dia_pagamento}/${mesAtual}/${anoAtual}" name="data_vencimento"/>
+                            <input class="form-control input-obrigatorio-recorrente datetimepicker cursor-pointer mascara-data" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' value="${data.contas[i].dia_pagamento}/${mesAtual}/${anoAtual}" name="data_vencimento"/>
                             <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                         </div>
 
@@ -597,7 +597,8 @@ $(document).on('click', '.btn-proxima-etapa-recorrente', function () {
 
                 $('.datetimepicker').flatpickr({
                     dateFormat: "d/m/Y",
-                    disableMobile: true
+                    disableMobile: true,
+                    allowInput: true
                 });
 
                 $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
