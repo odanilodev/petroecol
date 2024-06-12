@@ -211,6 +211,8 @@ $(document).on('click', '.editar-lancamento', function () {
 
         }, success: function (data) {
 
+            $('.select-setor-empresa').val(data['conta'].id_setor_empresa).trigger('change');
+
             let dataVencimento = data['conta'].data_vencimento.split('-');
             dataVencimento = dataVencimento[2] + '/' + dataVencimento[1] + '/' + dataVencimento[0];
             $('.input-data-vencimento').val(dataVencimento);
@@ -221,8 +223,6 @@ $(document).on('click', '.editar-lancamento', function () {
             $('.input-data-emissao').val(dataEmissao);
 
             $('.input-observacao').text(data['conta'].observacao);
-
-            $('.select-setor-empresa').val(data['conta'].id_setor_empresa).trigger('change');
 
         }
     })

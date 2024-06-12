@@ -865,7 +865,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Setor da Empresa</label>
-                                                    <select class="form-select select2 select-setor-empresa input-obrigatorio" name="setor">
+                                                    <select class="form-select select2 select-setor-empresa select-setor-empresa-editar input-obrigatorio" name="setor">
                                                         <option selected disabled value="">Selecione</option>
                                                         <?php foreach ($setoresEmpresa as $setor) { ?>
                                                             <option value="<?= $setor['id'] ?>"><?= $setor['nome'] ?></option>
@@ -921,6 +921,7 @@
 
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -928,7 +929,7 @@
                 <div class="modal-footer">
                     <input type="hidden" class="id-editar-conta">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
-                    <button class="btn btn-success btn-form" type="button" onclick="cadastraMultiplasContasPagar('form-editar-pagar')">Salvar</button>
+                    <button class="btn btn-success btn-form" type="button" onclick="cadastraContasPagar('form-editar-pagar')">Salvar</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
                 </div>
