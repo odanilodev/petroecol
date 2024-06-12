@@ -554,6 +554,8 @@ $(document).on('click', '.btn-proxima-etapa-recorrente', function () {
                 $(".btn-form").addClass("d-none");
             }, success: function (data) {
 
+                console.log(data)
+
                 let dataAtual = new Date();
                 let mesAtual = (dataAtual.getMonth());
 
@@ -569,7 +571,7 @@ $(document).on('click', '.btn-proxima-etapa-recorrente', function () {
 
                 for (i = 0; i < data.contas.length; i++) {
                     camposContas += `
-                        <div class="col-12 ${i > 0 ? 'mt-5' : ''}">${data.contas[i].RECEBIDO ?? data.contas[i].CLIENTE}</div>
+                        <div class="col-12 ${i > 0 ? 'mt-5' : ''}">${data.contas[i].RECEBIDO ?? data.contas[i].CLIENTE} (${data.contas[i].SETOR}) </div>
                         <div class="col-12 col-md-6 mt-3"> 
                             <input class="form-control input-obrigatorio-recorrente datetimepicker cursor-pointer mascara-data" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' value="${data.contas[i].dia_pagamento}/${mesAtual}/${anoAtual}" name="data_vencimento"/>
                             <div class="d-none aviso-obrigatorio">Preencha este campo</div>

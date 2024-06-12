@@ -87,10 +87,11 @@ class FinContasRecorrentes_model extends CI_Model
 
     public function recebeVariasContasRecorrentes($ids)
     {
-        $this->db->select('CR.*, DF.nome as RECEBIDO, DF.id as ID_RECEBIDO, M.id as ID_MICRO, M.id_macro, DF.id_grupo as GRUPO_CREDOR, ci_clientes.nome as CLIENTE');
+        $this->db->select('CR.*, DF.nome as RECEBIDO, DF.id as ID_RECEBIDO, M.id as ID_MICRO, M.id_macro, DF.id_grupo as GRUPO_CREDOR, ci_clientes.nome as CLIENTE, SE.nome as SETOR');
         $this->db->from('fin_contas_pagar_recorrentes CR');
         $this->db->join('fin_dados_financeiros DF', 'CR.id_dado_financeiro = DF.id', 'LEFT');
         $this->db->join('fin_micros M', 'CR.id_micro = M.id', 'LEFT');
+        $this->db->join('ci_setores_empresa SE', 'CR.id_setor_empresa = SE.id', 'LEFT');
 
         $this->db->join('ci_clientes', 'CR.id_cliente = ci_clientes.id', 'left'); // recebido/pago (cliente)
 
