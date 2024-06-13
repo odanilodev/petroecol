@@ -185,7 +185,7 @@
 
                                 <td class="fs--1 align-middle ps-0">
                                     <div class="form-check mb-0 fs-0">
-                                        <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" data-nome-empresa="<?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>" data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>" data-valor="<?= $contaPagar['valor'] ?>"/>
+                                        <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" data-nome-empresa="<?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>" data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>" data-valor="<?= $contaPagar['valor'] ?>" data-setor="<?= $contaPagar['SETOR'] ?>"/>
                                         
                                     </div>
                                 </td>

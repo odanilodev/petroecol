@@ -646,13 +646,18 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
         let ids = idsContasPagar();
 
         let idsDadoFinanceiro = [];
-        $('.check-aberto').each(function () {
+        $('.check-aberto:checked').each(function () {
             idsDadoFinanceiro.push($(this).data('id-dado-financeiro'));
         });
 
         let nomesEmpresas = [];
-        $('.check-aberto').each(function () {
+        $('.check-aberto:checked').each(function () {
             nomesEmpresas.push($(this).data('nome-empresa'));
+        });
+
+        let setoresEmpresas = [];
+        $('.check-aberto:checked').each(function () {
+            setoresEmpresas.push($(this).data('setor'));
         });
 
 
@@ -665,7 +670,7 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
                 $(this).addClass('dado-financeiro-' + idsDadoFinanceiro[i]);
             });
 
-            let tituloCampos = $('<h5 class="my-3">').text(nomesEmpresas[i]);
+            let tituloCampos = $('<h5 class="my-3">').text(`${nomesEmpresas[i]} (${setoresEmpresas[i]})`);
             clone.prepend(tituloCampos);
             $('.campos-pagamentos-novos').append(clone);
         }
@@ -714,7 +719,7 @@ function valoresContasPagar() {
 function idsContasPagar() {
 
     let ids = [];
-    $('.check-aberto').each(function () {
+    $('.check-aberto:checked').each(function () {
         ids.push($(this).val());
     });
 
