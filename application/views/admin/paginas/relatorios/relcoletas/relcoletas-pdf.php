@@ -36,6 +36,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 0px;
             margin-bottom: 25px;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -43,7 +44,7 @@
 
         th,
         td {
-            padding: 7px;
+            padding: 6px;
             border: 1px solid #ddd;
             text-align: left;
         }
@@ -116,14 +117,13 @@
 
             <?php foreach ($residuo_dados['cliente'] as $id_cliente => $cliente_dados) {
                 $movimentado = [];
-
                 $valor_total = [];
                 $valor_total_mensal = [];
                 $movimentacoes_por_residuo = 0;
                 ?>
 
 
-                <h4 style="font-weight: bold; text-transform:uppercase">
+                <h4 style="font-weight: bold; text-transform:uppercase; margin-bottom: 0px;">
                     <?= $cliente_dados['nome'] ?> -
                     <?= $residuos[$residuo_id]['nome'] ?? "" ?>
                 </h4>
