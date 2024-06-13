@@ -45,7 +45,7 @@ class Relatorios extends CI_Controller
 		$data['grupos'] = $this->Grupos_model->recebeGrupos();
 
 		$this->load->model('SetoresEmpresaCliente_model');
-        $data['setores'] = $this->SetoresEmpresaCliente_model->recebeSetoresEmpresaClientes();
+		$data['setores'] = $this->SetoresEmpresaCliente_model->recebeSetoresEmpresaClientes();
 
 		// residuos
 		$this->load->model('Residuos_model');
@@ -93,7 +93,7 @@ class Relatorios extends CI_Controller
 		$clientes = [];
 		foreach ($idColetaClientes as $idColeta) {
 			$historicoColeta = $this->detalhescoleta->detalheColeta($idColeta);
-			
+
 			$array['dataColeta'] = date('d/m/Y', strtotime($historicoColeta['coleta']['data_coleta']));
 			$array['motorista'] = $historicoColeta['coleta']['nome_responsavel'];
 			$array['residuos'] = json_decode($historicoColeta['coleta']['residuos_coletados'], true);
@@ -101,14 +101,14 @@ class Relatorios extends CI_Controller
 			$array['pagamentos'] = json_decode($historicoColeta['coleta']['forma_pagamento'], true);
 			$array['valor_pagamento'] = json_decode($historicoColeta['coleta']['valor_pago'], true);
 			$array['cliente'] = $historicoColeta['coleta'];
-		
+
 			// Verifica se há pagamentos para evitar erro
 			if (!empty($array['pagamentos'])) {
 				$array['tipo_pagamento'] = $this->formaPagamento_model->recebeTipoFormasPagamentos($array['pagamentos']);
 			} else {
 				$array['tipo_pagamento'] = array(); // ou outra ação adequada quando não há pagamentos
 			}
-		
+
 			$clientes[] = $historicoColeta['coleta']['id_cliente'];
 			$dados[] = $array;
 		}
@@ -117,13 +117,13 @@ class Relatorios extends CI_Controller
 		if (count($dados) > 0) {
 
 			// todos residuos cadastrado na empresa
-			$data['residuos'] = $this->residuochaveid->residuoArrayChaveId();
+			$data['residuos'] = $this->residuochaveid->residuoArrayChaveIdUnidadeMedida();
 			// todas formas de pagamento cadastrado na empresa
 			$data['formasPagamento'] = $this->formaspagamentochaveid->formaPagamentoArrayChaveId();
 			// Forma de pagamento por residuo
 			$data['residuoPagamentoCliente'] = $this->residuopagamentocliente->residuoPagamentoClienteArrayChaveId(array_unique($clientes));
 
-			$data['filtrar_geral'] = $filtrar_geral;	
+			$data['filtrar_geral'] = $filtrar_geral;
 
 			$data['dados'] = $this->estruturaColetas($dados);
 
