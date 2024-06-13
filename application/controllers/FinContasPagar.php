@@ -97,7 +97,7 @@ class FinContasPagar extends CI_Controller
 		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
 
 		$data['contasPagar'] = $this->FinContasPagar_model->recebeContasPagar($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa);
-
+		
 		$this->load->library('finDadosFinanceiros');
 
 		$data['saldoTotal'] = $this->findadosfinanceiros->somaSaldosBancarios();
@@ -135,12 +135,16 @@ class FinContasPagar extends CI_Controller
 	{
 		$dadosLancamento = $this->input->post('dados');
 
-		$data['id_dado_financeiro'] = $dadosLancamento['recebido'];
+		if ($dadosLancamento['grupo-recebido'] == 'clientes') {
+			$data['id_cliente'] = $dadosLancamento['recebido'];
+		} else {
+			$data['id_dado_financeiro'] = $dadosLancamento['recebido'];
+		}
+
 		$data['id_empresa'] = $this->session->userdata('id_empresa');
 		$data['valor'] = str_replace(['.', ','], ['', '.'], $dadosLancamento['valor']);
 		$data['id_micro'] = $dadosLancamento['micros'];
 		$data['id_macro'] = $dadosLancamento['macros'];
-		$data['nome'] = $dadosLancamento['nome-recebido'];
 		$data['id_setor_empresa'] = $dadosLancamento['setor'];
 		$data['observacao'] = $dadosLancamento['observacao'];
 		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
@@ -196,7 +200,6 @@ class FinContasPagar extends CI_Controller
 			$data['valor'] = str_replace(['.', ','], ['', '.'], $dadosLancamento['valor'][$i]);
 			$data['id_micro'] = $dadosLancamento['micros'][$i];
 			$data['id_macro'] = $dadosLancamento['macros'][$i];
-			$data['nome'] = $dadosLancamento['nome-recebido'][$i];
 			$data['id_setor_empresa'] = $dadosLancamento['setor'][$i];
 			$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'][$i])));
 
@@ -311,6 +314,7 @@ class FinContasPagar extends CI_Controller
 		$obs = $this->input->post('obs');
 		$idConta = $this->input->post('idConta');
 		$idDadoFinanceiro = $this->input->post('idDadoFinanceiro');
+		$idCliente = $this->input->post('idDadoCliente');
 
 		$dataPagamento = $this->input->post('dataPagamento');
 
@@ -345,6 +349,7 @@ class FinContasPagar extends CI_Controller
 			$dados['movimentacao_tabela'] = 0;
 			$dados['data_movimentacao'] = $dataPagamentoFormatada;
 			$dados['id_dado_financeiro'] = $idDadoFinanceiro;
+			$dados['id_cliente'] = $idCliente;
 			$dados['observacao'] = $obs;
 
 			$this->FinFluxo_model->insereFluxo($dados);

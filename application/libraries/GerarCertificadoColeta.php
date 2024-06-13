@@ -41,7 +41,7 @@ class GerarCertificadoColeta
 		$data['dados'] = $dados;
 
 		// todos residuos cadastrado na empresa
-		$data['residuosColetatos'] = $this->CI->residuochaveid->residuoArrayChaveId();
+		$data['residuosColetatos'] = $this->CI->residuochaveid->residuoArrayChaveIdUnidadeMedida();
 
 		// dados cliente
 		$data['clientes_coletas'] = $historicoColeta['coleta'];

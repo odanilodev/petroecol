@@ -70,17 +70,17 @@
                             <h4 class="ms-3">Filtrar resultados</h4>
                             <div class="col-12 col-md-3">
                                 <div class="ms-3">
-                                    <input class="form-control datetimepicker" value="<?= $dataInicio ?>" required name="data_inicio" id="data_inicio" type="text" placeholder="Selecione a data de início" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
+                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataInicio ?>" required name="data_inicio" id="data_inicio" type="text" placeholder="Selecione a data de início" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
                                 </div>
                             </div>
                             <div class="col-12 col-md-3">
                                 <div class="ms-3">
-                                    <input class="form-control datetimepicker" value="<?= $dataFim ?>" required name="data_fim" id="data_fim" type="text" placeholder="Seleciona a data final" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
+                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataFim ?>" required name="data_fim" id="data_fim" type="text" placeholder="Seleciona a data final" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
                                 </div>
                             </div>
                             <div class="col-12 col-md-2">
                                 <div class="ms-3">
-                                    <select class="select-validation select-orientacao" required name="status" id="movimentacao">
+                                    <select class="select-validation select-orientacao" required name="status" id="movimentacao">                       
                                         <option <?= $status == 'ambas' ? 'selected' : '' ?> disabled> Status da conta</option>
                                         <option <?= $status == '0' ? 'selected' : '' ?> value="0">A receber</option>
                                         <option <?= $status == '1' ? 'selected' : '' ?> value="1">Recebida</option>
@@ -119,7 +119,7 @@
         </div>
     </div>
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div id="members" data-list='{"valueNames":["td_vencimento","td_valor", "td_valor_recebido","td_status","td_data_recebimento","td_recebido","td_setor", "td_observacao"],"page":10,"pagination":true}'>
+        <div id="members" data-list='{"valueNames":["td_vencimento","td_valor", "td_valor_recebido","td_status","td_data_recebimento","td_recebido","td_setor"],"page":10,"pagination":true}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3>Contas a receber</h3>
@@ -167,7 +167,6 @@
                             <th class="sort text-start align-middle text-center" scope="col" data-sort="td_recebido">
                                 Recebido</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
-                            <th class="sort align-middle text-center" scope="col" data-sort="td_observacao">Observação</th>
 
                             <th class="sort text-end pe-0 align-middle" scope="col"></th>
                             <th class="sort text-end pe-0 align-middle" scope="col"></th>
@@ -203,7 +202,7 @@
 
                                 <td class="align-middle text-start ps-3 status text-center td_status">
                                     <span class="badge badge-phoenix fs--2 <?= $contaReceber['status'] ? "badge-phoenix-success" : "badge-phoenix-danger" ?> tipo-status-conta-<?= $contaReceber['id'] ?>">
-                                        <span data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" class="badge-label cursor-pointer receber-conta status-pagamento-table-<?= $contaReceber['id'] ?>" data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro'] ?>" data-id="<?= $contaReceber['id'] ?>" <?= !$contaReceber['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalReceberConta"' : '' ?>>
+                                        <span data-id-dado-cliente="<?= $contaReceber['id_cliente'] ?>" data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" class="badge-label cursor-pointer receber-conta status-pagamento-table-<?= $contaReceber['id'] ?>" data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro'] ?>" data-id="<?= $contaReceber['id'] ?>" <?= !$contaReceber['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalReceberConta"' : '' ?>>
                                             <?= $contaReceber['status'] ? "Recebido" : "A receber" ?>
                                         </span>
 
@@ -220,7 +219,7 @@
 
                                 <td class="align-middle text-start time text-center td_recebido">
                                     <h6 class="text-900 mb-0">
-                                        <?= $contaReceber['RECEBIDO'] ?>
+                                        <?= $contaReceber['RECEBIDO'] ? ucfirst($contaReceber['RECEBIDO']) : ucfirst($contaReceber['CLIENTE']);?>
                                     </h6>
                                 </td>
 
@@ -228,12 +227,6 @@
                                 <td class="align-middle product white-space-nowrap text-center td_setor">
                                     <h6 class="mb-0 text-900">
                                         <?= $contaReceber['SETOR']; ?>
-                                    </h6>
-                                </td>
-
-                                <td class="align-middle product white-space-nowrap text-center td_observacao">
-                                    <h6 class="mb-0 text-900">
-                                        <?= $contaReceber['observacao']; ?>
                                     </h6>
                                 </td>
 
@@ -256,7 +249,7 @@
                                                 </a>
 
                                                 <div class="dropdown-divider btn-receber-pagamento-<?= $contaReceber['id'] ?>"></div>
-                                                <a data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" class="dropdown-item receber-conta btn-receber-pagamento-<?= $contaReceber['id'] ?>" data-id="<?= $contaReceber['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalReceberConta">Receber
+                                                <a data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" class="dropdown-item receber-conta btn-receber-pagamento-<?= $contaReceber['id'] ?>" data-id="<?= $contaReceber['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalReceberConta" data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro'] ?>" data-id-dado-cliente="<?= $contaReceber['id_cliente'] ?>">Receber
                                                     Conta</a>
                                             <?php } ?>
                                         </div>
@@ -597,7 +590,7 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data
                                                         Vencimento</label>
-                                                    <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio mascara-data" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
@@ -608,7 +601,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data Emissão</label>
-                                                    <input class="form-control datetimepicker cursor-pointer input-data-emissao" required name="data_emissao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-emissao mascara-data" required name="data_emissao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
@@ -691,7 +684,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data Vencimento</label>
-                                                    <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio dados-conta" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio dados-conta mascara-data" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
@@ -701,7 +694,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data Emissão</label>
-                                                    <input class="form-control datetimepicker cursor-pointer input-data-emissao dados-conta" required name="data_emissao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-emissao dados-conta mascara-data" required name="data_emissao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
@@ -768,7 +761,7 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data
                                                         Recebimento</label>
-                                                    <input class="form-control datetimepicker input-data-recebimento cursor-pointer" name="data_recebimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <input class="form-control datetimepicker input-data-recebimento cursor-pointer mascara-data" name="data_recebimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
                                                 </div>
                                             </div>
 
@@ -837,6 +830,7 @@
                 <div class="modal-footer">
                     <input type="hidden" class="id-conta-pagamento">
                     <input type="hidden" class="id-dado-financeiro">
+                    <input type="hidden" class="id-dado-cliente">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
                     <button class="btn btn-primary btn-form" type="button" onclick="receberConta()">Receber
                         Conta</button>
