@@ -35,6 +35,7 @@
 
         table {
             width: 100%;
+            font-size: 12px;
             border-collapse: collapse;
             margin-top: 0px;
             margin-bottom: 25px;
@@ -44,7 +45,7 @@
 
         th,
         td {
-            padding: 6px;
+            padding: 10px !important;
             border: 1px solid #ddd;
             text-align: left;
         }
@@ -74,7 +75,7 @@
 <body>
 
     <div class="header">
-        <div style='width: 100%; display: flex; align-items: center;'>
+        <div style='width: 100%; display: flex; align-items: center'>
 
             <div style="flex: 1; text-align: left;">
                 <img src="<?= base_url('assets/img/icons/logo-slogan.jpg') ?>" alt="Logomarca"
@@ -82,7 +83,11 @@
             </div>
 
             <div style="flex: 1; text-align: right; margin-top: -30px;">
-                <h3 style="font-weight: bold; text-transform: uppercase;">Relatório de coletas</h3>
+                <h3 style="font-weight: bold; text-transform: uppercase; font-size: 16px;">Relatório de coletas
+                </h3>
+                <h3 style="font-weight: bold; text-transform: uppercase; font-size: 16px;">
+                    <?= date("d/m/Y", strtotime($data_inicio)) ?> - <?= date("d/m/Y", strtotime($data_fim)) ?>
+                </h3>
             </div>
 
         </div>
@@ -114,7 +119,6 @@
 
             ?>
 
-
             <?php foreach ($residuo_dados['cliente'] as $id_cliente => $cliente_dados) {
                 $movimentado = [];
                 $valor_total = [];
@@ -130,12 +134,12 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th style="width: 15px;" scope="col">Data</th>
-                            <th style="width: 15px;" scope="col">Motorista</th>
-                            <th style="width: 15px;" scope="col">Movimentado</th>
-                            <th style="width: 15px;" scope="col">Total</th>
+                            <th style="width: 10px;" scope="col">Data</th>
+                            <th style="width: 10px;" scope="col">Motorista</th>
+                            <th style="width: 10px;" scope="col">Movimentado</th>
+                            <th style="width: 10px;" scope="col">Total</th>
                             <?php if (!$filtrar_geral) { ?>
-                                <th style="width: 15px;" scope="col">Total Base</th>
+                                <th style="width: 10px;" scope="col">Total Base</th>
                             <?php } ?>
                         </tr>
                     </thead>
@@ -155,10 +159,10 @@
                             if ($residuoEncontrado):
                                 ?>
                                 <tr>
-                                    <td style="width: 15px;"><?= $coleta['data_coleta'] ?></td>
-                                    <td style="width: 15px;"><?= $coleta['motorista'] ?></td>
+                                    <td style="width: 10px;"><?= $coleta['data_coleta'] ?></td>
+                                    <td style="width: 10px;"><?= $coleta['motorista'] ?></td>
 
-                                    <td style="width: 15px;">
+                                    <td style="width: 10px;">
                                         <?php
                                         $valor_base_cliente = '';
                                         foreach ($coleta['residuos'] as $key => $residuo):
@@ -198,7 +202,7 @@
                                         ?>
                                     </td>
 
-                                    <td style="width: 15px; display:none">
+                                    <td style="width: 10px; display:none">
                                         <?php
                                         if (!empty($coleta['pagamentos'])) {
                                             foreach ($coleta['pagamentos'] as $key => $pagamento) {
@@ -230,7 +234,7 @@
                                     </td>
 
                                     <?php if (!$filtrar_geral) { ?>
-                                        <td style="width: 15px;">
+                                        <td style="width: 10px;">
                                             <?= $valor_base_cliente ?>
                                         </td>
                                     <?php } ?>
@@ -240,9 +244,9 @@
                         endforeach; ?>
 
                         <tr>
-                            <td colspan="2" align="center" style="width: 45px;"><?= $movimentacoes_por_residuo ?> movimentações
+                            <td colspan="2" align="center" style="width: 10px;"><?= $movimentacoes_por_residuo ?> movimentações
                             </td>
-                            <td style="width: 15px;">
+                            <td style="width: 10px;">
                                 <?php
                                 foreach ($movimentado as $key => $mov) {
                                     if (isset($movimentado_geral[$key])) {
@@ -254,7 +258,7 @@
                                 }
                                 ?>
                             </td>
-                            <td style="width: 15px;">
+                            <td style="width: 10px;">
                                 <?php
                                 foreach ($valor_total as $key => $val) {
                                     if (isset($valor_total_geral[$key])) {
@@ -273,7 +277,7 @@
                             </td>
 
                             <?php if (!$filtrar_geral) { ?>
-                                <td style="width: 15px;">
+                                <td style="width: 10px;">
                                     <?php
                                     foreach ($valor_total_mensal as $key => $val) {
                                         if (isset($valor_total_mensal_geral[$key])) {
@@ -298,25 +302,25 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th style="width: 15px;" scope="col">Quantidade</th>
-                    <th style="width: 15px;" scope="col">Movimentado</th>
-                    <th style="width: 15px;" scope="col">Total</th>
+                    <th style="width: 8px;" scope="col">Quantidade</th>
+                    <th style="width: 8px;" scope="col">Movimentado</th>
+                    <th style="width: 8px;" scope="col">Total</th>
                     <?php if (!$filtrar_geral) { ?>
-                        <th style="width: 15px;" scope="col">Total Base</th>
+                        <th style="width: 8px;" scope="col">Total Base</th>
                     <?php } ?>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td align="center" style="width: 45px;"><?= $movimentacoes_por_residuo_geral ?> movimentações</td>
-                    <td style="width: 15px;">
+                    <td style="width: 8px;">
                         <?php
                         foreach ($movimentado_geral as $key => $mov) {
                             echo '<p>' . $mov . ' ' . ($residuos[$key]['unidade_medida'] ?? "") . ' de ' . ($residuos[$key]['nome'] ?? "") . '</p>';
                         }
                         ?>
                     </td>
-                    <td style="width: 15px;">
+                    <td style="width: 8px;">
                         <?php
                         if (isset($valor_total_geral)) {
                             foreach ($valor_total_geral as $key => $val) {
@@ -330,7 +334,7 @@
                         ?>
                     </td>
                     <?php if (!$filtrar_geral) { ?>
-                        <td style="width: 15px;">
+                        <td style="width: 8px;">
                             <?php
                             foreach ($valor_total_mensal_geral as $key => $val) {
                                 echo '<p>' . $val . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
