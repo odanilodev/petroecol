@@ -131,6 +131,7 @@ class Clientes extends CI_Controller
         add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsClienteFooter));
 
         $id = $this->uri->segment(3);
+        $idSetor = $this->input->post('idSetor');
 
         $this->load->model('Coletas_model');
         $this->load->model('ComodatoCliente_model');
@@ -173,6 +174,9 @@ class Clientes extends CI_Controller
         // todos residuos
         $this->load->model('Residuos_model');
         $data['residuos'] = $this->Residuos_model->recebeTodosResiduos();
+
+        // residuo de cada setor
+        $data['residuosSetor'] = $this->Residuos_model->recebeResiduoSetor($idSetor);
 
         // todos recipientes
         $this->load->model('Recipientes_model');

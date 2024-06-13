@@ -100,14 +100,16 @@ class Coletas_model extends CI_Model
 
     public function recebeColetasCliente($idCliente)
     {
-        $this->db->select('CO.*, CO.id as ID_COLETA, ci_funcionarios.nome as nome_responsavel');
+        $this->db->select('SE.nome AS SETOR_COLETA, CO.*, CO.id AS ID_COLETA, F.nome AS nome_responsavel, SE2.nome AS SETOR_NOVA_COLETA');
         $this->db->from('ci_coletas CO');
-        $this->db->join('ci_funcionarios', 'CO.id_responsavel = ci_funcionarios.id', 'left');
+        $this->db->join('ci_funcionarios F', 'CO.id_responsavel = F.id', 'left');
+        $this->db->join('ci_romaneios R', 'CO.cod_romaneio = R.codigo', 'left');
+        $this->db->join('ci_setores_empresa SE', 'R.id_setor_empresa = SE.id', 'left');
+        $this->db->join('ci_setores_empresa SE2', 'CO.id_setor_empresa = SE2.id', 'left');
         $this->db->where('CO.id_cliente', $idCliente);
         $this->db->where('CO.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('CO.status', 1);
-        $this->db->order_by('data_coleta', 'desc');
-        $this->db->group_by('CO.id');
+        $this->db->order_by('CO.data_coleta', 'desc');
 
         $query = $this->db->get();
 
@@ -158,6 +160,18 @@ class Coletas_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
+    public function recebeUltimaColetaSetor($idCliente, $codRomaneio)
+    {
+        $this->db->select('CO.data_coleta, SE.nome');
+        $this->db->where('id_cliente', $idCliente);
+        $this->db->where('cod_romaneio', $codRomaneio);
+        $this->db->join('ci_romaneios R', 'R.codigo = CO.cod_romaneio');
+        $this->db->join('ci_setores_empresa SE', 'SE.id = R.id_setor_empresa');
+
+        $query = $this->db->get();
+        
+        return $query->result_array();
+    }
     public function ultimaColetaCliente($idsClientes)
     {
         // busca as ultimas datas de cada cliente
