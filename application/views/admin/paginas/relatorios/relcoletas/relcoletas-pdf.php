@@ -110,14 +110,17 @@
 
         // Gere a tabela para cada resíduo
         foreach ($residuos_coletados as $residuo_id => $residuo_dados) {
-            $movimentacoes_por_residuo = 0;
             $movimentado = [];
             $valor_total = [];
             $valor_total_mensal = [];
             ?>
 
 
-            <?php foreach ($residuo_dados['cliente'] as $id_cliente => $cliente_dados) { ?>
+            <?php foreach ($residuo_dados['cliente'] as $id_cliente => $cliente_dados) {
+                $movimentacoes_por_residuo = 0;
+                ?>
+
+
                 <h4 style="font-weight: bold; text-transform:uppercase">
                     <?= $cliente_dados['nome'] ?> -
                     <?= $residuos[$residuo_id]['nome'] ?? "" ?>
@@ -138,7 +141,9 @@
                         <?php
                         foreach ($cliente_dados['coletas'] as $coleta):
                             $residuoEncontrado = false;
+
                             foreach ($coleta['residuos'] as $key => $residuo) {
+
                                 if ($residuo == $residuo_id) {
                                     $residuoEncontrado = true;
                                     break;
