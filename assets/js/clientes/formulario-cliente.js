@@ -461,7 +461,7 @@ $(document).on('click', '.btn-gerar-certificado', function () {
 
     if (idModelo && coleta) {
         var redirect = `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}`;
-        window.open(redirect, '_self');
+        window.open(redirect, '_blank');
     } else {
         avisoRetorno('Algo deu errado!', 'Não foi possível encontrar o certificado de coleta.', 'error', `#`);
     }
