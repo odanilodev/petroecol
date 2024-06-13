@@ -151,6 +151,11 @@
             }
 
             foreach ($residue_collections as $residue => $collections) {
+                // Inicialização das variáveis de totalização
+                $totalQuantidade = 0;
+                $totalValor = 0;
+                $totalColetas = count($collections);
+
                 echo "<h4>$residue</h4>";
                 echo '<table class="table">
                         <thead>
@@ -163,7 +168,9 @@
                             </tr>
                         </thead>
                         <tbody>';
+
                 foreach ($collections as $collection) {
+                    // Adicionar cada linha da tabela
                     echo "<tr>
                             <td style=\"width: 15px;\">{$collection['data_coleta']}</td>
                             <td style=\"width: 15px;\">{$collection['motorista']}</td>
@@ -171,10 +178,24 @@
                             <td style=\"width: 15px;\">{$collection['valor']} {$collection['tipo_pagamento']}</td>
                             <td style=\"width: 15px;\">{$collection['valor']} {$collection['tipo_pagamento']}</td>
                           </tr>";
+
+                    // Somar os totais de quantidade e valor
+                    $totalQuantidade += $collection['quantidade'];
+                    $totalValor += $collection['valor'];
                 }
+
+                // Exibir a linha com os totais
+                echo "<tr>
+                        <td colspan=\"2\">Totais:</td>
+                        <td>{$totalQuantidade}</td>
+                        <td>{$totalValor}</td>
+                        <td>{$totalValor}</td>
+                      </tr>";
+
                 echo '</tbody></table>';
             }
             ?>
+
 
         <?php } ?>
 
