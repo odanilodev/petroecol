@@ -116,7 +116,7 @@ class FinFluxoCaixa extends CI_Controller
         $dados['id_vinculo_conta'] = $this->input->post('id_vinculo_conta');
         $dados['id_tarifa_bancaria'] = $this->input->post('id_tarifa_bancaria');
         $dados['id_forma_transacao'] = $this->input->post('id_forma_transacao');
-        $dados['valor'] = $this->input->post('valor');
+        $dados['valor'] = str_replace(['.', ','], ['', '.'], $this->input->post('valor'));
         $dados['movimentacao_tabela'] = $this->input->post('movimentacao_tabela');
         $dados['id_dado_financeiro'] = $this->input->post('id_dado_financeiro');
         $dados['id_micro'] = $this->input->post('micros');
@@ -132,7 +132,7 @@ class FinFluxoCaixa extends CI_Controller
 
             $saldoAtual = $this->FinSaldoBancario_model->recebeSaldoBancario($dados['id_conta_bancaria']);
 
-            $valorMovimentacaoFormatado = str_replace(['.', ','], ['', '.'], $dados['valor']); //Muda para o tipo float
+            $valorMovimentacaoFormatado = $dados['valor']; //Muda para o tipo float
 
             if ($dados['movimentacao_tabela']) {
                 $novoSaldo = $saldoAtual['saldo'] + $valorMovimentacaoFormatado;
@@ -141,6 +141,7 @@ class FinFluxoCaixa extends CI_Controller
             }
 
         }
+
 
         $retornoConta = $this->FinSaldoBancario_model->atualizaSaldoBancario($dados['id_conta_bancaria'], $novoSaldo);
 
