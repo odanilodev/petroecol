@@ -314,11 +314,9 @@
                         if (isset($valor_total_geral)) {
                             foreach ($valor_total_geral as $key => $val) {
                                 if ($val['tipo_pagamento'] == 1) {
-                                    echo '<p>R$ ' . (number_format($val['valor'], 2, ',', '.')) . '</p>';
-                                    echo '<p>' . ($formasPagamento[$key] ?? "") . '</p>';
+                                    echo '<p>R$ ' . (number_format($val['valor'], 2, ',', '.')) . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
                                 } else {
-                                    echo '<p>' . $val['valor'] . '</p>';
-                                    echo '<p>' . ($formasPagamento[$key] ?? "") . '</p>';
+                                    echo '<p>' . $val['valor'] . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
                                 }
                             }
                         }
@@ -328,8 +326,7 @@
                         <td style="width: 15px;">
                             <?php
                             foreach ($valor_total_mensal_geral as $key => $val) {
-                                echo '<p>' . $val . '</p>';
-                                echo '<p>' . ($formasPagamento[$key] ?? "") . '</p>';
+                                echo '<p>' . $val . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
                             }
                             ?>
                         </td>
