@@ -77,10 +77,10 @@ class Relatorios extends CI_Controller
 		$this->load->model('Coletas_model');
 		$idsColetasClientes = array_column($this->Coletas_model->recebeIdColetasClientesAll($clientes, $data_inicio, $data_fim), 'id');
 
-		$this->gerarPdfRelatorioColetas($idsColetasClientes, $residuos, $filtrar_geral);
+		$this->gerarPdfRelatorioColetas($idsColetasClientes, $residuos, $filtrar_geral, $data_inicio, $data_fim);
 	}
 
-	public function gerarPdfRelatorioColetas($idColetaClientes, $idsResiduos, $filtrar_geral)
+	public function gerarPdfRelatorioColetas($idColetaClientes, $idsResiduos, $filtrar_geral, $data_inicio, $data_fim)
 	{
 		$this->load->library('detalhesColeta');
 		$this->load->library('formasPagamentoChaveId');
@@ -124,6 +124,9 @@ class Relatorios extends CI_Controller
 			$data['residuoPagamentoCliente'] = $this->residuopagamentocliente->residuoPagamentoClienteArrayChaveId(array_unique($clientes));
 
 			$data['filtrar_geral'] = $filtrar_geral;
+
+			$data['data_inicio'] = $data_inicio;
+			$data['data_fim'] = $data_fim;
 
 			$data['dados'] = $this->estruturaColetas($dados);
 
