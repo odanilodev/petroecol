@@ -87,6 +87,7 @@
         </div>
     </div>
 
+
     <div style="margin-top: 40px;">
 
         <?php
@@ -204,11 +205,12 @@
                                                 $valor_total[$pagamento]['valor'] += $valorPagamento;
                                                 $valor_total[$pagamento]['tipo_pagamento'] = $coleta['tipo_pagamento'][$key] ?? '';
 
-                                                if (is_float($valorPagamento)) {
+                                                if (isset($coleta['tipo_pagamento'][$key]) && $coleta['tipo_pagamento'][$key] == 1) {
                                                     $formattedValue = number_format($valorPagamento, 2, ',', '.');
                                                 } else {
                                                     $formattedValue = $valorPagamento;
                                                 }
+
 
                                                 if (isset($coleta['tipo_pagamento'][$key]) && $coleta['tipo_pagamento'][$key] == 1) {
                                                     echo "<p>R$${formattedValue} " . ($formasPagamento[$pagamento] ?? "") . "</p>";
