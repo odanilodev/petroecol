@@ -110,13 +110,15 @@
 
         // Gere a tabela para cada resíduo
         foreach ($residuos_coletados as $residuo_id => $residuo_dados) {
-            $movimentado = [];
-            $valor_total = [];
-            $valor_total_mensal = [];
+
             ?>
 
 
             <?php foreach ($residuo_dados['cliente'] as $id_cliente => $cliente_dados) {
+                $movimentado = [];
+
+                $valor_total = [];
+                $valor_total_mensal = [];
                 $movimentacoes_por_residuo = 0;
                 ?>
 
