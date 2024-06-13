@@ -115,11 +115,12 @@
             $valor_total_mensal = [];
             ?>
 
-            <h4 style="font-weight: bold; text-transform:uppercase">Resíduo:
-                <?= $residuos[$residuo_id]['nome'] ?? "" ?>
-            </h4>
+
             <?php foreach ($residuo_dados['cliente'] as $id_cliente => $cliente_dados) { ?>
-                <h4 style="font-weight: bold; text-transform:uppercase"><?= $cliente_dados['nome'] ?></h4>
+                <h4 style="font-weight: bold; text-transform:uppercase">
+                    <?= $cliente_dados['nome'] ?> -
+                    <?= $residuos[$residuo_id]['nome'] ?? "" ?>
+                </h4>
                 <table class="table">
                     <thead>
                         <tr>
