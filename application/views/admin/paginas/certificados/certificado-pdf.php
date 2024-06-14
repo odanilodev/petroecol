@@ -88,6 +88,8 @@
 
     <div class="container">
 
+        <?php $id_residuo = $this->uri->segment(5); ?>
+
         <div class="header">
             <img style="max-width: 260px;"
                 src="<?= base_url_upload('certificados/logos/' . $modelo_certificado['logo']) ?>" alt="Logo">
@@ -133,14 +135,21 @@
         <?php
         // Agrupar os dados por tipo de resíduo
         $coletasPorResiduo = [];
+
+
         foreach ($dados as $dado) {
+
             foreach ($dado['quantidade_coletada'] as $i => $quantidade) {
-                $dataColeta = $dado['dataColeta'];
-                $residuo = $dado['residuos'][$i];
-                if (!isset($coletasPorResiduo[$residuo])) {
-                    $coletasPorResiduo[$residuo] = [];
+
+                if ($dado['residuos'][$i] == $id_residuo or !$id_residuo) {
+                    $dataColeta = $dado['dataColeta'];
+                    $residuo = $dado['residuos'][$i];
+                    if (!isset($coletasPorResiduo[$residuo])) {
+                        $coletasPorResiduo[$residuo] = [];
+                    }
+                    $coletasPorResiduo[$residuo][] = ['quantidade' => $quantidade, 'data' => $dataColeta];
                 }
-                $coletasPorResiduo[$residuo][] = ['quantidade' => $quantidade, 'data' => $dataColeta];
+
             }
         }
         ?>
