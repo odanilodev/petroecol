@@ -606,15 +606,15 @@
 
                         <div class="flex-1 me-2">
                           <h5 class="text-1000 lh-sm">
-
-                            <?php if ($coleta['coletado'] && $coleta['SETOR_COLETA']) {
-                              echo "Coleta realizada (" . $coleta['SETOR_COLETA'] . ")";
-                            } else if ($coleta['coletado'] && $coleta['SETOR_NOVA_COLETA']) {
-                              echo "Coleta realizada (" . $coleta['SETOR_NOVA_COLETA'] . ")";
+                          <?php
+                            if ($coleta['coletado'] == 1) {
+                                $setor = $coleta['SETOR_COLETA'] ? $coleta['SETOR_COLETA'] : $coleta['SETOR_NOVA_COLETA'];
+                                echo "Coleta realizada" . ($setor ? " ($setor)" : "");
                             } else {
-                              echo "Coleta não realizada";
+                                echo "Coleta não realizada";
                             }
-                            ?>
+                          ?>
+
 
                             | <span class="fw-semi-bold fs--1"><?= date('d/m/Y', strtotime($coleta['data_coleta'])) ?></span>
                           </h5>
