@@ -342,6 +342,16 @@ const detalhesHistoricoColeta = (idColeta, classe) => {
                     $('.residuos-coletados').append(quantidadeColetada)
                 }
 
+
+                if (data.coleta['observacao']) {
+
+                    $('.tr-observacao-coleta').removeClass('d-none')
+                    $('.observacao-coleta').html(data.coleta['observacao']);
+                } else {
+                    $('.tr-observacao-coleta').addClass('d-none')
+                    $('.observacao-coleta').html('');
+                }
+
                 $(classe ? classe : '.data-coleta').html(data.dataColeta);
                 $('.responsavel-coleta').html(data.coleta.nome_responsavel);
 
