@@ -23,7 +23,7 @@ class FinFluxoCaixa extends CI_Controller
         // FIM controle sessão
     }
 
-    public function index($page = 1)
+    public function index()
     {
         // scripts padrão
         $scriptsPadraoHead = scriptsPadraoHead();
@@ -90,17 +90,7 @@ class FinFluxoCaixa extends CI_Controller
 
         $dados['tipoMovimentacao'] = $tipoMovimentacao;
 
-        // >>>> PAGINAÇÃO <<<<<
-        $limit = 12; // Número de registros por página
-        $this->load->library('pagination');
-        $config['base_url'] = base_url('finFluxoCaixa/index');
-        $config['total_rows'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao, 0, 0, true); // Conta o total de registros
-        $config['per_page'] = $limit;
-        $config['use_page_numbers'] = TRUE;
-        $this->pagination->initialize($config);
-        // >>>> FIM PAGINAÇÃO <<<<<
-
-        $dados['movimentacoes'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao, $limit, $page);
+        $dados['movimentacoes'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao);
         $this->load->view('admin/includes/painel/cabecalho', $dados);
         $this->load->view('admin/paginas/financeiro/fluxo-caixa');
         $this->load->view('admin/includes/painel/rodape');
