@@ -104,13 +104,7 @@
     </div>
 
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div>
-            <div class="search-box me-2">
-                <form action="<?= base_url('finFluxoCaixa') ?>" method="POST" class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                    <input name="nome_dado_financeiro" value="<?= $cookie_filtro_fluxo['nome_dado_financeiro'] ?? null ?>" class="form-control search-input search" type="search" placeholder="Buscar Movimentação por Nome" aria-label="Search">
-                    <span class="fas fa-search search-box-icon"></span>
-                </form>
-            </div>
+        <div id="members" data-list='{"valueNames":["td_data","td_recebido","td_transacao","td_tipo","td_valor","td_observacao"],"page":10,"pagination":true}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3>Fluxo de caixa</h3>
@@ -118,10 +112,18 @@
                 <div class="col-12 col-md-auto">
                     <div class="row g-2 gy-3">
 
+                        <div class="col-auto flex-1">
+                            <div class="search-box">
+                                <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                                    <input class="form-control search-input search form-control-sm" type="search" placeholder="Buscar" aria-label="Search" />
+                                    <span class="fas fa-search search-box-icon"></span>
+                                </form>
+                            </div>
+                        </div>
+
                         <div class="col-auto">
 
-                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn btn-novo-lancamento" type="button" data-bs-toggle="modal" data-bs-target="#modalEntradaFluxo">Novo
-                                Lançamento</button>
+                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn btn-novo-lancamento" type="button" data-bs-toggle="modal" data-bs-target="#modalEntradaFluxo">Novo Lançamento</button>
 
                         </div>
 
@@ -137,14 +139,12 @@
                                     <input class="form-check-input" id="checkbox-bulk-reviews-select" type="checkbox" data-bulk-select='{"body":"table-latest-review-body"}' />
                                 </div>
                             </th>
-                            <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="data">
-                                Data</th>
-                            <th class="sort align-middle" scope="col" data-sort="pagoRecebido">Pago/Recebido</th>
-                            <th class="sort align-middle" scope="col" data-sort="categoria">Forma de
-                                Transação</th>
-                            <th class="sort align-middle" scope="col" data-sort="tipo">Tipo</th>
-                            <th class="sort ps-5 align-middle" scope="col" data-sort="valor">Valor</th>
-                            <th class="sort ps-5 align-middle" scope="col" data-sort="valor">Observação</th>
+                            <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="td_data">Data</th>
+                            <th class="sort align-middle" scope="col" data-sort="td_recebido">Pago/Recebido</th>
+                            <th class="sort align-middle" scope="col" data-sort="td_transacao">Forma de Transação</th>
+                            <th class="sort align-middle" scope="col" data-sort="td_tipo">Tipo</th>
+                            <th class="sort ps-5 align-middle" scope="col" data-sort="td_valor">Valor</th>
+                            <th class="sort ps-5 align-middle" scope="col" data-sort="td_observacao">Observação</th>
                             <th class="sort text-end pe-0 align-middle" scope="col"></th>
                         </tr>
                     </thead>
@@ -160,26 +160,26 @@
                                     </div>
                                 </td>
 
-                                <td class="align-middle text-center data white-space-nowrap">
+                                <td class="align-middle text-center data white-space-nowrap td_data">
                                     <h6 class="mb-0 text-900 text-center">
                                         <?= date('d/m/Y', strtotime($movimentacao['data_movimentacao'])); ?>
                                     </h6>
                                 </td>
 
-                                <td class="align-middle text-center pagoRecebido">
+                                <td class="align-middle text-center td_recebido">
                                     <h6 class="mb-0 text-900">
                                         <?= $movimentacao['nome_dado_financeiro'] ? ucfirst($movimentacao['nome_dado_financeiro']) : ucfirst($movimentacao['CLIENTE']) ?>
                                     </h6>
                                 </td>
 
 
-                                <td class="align-middle text-center categoria">
+                                <td class="align-middle text-center td_transacao">
                                     <h6 class="text-900 mb-0">
                                         <?= $movimentacao['nome_forma_transacao'] ?>
                                     </h6>
                                 </td>
 
-                                <td class="align-middle text-center ps-3 tipo">
+                                <td class="align-middle text-center ps-3 td_tipo">
                                     <?php if ($movimentacao['movimentacao_tabela'] == 0) : ?>
                                         <span class="badge badge-phoenix fs--2 badge-phoenix-warning">
                                             <span class="badge-label">Saída</span>
@@ -194,13 +194,17 @@
                                 </td>
 
 
-                                <td class="align-middle text-center valor">
+                                <td class="align-middle text-center">
                                     <h6 class="mb-0 text-900 text-center">
                                         <?= 'R$ ' . number_format($movimentacao['valor'], 2, ',', '.') ?>
                                     </h6>
+
+                                    <div class="d-none td_valor">
+                                        <input type="hidden" value="<?= $movimentacao['valor'];?>">
+                                    </div>
                                 </td>
 
-                                <td class="align-middle categoria">
+                                <td class="align-middle td_observacao">
                                     <h6 class="text-900 mb-0">
                                         <?= $movimentacao['observacao'] ?>
                                     </h6>
@@ -214,7 +218,6 @@
                                                 <span class="fas fa-eye"></span> Visualizar
                                             </a>
 
-
                                         </div>
                                     </div>
                                 </td>
@@ -227,13 +230,14 @@
             </div>
 
             <!-- Links de Paginação usando classes Bootstrap -->
-            <div class="row">
-                <div class="col-12">
-                    <nav aria-label="Page navigation" style="display: flex; float: right">
-                        <ul class="pagination mt-5">
-                            <?= $this->pagination->create_links(); ?>
-                        </ul>
-                    </nav>
+            <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+                <div class="col-auto d-none">
+                    <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!" data-list-view="*">Ver todos<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">Ver menos<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                </div>
+                <div class="col-auto d-flex w-100 justify-content-end mt-2 mb-2">
+                    <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
+                    <ul class="mb-0 pagination"></ul>
+                    <button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
                 </div>
             </div>
         </div>
@@ -403,12 +407,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data</label>
-                                                    <input
-                                                        class="form-control datetimepicker input-fluxo-obrigatorio input-coleta"
-                                                        required name="data_movimentacao" type="text"
-                                                        placeholder="dd/mm/aaaa"
-                                                        data-options='{"disableMobile":true,"allowInput":true, "dateFormat": "d/m/Y"}'
-                                                        style="cursor: pointer;" />
+                                                    <input class="form-control datetimepicker input-fluxo-obrigatorio input-coleta mascara-data" required name="data_movimentacao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true, "dateFormat": "d/m/Y"}' style="cursor: pointer;" />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
