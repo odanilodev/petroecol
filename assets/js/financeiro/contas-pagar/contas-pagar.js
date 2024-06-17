@@ -647,7 +647,14 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
 
         let idsDadoFinanceiro = [];
         $('.check-aberto:checked').each(function () {
-            idsDadoFinanceiro.push($(this).data('id-dado-financeiro'));
+
+            if ($(this).data('id-dado-financeiro')) {
+
+                idsDadoFinanceiro.push($(this).data('id-dado-financeiro'));
+            } else {
+                idsDadoFinanceiro.push($(this).data('id-dado-cliente'));
+
+            }
         });
 
         let nomesEmpresas = [];
