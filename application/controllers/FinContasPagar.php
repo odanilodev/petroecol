@@ -197,6 +197,7 @@ class FinContasPagar extends CI_Controller
 
 			$data['data_vencimento'] = $dadosLancamento['data_vencimento'][$i];
 			$data['id_dado_financeiro'] = $dadosLancamento['recebido'][$i];
+			$data['id_cliente'] = $dadosLancamento['cliente'][$i];
 			$data['valor'] = str_replace(['.', ','], ['', '.'], $dadosLancamento['valor'][$i]);
 			$data['id_micro'] = $dadosLancamento['micros'][$i];
 			$data['id_macro'] = $dadosLancamento['macros'][$i];
