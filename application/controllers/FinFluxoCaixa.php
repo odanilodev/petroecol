@@ -36,6 +36,22 @@ class FinFluxoCaixa extends CI_Controller
         add_scripts('header', array_merge($scriptsPadraoHead, $scriptsFluxoHead));
         add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsFluxoFooter));
 
+        $this->load->helper('cookie');
+
+        if ($this->input->post()) {
+            $this->input->set_cookie('filtro_fluxo', json_encode($this->input->post()), 3600);
+        }
+
+        if (is_numeric($page)) {
+            $cookie_filtro_fluxo = count($this->input->post()) > 0 ? json_encode($this->input->post()) : $this->input->cookie('filtro_fluxo');
+        } else {
+            $page = 1;
+            delete_cookie('filtro_fluxo');
+            $cookie_filtro_fluxo = json_encode([]);
+        }
+
+        $dados['cookie_filtro_fluxo'] = json_decode($cookie_filtro_fluxo, true);
+
         // Define as datas padrão caso não sejam recebidas via POST
         $dataInicio = new DateTime();
         $dataInicio->modify('-30 days');
@@ -94,13 +110,14 @@ class FinFluxoCaixa extends CI_Controller
         $limit = 12; // Número de registros por página
         $this->load->library('pagination');
         $config['base_url'] = base_url('finFluxoCaixa/index');
-        $config['total_rows'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao, 0, 0, true); // Conta o total de registros
+        $config['total_rows'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao, 0, 0, true, $cookie_filtro_fluxo); // Conta o total de registros
         $config['per_page'] = $limit;
         $config['use_page_numbers'] = TRUE;
         $this->pagination->initialize($config);
         // >>>> FIM PAGINAÇÃO <<<<<
 
-        $dados['movimentacoes'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao, $limit, $page);
+        $dados['movimentacoes'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao, 0, 0, null, $cookie_filtro_fluxo);
+
         $this->load->view('admin/includes/painel/cabecalho', $dados);
         $this->load->view('admin/paginas/financeiro/fluxo-caixa');
         $this->load->view('admin/includes/painel/rodape');
@@ -139,7 +156,6 @@ class FinFluxoCaixa extends CI_Controller
             } else {
                 $novoSaldo = $saldoAtual['saldo'] - $valorMovimentacaoFormatado;
             }
-
         }
 
 
@@ -162,7 +178,6 @@ class FinFluxoCaixa extends CI_Controller
         );
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-
     }
 
     public function recebeMovimentoFluxo()
@@ -185,5 +200,4 @@ class FinFluxoCaixa extends CI_Controller
         }
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
-
 }

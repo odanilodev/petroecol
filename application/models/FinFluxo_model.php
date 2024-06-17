@@ -18,7 +18,7 @@ class FinFluxo_model extends CI_Model
         return $query->result_array();
     }
 
-    public function recebeFluxoData($dataInicio, $dataFim, $tipoMovimentacao, $limit, $page, $count = null)
+    public function recebeFluxoData($dataInicio, $dataFim, $tipoMovimentacao, $limit, $page, $count = null, $cookie_filtro_fluxo = null)
     {
         $this->db->select('fin_fluxo.*, fin_contas_bancarias.apelido as apelido_conta_bancaria, fin_forma_transacao.nome as nome_forma_transacao, fin_dados_financeiros.nome as nome_dado_financeiro, C.nome as CLIENTE');
         $this->db->from('fin_fluxo');
