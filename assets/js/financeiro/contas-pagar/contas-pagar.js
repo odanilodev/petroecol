@@ -554,9 +554,6 @@ $(document).on('click', '.btn-proxima-etapa-recorrente', function () {
                 $(".load-form").removeClass("d-none");
                 $(".btn-form").addClass("d-none");
             }, success: function (data) {
-
-                console.log(data)
-
                 let dataAtual = new Date();
                 let mesAtual = (dataAtual.getMonth());
 
@@ -584,6 +581,7 @@ $(document).on('click', '.btn-proxima-etapa-recorrente', function () {
                         </div>
 
                         <input type="hidden" class="aviso-obrigatorio" name="recebido" value="${data.contas[i].ID_RECEBIDO}">
+                        <input type="hidden" class="aviso-obrigatorio" name="cliente" value="${data.contas[i].id_cliente}">
 
                         <input type="hidden" class="aviso-obrigatorio" name="nome-recebido" value="${data.contas[i].RECEBIDO ?? data.contas[i].CLIENTE}">
 
