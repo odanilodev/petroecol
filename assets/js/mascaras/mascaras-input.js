@@ -9,4 +9,5 @@ $(document).ready(function () {
     $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
     $('.mascara-agencia').mask('0000-0 / 00');
     $('.mascara-conta-bancaria').mask('00000000000000000000', { translation: { '0': { pattern: /[0-9/.-]/ } } });
+    $('.mascara-data').mask('00/00/0000');
 });

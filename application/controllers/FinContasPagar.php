@@ -97,7 +97,7 @@ class FinContasPagar extends CI_Controller
 		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
 
 		$data['contasPagar'] = $this->FinContasPagar_model->recebeContasPagar($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa);
-
+		
 		$this->load->library('finDadosFinanceiros');
 
 		$data['saldoTotal'] = $this->findadosfinanceiros->somaSaldosBancarios();
@@ -314,6 +314,7 @@ class FinContasPagar extends CI_Controller
 		$obs = $this->input->post('obs');
 		$idConta = $this->input->post('idConta');
 		$idDadoFinanceiro = $this->input->post('idDadoFinanceiro');
+		$idCliente = $this->input->post('idDadoCliente');
 
 		$dataPagamento = $this->input->post('dataPagamento');
 
@@ -348,6 +349,7 @@ class FinContasPagar extends CI_Controller
 			$dados['movimentacao_tabela'] = 0;
 			$dados['data_movimentacao'] = $dataPagamentoFormatada;
 			$dados['id_dado_financeiro'] = $idDadoFinanceiro;
+			$dados['id_cliente'] = $idCliente;
 			$dados['observacao'] = $obs;
 
 			$this->FinFluxo_model->insereFluxo($dados);

@@ -33,7 +33,7 @@
                                         </div>
 
                                         <div class="mb-2 col-md-3">
-                                            <label class="form-label text-900" for="input-id-grupo">Grupo</label>
+                                            <label class="form-label text-900" for="input-id-grupo">Grupo*</label>
                                             <select required name="id_grupo" id="input-id-grupo" class="form-select select2 input-obrigatorio">
                                                 <option value="" disabled selected>Selecione o Grupo</option>   
                                                 <?php foreach ($grupos as $v) { ?>

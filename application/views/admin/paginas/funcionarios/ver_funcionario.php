@@ -94,7 +94,7 @@
                                         <h5 class="text-1000 mb-0">Data de nascimento</h5>
                                     </div>
 
-                                    <p class="mb-0 text-800">
+                                    <p class="mb-4 text-800">
                                         <?php
                                         if ($funcionario['data_nascimento'] && $funcionario['data_nascimento'] != '0000-00-00') {
                                             echo date('d/m/Y', strtotime($funcionario['data_nascimento']));
@@ -103,6 +103,17 @@
                                         }
                                         ?>
                                     </p>
+
+                                    <div class="mb-4 ">
+                                    <div class="d-flex align-items-center mb-1"><span class="me-2 fas fa-money-check-alt"></span>
+                                        <h5 class="text-1000 mb-0">Saldo</h5>
+                                    </div>
+                                    <p class="mb-0 text-800">
+                                    <?= isset($funcionario['saldo']) ? 'R$ ' . number_format($funcionario['saldo'], 2, ',', '.') : 'R$ 0,00' ?>
+
+                                    </p>
+                                </div>
+
 
                                 </div>
 

@@ -342,6 +342,16 @@ const detalhesHistoricoColeta = (idColeta, classe) => {
                     $('.residuos-coletados').append(quantidadeColetada)
                 }
 
+
+                if (data.coleta['observacao']) {
+
+                    $('.tr-observacao-coleta').removeClass('d-none')
+                    $('.observacao-coleta').html(data.coleta['observacao']);
+                } else {
+                    $('.tr-observacao-coleta').addClass('d-none')
+                    $('.observacao-coleta').html('');
+                }
+
                 $(classe ? classe : '.data-coleta').html(data.dataColeta);
                 $('.responsavel-coleta').html(data.coleta.nome_responsavel);
 
@@ -353,7 +363,7 @@ const detalhesHistoricoColeta = (idColeta, classe) => {
         }
     })
 
-} 
+}
 
 const deletaColeta = (idColeta, idCliente) => {
 
@@ -377,19 +387,19 @@ const deletaColeta = (idColeta, idCliente) => {
                 data: {
                     idColeta: idColeta,
                 }, beforeSend: function () {
-        
+
                     $('.body-coleta').show();
                     $('.html-clean').html('');
-        
+
                 }, success: function (data) {
 
                     let redirect = data.success ? `${baseUrl}/clientes/detalhes/${idCliente}` : '#';
-        
+
                     avisoRetorno(data.title, data.message, data.type, redirect);
-        
+
                 }
             })
-        
+
         }
     })
 
@@ -417,9 +427,9 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
             dataFim: dataFim,
             residuo: idResiduo
         }, success: function (data) {
-            
+
             if (data.success) {
-                
+
                 $('.btn-gerar-certificado').removeClass('d-none')
                 emailsCertificadoColeta(null, idCliente);
 
@@ -439,7 +449,7 @@ const detalhesHistoricoColetaMassa = (idCliente) => {
 
 $(document).on('click', '.btn-envia-certificado', function (e) {
 
-    if ($('.emails-clientes-selecionados').val() && $('.select-modelo-certificado').val() != 'null'){
+    if ($('.emails-clientes-selecionados').val() && $('.select-modelo-certificado').val() != 'null') {
 
         $('.btn-form').addClass('d-none');
         $('.load-form').removeClass('d-none')
@@ -458,10 +468,11 @@ $(document).on('click', '.btn-gerar-certificado', function () {
 
     const idModelo = modeloCertificado;
     const coleta = $('.input-id-coleta').val();
+    const idResiduo = $('.id-residuo-coleta').val() != null ? $('.id-residuo-coleta').val() : "";
 
     if (idModelo && coleta) {
-        var redirect = `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}`;
-        window.open(redirect, '_self');
+        var redirect = `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}/${idResiduo}`;
+        window.open(redirect, '_blank');
     } else {
         avisoRetorno('Algo deu errado!', 'Não foi possível encontrar o certificado de coleta.', 'error', `#`);
     }
@@ -611,6 +622,47 @@ $(document).on('change', '.select-pagamento', function () {
         valorPagamento.unmask();
 
     }
+
+});
+
+$(document).on('change', '.select-setor-empresa', function () {
+
+    let idSetor = $(this).val();
+
+    $('.input-residuo').map(function () {
+        $(this).val('');
+    });
+
+    $('.residuos-duplicados').html('');
+
+    $.ajax({
+        type: 'post',
+        url: `${baseUrl}residuos/recebeResiduosSetor`,
+        data: {
+            idSetor: idSetor,
+
+        }, success: function (data) {
+
+            let option = '<option disabled selected>Selecione</option>';
+
+            for (i = 0; i < data.residuos.length; i++) {
+
+                option += `<option value="${data.residuos[i].id}">${data.residuos[i].nome}</option>`;
+            }
+
+            $('.select-residuo').html(option);
+
+        }, error: function (xhr, status, error) {
+            if (xhr.status === 403) {
+                avisoRetorno(
+                    "Algo deu errado!",
+                    `Você não tem permissão para esta ação..`,
+                    "error",
+                    "#"
+                );
+            }
+        },
+    })
 
 });
 
@@ -816,6 +868,7 @@ const cadastraColetaCliente = (idCliente) => {
 
     let idSetor = $('.select-setor').val();
     let idResponsavel = $('.select-responsavel').val();
+    let setorEmpresa = $('.select-setor-empresa').val();
     let dataColeta = $('.data-coleta-cadastrar').val().split('/');
     let dataColetaFormatada = `${dataColeta[2]}-${dataColeta[1]}-${dataColeta[0]}`;
 
@@ -864,6 +917,7 @@ const cadastraColetaCliente = (idCliente) => {
 
     let dadosCliente = {
         idCliente: idCliente,
+        idSetorEmpresa: setorEmpresa,
         residuos: residuosSelecionados,
         qtdColetado: qtdResiduos,
         pagamento: formaPagamentoSelecionados,

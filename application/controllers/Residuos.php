@@ -157,4 +157,28 @@ class Residuos extends CI_Controller
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
+	public function recebeResiduosSetor()
+	{
+
+	 $idSetor = $this->input->post('idSetor');
+
+	 $retorno = $this->Residuos_model->recebeResiduoSetor($idSetor);
+
+	 if ($retorno) {
+		$response = array(
+			'success' => true,
+			'residuos' => $retorno
+		);
+	} else {
+
+		$response = array(
+			'success' => false,
+			'residuos' => []
+		);
+	}
+	 
+	 
+	 return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
 }

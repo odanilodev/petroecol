@@ -67,22 +67,21 @@
                 <form id="filtroForm" action="<?= base_url('finContasPagar/') ?>" method="post">
                     <div class="col-12">
                         <div class="row align-items-center g-4">
-
                             <h4 class="ms-3">Filtrar resultados</h4>
 
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-3" style="padding:0;">
                                 <div class="ms-3">
-                                    <input class="form-control datetimepicker" value="<?= $dataInicio ?>" required name="data_inicio" id="data_inicio" type="text" placeholder="Selecione a data de início" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
+                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataInicio ?>" required name="data_inicio" id="data_inicio" type="text" placeholder="Selecione a data de início" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
                                 </div>
                             </div>
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-3" style="padding:0;">
                                 <div class="ms-3">
-                                    <input class="form-control datetimepicker" value="<?= $dataFim ?>" required name="data_fim" id="data_fim" type="text" placeholder="Seleciona a data final" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
+                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataFim ?>" required name="data_fim" id="data_fim" type="text" placeholder="Seleciona a data final" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
                                 </div>
                             </div>
-                            <div class="col-12 col-md-2">
+                            <div class="col-12 col-md-2" style="padding:0;">
                                 <div class="ms-3">
-                                    <select class="select-validation select-orientacao" required name="status" id="status">
+                                    <select class="form-control select-validation select-orientacao" required name="status" id="status">
                                         <option <?= $status == 'ambas' ? 'selected' : '' ?> disabled> Status da conta</option>
                                         <option <?= $status == '0' ? 'selected' : '' ?> value="0">Em aberto</option>
                                         <option <?= $status == '1' ? 'selected' : '' ?> value="1">Paga</option>
@@ -90,9 +89,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-2">
+                            <div class="col-12 col-md-2" style="padding:0;">
                                 <div class="ms-3">
-                                    <select class="select-validation select-setor" required name="setor" id="setor">
+                                    <select class="form-control select-validation select-setor" required name="setor" id="setor">
                                         <option selected disabled>Setor da conta</option>
                                         <option <?= $idSetor == 'todos' ? 'selected' : '' ?> value="todos">Todos</option>
                                         <?php foreach ($setoresEmpresa as $setor) { ?>
@@ -104,10 +103,9 @@
                             </div>
                             <input type="hidden" name="nomeSetor" id="nomeSetor">
 
-                            <div class="col-12 col-md-2">
-                                <div class="ms-3">
-                                    <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 <?=!$dataInicio ? 'w-100' : '';?>">Filtrar</button>
-
+                            <div class="col-12 col-md-2" style="padding:0;">
+                                <div class="d-flex ms-3">
+                                    <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= !$dataInicio ? 'w-100' : ''; ?>">Filtrar</button>
                                     <?php if ($dataInicio) { ?>
                                         <a href="<?= base_url('finContasPagar'); ?>" class="btn btn-phoenix-danger" title="Limpar Filtro"><i class="fas fa-ban"></i></a>
                                     <?php } ?>
@@ -117,7 +115,6 @@
                         </div>
                     </div>
                 </form>
-                <hr class="bg-200 mb-6 mt-4" />
             </div>
         </div>
     </div>
@@ -166,17 +163,18 @@
                                     <input class="form-check-input check-all-element cursor-pointer" id="checkbox-bulk-reviews-select" type="checkbox" />
                                 </div>
                             </th>
-                            <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="Vencimento">Vencimento
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_vencimento">Vencimento
                             </th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Valor</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor_pago">Valor Pago
                             </th>
-                            <th class="sort text-start ps-5 align-middle text-center" scope="col" data-sort="td_status_pgto">Status</th>
-                            <th class="sort align-middle text-center" style="text-align: center; vertical-align: middle;" scope="col" data-sort="td_data_pagamento text-center">Data do Pagamento</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_status_pgto">Status</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_data_pagamento">Data do Pagamento</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_empresa">Empresa</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_observacao">Observação</th>
-                            
+
+
                             <th class="sort text-end pe-0 align-middle text-center" scope="col"></th>
                         </tr>
                     </thead>
@@ -187,7 +185,8 @@
 
                                 <td class="fs--1 align-middle ps-0">
                                     <div class="form-check mb-0 fs-0">
-                                        <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" data-nome-empresa="<?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>" />
+                                        <input class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>" type="checkbox" value="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" data-nome-empresa="<?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>" data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>" data-valor="<?= $contaPagar['valor'] ?>" data-setor="<?= $contaPagar['SETOR'] ?>"/>
+                                        
                                     </div>
                                 </td>
 
@@ -197,21 +196,27 @@
                                     </h6>
                                 </td>
 
-                                <td class="align-middle rating white-space-nowrap fs--2 td_valor text-center <?= !$contaPagar['status'] ? 'td-valor-aberto' : '' ?>" data-valor="<?= $contaPagar['valor'] ?>">
+                                <td class="align-middle rating white-space-nowrap fs--2 text-center">
                                     <h6 class="mb-0 text-900">R$
                                         <?= number_format($contaPagar['valor'], 2, ',', '.'); ?>
                                     </h6>
+                                    <div class="td_valor">
+                                        <input type="hidden" value="<?= $contaPagar['valor'] ?>">
+                                    </div>
                                 </td>
 
-                                <td class="align-middle review td_valor_pago text-center">
+                                <td class="align-middle review text-center">
                                     <h6 class="mb-0 text-900 valor-pago-<?= $contaPagar['id'] ?>">R$
                                         <?= number_format($contaPagar['valor_pago'], 2, ',', '.'); ?>
                                     </h6>
+                                    <div class="td_valor_pago">
+                                        <input type="hidden" value="<?= $contaPagar['valor_pago'] ?>">
+                                    </div>
                                 </td>
 
                                 <td class="align-middle text-start ps-3 status td_status_pgto text-center">
                                     <span class="badge badge-phoenix fs--2 <?= $contaPagar['status'] ? "badge-phoenix-success" : "badge-phoenix-danger" ?> tipo-status-conta-<?= $contaPagar['id'] ?>">
-                                        <span data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" class="badge-label cursor-pointer realizar-pagamento status-pagamento-<?= $contaPagar['id'] ?>" data-id="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" <?= !$contaPagar['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalPagarConta"' : "" ?>>
+                                        <span data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" class="badge-label cursor-pointer realizar-pagamento status-pagamento-<?= $contaPagar['id'] ?>" data-id="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" <?= !$contaPagar['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalPagarConta"' : "" ?> data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>">
                                             <?= $contaPagar['status'] ? "Pago" : "Em aberto" ?>
                                         </span>
                                         <span class="ms-1 icone-status-conta-<?= $contaPagar['id'] ?>" data-feather="<?= $contaPagar['status'] ? "check" : "slash" ?>" style="height:12.8px;width:12.8px;"></span>
@@ -227,7 +232,7 @@
                                 <td class="align-middle review td_empresa text-center">
                                     <h6 class="mb-0 text-900">
 
-                                        <?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']);?>
+                                        <?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>
                                     </h6>
                                 </td>
 
@@ -262,7 +267,7 @@
                                                 </a>
 
                                                 <div class="dropdown-divider btn-realizar-pagamento-<?= $contaPagar['id'] ?>"></div>
-                                                <a class="dropdown-item realizar-pagamento btn-realizar-pagamento-<?= $contaPagar['id'] ?>" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-id="<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalPagarConta">Realizar
+                                                <a class="dropdown-item realizar-pagamento btn-realizar-pagamento-<?= $contaPagar['id'] ?>" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" data-id="<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalPagarConta" data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>">Realizar
                                                     Pagamento</a>
                                             <?php } ?>
                                         </div>
@@ -322,6 +327,42 @@
                                                             </div>
                                                         </td>
                                                     </tr>
+
+                                                    <tr>
+                                                        <td class="py-2 w-50">
+                                                            <div class="d-inline-flex align-items-center">
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300 fas fa-tag" style="width:16px; height:16px"></span>
+                                                                </div>
+                                                                <p class="fw-bold mb-0">Macro</p>
+                                                            </div>
+                                                        </td>
+                                                        <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                                                        <td class="py-2 w-50">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break nome-macro html-clean">
+                                                                <!-- JS -->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td class="py-2 w-50">
+                                                            <div class="d-inline-flex align-items-center">
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300 fas fa-tag" style="width:16px; height:16px"></span>
+                                                                </div>
+                                                                <p class="fw-bold mb-0">Micro</p>
+                                                            </div>
+                                                        </td>
+                                                        <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                                                        <td class="py-2 w-50">
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break nome-micro html-clean">
+                                                                <!-- JS -->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+
                                                     <tr>
                                                         <td class="py-2 w-50">
                                                             <div class="d-inline-flex align-items-center">
@@ -651,9 +692,9 @@
                                             <div class="col-lg-4">
 
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Data
-                                                        Vencimento</label>
-                                                    <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio dados-conta" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <label class="text-body-highlight fw-bold mb-2">Data Vencimento</label>
+                                                    
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio dados-conta mascara-data" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true, "allowInput":true, "dateFormat":"d/m/Y"}' />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
@@ -663,11 +704,9 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data Emissão</label>
-                                                    <input class="form-control datetimepicker cursor-pointer input-data-emissao dados-conta" required name="data_emissao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-emissao dados-conta mascara-data" required name="data_emissao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true, "allowInput":true, "dateFormat":"d/m/Y"}' />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
-
                                                 </div>
-
 
                                             </div>
 
@@ -737,6 +776,7 @@
                                                                     <input class="form-check-input check-all-modal-element cursor-pointer" id="checkbox-bulk-reviews-select" type="checkbox" />
                                                                 </div>
                                                             </th>
+                                                            <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
                                                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Credor</th>
                                                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Micro</th>
                                                             <th class="sort text-start ps-5 align-middle text-center" scope="col" data-sort="td_status_pgto">Dia do Pagamento</th>
@@ -756,7 +796,15 @@
                                                                 <td class="align-middle product white-space-nowrap td_vencimento text-center">
                                                                     <h6 class="mb-0 text-900">
 
-                                                                        <?= $contaRecorrente['RECEBIDO'] ? ucfirst($contaRecorrente['RECEBIDO']) : ucfirst($contaRecorrente['CLIENTE']);?>
+                                                                        <?= ucfirst($contaRecorrente['SETOR']); ?>
+
+                                                                    </h6>
+                                                                </td>
+
+                                                                <td class="align-middle product white-space-nowrap td_vencimento text-center">
+                                                                    <h6 class="mb-0 text-900">
+
+                                                                        <?= $contaRecorrente['RECEBIDO'] ? ucfirst($contaRecorrente['RECEBIDO']) : ucfirst($contaRecorrente['CLIENTE']); ?>
 
                                                                     </h6>
                                                                 </td>
@@ -772,7 +820,8 @@
                                                                         <?= $contaRecorrente['dia_pagamento']; ?>
                                                                     </h6>
                                                                 </td>
-                                                                
+
+
                                                             </tr>
 
                                                         <?php } ?>
@@ -814,7 +863,7 @@
                                 <div class="col-12">
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0 lista-contas-recorrentes form-entrada-pagar-recorrentes">
-                                           <!-- JS -->
+                                            <!-- JS -->
                                         </div>
                                     </div>
 
@@ -856,7 +905,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Setor da Empresa</label>
-                                                    <select class="form-select select2 select-setor-empresa input-obrigatorio" name="setor">
+                                                    <select class="form-select select2 select-setor-empresa select-setor-empresa-editar input-obrigatorio" name="setor">
                                                         <option selected disabled value="">Selecione</option>
                                                         <?php foreach ($setoresEmpresa as $setor) { ?>
                                                             <option value="<?= $setor['id'] ?>"><?= $setor['nome'] ?></option>
@@ -872,7 +921,7 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data
                                                         Vencimento</label>
-                                                    <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio mascara-data" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
@@ -882,7 +931,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data Emissão</label>
-                                                    <input class="form-control datetimepicker cursor-pointer input-data-emissao" required name="data_emissao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                    <input class="form-control datetimepicker cursor-pointer input-data-emissao mascara-data" required name="data_emissao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
@@ -912,6 +961,7 @@
 
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -919,7 +969,7 @@
                 <div class="modal-footer">
                     <input type="hidden" class="id-editar-conta">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
-                    <button class="btn btn-success btn-form" type="button" onclick="cadastraMultiplasContasPagar('form-editar-pagar')">Salvar</button>
+                    <button class="btn btn-success btn-form" type="button" onclick="cadastraContasPagar('form-editar-pagar')">Salvar</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
                 </div>
@@ -946,7 +996,7 @@
                                             <div class="mb-4">
                                                 <label class="text-body-highlight fw-bold mb-2">Data
                                                     Pagamento</label>
-                                                <input class="form-control datetimepicker input-data-pagamento cursor-pointer input-obrigatorio-unic" name="data_pagamento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                <input class="form-control datetimepicker input-data-pagamento cursor-pointer input-obrigatorio-unic mascara-data" name="data_pagamento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
                                                 <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                             </div>
@@ -1024,6 +1074,7 @@
                 <div class="modal-footer">
                     <input type="hidden" class="id-conta-pagamento">
                     <input type="hidden" class="id-dado-financeiro">
+                    <input type="hidden" class="id-dado-cliente">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
                     <button class="btn btn-primary btn-form" type="button" onclick="realizarPagamento()">Pagar
                         Conta</button>
@@ -1056,7 +1107,7 @@
                                                     <div class="mb-4">
                                                         <label class="text-body-highlight fw-bold mb-2">Data
                                                             Pagamento</label>
-                                                        <input class="form-control datetimepicker input-obrigatorio-inicio input-data-pagamento data-pagamento-inicio cursor-pointer" name="data_pagamento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
+                                                        <input class="form-control datetimepicker input-obrigatorio-inicio input-data-pagamento data-pagamento-inicio cursor-pointer mascara-data" name="data_pagamento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
                                                         <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                     </div>
@@ -1163,6 +1214,7 @@
                     <div>
                         <input type="hidden" class="id-conta-pagamento">
                         <input type="hidden" class="id-dado-financeiro">
+                        <input type="hidden" class="id-dado-cliente">
                         <div class="spinner-border text-primary load-form d-none" role="status"></div>
                         <button class="btn btn-primary btn-form finalizar-varios-pagamentos btn-envia d-none" type="button" onclick="realizarVariosPagamentos()">Pagar Contas</button>
                         <button class="btn btn-primary proxima-etapa-pagamento" type="button">Próxima Etapa</button>
