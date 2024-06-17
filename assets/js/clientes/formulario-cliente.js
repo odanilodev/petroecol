@@ -343,10 +343,10 @@ const detalhesHistoricoColeta = (idColeta, classe) => {
                 }
 
 
-                if (data.coleta['observacao']) {
+                if (data.coleta['OBSERVACAO_COLETA']) {
 
                     $('.tr-observacao-coleta').removeClass('d-none')
-                    $('.observacao-coleta').html(data.coleta['observacao']);
+                    $('.observacao-coleta').html(data.coleta['OBSERVACAO_COLETA']);
                 } else {
                     $('.tr-observacao-coleta').addClass('d-none')
                     $('.observacao-coleta').html('');
