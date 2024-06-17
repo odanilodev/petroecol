@@ -279,7 +279,7 @@ class Clientes extends CI_Controller
         $dadosEmpresa = $this->input->post('dadosEmpresa');
         $dadosEmpresa['nome'] = strtoupper($dadosEmpresa['nome']);
         $dadosEndereco = $this->input->post('dadosEndereco');
-        $dadosEndereco['cidade'] = strtoupper($dadosEndereco['cidade']);
+        $dadosEndereco['cidade'] = mb_strtoupper($dadosEndereco['cidade'], 'UTF-8');
         $dadosResponsavel = $this->input->post('dadosResponsavel');
         $id = $this->input->post('id');
 
