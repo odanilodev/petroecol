@@ -780,7 +780,50 @@ function finalizarRomaneio() {
                 $('.btn-finaliza-romaneio').removeClass('d-none');
                 $('.load-form-modal-romaneio').addClass('d-none');
 
-                if (data.success) {
+                if (data.proximosAgendamentos && data.success) {
+
+                    let agendamentosFuturos = data.agendamentos.flatMap(array => array.map(item => ({
+                        data_agendamento: item.data_coleta,
+                        id_cliente: item.ID_CLIENTE,
+                        id_setor_empresa: item.id_setor_empresa
+                    })));
+
+                    let nomesClientes = data.agendamentos
+                        .filter(subArray => subArray && subArray[0] && subArray[0].nome)  // Filtrar subArrays válidos
+                        .map(subArray => subArray[0].nome);
+
+                    Swal.fire({
+                        html: `
+                            <p>Agendamentos futuros encontrados para os seguintes clientes:</p>
+                            <ul style="list-style-position: inside; padding-left: 0;">
+                                ${nomesClientes.map(nome => `<li><strong>${nome}</strong></li>`).join('')}
+                            </ul>
+                            <p>Gostaria de remover os próximos agendamentos e continuar com um novo agendamento?</p>
+                        `,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        cancelButtonText: 'Não',
+                        confirmButtonText: 'Sim, remover'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                type: 'post',
+                                url: `${baseUrl}coletas/cancelaProximosAgendamentosCliente`,
+                                data: {
+                                    agendamentosFuturos: agendamentosFuturos,
+                                    dataRomaneio: dataRomaneio,
+                                    codRomaneio: codRomaneio
+                                },
+                                success: function () {
+                                    avisoRetorno(`Sucesso!`, `O romaneio foi concluído com sucesso`, `success`, `${baseUrl}romaneios`);
+                                }
+                            });
+                        }
+                    });
+
+                } else if (data.success && !data.proximosAgendamentos) {
                     avisoRetorno('Sucesso!', 'O romaneio foi concluído com sucesso', 'success', `${baseUrl}romaneios`);
                 } else {
                     avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
@@ -1096,28 +1139,28 @@ $(document).on('click', '.btn-salva-edicao-romaneio', function () {
             data: {
                 idMotorista: idMotorista,
                 codRomaneio: codRomaneio
-    
+
             }, beforeSend: function () {
-    
+
                 $('.load-form-modal-romaneio').removeClass('d-none');
                 $('.btn-salva-edicao-romaneio').addClass('d-none');
-    
+
             }, success: function (data) {
-    
+
                 $('.load-form-modal-romaneio').addClass('d-none');
                 $('.btn-salva-edicao-romaneio').removeClass('d-none');
-    
-    
+
+
                 avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${baseUrl}romaneios`);
-    
-    
+
+
             }
         })
     } else {
         $('#modalEditarRomaneio').modal('hide');
     }
 
-    
+
 
 })
 
