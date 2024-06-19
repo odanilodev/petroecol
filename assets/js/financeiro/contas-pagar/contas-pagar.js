@@ -211,6 +211,8 @@ $(document).on('click', '.editar-lancamento', function () {
 
         }, success: function (data) {
 
+            $('.select-setor-empresa').val(data['conta'].id_setor_empresa).trigger('change');
+
             let dataVencimento = data['conta'].data_vencimento.split('-');
             dataVencimento = dataVencimento[2] + '/' + dataVencimento[1] + '/' + dataVencimento[0];
             $('.input-data-vencimento').val(dataVencimento);
@@ -221,8 +223,6 @@ $(document).on('click', '.editar-lancamento', function () {
             $('.input-data-emissao').val(dataEmissao);
 
             $('.input-observacao').text(data['conta'].observacao);
-
-            $('.select-setor-empresa').val(data['conta'].id_setor_empresa).trigger('change');
 
         }
     })
@@ -503,7 +503,8 @@ $(document).on('click', '.btn-pagar-tudo', function () {
 
     // zerar campos
     $('.input-obrigatorio-inicio').each(function () {
-        $(this).val('')
+        $(this).val('');
+        $(this).val('').trigger('change');
     })
 
     valoresContasPagar();
@@ -553,7 +554,6 @@ $(document).on('click', '.btn-proxima-etapa-recorrente', function () {
                 $(".load-form").removeClass("d-none");
                 $(".btn-form").addClass("d-none");
             }, success: function (data) {
-
                 let dataAtual = new Date();
                 let mesAtual = (dataAtual.getMonth());
 
@@ -569,9 +569,9 @@ $(document).on('click', '.btn-proxima-etapa-recorrente', function () {
 
                 for (i = 0; i < data.contas.length; i++) {
                     camposContas += `
-                        <div class="col-12 ${i > 0 ? 'mt-5' : ''}">${data.contas[i].RECEBIDO ?? data.contas[i].CLIENTE}</div>
+                        <div class="col-12 ${i > 0 ? 'mt-5' : ''}">${data.contas[i].RECEBIDO ?? data.contas[i].CLIENTE} (${data.contas[i].SETOR}) </div>
                         <div class="col-12 col-md-6 mt-3"> 
-                            <input class="form-control input-obrigatorio-recorrente datetimepicker cursor-pointer" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' value="${data.contas[i].dia_pagamento}/${mesAtual}/${anoAtual}" name="data_vencimento"/>
+                            <input class="form-control input-obrigatorio-recorrente datetimepicker cursor-pointer mascara-data" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' value="${data.contas[i].dia_pagamento}/${mesAtual}/${anoAtual}" name="data_vencimento"/>
                             <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                         </div>
 
@@ -581,6 +581,7 @@ $(document).on('click', '.btn-proxima-etapa-recorrente', function () {
                         </div>
 
                         <input type="hidden" class="aviso-obrigatorio" name="recebido" value="${data.contas[i].ID_RECEBIDO}">
+                        <input type="hidden" class="aviso-obrigatorio" name="cliente" value="${data.contas[i].id_cliente}">
 
                         <input type="hidden" class="aviso-obrigatorio" name="nome-recebido" value="${data.contas[i].RECEBIDO ?? data.contas[i].CLIENTE}">
 
@@ -597,11 +598,12 @@ $(document).on('click', '.btn-proxima-etapa-recorrente', function () {
 
                 $('.datetimepicker').flatpickr({
                     dateFormat: "d/m/Y",
-                    disableMobile: true
+                    disableMobile: true,
+                    allowInput: true
                 });
 
                 $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
-
+                $('.mascara-data').mask('00/00/0000');
 
             }
         })
@@ -642,13 +644,25 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
         let ids = idsContasPagar();
 
         let idsDadoFinanceiro = [];
-        $('.check-aberto').each(function () {
-            idsDadoFinanceiro.push($(this).data('id-dado-financeiro'));
+        $('.check-aberto:checked').each(function () {
+
+            if ($(this).data('id-dado-financeiro')) {
+
+                idsDadoFinanceiro.push($(this).data('id-dado-financeiro'));
+            } else {
+                idsDadoFinanceiro.push($(this).data('id-dado-cliente'));
+
+            }
         });
 
         let nomesEmpresas = [];
-        $('.check-aberto').each(function () {
+        $('.check-aberto:checked').each(function () {
             nomesEmpresas.push($(this).data('nome-empresa'));
+        });
+
+        let setoresEmpresas = [];
+        $('.check-aberto:checked').each(function () {
+            setoresEmpresas.push($(this).data('setor'));
         });
 
 
@@ -661,7 +675,7 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
                 $(this).addClass('dado-financeiro-' + idsDadoFinanceiro[i]);
             });
 
-            let tituloCampos = $('<h5 class="my-3">').text(nomesEmpresas[i]);
+            let tituloCampos = $('<h5 class="my-3">').text(`${nomesEmpresas[i]} (${setoresEmpresas[i]})`);
             clone.prepend(tituloCampos);
             $('.campos-pagamentos-novos').append(clone);
         }
@@ -682,7 +696,9 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
 function valoresContasPagar() {
     let valores = [];
     let totalAberto = 0;
-    $('.td-valor-aberto').each(function () {
+
+    $('.check-aberto:checked').each(function () {
+
         let valorAtual = parseFloat($(this).data('valor'));
         // Formatando o valor atual como moeda BRL sem o símbolo do Real (R$)
         let valorFormatado = valorAtual.toLocaleString('pt-BR', {
@@ -708,7 +724,7 @@ function valoresContasPagar() {
 function idsContasPagar() {
 
     let ids = [];
-    $('.check-aberto').each(function () {
+    $('.check-aberto:checked').each(function () {
         ids.push($(this).val());
     });
 
@@ -829,6 +845,8 @@ const visualizarConta = (idConta) => {
             $('.data-emissao').html(dataEmissao);
             $('.valor-conta').html(valorConta);
             $('.obs-conta').html(data['conta'].observacao);
+            $('.nome-macro').html(data['conta'].MACRO);
+            $('.nome-micro').html(data['conta'].MICRO);
 
             if (data['conta'].valor_pago) {
                 let dataPagamento = formatarDatas(data['conta'].data_pagamento);

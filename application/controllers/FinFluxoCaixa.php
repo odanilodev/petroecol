@@ -23,7 +23,7 @@ class FinFluxoCaixa extends CI_Controller
         // FIM controle sessão
     }
 
-    public function index($page = 1)
+    public function index()
     {
         // scripts padrão
         $scriptsPadraoHead = scriptsPadraoHead();
@@ -90,17 +90,7 @@ class FinFluxoCaixa extends CI_Controller
 
         $dados['tipoMovimentacao'] = $tipoMovimentacao;
 
-        // >>>> PAGINAÇÃO <<<<<
-        $limit = 12; // Número de registros por página
-        $this->load->library('pagination');
-        $config['base_url'] = base_url('finFluxoCaixa/index');
-        $config['total_rows'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao, 0, 0, true); // Conta o total de registros
-        $config['per_page'] = $limit;
-        $config['use_page_numbers'] = TRUE;
-        $this->pagination->initialize($config);
-        // >>>> FIM PAGINAÇÃO <<<<<
-
-        $dados['movimentacoes'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao, $limit, $page);
+        $dados['movimentacoes'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao);
         $this->load->view('admin/includes/painel/cabecalho', $dados);
         $this->load->view('admin/paginas/financeiro/fluxo-caixa');
         $this->load->view('admin/includes/painel/rodape');
@@ -116,7 +106,7 @@ class FinFluxoCaixa extends CI_Controller
         $dados['id_vinculo_conta'] = $this->input->post('id_vinculo_conta');
         $dados['id_tarifa_bancaria'] = $this->input->post('id_tarifa_bancaria');
         $dados['id_forma_transacao'] = $this->input->post('id_forma_transacao');
-        $dados['valor'] = $this->input->post('valor');
+        $dados['valor'] = str_replace(['.', ','], ['', '.'], $this->input->post('valor'));
         $dados['movimentacao_tabela'] = $this->input->post('movimentacao_tabela');
         $dados['id_micro'] = $this->input->post('micros');
         $dados['id_macro'] = $this->input->post('macros');
@@ -138,7 +128,7 @@ class FinFluxoCaixa extends CI_Controller
 
             $saldoAtual = $this->FinSaldoBancario_model->recebeSaldoBancario($dados['id_conta_bancaria']);
 
-            $valorMovimentacaoFormatado = str_replace(['.', ','], ['', '.'], $dados['valor']); //Muda para o tipo float
+            $valorMovimentacaoFormatado = $dados['valor']; //Muda para o tipo float
 
             if ($dados['movimentacao_tabela']) {
                 $novoSaldo = $saldoAtual['saldo'] + $valorMovimentacaoFormatado;
@@ -147,6 +137,7 @@ class FinFluxoCaixa extends CI_Controller
             }
 
         }
+
 
         $retornoConta = $this->FinSaldoBancario_model->atualizaSaldoBancario($dados['id_conta_bancaria'], $novoSaldo);
 

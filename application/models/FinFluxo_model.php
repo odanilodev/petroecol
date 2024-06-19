@@ -18,7 +18,7 @@ class FinFluxo_model extends CI_Model
         return $query->result_array();
     }
 
-    public function recebeFluxoData($dataInicio, $dataFim, $tipoMovimentacao, $limit, $page, $count = null)
+    public function recebeFluxoData($dataInicio, $dataFim, $tipoMovimentacao)
     {
         $this->db->select('fin_fluxo.*, fin_contas_bancarias.apelido as apelido_conta_bancaria, fin_forma_transacao.nome as nome_forma_transacao, fin_dados_financeiros.nome as nome_dado_financeiro, ci_funcionarios.nome as FUNCIONARIO, ci_clientes.nome as CLIENTE');
         $this->db->from('fin_fluxo');
@@ -39,15 +39,7 @@ class FinFluxo_model extends CI_Model
             $this->db->where('fin_fluxo.movimentacao_tabela', $tipoMovimentacao);
         }
 
-        $this->db->order_by('fin_fluxo.criado_em', 'DESC');
-
-        if ($count) {
-            return $this->db->count_all_results();
-        }
-
-        // Aplica a paginação
-        $offset = ($page - 1) * $limit;
-        $this->db->limit($limit, $offset);
+        $this->db->order_by('fin_fluxo.data_movimentacao', 'DESC');
 
         $query = $this->db->get();
         return $query->result_array();

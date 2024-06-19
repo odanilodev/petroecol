@@ -592,7 +592,7 @@
               </div>
 
               <?php foreach ($coletas as $coleta) { ?>
-                
+
                 <div class="border-bottom py-4">
 
                   <div class="d-flex">
@@ -606,7 +606,16 @@
 
                         <div class="flex-1 me-2">
                           <h5 class="text-1000 lh-sm">
-                            <?= $coleta['coletado'] == 1 ? "Coleta realizada" : "Coleta não realizada" ?>
+                          <?php
+                            if ($coleta['coletado'] == 1) {
+                                $setor = $coleta['SETOR_COLETA'] ? $coleta['SETOR_COLETA'] : $coleta['SETOR_NOVA_COLETA'];
+                                echo "Coleta realizada" . ($setor ? " ($setor)" : "");
+                            } else {
+                                echo "Coleta não realizada";
+                            }
+                          ?>
+
+
                             | <span class="fw-semi-bold fs--1"><?= date('d/m/Y', strtotime($coleta['data_coleta'])) ?></span>
                           </h5>
 
@@ -793,6 +802,25 @@
                               <td class="py-2">
 
                                 <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break total-pago html-clean">
+                                  <!-- JS -->
+                                </div>
+
+                              </td>
+                            </tr>
+
+                            <tr class="tr-observacao-coleta d-none">
+                              <td class="py-2">
+                                <div class="d-inline-flex align-items-center">
+                                  <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                    <span class="text-info-600 dark__text-info-300 fas fa-message" style="width:16px; height:16px"></span>
+                                  </div>
+                                  <p class="fw-bold mb-0">Observação</p>
+                                </div>
+                              </td>
+                              <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                              <td class="py-2">
+
+                                <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break observacao-coleta html-clean">
                                   <!-- JS -->
                                 </div>
 
@@ -1015,6 +1043,19 @@
                     <div class="mb-3">
                       <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
 
+                        <div class="mb-4 col-md-12">
+                          <label class="text-body-highlight fw-bold mb-2">Setor Empresa</label>
+                          <select class="form-select select2 select-setor-empresa obrigatorio-coleta">
+                            <option value="" selected disabled>Selecione</option>
+                            <?php foreach ($setoresEmpresa as $setorEmpresa) { ?>
+                              <option value="<?= $setorEmpresa['id'] ?>">
+                                <?= $setorEmpresa['nome'] ?>
+                              </option>
+                            <?php } ?>
+                          </select>
+                          <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                        </div>
+
                         <div class="mb-4 col-12">
                           <label class="text-body-highlight fw-bold mb-2">Data Coleta</label>
                           <input class="form-control datetimepicker data-coleta-cadastrar cursor-pointer obrigatorio-coleta" name="data_coleta" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' />
@@ -1073,8 +1114,8 @@
 
                             <option disabled selected value="">Selecione</option>
 
-                            <?php foreach ($residuos as $v) { ?>
-                              <option value="<?= $v['id'] ?>"><?= $v['nome']; ?></option>
+                            <?php foreach ($residuosSetor as $residuoSetor) { ?>
+                              <option value="<?= $residuoSetor['id'] ?>"><?= $residuoSetor['nome']; ?></option>
                             <?php } ?>
                           </select>
 
