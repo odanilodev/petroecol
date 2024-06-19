@@ -155,8 +155,11 @@ class Coletas extends CI_Controller
             $this->Agendamentos_model->cancelaProximosAgendamentosCliente($dataAgendamento, $idCliente);
             $this->agendarfrequencia->cadastraAgendamentoFrequencia($idCliente, $dataRomaneio, $idSetorEmpresa);
 
-            $data['status'] = 1;
-            $this->Romaneios_model->editaRomaneioCodigo($codRomaneio, $data);
+            if ($codRomaneio) {
+
+                $data['status'] = 1;
+                $this->Romaneios_model->editaRomaneioCodigo($codRomaneio, $data);
+            }
         }
     }
 
