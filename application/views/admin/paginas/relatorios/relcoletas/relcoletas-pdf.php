@@ -105,14 +105,21 @@
         // Organize os dados por resíduos
         foreach ($dados as $id_cliente => $dado) {
             foreach ($dado['coletas'] as $coleta) {
+                // Usamos um conjunto (set) para rastrear os resíduos processados para esta coleta
+                $residuos_processados = [];
                 foreach ($coleta['residuos'] as $key => $residuo) {
-                    if (in_array($residuo, $ids_residuos)) {
+                    // Verificamos se o resíduo já foi processado para esta coleta
+                    if (!in_array($residuo, $residuos_processados) && in_array($residuo, $ids_residuos)) {
                         $residuos_coletados[$residuo]['cliente'][$id_cliente]['nome'] = $dado['nome'] ?? $dado['razao_social'];
                         $residuos_coletados[$residuo]['cliente'][$id_cliente]['coletas'][] = $coleta;
+
+                        // Adicionamos o resíduo ao conjunto de resíduos processados
+                        $residuos_processados[] = $residuo;
                     }
                 }
             }
         }
+
 
         // Gere a tabela para cada resíduo
         foreach ($residuos_coletados as $residuo_id => $residuo_dados) {
@@ -145,16 +152,18 @@
                     </thead>
                     <tbody>
                         <?php
+
                         foreach ($cliente_dados['coletas'] as $coleta):
                             $residuoEncontrado = false;
 
                             foreach ($coleta['residuos'] as $key => $residuo) {
-
                                 if ($residuo == $residuo_id) {
                                     $residuoEncontrado = true;
                                     break;
                                 }
                             }
+
+
 
                             if ($residuoEncontrado):
                                 ?>
