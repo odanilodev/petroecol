@@ -39,12 +39,16 @@ class Coletas extends CI_Controller
         $idSetorEmpresa = $this->input->post('idSetorEmpresa'); // Recebe o id do setor responsavel pelo agendamento
         $dataRomaneio = $this->input->post('dataRomaneio');
 
+        $verificaAgendamentosFuturos = $this->input->post('verificaAgendamentosFuturos');
+
+
         $idColeta = $this->input->post('idColeta');
+
 
         if ($payload) {
             foreach ($payload as $cliente) :
 
-                $proximosAgendamentos[] = $this->Agendamentos_model->recebeProximosAgendamentosCliente($cliente['idCliente'], $dataRomaneio);
+                $proximosAgendamentos[] = $verificaAgendamentosFuturos ? $this->Agendamentos_model->recebeProximosAgendamentosCliente($cliente['idCliente'], $dataRomaneio) : "";
 
                 $dados = array(
                     'id_cliente' => $cliente['idCliente'],
@@ -87,16 +91,24 @@ class Coletas extends CI_Controller
 
             endforeach;
 
-            if (!empty($proximosAgendamentos[0])) {
+            function verificaAgendamentosFuturos($agendamentos) {
+                foreach ($agendamentos as $agendamento) {
+                    if (!empty($agendamento)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            
+            if (verificaAgendamentosFuturos($proximosAgendamentos)) {
 
                 $response = array(
                     'success' => true,
                     'agendamentos' => $proximosAgendamentos,
                     'proximosAgendamentos' => true
                 );
-
+            
                 return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-
             } else {
                 $response = array(
                     'success' => true,

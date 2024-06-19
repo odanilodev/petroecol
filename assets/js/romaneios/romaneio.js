@@ -759,7 +759,6 @@ function finalizarRomaneio() {
     var idSetorEmpresa = $('.input-id-setor-empresa').val();
 
     if (permissao) {
-
         $.ajax({
             type: "POST",
             url: `${baseUrl}coletas/cadastraColeta`,
@@ -768,15 +767,15 @@ function finalizarRomaneio() {
                 idResponsavel: idResponsavel,
                 codRomaneio: codRomaneio,
                 dataRomaneio: dataRomaneio,
-                idSetorEmpresa: idSetorEmpresa
+                idSetorEmpresa: idSetorEmpresa,
+                verificaAgendamentosFuturos: true
 
-            }, beforeSend: function () {
-
+            },
+            beforeSend: function () {
                 $('.btn-finaliza-romaneio').addClass('d-none');
                 $('.load-form-modal-romaneio').removeClass('d-none');
-
-            }, success: function (data) {
-
+            },
+            success: function (data) {
                 $('.btn-finaliza-romaneio').removeClass('d-none');
                 $('.load-form-modal-romaneio').addClass('d-none');
 
@@ -789,7 +788,7 @@ function finalizarRomaneio() {
                     })));
 
                     let nomesClientes = data.agendamentos
-                        .filter(subArray => subArray && subArray[0] && subArray[0].nome)  // Filtrar subArrays válidos
+                        .filter(subArray => subArray && subArray[0] && subArray[0].nome)
                         .map(subArray => subArray[0].nome);
 
                     Swal.fire({
@@ -814,32 +813,47 @@ function finalizarRomaneio() {
                                 data: {
                                     agendamentosFuturos: agendamentosFuturos,
                                     dataRomaneio: dataRomaneio,
-                                    codRomaneio: codRomaneio
+                                    codRomaneio: codRomaneio,
+
                                 },
                                 success: function () {
                                     avisoRetorno(`Sucesso!`, `O romaneio foi concluído com sucesso`, `success`, `${baseUrl}romaneios`);
                                 }
                             });
+                            // salva os agendamentos sem cancelar os próximos
+                        } else if (result.dismiss === Swal.DismissReason.cancel) {
+                            $.ajax({
+                                type: 'post',
+                                url: `${baseUrl}coletas/cadastraColeta`,
+                                data: {
+                                    clientes: dadosClientes,
+                                    idResponsavel: idResponsavel,
+                                    codRomaneio: codRomaneio,
+                                    dataRomaneio: dataRomaneio,
+                                    idSetorEmpresa: idSetorEmpresa
+                                },
+                                success: function () {
+                                    avisoRetorno(`Sucesso!`, `O romaneio foi concluído com sucesso sem remover os agendamentos`, `success`, `${baseUrl}romaneios`);
+                                }
+                            });
                         }
                     });
-
                 } else if (data.success && !data.proximosAgendamentos) {
                     avisoRetorno('Sucesso!', 'O romaneio foi concluído com sucesso', 'success', `${baseUrl}romaneios`);
                 } else {
                     avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
                 }
-
-            }, error: function (xhr, status, error) {
-
+            },
+            error: function (xhr, status, error) {
                 $('.btn-finaliza-romaneio').removeClass('d-none');
                 $('.load-form-modal-romaneio').addClass('d-none');
                 if (xhr.status === 403) {
                     avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação..`, 'error', '#');
                 }
             }
-
         })
     }
+
 
 }
 
