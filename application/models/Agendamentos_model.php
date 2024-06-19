@@ -243,4 +243,33 @@ class Agendamentos_model extends CI_Model
 
         return $query->result_array();
     }
+
+    public function recebeProximosAgendamentosCliente($idCliente, $dataColeta)
+    {
+        $this->db->select('C.nome, C.id as ID_CLIENTE, A.data_coleta, A.id_setor_empresa');
+        $this->db->from('ci_agendamentos A');
+        $this->db->join('ci_clientes C', 'A.id_cliente = C.id', 'inner');
+        $this->db->where('A.id_cliente', $idCliente);
+        $this->db->where('A.status', 0);
+        $this->db->where('A.data_coleta >=', $dataColeta);
+        $this->db->where('A.data_coleta <=', date('Y-m-d', strtotime($dataColeta . ' +30 days')));
+        $this->db->where('A.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->group_by('C.nome, A.data_coleta, A.id_setor_empresa');
+        $query = $this->db->get();
+
+        return $query->result_array();
+        
+    }
+
+    public function cancelaProximosAgendamentosCliente($dataAgendamento, $idCliente)
+    {
+        $this->db->where('id_cliente', $idCliente);
+        $this->db->where('data_coleta', $dataAgendamento);
+        $this->db->where('status', 0);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->delete('ci_agendamentos');
+
+        return $this->db->affected_rows() > 0;
+        
+    }
 }

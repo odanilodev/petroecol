@@ -39,10 +39,17 @@ class Coletas extends CI_Controller
         $idSetorEmpresa = $this->input->post('idSetorEmpresa'); // Recebe o id do setor responsavel pelo agendamento
         $dataRomaneio = $this->input->post('dataRomaneio');
 
+        $verificaAgendamentosFuturos = $this->input->post('verificaAgendamentosFuturos');
+
+
         $idColeta = $this->input->post('idColeta');
 
+
         if ($payload) {
-            foreach ($payload as $cliente):
+            foreach ($payload as $cliente) :
+
+                $proximosAgendamentos[] = $verificaAgendamentosFuturos ? $this->Agendamentos_model->recebeProximosAgendamentosCliente($cliente['idCliente'], $dataRomaneio) : "";
+
                 $dados = array(
                     'id_cliente' => $cliente['idCliente'],
                     'id_responsavel' => $idResponsavel,
@@ -84,22 +91,76 @@ class Coletas extends CI_Controller
 
             endforeach;
 
+            function verificaAgendamentosFuturos($agendamentos) {
+                foreach ($agendamentos as $agendamento) {
+                    if (!empty($agendamento)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            
+            if (verificaAgendamentosFuturos($proximosAgendamentos)) {
+
+                $response = array(
+                    'success' => true,
+                    'agendamentos' => $proximosAgendamentos,
+                    'proximosAgendamentos' => true
+                );
+            
+                return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+            } else {
+                $response = array(
+                    'success' => true,
+                    'message' => $idColeta ? 'Coleta editada com Sucesso!' : 'Coleta(s) cadastrada(s) com sucesso!',
+                    'proximosAgendamentos' => false
+
+                );
+            }
+
             $data['status'] = 1;
             $this->Romaneios_model->editaRomaneioCodigo($codRomaneio, $data);
 
-            $response = array(
-                'success' => true,
-                'message' => $idColeta ? 'Coleta editada com Sucesso!' : 'Coleta(s) cadastrada(s) com sucesso!'
-            );
         } else {
 
             $response = array(
                 'success' => false,
+                'proximosAgendamentos' => false,
                 'message' => 'Erro ao cadastrar a coleta.'
             );
         }
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
+
+    public function cancelaProximosAgendamentosCliente()
+    {
+        $this->load->model('Agendamentos_model');
+        $this->load->library('agendarFrequencia');
+        $this->load->model('Romaneios_model');
+
+
+        $proximosAgendamentos = $this->input->post('agendamentosFuturos');
+
+        $dataRomaneio = $this->input->post('dataRomaneio');
+
+        $codRomaneio = $this->input->post('codRomaneio');
+
+        foreach ($proximosAgendamentos as $proximoAgendamento) {
+
+            $dataAgendamento = $proximoAgendamento['data_agendamento'];
+            $idCliente = $proximoAgendamento['id_cliente'];
+            $idSetorEmpresa = $proximoAgendamento['id_setor_empresa'];
+
+            $this->Agendamentos_model->cancelaProximosAgendamentosCliente($dataAgendamento, $idCliente);
+            $this->agendarfrequencia->cadastraAgendamentoFrequencia($idCliente, $dataRomaneio, $idSetorEmpresa);
+
+            if ($codRomaneio) {
+
+                $data['status'] = 1;
+                $this->Romaneios_model->editaRomaneioCodigo($codRomaneio, $data);
+            }
+        }
     }
 
     public function certificadoColeta()
@@ -417,6 +478,5 @@ class Coletas extends CI_Controller
         }
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-
     }
 }
