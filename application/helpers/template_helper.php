@@ -627,3 +627,12 @@ function scriptsFinDreFooter()
         '<script src="' . base_url('assets/js/financeiro/dre/dre.js') . '"></script>'
     );
 }
+
+function scriptsFinTiposCustosFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/financeiro/tipos-custos/formulario-tipos-custos.js') . '"></script>'
+
+    );
+}
