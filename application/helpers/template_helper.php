@@ -652,3 +652,11 @@ function scriptsFinPrestacaoContasFooter()
 
     );
 }
+function scriptsFinTiposCustosFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/financeiro/tipos-custos/formulario-tipos-custos.js') . '"></script>'
+
+    );
+}
