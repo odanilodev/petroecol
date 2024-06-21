@@ -140,4 +140,17 @@ class Romaneios_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
+    public function recebeDatasRomaneiosFuncionario($idFuncionario, $dataRomaneio)
+    {
+        $this->db->select('R.data_romaneio');
+        $this->db->from('ci_romaneios R');
+        $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('R.id_responsavel', $idFuncionario);
+        $this->db->where('R.data_romaneio', $dataRomaneio);
+
+        $query = $this->db->get();
+
+        return $query->num_rows() > 0;
+    }
+
 }

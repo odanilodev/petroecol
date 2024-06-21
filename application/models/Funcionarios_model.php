@@ -20,6 +20,19 @@ class Funcionarios_model extends CI_Model
 
         return $query->result_array();
     }
+    
+    public function recebeFuncionariosSaldos()
+    {
+        $this->db->where('status', 1);
+        $this->db->where('saldo IS NOT NULL');
+        $this->db->where('saldo >', 0);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->order_by('nome', 'DESC');
+
+        $query = $this->db->get('ci_funcionarios');
+
+        return $query->result_array();
+    }
 
     public function recebeFuncionario($id)
     {
