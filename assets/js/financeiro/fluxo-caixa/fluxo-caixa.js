@@ -5,7 +5,7 @@ $(document).on('change', '.select-tipo-conta', function () {
         $('.label-forma-pagamento').html('Forma de recebimento');
     } else {
         $('.label-forma-pagamento').html('Forma de pagamento');
-        
+
     }
 })
 
@@ -91,7 +91,7 @@ $(document).on('change', '.select-macros', function () {
     })
 })
 
-$(document).on('click', '.btn-novo-lancamento', function() {
+$(document).on('click', '.btn-novo-lancamento', function () {
 
     $('.select2').select2({
         dropdownParent: "#modalEntradaFluxo",
@@ -108,7 +108,7 @@ $(document).on('change', '.select-recebido', function () {
 })
 
 
-$(document).on('click', '.btn-insere-fluxo', function() {
+$(document).on('click', '.btn-insere-fluxo', function () {
 
 
     let permissao = true;
@@ -119,37 +119,37 @@ $(document).on('click', '.btn-insere-fluxo', function() {
     // Coleta os dados do formulário
     let dadosFormulario = {
         movimentacao_tabela: $('.select-tipo-conta').val(),
-        id_dado_financeiro: $('select[name="cadastroFinanceiro"]').val(), 
+        id_dado_financeiro: $('select[name="cadastroFinanceiro"]').val(),
         data_movimentacao: $('input[name="data_movimentacao"]').val(),
-        id_conta_bancaria: $('select[name="contaBancaria"]').val(), 
-        id_forma_transacao: $('select[name="formaPagamento"]').val(), 
-        macros: $('select[name="macros"]').val(), 
-        micros: $('select[name="micros"]').val(), 
+        id_conta_bancaria: $('select[name="contaBancaria"]').val(),
+        id_forma_transacao: $('select[name="formaPagamento"]').val(),
+        macros: $('select[name="macros"]').val(),
+        micros: $('select[name="micros"]').val(),
         valor: $('input[name="valor"]').val(),
-        observacao: $('textarea[name="observacao"]').val() 
+        observacao: $('textarea[name="observacao"]').val()
     };
 
-    if(permissao){
+    if (permissao) {
 
         $.ajax({
-            url: `${baseUrl}finFluxoCaixa/insereMovimentacaoFluxo`, 
-            type: 'POST', 
+            url: `${baseUrl}finFluxoCaixa/insereMovimentacaoFluxo`,
+            type: 'POST',
             data: dadosFormulario,
             beforeSend: function () {
-                $('.load-form').removeClass('d-none'); 
-                $('.btn-form').addClass('d-none'); 
+                $('.load-form').removeClass('d-none');
+                $('.btn-form').addClass('d-none');
             },
             success: function (data) {
-                avisoRetorno(data.title, data.message, data.type, `${baseUrl}finFluxoCaixa`);                
+                avisoRetorno(data.title, data.message, data.type, `${baseUrl}finFluxoCaixa`);
             },
             error: function (xhr, status, error) {
                 //Tratamento de erro
                 avisoRetorno('Algo deu errado!', error, 'error', `#`);
-            }           
+            }
         });
-        
+
     }
-    
+
 });
 
 function formatarValorExibicao(valor) {
@@ -163,10 +163,10 @@ const visualizarFluxo = (id) => {
         type: 'POST',
         data: {
             idFluxo: id
-        },beforeSend: function(){
+        }, beforeSend: function () {
             $('.html-clean').html('');
         },
-         success: function (data) {
+        success: function (data) {
 
             let dataFluxo = formatarDatas(data.dadosFluxo.DATA_FLUXO);
             let valorFluxo = formatarValorExibicao(parseFloat(data['dadosFluxo'].valor));
@@ -192,3 +192,55 @@ const visualizarFluxo = (id) => {
     });
 }
 
+const deletarFluxo = (idMovimentacao, idContaBancaria, valorMovimentacao, tipoMovimentacao) => {
+
+    Swal.fire({
+        title: 'Você tem certeza?',
+        text: "Esta ação não poderá ser revertida",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Sim, deletar'
+
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+
+            $.ajax({
+                url: `${baseUrl}finFluxoCaixa/deletaFluxo`,
+                type: 'POST',
+                data: {
+                    idFluxo: idMovimentacao,
+                    valor: valorMovimentacao,
+                    idContaBancaria: idContaBancaria,
+                    tipoMovimentacao: tipoMovimentacao
+                }, beforeSend: function () {
+                    $('.html-clean').html('');
+                },
+                success: function (data) {
+
+                    let redirect = data.type != 'error' ? `${baseUrl}finFluxoCaixa` : '#';
+
+                    avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
+
+                },
+                error: function (xhr, status, error) {
+                    if (xhr.status === 403) {
+                        avisoRetorno(
+                            "Algo deu errado!",
+                            `Você não tem permissão para esta ação..`,
+                            "error",
+                            "#"
+                        );
+                    }
+                },
+            });
+
+        }
+    })
+
+
+
+}
