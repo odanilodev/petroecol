@@ -97,7 +97,7 @@ class FinContasPagar extends CI_Controller
 		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
 
 		$data['contasPagar'] = $this->FinContasPagar_model->recebeContasPagar($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa);
-		
+
 		$this->load->library('finDadosFinanceiros');
 
 		$data['saldoTotal'] = $this->findadosfinanceiros->somaSaldosBancarios();
@@ -109,7 +109,7 @@ class FinContasPagar extends CI_Controller
 
 		} else {
 			$data['totalPago']['valor'] = '00';
-			
+
 		}
 
 		if ($statusConta == '0' || $statusConta == 'ambas') {
@@ -313,6 +313,7 @@ class FinContasPagar extends CI_Controller
 		$formasPagamento = $this->input->post('formasPagamento');
 		$valores = $this->input->post('valores');
 		$obs = $this->input->post('obs');
+
 		$idConta = $this->input->post('idConta');
 		$idDadoFinanceiro = $this->input->post('idDadoFinanceiro');
 		$idCliente = $this->input->post('idDadoCliente');
@@ -322,6 +323,8 @@ class FinContasPagar extends CI_Controller
 		$dataPagamentoFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataPagamento)));
 
 		$valorTotalPago = 0;
+
+		$observacaoconta = $this->FinContasPagar_model->recebeObsContaPagar($idConta);
 
 		$micro = $this->FinContasPagar_model->recebeIdMicroContaPagar($idConta);
 
@@ -351,7 +354,12 @@ class FinContasPagar extends CI_Controller
 			$dados['data_movimentacao'] = $dataPagamentoFormatada;
 			$dados['id_dado_financeiro'] = $idDadoFinanceiro;
 			$dados['id_cliente'] = $idCliente;
-			$dados['observacao'] = $obs;
+
+			if (empty($obs)) {
+				$dados['observacao'] = $observacaoconta['observacao'];
+			} else {
+				$dados['observacao'] = $obs;
+			}
 
 			$this->FinFluxo_model->insereFluxo($dados);
 		}
@@ -384,7 +392,6 @@ class FinContasPagar extends CI_Controller
 
 		$operacoes = $this->input->post('operacoes');
 
-
 		foreach ($operacoes as $operacao) {
 
 			$dataPagamentoFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $operacao['dataPagamento'])));
@@ -392,6 +399,8 @@ class FinContasPagar extends CI_Controller
 			$micro = $this->FinContasPagar_model->recebeIdMicroContaPagar($operacao['idConta']);
 
 			$macro = $this->FinContasPagar_model->recebeIdMacroContaPagar($operacao['idConta']);
+
+			$observacaoconta = $this->FinContasPagar_model->recebeObsContaPagar($operacao['idConta']);
 
 			$valorTotalPago = 0;
 
@@ -417,7 +426,12 @@ class FinContasPagar extends CI_Controller
 				$dados['movimentacao_tabela'] = 0;
 				$dados['data_movimentacao'] = $dataPagamentoFormatada;
 				$dados['id_dado_financeiro'] = $operacao['idDadoFinanceiro'];
-				$dados['observacao'] = $operacao['observacao'];
+
+				if (empty($operacao['observacao'])) {
+					$dados['observacao'] = $observacaoconta['observacao'];
+				} else {
+					$dados['observacao'] = $operacao['observacao'];
+				}
 
 				$this->FinFluxo_model->insereFluxo($dados);
 
