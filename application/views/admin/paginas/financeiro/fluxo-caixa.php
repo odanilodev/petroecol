@@ -168,7 +168,16 @@
 
                                 <td class="align-middle text-center td_recebido">
                                     <h6 class="mb-0 text-900">
-                                        <?= $movimentacao['nome_dado_financeiro'] ? ucfirst($movimentacao['nome_dado_financeiro']) : ucfirst($movimentacao['CLIENTE']) ?>
+
+                                        <?php 
+                                            if ($movimentacao['nome_dado_financeiro']) { 
+                                                echo ucfirst($movimentacao['nome_dado_financeiro']);
+                                            } else if (($movimentacao['FUNCIONARIO'])) {
+                                                echo ucfirst($movimentacao['FUNCIONARIO']);
+                                            } else {
+                                                echo ucfirst($movimentacao['CLIENTE']);
+                                            }
+                                        ?>
                                     </h6>
                                 </td>
 

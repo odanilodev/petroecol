@@ -151,11 +151,10 @@ $('#searchInput').on('input', function () {
     atualizarListaClientes(query);
 });
 
-const gerarRomaneio = () => {
+
+$(document).on('click', '.btn-salva-romaneio', function () {
 
     let permissao = true;
-
-    $('#select-cliente-modal').val('').trigger('change');
 
     $(".input-obrigatorio").each(function () {
 
@@ -174,15 +173,31 @@ const gerarRomaneio = () => {
         }
     });
 
-    // novo clientes para gerar romaneio
-    let clientes = $('.ids-selecionados').val().split(',');
-
 
     if (!$('.ids-selecionados').val()) {
         avisoRetorno('Algo deu errado', 'Você precisa selecionar algum cliente para gerar o romaneio.', 'error', '#');
         permissao = false;
-
     }
+
+    if (permissao) {
+
+        $('#modalSaldoMotoristaRomaneio').modal('show');
+        $('#modalRomaneio').modal('hide');
+        carregaSelect2('select2', 'modalSaldoMotoristaRomaneio');
+        $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
+    }
+
+
+})
+
+const gerarRomaneio = () => {
+
+    let permissao = true;
+
+    $('#select-cliente-modal').val('').trigger('change');
+
+    // novo clientes para gerar romaneio
+    let clientes = $('.ids-selecionados').val().split(',');
 
     let responsavel = $('#select-responsavel').val();
     let veiculo = $('#select-veiculo').val();
@@ -193,7 +208,7 @@ const gerarRomaneio = () => {
 
         $.ajax({
             type: "POST",
-            url: `${baseUrl}romaneios/gerarRomaneioEtiqueta`,
+            url: `${baseUrl}romaneios/gerarRomaneio`,
             data: {
                 clientes: clientes,
                 responsavel: responsavel,
@@ -208,6 +223,7 @@ const gerarRomaneio = () => {
             }, success: function (data) {
 
                 if (data.success) {
+
                     avisoRetorno('Sucesso!', data.message, 'success', `${baseUrl}romaneios/`);
                 } else {
                     avisoRetorno('Erro!', data.message, 'error', `${baseUrl}romaneios/formulario/`);
@@ -217,6 +233,164 @@ const gerarRomaneio = () => {
 
         })
     }
+
+}
+
+$(document).on('click', '.btn-salva-verba-responsavel', function () {
+
+    let permissao = true;
+
+    let dadosFormulario = {};
+    if (permissao) {
+
+        $(`.form-verba-responsavel-coleta`).find("select, input").each(function () {
+
+            let inputName = $(this).attr('name');
+            let inputValue = $(this).val();
+
+            if (!dadosFormulario[inputName]) {
+                dadosFormulario[inputName] = [];
+            }
+
+            // Adiciona o valor ao array
+            dadosFormulario[inputName].push(inputValue);
+
+            if (!$('.check-sem-verba').is(':checked')) {
+                permissao = verificaCamposObrigatorios('input-obrigatorio-verba');
+            }
+
+        });
+
+        let responsavel = $('#select-responsavel').val();
+
+        if (permissao) {
+
+            $.ajax({
+                type: 'post',
+                url: `${baseUrl}finFluxoCaixa/insereMovimentacaoRomaneioFluxo`,
+                data: {
+                    dadosFluxo: dadosFormulario,
+                    responsavel: responsavel
+    
+                }, beforeSend: function () {
+    
+                    $('.load-form-pagamento').removeClass('d-none');
+                    $('.btn-salva-verba-responsavel').addClass('d-none');
+    
+                }, success: function (data) {
+    
+                    $('.load-form-pagamento').addClass('d-none');
+                    $('.btn-salva-verba-responsavel').removeClass('d-none');
+    
+                    gerarRomaneio();
+                }
+            })
+        }
+
+
+    }
+})
+
+$(document).on('click', '.check-sem-verba', function () {
+
+    if ($(this).is(':checked')) {
+
+        $('.duplicar-pagamento').prop('disabled', true);
+        $('.duplicar-pagamento').addClass('text-success');
+
+        $('.input-obrigatorio-verba').each(function () {
+            $(this).removeClass('invalido');
+            $(this).next().removeClass('select2-obrigatorio');
+            $(this).val('').trigger('change');
+            $(this).val('');
+            $(this).attr('disabled', true);
+        })
+
+        $('.aviso-obrigatorio').each(function () {
+            $(this).addClass('d-none');
+        })
+
+        $('.campos-duplicados').html('');
+    } else {
+
+        $('.duplicar-pagamento').prop('disabled', false);
+        $('.duplicar-pagamento').removeClass('text-success');
+
+        $('.input-obrigatorio-verba').each(function () {
+            $(this).attr('disabled', false)
+        })
+
+    }
+})
+
+$(document).on('click', '.duplicar-pagamento', function () {
+
+    duplicarElementos();
+
+    carregaSelect2('select2', 'modalSaldoMotoristaRomaneio');
+});
+
+
+// duplica forma de pagamento e residuos
+function duplicarElementos() {
+
+    // Pega os options do select
+    let optionsContaBancaria = $('.select-conta-bancaria').html();
+    let optionsFormaPagamento = $('.select-forma-pagamento').html();
+
+    let contaBancaria = `
+        <div class="col-md-4 mb-2 mt-2">
+            <select class="select2 form-select select-conta-bancaria w-100 input-obrigatorio" name="conta-bancaria">
+                ${optionsContaBancaria}
+            </select>
+            <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+        </div>
+    `;
+
+    let formaPagamento = `
+        <div class="col-md-4 mb-2 mt-2">
+            <select class="select2 form-select select-forma-pagamento w-100 input-obrigatorio" name="forma-pagamento">
+                ${optionsFormaPagamento}
+            </select>
+            <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+        </div>
+    `;
+
+    let inputValor = `
+        <div class="col-md-3 mb-2 input-obrigatorio">
+            <input class="form-control mt-2 input-valor mascara-dinheiro" type="text" placeholder="Digite o valor" name="valor">
+        </div>
+        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+    `;
+
+    let btnRemove = $(`
+    <div class="col-md-1 mb-2 mt-1">
+
+        <button class="btn btn-phoenix-danger remover-inputs">-</button>
+
+    </div>`);
+
+    // div com row para cada grupo ficar em row diferente
+    let novaLinha = $('<div class="row"></div>');
+
+    // imprime os elementos dentro da div row
+    novaLinha.append(contaBancaria);
+    novaLinha.append(formaPagamento);
+    novaLinha.append(inputValor);
+    novaLinha.append(btnRemove);
+    let idMacro = $('.select-macros option:selected').val();
+    let idMicro = $('.select-micros option:selected').val();
+    novaLinha.append(`<input type="hidden" name="id_macro" value="${idMacro}"><input type="hidden" name="id_micro" value="${idMicro}">`); // macro Custo Operacional micro insumo de produção
+
+    //remove a linha duplicada
+    btnRemove.find(`.remover-inputs`).on('click', function () {
+
+        novaLinha.remove();
+    });
+
+    $(`.campos-duplicados`).append(novaLinha);
+
+    $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
 
 }
 
@@ -1275,7 +1449,7 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
                                 <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2"></span></button>
                                 <div class="dropdown-menu dropdown-menu-end py-2">
             
-                                    <a target="_blank" class="dropdown-item" href="${baseUrl}romaneios/gerarromaneio/${romaneio.codigo}" title="Gerar Romaneio">
+                                    <a target="_blank" class="dropdown-item" href="${baseUrl}romaneios/gerarromaneiopdf/${romaneio.codigo}" title="Gerar Romaneio">
                                         <span class="fas fa-download ms-1"></span> Gerar
                                     </a>
 
@@ -1320,4 +1494,32 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
     }
 }
 
+$(document).on('change', '.select-macros', function () {
 
+    let idMacro = $(this).val();
+
+    $.ajax({
+        type: "post",
+        url: `${baseUrl}finMicro/recebeMicrosMacro`,
+        data: {
+            idMacro: idMacro
+        }, beforeSend: function () {
+            $('.select-micros').html('<option disabled>Selecione</option>');
+        }, success: function (data) {
+
+            $('.select-micros').attr('disabled', false);
+
+            let options = '<option value="" disabled >Selecione</option>';
+
+            for (i = 0; i < data.microsMacro.length; i++) {
+
+                options += `<option value="${data.microsMacro[i].id}">${data.microsMacro[i].nome}</option>`;
+            }
+
+            $('.select-micros').html(options);
+
+            $('.select-micros').val('').trigger('change');
+
+        }
+    })
+})

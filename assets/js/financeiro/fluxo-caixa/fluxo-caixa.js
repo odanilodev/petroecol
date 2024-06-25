@@ -126,7 +126,8 @@ $(document).on('click', '.btn-insere-fluxo', function() {
         macros: $('select[name="macros"]').val(), 
         micros: $('select[name="micros"]').val(), 
         valor: $('input[name="valor"]').val(),
-        observacao: $('textarea[name="observacao"]').val() 
+        observacao: $('textarea[name="observacao"]').val(),
+        grupo_recebido: $('select[name="grupo-recebido"]').val()
     };
 
     if(permissao){
