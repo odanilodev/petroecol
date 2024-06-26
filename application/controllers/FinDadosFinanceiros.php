@@ -179,12 +179,12 @@ class FinDadosFinanceiros extends CI_Controller
 	{
 		$idDadoFinanceiro = $this->input->post('idDadoFinanceiro');
 
-		$dadoFinanceiro = $this->FinDadosFinanceiros_model->recebeDadoFinanceiro($idDadoFinanceiro);
+		$dadosFinanceiros = $this->FinDadosFinanceiros_model->recebeDadoFinanceiro($idDadoFinanceiro);
 
-		if ($dadoFinanceiro) {
+		if ($dadosFinanceiros) {
 			// Aplicar ucwords() para formatar as chaves do array
 			$dadosFormatados = array();
-			foreach ($dadoFinanceiro as $key => $value) {
+			foreach ($dadosFinanceiros as $key => $value) {
 				$valorFormatado = ucwords(mb_strtolower($value));
 				$dadosFormatados[$key] = $valorFormatado;
 			}
