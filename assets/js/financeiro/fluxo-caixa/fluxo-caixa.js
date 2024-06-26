@@ -208,38 +208,72 @@ const deletarFluxo = (idMovimentacao, idContaBancaria, valorMovimentacao, tipoMo
 
         if (result.isConfirmed) {
 
-            $.ajax({
-                url: `${baseUrl}finFluxoCaixa/deletaFluxo`,
-                type: 'POST',
-                data: {
-                    idFluxo: idMovimentacao,
-                    valor: valorMovimentacao,
-                    idContaBancaria: idContaBancaria,
-                    tipoMovimentacao: tipoMovimentacao
-                }, beforeSend: function () {
-                    $('.html-clean').html('');
-                },
-                success: function (data) {
+            let titulo, mensagem;
+            if (idMovimentacao) {
+                titulo = 'Deseja extornar o valor de entrada?';
+                mensagem = 'O valor será devolvido à sua conta bancária.';
+            } else {
+                titulo = 'Deseja extornar o valor de saída?';
+                mensagem = 'O valor será deduzido da sua conta bancária.';
+            }
 
-                    let redirect = data.type != 'error' ? `${baseUrl}finFluxoCaixa` : '#';
+            Swal.fire({
+                title: titulo,
+                text: mensagem,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Apenas deletar',
+                confirmButtonText: 'Sim, extornar'
 
-                    avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
+            }).then((result) => {
 
-                },
-                error: function (xhr, status, error) {
-                    if (xhr.status === 403) {
-                        avisoRetorno(
-                            "Algo deu errado!",
-                            `Você não tem permissão para esta ação..`,
-                            "error",
-                            "#"
-                        );
-                    }
-                },
-            });
+                if (result.isConfirmed) {
+                    deletarMovimentacao(true); // deleta a movimentação e extorna o valor
+                } else {
+                    deletarMovimentacao() // deleta a movimentação e mantém o valor
+                }
+            })
 
         }
     })
+
+
+    function deletarMovimentacao(extornarValores = '') {
+
+        $.ajax({
+            url: `${baseUrl}finFluxoCaixa/deletaFluxo`,
+            type: 'POST',
+            data: {
+                idFluxo: idMovimentacao,
+                valor: valorMovimentacao,
+                idContaBancaria: idContaBancaria,
+                tipoMovimentacao: tipoMovimentacao,
+                extornarValores: extornarValores
+            }, beforeSend: function () {
+                $('.html-clean').html('');
+            },
+            success: function (data) {
+
+                let redirect = data.type != 'error' ? `${baseUrl}finFluxoCaixa` : '#';
+
+                avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
+
+            },
+            error: function (xhr, status, error) {
+                if (xhr.status === 403) {
+                    avisoRetorno(
+                        "Algo deu errado!",
+                        `Você não tem permissão para esta ação..`,
+                        "error",
+                        "#"
+                    );
+                }
+            },
+        });
+
+    }
 
 
 

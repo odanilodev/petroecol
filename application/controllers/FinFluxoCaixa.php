@@ -191,7 +191,11 @@ class FinFluxoCaixa extends CI_Controller
             $dadosSaldo['saldo'] = $saldoContaBancaria['saldo'] + $valor;
         }
 
-        $this->FinContaBancaria_model->editaSaldoBancaria($saldoContaBancaria['id'], $dadosSaldo);
+        if ($this->input->post('extornarValores') == true) {
+
+            $this->FinContaBancaria_model->editaSaldoBancaria($saldoContaBancaria['id'], $dadosSaldo);
+        }
+
 
         $retorno = $this->FinFluxo_model->deletaMovimentoFluxo($id);
 
