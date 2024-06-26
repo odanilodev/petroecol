@@ -117,23 +117,30 @@
                 </div>
                 <div class="modal-footer">
 
-                    <select class="form-select w-40 input-obrigatorio" id="select-responsavel">
-                        <option selected disabled>Selecione o responsável</option>
-                        <?php
-                        foreach ($responsaveis as $v) { ?>
-                            <option value="<?= $v['IDFUNCIONARIO'] ?>"> <?= $v['nome'] ?> | <?= $v['CARGO'] ?></option>
-                        <?php }  ?>
-                    </select>
-                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                    <div class="col-12">
 
-                    <select class="form-select w-40 input-obrigatorio" id="select-veiculo">
-                        <option selected disabled>Selecione o veículo</option>
-                        <?php
-                        foreach ($veiculos as $veiculo) { ?>
-                            <option value="<?= $veiculo['id'] ?>"> <?= $veiculo['modelo'] ?> | <?= strtoupper($veiculo['placa']) ?></option>
-                        <?php }  ?>
-                    </select>
-                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                        <select class="form-select w-100 input-obrigatorio select2" id="select-responsavel">
+                            <option selected disabled>Selecione o responsável</option>
+                            <?php
+                            foreach ($responsaveis as $v) { ?>
+                                <option value="<?= $v['IDFUNCIONARIO'] ?>"> <?= $v['nome'] ?> | <?= $v['CARGO'] ?></option>
+                            <?php }  ?>
+                        </select>
+                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                    </div>
+
+                    <div class="col-12">
+
+                        <select class="form-select w-100 input-obrigatorio select2" id="select-veiculo">
+                            <option selected disabled>Selecione o veículo</option>
+                            <?php
+                            foreach ($veiculos as $veiculo) { ?>
+                                <option value="<?= $veiculo['id'] ?>"> <?= $veiculo['modelo'] ?> | <?= strtoupper($veiculo['placa']) ?></option>
+                            <?php }  ?>
+                        </select>
+                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                    </div>
+
 
                     <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
                     <input type="hidden" class="id-setor-empresa">

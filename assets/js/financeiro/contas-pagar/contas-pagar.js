@@ -347,7 +347,7 @@ const realizarPagamento = () => {
         let contasBancarias = [];
         let formasPagamento = [];
         let valores = [];
-        let obs = $('.obs-pagamento').val();
+        let obs = $('.obs-pagamento-inicio').val();
         let dataPagamento = $('.input-data-pagamento').val();
         let valorTotal = 0;
 
@@ -770,7 +770,7 @@ function realizarVariosPagamentos() {
         if (idInput) {
             idInput = idInput[1];
             idsDadoFinanceiro = idsDadoFinanceiro[1];
-            let observacao = $('.obs-pagamento-inicio').val()
+            let observacao = $('.obs-pagamento-varios').val()
 
             let operacaoExistente = operacoes.find(op => op.idConta === idInput);
             if (!operacaoExistente) {

@@ -23,7 +23,7 @@ class FinContasPagar_model extends CI_Model
         $this->db->where('CP.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('CP.data_vencimento <=', $dataFim);
         $this->db->where('CP.data_vencimento >=', $dataInicio);
-        
+
         // Verifica se o tipo de movimentação não é 'ambas', para adicionar uma restrição
         if ($status !== 'ambas') {
             $this->db->where('CP.status', $status);
@@ -53,6 +53,17 @@ class FinContasPagar_model extends CI_Model
 
         $this->db->where('CP.id', $id);
         $this->db->where('CP.id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get();
+
+        return $query->row_array();
+    }
+
+    public function recebeObsContaPagar($id)
+    {
+        $this->db->select('observacao');
+        $this->db->from('fin_contas_pagar');
+        $this->db->where('id', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get();
 
         return $query->row_array();
