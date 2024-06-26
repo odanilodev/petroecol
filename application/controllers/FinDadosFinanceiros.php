@@ -59,7 +59,7 @@ class FinDadosFinanceiros extends CI_Controller
 
 		$data['dadoFinanceiro'] = $this->FinDadosFinanceiros_model->recebeDadoFinanceiro($id);
 		$data['grupos'] = $this->FinGrupos_model->recebeGrupos();
-	
+
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/financeiro/dados-financeiros/cadastra-dados-financeiros');
 		$this->load->view('admin/includes/painel/rodape');
@@ -68,7 +68,7 @@ class FinDadosFinanceiros extends CI_Controller
 	public function cadastraDadosFinanceiros()
 	{
 		$id = $this->input->post('id');
-		
+
 		$dados['nome'] = $this->input->post('nome');
 		$dados['id_grupo'] = $this->input->post('idGrupo');
 		$dados['cnpj'] = $this->input->post('cnpj');
@@ -90,7 +90,7 @@ class FinDadosFinanceiros extends CI_Controller
 		$dados['cpf_intermedio'] = $this->input->post('cpfIntermedio');
 		$dados['email_intermedio'] = $this->input->post('emailIntermedio');
 		$dados['telefone_intermedio'] = $this->input->post('telefoneIntermedio');
-		
+
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
 		$nomeDadosFinanceiros = $this->FinDadosFinanceiros_model->recebeNomeDadosFinanceiros($dados['nome'], $dados['cnpj'], $id); // verifica se já existem os Dados Financeiros 
@@ -167,12 +167,39 @@ class FinDadosFinanceiros extends CI_Controller
 				'dadosFinanceiro' => $dadosFinanceiro,
 				'success' => true
 			);
-
 		} else {
 			$response = array(
 				'success' => false
 			);
 		}
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function visualizarDadosFinanceiros()
+	{
+		$idDadoFinanceiro = $this->input->post('idDadoFinanceiro');
+
+		$dadoFinanceiro = $this->FinDadosFinanceiros_model->recebeDadoFinanceiro($idDadoFinanceiro);
+
+		if ($dadoFinanceiro) {
+			// Aplicar ucwords() para formatar as chaves do array
+			$dadosFormatados = array();
+			foreach ($dadoFinanceiro as $key => $value) {
+				$valorFormatado = ucwords(mb_strtolower($value));
+				$dadosFormatados[$key] = $valorFormatado;
+			}
+
+			$response = array(
+				'success' => true,
+				'dadoFinanceiro' => $dadosFormatados
+			);
+		} else {
+			$response = array(
+				'success' => false,
+				'message' => 'Nenhum dado financeiro encontrado.'
+			);
+		}
+
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 }

@@ -117,6 +117,35 @@ const cadastraDadosFinanceiros = () => {
   }
 }
 
+$(document).ready(function () {
+  // Resetar para a aba "Transação" ao abrir o modal
+  $('#modalVisualizarDadosFinanceiros').on('show.bs.modal', function () {
+    $('#modalVisualizarDadosFinanceiros .nav-link').removeClass('active');
+    $('#modalVisualizarDadosFinanceiros .tab-pane').removeClass('active show');
+    $('#bootstrap-wizard-tab1').addClass('active show');
+    $('#modalVisualizarDadosFinanceiros [href="#bootstrap-wizard-tab1"]').addClass('active');
+  });
+
+  // Botão Próximo
+  $('.next-btn').on('click', function () {
+    let activeTab = $('.nav-link.active');
+    let nextTab = activeTab.closest('li').next('li').find('.nav-link');
+    if (nextTab.length) {
+      nextTab.tab('show');
+    }
+  });
+
+  // Botão Anterior
+  $('.previous-btn').on('click', function () {
+    let activeTab = $('.nav-link.active');
+    let prevTab = activeTab.closest('li').prev('li').find('.nav-link');
+    if (prevTab.length) {
+      prevTab.tab('show');
+    }
+  });
+});
+
+
 const deletaDadosFinanceiros = (id) => {
 
   Swal.fire({
@@ -162,28 +191,84 @@ $(document).ready(function () {
   });
 
   $('#input-cep').on('blur', function () {
-      var cep = $(this).val().replace(/\D/g, '');
+    var cep = $(this).val().replace(/\D/g, '');
 
-      if (cep.length !== 8 && cep.length >= 1) {
-          
-          avisoRetorno('CEP inválido', 'Verifique se digitou corretamente!', 'error', '#');
-          return;
+    if (cep.length !== 8 && cep.length >= 1) {
 
-      } else {
-          preencherEnderecoPorCEP(cep, function (retornoViaCep) {
+      avisoRetorno('CEP inválido', 'Verifique se digitou corretamente!', 'error', '#');
+      return;
 
-              if (retornoViaCep.erro) {
+    } else {
+      preencherEnderecoPorCEP(cep, function (retornoViaCep) {
 
-                  avisoRetorno(`${retornoViaCep.titulo}`, `${retornoViaCep.mensagem}`, `${retornoViaCep.type}`, '#');
+        if (retornoViaCep.erro) {
 
-              }
+          avisoRetorno(`${retornoViaCep.titulo}`, `${retornoViaCep.mensagem}`, `${retornoViaCep.type}`, '#');
 
-              $('#input-rua').val(retornoViaCep.logradouro);
-              $('#input-bairro').val(retornoViaCep.bairro);
-              $('#input-cidade').val(retornoViaCep.localidade);
-              $('#input-estado').val(retornoViaCep.uf);
-          });
-      }
+        }
+
+        $('#input-rua').val(retornoViaCep.logradouro);
+        $('#input-bairro').val(retornoViaCep.bairro);
+        $('#input-cidade').val(retornoViaCep.localidade);
+        $('#input-estado').val(retornoViaCep.uf);
+      });
+    }
   });
 });
+
+const visualizarDadosFinanceiros = (idDadoFinanceiro) => {
+
+
+
+  $.ajax({
+    type: "post",
+    url: `${baseUrl}finDadosFinanceiros/visualizarDadosFinanceiros`,
+    data: {
+      idDadoFinanceiro: idDadoFinanceiro
+    }, beforeSend: function () {
+      $('.html-clean').html('');
+
+    }, success: function (data) {
+
+      // Transação
+      $('.nome-transacao').html(data['dadoFinanceiro'].nome ? data['dadoFinanceiro'].nome : '<i>Não cadastrado</i>');
+      $('.grupo-transacao').html(data['dadoFinanceiro'].NOME_GRUPO ? data['dadoFinanceiro'].NOME_GRUPO : '<i>Não cadastrado</i>');
+      $('.cnpj-transacao').html(data['dadoFinanceiro'].cnpj ? data['dadoFinanceiro'].cnpj : '<i>Não cadastrado</i>');
+      $('.razao-social-transacao').html(data['dadoFinanceiro'].razao_social ? data['dadoFinanceiro'].razao_social : '<i>Não cadastrado</i>');
+      $('.telefone-transacao').html(data['dadoFinanceiro'].telefone ? data['dadoFinanceiro'].telefone : '<i>Não cadastrado</i>');
+      $('.conta-bancaria-transacao').html(data['dadoFinanceiro'].conta_bancaria ? data['dadoFinanceiro'].conta_bancaria : '<i>Não cadastrado</i>');
+
+      if (data['dadoFinanceiro'].email) {
+        $('.email-transacao').html('<a href="mailto:' + data['dadoFinanceiro'].email.toLowerCase() + '">' + data['dadoFinanceiro'].email.toLowerCase() + '</a>');
+      } else {
+        $('.email-transacao').html('<i>Não cadastrado</i>');
+      }
+
+      // Localização
+      $('.cep-localizacao').html(data['dadoFinanceiro'].nome ? data['dadoFinanceiro'].cep : '<i>Não cadastrado</i>');
+      $('.rua-localizacao').html(data['dadoFinanceiro'].rua ? data['dadoFinanceiro'].rua : '<i>Não cadastrado</i>');
+      $('.numero-localizacao').html(data['dadoFinanceiro'].numero ? data['dadoFinanceiro'].numero : '<i>Não cadastrado</i>');
+      $('.bairro-localizacao').html(data['dadoFinanceiro'].bairro ? data['dadoFinanceiro'].bairro : '<i>Não cadastrado</i>');
+      $('.cidade-localizacao').html(data['dadoFinanceiro'].cidade ? data['dadoFinanceiro'].cidade : '<i>Não cadastrado</i>');
+      $('.estado-localizacao').html(data['dadoFinanceiro'].estado ? data['dadoFinanceiro'].estado.toUpperCase() : '<i>Não cadastrado</i>');
+      $('.complemento-localizacao').html(data['dadoFinanceiro'].complemento ? data['dadoFinanceiro'].complemento : '<i>Não cadastrado</i>');
+
+      // Intermédio
+      $('.nome-intermedio').html(data['dadoFinanceiro'].nome_intermedio ? data['dadoFinanceiro'].nome_intermedio : '<i>Não cadastrado</i>');
+      $('.telefone-intermedio').html(data['dadoFinanceiro'].telefone_intermedio ? data['dadoFinanceiro'].telefone_intermedio : '<i>Não cadastrado</i>');
+
+      if (data['dadoFinanceiro'].email_intermedio) {
+        $('.email-intermedio').html('<a href="mailto:' + data['dadoFinanceiro'].email_intermedio.toLowerCase() + '">' + data['dadoFinanceiro'].email_intermedio.toLowerCase() + '</a>');
+      } else {
+        $('.email-intermedio').html('<i>Não cadastrado</i>');
+      }
+
+      $('.cpf-intermedio').html(data['dadoFinanceiro'].cpf_intermedio ? data['dadoFinanceiro'].cpf_intermedio : '<i>Não cadastrado</i>');
+
+
+
+    }
+  })
+
+}
 
