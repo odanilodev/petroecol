@@ -2,6 +2,11 @@ var baseUrl = $('.base-url').val();
 
 let filtrarClientesRomaneio = () => {
 
+    $('.select2').select2({
+        dropdownParent: "#modalRomaneio",
+        theme: 'bootstrap-5'
+    });
+
     let clientesModalRomaneio = $('.clientes-modal-romaneio');
     let checkTodos = `<tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
                 <td class="align-middle white-space-nowrap">

@@ -28,7 +28,7 @@
 
                                                     <option disabled selected value="">Selecione o setor</option>
                                                     <?php foreach ($setores as $setor) { ?>
-                                                    <option value="<?= $setor['id_setor_empresa'] ?>"><?= strtoupper($setor['nome']); ?></option>
+                                                        <option value="<?= $setor['id_setor_empresa'] ?>"><?= strtoupper($setor['nome']); ?></option>
                                                     <?php } ?>
 
                                                 </select>
@@ -52,7 +52,7 @@
                                                 <label>Data Agendamento</label>
 
                                                 <input class="form-control datetimepicker input-coleta" required name="data_coleta" type="text" placeholder="Data Agendamento" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
-                                                <span><input id="filtrar-data" type="checkbox"/><small> Filtrar por data</small></span>
+                                                <span><input id="filtrar-data" type="checkbox" /><small> Filtrar por data</small></span>
                                             </div>
 
                                             <div class="flex-1 text-end my-5">
@@ -100,7 +100,7 @@
                         </table>
 
                         <i class="fas fa-plus mt-2 add-cliente btn btn-phoenix-secondary" style="cursor: pointer; float: right"></i>
-                        
+
 
                     </div>
 
@@ -117,24 +117,31 @@
                 </div>
                 <div class="modal-footer">
 
-                    <select class="form-select w-40 input-obrigatorio" id="select-responsavel">
-                        <option selected disabled>Selecione o responsável</option>
-                        <?php
-                            foreach ($responsaveis as $v) { ?>
-                            <option value="<?= $v['IDFUNCIONARIO']?>"> <?= $v['nome'] ?> | <?= $v['CARGO']?></option>
-                        <?php }  ?>
-                    </select>
-                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                    <div class="col-12">
 
-                    <select class="form-select w-40 input-obrigatorio" id="select-veiculo">
-                        <option selected disabled>Selecione o veículo</option>
-                        <?php
+                        <select class="form-select w-100 input-obrigatorio select2" id="select-responsavel">
+                            <option selected disabled>Selecione o responsável</option>
+                            <?php
+                            foreach ($responsaveis as $v) { ?>
+                                <option value="<?= $v['IDFUNCIONARIO'] ?>"> <?= $v['nome'] ?> | <?= $v['CARGO'] ?></option>
+                            <?php }  ?>
+                        </select>
+                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                    </div>
+
+                    <div class="col-12">
+
+                        <select class="form-select w-100 input-obrigatorio select2" id="select-veiculo">
+                            <option selected disabled>Selecione o veículo</option>
+                            <?php
                             foreach ($veiculos as $veiculo) { ?>
-                            <option value="<?= $veiculo['id']?>"> <?= $veiculo['modelo'] ?> | <?= strtoupper($veiculo['placa'])?></option>
-                        <?php }  ?>
-                    </select>
-                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
-                    
+                                <option value="<?= $veiculo['id'] ?>"> <?= $veiculo['modelo'] ?> | <?= strtoupper($veiculo['placa']) ?></option>
+                            <?php }  ?>
+                        </select>
+                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                    </div>
+
+
                     <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
                     <input type="hidden" class="id-setor-empresa">
                     <input type="hidden" class="todos-clientes">
