@@ -86,9 +86,10 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <p><?=$ultimosRomaneios['RESPONSAVEL']?></p>
+                    <span style="font-weight:700;">Responsável: </span> <span class="responsavel" style="margin-left:5px;"></span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
                 <div class="modal-body">
 
                     <div class="row">
@@ -169,7 +170,7 @@
                                     <option selected disabled value="">Alterar Motorista</option>
 
                                     <?php foreach ($responsaveis as $responsavel) { ?>
-                                        <option value="<?= $responsavel['IDFUNCIONARIO']?>"><?= $responsavel['nome']?></option>
+                                        <option value="<?= $responsavel['IDFUNCIONARIO'] ?>"><?= $responsavel['nome'] ?></option>
                                     <?php } ?>
 
                                 </select>

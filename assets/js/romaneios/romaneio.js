@@ -316,14 +316,14 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpre
 
             }, success: function (data) {
 
+                $('.responsavel').html(`${data.responsavel}`);
+
                 exibirDadosClientes(data.retorno, data.registros, data.residuos, data.pagamentos, data.id_cliente_prioridade);
             }
         })
-
     }
-
-
 }
+
 
 
 // formata um obj para um array
@@ -428,7 +428,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     </div>
 
                     <div class="col-md-12 div-checkbox mb-2">
-                        <input class="form-check-input checkbox-funcionario" type="checkbox" value="1">
+                        <input class="form-check-input checkbox-funcionario" type="checkbox" value="1">  Pago pelo responsável
                     </div>
 
                     <div class="pagamentos-duplicados"></div>
@@ -538,7 +538,7 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
 
     let checkboxFuncionario = `
         <div class="col-md-12 div-checkbox mb-2">
-         <input class="form-check-input checkbox-funcionario" value="1" type="checkbox">
+         <input class="form-check-input checkbox-funcionario" value="1" type="checkbox">  Pago pelo responsável
         </div>
     `;
 
