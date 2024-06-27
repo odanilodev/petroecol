@@ -1,13 +1,13 @@
 var baseUrl = $('.base-url').val();
 
-    $('.dia-pagamento').on('input', function() {
+$('.dia-pagamento').on('input', function () {
 
-        let valor = $(this).val().replace(/\D/g, '');
+    let valor = $(this).val().replace(/\D/g, '');
 
-        valor = Math.min(Math.max(parseInt(valor, 10) || 0, ''), 31);
+    valor = Math.min(Math.max(parseInt(valor, 10) || 0, ''), 31);
 
-        $(this).val(valor === 0 ? '' : valor);
-    });
+    $(this).val(valor === 0 ? '' : valor);
+});
 
 
 const cadastraSetorEmpresaCliente = () => {
@@ -21,8 +21,10 @@ const cadastraSetorEmpresaCliente = () => {
 
     let idFrequenciaColeta = $('.select-frequencia-coleta-setor option:selected').val();
 
+    let frequenciaColeta = $('.select-frequencia-coleta-setor option:selected').data('qtd-dias'); // quantidade de dias da frequencia selecionada
+
     let diaFixoSemana = $('.select-dia-fixo option:selected').val();
-    
+
     let transacaoColeta = $('.select-transacao-coleta-setor option:selected').val();
 
     let diaPagamento = $('.dia-pagamento').val();
@@ -35,14 +37,14 @@ const cadastraSetorEmpresaCliente = () => {
 
     $(".input-obrigatorio").each(function () {
 
-		// Verifica se o valor do input atual está vazio
-		if (!$(this).val()) {
+        // Verifica se o valor do input atual está vazio
+        if (!$(this).val()) {
 
             $(this).addClass('invalido');
 
             // verifica se é select2
             if ($(this).next().hasClass('aviso-obrigatorio')) {
-                
+
                 $(this).next().removeClass('d-none');
 
             } else {
@@ -50,9 +52,9 @@ const cadastraSetorEmpresaCliente = () => {
                 $(this).next().addClass('select2-obrigatorio');
             }
 
-			permissao = false;
+            permissao = false;
 
-		} else {
+        } else {
 
             $(this).removeClass('invalido');
 
@@ -66,9 +68,9 @@ const cadastraSetorEmpresaCliente = () => {
 
             }
         }
-	});
+    });
 
-    
+
     if (!$('.fixo-coleta').hasClass('d-none') && !diaFixoSemana) {
         permissao = false;
         $('.select-dia-fixo').next().next().removeClass('d-none');
@@ -135,6 +137,8 @@ const cadastraSetorEmpresaCliente = () => {
 
                 if (data.success && !data.editado) {
 
+                    agendarCliente(idCliente, idSetorEmpresa, frequenciaColeta);
+
                     $('.div-setor-empresa').append(data.message);
 
                 } else if (data.success && data.editado) {
@@ -155,6 +159,40 @@ const cadastraSetorEmpresaCliente = () => {
             }
         })
     }
+
+}
+
+
+function agendarCliente(cliente, setorEmpresa, frequenciaColeta) {
+
+    let dataAtual = new Date();
+
+    // Função para somar dias a uma data
+    function adicionarDias(data, dias) {
+        let novaData = new Date(data);
+        novaData.setDate(novaData.getDate() + dias);
+        return novaData;
+    }
+
+    let dataFutura = adicionarDias(dataAtual, frequenciaColeta);
+
+    // Formatando a data para YYYY-MM-DD
+    let dia = ("0" + dataFutura.getDate()).slice(-2);
+    let mes = ("0" + (dataFutura.getMonth() + 1)).slice(-2); 
+    let ano = dataFutura.getFullYear();
+
+    let dataFormatada = `${ano}-${mes}-${dia}`;
+
+    $.ajax({
+        type: "post",
+        url: `${baseUrl}agendamentos/cadastraAgendamento`,
+        data: {
+            cliente: cliente,
+            data: dataFormatada,
+            setorEmpresa: setorEmpresa,
+            prioridade: 0
+        }
+    })
 
 }
 
@@ -203,9 +241,9 @@ const exibirSetorEmpresaCliente = (idCliente) => {
                 $('.div-setor-empresa').html(data);
 
             }
-            
+
         }
-        
+
     })
 }
 
@@ -278,7 +316,7 @@ const verSetorEmpresaCliente = (setorEmpresa, frequenciaColeta, diaColetaFixo, t
 
     selectSetorEmpresa.prop('selected', true);
     $('.select-nome-setor-empresa').val(selectSetorEmpresa.val()).trigger('change');
-    
+
     let selectFrequenciaColetaSetor = $('.select-frequencia-coleta-setor').find('option').filter(function () {
         return $(this).val() == frequenciaColeta;
     });
@@ -293,7 +331,7 @@ const verSetorEmpresaCliente = (setorEmpresa, frequenciaColeta, diaColetaFixo, t
     selectTrasacaoColeta.prop('selected', true);
     $('.select-transacao-coleta-setor').val(selectTrasacaoColeta.val()).trigger('change');
 
-    let selectFormaPagamento = $('.forma-pagamento-setor').find('option').filter(function(){
+    let selectFormaPagamento = $('.forma-pagamento-setor').find('option').filter(function () {
         return $(this).val() == formaPagamento;
     });
 
@@ -304,7 +342,7 @@ const verSetorEmpresaCliente = (setorEmpresa, frequenciaColeta, diaColetaFixo, t
 
     $('.observacao-pagamento-setor').val(observacaoFormaPagamento);
 
-    let selectDiaColetaFixo = $('.select-dia-fixo').find('option').filter(function(){
+    let selectDiaColetaFixo = $('.select-dia-fixo').find('option').filter(function () {
         return $(this).val() == diaColetaFixo;
     });
 
