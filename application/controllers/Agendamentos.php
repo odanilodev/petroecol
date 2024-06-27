@@ -65,11 +65,12 @@ class Agendamentos extends CI_Controller
 
         // Define as datas padrão caso não sejam recebidas via POST
         $dataInicio = new DateTime();
-        $dataInicio->modify('-30 days'); // Modifica para 30 dias atrás
+        $dataInicio->modify('-31 days'); // Modifica para 31 dias atrás para incluir ontem
         $dataInicioFormatada = $dataInicio->format('Y-m-d');
 
-        $dataFim = new DateTime(); // Data atual
-        $dataFimFormatada = $dataFim->format('Y-m-d'); // Data atual
+        $dataFim = new DateTime();
+        $dataFim->modify('-1 days'); // Modifica para 1 dia atrás para incluir até ontem
+        $dataFimFormatada = $dataFim->format('Y-m-d');
 
         // Verifica se as datas foram recebidas via POST
         if ($this->input->post('data_inicio') && $this->input->post('data_fim')) {

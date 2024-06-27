@@ -3,13 +3,6 @@
     <div class="row g-4">
       <div class="col-12 col-xxl-12">
         <div class="row align-items-center g-4">
-          <div class="col-12 col-md-auto">
-            <div class="row g-2 gy-3 justify-content-end">
-              <div class="col-auto">
-                <a href="<?= base_url('agendamentos') ?>" class="btn btn-phoenix-info"><i class="fas fa-arrow-left me-1"></i> Retornar</a>
-              </div>
-            </div>
-          </div>
           <div class="col-12 col-md-3">
             <div class="d-flex align-items-center">
               <span class="fa-stack" style="min-height: 46px; min-width: 46px;">
@@ -48,7 +41,7 @@
                 <div class="ms-3">
                   <select class="form-control select-validation select-setor" required name="setor" id="setor">
                     <option selected disabled>Setor da conta</option>
-                    <option <?= $idSetor == 'todos' ? 'selected' : '' ?> value="todos">Todos</option>
+                    <option <?= $idSetor == '' ? 'selected' : '' ?> value="todos">Todos</option>
                     <?php foreach ($setoresEmpresa as $setor) { ?>
                       <option <?= $idSetor == $setor['id'] ? 'selected' : '' ?> value="<?= $setor['id'] ?>"><?= $setor['nome'] ?>
                       </option>
@@ -100,12 +93,12 @@
                   <input class="form-check-input check-all-element cursor-pointer" id="checkbox-bulk-reviews-select" type="checkbox" />
                 </div>
               </th>
-              <th class="sort align-middle text-center" scope="col" data-sort="td_data_agendamento">Data Agendamento</th>
-              <th class="sort align-middle text-center" scope="col" data-sort="td_nome_cliente">Cliente</th>
-              <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
-              <th class="sort align-middle text-center" scope="col" data-sort="td_cidade">Cidade</th>
-              <th class="sort align-middle text-center" scope="col" data-sort="td_telefone">Telefone</th>
-              <th class="sort text-end pe-0 align-middle text-center" scope="col"></th>
+              <th class="align-middle text-center" scope="col" data-sort="td_data_agendamento">Data Agendamento</th>
+              <th class="align-middle text-center" scope="col" data-sort="td_nome_cliente">Cliente</th>
+              <th class="align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
+              <th class="align-middle text-center" scope="col" data-sort="td_cidade">Cidade</th>
+              <th class="align-middle text-center" scope="col" data-sort="td_telefone">Telefone</th>
+              <th class="text-end pe-0 align-middle text-center" scope="col"></th>
           </tr>
           </thead>
           <tbody class="list" id="table-latest-review-body">

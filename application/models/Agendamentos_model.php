@@ -268,7 +268,6 @@ class Agendamentos_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
-    
     /**
      * Recebe os agendamentos atrasados com base nas datas e setor especificados.
      *
