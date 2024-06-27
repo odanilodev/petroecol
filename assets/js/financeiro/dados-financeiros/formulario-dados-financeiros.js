@@ -216,7 +216,7 @@ const visualizarDadosFinanceiros = (idDadoFinanceiro) => {
         }
 
         // Localização
-        $('.cep-localizacao').html(data['dadoFinanceiro'].nome ? data['dadoFinanceiro'].cep : '<i>Não cadastrado</i>');
+        $('.cep-localizacao').html(data['dadoFinanceiro'].cep ? data['dadoFinanceiro'].cep : '<i>Não cadastrado</i>');
         $('.rua-localizacao').html(data['dadoFinanceiro'].rua ? data['dadoFinanceiro'].rua : '<i>Não cadastrado</i>');
         $('.numero-localizacao').html(data['dadoFinanceiro'].numero ? data['dadoFinanceiro'].numero : '<i>Não cadastrado</i>');
         $('.bairro-localizacao').html(data['dadoFinanceiro'].bairro ? data['dadoFinanceiro'].bairro : '<i>Não cadastrado</i>');
