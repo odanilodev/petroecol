@@ -47,6 +47,10 @@ class Romaneios extends CI_Controller
 
 		$data['responsaveis'] = $this->Funcionarios_model->recebeResponsavelAgendamento();
 
+		// echo '<pre>';
+		// print_r($data['ultimosRomaneios']);
+		// exit;
+
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/romaneio/romaneios');
 		$this->load->view('admin/includes/painel/rodape');
