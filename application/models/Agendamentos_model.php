@@ -66,8 +66,8 @@ class Agendamentos_model extends CI_Model
     {
         $dados['editado_em'] = date('Y-m-d H:i:s');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('id_cliente', $id_cliente); 
-        $this->db->where('id_setor_empresa', $idSetorEmpresa); 
+        $this->db->where('id_cliente', $id_cliente);
+        $this->db->where('id_setor_empresa', $idSetorEmpresa);
         $this->db->where('status', 0);
         $this->db->where('data_coleta <', $data_coleta);
         $this->db->update('ci_agendamentos', $dados);
@@ -177,30 +177,28 @@ class Agendamentos_model extends CI_Model
 
     public function ultimaColetaCliente($id)
     {
-        $this->db->select('data_coleta'); 
+        $this->db->select('data_coleta');
         $this->db->where('id_cliente', $id);
         $this->db->where('status', 1);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->order_by('data_coleta', 'desc'); 
-        $this->db->limit(1); 
+        $this->db->order_by('data_coleta', 'desc');
+        $this->db->limit(1);
         $query = $this->db->get('ci_agendamentos');
 
-        return $query->row()->data_coleta ?? null; 
-
+        return $query->row()->data_coleta ?? null;
     }
 
     public function proximaColetaCliente($id)
     {
-        $this->db->select('data_coleta'); 
+        $this->db->select('data_coleta');
         $this->db->where('id_cliente', $id);
         $this->db->where('status', 0);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->order_by('data_coleta', 'desc'); 
-        $this->db->limit(1); 
+        $this->db->order_by('data_coleta', 'desc');
+        $this->db->limit(1);
         $query = $this->db->get('ci_agendamentos');
 
-        return $query->row()->data_coleta ?? null; 
-
+        return $query->row()->data_coleta ?? null;
     }
 
     public function contaAgendamentoCLiente($id)
@@ -234,7 +232,7 @@ class Agendamentos_model extends CI_Model
         return $query->num_rows();
     }
 
-    public  function recebeObservacaoAgendamentoCliente ($data_romaneio)
+    public  function recebeObservacaoAgendamentoCliente($data_romaneio)
     {
         $this->db->select('observacao, id_cliente');
         $this->db->where_in('data_coleta', $data_romaneio);
@@ -258,7 +256,6 @@ class Agendamentos_model extends CI_Model
         $query = $this->db->get();
 
         return $query->result_array();
-        
     }
 
     public function cancelaProximosAgendamentosCliente($dataAgendamento, $idCliente)
@@ -270,6 +267,28 @@ class Agendamentos_model extends CI_Model
         $this->db->delete('ci_agendamentos');
 
         return $this->db->affected_rows() > 0;
-        
+    }
+
+    public function recebeAgendamentosAtrasados($dataInicioFormatada = NULL, $dataFimFormatada = NULL, $setorEmpresa)
+    {
+        $this->db->select('A.*, C.*, C.nome as NOME_CLIENTE, SE.nome AS NOME_SETOR');
+
+        $this->db->join('ci_clientes C', 'A.id_cliente = C.id', 'left');
+        $this->db->join('ci_setores_empresa SE', 'A.id_setor_empresa = SE.id', 'left');
+
+        $this->db->where('A.data_coleta >=', $dataInicioFormatada);
+        $this->db->where('A.data_coleta <=', $dataFimFormatada);
+        $this->db->where('A.status', 0);
+
+        $this->db->where('A.id_empresa', $this->session->userdata('id_empresa'));
+
+        // Adiciona a cláusula do setor apenas se $setor não for null
+        if ($setorEmpresa !== 'todos') {
+            $this->db->where('A.id_setor_empresa', $setorEmpresa);
+        }
+
+        $query = $this->db->get('ci_agendamentos A');
+
+        return $query->result_array();
     }
 }
