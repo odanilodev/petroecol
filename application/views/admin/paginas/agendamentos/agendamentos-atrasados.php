@@ -3,6 +3,13 @@
     <div class="row g-4">
       <div class="col-12 col-xxl-12">
         <div class="row align-items-center g-4">
+          <div class="col-12 col-md-auto">
+            <div class="row g-2 gy-3 justify-content-end">
+              <div class="col-auto">
+                <a href="<?= base_url('agendamentos') ?>" class="btn btn-phoenix-info"><i class="fas fa-arrow-left me-1"></i> Retornar</a>
+              </div>
+            </div>
+          </div>
           <div class="col-12 col-md-3">
             <div class="d-flex align-items-center">
               <span class="fa-stack" style="min-height: 46px; min-width: 46px;">
@@ -12,9 +19,8 @@
               </span>
 
               <div class="ms-3">
-                <h4 class="mb-0"><span class="total-clientes-atrasados"><?=count($agendamentosAtrasados);?></span></h4>
-                <p class="text-800 fs--1 mb-0">Clientes Atrasados</p>
-
+                <h4 class="mb-0"><span class="total-clientes-atrasados"><?= count($agendamentosAtrasados); ?></span></h4>
+                <p class="text-800 fs--1 mb-0">Clientes Atrasados <?=!$dataInicio ? 'Nos Ultimos 30 Dias' : ''?></p>
               </div>
             </div>
           </div>
@@ -67,7 +73,7 @@
   </div>
 
   <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-    <div id="members" data-list='{"valueNames":["td_data_agendamento","td_nome_cliente","td_setor","td_endereco","td_observacao"],"page":20,"pagination":true}'>
+    <div id="members" data-list='{"valueNames":["td_data_agendamento","td_nome_cliente","td_setor","td_cidade","td_telefone"],"page":20,"pagination":true}'>
       <div class="row align-items-end justify-content-between pb-5 g-3">
         <div class="col-auto">
           <h3>Agendamentos Atrasados</h3>
@@ -112,7 +118,7 @@
                   </div>
                 </td>
                 <td class="align-middle td_data_agendamento text-center">
-                  <h6 class="mb-0 text-900"><?= $agendamentoAtrasado['data_coleta'] ?></h6>
+                  <h6 class="mb-0 text-900"><?= date('d/m/Y', strtotime($agendamentoAtrasado['data_coleta'])) ?></h6>
                 </td>
                 <td class="align-middle td_nome_cliente text-center">
                   <h6 class="mb-0 text-900"><?= $agendamentoAtrasado['NOME_CLIENTE'] ?></h6>
@@ -121,7 +127,7 @@
                   <h6 class="mb-0 text-900"><?= $agendamentoAtrasado['NOME_SETOR'] ?></h6>
                 </td>
                 <td class="align-middle td_cidade text-center">
-                  <h6 class="mb-0 text-900"><?= $agendamentoAtrasado['cidade'] ?></h6>
+                  <h6 class="mb-0 text-900"><?= ucwords(strtolower($agendamentoAtrasado['cidade'])) ?></h6>
                 </td>
                 <td class="align-middle td_observacao text-center">
                   <h6 class="mb-0 text-900"><?= $agendamentoAtrasado['telefone'] ?></h6>

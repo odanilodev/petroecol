@@ -51,25 +51,25 @@ class Agendamentos extends CI_Controller
 
     public function agendamentosAtrasados()
     {
-        // scripts padrão
+        // Carrega scripts padrão
         $scriptsPadraoHead = scriptsPadraoHead();
         $scriptsPadraoFooter = scriptsPadraoFooter();
 
-        // scripts para agendamento
+        // Carrega scripts específicos para agendamento
         $scriptsAgendamentoHead = scriptsAgendamentoHead();
         $scriptsAgendamentoFooter = scriptsAgendamentoFooter();
 
+        // Adiciona scripts ao cabeçalho e rodapé
         add_scripts('header', array_merge($scriptsPadraoHead, $scriptsAgendamentoHead));
         add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsAgendamentoFooter));
 
         // Define as datas padrão caso não sejam recebidas via POST
         $dataInicio = new DateTime();
-        $dataInicio->modify('-15 days');
+        $dataInicio->modify('-30 days'); // Modifica para 30 dias atrás
         $dataInicioFormatada = $dataInicio->format('Y-m-d');
 
-        $dataFim = new DateTime();
-        $dataFim->modify('+15 days');
-        $dataFimFormatada = $dataFim->format('Y-m-d');
+        $dataFim = new DateTime(); // Data atual
+        $dataFimFormatada = $dataFim->format('Y-m-d'); // Data atual
 
         // Verifica se as datas foram recebidas via POST
         if ($this->input->post('data_inicio') && $this->input->post('data_fim')) {
@@ -82,22 +82,20 @@ class Agendamentos extends CI_Controller
             $dataFimFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataFimFormatada)));
         }
 
+        // Prepara os dados para a view
         $data['dataInicio'] = $this->input->post('data_inicio');
-		$data['dataFim'] = $this->input->post('data_fim');
+        $data['dataFim'] = $this->input->post('data_fim');
+        $data['idSetor'] = $this->input->post('setor');
 
-		$setorEmpresa = $this->input->post('setor');
-        $data['idSetor'] = $setorEmpresa;
+        // Carrega os setores da empresa
+        $this->load->model('SetoresEmpresa_model');
+        $data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
 
-        if ($setorEmpresa === null || $setorEmpresa === '') {
-			$setorEmpresa = 'todos';
-		}
+        // Carrega os agendamentos atrasados com base nos parâmetros
+        $this->load->model('Agendamentos_model');
+        $data['agendamentosAtrasados'] = $this->Agendamentos_model->recebeAgendamentosAtrasados($dataInicioFormatada, $dataFimFormatada, $data['idSetor']);
 
-        // Setores Empresa 
-		$this->load->model('SetoresEmpresa_model');
-		$data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
-
-        $data['agendamentosAtrasados'] = $this->Agendamentos_model->recebeAgendamentosAtrasados($dataInicioFormatada, $dataFimFormatada, $setorEmpresa);
-
+        // Carrega as views
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/agendamentos/agendamentos-atrasados');
         $this->load->view('admin/includes/painel/rodape');

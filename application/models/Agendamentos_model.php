@@ -268,27 +268,32 @@ class Agendamentos_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
-
-    public function recebeAgendamentosAtrasados($dataInicioFormatada = NULL, $dataFimFormatada = NULL, $setorEmpresa)
+    
+    /**
+     * Recebe os agendamentos atrasados com base nas datas e setor especificados.
+     *
+     * @param string $dataInicioFormatada Data de início formatada (YYYY-MM-DD)
+     * @param string $dataFimFormatada Data de fim formatada (YYYY-MM-DD)
+     * @param string|null $setorEmpresa ID do setor da empresa ou 'todos' para todos os setores
+     * @return array Resultados da consulta como um array associativo
+     */
+    public function recebeAgendamentosAtrasados(string $dataInicioFormatada, string $dataFimFormatada, ?string $setorEmpresa): array
     {
         $this->db->select('A.*, C.*, C.nome as NOME_CLIENTE, SE.nome AS NOME_SETOR');
-
+        $this->db->from('ci_agendamentos A');
         $this->db->join('ci_clientes C', 'A.id_cliente = C.id', 'left');
         $this->db->join('ci_setores_empresa SE', 'A.id_setor_empresa = SE.id', 'left');
-
         $this->db->where('A.data_coleta >=', $dataInicioFormatada);
         $this->db->where('A.data_coleta <=', $dataFimFormatada);
         $this->db->where('A.status', 0);
-
         $this->db->where('A.id_empresa', $this->session->userdata('id_empresa'));
 
         // Adiciona a cláusula do setor apenas se $setor não for null
-        if ($setorEmpresa !== 'todos') {
+        if ($setorEmpresa !== 'todos' && $setorEmpresa !== null) {
             $this->db->where('A.id_setor_empresa', $setorEmpresa);
         }
 
-        $query = $this->db->get('ci_agendamentos A');
-
+        $query = $this->db->get();
         return $query->result_array();
     }
 }
