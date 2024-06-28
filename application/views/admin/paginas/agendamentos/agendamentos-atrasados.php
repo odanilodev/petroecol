@@ -70,7 +70,12 @@
     <div id="members" data-list='{"valueNames":["td_data_agendamento","td_nome_cliente","td_setor","td_cidade","td_telefone"],"page":20,"pagination":true}'>
       <div class="row align-items-end justify-content-between pb-5 g-3">
         <div class="col-auto">
-          <h3>Agendamentos Atrasados</h3>
+          <div class="d-flex align-items-center">
+            <h3 class="me-3">Agendamentos Atrasados</h3>
+            <button class="d-none btn btn-phoenix-info btn-gerar-romaneio-atrasado" onclick="gerarRomaneiosAtrasados()">
+              <i class="fas fa-clipboard-list me-2"></i>Gerar Romaneio
+            </button>
+          </div>
         </div>
         <div class="col-12 col-md-auto">
           <div class="row g-2 gy-3">
@@ -85,13 +90,14 @@
           </div>
         </div>
       </div>
+
       <div class="table-responsive mx-n1 px-1 scrollbar">
         <table class="table fs--1 mb-0 border-top border-200">
           <tr>
             <thead>
               <th class="white-space-nowrap fs--1 ps-0 align-middle">
                 <div class="form-check mb-0 fs-0">
-                  <input class="form-check-input check-all-element cursor-pointer" id="checkbox-bulk-reviews-select" type="checkbox" />
+                  <input class="form-check-input check-all-element-agendamentos cursor-pointer" id="checkbox-bulk-reviews-select" type="checkbox" />
                 </div>
               </th>
               <th class="align-middle text-center" scope="col" data-sort="td_data_agendamento">Data Agendamento</th>
@@ -107,7 +113,7 @@
               <tr class="hover-actions-trigger btn-reveal-trigger position-static tr-pagamento">
                 <td class="fs--1 align-middle ps-0">
                   <div class="form-check mb-0 fs-0">
-                    <input class="form-check-input check-element cursor-pointer" type="checkbox" value="" />
+                    <input class="form-check-input check-element-agendamentos cursor-pointer" type="checkbox" data-setor="<?=$agendamentoAtrasado['id_setor_empresa']?>" value="<?=$agendamentoAtrasado['id_cliente']?>" />
 
                   </div>
                 </td>

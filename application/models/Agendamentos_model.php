@@ -278,7 +278,13 @@ class Agendamentos_model extends CI_Model
      */
     public function recebeAgendamentosAtrasados(string $dataInicioFormatada, string $dataFimFormatada, ?string $setorEmpresa): array
     {
-        $this->db->select('A.*, C.*, C.nome as NOME_CLIENTE, SE.nome AS NOME_SETOR');
+        $this->db->select('
+            MAX(C.cidade) as cidade, 
+            MAX(C.telefone) as telefone, 
+            MAX(C.nome) as NOME_CLIENTE, 
+            MAX(SE.nome) as NOME_SETOR,
+            MAX(A.data_coleta) as data_coleta
+        ');
         $this->db->from('ci_agendamentos A');
         $this->db->join('ci_clientes C', 'A.id_cliente = C.id', 'left');
         $this->db->join('ci_setores_empresa SE', 'A.id_setor_empresa = SE.id', 'left');
@@ -291,6 +297,8 @@ class Agendamentos_model extends CI_Model
         if ($setorEmpresa !== 'todos' && $setorEmpresa !== null) {
             $this->db->where('A.id_setor_empresa', $setorEmpresa);
         }
+
+        $this->db->group_by('A.id_cliente');
 
         $query = $this->db->get();
         return $query->result_array();

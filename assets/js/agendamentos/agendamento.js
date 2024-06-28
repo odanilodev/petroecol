@@ -461,7 +461,7 @@ exibirAgendamentos(currentYear, currentMonth); // exibe os agendamentos no calen
         $('.input-agendamento').val('').trigger('change');
         $('.div-select-cliente').addClass('d-none');
         $('.div-select-cliente-etiqueta').addClass('d-none');
-        
+
       })
 
 
@@ -1021,3 +1021,15 @@ $("#select-cliente-setor").change(function () {
 
 });
 
+let checkElementsAgendamento = [];
+
+$(document).on('change', '.check-all-element-agendamentos', function () {
+
+  if ($(this).prop('checked')) {
+    ('.check-element-agendamentos').prop('checked', true);
+    ('.check-element-agendamentos').each(function () {
+      checkElementsAgendamento.push($(this).val());
+    });
+  }
+
+});
