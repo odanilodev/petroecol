@@ -13,7 +13,7 @@
 
               <div class="ms-3">
                 <h4 class="mb-0"><span class="total-clientes-atrasados"><?= count($agendamentosAtrasados); ?></span></h4>
-                <p class="text-800 fs--1 mb-0">Clientes Atrasados <?=!$dataInicio ? 'Nos Ultimos 30 Dias' : ''?></p>
+                <span class="text-800 fs--1 mb-0">Clientes atrasados <?= !$dataInicio ? 'nos últimos 30 dias' : 'no período do filtro aplicado' ?></span>
               </div>
             </div>
           </div>
@@ -29,14 +29,15 @@
 
               <div class="col-12 col-md-3">
                 <div class="ms-3">
-                  <input class="form-control datetimepicker mascara-data" value="<?= $dataInicio ?>" required name="data_inicio" id="data_inicio" type="text" placeholder="Selecione a data de início" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
+                  <input class="form-control datetimepicker mascara-data" value="<?= isset($dataInicio) ? $dataInicio : '' ?>" name="data_inicio" id="data_inicio" type="text" placeholder="Selecione a data de início" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
                 </div>
               </div>
               <div class="col-12 col-md-3">
                 <div class="ms-3">
-                  <input class="form-control datetimepicker mascara-data" value="<?= $dataFim ?>" required name="data_fim" id="data_fim" type="text" placeholder="Seleciona a data final" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
+                  <input class="form-control datetimepicker mascara-data" value="<?= isset($dataFim) ? $dataFim : '' ?>" name="data_fim" id="data_fim" type="text" placeholder="Selecione a data final" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
                 </div>
               </div>
+
               <div class="col-12 col-md-3">
                 <div class="ms-3">
                   <select class="form-control select-validation select-setor" required name="setor" id="setor">
