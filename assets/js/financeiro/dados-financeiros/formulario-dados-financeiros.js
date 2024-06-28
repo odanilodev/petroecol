@@ -197,9 +197,18 @@ const visualizarDadosFinanceiros = (idDadoFinanceiro) => {
     },
     beforeSend: function () {
       $('.html-clean').html('');
+
+      // Reset navbar
+      $('.nav-wizard .nav-link').removeClass('active');
+      $('.nav-wizard .nav-link').attr('aria-selected', 'false');
+      $('.nav-wizard .nav-link:first').addClass('active');
+      $('.nav-wizard .nav-link:first').attr('aria-selected', 'true');
+
+      // Reset tab content
+      $('.tab-pane').removeClass('active');
+      $('.tab-pane:first').addClass('active');
     },
     success: function (data) {
-
       if (data.success) {
         // Transação
         $('.nome-transacao').html(data['dadoFinanceiro'].nome ? data['dadoFinanceiro'].nome : '<i>Não cadastrado</i>');
@@ -237,30 +246,14 @@ const visualizarDadosFinanceiros = (idDadoFinanceiro) => {
         $('.cpf-intermedio').html(data['dadoFinanceiro'].cpf_intermedio ? data['dadoFinanceiro'].cpf_intermedio : '<i>Não cadastrado</i>');
 
       } else {
-
         avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
-
       }
     },
     error: function (xhr, status, error) {
-      //Tratamento de erro
       avisoRetorno('Algo deu errado!', error, 'error', `#`);
     }
-
-
   });
-
-  $(document).ready(function () {
-    // Resetar para a aba "Transação" ao abrir o modal
-    $('#modalVisualizarDadosFinanceiros').on('show.bs.modal', function () {
-      $('#modalVisualizarDadosFinanceiros .nav-link').removeClass('active');
-      $('#modalVisualizarDadosFinanceiros .tab-pane').removeClass('active show');
-      $('#bootstrap-wizard-tab1').addClass('active show');
-      $('#modalVisualizarDadosFinanceiros [href="#bootstrap-wizard-tab1"]').addClass('active');
-    });
-
-  });
-
 }
+
 
 
