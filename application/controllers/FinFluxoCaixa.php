@@ -197,7 +197,7 @@ class FinFluxoCaixa extends CI_Controller
         }
 
 
-        $retorno = $this->FinFluxo_model->deletaMovimentoFluxo($id);
+        $retorno = $this->FinFluxo_model->deletaMovimentoFluxo($id); // deleta o fluxo
 
         if ($retorno) {
             $response = array(
