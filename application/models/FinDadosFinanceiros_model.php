@@ -23,9 +23,11 @@ class FinDadosFinanceiros_model extends CI_Model
 
     public function recebeDadoFinanceiro($id)
     {
-        $this->db->where('id', $id);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('fin_dados_financeiros');
+        $this->db->select('DF.*, G.nome AS NOME_GRUPO');
+        $this->db->join('fin_grupos G', 'DF.id_grupo = G.id');
+        $this->db->where('DF.id', $id);
+        $this->db->where('DF.id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('fin_dados_financeiros DF');
 
         return $query->row_array();
     }
