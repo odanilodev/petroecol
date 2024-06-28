@@ -242,8 +242,8 @@
                                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                             <td class="py-2 w-50">
                                                 <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break tipo-cadastro-transacao html-clean"> -->
-                                                    <!-- JS -->
-                                                <!-- </div>
+                                        <!-- JS -->
+                                        <!-- </div>
                                             </td>
                                         </tr> -->
                                         <tr>
@@ -471,8 +471,8 @@
                                 </div>
                             </div>
                             <!-- <div class="card-footer border-top-0" data-wizard-footer="data-wizard-footer"> -->
-                                <!-- <div class="d-flex pager wizard list-inline mb-0"> -->
-                                    <!-- <button class="btn btn-link ps-0 previous-btn" type="button">
+                            <!-- <div class="d-flex pager wizard list-inline mb-0"> -->
+                            <!-- <button class="btn btn-link ps-0 previous-btn" type="button">
                                         <svg class="svg-inline--fa fa-chevron-left me-1" data-fa-transform="shrink-3" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="" style="transform-origin: 0.3125em 0.5em;">
                                             <g transform="translate(160 256)">
                                                 <g transform="translate(0, 0)  scale(0.8125, 0.8125)  rotate(0 0 0)">
@@ -482,8 +482,8 @@
                                         </svg>
                                         Anterior
                                     </button> -->
-                                    <!-- <div class="flex-1 text-end"> -->
-                                        <!-- <button class="btn btn-primary px-6 px-sm-6 next-btn" type="button">
+                            <!-- <div class="flex-1 text-end"> -->
+                            <!-- <button class="btn btn-primary px-6 px-sm-6 next-btn" type="button">
                                             Próximo
                                             <svg class="svg-inline--fa fa-chevron-right ms-1" data-fa-transform="shrink-3" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="" style="transform-origin: 0.3125em 0.5em;">
                                                 <g transform="translate(160 256)">
@@ -493,8 +493,8 @@
                                                 </g>
                                             </svg>
                                         </button> -->
-                                    <!-- </div> -->
-                                <!-- </div> -->
+                            <!-- </div> -->
+                            <!-- </div> -->
                             <!-- </div> -->
                         </div>
                         <div class="modal-footer border-top-0">
@@ -504,3 +504,4 @@
                 </div>
             </div>
         </div>
+    </div>
