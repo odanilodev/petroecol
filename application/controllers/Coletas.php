@@ -30,6 +30,7 @@ class Coletas extends CI_Controller
         $this->load->library('agendarFrequencia');
         $this->load->model('Romaneios_model');
         $this->load->model('Agendamentos_model');
+        $this->load->model('Funcionarios_model');
 
         $coletaManual = $this->input->post('coletaManual'); // true quando insere coleta pela página de cliente
 
@@ -38,6 +39,15 @@ class Coletas extends CI_Controller
         $idResponsavel = $this->input->post('idResponsavel');
         $idSetorEmpresa = $this->input->post('idSetorEmpresa'); // Recebe o id do setor responsavel pelo agendamento
         $dataRomaneio = $this->input->post('dataRomaneio');
+        $valorTotal = $this->input->post('valorTotal');
+
+        if ($valorTotal) {
+            $saldoAtual = $this->Funcionarios_model->recebeSaldoFuncionario($idResponsavel);
+
+            $novoSaldo = $saldoAtual['saldo'] - $valorTotal;
+
+            $this->Funcionarios_model->atualizaSaldoFuncionario($idResponsavel, $novoSaldo);
+        }
 
         $verificaAgendamentosFuturos = $this->input->post('verificaAgendamentosFuturos');
 
@@ -91,7 +101,8 @@ class Coletas extends CI_Controller
 
             endforeach;
 
-            function verificaAgendamentosFuturos($agendamentos) {
+            function verificaAgendamentosFuturos($agendamentos)
+            {
                 foreach ($agendamentos as $agendamento) {
                     if (!empty($agendamento)) {
                         return true;
@@ -99,7 +110,7 @@ class Coletas extends CI_Controller
                 }
                 return false;
             }
-            
+
             if (verificaAgendamentosFuturos($proximosAgendamentos)) {
 
                 $response = array(
@@ -107,7 +118,7 @@ class Coletas extends CI_Controller
                     'agendamentos' => $proximosAgendamentos,
                     'proximosAgendamentos' => true
                 );
-            
+
                 return $this->output->set_content_type('application/json')->set_output(json_encode($response));
             } else {
                 $response = array(
@@ -120,7 +131,6 @@ class Coletas extends CI_Controller
 
             $data['status'] = 1;
             $this->Romaneios_model->editaRomaneioCodigo($codRomaneio, $data);
-
         } else {
 
             $response = array(
