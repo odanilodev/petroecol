@@ -1,7 +1,7 @@
 <div class="content">
 
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div id="members" data-list='{"valueNames":["td_micro","td_credor","td_dia"],"pagination":true}'>
+        <div id="members" data-list='{"valueNames":["td_micro","td_credor","td_setor","td_dia"],"pagination":true}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3>Contas recorrentes
@@ -38,7 +38,7 @@
                             <th class="white-space-nowrap align-middle text-center" scope="col" data-sort="td_micro">
                                 Micro</th>
                             <th class="align-middle text-center" scope="col" data-sort="td_credor">Credor</th>
-                            <th class="align-middle text-center" scope="col" data-sort="td_credor">Setor da empresa</th>
+                            <th class="align-middle text-center" scope="col" data-sort="td_setor">Setor da empresa</th>
                             <th class="align-middle text-center" scope="col" data-sort="td_dia">Dia de Pagamento</th>
                             <th class="text-end pe-0 align-middle text-center" scope="col"></th>
                         </tr>
@@ -61,7 +61,7 @@
                                     </h6>
                                 </td>
 
-                                <td class="align-middle review td_credor text-center">
+                                <td class="align-middle review td_setor text-center">
                                     <h6 class="mb-0 text-900">
                                         <?= $contaRecorrente['SETOR']; ?>
                                     </h6>
