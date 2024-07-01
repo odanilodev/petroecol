@@ -294,7 +294,8 @@ class Clientes extends CI_Controller
 
             $response = array(
                 'success' => true,
-                'message' => $id ? 'Cliente editado com sucesso!' : 'Cliente cadastrado com sucesso!'
+                'message' => $id ? 'Cliente editado com sucesso!' : 'Cliente cadastrado com sucesso!',
+                'idClienteCadastrado' => $retorno
             );
         } else { // erro ao inserir ou editar
 

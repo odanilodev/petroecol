@@ -271,7 +271,7 @@
 
                         <option selected disabled value="">Selecione a frequência de coleta</option>
                         <?php foreach ($frequenciaColeta as $f) { ?>
-                            <option value="<?= $f['id'] ?>"><?= $f['frequencia']; ?></option>
+                            <option value="<?= $f['id'] ?>" data-qtd-dias="<?= $f['dia']?>"><?= $f['frequencia']; ?></option>
                         <?php } ?>
 
                     </select>

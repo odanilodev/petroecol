@@ -71,7 +71,7 @@ const cadastraCliente = (dadosEmpresa, dadosEndereco, dadosResponsavel) => {
 
             if (data.success) {
 
-                avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}clientes`);
+                avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}clientes/detalhes/${data.idClienteCadastrado}/novo`);
 
             } else {
 
@@ -82,6 +82,19 @@ const cadastraCliente = (dadosEmpresa, dadosEndereco, dadosResponsavel) => {
         }
     });
 }
+
+$(function () {
+
+    let segments = window.location.href.split('/');
+    let idCliente = segments[segments.length - 2];
+    let segment4 = segments[segments.length - 1];
+
+    // se for um novo cliente abre o modal para cadastrar setor
+    if (segment4 == 'novo') {
+        exibirSetorEmpresaCliente(idCliente);
+        $('#modalSetoresEmpresaCliente').modal('show');
+    }
+})
 
 
 $(document).ready(function () {
