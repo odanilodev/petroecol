@@ -1,11 +1,10 @@
 <div class="content">
 
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div id="members" data-list='{"valueNames":["td_micro","td_credor","td_dia"],"pagination":true}'>
+        <div id="members" data-list='{"valueNames":["td_micro","td_credor","td_setor","td_dia"],"pagination":true}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3>Contas recorrentes
-
                     </h3>
                 </div>
                 <div class="col-12 col-md-auto">
@@ -14,7 +13,8 @@
                         <div class="col-auto flex-1">
                             <div class="search-box">
                                 <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                                    <input class="form-control search-input search form-control-sm" type="search" placeholder="Buscar" aria-label="Search" />
+                                    <input class="form-control search-input search form-control-sm" type="search"
+                                        placeholder="Buscar" aria-label="Search" />
                                     <span class="fas fa-search search-box-icon"></span>
                                 </form>
                             </div>
@@ -22,7 +22,9 @@
 
                         <div class="col-auto">
 
-                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn nova-conta" type="button" data-bs-toggle="modal" data-bs-target="#modalNovaContaRecorrente">Adicionar nova</button>
+                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn nova-conta"
+                                type="button" data-bs-toggle="modal"
+                                data-bs-target="#modalNovaContaRecorrente">Adicionar nova</button>
 
                         </div>
 
@@ -33,8 +35,10 @@
                 <table class="table fs--1 mb-0 border-top border-200">
                     <thead>
                         <tr>
-                            <th class="white-space-nowrap align-middle text-center" scope="col" data-sort="td_micro">Micro</th>
+                            <th class="white-space-nowrap align-middle text-center" scope="col" data-sort="td_micro">
+                                Micro</th>
                             <th class="align-middle text-center" scope="col" data-sort="td_credor">Credor</th>
+                            <th class="align-middle text-center" scope="col" data-sort="td_setor">Setor da empresa</th>
                             <th class="align-middle text-center" scope="col" data-sort="td_dia">Dia de Pagamento</th>
                             <th class="text-end pe-0 align-middle text-center" scope="col"></th>
                         </tr>
@@ -53,7 +57,13 @@
 
                                 <td class="align-middle review td_credor text-center">
                                     <h6 class="mb-0 text-900">
-                                        <?= $contaRecorrente['RECEBIDO'] ? ucfirst($contaRecorrente['RECEBIDO']) : ucfirst($contaRecorrente['CLIENTE']);?>
+                                        <?= $contaRecorrente['RECEBIDO'] ? ucfirst($contaRecorrente['RECEBIDO']) : ucfirst($contaRecorrente['CLIENTE']); ?>
+                                    </h6>
+                                </td>
+
+                                <td class="align-middle review td_setor text-center">
+                                    <h6 class="mb-0 text-900">
+                                        <?= $contaRecorrente['SETOR']; ?>
                                     </h6>
                                 </td>
 
@@ -64,12 +74,19 @@
                                 <td class="align-middle white-space-nowrap text-end pe-0">
 
                                     <div class="font-sans-serif btn-reveal-trigger position-static">
-                                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2"></span></button>
+                                        <button
+                                            class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2"
+                                            type="button" data-bs-toggle="dropdown" data-boundary="window"
+                                            aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span
+                                                class="fas fa-ellipsis-h fs--2"></span></button>
                                         <div class="dropdown-menu dropdown-menu-end py-2">
-                                            <a class="dropdown-item" href="#" onclick="visualizarConta(<?= $contaRecorrente['ID_CONTA'] ?>)" data-bs-toggle="modal" data-bs-target="#modalNovaContaRecorrente">
+                                            <a class="dropdown-item" href="#"
+                                                onclick="visualizarConta(<?= $contaRecorrente['ID_CONTA'] ?>)"
+                                                data-bs-toggle="modal" data-bs-target="#modalNovaContaRecorrente">
                                                 <span class="fas fa-pencil"></span> Editar
                                             </a>
-                                            <a class="dropdown-item" href="#" onclick="deletarConta(<?= $contaRecorrente['ID_CONTA'] ?>)">
+                                            <a class="dropdown-item" href="#"
+                                                onclick="deletarConta(<?= $contaRecorrente['ID_CONTA'] ?>)">
                                                 <span class="fas fa-trash"></span> Excluir
                                             </a>
                                         </div>
@@ -106,12 +123,16 @@
 
                                             <div class="col-12">
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Setor da Empresa</label>
+                                                    <label class="text-body-highlight fw-bold mb-2">Setor da
+                                                        Empresa</label>
 
-                                                    <select class="select-validation input-obrigatorio select-setor select2" required name="setor" id="setor">
+                                                    <select
+                                                        class="select-validation input-obrigatorio select-setor select2"
+                                                        required name="setor" id="setor">
                                                         <option selected disabled>Selecione o setor</option>
                                                         <?php foreach ($setoresEmpresa as $setor) { ?>
-                                                            <option value="<?= $setor['id'] ?>"><?= $setor['nome'] ?></option>
+                                                            <option value="<?= $setor['id'] ?>"><?= $setor['nome'] ?>
+                                                            </option>
                                                         <?php } ?>
                                                     </select>
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
@@ -121,8 +142,11 @@
                                             <div class="col-lg-4">
 
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Dia de Pagamento</label>
-                                                    <input type="number" name="dia_pagamento" class="form-control input-dia-pagamento input-obrigatorio" placeholder="Dia de pagamento">
+                                                    <label class="text-body-highlight fw-bold mb-2">Dia de
+                                                        Pagamento</label>
+                                                    <input type="number" name="dia_pagamento"
+                                                        class="form-control input-dia-pagamento input-obrigatorio"
+                                                        placeholder="Dia de pagamento">
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                                                 </div>
 
@@ -131,8 +155,11 @@
                                             <div class="col-lg-4">
 
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Grupos Macros</label>
-                                                    <select class="form-select select2 select-macros input-obrigatorio dados-conta" name="id_macro">
+                                                    <label class="text-body-highlight fw-bold mb-2">Grupos
+                                                        Macros</label>
+                                                    <select
+                                                        class="form-select select2 select-macros input-obrigatorio dados-conta"
+                                                        name="id_macro">
                                                         <option selected disabled value="">Selecione</option>
                                                         <?php foreach ($macros as $macro) { ?>
                                                             <option value="<?= $macro['id'] ?>"><?= $macro['nome'] ?>
@@ -147,8 +174,11 @@
 
                                             <div class="col-lg-4">
                                                 <div class="mb-4 ">
-                                                    <label class="text-body-highlight fw-bold mb-2 ">Grupos Micros</label>
-                                                    <select disabled class="form-select select2 select-micros input-obrigatorio dados-conta" name="id_micro">
+                                                    <label class="text-body-highlight fw-bold mb-2 ">Grupos
+                                                        Micros</label>
+                                                    <select disabled
+                                                        class="form-select select2 select-micros input-obrigatorio dados-conta"
+                                                        name="id_micro">
                                                         <option selected disabled value="">Selecione</option>
                                                         <!-- JS -->
                                                     </select>
@@ -161,8 +191,11 @@
                                             <div class="col-lg-6">
 
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Grupo de Credores</label>
-                                                    <select class="form-select select2 select-grupo-recebidos input-obrigatorio dados-conta" name="grupo-recebido">
+                                                    <label class="text-body-highlight fw-bold mb-2">Grupo de
+                                                        Credores</label>
+                                                    <select
+                                                        class="form-select select2 select-grupo-recebidos input-obrigatorio dados-conta"
+                                                        name="grupo-recebido">
                                                         <option selected disabled value="">Selecione</option>
                                                         <?php foreach ($grupos as $grupo) { ?>
                                                             <option value="<?= $grupo['id'] ?>"><?= $grupo['nome'] ?>
@@ -181,10 +214,13 @@
 
                                                 <div class="mb-4 ">
                                                     <label class="text-body-highlight fw-bold mb-2">Recebido</label>
-                                                    <select disabled class="form-select select2 select-recebido input-obrigatorio dados-conta" name="recebido">
+                                                    <select disabled
+                                                        class="form-select select2 select-recebido input-obrigatorio dados-conta"
+                                                        name="recebido">
                                                         <option selected disabled value="">Selecione</option>
                                                         <?php foreach ($dadosFinanceiro as $dadoFinanceiro) { ?>
-                                                            <option data-nome="<?= $dadoFinanceiro['nome'] ?>" value="<?= $dadoFinanceiro['id'] ?>">
+                                                            <option data-nome="<?= $dadoFinanceiro['nome'] ?>"
+                                                                value="<?= $dadoFinanceiro['id'] ?>">
                                                                 <?= $dadoFinanceiro['nome'] ?>
                                                             </option>
                                                         <?php } ?>
@@ -208,7 +244,8 @@
                 <div class="modal-footer">
                     <input type="hidden" class="id-editar-conta">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
-                    <button class="btn btn-success btn-form" type="button" onclick="cadastraContasRecorrentes('form-contas-recorrentes')">Salvar</button>
+                    <button class="btn btn-success btn-form" type="button"
+                        onclick="cadastraContasRecorrentes('form-contas-recorrentes')">Salvar</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
                 </div>
