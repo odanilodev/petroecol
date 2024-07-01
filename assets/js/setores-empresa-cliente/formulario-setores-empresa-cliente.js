@@ -165,34 +165,57 @@ const cadastraSetorEmpresaCliente = () => {
 
 function agendarCliente(cliente, setorEmpresa, frequenciaColeta) {
 
-    let dataAtual = new Date();
+    Swal.fire({
+        title: 'Agendar cliente?',
+        text: "Deseja criar uma agendamento para este cliente?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Sim, agendar'
 
-    // Função para somar dias a uma data
-    function adicionarDias(data, dias) {
-        let novaData = new Date(data);
-        novaData.setDate(novaData.getDate() + dias);
-        return novaData;
-    }
+    }).then((result) => {
 
-    let dataFutura = adicionarDias(dataAtual, frequenciaColeta);
+        if (result.isConfirmed) {
 
-    // Formatando a data para YYYY-MM-DD
-    let dia = ("0" + dataFutura.getDate()).slice(-2);
-    let mes = ("0" + (dataFutura.getMonth() + 1)).slice(-2); 
-    let ano = dataFutura.getFullYear();
+            let dataAtual = new Date();
 
-    let dataFormatada = `${ano}-${mes}-${dia}`;
+            // Função para somar dias a uma data
+            function adicionarDias(data, dias) {
+                let novaData = new Date(data);
+                novaData.setDate(novaData.getDate() + dias);
+                return novaData;
+            }
 
-    $.ajax({
-        type: "post",
-        url: `${baseUrl}agendamentos/cadastraAgendamento`,
-        data: {
-            cliente: cliente,
-            data: dataFormatada,
-            setorEmpresa: setorEmpresa,
-            prioridade: 0
+            let dataFutura = adicionarDias(dataAtual, frequenciaColeta);
+
+            // Formatando a data para YYYY-MM-DD
+            let dia = ("0" + dataFutura.getDate()).slice(-2);
+            let mes = ("0" + (dataFutura.getMonth() + 1)).slice(-2);
+            let ano = dataFutura.getFullYear();
+
+            let dataFormatada = `${ano}-${mes}-${dia}`;
+
+            $.ajax({
+                type: "post",
+                url: `${baseUrl}agendamentos/cadastraAgendamento`,
+                data: {
+                    cliente: cliente,
+                    data: dataFormatada,
+                    setorEmpresa: setorEmpresa,
+                    prioridade: 0
+                }, success: function (data) {
+                    avisoRetorno('Sucesso!', 'Cliente agendado com sucesso!', 'success', `#`);
+
+                }
+            })
+
         }
     })
+
+
+
 
 }
 
