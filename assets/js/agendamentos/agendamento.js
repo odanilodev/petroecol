@@ -728,6 +728,16 @@ function exibirAgendamentos(currentYear, currentMonth) {
   return events;
 
 }
+$(document).on('click', '.btn-gerar-romaneio-atrasado', function () {
+
+  $('.select2').val('').trigger('change');
+
+  $('.select2').select2({
+    dropdownParent: "#modalRomaneiosAtrasados",
+    theme: 'bootstrap-5' // Aplicar o tema Bootstrap 4
+  });
+
+})
 
 $(document).on('click', '.agendamento', function () {
 
@@ -896,6 +906,7 @@ $(document).ready(function () {
   });
 });
 
+
 // busca os clientes por etiqueta
 function recebeClientesEtiqueta(idEtiqueta) {
 
@@ -1021,15 +1032,179 @@ $("#select-cliente-setor").change(function () {
 
 });
 
+
 let checkElementsAgendamento = [];
 
 $(document).on('change', '.check-all-element-agendamentos', function () {
 
   if ($(this).prop('checked')) {
-    ('.check-element-agendamentos').prop('checked', true);
-    ('.check-element-agendamentos').each(function () {
+
+    $('.check-element-agendamentos').prop('checked', true);
+
+    $('.check-element-agendamentos').each(function () {
+
       checkElementsAgendamento.push($(this).val());
+
     });
+
+    if ($('.check-element-agendamentos:checked').length >= 1) {
+      $('.btn-gerar-romaneio-atrasado').removeClass('d-none');
+    }
+
+  } else {
+
+    $('.check-element-agendamentos').prop('checked', false);
+
+    checkElementsAgendamento = [];
+
+    $('.btn-gerar-romaneio-atrasado').addClass('d-none');
+
   }
 
 });
+
+
+$(document).on('change', '.check-element-agendamentos', function () {
+
+  let valor = $(this).val();
+
+  if ($(this).prop('checked')) {
+
+    if (!checkElementsAgendamento.includes(valor)) {
+      checkElementsAgendamento.push(valor);
+
+    }
+  } else {
+    // remove o elemento clicado e recria o array sem o elemento que foi removido
+    checkElementsAgendamento = checkElementsAgendamento.filter(item => item !== valor);
+  }
+
+  // Verifica se todos os checkboxes individuais estão marcados
+  verificaTodosCheckbox(this);
+
+
+  if ($('.check-element-agendamentos:checked').length >= 1) {
+    $('.btn-gerar-romaneio-atrasado').removeClass('d-none');
+  } else {
+    $('.btn-gerar-romaneio-atrasado').addClass('d-none');
+
+  }
+
+});
+
+// verifica os checkbox quando carrega a pagina
+$(window).on('load', function () {
+  verificaTodosCheckbox();
+});
+
+// verifica se todos estão checked
+function verificaTodosCheckbox(btnClicado) {
+
+  // se todos estiverem checked, deixa o checkbox que seleciona todos checked também
+  if ($('.check-element-agendamentos:checked').length == $('.check-element-agendamentos').length && $('.check-element-agendamentos').length > 1) {
+
+    $('.check-all-element-agendamentos').prop('checked', true);
+    $('.btn-gerar-romaneio-atrasado').removeClass('d-none');
+
+  } else {
+
+    $('.check-all-element-agendamentos').prop('checked', false);
+
+  }
+}
+
+
+// salva todos ids selected pra fazer a busca no modal de romaneio e manter os clientes selecionados
+function todosIdsSelecionados(ids) {
+  $('.ids-selecionados').val(ids);
+}
+
+const agruparIdsCheckboxAgendamentos = () => {
+
+  let idsArray = [];
+
+  $('.check-element-agendamentos:checked').each(function () {
+
+    idsArray.push($(this).val())
+
+  });
+
+  return idsArray;
+
+}
+
+const agruparIdsAgendamentosAtrasados = () => {
+
+  let idsArray = [];
+
+  $('.check-element-agendamentos:checked').each(function () {
+
+    idsArray.push($(this).data('id-agendamento'));
+
+  });
+
+  return idsArray;
+
+}
+
+function gerarRomaneioAtrasados() {
+  let permissao = verificaCamposObrigatorios('input-obrigatorio');
+  let idsAgrupados = agruparIdsCheckboxAgendamentos();
+  let idsAgendamentosAtrasados = agruparIdsAgendamentosAtrasados();
+  let idsClientesAtrasados = [];
+
+  $('.check-element-agendamentos:checked').each(function () {
+
+    idsClientesAtrasados.push($(this).data('id-cliente'));
+
+  });
+
+  let dataColeta = $('.input-data-agendamento').val();
+  let responsavel = $('#select-responsavel').val();
+  let veiculo = $('#select-veiculo').val();
+
+  if (permissao) {
+    $.ajax({
+      type: "POST",
+      url: `${baseUrl}romaneios/gerarRomaneioAtrasados`,
+      data: {
+        idsClientesAtrasados: idsClientesAtrasados,
+        idsAgendamentosAtrasados: idsAgendamentosAtrasados,
+        clientes: idsAgrupados,
+        responsavel: responsavel,
+        veiculo: veiculo,
+        dataColeta: dataColeta
+      },
+      beforeSend: function () {
+        $('.load-form').removeClass('d-none');
+        $('.btn-form').addClass('d-none');
+      },
+      success: function (data) {
+        $('.load-form').addClass('d-none');
+        $('.btn-form').removeClass('d-none');
+
+        if (data.success) {
+          Swal.fire({
+            title: 'Sucesso!',
+            text: data.message,
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonText: 'Ir para Romaneios',
+            cancelButtonText: 'Continuar em Agendamentos'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = `${baseUrl}romaneios/`;
+            } else {
+              window.location.href = `${baseUrl}agendamentos/agendamentosAtrasados/`;
+            }
+          });
+        } else {
+          avisoRetorno('Erro!', data.message, 'error', `${baseUrl}agendamentos/agendamentosAtrasados/`);
+        }
+      }
+    });
+  }
+}
+
+
+

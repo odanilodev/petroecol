@@ -51,6 +51,9 @@ class Agendamentos extends CI_Controller
 
     public function agendamentosAtrasados()
     {
+        $this->load->model('Funcionarios_model');
+        $this->load->model('Veiculos_model');
+
         // Carrega scripts padrão
         $scriptsPadraoHead = scriptsPadraoHead();
         $scriptsPadraoFooter = scriptsPadraoFooter();
@@ -87,13 +90,14 @@ class Agendamentos extends CI_Controller
         $data['dataInicio'] = $this->input->post('data_inicio');
         $data['dataFim'] = $this->input->post('data_fim');
         $data['idSetor'] = $this->input->post('setor');
+        $data['responsaveis'] = $this->Funcionarios_model->recebeResponsavelAgendamento();
+        $data['veiculos'] = $this->Veiculos_model->recebeVeiculos();
 
         // Carrega os setores da empresa
         $this->load->model('SetoresEmpresa_model');
         $data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
 
         // Carrega os agendamentos atrasados com base nos parâmetros
-        $this->load->model('Agendamentos_model');
         $data['agendamentosAtrasados'] = $this->Agendamentos_model->recebeAgendamentosAtrasados($dataInicioFormatada, $dataFimFormatada, $data['idSetor']);
 
         // Carrega as views

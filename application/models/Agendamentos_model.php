@@ -111,6 +111,21 @@ class Agendamentos_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
+    public function editaAgendamentosAtrasados($id_cliente, $id_agendamento, $nova_data)
+    {
+        $dados['editado_em'] = date('Y-m-d H:i:s');
+        $dados['data_coleta'] = $nova_data;
+
+        $this->db->where('id', $id_agendamento);
+
+        $this->db->update('ci_agendamentos', $dados);
+
+        if ($this->db->affected_rows() > 0) {
+            $this->Log_model->insereLog($id_cliente);
+        }
+
+        return $this->db->affected_rows() > 0;
+    }
 
     public function recebeClientesAgendados($dataColeta, $prioridade, $status)
     {
@@ -283,7 +298,10 @@ class Agendamentos_model extends CI_Model
             MAX(C.telefone) as telefone, 
             MAX(C.nome) as NOME_CLIENTE, 
             MAX(SE.nome) as NOME_SETOR,
-            MAX(A.data_coleta) as data_coleta
+            MAX(A.data_coleta) as data_coleta,
+            MAX(A.id_setor_empresa) as id_setor_empresa,
+            MAX(A.id_cliente) as id_cliente,
+            MAX(A.id) as ID_AGENDAMENTO
         ');
         $this->db->from('ci_agendamentos A');
         $this->db->join('ci_clientes C', 'A.id_cliente = C.id', 'left');

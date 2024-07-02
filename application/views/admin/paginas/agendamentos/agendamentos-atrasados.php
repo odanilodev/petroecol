@@ -72,7 +72,7 @@
         <div class="col-auto">
           <div class="d-flex align-items-center">
             <h3 class="me-3">Agendamentos Atrasados</h3>
-            <button class="d-none btn btn-phoenix-info btn-gerar-romaneio-atrasado" onclick="gerarRomaneiosAtrasados()">
+            <button class="d-none btn btn-phoenix-info btn-gerar-romaneio-atrasado" onclick="" data-bs-toggle="modal" data-bs-target="#modalRomaneiosAtrasados">
               <i class="fas fa-clipboard-list me-2"></i>Gerar Romaneio
             </button>
           </div>
@@ -113,12 +113,12 @@
               <tr class="hover-actions-trigger btn-reveal-trigger position-static tr-pagamento">
                 <td class="fs--1 align-middle ps-0">
                   <div class="form-check mb-0 fs-0">
-                    <input class="form-check-input check-element-agendamentos cursor-pointer" type="checkbox" data-setor="<?=$agendamentoAtrasado['id_setor_empresa']?>" value="<?=$agendamentoAtrasado['id_cliente']?>" />
+                    <input class="form-check-input check-element-agendamentos cursor-pointer" data-id-cliente="<?= $agendamentoAtrasado['id_cliente'] ?>" data-id-agendamento="<?= $agendamentoAtrasado['ID_AGENDAMENTO'] ?>" type="checkbox" value="<?= $agendamentoAtrasado['id_cliente'] ?>|<?= $agendamentoAtrasado['id_setor_empresa'] ?>" />
 
                   </div>
                 </td>
                 <td class="align-middle td_data_agendamento text-center">
-                  <h6 class="mb-0 text-900"><?= date('d/m/Y', strtotime($agendamentoAtrasado['data_coleta'])) ?></h6>
+                  <h6 class="mb-0 text-900 data-antiga"><?= date('d/m/Y', strtotime($agendamentoAtrasado['data_coleta'])) ?></h6>
                 </td>
                 <td class="align-middle td_nome_cliente text-center">
                   <h6 class="mb-0 text-900"><?= $agendamentoAtrasado['NOME_CLIENTE'] ?></h6>
@@ -148,6 +148,57 @@
           <ul class="mb-0 pagination"></ul>
           <button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal gerar romaneio de atrasados -->
+  <div class="modal fade" id="modalRomaneiosAtrasados" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Gerar um Romaneio</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body row form-agendamento-atrasado">
+
+          <div class="col-md-12 mb-2">
+            <label>Data para o Agendamento</label>
+            <input class="form-control datetimepicker input-obrigatorio input-data-agendamento" required name="data_agendamento" type="text" placeholder="Data Agendamento" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
+            <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+          </div>
+
+          <div class="col-12 mt-2">
+            <select class="form-select w-100 input-obrigatorio select2" id="select-responsavel">
+              <option selected disabled value="">Selecione o responsável</option>
+              <?php
+              foreach ($responsaveis as $v) { ?>
+                <option value="<?= $v['IDFUNCIONARIO'] ?>"> <?= $v['nome'] ?> | <?= $v['CARGO'] ?></option>
+              <?php }  ?>
+            </select>
+            <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+          </div>
+
+          <div class="col-12 mt-2">
+            <select class="form-select w-100 input-obrigatorio select2" id="select-veiculo">
+              <option selected disabled value="">Selecione o veículo</option>
+              <?php
+              foreach ($veiculos as $veiculo) { ?>
+                <option value="<?= $veiculo['id'] ?>"> <?= $veiculo['modelo'] ?> | <?= strtoupper($veiculo['placa']) ?></option>
+              <?php }  ?>
+            </select>
+            <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
+          <button type="button" class="btn btn-primary btn-salva-romaneio btn-form" onclick="gerarRomaneioAtrasados()">Gerar Romaneio</button>
+        </div>
+
       </div>
     </div>
   </div>
