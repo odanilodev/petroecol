@@ -1199,7 +1199,12 @@ function gerarRomaneioAtrasados() {
             }
           });
         } else {
-          avisoRetorno('Erro!', data.message, 'error', `${baseUrl}agendamentos/agendamentosAtrasados/`);
+          avisoRetorno('Erro!', data.message, 'error', '#');
+        }
+      }, error: function (xhr, status, error) {
+
+        if (xhr.status === 403) {
+          avisoRetorno('Algo deu errado!', `Não foi possivel finalizar a operação.`, 'error', '#');
         }
       }
     });

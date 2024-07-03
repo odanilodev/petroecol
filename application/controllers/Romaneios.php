@@ -140,11 +140,28 @@ class Romaneios extends CI_Controller
 			$ids_agendamentos_atrasados = $this->input->post('idsAgendamentosAtrasados');
 			$ids_clientes_atrasados = $this->input->post('idsClientesAtrasados');
 	
+	
 			// Inicializa o array $dados com os dados recebidos via POST
 			$dados['id_responsavel'] = $this->input->post('responsavel');
 			$dados['id_veiculo'] = $this->input->post('veiculo');
-			$dados['data_romaneio'] = DateTime::createFromFormat('d/m/Y', $this->input->post('dataColeta'))->format('Y-m-d');
+			$data_romaneio = DateTime::createFromFormat('d/m/Y', $this->input->post('dataColeta'))->format('Y-m-d');
+			$dados['data_romaneio'] = $data_romaneio;
 			$dados['id_empresa'] = $this->session->userdata('id_empresa');
+	
+			// Obtém a data atual
+			$data_atual = date('Y-m-d');
+	
+			// Verifica se a data do romaneio é anterior à data atual
+			if ($data_romaneio < $data_atual) {
+					$response = [
+							'success' => false,
+							'title' => "Data inválida!",
+							'message' => "A nova data do romaneio não pode ser anterior à data atual!",
+							'type' => "error",
+							'redirect' => false
+					];
+					return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+			}
 	
 			// Obtém a lista de clientes do formulário
 			$clientes = $this->input->post('clientes');
@@ -172,8 +189,11 @@ class Romaneios extends CI_Controller
 	
 			// Prepara os dados para inserção no banco para cada setor
 			foreach ($clientes_por_setor as $id_setor => $ids_clientes) {
-					// Gera um código aleatório para o romaneio
-					$codigo = mt_rand(1000000000, 9999999999);
+					// Gera um código aleatório para o romaneio e garante unicidade
+					do {
+							$codigo = mt_rand(1000000000, 9999999999);
+					} while ($this->Romaneios_model->recebeRomaneioCod($codigo));
+	
 					$dados['codigo'] = $codigo;
 					$dados['clientes'] = json_encode($ids_clientes); // Converte IDs de clientes para JSON
 					$dados['id_setor_empresa'] = $id_setor;
@@ -187,7 +207,7 @@ class Romaneios extends CI_Controller
 							$response = [
 									'success' => false,
 									'title' => "Algo deu errado!",
-									'message' => "Não foi possível inserir o(s) romaneio(s)!",
+									'message' => "Não foi possível gerar o(s) romaneio(s)!",
 									'type' => "error",
 									'redirect' => false
 							];
@@ -196,19 +216,30 @@ class Romaneios extends CI_Controller
 	
 					// Atualiza a data de agendamento para cada cliente
 					foreach ($ids_agendamentos_atrasados as $key => $id_agendamento_atrasado) {
-							$retorno = $this->Agendamentos_model->editaAgendamentosAtrasados($ids_clientes_atrasados[$key], $id_agendamento_atrasado, $dados['data_romaneio']);
+							$id_cliente = $ids_clientes_atrasados[$key];
 							
-							// Se a atualização falhar, encerra a transação e retorna falso
-							if (!$retorno) {
-									$this->db->trans_rollback();
-									$response = [
-											'success' => false,
-											'title' => "Algo deu errado!",
-											'message' => "Não foi possível atualizar os agendamentos!",
-											'type' => "error",
-											'redirect' => false
-									];
-									return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+							// Verifica se o cliente já possui agendamento para a data e setor
+							$cliente_agendado = $this->Agendamentos_model->recebeClienteAgendado($id_cliente, $dados['data_romaneio'], $id_setor);
+	
+							if ($cliente_agendado) {
+									// Se o cliente já possui agendamento para a data, remove o agendamento atrasado
+									$this->Agendamentos_model->cancelaAgendamentoCliente($id_agendamento_atrasado);
+							} else {
+									// Se não possui, atualiza o agendamento atrasado para a nova data
+									$retorno = $this->Agendamentos_model->editaAgendamentosAtrasados($id_cliente, $id_agendamento_atrasado, $dados['data_romaneio']);
+	
+									// Se a atualização falhar, encerra a transação e retorna falso
+									if (!$retorno) {
+											$this->db->trans_rollback();
+											$response = [
+													'success' => false,
+													'title' => "Algo deu errado!",
+													'message' => "Não foi possível atualizar os agendamentos!",
+													'type' => "error",
+													'redirect' => false
+											];
+											return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+									}
 							}
 					}
 			}
@@ -220,7 +251,7 @@ class Romaneios extends CI_Controller
 			$response = [
 					'success' => true,
 					'title' => "Sucesso!",
-					'message' => "Romaneio(s) inseridos com sucesso!",
+					'message' => "Romaneio(s) gerado(s) com sucesso!",
 					'type' => "success",
 					'redirect' => true
 			];

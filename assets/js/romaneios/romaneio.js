@@ -316,8 +316,6 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpre
 
             }, success: function (data) {
 
-                $('.responsavel').html(`${data.responsavel}`);
-
                 exibirDadosClientes(data.retorno, data.registros, data.residuos, data.pagamentos, data.id_cliente_prioridade);
             }
         })
@@ -419,17 +417,8 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                         <input class="form-control input-pagamento pagamento-${clientes[i].id} campos-form-${clientes[i].id}" type="text" placeholder="Digite valor pago" value="">
 
                     </div>
-
-                    
-                    <div class="col-md-4 mb-2 mt-4">
                     
                         <button class="btn btn-info duplicar-pagamento row w-25">+</button>
-                    
-                    </div>
-
-                    <div class="col-md-12 div-checkbox mb-2">
-                        <input class="form-check-input checkbox-funcionario" type="checkbox" value="1">  Pago pelo responsável
-                    </div>
 
                     <div class="pagamentos-duplicados"></div>
 
@@ -536,12 +525,6 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
         </div>
     `;
 
-    let checkboxFuncionario = `
-        <div class="col-md-12 div-checkbox mb-2">
-         <input class="form-check-input checkbox-funcionario" value="1" type="checkbox">  Pago pelo responsável
-        </div>
-    `;
-
     let btnRemove = $(`
     <div class="col-md-4 mb-2 mt-1 row">
 
@@ -556,7 +539,6 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
     novaLinha.append(selectHtml);
     novaLinha.append(inputHtml);
     novaLinha.append(btnRemove);
-    novaLinha.append(checkboxFuncionario);
 
     //remove a linha duplicada
     btnRemove.find(`.remover-${novoElemento}`).on('click', function () {
@@ -697,8 +679,6 @@ function finalizarRomaneio() {
     let codRomaneio = $('.code_romaneio').val();
     let dataRomaneio = $('.data_romaneio').val();
 
-    let valorTotal = 0;
-
     $('.accordion-item').each(function () {
 
         let salvarDados = false; // uso para dar permissao para salvar os valores no array e mandar pro back
@@ -721,22 +701,6 @@ function finalizarRomaneio() {
 
                 residuosSelecionados.push($(this).val());
             }
-        });
-
-        // checkbox
-        let checkboxFuncionarios = [];
-        $(this).find('.checkbox-funcionario:checked').each(function () {
-
-            let divPagamento = $(this).closest('.col-md-12').prevAll('.div-pagamento');
-
-            let inputValorPagamento = divPagamento.find('.input-pagamento').val();
-
-            // Converta inputValorPagamento para um número
-            let valorNumerico = parseFloat(inputValorPagamento) || 0;
-
-            valorTotal += valorNumerico;
-
-            checkboxFuncionarios.push(valorNumerico);
         });
 
 
@@ -805,8 +769,7 @@ function finalizarRomaneio() {
                 codRomaneio: codRomaneio,
                 dataRomaneio: dataRomaneio,
                 idSetorEmpresa: idSetorEmpresa,
-                verificaAgendamentosFuturos: true,
-                valorTotal: valorTotal
+                verificaAgendamentosFuturos: true
 
             },
             beforeSend: function () {

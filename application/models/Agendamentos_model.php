@@ -115,6 +115,7 @@ class Agendamentos_model extends CI_Model
     {
         $dados['editado_em'] = date('Y-m-d H:i:s');
         $dados['data_coleta'] = $nova_data;
+        $dados['prioridade'] = 0;
 
         $this->db->where('id', $id_agendamento);
 
