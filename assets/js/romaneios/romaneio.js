@@ -319,9 +319,11 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpre
                 exibirDadosClientes(data.retorno, data.registros, data.residuos, data.pagamentos, data.id_cliente_prioridade);
             }
         })
-    }
-}
 
+    }
+
+
+}
 
 
 // formata um obj para um array
@@ -408,17 +410,20 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                             <option disabled selected value="">Selecione</option>
                             
-                            </select>
+                        </select>
                     </div>
 
                     <div class="col-md-4 mb-2 div-pagamento">
 
                         <label class="form-label">Valor Pago</label>
                         <input class="form-control input-pagamento pagamento-${clientes[i].id} campos-form-${clientes[i].id}" type="text" placeholder="Digite valor pago" value="">
+                    </div>
+
+                    <div class="col-md-4 mb-2 mt-4 row">
+
+                        <button class="btn btn-info duplicar-pagamento w-25">+</button>
 
                     </div>
-                    
-                        <button class="btn btn-info duplicar-pagamento row w-25">+</button>
 
                     <div class="pagamentos-duplicados"></div>
 
@@ -513,7 +518,7 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
 
     let selectHtml = `
         <div class="col-md-4 mb-2 div-${novoElemento}">
-            <select class="form-select select-${novoElemento} w-100 ${novoElemento == "residuo" ? 'input-obrigatorio' : ''} ">
+            <select class="form-select select-${novoElemento} w-100 ${novoElemento == "residuo" ? 'input-obrigatorio' : ''} " data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
                 ${options}
             </select>
         </div>
@@ -702,7 +707,6 @@ function finalizarRomaneio() {
                 residuosSelecionados.push($(this).val());
             }
         });
-
 
         let qtdResiduos = [];
 
