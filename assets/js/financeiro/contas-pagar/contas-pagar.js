@@ -161,11 +161,11 @@ const cadastraMultiplasContasPagar = (classe) => {
             url: `${baseUrl}finContasPagar/cadastraMultiplasContasPagar`,
             data: {
                 dados: dadosFormulario
-            }, 
+            },
             beforeSend: function () {
                 $(".load-form").removeClass("d-none");
                 $(".btn-form").addClass("d-none");
-            }, 
+            },
             success: function (data) {
                 $(".load-form").addClass("d-none");
                 $(".btn-form").removeClass("d-none");
@@ -433,10 +433,10 @@ function formatarValorExibicao(valor) {
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('R$', '');
 }
 
-$('.select-setor').on('change',function(){
-    
+$('.select-setor').on('change', function () {
+
     $('#nomeSetor').val($(this).find('option:selected').text());
-    
+
 });
 
 const atualizaFrontDadosFinanceiro = () => {
@@ -908,3 +908,38 @@ const deletaContaPagar = (idConta) => {
 
 
 }
+
+$(function () {
+    new DataTable('#example', {
+        layout: {
+            topStart: {
+                buttons: [
+                    { extend: 'copy', filename: 'contas-a-pagar-copia', text: '<span class="fas fa-copy me-2"></span> Copy', className: 'btn-phoenix-secondary' },
+                    { extend: 'excel', filename: 'contas-a-pagar-excel', text: '<span class="fas fa-file-excel me-2"></span> Excel', className: 'btn-phoenix-secondary' },
+                    { extend: 'pdf', filename: 'contas-a-pagar-pdf', text: '<span class="fas fa-file-pdf me-2"></span> PDF', className: 'btn-phoenix-secondary' },
+                    { extend: 'print', filename: 'contas-a-pagar-print', text: '<span class="fas fa-file me-2"></span> Print', className: 'btn-phoenix-secondary' }
+                ]
+            }
+        },
+        order: [],  // Desativa a ordenação inicial
+        ordering: false,  // Desativa a ordenação em todas as colunas
+        columnDefs: [
+            { orderable: false, targets: '_all' }  // Garante que todas as colunas não sejam ordenáveis
+        ],
+        paging: false,  // Desativa a paginação
+        info: false  // Remove a mensagem "Showing 1 to 10 of 10 entries"
+    });
+
+    // Personalizando a busca
+    $('#dt-search-0').css('margin-right', '10px');
+    $('#dt-search-0').css('width', '300px');
+    $('#dt-search-0').attr('placeholder', 'Buscar');
+    $('.dt-search label').html('');
+
+    // Adicionando botão de lançamento
+    $('.dt-search').append('<button autocomplete="" class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento" type="button" data-bs-toggle="modal" data-bs-target="#modalTipoContasPagar">+ Lançamento</button>');
+});
+
+
+
+
