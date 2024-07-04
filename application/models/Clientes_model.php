@@ -155,7 +155,7 @@ class Clientes_model extends CI_Model
     //Recebe clientes com varios Ids selecionados
     public function recebeClientesIds($ids, $id_setor_empresa)
     {
-        $this->db->select('C.*, SEC.id_setor_empresa, MAX(SEC.observacao_pagamento) as observacao_pagamento, SE.nome as SETOR, FP.forma_pagamento');
+        $this->db->select('C.*, SEC.id_setor_empresa, MAX(SEC.observacao_pagamento) as observacao_pagamento, SE.nome as SETOR, FP.forma_pagamento, MAX(FP.id) as ID_FORMA_PAGAMENTO');
         $this->db->from('ci_clientes C');
         $this->db->join('ci_setores_empresa_cliente SEC', 'SEC.id_cliente = C.id', 'left');
         $this->db->join('ci_setores_empresa SE', 'SEC.id_setor_empresa = SE.id', 'left');
