@@ -122,12 +122,9 @@
 
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
         <div id="members" data-list='{"valueNames":["td_vencimento","td_valor","td_valor_pago","td_status_pgto","td_data_pagamento","td_empresa","td_recebido","td_setor", "td_observacao"], <?= !$this->input->post() ? '"page":10,' : '' ?>"pagination":true}'>
-            <div class="row align-items-end justify-content-between pb-2 g-3">
+            <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3 class="d-flex align-items-center pd-0">Contas a pagar
-
-                        <!-- search + lançamento manipulado js  -->
-                        
                         <a href="#" class="btn btn-phoenix-success d-none btn-pagar-tudo d-flex align-items-center mx-2" data-bs-toggle="modal" data-bs-target="#modalPagarVariasContas">
                             <span data-feather="dollar-sign" class="me-2"></span> Pagar todos
                         </a>
@@ -136,9 +133,31 @@
                         </a>
                     </h3>
                 </div>
+                <div class="col-12 col-md-auto">
+                    <div class="row g-2 gy-3">
+
+                        <div class="col-auto flex-1">
+                            <div class="search-box">
+                                <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                                    <input class="form-control search-input search form-control-sm" type="search" placeholder="Buscar" aria-label="Search" />
+                                    <span class="fas fa-search search-box-icon"></span>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="col-auto">
+
+                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento" type="button" data-bs-toggle="modal" data-bs-target="#modalEntradaContasPagar">+ Lançamento</button>
+
+                        </div>
+
+                    </div>
+                </div>
             </div>
+
+            
             <div class="table-responsive mx-n1 px-1 scrollbar">
-                <table id="example" class="table fs--1 mb-0 border-top border-200">
+                <table id="table-contas-pagar" class="table fs--1 mb-0 border-top border-200">
                     <thead>
                         <tr>
                             <th class="white-space-nowrap fs--1 ps-0 align-middle">
