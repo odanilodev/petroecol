@@ -147,7 +147,7 @@
 
                         <div class="col-auto">
 
-                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento" type="button" data-bs-toggle="modal" data-bs-target="#modalEntradaContasPagar">+ Lançamento</button>
+                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento" type="button" data-bs-toggle="modal" data-bs-target="#modalTipoContasPagar">+ Lançamento</button>
 
                         </div>
 
