@@ -910,7 +910,7 @@ const deletaContaPagar = (idConta) => {
 }
 
 $(function () {
-    new DataTable('#example', {
+    new DataTable('#table-contas-pagar', {
         layout: {
             topStart: {
                 buttons: [
@@ -923,21 +923,13 @@ $(function () {
         },
         order: [],  // Desativa a ordenação inicial
         ordering: false,  // Desativa a ordenação em todas as colunas
+        searching: false,  // Desativa a caixa de pesquisa
         columnDefs: [
             { orderable: false, targets: '_all' }  // Garante que todas as colunas não sejam ordenáveis
         ],
         paging: false,  // Desativa a paginação
         info: false  // Remove a mensagem "Showing 1 to 10 of 10 entries"
     });
-
-    // Personalizando a busca
-    $('#dt-search-0').css('margin-right', '10px');
-    $('#dt-search-0').css('width', '300px');
-    $('#dt-search-0').attr('placeholder', 'Buscar');
-    $('.dt-search label').html('');
-
-    // Adicionando botão de lançamento
-    $('.dt-search').append('<button autocomplete="" class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento" type="button" data-bs-toggle="modal" data-bs-target="#modalTipoContasPagar">+ Lançamento</button>');
 });
 
 
