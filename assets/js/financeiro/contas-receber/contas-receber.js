@@ -403,7 +403,7 @@ function formatarValorExibicao(valor) {
 }
 
 const visualizarConta = (idConta) => {
-
+    
     $.ajax({
         type: "post",
         url: `${baseUrl}finContasReceber/visualizarConta`,
@@ -412,7 +412,7 @@ const visualizarConta = (idConta) => {
         }, beforeSend: function () {
             $('.html-clean').html('');
         }, success: function (data) {
-
+            
             let dataEmissao = formatarDatas(data['conta'].data_emissao);
             let dataVencimento = formatarDatas(data['conta'].data_vencimento);
             let valorConta = formatarValorExibicao(parseFloat(data['conta'].valor));
@@ -426,10 +426,10 @@ const visualizarConta = (idConta) => {
 
             $('.setor-empresa').html(data['conta'].SETOR);
             $('.data-vencimento').html(dataVencimento);
-
+            
             $('.data-emissao').html(data['conta'].data_emissao != '1969-12-31' ? dataEmissao : "");
             $('.valor-conta').html(valorConta);
-            $('.obs-conta').html(data['conta'].observacao);
+            $('.obs-conta').html(data['conta'].observacao ? data['conta'].observacao : '-');
 
             if (data['conta'].valor_recebido) {
                 let dataRecebimento = formatarDatas(data['conta'].data_recebimento);

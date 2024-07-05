@@ -196,7 +196,7 @@
                                     <h6 class="mb-0 text-900"><?= $contaReceber['SETOR']; ?></h6>
                                 </td>
                                 <td class="align-middle product white-space-nowrap text-center td_observacao">
-                                    <h6 class="mb-0 text-900"><?= isset($contaReceber['observacao']) && !empty($contaReceber['observacao']) ? $contaReceber['observacao'] : '*Sem observação'; ?></h6>
+                                    <h6 class="mb-0 text-900"><?= $contaReceber['observacao'] != '' ? $contaReceber['observacao'] : '-'; ?></h6>
                                 </td>
                                 <td class="align-middle white-space-nowrap text-end pe-0 text-center">
                                     <div class="font-sans-serif btn-reveal-trigger position-static">
