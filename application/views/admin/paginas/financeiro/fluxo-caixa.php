@@ -90,12 +90,6 @@
                                 </select>
                             </div>
                         </div>
-                        <!-- <div class="col-12 col-md-3">
-                            <div class="ms-3">
-                                <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 w-100">Filtrar</button>
-                            </div>
-                        </div>
- -->
 
                         <div class="col-12 col-md-3" style="padding:0;">
                             <div class="d-flex ms-3">
