@@ -133,14 +133,14 @@ $(document).on('click', '.editar-lancamento', function () {
             let dataVencimento = data['conta'].data_vencimento.split('-');
             dataVencimento = dataVencimento[2] + '/' + dataVencimento[1] + '/' + dataVencimento[0];
             $('.input-data-vencimento').val(dataVencimento);
-            
+
             let dataEmissao = data['conta'].data_emissao.split('-');
             dataEmissao = dataEmissao[2] + '/' + dataEmissao[1] + '/' + dataEmissao[0];
-            
+
             $('.input-data-emissao').val(dataEmissao);
-            
+
             $('.input-observacao').text(data['conta'].observacao);
-            
+
             $('.select-setor-empresa').val(data['conta'].id_setor_empresa).trigger('change');
         }
     })
@@ -270,14 +270,14 @@ const receberConta = () => {
     $('.input-valor-recebido').each(function () {
         // Remove espaços em branco e pontos de milhar e substitui ',' por '.'
         valores.push($(this).val());
-        let valorLimpo = $(this).val().replace(/\s|\.|/g, '').replace(',', '.'); 
+        let valorLimpo = $(this).val().replace(/\s|\.|/g, '').replace(',', '.');
         let valorNumerico = parseFloat(valorLimpo); // Converte para float
-    
+
         if (!isNaN(valorNumerico)) {
             valorTotal += valorNumerico;
         }
     })
-    
+
 
     let valorTotalFormatado = valorTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
@@ -335,7 +335,7 @@ const receberConta = () => {
     })
 }
 
-$('.select-setor').on('change',function(){
+$('.select-setor').on('change', function () {
 
     $('#nomeSetor').val($(this).find('option:selected').text());
 
@@ -343,14 +343,14 @@ $('.select-setor').on('change',function(){
 
 const atualizaFrontDadosFinanceiro = () => {
 
-    let totalRecebidoFront = $('.total-recebido-front').html(); 
+    let totalRecebidoFront = $('.total-recebido-front').html();
     let totalRecebido = formatarValorMoeda(totalRecebidoFront);
 
-    let totalCaixaFront = $('.total-caixa-front').html(); 
+    let totalCaixaFront = $('.total-caixa-front').html();
     let totalCaixa = formatarValorMoeda(totalCaixaFront);
 
 
-    let totalAbertoFront = $('.total-aberto-front').html(); 
+    let totalAbertoFront = $('.total-aberto-front').html();
     let totalAberto = formatarValorMoeda(totalAbertoFront);
 
     let valorSetorFront = $('.total-setor-front').html();
@@ -361,7 +361,7 @@ const atualizaFrontDadosFinanceiro = () => {
 
     let valorTotalRecebido = 0;
     $('.input-valor-unic').each(function () {
-        let valorNumerico = parseFloat($(this).val().replace('.', '').replace(',', '.')); 
+        let valorNumerico = parseFloat($(this).val().replace('.', '').replace(',', '.'));
         valorTotalRecebido += valorNumerico;
     });
 
@@ -370,13 +370,13 @@ const atualizaFrontDadosFinanceiro = () => {
     let valorSetorFrontAtualizado = valorSetorFront - totalAbertoFront;
 
     let totalCaixaAtualizado = totalCaixa + valorTotalRecebido;
-    
+
     let totalAbertoAtualizado = totalAberto - valorTotalRecebidoCompleto;
 
     let valorSetorFrontAtualizadoFormatado = formatarValorExibicao(valorSetorFrontAtualizado);
-    
+
     // Formatar os valores para exibição
-    function formatarValorExibicao (valor) {
+    function formatarValorExibicao(valor) {
         return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('R$', '');
     }
 
@@ -385,15 +385,15 @@ const atualizaFrontDadosFinanceiro = () => {
     let totalAbertoAtualizadoFormatado = formatarValorExibicao(totalAbertoAtualizado);
 
     // Atualiza os valores no front
-    $('.total-recebido-front').html(totalRecebidoAtualizadoFormatado); 
-    $('.total-caixa-front').html(totalCaixaAtualizadoFormatado); 
+    $('.total-recebido-front').html(totalRecebidoAtualizadoFormatado);
+    $('.total-caixa-front').html(totalCaixaAtualizadoFormatado);
     $('.total-aberto-front').html(totalAbertoAtualizadoFormatado < 0 ? '0,00' : totalAbertoAtualizadoFormatado);
-    $('.total-setor-front').html(valorSetorFrontAtualizadoFormatado < 0 ? '0,00' : valorSetorFrontAtualizadoFormatado); 
+    $('.total-setor-front').html(valorSetorFrontAtualizadoFormatado < 0 ? '0,00' : valorSetorFrontAtualizadoFormatado);
 };
 
 
 
-function formatarValorMoeda (valor) {
+function formatarValorMoeda(valor) {
     return parseFloat(valor.replace(/\./g, '').replace(',', '.').replace('&nbsp;', ''));
 }
 
@@ -403,7 +403,7 @@ function formatarValorExibicao(valor) {
 }
 
 const visualizarConta = (idConta) => {
-
+    
     $.ajax({
         type: "post",
         url: `${baseUrl}finContasReceber/visualizarConta`,
@@ -412,7 +412,7 @@ const visualizarConta = (idConta) => {
         }, beforeSend: function () {
             $('.html-clean').html('');
         }, success: function (data) {
-
+            
             let dataEmissao = formatarDatas(data['conta'].data_emissao);
             let dataVencimento = formatarDatas(data['conta'].data_vencimento);
             let valorConta = formatarValorExibicao(parseFloat(data['conta'].valor));
@@ -429,7 +429,7 @@ const visualizarConta = (idConta) => {
             
             $('.data-emissao').html(data['conta'].data_emissao != '1969-12-31' ? dataEmissao : "");
             $('.valor-conta').html(valorConta);
-            $('.obs-conta').html(data['conta'].observacao);
+            $('.obs-conta').html(data['conta'].observacao ? data['conta'].observacao : '-');
 
             if (data['conta'].valor_recebido) {
                 let dataRecebimento = formatarDatas(data['conta'].data_recebimento);
@@ -470,11 +470,11 @@ const deletaContaReceber = (idConta) => {
                 data: {
                     idConta: idConta
                 }, success: function (data) {
-        
+
                     let redirect = data.type != 'error' ? `${baseUrl}finContasReceber` : '#';
-        
+
                     avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
-        
+
                 }
             })
 
@@ -483,3 +483,56 @@ const deletaContaReceber = (idConta) => {
 
 
 }
+
+$(function () {
+    // Função para obter a data formatada conforme necessário
+    function formatarDataParaNomeArquivo(data) {
+        if (!data) {
+            return 'geral';
+        } else {
+            // Formato esperado: dd/mm/yy
+            var parts = data.split('/');
+            return parts[0] + parts[1] + parts[2].slice(-2); // Concatenação das partes da data
+        }
+    }
+
+    // Função para obter o nome do arquivo com base nas datas de início e fim
+    function obterNomeArquivo(base, dataInicio, dataFim) {
+        var inicioFormatado = formatarDataParaNomeArquivo(dataInicio);
+        var fimFormatado = formatarDataParaNomeArquivo(dataFim);
+
+        if (inicioFormatado === 'geral' && fimFormatado === 'geral') {
+            return base + '-geral';
+        } else {
+            return base + '-' + inicioFormatado + '-' + fimFormatado;
+        }
+    }
+
+    new DataTable('#table-contas-receber', {
+        layout: {
+            topStart: {
+                buttons: [
+                    { extend: 'copy', filename: 'contas-a-receber-copia', text: '<span class="fas fa-copy me-2"></span> Copy', className: 'btn-phoenix-secondary' },
+                    { extend: 'excel', filename: function () { return obterNomeArquivo('contas-a-receber-excel', $('#data_inicio').val(), $('#data_fim').val()); }, text: '<span class="fas fa-file-excel me-2"></span> Excel', className: 'btn-phoenix-secondary' },
+                    { extend: 'pdf', filename: function () { return obterNomeArquivo('contas-a-receber-pdf', $('#data_inicio').val(), $('#data_fim').val()); }, text: '<span class="fas fa-file-pdf me-2"></span> PDF', className: 'btn-phoenix-secondary' },
+                    { extend: 'print', filename: 'contas-a-receber-print', text: '<span class="fas fa-file me-2"></span> Print', className: 'btn-phoenix-secondary' }
+                ]
+            }
+        },
+        order: [],  // Desativa a ordenação inicial
+        ordering: false,  // Desativa a ordenação em todas as colunas
+        searching: false,  // Desativa a caixa de pesquisa
+        columnDefs: [
+            { orderable: false, targets: '_all' }  // Garante que todas as colunas não sejam ordenáveis
+        ],
+        paging: false,  // Desativa a paginação
+        info: false  // Remove a mensagem "Showing 1 to 10 of 10 entries"
+    });
+});
+
+
+
+
+
+
+
