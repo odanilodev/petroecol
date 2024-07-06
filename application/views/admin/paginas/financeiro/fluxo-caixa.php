@@ -227,6 +227,10 @@
                                                 <span class="fas fa-eye"></span> Visualizar
                                             </a>
 
+                                            <a class="dropdown-item" href="#!" onclick="deletarFluxo(<?= $movimentacao['id']; ?>, <?= $movimentacao['id_conta_bancaria']; ?>, <?= $movimentacao['valor'];?>, <?= $movimentacao['movimentacao_tabela']?>)">
+                                                <span class="fas fa-trash"></span> Deletar
+                                            </a>
+
                                         </div>
                                     </div>
                                 </td>

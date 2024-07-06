@@ -42,13 +42,9 @@ class FinContasReceber extends CI_Controller
 		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsContasReceberHead));
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsContasReceberFooter));
 
-		$dataInicio = new DateTime();
-		$dataInicio->modify('-15 days');
-		$dataInicioFormatada = $dataInicio->format('Y-m-d');
+		$dataInicioFormatada = '';
 
-		$dataFim = new DateTime();
-		$dataFim->modify('+15 days');
-		$dataFimFormatada = $dataFim->format('Y-m-d');
+		$dataFimFormatada = '';
 
 		// Verifica se as datas foram recebidas via POST
 		if ($this->input->post('data_inicio') && $this->input->post('data_fim')) {

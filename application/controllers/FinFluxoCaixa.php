@@ -135,7 +135,6 @@ class FinFluxoCaixa extends CI_Controller
             } else {
                 $novoSaldo = $saldoAtual['saldo'] - $valorMovimentacaoFormatado;
             }
-
         }
 
 
@@ -158,7 +157,6 @@ class FinFluxoCaixa extends CI_Controller
         );
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-
     }
 
     public function insereMovimentacaoRomaneioFluxo()
@@ -229,4 +227,48 @@ class FinFluxoCaixa extends CI_Controller
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
+    public function deletaFluxo()
+    {
+        $this->load->model('FinContaBancaria_model');
+
+        $id = $this->input->post('idFluxo');
+        $valor = $this->input->post('valor');
+        $idContaBancaria = $this->input->post('idContaBancaria');
+        $tipoMovimentacao = $this->input->post('tipoMovimentacao');
+
+        $saldoContaBancaria = $this->FinContaBancaria_model->recebeSaldoBancario($idContaBancaria);
+
+        if ($tipoMovimentacao) {
+            $dadosSaldo['saldo'] = $saldoContaBancaria['saldo'] - $valor;
+        } else {
+            $dadosSaldo['saldo'] = $saldoContaBancaria['saldo'] + $valor;
+        }
+
+        if ($this->input->post('extornarValores') == true) {
+
+            $this->FinContaBancaria_model->editaSaldoBancaria($saldoContaBancaria['id'], $dadosSaldo);
+        }
+
+
+        $retorno = $this->FinFluxo_model->deletaMovimentoFluxo($id); // deleta o fluxo
+
+        if ($retorno) {
+            $response = array(
+                'success' => true,
+                'title' => "Sucesso!",
+                'message' => "Movimentação deletada com sucesso!",
+                'type' => "success"
+            );
+        } else {
+            // Se houve um problema em uma das operações
+            $response = array(
+                'success' => false,
+                'title' => "Algo deu errado!",
+                'message' => "Não foi possível deletar a movimentação.",
+                'type' => "error"
+            );
+        }
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
 }

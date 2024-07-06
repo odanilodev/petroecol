@@ -119,7 +119,7 @@
 
                     <div class="col-12">
 
-                        <select class="form-select w-100 input-obrigatorio select2" id="select-responsavel">
+                        <select class="form-select w-100 input-obrigatorio" id="select-responsavel">
                             <option selected disabled>Selecione o responsável</option>
                             <?php
                             foreach ($responsaveis as $v) { ?>
@@ -131,7 +131,7 @@
 
                     <div class="col-12">
 
-                        <select class="form-select w-100 input-obrigatorio select2" id="select-veiculo">
+                        <select class="form-select w-100 input-obrigatorio" id="select-veiculo">
                             <option selected disabled>Selecione o veículo</option>
                             <?php
                             foreach ($veiculos as $veiculo) { ?>

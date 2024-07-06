@@ -62,7 +62,7 @@ class FinFluxo_model extends CI_Model
 
     public function recebeMovimentoFluxo($id)
     {
-        $this->db->select('DF.nome as RECEBIDO, F.valor, FT.nome as FORMAPAGAMENTO, MA.nome as NOME_MACRO, MI.nome as NOME_MICRO, F.data_movimentacao as DATA_FLUXO, F.observacao as OBSERVACAOFLUXO');
+        $this->db->select('DF.nome as RECEBIDO, F.id_conta_bancaria, F.valor, FT.nome as FORMAPAGAMENTO, MA.nome as NOME_MACRO, MI.nome as NOME_MICRO, F.data_movimentacao as DATA_FLUXO, F.observacao as OBSERVACAOFLUXO');
         $this->db->from('fin_fluxo F');
         $this->db->join('fin_forma_transacao FT', 'F.id_forma_transacao = FT.id', 'left');
         $this->db->join('fin_dados_financeiros DF', 'F.id_dado_financeiro = DF.id', 'left');
@@ -73,5 +73,18 @@ class FinFluxo_model extends CI_Model
 
         $query = $this->db->get();
         return $query->row_array();
+    }
+
+    public function deletaMovimentoFluxo($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->delete('fin_fluxo');
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id);
+        }
+
+        return $this->db->affected_rows() > 0;
     }
 }

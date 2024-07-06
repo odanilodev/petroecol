@@ -519,7 +519,6 @@ function formatarArray(obj) {
 
 function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_cliente_prioridade, editar = false) {
 
-
     var idPrioridades = formatarArray(id_cliente_prioridade); // idsPrioridade formatado
 
     $('.input-id-setor-empresa').val(clientes[0].id_setor_empresa);
@@ -580,7 +579,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     <div class="col-md-4 mb-2 div-pagamento">
 
                         <label class="form-label">Forma de Pagamento</label>
-                        <select class="form-select select-pagamento w-100 pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-pagamento">
+                        <select class="form-select select-pagamento w-100 pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-pagamento-${i}">
 
                             <option disabled selected value="">Selecione</option>
                             
@@ -680,9 +679,17 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
     for (c = 0; c < pagamentos.length; c++) {
 
         var optionPagamentos = `<option data-id-tipo-pagamento="${pagamentos[c].id_tipo_pagamento}" value="${pagamentos[c].id}">${pagamentos[c].forma_pagamento}</option>`;
-        $('.select-pagamento').append(optionPagamentos);
+
+        for (let i = 0; i < registros; i++) {
+            $(`#select-pagamento-${i}`).append(optionPagamentos);
+        }
+    }
+
+    for (let i = 0; i < registros; i++) {
+        $(`#select-pagamento-${i}`).val(clientes[i].ID_FORMA_PAGAMENTO);
     }
 }
+
 
 // duplica forma de pagamento e residuos
 function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
