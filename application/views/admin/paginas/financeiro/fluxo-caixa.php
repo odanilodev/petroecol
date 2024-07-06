@@ -90,11 +90,23 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-12 col-md-3">
+                        <!-- <div class="col-12 col-md-3">
                             <div class="ms-3">
                                 <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 w-100">Filtrar</button>
                             </div>
                         </div>
+ -->
+
+                        <div class="col-12 col-md-3" style="padding:0;">
+                            <div class="d-flex ms-3">
+                                <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= !$dataInicio ? 'w-100' : 'w-75'; ?>">Filtrar</button>
+                                <?php if ($dataInicio) { ?>
+                                    <a href="<?= base_url('finFluxoCaixa'); ?>" class="btn btn-phoenix-danger" title="Limpar Filtro"><i class="fas fa-ban"></i></a>
+                                <?php } ?>
+                            </div>
+                        </div>
+
+
                     </div>
                     <hr class="bg-200 mb-6 mt-4" />
                 </div>
@@ -131,7 +143,7 @@
                 </div>
             </div>
             <div class="table-responsive mx-n1 px-1 scrollbar">
-                <table class="table fs--1 mb-0 border-top border-200">
+                <table id="table-fluxo" class="table fs--1 mb-0 border-top border-200">
                     <thead>
                         <tr class="text-center">
                             <th class="white-space-nowrap fs--1 ps-0 align-middle">
@@ -140,11 +152,11 @@
                                 </div>
                             </th>
                             <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="td_data">Data</th>
-                            <th class="sort align-middle" scope="col" data-sort="td_recebido">Pago/Recebido</th>
-                            <th class="sort align-middle" scope="col" data-sort="td_transacao">Forma de Transação</th>
-                            <th class="sort align-middle" scope="col" data-sort="td_tipo">Tipo</th>
-                            <th class="sort ps-5 align-middle" scope="col" data-sort="td_valor">Valor</th>
-                            <th class="sort ps-5 align-middle" scope="col" data-sort="td_observacao">Observação</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_recebido">Pago/Recebido</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_transacao">Forma de Transação</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_tipo">Tipo</th>
+                            <th class="sort ps-5 align-middle text-center" scope="col" data-sort="td_valor">Valor</th>
+                            <th class="sort ps-5 align-middle text-center" scope="col" data-sort="td_observacao">Observação</th>
                             <th class="sort text-end pe-0 align-middle" scope="col"></th>
                         </tr>
                     </thead>
@@ -156,7 +168,7 @@
 
                                 <td class="fs--1 align-middle ps-0">
                                     <div class="form-check mb-0 fs-0">
-                                        <input class="form-check-input" type="checkbox" data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands)","productImage":"/products/60x60/1.png","customer":{"name":"Richard Dawkins","avatar":""},"rating":5,"review":"This Fitbit is fantastic! I was trying to be in better shape and needed some motivation, so I decided to treat myself to a new Fitbit.","status":{"title":"Approved","badge":"success","icon":"check"},"time":"Just now"}' />
+                                        <input class="form-check-input" type="checkbox" />
                                     </div>
                                 </td>
 
@@ -200,13 +212,13 @@
                                     </h6>
 
                                     <div class="d-none td_valor">
-                                        <input type="hidden" value="<?= $movimentacao['valor'];?>">
+                                        <input type="hidden" value="<?= $movimentacao['valor']; ?>">
                                     </div>
                                 </td>
 
                                 <td class="align-middle td_observacao">
                                     <h6 class="text-900 mb-0">
-                                        <?= $movimentacao['observacao'] ?>
+                                        <?= $movimentacao['observacao'] ?? '-' ?>
                                     </h6>
                                 </td>
 
@@ -218,7 +230,7 @@
                                                 <span class="fas fa-eye"></span> Visualizar
                                             </a>
 
-                                            <a class="dropdown-item" href="#!" onclick="deletarFluxo(<?= $movimentacao['id']; ?>, <?= $movimentacao['id_conta_bancaria']; ?>, <?= $movimentacao['valor'];?>, <?= $movimentacao['movimentacao_tabela']?>)">
+                                            <a class="dropdown-item" href="#!" onclick="deletarFluxo(<?= $movimentacao['id']; ?>, <?= $movimentacao['id_conta_bancaria']; ?>, <?= $movimentacao['valor']; ?>, <?= $movimentacao['movimentacao_tabela'] ?>)">
                                                 <span class="fas fa-trash"></span> Deletar
                                             </a>
 
