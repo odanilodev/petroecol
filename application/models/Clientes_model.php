@@ -39,8 +39,8 @@ class Clientes_model extends CI_Model
         if ($filtro['nome'] ?? false) {
             $nome = $filtro['nome'];
             $this->db->where("LOWER(C.nome) COLLATE utf8mb4_unicode_ci LIKE LOWER('%$nome%')");
-        }        
-        
+        }
+
         if (($filtro['id_recipiente'] ?? false) && $filtro['id_recipiente'] != 'all') {
             $this->db->where('RC.id_recipiente', $filtro['id_recipiente']);
         }
@@ -144,7 +144,7 @@ class Clientes_model extends CI_Model
         $this->db->join('ci_frequencia_coleta F', 'SEC.id_frequencia_coleta = F.id', 'left');
         $this->db->where('C.id', $id);
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-        
+
         // Executa a consulta e retorna o primeiro resultado.
         $cliente = $this->db->get()->row_array();
 
@@ -155,7 +155,7 @@ class Clientes_model extends CI_Model
     //Recebe clientes com varios Ids selecionados
     public function recebeClientesIds($ids, $id_setor_empresa)
     {
-        $this->db->select('C.*, SEC.id_setor_empresa, MAX(SEC.observacao_pagamento) as observacao_pagamento, SE.nome as SETOR, FP.forma_pagamento');
+        $this->db->select('C.*, SEC.id_setor_empresa, MAX(SEC.observacao_pagamento) as observacao_pagamento, SE.nome as SETOR, FP.forma_pagamento, MAX(FP.id) as ID_FORMA_PAGAMENTO');
         $this->db->from('ci_clientes C');
         $this->db->join('ci_setores_empresa_cliente SEC', 'SEC.id_cliente = C.id', 'left');
         $this->db->join('ci_setores_empresa SE', 'SEC.id_setor_empresa = SE.id', 'left');
@@ -165,7 +165,7 @@ class Clientes_model extends CI_Model
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->group_by('C.id, SEC.id_setor_empresa, FP.forma_pagamento');
         $this->db->order_by('C.cidade, C.nome');
-        
+
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -177,11 +177,13 @@ class Clientes_model extends CI_Model
         $dados['criado_em'] = date('Y-m-d H:i:s');
         $this->db->insert('ci_clientes', $dados);
 
+        $inserted_id = $this->db->insert_id();
+
         if ($this->db->affected_rows()) {
-            $this->Log_model->insereLog($this->db->insert_id());
+            $this->Log_model->insereLog($inserted_id);
         }
 
-        return $this->db->affected_rows() > 0;
+        return $inserted_id ? $inserted_id : false;
     }
 
     public function editaCliente($id, $dados)
@@ -270,7 +272,6 @@ class Clientes_model extends CI_Model
         $this->db->get();
 
         return  $this->db->affected_rows() > 0;
-
     }
 
     public function recebeIdsClientes()
@@ -289,5 +290,4 @@ class Clientes_model extends CI_Model
         $query = $this->db->get('ci_clientes');
         return $query->row_array();
     }
-
 }

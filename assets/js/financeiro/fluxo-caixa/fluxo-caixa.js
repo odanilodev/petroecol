@@ -5,7 +5,7 @@ $(document).on('change', '.select-tipo-conta', function () {
         $('.label-forma-pagamento').html('Forma de recebimento');
     } else {
         $('.label-forma-pagamento').html('Forma de pagamento');
-        
+
     }
 })
 
@@ -91,7 +91,7 @@ $(document).on('change', '.select-macros', function () {
     })
 })
 
-$(document).on('click', '.btn-novo-lancamento', function() {
+$(document).on('click', '.btn-novo-lancamento', function () {
 
     $('.select2').select2({
         dropdownParent: "#modalEntradaFluxo",
@@ -108,7 +108,7 @@ $(document).on('change', '.select-recebido', function () {
 })
 
 
-$(document).on('click', '.btn-insere-fluxo', function() {
+$(document).on('click', '.btn-insere-fluxo', function () {
 
 
     let permissao = true;
@@ -119,37 +119,37 @@ $(document).on('click', '.btn-insere-fluxo', function() {
     // Coleta os dados do formulário
     let dadosFormulario = {
         movimentacao_tabela: $('.select-tipo-conta').val(),
-        id_dado_financeiro: $('select[name="cadastroFinanceiro"]').val(), 
+        id_dado_financeiro: $('select[name="cadastroFinanceiro"]').val(),
         data_movimentacao: $('input[name="data_movimentacao"]').val(),
-        id_conta_bancaria: $('select[name="contaBancaria"]').val(), 
-        id_forma_transacao: $('select[name="formaPagamento"]').val(), 
-        macros: $('select[name="macros"]').val(), 
-        micros: $('select[name="micros"]').val(), 
+        id_conta_bancaria: $('select[name="contaBancaria"]').val(),
+        id_forma_transacao: $('select[name="formaPagamento"]').val(),
+        macros: $('select[name="macros"]').val(),
+        micros: $('select[name="micros"]').val(),
         valor: $('input[name="valor"]').val(),
-        observacao: $('textarea[name="observacao"]').val() 
+        observacao: $('textarea[name="observacao"]').val()
     };
 
-    if(permissao){
+    if (permissao) {
 
         $.ajax({
-            url: `${baseUrl}finFluxoCaixa/insereMovimentacaoFluxo`, 
-            type: 'POST', 
+            url: `${baseUrl}finFluxoCaixa/insereMovimentacaoFluxo`,
+            type: 'POST',
             data: dadosFormulario,
             beforeSend: function () {
-                $('.load-form').removeClass('d-none'); 
-                $('.btn-form').addClass('d-none'); 
+                $('.load-form').removeClass('d-none');
+                $('.btn-form').addClass('d-none');
             },
             success: function (data) {
-                avisoRetorno(data.title, data.message, data.type, `${baseUrl}finFluxoCaixa`);                
+                avisoRetorno(data.title, data.message, data.type, `${baseUrl}finFluxoCaixa`);
             },
             error: function (xhr, status, error) {
                 //Tratamento de erro
                 avisoRetorno('Algo deu errado!', error, 'error', `#`);
-            }           
+            }
         });
-        
+
     }
-    
+
 });
 
 function formatarValorExibicao(valor) {
@@ -163,10 +163,10 @@ const visualizarFluxo = (id) => {
         type: 'POST',
         data: {
             idFluxo: id
-        },beforeSend: function(){
+        }, beforeSend: function () {
             $('.html-clean').html('');
         },
-         success: function (data) {
+        success: function (data) {
 
             let dataFluxo = formatarDatas(data.dadosFluxo.DATA_FLUXO);
             let valorFluxo = formatarValorExibicao(parseFloat(data['dadosFluxo'].valor));
@@ -176,7 +176,7 @@ const visualizarFluxo = (id) => {
             $('.recebido').html(data['dadosFluxo'].RECEBIDO);
             $('.valor-fluxo').html(valorFluxo);
             $('.forma-pagamento').html(data['dadosFluxo'].FORMAPAGAMENTO);
-            $('.observacao').html(data['dadosFluxo'].observacao);
+            $('.observacao').html(data['dadosFluxo'].observacao ?? '-');
 
         },
         error: function (xhr, status, error) {
@@ -192,3 +192,133 @@ const visualizarFluxo = (id) => {
     });
 }
 
+const deletarFluxo = (idMovimentacao, idContaBancaria, valorMovimentacao, tipoMovimentacao) => {
+
+    Swal.fire({
+        title: 'Você tem certeza?',
+        text: "Esta ação não poderá ser revertida",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Sim, deletar'
+
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+
+            let titulo, mensagem;
+            if (idMovimentacao) {
+                titulo = 'Deseja extornar o valor de entrada?';
+                mensagem = 'O valor será devolvido à sua conta bancária.';
+            } else {
+                titulo = 'Deseja extornar o valor de saída?';
+                mensagem = 'O valor será deduzido da sua conta bancária.';
+            }
+
+            Swal.fire({
+                title: titulo,
+                text: mensagem,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Apenas deletar',
+                confirmButtonText: 'Sim, extornar'
+
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+                    deletarMovimentacao(true); // deleta a movimentação e extorna o valor
+                } else {
+                    deletarMovimentacao() // deleta a movimentação e mantém o valor
+                }
+            })
+
+        }
+    })
+
+
+    function deletarMovimentacao(extornarValores = '') {
+
+        $.ajax({
+            url: `${baseUrl}finFluxoCaixa/deletaFluxo`,
+            type: 'POST',
+            data: {
+                idFluxo: idMovimentacao,
+                valor: valorMovimentacao,
+                idContaBancaria: idContaBancaria,
+                tipoMovimentacao: tipoMovimentacao,
+                extornarValores: extornarValores
+            }, beforeSend: function () {
+                $('.html-clean').html('');
+            },
+            success: function (data) {
+
+                let redirect = data.type != 'error' ? `${baseUrl}finFluxoCaixa` : '#';
+
+                avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
+
+            },
+            error: function (xhr, status, error) {
+                if (xhr.status === 403) {
+                    avisoRetorno(
+                        "Algo deu errado!",
+                        `Você não tem permissão para esta ação..`,
+                        "error",
+                        "#"
+                    );
+                }
+            },
+        });
+
+    }
+
+}
+
+$(function () {
+    // Função para obter a data formatada conforme necessário
+    function formatarDataParaNomeArquivo(data) {
+        if (!data) {
+            return 'geral';
+        } else {
+            // Formato esperado: dd/mm/yy
+            var parts = data.split('/');
+            return parts[0] + parts[1] + parts[2].slice(-2); // Concatenação das partes da data
+        }
+    }
+
+    // Função para obter o nome do arquivo com base nas datas de início e fim
+    function obterNomeArquivo(base, dataInicio, dataFim) {
+        var inicioFormatado = formatarDataParaNomeArquivo(dataInicio);
+        var fimFormatado = formatarDataParaNomeArquivo(dataFim);
+
+        if (inicioFormatado === 'geral' && fimFormatado === 'geral') {
+            return base + '-geral';
+        } else {
+            return base + '-' + inicioFormatado + '-' + fimFormatado;
+        }
+    }
+
+    new DataTable('#table-fluxo', {
+        layout: {
+            topStart: {
+                buttons: [
+                    { extend: 'copy', filename: 'fluxo-copia', text: '<span class="fas fa-copy me-2"></span> Copy', className: 'btn-phoenix-secondary' },
+                    { extend: 'excel', filename: function () { return obterNomeArquivo('fluxo-excel', $('#data_inicio').val(), $('#data_fim').val()); }, text: '<span class="fas fa-file-excel me-2"></span> Excel', className: 'btn-phoenix-secondary' },
+                    { extend: 'pdf', filename: function () { return obterNomeArquivo('fluxo-pdf', $('#data_inicio').val(), $('#data_fim').val()); }, text: '<span class="fas fa-file-pdf me-2"></span> PDF', className: 'btn-phoenix-secondary' },
+                    { extend: 'print', filename: 'fluxo-print', text: '<span class="fas fa-file me-2"></span> Print', className: 'btn-phoenix-secondary' }
+                ]
+            }
+        },
+        order: [],  // Desativa a ordenação inicial
+        ordering: false,  // Desativa a ordenação em todas as colunas
+        searching: false,  // Desativa a caixa de pesquisa
+        columnDefs: [
+            { orderable: false, targets: '_all' }  // Garante que todas as colunas não sejam ordenáveis
+        ],
+        paging: false,  // Desativa a paginação
+        info: false  // Remove a mensagem "Showing 1 to 10 of 10 entries"
+    });
+});

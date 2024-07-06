@@ -38,13 +38,10 @@ class FinContasPagar extends CI_Controller
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsContasPagarFooter));
 
 		// Define as datas padrão caso não sejam recebidas via POST
-		$dataInicio = new DateTime();
-		$dataInicio->modify('-15 days');
-		$dataInicioFormatada = $dataInicio->format('Y-m-d');
 
-		$dataFim = new DateTime();
-		$dataFim->modify('+15 days');
-		$dataFimFormatada = $dataFim->format('Y-m-d');
+		$dataInicioFormatada = '';
+
+		$dataFimFormatada = '';
 
 		// Verifica se as datas foram recebidas via POST
 		if ($this->input->post('data_inicio') && $this->input->post('data_fim')) {

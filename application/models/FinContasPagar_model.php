@@ -21,8 +21,13 @@ class FinContasPagar_model extends CI_Model
         $this->db->join('ci_clientes', 'CP.id_cliente = ci_clientes.id', 'left'); // recebido/pago (cliente)
 
         $this->db->where('CP.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('CP.data_vencimento <=', $dataFim);
-        $this->db->where('CP.data_vencimento >=', $dataInicio);
+
+        if ($dataInicio && $dataFim) {
+
+            $this->db->where('CP.data_vencimento <=', $dataFim);
+            $this->db->where('CP.data_vencimento >=', $dataInicio);
+        }
+
 
         // Verifica se o tipo de movimentação não é 'ambas', para adicionar uma restrição
         if ($status !== 'ambas') {

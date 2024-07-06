@@ -117,6 +117,30 @@ class FinContaBancaria_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
+    public function recebeSaldoBancario($id)
+    {
+        $this->db->where('id_conta_bancaria', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('fin_saldo_bancario');
+
+        return $query->row_array();
+    }
+
+    public function editaSaldoBancaria($id, $dados)
+    {
+        $dados['editado_em'] = date('Y-m-d H:i:s');
+
+        $this->db->where('id', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->update('fin_saldo_bancario', $dados);
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id);
+        }
+
+        return $this->db->affected_rows() > 0;
+    }
+
     public function deletaContaBancaria($id)
     {
         $this->db->where('id', $id);

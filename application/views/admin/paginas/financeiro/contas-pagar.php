@@ -121,17 +121,16 @@
     </div>
 
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div id="members" data-list='{"valueNames":["td_vencimento","td_valor","td_valor_pago","td_status_pgto","td_data_pagamento","td_empresa","td_recebido","td_setor", "td_observacao"],"page":10,"pagination":true}'>
+        <div id="members" data-list='{"valueNames":["td_vencimento","td_valor","td_valor_pago","td_status_pgto","td_data_pagamento","td_empresa","td_recebido","td_setor", "td_observacao"], <?= !$this->input->post() ? '"page":10,' : '' ?>"pagination":true}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
-                    <h3>Contas a pagar
-
-                        <a href="#" class="btn btn-phoenix-success d-none btn-pagar-tudo mx-2" data-bs-toggle="modal" data-bs-target="#modalPagarVariasContas"><span data-feather="dollar-sign"></span> Pagar
-                            todos</a>
-                        <a href="#" class="btn btn-phoenix-danger d-none btn-excluir-contas mx-2" onclick="deletaContaPagar()"><span class="fas fa-trash"></span> Excluir tudo</a>
-
-
-
+                    <h3 class="d-flex align-items-center pd-0">Contas a pagar
+                        <a href="#" class="btn btn-phoenix-success d-none btn-pagar-tudo d-flex align-items-center mx-2" data-bs-toggle="modal" data-bs-target="#modalPagarVariasContas">
+                            <span data-feather="dollar-sign" class="me-2"></span> Pagar todos
+                        </a>
+                        <a href="#" class="btn btn-phoenix-danger d-none btn-excluir-contas d-flex align-items-center mx-2" onclick="deletaContaPagar()">
+                            <span class="fas fa-trash me-2"></span> Excluir tudo
+                        </a>
                     </h3>
                 </div>
                 <div class="col-12 col-md-auto">
@@ -148,15 +147,17 @@
 
                         <div class="col-auto">
 
-                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento" type="button" data-bs-toggle="modal" data-bs-target="#modalTipoContasPagar">Lançamento</button>
+                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento" type="button" data-bs-toggle="modal" data-bs-target="#modalTipoContasPagar">+ Lançamento</button>
 
                         </div>
 
                     </div>
                 </div>
             </div>
+
+
             <div class="table-responsive mx-n1 px-1 scrollbar">
-                <table class="table fs--1 mb-0 border-top border-200">
+                <table id="table-contas-pagar" class="table fs--1 mb-0 border-top border-200">
                     <thead>
                         <tr>
                             <th class="white-space-nowrap fs--1 ps-0 align-middle">
@@ -245,9 +246,9 @@
                                     </h6>
                                 </td>
 
-                                <td class="align-middle product white-space-nowrap td_setor text-center">
+                                <td class="align-middle product white-space-nowrap td_observacao text-center">
                                     <h6 class="mb-0 text-900">
-                                        <?= $contaPagar['observacao']; ?>
+                                        <?= $contaPagar['observacao'] != '' ? $contaPagar['observacao'] : '-'; ?>
                                     </h6>
                                 </td>
 
@@ -488,7 +489,7 @@
                                                         <td class="py-2 w-50">
 
                                                             <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break obs-conta html-clean">
-                                                                observação detalhada aparecerá aqui
+                                                                <!-- JS -->
                                                             </div>
 
                                                         </td>
