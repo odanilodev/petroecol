@@ -113,7 +113,7 @@
               <tr class="hover-actions-trigger btn-reveal-trigger position-static tr-pagamento">
                 <td class="fs--1 align-middle ps-0">
                   <div class="form-check mb-0 fs-0">
-                    <input class="form-check-input check-element-agendamentos cursor-pointer" data-id-cliente="<?= $agendamentoAtrasado['id_cliente'] ?>" data-id-agendamento="<?= $agendamentoAtrasado['ID_AGENDAMENTO'] ?>" type="checkbox" value="<?= $agendamentoAtrasado['id_cliente'] ?>|<?= $agendamentoAtrasado['id_setor_empresa'] ?>" />
+                    <input class="form-check-input check-element-agendamentos cursor-pointer" data-id-cliente="<?= $agendamentoAtrasado['id_cliente'] ?>" type="checkbox" value="<?= $agendamentoAtrasado['id_cliente'] ?>|<?= $agendamentoAtrasado['id_setor_empresa'] ?>" />
 
                   </div>
                 </td>
@@ -165,8 +165,8 @@
         <div class="modal-body row form-agendamento-atrasado">
 
           <div class="col-md-12 mb-2">
-            <label>Data para o Agendamento</label>
-            <input class="form-control datetimepicker input-obrigatorio input-data-agendamento" required name="data_agendamento" type="text" placeholder="Data Agendamento" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
+            <label>Data para o Romaneio</label>
+            <input class="form-control datetimepicker input-obrigatorio input-data-agendamento" required name="data_agendamento" type="text" placeholder="Data Romaneio" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
             <div class="d-none aviso-obrigatorio">Preencha este campo</div>
           </div>
 

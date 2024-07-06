@@ -1133,31 +1133,12 @@ const agruparIdsCheckboxAgendamentos = () => {
 
 }
 
-const agruparIdsAgendamentosAtrasados = () => {
-
-  let idsArray = [];
-
-  $('.check-element-agendamentos:checked').each(function () {
-
-    idsArray.push($(this).data('id-agendamento'));
-
-  });
-
-  return idsArray;
-
-}
 
 function gerarRomaneioAtrasados() {
+
   let permissao = verificaCamposObrigatorios('input-obrigatorio');
   let idsAgrupados = agruparIdsCheckboxAgendamentos();
-  let idsAgendamentosAtrasados = agruparIdsAgendamentosAtrasados();
-  let idsClientesAtrasados = [];
 
-  $('.check-element-agendamentos:checked').each(function () {
-
-    idsClientesAtrasados.push($(this).data('id-cliente'));
-
-  });
 
   let dataColeta = $('.input-data-agendamento').val();
   let responsavel = $('#select-responsavel').val();
@@ -1168,8 +1149,6 @@ function gerarRomaneioAtrasados() {
       type: "POST",
       url: `${baseUrl}romaneios/gerarRomaneioAtrasados`,
       data: {
-        idsClientesAtrasados: idsClientesAtrasados,
-        idsAgendamentosAtrasados: idsAgendamentosAtrasados,
         clientes: idsAgrupados,
         responsavel: responsavel,
         veiculo: veiculo,
@@ -1190,7 +1169,7 @@ function gerarRomaneioAtrasados() {
             icon: 'success',
             showCancelButton: true,
             confirmButtonText: 'Ir para Romaneios',
-            cancelButtonText: 'Continuar em Agendamentos'
+            cancelButtonText: 'Continuar nesta página'
           }).then((result) => {
             if (result.isConfirmed) {
               window.location.href = `${baseUrl}romaneios/`;

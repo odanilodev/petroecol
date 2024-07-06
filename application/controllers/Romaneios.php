@@ -130,136 +130,103 @@ class Romaneios extends CI_Controller
 
 	public function gerarRomaneioAtrasados()
 	{
-			// Carrega os modelos necessários para manipulação de dados
-			$this->load->model('SetoresEmpresaCliente_model');
-			$this->load->model('Agendamentos_model');
-	
-			// Inicia uma transação
-			$this->db->trans_begin();
-	
-			$ids_agendamentos_atrasados = $this->input->post('idsAgendamentosAtrasados');
-			$ids_clientes_atrasados = $this->input->post('idsClientesAtrasados');
-	
-	
-			// Inicializa o array $dados com os dados recebidos via POST
-			$dados['id_responsavel'] = $this->input->post('responsavel');
-			$dados['id_veiculo'] = $this->input->post('veiculo');
-			$data_romaneio = DateTime::createFromFormat('d/m/Y', $this->input->post('dataColeta'))->format('Y-m-d');
-			$dados['data_romaneio'] = $data_romaneio;
-			$dados['id_empresa'] = $this->session->userdata('id_empresa');
-	
-			// Obtém a data atual
-			$data_atual = date('Y-m-d');
-	
-			// Verifica se a data do romaneio é anterior à data atual
-			if ($data_romaneio < $data_atual) {
-					$response = [
-							'success' => false,
-							'title' => "Data inválida!",
-							'message' => "A nova data do romaneio não pode ser anterior à data atual!",
-							'type' => "error",
-							'redirect' => false
-					];
-					return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-			}
-	
-			// Obtém a lista de clientes do formulário
-			$clientes = $this->input->post('clientes');
-	
-			// Inicializa o array $clientes_por_setor para agrupar clientes por setor
-			$clientes_por_setor = [];
-	
-			// Verifica se $clientes não é um array (pode ser um único cliente)
-			if (!is_array($clientes)) {
-					$clientes = [$clientes]; // Converte para array se não for
-			}
-	
-			// Itera sobre os clientes e agrupa por setor
-			foreach ($clientes as $cliente) {
-					// Explode os dados do cliente
-					$arrayClientes = explode('|', $cliente);
-	
-					// Verifica se já existe um array para o setor; se não, cria um novo
-					if (isset($clientes_por_setor[$arrayClientes[1]])) {
-							$clientes_por_setor[$arrayClientes[1]][] = $arrayClientes[0];
-					} else {
-							$clientes_por_setor[$arrayClientes[1]] = [$arrayClientes[0]];
-					}
-			}
-	
-			// Prepara os dados para inserção no banco para cada setor
-			foreach ($clientes_por_setor as $id_setor => $ids_clientes) {
-					// Gera um código aleatório para o romaneio e garante unicidade
-					do {
-							$codigo = mt_rand(1000000000, 9999999999);
-					} while ($this->Romaneios_model->recebeRomaneioCod($codigo));
-	
-					$dados['codigo'] = $codigo;
-					$dados['clientes'] = json_encode($ids_clientes); // Converte IDs de clientes para JSON
-					$dados['id_setor_empresa'] = $id_setor;
-	
-					// Insere os dados do romaneio utilizando o modelo Romaneios_model
-					$retorno = $this->Romaneios_model->insereRomaneio($dados);
-	
-					// Se a inserção falhar, encerra a transação e retorna falso
-					if (!$retorno) {
-							$this->db->trans_rollback();
-							$response = [
-									'success' => false,
-									'title' => "Algo deu errado!",
-									'message' => "Não foi possível gerar o(s) romaneio(s)!",
-									'type' => "error",
-									'redirect' => false
-							];
-							return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-					}
-	
-					// Atualiza a data de agendamento para cada cliente
-					foreach ($ids_agendamentos_atrasados as $key => $id_agendamento_atrasado) {
-							$id_cliente = $ids_clientes_atrasados[$key];
-							
-							// Verifica se o cliente já possui agendamento para a data e setor
-							$cliente_agendado = $this->Agendamentos_model->recebeClienteAgendado($id_cliente, $dados['data_romaneio'], $id_setor);
-	
-							if ($cliente_agendado) {
-									// Se o cliente já possui agendamento para a data, remove o agendamento atrasado
-									$this->Agendamentos_model->cancelaAgendamentoCliente($id_agendamento_atrasado);
-							} else {
-									// Se não possui, atualiza o agendamento atrasado para a nova data
-									$retorno = $this->Agendamentos_model->editaAgendamentosAtrasados($id_cliente, $id_agendamento_atrasado, $dados['data_romaneio']);
-	
-									// Se a atualização falhar, encerra a transação e retorna falso
-									if (!$retorno) {
-											$this->db->trans_rollback();
-											$response = [
-													'success' => false,
-													'title' => "Algo deu errado!",
-													'message' => "Não foi possível atualizar os agendamentos!",
-													'type' => "error",
-													'redirect' => false
-											];
-											return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-									}
-							}
-					}
-			}
-	
-			// Se tudo estiver correto, confirma a transação
-			$this->db->trans_commit();
-	
-			// Prepara a resposta JSON com base no sucesso da operação de inserção
+		// Carrega os modelos necessários para manipulação de dados
+		$this->load->model('SetoresEmpresaCliente_model');
+		$this->load->model('Agendamentos_model');
+
+		// Inicia uma transação
+		$this->db->trans_begin();
+
+		// Inicializa o array $dados com os dados recebidos via POST
+		$dados['id_responsavel'] = $this->input->post('responsavel');
+		$dados['id_veiculo'] = $this->input->post('veiculo');
+		$data_romaneio = DateTime::createFromFormat('d/m/Y', $this->input->post('dataColeta'))->format('Y-m-d');
+		$dados['data_romaneio'] = $data_romaneio;
+		$dados['id_empresa'] = $this->session->userdata('id_empresa');
+
+		// Obtém a data atual
+		$data_atual = date('Y-m-d');
+
+		// Verifica se a data do romaneio é anterior à data atual
+		if ($data_romaneio < $data_atual) {
 			$response = [
-					'success' => true,
-					'title' => "Sucesso!",
-					'message' => "Romaneio(s) gerado(s) com sucesso!",
-					'type' => "success",
-					'redirect' => true
+				'success' => false,
+				'title' => "Data inválida!",
+				'message' => "A nova data do romaneio não pode ser anterior à data atual!",
+				'type' => "error",
+				'redirect' => false
 			];
-	
-			// Retorna a resposta como JSON
 			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+		}
+
+		// Obtém a lista de clientes do formulário
+		$clientes = $this->input->post('clientes');
+
+		// Inicializa o array $clientes_por_setor para agrupar clientes por setor
+		$clientes_por_setor = [];
+
+		// Verifica se $clientes não é um array (pode ser um único cliente)
+		if (!is_array($clientes)) {
+			$clientes = [$clientes]; // Converte para array se não for
+		}
+
+		// Itera sobre os clientes e agrupa por setor
+		foreach ($clientes as $cliente) {
+			// Explode os dados do cliente
+			$arrayClientes = explode('|', $cliente);
+
+			// Verifica se já existe um array para o setor; se não, cria um novo
+			if (isset($clientes_por_setor[$arrayClientes[1]])) {
+				$clientes_por_setor[$arrayClientes[1]][] = $arrayClientes[0];
+			} else {
+				$clientes_por_setor[$arrayClientes[1]] = [$arrayClientes[0]];
+			}
+		}
+
+		// Prepara os dados para inserção no banco para cada setor
+		foreach ($clientes_por_setor as $id_setor => $ids_clientes) {
+			// Gera um código aleatório para o romaneio e garante unicidade
+			do {
+				$codigo = mt_rand(1000000000, 9999999999);
+			} while ($this->Romaneios_model->recebeRomaneioCod($codigo));
+
+			$dados['codigo'] = $codigo;
+			$dados['clientes'] = json_encode($ids_clientes); // Converte IDs de clientes para JSON
+			$dados['id_setor_empresa'] = $id_setor;
+
+			// Insere os dados do romaneio utilizando o modelo Romaneios_model
+			$retorno = $this->Romaneios_model->insereRomaneio($dados);
+
+			// Se a inserção falhar, encerra a transação e retorna falso
+			if (!$retorno) {
+				$this->db->trans_rollback();
+				$response = [
+					'success' => false,
+					'title' => "Algo deu errado!",
+					'message' => "Não foi possível gerar o(s) romaneio(s)!",
+					'type' => "error",
+					'redirect' => false
+				];
+				return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+			}
+		}
+
+		// Se tudo estiver correto, confirma a transação
+		$this->db->trans_commit();
+
+		// Prepara a resposta JSON com base no sucesso da operação de inserção
+		$response = [
+			'success' => true,
+			'title' => "Sucesso!",
+			'message' => "Romaneio(s) gerado(s) com sucesso!",
+			'type' => "success",
+			'redirect' => true
+		];
+
+		// Retorna a resposta como JSON
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
-	
+
 
 	public function gerarRomaneio()
 	{
