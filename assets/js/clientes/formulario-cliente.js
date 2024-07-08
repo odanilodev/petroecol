@@ -184,28 +184,61 @@ $(document).on('click', '.btn-etapas', function () {
 
 
 const deletaCliente = (id) => {
+    // Verifica se o cliente possui agendamentos
+    verificaAgendamentosCliente(id).done((response) => {
+        if (response.success) {
+            // Cria a lista de agendamentos formatada com datas
+            let listaAgendamentos = '<ul style="list-style-position: inside; padding-left: 0; text-align: center;">';
+            response.agendamentos.forEach(agendamento => {
+                // Utiliza a função formatarDatas para formatar a data
+                let dataFormatada = formatarDatas(agendamento.data_coleta);
+                listaAgendamentos += `<li style="display: list-item;">${dataFormatada}</li>`;
+            });
+            listaAgendamentos += '</ul>';
 
-    Swal.fire({
-        title: 'Você tem certeza?',
-        text: "Esta ação não poderá ser revertida",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Sim, deletar'
+            Swal.fire({
+                title: 'Você tem certeza?',
+                html: `
+                    <p>Tem certeza que deseja excluir este cliente? Ele possui agendamentos para o(s) dia(s):</p>
+                    ${listaAgendamentos}
+                `,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6', 
+                confirmButtonText: 'Sim, deletar',
+                cancelButtonText: 'Cancelar',
+                cancelButtonColor: '#dc3741',
+                showDenyButton: true,
+                denyButtonColor: '#f0ad4e',
+                denyButtonText: 'Ir para Agendamentos',
+                allowOutsideClick: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    verificaRecipienteCliente(id);
+                } else if (result.isDenied) {
+                    window.location.href = `${baseUrl}agendamentos`;
+                }
+            });
 
-    }).then((result) => {
-
-        if (result.isConfirmed) {
-
-            // verifica se tem algum recipiente com o cliente antes de deletar
-            verificaRecipienteCliente(id);
-
+        } else {
+            // Caso não haja agendamentos, exibe um alerta simples de confirmação de exclusão
+            Swal.fire({
+                title: 'Você tem certeza?',
+                text: "Esta ação não poderá ser revertida.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sim, deletar',
+                cancelButtonText: 'Cancelar',
+                showDenyButton: false,
+                allowOutsideClick: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    verificaRecipienteCliente(id);
+                }
+            });
         }
-    })
-
-}
+    });
+};
 
 const verificaRecipienteCliente = (id) => {
 
@@ -240,6 +273,17 @@ const verificaRecipienteCliente = (id) => {
     })
 
 }
+
+const verificaAgendamentosCliente = (id) => {
+    return $.ajax({
+        type: 'post',
+        url: `${baseUrl}clientes/verificaAgendamentosCliente`,
+        data: {
+            id: id
+        },
+        dataType: 'json'
+    });
+};
 
 const alteraStatusCliente = (id) => {
 
