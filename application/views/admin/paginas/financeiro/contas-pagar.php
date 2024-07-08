@@ -155,7 +155,7 @@
                 </div>
             </div>
 
-            
+
             <div class="table-responsive mx-n1 px-1 scrollbar">
                 <table id="table-contas-pagar" class="table fs--1 mb-0 border-top border-200">
                     <thead>
@@ -248,7 +248,7 @@
 
                                 <td class="align-middle product white-space-nowrap td_observacao text-center">
                                     <h6 class="mb-0 text-900">
-                                        <?= $contaPagar['observacao']; ?>
+                                        <?= $contaPagar['observacao'] != '' ? $contaPagar['observacao'] : '-'; ?>
                                     </h6>
                                 </td>
 
@@ -489,7 +489,7 @@
                                                         <td class="py-2 w-50">
 
                                                             <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break obs-conta html-clean">
-                                                                observação detalhada aparecerá aqui
+                                                                <!-- JS -->
                                                             </div>
 
                                                         </td>

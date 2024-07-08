@@ -177,7 +177,7 @@ const visualizarFluxo = (id) => {
             $('.recebido').html(data['dadosFluxo'].RECEBIDO);
             $('.valor-fluxo').html(valorFluxo);
             $('.forma-pagamento').html(data['dadosFluxo'].FORMAPAGAMENTO);
-            $('.observacao').html(data['dadosFluxo'].observacao);
+            $('.observacao').html(data['dadosFluxo'].observacao ?? '-');
 
         },
         error: function (xhr, status, error) {
@@ -276,6 +276,50 @@ const deletarFluxo = (idMovimentacao, idContaBancaria, valorMovimentacao, tipoMo
 
     }
 
-
-
 }
+
+$(function () {
+    // Função para obter a data formatada conforme necessário
+    function formatarDataParaNomeArquivo(data) {
+        if (!data) {
+            return 'geral';
+        } else {
+            // Formato esperado: dd/mm/yy
+            var parts = data.split('/');
+            return parts[0] + parts[1] + parts[2].slice(-2); // Concatenação das partes da data
+        }
+    }
+
+    // Função para obter o nome do arquivo com base nas datas de início e fim
+    function obterNomeArquivo(base, dataInicio, dataFim) {
+        var inicioFormatado = formatarDataParaNomeArquivo(dataInicio);
+        var fimFormatado = formatarDataParaNomeArquivo(dataFim);
+
+        if (inicioFormatado === 'geral' && fimFormatado === 'geral') {
+            return base + '-geral';
+        } else {
+            return base + '-' + inicioFormatado + '-' + fimFormatado;
+        }
+    }
+
+    new DataTable('#table-fluxo', {
+        layout: {
+            topStart: {
+                buttons: [
+                    { extend: 'copy', filename: 'fluxo-copia', text: '<span class="fas fa-copy me-2"></span> Copy', className: 'btn-phoenix-secondary' },
+                    { extend: 'excel', filename: function () { return obterNomeArquivo('fluxo-excel', $('#data_inicio').val(), $('#data_fim').val()); }, text: '<span class="fas fa-file-excel me-2"></span> Excel', className: 'btn-phoenix-secondary' },
+                    { extend: 'pdf', filename: function () { return obterNomeArquivo('fluxo-pdf', $('#data_inicio').val(), $('#data_fim').val()); }, text: '<span class="fas fa-file-pdf me-2"></span> PDF', className: 'btn-phoenix-secondary' },
+                    { extend: 'print', filename: 'fluxo-print', text: '<span class="fas fa-file me-2"></span> Print', className: 'btn-phoenix-secondary' }
+                ]
+            }
+        },
+        order: [],  // Desativa a ordenação inicial
+        ordering: false,  // Desativa a ordenação em todas as colunas
+        searching: false,  // Desativa a caixa de pesquisa
+        columnDefs: [
+            { orderable: false, targets: '_all' }  // Garante que todas as colunas não sejam ordenáveis
+        ],
+        paging: false,  // Desativa a paginação
+        info: false  // Remove a mensagem "Showing 1 to 10 of 10 entries"
+    });
+});
