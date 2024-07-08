@@ -199,7 +199,7 @@ const deletaCliente = (id) => {
             Swal.fire({
                 title: 'Você tem certeza?',
                 html: `
-                    <p>Tem certeza que deseja excluir este cliente? Ele possui agendamentos para o(s) dia(s):</p>
+                    <p>Este cliente possui agendamentos para o(s) dia(s):</p>
                     ${listaAgendamentos}
                 `,
                 icon: 'warning',
