@@ -10,6 +10,43 @@ class Agendamentos_model extends CI_Model
         $this->load->model('Log_model');
     }
 
+    /**
+     * Recebe os agendamentos atrasados com base nas datas e setor especificados.
+     *
+     * @param string $dataInicioFormatada Data de início formatada (YYYY-MM-DD)
+     * @param string $dataFimFormatada Data de fim formatada (YYYY-MM-DD)
+     * @param string|null $setorEmpresa ID do setor da empresa ou 'todos' para todos os setores
+     * @return array Resultados da consulta como um array associativo
+     */
+    public function recebeAgendamentosAtrasados(string $dataInicioFormatada, string $dataFimFormatada, ?string $setorEmpresa): array
+    {
+        $this->db->select('
+            MAX(C.cidade) as cidade, 
+            MAX(C.telefone) as telefone, 
+            MAX(C.nome) as NOME_CLIENTE, 
+            MAX(SE.nome) as NOME_SETOR,
+            MAX(A.data_coleta) as data_coleta,
+            MAX(A.id_setor_empresa) as id_setor_empresa,
+            MAX(A.id_cliente) as id_cliente,
+            MAX(A.id) as ID_AGENDAMENTO
+        ');
+        $this->db->from('ci_agendamentos A');
+        $this->db->join('ci_clientes C', 'A.id_cliente = C.id', 'left');
+        $this->db->join('ci_setores_empresa SE', 'A.id_setor_empresa = SE.id', 'left');
+        $this->db->where('A.data_coleta >=', $dataInicioFormatada);
+        $this->db->where('A.data_coleta <=', $dataFimFormatada);
+        $this->db->where('A.status', 0);
+        $this->db->where('A.id_empresa', $this->session->userdata('id_empresa'));
+        // Adiciona a cláusula do setor apenas se $setor não for null
+        if ($setorEmpresa !== 'todos' && $setorEmpresa !== null) {
+            $this->db->where('A.id_setor_empresa', $setorEmpresa);
+        }
+        $this->db->group_by('A.id_cliente, A.data_coleta');
+        $this->db->order_by('A.data_coleta');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
     public function recebeAgendamentos($anoAtual, $mesAtual)
     {
         $this->db->select('data_coleta, prioridade, status, COUNT(*) AS total_agendamento');
@@ -214,8 +251,7 @@ class Agendamentos_model extends CI_Model
         $this->db->limit(1);
         $query = $this->db->get('ci_agendamentos');
 
-        return $query->row()->data_coleta ?? null; 
-
+        return $query->row()->data_coleta ?? null;
     }
 
     public function contaAgendamentoCLiente($id)
@@ -295,6 +331,5 @@ class Agendamentos_model extends CI_Model
         $this->db->delete('ci_agendamentos');
 
         return $this->db->affected_rows() > 0;
-        
     }
 }
