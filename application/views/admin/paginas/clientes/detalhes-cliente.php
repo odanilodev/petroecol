@@ -14,7 +14,7 @@
 
         <button class="btn btn-phoenix-danger me-2" onclick="deletaCliente(<?= $cliente['id'] ?>)">
           <span class="fa-solid fa-trash me-2"></span>
-          <span>Deletar</span>
+          <span>Excluir Cliente</span>
         </button>
 
         <div>
