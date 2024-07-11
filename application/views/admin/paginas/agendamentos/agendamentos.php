@@ -7,6 +7,11 @@
         <span class="calendar-date"></span>
       </h4>
     </div>
+    <div class="col-7 col-md-6 d-flex justify-content-end">
+      <a href="<?=base_url('agendamentos/agendamentosAtrasados')?>" class="btn btn-phoenix-danger btn-sm">
+        Clientes atrasados
+      </a>
+    </div>
     <div class="col-7 col-md-6 d-flex justify-content-end d-none">
       <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#addEventModal"> <span class="fas fa-plus pe-2 fs--2"></span>Add new task </button>
     </div>
@@ -67,7 +72,7 @@
                 <?php } ?> -->
 
               </select>
-              
+
 
             </div>
 
@@ -76,7 +81,7 @@
               <select class="form-select w-100 cliente-etiqueta-agendamento select2 input-agendamento" id="select-cliente-etiqueta">
 
                 <option disabled selected value="">Clientes por etiqueta</option>
-            
+
 
               </select>
 
@@ -124,7 +129,7 @@
           <input type="hidden" class="prioridade-agendamento" value="1">
 
           <div class="modal-footer d-flex justify-content-between align-items-center border-0">
-          <input type="hidden" class="ids-clientes">
+            <input type="hidden" class="ids-clientes">
 
             <button class="btn btn-primary px-4 btn-envia btn-salva-agendamento" type="button" onclick="salvaAgendamento()">Salvar</button>
             <div class="spinner-border text-primary load-form d-none" role="status"></div>
