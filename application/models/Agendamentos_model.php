@@ -332,4 +332,14 @@ class Agendamentos_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+    public function cancelaAgendamentosFuturosCliente($idCliente)
+    {
+        $this->db->where('id_cliente', $idCliente);
+        $this->db->where('status !=', 1);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->delete('ci_agendamentos');
+
+        return $this->db->affected_rows() > 0;
+    }
 }

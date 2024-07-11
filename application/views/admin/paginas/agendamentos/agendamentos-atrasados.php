@@ -127,7 +127,7 @@
                   <h6 class="mb-0 text-900"><?= $agendamentoAtrasado['NOME_SETOR'] ?></h6>
                 </td>
                 <td class="align-middle td_cidade text-center">
-                  <h6 class="mb-0 text-900"><?= ucwords(strtolower($agendamentoAtrasado['cidade'])) ?></h6>
+                <h6 class="mb-0 text-900"><?= mb_convert_case($agendamentoAtrasado['cidade'], MB_CASE_TITLE, "UTF-8") ?></h6>
                 </td>
                 <td class="align-middle td_observacao text-center">
                   <h6 class="mb-0 text-900"><?= $agendamentoAtrasado['telefone'] ?></h6>
