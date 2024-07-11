@@ -111,6 +111,22 @@ class Agendamentos_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
+    public function editaAgendamentosAtrasados($id_cliente, $id_agendamento, $nova_data)
+    {
+        $dados['editado_em'] = date('Y-m-d H:i:s');
+        $dados['data_coleta'] = $nova_data;
+        $dados['prioridade'] = 0;
+
+        $this->db->where('id', $id_agendamento);
+
+        $this->db->update('ci_agendamentos', $dados);
+
+        if ($this->db->affected_rows() > 0) {
+            $this->Log_model->insereLog($id_cliente);
+        }
+
+        return $this->db->affected_rows() > 0;
+    }
 
     public function recebeClientesAgendados($dataColeta, $prioridade, $status)
     {
@@ -198,11 +214,8 @@ class Agendamentos_model extends CI_Model
         $this->db->limit(1);
         $query = $this->db->get('ci_agendamentos');
 
-        return $query->row()->data_coleta ?? null;
-    }
+        return $query->row()->data_coleta ?? null; 
 
-    public function verificaAgendamentosCliente($id)
-    {
     }
 
     public function contaAgendamentoCLiente($id)
@@ -282,14 +295,6 @@ class Agendamentos_model extends CI_Model
         $this->db->delete('ci_agendamentos');
 
         return $this->db->affected_rows() > 0;
-    }
-    public function cancelaAgendamentosFuturosCliente($idCliente)
-    {
-        $this->db->where('id_cliente', $idCliente);
-        $this->db->where('status !=', 1);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->delete('ci_agendamentos');
-
-        return $this->db->affected_rows() > 0;
+        
     }
 }
