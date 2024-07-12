@@ -1,5 +1,5 @@
 <div class="content">
-  <div id="members" data-list='{"valueNames":["nome"],["validade"],"page":10,"pagination":true}'>
+  <div id="members" data-list='{"valueNames":["nome","validade"],"page":10,"pagination":true}'>
     <div class="row align-items-center justify-content-between g-3 mb-4">
 
       <div class="col-auto">
@@ -22,16 +22,9 @@
     </div>
     <div class="px-4 px-lg-6 mb-9 bg-white border-y border-300 mt-2 position-relative top-1">
       <div class="table-responsive scrollbar ms-n1 ps-1">
-        <table class="table table-sm fs--1 mb-0">
+        <table class="table table-sm fs--1 mb-0" style="padding-left:0;">
           <thead>
             <tr>
-              <th class="white-space-nowrap fs--1 align-middle ps-0">
-                <!-- Check para todos -->
-                <div class="form-check mb-0 fs-0">
-                  <input class="form-check-input check-all-element cursor-pointer" type="checkbox" />
-                </div>
-              </th>
-
               <th class="sort align-middle pe-3 text-center" scope="col" data-sort="nome">Nome</th>
               <th class="sort align-middle pe-3 text-center" scope="col" data-sort="validade">Validade</th>
               <th class="sort align-middle pe-3 text-center">Ações</th>
@@ -42,13 +35,6 @@
 
             <?php foreach ($documentos as $documento) { ?>
               <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-
-                <!-- check para cada um -->
-                <td class="fs--1 align-middle ps-0 py-3">
-                  <div class="form-check mb-0 fs-0">
-                    <input class="form-check-input check-element cursor-pointer text-center" type="checkbox" value="<?= $documento['id'] ?>" />
-                  </div>
-                </td>
 
                 <td class="text-center nome align-middle white-space-nowrap">
                   <?= $documento['nome'] ?>
@@ -94,6 +80,22 @@
           <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
           <ul class="mb-0 pagination"></ul>
           <button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Visualizar Documento -->
+  <div class="modal fade" id="modalVisualizarDocumento" tabindex="-1" aria-labelledby="modalVisualizarDocumentoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalVisualizarDocumentoLabel">Visualizar Documento</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex flex-column align-items-center">
+          <img id="imagemDocumento" src="" class="img-fluid mb-3" alt="Imagem do Documento" style="width: 700px; height: 700px; border-radius: 1em;">
+          <a id="downloadDocumento" href="#" class="btn btn-primary mt-3"><span class="fas fa-download me-2"></span>Download</a>
         </div>
       </div>
     </div>
