@@ -18,7 +18,7 @@ class Agendamentos_model extends CI_Model
      * @param string|null $setorEmpresa ID do setor da empresa ou 'todos' para todos os setores
      * @return array Resultados da consulta como um array associativo
      */
-    public function recebeAgendamentosAtrasados(string $dataInicioFormatada, string $dataFimFormatada, ?string $setorEmpresa): array
+    public function recebeAgendamentosAtrasados(string $dataInicioFormatada, string $dataFimFormatada, ?string $setorEmpresa, ?string $cidade): array
     {
         $this->db->select('
             MAX(C.cidade) as cidade, 
@@ -41,6 +41,12 @@ class Agendamentos_model extends CI_Model
         if ($setorEmpresa !== 'todos' && $setorEmpresa !== null) {
             $this->db->where('A.id_setor_empresa', $setorEmpresa);
         }
+
+        // Adiciona a cláusula de cidade apenas se $cidade não for null
+        if ($cidade !== 'todos' && $cidade !== null) {
+            $this->db->where('C.cidade', $cidade);
+        }
+
         $this->db->group_by('A.id_cliente, A.data_coleta');
         $this->db->order_by('A.data_coleta');
         $query = $this->db->get();

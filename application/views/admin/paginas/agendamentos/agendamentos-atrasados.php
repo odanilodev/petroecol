@@ -29,20 +29,21 @@
 
               <div class="col-12 col-md-3">
                 <div class="ms-3">
-                  <input class="form-control datetimepicker mascara-data" value="<?= isset($dataInicio) ? $dataInicio : '' ?>" name="data_inicio" id="data_inicio" type="text" placeholder="Selecione a data de início" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
-                </div>
-              </div>
-              <div class="col-12 col-md-3">
-                <div class="ms-3">
-                  <input class="form-control datetimepicker mascara-data" value="<?= isset($dataFim) ? $dataFim : '' ?>" name="data_fim" id="data_fim" type="text" placeholder="Selecione a data final" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
+                  <input required class="form-control datetimepicker mascara-data" value="<?= isset($dataInicio) ? $dataInicio : '' ?>" name="data_inicio" id="data_inicio" type="text" placeholder="Selecione a data de início" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
                 </div>
               </div>
 
               <div class="col-12 col-md-3">
                 <div class="ms-3">
+                  <input required class="form-control datetimepicker mascara-data" value="<?= isset($dataFim) ? $dataFim : '' ?>" name="data_fim" id="data_fim" type="text" placeholder="Selecione a data final" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
+                </div>
+              </div>
+
+              <div class="col-12 col-md-2">
+                <div class="ms-3">
                   <select class="form-control select-validation select-setor" required name="setor" id="setor">
-                    <option selected disabled>Setor da conta</option>
-                    <option <?= $idSetor == '' ? 'selected' : '' ?> value="todos">Todos</option>
+                    <option selected disabled value="">Setor da conta</option>
+                    <option <?= $idSetor == 'todos' ? 'selected' : '' ?> value="todos">Todos</option>
                     <?php foreach ($setoresEmpresa as $setor) { ?>
                       <option <?= $idSetor == $setor['id'] ? 'selected' : '' ?> value="<?= $setor['id'] ?>"><?= $setor['nome'] ?>
                       </option>
@@ -50,11 +51,26 @@
                   </select>
                 </div>
               </div>
+
+              <div class="col-12 col-md-2">
+                <div class="ms-3">
+                  <select class="form-control select-validation select-cidade select2" required name="cidadeFiltro" id="cidadeFiltro">
+                    <option selected disabled value="">Cidade Agendamento</option>
+                    <option <?= $cidadeFiltro == 'todos' ? 'selected' : '' ?> value="todos">Todos</option>
+                    <?php foreach ($cidades as $cidade) { ?>
+                      <option <?= isset($cidadeFiltro) && $cidadeFiltro == $cidade['cidade'] ? 'selected' : '' ?> value="<?= $cidade['cidade'] ?>"><?= mb_convert_case($cidade['cidade'], MB_CASE_TITLE, "UTF-8") ?>
+                      </option>
+                    <?php } ?>
+                  </select>
+                </div>
+              </div>
+
               <input type="hidden" name="nomeSetor" id="nomeSetor">
-              <div class="col-12 col-md-3">
+
+              <div class="col-12 col-md-2">
                 <div class="d-flex ms-3">
-                  <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= !$dataInicio ? 'w-100' : 'w-75'; ?>">Filtrar</button>
-                  <?php if ($dataInicio) { ?>
+                  <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= !$dataInicio ? 'w-100' : 'w-60'; ?>">Filtrar</button>
+                  <?php if (isset($dataInicio)) { ?>
                     <a href="<?= base_url('agendamentos/agendamentosAtrasados'); ?>" class="btn btn-phoenix-danger w-25" title="Limpar Filtro"><i class="fas fa-ban"></i></a>
                   <?php } ?>
                 </div>
@@ -127,7 +143,7 @@
                   <h6 class="mb-0 text-900"><?= $agendamentoAtrasado['NOME_SETOR'] ?></h6>
                 </td>
                 <td class="align-middle td_cidade text-center">
-                <h6 class="mb-0 text-900"><?= mb_convert_case($agendamentoAtrasado['cidade'], MB_CASE_TITLE, "UTF-8") ?></h6>
+                  <h6 class="mb-0 text-900"><?= mb_convert_case($agendamentoAtrasado['cidade'], MB_CASE_TITLE, "UTF-8") ?></h6>
                 </td>
                 <td class="align-middle td_observacao text-center">
                   <h6 class="mb-0 text-900"><?= $agendamentoAtrasado['telefone'] ?></h6>
