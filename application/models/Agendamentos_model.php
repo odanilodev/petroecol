@@ -43,7 +43,7 @@ class Agendamentos_model extends CI_Model
         }
 
         // Adiciona a cláusula de cidade apenas se $cidade não for null
-        if ($cidade !== 'todos' && $cidade !== null) {
+        if ($cidade !== 'todas' && $cidade !== null) {
             $this->db->where('C.cidade', $cidade);
         }
 

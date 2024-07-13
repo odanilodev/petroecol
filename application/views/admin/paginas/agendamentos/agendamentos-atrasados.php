@@ -56,7 +56,7 @@
                 <div class="ms-3">
                   <select class="form-control select-validation select-cidade select2" required name="cidadeFiltro" id="cidadeFiltro">
                     <option selected disabled value="">Cidade Agendamento</option>
-                    <option <?= $cidadeFiltro == 'todos' ? 'selected' : '' ?> value="todos">Todos</option>
+                    <option <?= $cidadeFiltro == 'todas' ? 'selected' : '' ?> value="todas">Todos</option>
                     <?php foreach ($cidades as $cidade) { ?>
                       <option <?= isset($cidadeFiltro) && $cidadeFiltro == $cidade['cidade'] ? 'selected' : '' ?> value="<?= $cidade['cidade'] ?>"><?= mb_convert_case($cidade['cidade'], MB_CASE_TITLE, "UTF-8") ?>
                       </option>
