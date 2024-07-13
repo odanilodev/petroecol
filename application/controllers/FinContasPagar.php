@@ -234,11 +234,20 @@ class FinContasPagar extends CI_Controller
 		$id = $this->input->post('idConta');
 		$dadosLancamento = $this->input->post('dados');
 
+		if ($dadosLancamento['grupo-recebido'] == 'clientes') {
+			$data['id_cliente'] = $dadosLancamento['recebido'];
+		} else {
+			$data['id_dado_financeiro'] = $dadosLancamento['recebido'];
+		}
+
 		$data['valor'] = str_replace(['.', ','], ['', '.'], $dadosLancamento['valor']);
 		$data['observacao'] = $dadosLancamento['observacao'];
 		$data['id_setor_empresa'] = $dadosLancamento['setor'];
 		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
-		$data['data_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao'])));
+		$data['data_emissao'] = $dadosLancamento['data_emissao'] ? date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao']))) : "";
+		$data['id_empresa'] = $this->session->userdata('id_empresa');
+		$data['id_micro'] = $dadosLancamento['micros'];
+		$data['id_macro'] = $dadosLancamento['macros'];
 
 
 		$retorno = $this->FinContasPagar_model->editaConta($id, $data);

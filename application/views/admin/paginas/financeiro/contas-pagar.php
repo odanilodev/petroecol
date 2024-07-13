@@ -915,8 +915,7 @@
                                             <div class="col-lg-12">
 
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Setor da
-                                                        Empresa</label>
+                                                    <label class="text-body-highlight fw-bold mb-2">Setor da Empresa</label>
                                                     <select class="form-select select2 select-setor-empresa select-setor-empresa-editar input-obrigatorio" name="setor">
                                                         <option selected disabled value="">Selecione</option>
                                                         <?php foreach ($setoresEmpresa as $setor) { ?>
@@ -929,11 +928,79 @@
 
                                             </div>
 
+                                            <div class="col-lg-6">
+
+                                                <div class="mb-4 div-select-macro">
+                                                    <label class="text-body-highlight fw-bold mb-2">Grupos Macros</label>
+                                                    <select class="form-select select2 select-macros input-obrigatorio dados-conta" name="macros">
+                                                        <option selected disabled value="">Selecione</option>
+                                                        <?php foreach ($macros as $macro) { ?>
+                                                            <option value="<?= $macro['id'] ?>"><?= $macro['nome'] ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="mb-4 div-select-micro">
+                                                    <label class="text-body-highlight fw-bold mb-2 ">Grupos Micros</label>
+                                                    <select disabled class="form-select select2 select-micros input-obrigatorio dados-conta" name="micros">
+                                                        <option selected disabled value="">Selecione</option>
+                                                        <!-- JS -->
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="col-lg-6">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Grupo de Credores</label>
+                                                    <select class="form-select select2 select-grupo-recebidos input-obrigatorio dados-conta" name="grupo-recebido">
+                                                        <option selected disabled value="">Selecione</option>
+                                                        <?php foreach ($grupos as $grupo) { ?>
+                                                            <option value="<?= $grupo['id'] ?>"><?= $grupo['nome'] ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                        <option value="clientes">Clientes</option>
+
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+
+                                                <div class="mb-4 ">
+                                                    <label class="text-body-highlight fw-bold mb-2">Recebido</label>
+                                                    <select disabled class="form-select select2 select-recebido input-obrigatorio dados-conta" name="recebido">
+                                                        <option selected disabled value="">Selecione</option>
+                                                        <?php foreach ($dadosFinanceiro as $dadoFinanceiro) { ?>
+                                                            <option data-nome="<?= $dadoFinanceiro['nome'] ?>" value="<?= $dadoFinanceiro['id'] ?>">
+                                                                <?= $dadoFinanceiro['nome'] ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                    <input type="hidden" name="nome-recebido" class="nome-recebido">
+
+                                                </div>
+
+                                            </div>
+
+                                            
                                             <div class="col-lg-4">
 
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Data
-                                                        Vencimento</label>
+                                                    <label class="text-body-highlight fw-bold mb-2">Data Vencimento</label>
                                                     <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio mascara-data" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
