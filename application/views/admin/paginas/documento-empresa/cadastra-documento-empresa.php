@@ -29,9 +29,9 @@
                   <div class="form-group col-md-4 mb-3">
                     <label class="text-body-highlight fw-bold mb-2"><?= $this->uri->segment(3) ? 'Alterar Documento - ' . $documento['documento'] : 'Upload Documento' ?></label>
                     <div class="image-input">
-                      <input id="documentoEmpresa" name="documento" accept="image/*" class="form-control input-documento input-obrigatorio" type="file">
+                      <input id="documentoEmpresa" name="documento" accept="image/*" class="form-control input-documento <?= !$this->uri->segment(3) ? 'input-obrigatorio' : '' ?>" type="file">
+                      <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                     </div>
-                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                   </div>
                 </div>
 

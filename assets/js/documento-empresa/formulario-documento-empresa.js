@@ -130,6 +130,31 @@ function visualizarDocumento(id) {
   });
 }
 
+function downloadDocumento(id) {
+  $.ajax({
+    type: "POST",
+    url: `${baseUrl}documentoEmpresa/recebeDocumentoEmpresa`,
+    data: { id: id },
+    success: function (response) {
+      if (response && response.documento) {
+        let documentoUrl = `${baseUrl}uploads/2/documentos-empresa/${response.documento}`;
+
+        // Criar um link temporário e disparar o download
+        let link = document.createElement('a');
+        link.href = documentoUrl;
+        link.download = response.documento;
+        link.click();
+      } else {
+        avisoRetorno('Documento não encontrado ou erro ao obter o documento.');
+      }
+    },
+    error: function () {
+      avisoRetorno('Erro ao carregar o documento. Por favor, tente novamente.');
+    }
+  });
+}
+
+
 
 
 

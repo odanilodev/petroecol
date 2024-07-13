@@ -106,24 +106,28 @@ class DocumentoEmpresa extends CI_Controller
     }
 
     // Prepara o upload do documento
-    $_FILES['single_document'] = $_FILES['documento'];
-    $arrayUpload = [
-      'single_document' => ['documentos-empresa', null]
-    ];
-    $retornoDados = $this->upload_imagem->uploadImagem($arrayUpload);
+    if ($_FILES) {
+      $_FILES['single_document'] = $_FILES['documento'];
+      $arrayUpload = [
+        'single_document' => ['documentos-empresa', null]
+      ];
+      $retornoDados = $this->upload_imagem->uploadImagem($arrayUpload);
+    }
+
+    $documento_antigo = $this->DocumentoEmpresa_model->recebeDocumentoEmpresa($id);
 
     // Prepara os dados para inserção ou edição
     $dados = [
       'nome' => $nome_documento,
       'validade' => $vencimento_documento,
-      'documento' => $retornoDados['single_document'],
+      'documento' => $_FILES ? $retornoDados['single_document'] : $documento_antigo['documento'],
       'id_empresa' => $id_empresa
     ];
 
     // Se estiver editando, obtém o nome do documento antigo para exclusão posterior
     $nome_documento_antigo = null;
+
     if ($id) {
-      $documento_antigo = $this->DocumentoEmpresa_model->recebeDocumentoEmpresa($id);
       $nome_documento_antigo = $documento_antigo['documento'];
     }
 
@@ -133,8 +137,8 @@ class DocumentoEmpresa extends CI_Controller
     // Verifica se a operação foi bem sucedida
     if ($retorno) {
       // Exclui o documento antigo, se existir e estiver editando
-      if ($id && $nome_documento_antigo) {
-        $caminho = './uploads/' . $id_empresa . '/documentos-empresa/' . $nome_documento_antigo;
+      if ($id && $nome_documento_antigo && $_FILES) {
+        $caminho = './uploads/' . $id_empresa . '/' . 'documentos-empresa/' . $nome_documento_antigo;
         unlink($caminho);
       }
 

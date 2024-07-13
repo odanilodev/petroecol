@@ -27,7 +27,9 @@
             <tr>
               <th class="sort align-middle pe-3 text-center" scope="col" data-sort="nome">Nome</th>
               <th class="sort align-middle pe-3 text-center" scope="col" data-sort="validade">Validade</th>
-              <th class="sort align-middle pe-3 text-center">Ações</th>
+              <th class="sort align-middle p-0 text-center" scope="col">Visualizar</th>
+              <th class="sort align-middle p-0 text-center" scope="col">Download</th>
+              <th class="sort align-middle pe-3 text-center" scope="col">Ações</th>
             </tr>
           </thead>
 
@@ -37,22 +39,32 @@
               <tr class="hover-actions-trigger btn-reveal-trigger position-static">
 
                 <td class="text-center nome align-middle white-space-nowrap">
-                  <?= $documento['nome'] ?>
+                  <h6><?= $documento['nome'] ?></h6>
                 </td>
 
                 <td class="text-center validade align-middle white-space-nowrap">
-                  <?= date('d/m/Y', strtotime($documento['validade'])) ?>
+                  <h6><?= date('d/m/Y', strtotime($documento['validade'])) ?></h6>
                 </td>
 
-                <td class="text-center align-middle white-space-nowrap text-end pe-0">
+                <td class="text-center align-middle white-space-nowrap">
+                  <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn" onclick="visualizarDocumento(<?= $documento['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalVisualizarDocumento">
+                    <span class="fas fa-eye"></span>
+                  </button>
+                </td>
+
+                <td class="text-center align-middle white-space-nowrap">
+                  <button class="btn btn-sm btn-phoenix-success bg-white hover-bg-100 action-btn" onclick="downloadDocumento(<?= $documento['id'] ?>)">
+                    <span class="fas fa-download"></span>
+                  </button>
+                </td>
+
+
+                <td class="align-middle white-space-nowrap text-end pe-0 text-center ">
                   <div class="font-sans-serif btn-reveal-trigger position-static">
                     <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
                       <span class="fas fa-ellipsis-h fs--2"></span>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-end py-2">
-                      <a class="dropdown-item" href="#" onclick="visualizarDocumento(<?= $documento['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalVisualizarDocumento">
-                        <span class="fas fa-eye"></span> Visualizar
-                      </a>
+                    <div class="dropdown-menu dropdown-menu-end">
                       <a class="dropdown-item" href="<?= base_url('documentoEmpresa/formulario/' . $documento['id']) ?>">
                         <span class="fas fa-pencil"></span> Editar
                       </a>
