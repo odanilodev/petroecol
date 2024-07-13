@@ -198,7 +198,6 @@ $(document).on('click', '.editar-lancamento', function () {
     let id = $(this).data('id');
     $('.id-editar-conta').val(id);
 
-
     $.ajax({
         type: "post",
         url: `${baseUrl}finContasPagar/recebeContaPagar`,
@@ -211,16 +210,32 @@ $(document).on('click', '.editar-lancamento', function () {
 
         }, success: function (data) {
 
+            $('.select-macros').val(data.conta.id_macro).trigger('change');
+
+            if (data.conta.GRUPO_CREDOR) {
+                $('.select-grupo-recebidos').val(data.conta.GRUPO_CREDOR).trigger('change');
+            } else {
+                $('.select-grupo-recebidos').val('clientes').trigger('change');
+            }
+
+            $(setTimeout(() => {
+                $('.select-micros').val(data.conta.id_micro).trigger('change');
+                $('.select-recebido').val(data.conta.id_dado_financeiro != 0 ? data.conta.id_dado_financeiro : data.conta.id_cliente).trigger('change');
+            }, 550));
+
             $('.select-setor-empresa').val(data['conta'].id_setor_empresa).trigger('change');
 
             let dataVencimento = data['conta'].data_vencimento.split('-');
             dataVencimento = dataVencimento[2] + '/' + dataVencimento[1] + '/' + dataVencimento[0];
             $('.input-data-vencimento').val(dataVencimento);
 
-            let dataEmissao = data['conta'].data_emissao.split('-');
-            dataEmissao = dataEmissao[2] + '/' + dataEmissao[1] + '/' + dataEmissao[0];
+            if (data['conta'].data_emissao) {
 
-            $('.input-data-emissao').val(dataEmissao);
+                let dataEmissao = data['conta'].data_emissao.split('-');
+                dataEmissao = dataEmissao[2] + '/' + dataEmissao[1] + '/' + dataEmissao[0];
+    
+                $('.input-data-emissao').val(dataEmissao);
+            }
 
             $('.input-observacao').text(data['conta'].observacao);
 
