@@ -14,7 +14,7 @@
 
         <button class="btn btn-phoenix-danger me-2" onclick="deletaCliente(<?= $cliente['id'] ?>)">
           <span class="fa-solid fa-trash me-2"></span>
-          <span>Deletar</span>
+          <span>Excluir Cliente</span>
         </button>
 
         <div>
@@ -135,11 +135,22 @@
 
                   </div>
 
-                  <div class="d-flex align-items-center">
-                    <p class="mb-0 me-2"> Próxima Coleta</p>
-                    <div>
-                      <span class="d-inline-block lh-sm me-1" data-feather="calendar" style="height:16px;width:16px;"></span>
-                      <span class="d-inline-block lh-sm"> <?= $proxima_coleta; ?></span>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-12 mb-3">
+                        <p class="mb-0 me-2">Data de abertura</p>
+                        <div class="d-flex align-items-center">
+                          <span class="d-inline-block lh-sm me-1" data-feather="calendar" style="height:16px;width:16px;"></span>
+                          <span class="d-inline-block lh-sm"><?= date('d/m/Y', strtotime($cliente['criado_em'])) ?></span>
+                        </div>
+                      </div>
+                      <div class="col-12 mb-3">
+                        <p class="mb-0 me-2">Próxima Coleta</p>
+                        <div class="d-flex align-items-center">
+                          <span class="d-inline-block lh-sm me-1" data-feather="calendar" style="height:16px;width:16px;"></span>
+                          <span class="d-inline-block lh-sm"><?= $proxima_coleta; ?></span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -606,14 +617,14 @@
 
                         <div class="flex-1 me-2">
                           <h5 class="text-1000 lh-sm">
-                          <?php
+                            <?php
                             if ($coleta['coletado'] == 1) {
-                                $setor = $coleta['SETOR_COLETA'] ? $coleta['SETOR_COLETA'] : $coleta['SETOR_NOVA_COLETA'];
-                                echo "Coleta realizada" . ($setor ? " ($setor)" : "");
+                              $setor = $coleta['SETOR_COLETA'] ? $coleta['SETOR_COLETA'] : $coleta['SETOR_NOVA_COLETA'];
+                              echo "Coleta realizada" . ($setor ? " ($setor)" : "");
                             } else {
-                                echo "Coleta não realizada";
+                              echo "Coleta não realizada";
                             }
-                          ?>
+                            ?>
 
 
                             | <span class="fw-semi-bold fs--1"><?= date('d/m/Y', strtotime($coleta['data_coleta'])) ?></span>

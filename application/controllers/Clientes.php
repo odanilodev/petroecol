@@ -339,7 +339,11 @@ class Clientes extends CI_Controller
 
     public function deletaCliente()
     {
+        $this->load->model('Agendamentos_model');
+
         $id = $this->input->post('id');
+
+        $this->Agendamentos_model->cancelaAgendamentosFuturosCliente($id);
 
         $this->Clientes_model->deletaCliente($id);
 
@@ -368,6 +372,28 @@ class Clientes extends CI_Controller
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
+    public function verificaAgendamentosCliente()
+    {
+        $id = $this->input->post('id');
+        
+        $this->load->model('Agendamentos_model');
+        $agendamentosCliente = $this->Agendamentos_model->recebeProximosAgendamentosCliente($id, date('Y-m-d'), true);
+
+        $response = array();
+        if (!empty($agendamentosCliente)) {
+            $response = array(
+                'success' => true,
+                'agendamentos' => $agendamentosCliente
+            );
+        } else {
+            $response = array(
+                'success' => false,
+                'message' => 'Nenhum agendamento futuro encontrado para este cliente.'
+            );
+        }
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
     public function alteraStatusCliente()
     {
         $id = $this->input->post('id');
