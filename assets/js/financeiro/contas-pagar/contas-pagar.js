@@ -67,6 +67,11 @@ function duplicarElemento() {
 
 }
 
+$(document).on('change', '.select-setor-empresa', function () {
+
+    $('.input-id-setor').val($(this).val());
+
+});
 
 const cadastraContasPagar = (classe) => {
 
@@ -233,7 +238,7 @@ $(document).on('click', '.editar-lancamento', function () {
 
                 let dataEmissao = data['conta'].data_emissao.split('-');
                 dataEmissao = dataEmissao[2] + '/' + dataEmissao[1] + '/' + dataEmissao[0];
-    
+
                 $('.input-data-emissao').val(dataEmissao);
             }
 
@@ -346,6 +351,7 @@ $(document).on('click', '.realizar-pagamento', function () {
     $('.obs-pagamento-inicio').val('');
 
     $('.id-conta-pagamento').val($(this).data('id'));
+    $('.input-id-setor').val($(this).data('setor'));
     $('.id-dado-financeiro').val($(this).data('id-dado-financeiro'));
     $('.id-dado-cliente').val($(this).data('id-dado-cliente'));
     $('.input-valor').val($(this).data('valor'));
@@ -365,6 +371,7 @@ const realizarPagamento = () => {
         let obs = $('.obs-pagamento-inicio').val();
         let dataPagamento = $('.input-data-pagamento').val();
         let valorTotal = 0;
+        let idSetor = $('.input-id-setor').val();
 
         let idConta = $('.id-conta-pagamento').val();
         let idDadoFinanceiro = $('.id-dado-financeiro').val();
@@ -398,6 +405,7 @@ const realizarPagamento = () => {
                 formasPagamento: formasPagamento,
                 valores: valores,
                 obs: obs,
+                idSetor: idSetor,
                 idConta: idConta,
                 valorTotal: valorTotal,
                 idDadoFinanceiro: idDadoFinanceiro,

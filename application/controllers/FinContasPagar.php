@@ -323,6 +323,7 @@ class FinContasPagar extends CI_Controller
 		$formasPagamento = $this->input->post('formasPagamento');
 		$valores = $this->input->post('valores');
 		$obs = $this->input->post('obs');
+		$dados['id_setor_empresa'] = $this->input->post('idSetor');
 
 		$idConta = $this->input->post('idConta');
 		$idDadoFinanceiro = $this->input->post('idDadoFinanceiro');

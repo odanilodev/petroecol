@@ -221,7 +221,7 @@
 
                                 <td class="align-middle text-start ps-3 status td_status_pgto text-center">
                                     <span class="badge badge-phoenix fs--2 <?= $contaPagar['status'] ? "badge-phoenix-success" : "badge-phoenix-danger" ?> tipo-status-conta-<?= $contaPagar['id'] ?>">
-                                        <span data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" class="badge-label cursor-pointer realizar-pagamento status-pagamento-<?= $contaPagar['id'] ?>" data-id="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" <?= !$contaPagar['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalPagarConta"' : "" ?> data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>">
+                                        <span data-setor="<?=$contaPagar['id_setor_empresa']?>" data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>" class="badge-label cursor-pointer realizar-pagamento status-pagamento-<?= $contaPagar['id'] ?>" data-id="<?= $contaPagar['id'] ?>" data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>" <?= !$contaPagar['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalPagarConta"' : "" ?> data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>">
                                             <?= $contaPagar['status'] ? "Pago" : "Em aberto" ?>
                                         </span>
                                         <span class="ms-1 icone-status-conta-<?= $contaPagar['id'] ?>" data-feather="<?= $contaPagar['status'] ? "check" : "slash" ?>" style="height:12.8px;width:12.8px;"></span>
@@ -1055,23 +1055,24 @@
 
                 <div class="modal-footer">
                     <input type="hidden" class="id-editar-conta">
+                    <input type="text" class="input-id-setor">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
-                    <button class="btn btn-success btn-form" type="button" onclick="cadastraContasPagar('form-editar-pagar')">Salvar</button>
+                    <button class="btn btn-success btn-form cadastra-conta-pagar" type="button" onclick="cadastraContasPagar('form-editar-pagar')">Salvar</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
                 </div>
             </div>
         </div>
-    </div>
+        </div>
 
 
-    <!-- Modal Pagar conta -->
-    <div class="modal fade" tabindex="-1" id="modalPagarConta">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Realizar pagamento</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <!-- Modal Pagar conta -->
+        <div class="modal fade" tabindex="-1" id="modalPagarConta">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Realizar pagamento</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body body-coleta">
                     <div class="card">
@@ -1162,6 +1163,7 @@
                     <input type="hidden" class="id-conta-pagamento">
                     <input type="hidden" class="id-dado-financeiro">
                     <input type="hidden" class="id-dado-cliente">
+                    <input type="hidden" class="input-id-setor">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
                     <button class="btn btn-primary btn-form" type="button" onclick="realizarPagamento()">Pagar
                         Conta</button>
