@@ -52,7 +52,9 @@ class Agendamentos extends CI_Controller
     public function agendamentosAtrasados()
     {
         $this->load->model('Funcionarios_model');
+        $this->load->model('Clientes_model');
         $this->load->model('Veiculos_model');
+        $this->load->model('Etiquetas_model');
 
         // Carrega scripts padrão
         $scriptsPadraoHead = scriptsPadraoHead();
@@ -90,6 +92,8 @@ class Agendamentos extends CI_Controller
         $data['dataInicio'] = $this->input->post('data_inicio');
         $data['dataFim'] = $this->input->post('data_fim');
         $data['idSetor'] = $this->input->post('setor');
+        $data['cidadeFiltro'] = $this->input->post('cidadeFiltro');
+        $data['etiquetaFiltro'] = $this->input->post('etiquetaFiltro');
         $data['responsaveis'] = $this->Funcionarios_model->recebeResponsavelAgendamento();
         $data['veiculos'] = $this->Veiculos_model->recebeVeiculos();
 
@@ -98,7 +102,10 @@ class Agendamentos extends CI_Controller
         $data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
 
         // Carrega os agendamentos atrasados com base nos parâmetros
-        $data['agendamentosAtrasados'] = $this->Agendamentos_model->recebeAgendamentosAtrasados($dataInicioFormatada, $dataFimFormatada, $data['idSetor']);
+        $data['agendamentosAtrasados'] = $this->Agendamentos_model->recebeAgendamentosAtrasados($dataInicioFormatada, $dataFimFormatada, $data['idSetor'], $data['cidadeFiltro'], $data['etiquetaFiltro']);
+        
+        $data['cidades'] = $this->Clientes_model->recebeCidadesCliente();
+        $data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
 
         // Carrega as views
         $this->load->view('admin/includes/painel/cabecalho', $data);

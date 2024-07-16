@@ -106,7 +106,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body d-flex flex-column align-items-center">
-          <img id="imagemDocumento" src="" class="img-fluid mb-3" alt="Imagem do Documento" style="width: 700px; height: 700px; border-radius: 1em;">
+          <img id="imagemDocumento" src="" class="img-fluid mb-3 d-none" alt="Imagem do Documento" style="width: 100%; height: 700px; object-fit:contain; border-radius: 1em;">
           <a id="downloadDocumento" href="#" class="btn btn-primary mt-3"><span class="fas fa-download me-2"></span>Download</a>
         </div>
       </div>

@@ -109,11 +109,16 @@ function visualizarDocumento(id) {
     type: "POST",
     url: `${baseUrl}documentoEmpresa/recebeDocumentoEmpresa`,
     data: { id: id },
+    beforeSend: function () {
+      $('#imagemDocumento').addClass('d-none');
+    },
     success: function (response) {
       if (response) {
         let imagemUrl = `${baseUrl}uploads/2/documentos-empresa/${response.documento}`;
-
         $('#imagemDocumento').attr('src', imagemUrl);
+
+        $('#imagemDocumento').removeClass('d-none');
+
 
         $('#downloadDocumento').attr('href', imagemUrl).attr('download', response.documento);
 
