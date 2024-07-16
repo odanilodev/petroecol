@@ -54,7 +54,7 @@ class Agendamentos_model extends CI_Model
             $this->db->where('C.cidade', $cidade);
         }
 
-        // Adiciona a cláusula de cidade apenas se $cidade não for null
+        // Adiciona a cláusula de etiqueta apenas se $etiqueta não for null
         if ($etiqueta !== 'todas' && $etiqueta !== null) {
             $this->db->where('EC.id_etiqueta', $etiqueta);
         }
