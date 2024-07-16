@@ -95,10 +95,6 @@ class FinContasPagar extends CI_Controller
 
 		$data['contasPagar'] = $this->FinContasPagar_model->recebeContasPagar($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa);
 
-		// echo '<pre>';
-		// print_r($data['contasPagar']);
-		// exit;
-
 		$this->load->library('finDadosFinanceiros');
 
 		$data['saldoTotal'] = $this->findadosfinanceiros->somaSaldosBancarios();
