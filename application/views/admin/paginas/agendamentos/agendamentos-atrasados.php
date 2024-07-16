@@ -41,7 +41,7 @@
 
               <div class="col-12 col-md-2">
                 <div class="ms-3">
-                  <select class="form-control select-validation select-setor" required name="setor" id="setor">
+                  <select class="form-control select-validation select-setor" name="setor" id="setor">
                     <option selected disabled value="">Setor da conta</option>
                     <option <?= $idSetor == 'todos' ? 'selected' : '' ?> value="todos">Todos</option>
                     <?php foreach ($setoresEmpresa as $setor) { ?>
@@ -54,7 +54,7 @@
 
               <div class="col-12 col-md-2">
                 <div class="ms-3">
-                  <select class="form-control select-validation select-cidade select2" required name="cidadeFiltro" id="cidadeFiltro">
+                  <select class="form-control select-validation select-cidade select2" name="cidadeFiltro" id="cidadeFiltro">
                     <option selected disabled value="">Cidade Agendamento</option>
                     <option <?= $cidadeFiltro == 'todas' ? 'selected' : '' ?> value="todas">Todos</option>
                     <?php foreach ($cidades as $cidade) { ?>
@@ -67,7 +67,7 @@
 
               <div class="col-12 col-md-2">
                 <div class="ms-3">
-                  <select class="form-control select-validation select-etiqueta select2" required name="etiquetaFiltro" id="etiquetaFiltro">
+                  <select class="form-control select-validation select-etiqueta select2" name="etiquetaFiltro" id="etiquetaFiltro">
                     <option selected disabled value="">Etiqueta</option>
                     <option <?= $etiquetaFiltro == 'todas' ? 'selected' : '' ?> value="todas">Todas</option>
                     <?php foreach ($etiquetas as $etiqueta) { ?>
