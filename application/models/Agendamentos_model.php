@@ -18,7 +18,7 @@ class Agendamentos_model extends CI_Model
      * @param string|null $setorEmpresa ID do setor da empresa ou 'todos' para todos os setores
      * @return array Resultados da consulta como um array associativo
      */
-    public function recebeAgendamentosAtrasados(string $dataInicioFormatada, string $dataFimFormatada, ?string $setorEmpresa, ?string $cidade): array
+    public function recebeAgendamentosAtrasados(string $dataInicioFormatada, string $dataFimFormatada, ?string $setorEmpresa, ?string $cidade, ?string $etiqueta): array
     {
         $this->db->select('
             MAX(C.cidade) as cidade, 
@@ -28,15 +28,20 @@ class Agendamentos_model extends CI_Model
             MAX(A.data_coleta) as data_coleta,
             MAX(A.id_setor_empresa) as id_setor_empresa,
             MAX(A.id_cliente) as id_cliente,
-            MAX(A.id) as ID_AGENDAMENTO
+            MAX(A.id) as ID_AGENDAMENTO,
+            MAX(EC.id_etiqueta) as ID_ETIQUETA,
+            MAX(E.nome) as NOME_ETIQUETA
         ');
         $this->db->from('ci_agendamentos A');
         $this->db->join('ci_clientes C', 'A.id_cliente = C.id', 'left');
         $this->db->join('ci_setores_empresa SE', 'A.id_setor_empresa = SE.id', 'left');
+        $this->db->join('ci_etiqueta_cliente EC', 'EC.id_cliente = C.id', 'left');
+        $this->db->join('ci_etiquetas E', 'E.id = EC.id_etiqueta', 'left');
         $this->db->where('A.data_coleta >=', $dataInicioFormatada);
         $this->db->where('A.data_coleta <=', $dataFimFormatada);
         $this->db->where('A.status', 0);
         $this->db->where('A.id_empresa', $this->session->userdata('id_empresa'));
+
         // Adiciona a cláusula do setor apenas se $setor não for null
         if ($setorEmpresa !== 'todos' && $setorEmpresa !== null) {
             $this->db->where('A.id_setor_empresa', $setorEmpresa);
@@ -45,6 +50,11 @@ class Agendamentos_model extends CI_Model
         // Adiciona a cláusula de cidade apenas se $cidade não for null
         if ($cidade !== 'todas' && $cidade !== null) {
             $this->db->where('C.cidade', $cidade);
+        }
+
+        // Adiciona a cláusula de cidade apenas se $cidade não for null
+        if ($etiqueta !== 'todas' && $etiqueta !== null) {
+            $this->db->where('EC.id_etiqueta', $etiqueta);
         }
 
         $this->db->group_by('A.id_cliente, A.data_coleta');
