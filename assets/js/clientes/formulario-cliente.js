@@ -2,7 +2,7 @@ var baseUrl = $('.base-url').val();
 
 const verificaCampos = () => {
 
-    var permissao = true;
+    let permissao = false;
 
     let dadosEmpresa = {};
     $('#form-empresa .campo-empresa').each(function () {
@@ -19,12 +19,13 @@ const verificaCampos = () => {
         dadosResponsavel[$(this).attr('name')] = $(this).val();
     });
 
-    let camposObrigatorios = [
-        // form empresa
+    let camposObrigatoriosEmpresa = [
         'nome',
         'telefone',
-        'razao_social',
-        // form endereco
+        'razao_social'
+    ];
+
+    let camposObrigatoriosEndereco = [
         'rua',
         'numero',
         'bairro',
@@ -32,22 +33,41 @@ const verificaCampos = () => {
         'estado'
     ];
 
-    let camposVazios = [];
+    let camposVaziosEmpresa = [];
+    let camposVaziosEndereco = [];
 
-    $.each(camposObrigatorios, function (index, campo) {
-        if (dadosEndereco[campo] == "" || dadosEmpresa[campo] == "") {
-            camposVazios.push(campo);
-
+    $.each(camposObrigatoriosEmpresa, function (index, campo) {
+        if (dadosEmpresa[campo] === "") {
+            camposVaziosEmpresa.push(campo);
             $(`input[name="${campo}"]`).addClass('invalido');
+        } else {
+            $(`input[name="${campo}"]`).removeClass('invalido');
         }
     });
 
+    $.each(camposObrigatoriosEndereco, function (index, campo) {
+        if (dadosEndereco[campo] === "") {
+            camposVaziosEndereco.push(campo);
+            $(`input[name="${campo}"]`).addClass('invalido');
+        } else {
+            $(`input[name="${campo}"]`).removeClass('invalido');
+        }
+    });
+
+    // Verifica qual formulário tem campos vazios e navega para ele
+    if (camposVaziosEmpresa.length > 0) {
+        $('.btn-etapas[href="#bootstrap-wizard-tab1"]').tab('show');
+    } else if (camposVaziosEndereco.length > 0) {
+        $('.btn-etapas[href="#bootstrap-wizard-tab2"]').tab('show');
+    } else {
+        permissao = true;
+    }
 
     if (permissao) {
         cadastraCliente(dadosEmpresa, dadosEndereco, dadosResponsavel);
     }
-
 }
+
 
 const cadastraCliente = (dadosEmpresa, dadosEndereco, dadosResponsavel) => {
 
@@ -204,7 +224,7 @@ const deletaCliente = (id) => {
                 `,
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6', 
+                confirmButtonColor: '#3085d6',
                 confirmButtonText: 'Sim, deletar',
                 cancelButtonText: 'Cancelar',
                 cancelButtonColor: '#dc3741',
