@@ -648,3 +648,11 @@ function scriptsFinTiposCustosFooter()
 
     );
 }
+function scriptsTipoOrigemCadastroFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/tipo-origem-cadastro/formulario-tipo-origem-cadastro.js') . '"></script>'
+
+    );
+}
