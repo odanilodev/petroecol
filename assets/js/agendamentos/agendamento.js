@@ -1035,103 +1035,79 @@ $("#select-cliente-setor").change(function () {
 
 let checkElementsAgendamento = [];
 
+// Evento para checkbox de "check-all"
 $(document).on('change', '.check-all-element-agendamentos', function () {
-
   if ($(this).prop('checked')) {
-
     $('.check-element-agendamentos').prop('checked', true);
 
     $('.check-element-agendamentos').each(function () {
-
-      checkElementsAgendamento.push($(this).val());
-
+      if (!checkElementsAgendamento.includes($(this).val())) {
+        checkElementsAgendamento.push($(this).val());
+      }
     });
 
     if ($('.check-element-agendamentos:checked').length >= 1) {
       $('.btn-gerar-romaneio-atrasado').removeClass('d-none');
     }
-
   } else {
-
     $('.check-element-agendamentos').prop('checked', false);
-
     checkElementsAgendamento = [];
-
     $('.btn-gerar-romaneio-atrasado').addClass('d-none');
-
   }
 
 });
 
-
+// Evento para checkbox individual
 $(document).on('change', '.check-element-agendamentos', function () {
-
   let valor = $(this).val();
 
   if ($(this).prop('checked')) {
-
     if (!checkElementsAgendamento.includes(valor)) {
       checkElementsAgendamento.push(valor);
-
     }
   } else {
-    // remove o elemento clicado e recria o array sem o elemento que foi removido
     checkElementsAgendamento = checkElementsAgendamento.filter(item => item !== valor);
   }
 
-  // Verifica se todos os checkboxes individuais estão marcados
-  verificaTodosCheckbox(this);
-
+  verificaTodosCheckbox();
 
   if ($('.check-element-agendamentos:checked').length >= 1) {
     $('.btn-gerar-romaneio-atrasado').removeClass('d-none');
   } else {
     $('.btn-gerar-romaneio-atrasado').addClass('d-none');
-
   }
-
 });
 
-// verifica os checkbox quando carrega a pagina
+// Verifica todos os checkboxes ao carregar a página
 $(window).on('load', function () {
   verificaTodosCheckbox();
 });
 
-// verifica se todos estão checked
-function verificaTodosCheckbox(btnClicado) {
-
-  // se todos estiverem checked, deixa o checkbox que seleciona todos checked também
+// Verifica se todos os checkboxes individuais estão marcados
+function verificaTodosCheckbox() {
   if ($('.check-element-agendamentos:checked').length == $('.check-element-agendamentos').length && $('.check-element-agendamentos').length > 1) {
-
     $('.check-all-element-agendamentos').prop('checked', true);
     $('.btn-gerar-romaneio-atrasado').removeClass('d-none');
-
   } else {
-
     $('.check-all-element-agendamentos').prop('checked', false);
-
   }
 }
 
-
-// salva todos ids selected pra fazer a busca no modal de romaneio e manter os clientes selecionados
+// Função para capturar todos os ids selecionados
 function todosIdsSelecionados(ids) {
   $('.ids-selecionados').val(ids);
 }
 
 const agruparIdsCheckboxAgendamentos = () => {
-
-  let idsArray = [];
-
-  $('.check-element-agendamentos:checked').each(function () {
-
-    idsArray.push($(this).val())
-
-  });
+  let idsArray = checkElementsAgendamento;
 
   return idsArray;
-
 }
+
+// Evento para desmarcar checkbox de "check-all" ao mudar de página
+$(document).on('click', '[data-list-pagination="next"], [data-list-pagination="prev"], .page', function () {
+  $('.check-all-element-agendamentos').prop('checked', false);
+});
 
 
 function gerarRomaneioAtrasados() {
