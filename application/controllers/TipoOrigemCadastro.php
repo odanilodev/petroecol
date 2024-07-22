@@ -164,4 +164,23 @@ class TipoOrigemCadastro extends CI_Controller
 
     return $this->output->set_content_type('application/json')->set_output(json_encode($response));
   }
+
+  public function recebeTodosTiposOrigemCadastro()
+  {
+    $this->load->model('TipoOrigemCadastro_model');
+    $todosTipos = $this->TipoOrigemCadastro_model->recebeTiposOrigemCadastros();
+
+    if ($todosTipos) {
+
+      $response = array(
+        'tipos' => $todosTipos,
+        'success' => true
+      );
+    } else {
+      $response = array(
+        'success' => false
+      );
+    }
+    return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+  }
 }

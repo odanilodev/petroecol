@@ -116,8 +116,98 @@ $(function () {
     }
 })
 
+function carregarOpcoesOrigemCadastro(tipo, url, label, placeholder) {
 
-$(document).ready(function () {
+    $('.label-pesquisa').html(label);
+
+    $.ajax({
+        type: "post",
+        url: url,
+        beforeSend: function () {
+            $('.select-origem-cadastro').html(`<option selected disabled value="">${placeholder}</option>`);
+            $('.select-origem-cadastro').prop('disabled', true);
+        },
+        success: function (data) {
+
+            $('.select-origem-cadastro').prop('disabled', false);
+
+            let idOrigemCadastro = $('.select-origem-cadastro-pesquisa').data('id-origem-cadastro');
+
+            let options = `<option selected disabled value="">${placeholder}</option>`;
+
+            if (tipo === 'funcionarios') {
+                for (let i = 0; i < data.funcionarios.length; i++) {
+                    options += `<option ${idOrigemCadastro == data.funcionarios[i].IDFUNCIONARIO ? 'selected' : ''} value="${data.funcionarios[i].IDFUNCIONARIO}">${data.funcionarios[i].nome}</option>`;
+                }
+            } else if (tipo === 'tipos') {
+                for (let i = 0; i < data.tipos.length; i++) {
+                    options += `<option ${idOrigemCadastro == data.tipos[i].id ? 'selected' : ''} value="${data.tipos[i].id}">${data.tipos[i].nome}</option>`;
+                }
+            }
+
+            $('.select-origem-cadastro').html(options);
+            $('.select-origem-cadastro-pesquisa').data('id-origem-cadastro', '');
+
+
+        }
+    });
+}
+
+
+$(document).on('change', '.select-origem-cadastro-pesquisa', function () {
+
+    let pesquisa = $(this).val();
+
+    if (pesquisa == 1) {
+        $('.div-pesquisa').removeClass('d-none');
+        carregarOpcoesOrigemCadastro(
+            'funcionarios',
+            `${baseUrl}funcionarios/recebeTodosFuncionarios`,
+            'Funcionários',
+            'Selecione o Funcionário'
+        );
+    } else if (pesquisa == 2) {
+        $('.div-pesquisa').removeClass('d-none');
+        carregarOpcoesOrigemCadastro(
+            'tipos',
+            `${baseUrl}tipoOrigemCadastro/recebeTodosTiposOrigemCadastro`,
+            'Outro Meios',
+            'Selecione o Meio'
+        );
+    } else {
+        $('.select-origem-cadastro').val('').trigger('change')
+        $('.div-pesquisa').addClass('d-none');
+    }
+});
+
+
+
+$(function () {
+
+    let valorSelectPesquisa = $('.select-origem-cadastro-pesquisa').val();
+
+    if (valorSelectPesquisa == 1) {
+        $('.div-pesquisa').removeClass('d-none');
+
+        carregarOpcoesOrigemCadastro(
+            'funcionarios',
+            `${baseUrl}funcionarios/recebeTodosFuncionarios`,
+            'Funcionários',
+            'Selecione o Funcionário',
+            $('.select-origem-cadastro').data('id-origem-cadastro')
+        );
+    } else if (valorSelectPesquisa == 2) {
+        $('.div-pesquisa').removeClass('d-none');
+
+        carregarOpcoesOrigemCadastro(
+            'tipos',
+            `${baseUrl}tipoOrigemCadastro/recebeTodosTiposOrigemCadastro`,
+            'Outro Meios',
+            'Selecione o Meio',
+            $('.select-origem-cadastro').data('id-origem-cadastro')
+        );
+    }
+
     $('.input-cep').on('blur', function () {
         var cep = $(this).val().replace(/\D/g, '');
 
@@ -146,7 +236,7 @@ $(document).ready(function () {
 
 
 
-$(document).ready(function () {
+$(function () {
 
     if ($('.valida-email').val() != "" && !validaEmail($('.valida-email').val())) {
 

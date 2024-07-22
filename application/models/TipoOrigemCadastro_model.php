@@ -17,7 +17,7 @@ class TipoOrigemCadastro_model extends CI_Model
    */
   public function recebeTiposOrigemCadastros(): array
   {
-    $this->db->order_by('nome', 'ASC');
+    $this->db->order_by('nome');
     $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
     $query = $this->db->get('ci_tipo_origem_cadastro');
 

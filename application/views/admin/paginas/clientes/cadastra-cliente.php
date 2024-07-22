@@ -7,7 +7,7 @@
         <div class="card-header p-4 border-bottom border-300 bg-soft">
           <div class="row g-3 justify-content-between align-items-center">
             <div class="col-12 col-md">
-              <h4 class="text-900 mb-0" data-anchor="data-anchor" id="with-validation"><?=$this->uri->segment(3) ? 'Editar Cliente' : 'Cadastrar Cliente';?><a class="anchorjs-link " aria-label="Anchor" style="padding-left: 0.375em;"></a></h4>
+              <h4 class="text-900 mb-0" data-anchor="data-anchor" id="with-validation"><?= $this->uri->segment(3) ? 'Editar Cliente' : 'Cadastrar Cliente'; ?><a class="anchorjs-link " aria-label="Anchor" style="padding-left: 0.375em;"></a></h4>
             </div>
           </div>
         </div>
@@ -78,14 +78,14 @@
                   <div class="tab-pane active" role="tabpanel" aria-labelledby="bootstrap-wizard-tab1" id="bootstrap-wizard-tab1">
 
                     <input type="hidden" value="<?= isset($cliente['id']) ? $cliente['id'] : "" ?>" class="input-id">
-                    
+
                     <form id="form-empresa" class="needs-validation" novalidate="novalidate" data-wizard-form="1">
 
                       <div class="row">
 
                         <div class="mb-2 mt-2 col-md-6">
                           <label class="form-label text-900">Nome da empresa *</label>
-                          <input required class="form-control campo-empresa" type="text" name="nome" value="<?= $cliente['nome'] ?? ''; ?>" placeholder="Insira o nome da empresa"/>
+                          <input required class="form-control campo-empresa" type="text" name="nome" value="<?= $cliente['nome'] ?? ''; ?>" placeholder="Insira o nome da empresa" />
                           <div class="invalid-feedback">Preencha este campo</div>
                         </div>
 
@@ -133,20 +133,28 @@
                           <input class="form-control campo-empresa" type="text" name="tipo_negocio" value="<?= $cliente['tipo_negocio'] ?? ''; ?>" placeholder="Tipo de empresa" />
                         </div>
 
-                        
+
                         <div class="mb-2 mt-5 col-md-3">
                           <div class="mb-2">
                             <label class="form-label text-900">Origem do cadastro</label>
-                            <select name="origem_cadastro" class="form-select campo-empresa select-origem-cadastro select2">
-                              <option value="" selected>Selecione a Origem</option>
-
-                              <?php foreach($origensCadastro as $origemCadastro) { ?>
-                                <option value="<?= $origemCadastro['id']?>" <?= (isset($cliente['origem_cadastro']) && $cliente['origem_cadastro'] == $origemCadastro['id']) ? 'selected' : ''; ?>><?= $origemCadastro['nome'];?></option>
-                              <?php }?>
-
+                            <select name="origem_cadastro" class="form-select campo-empresa select-origem-cadastro-pesquisa select2" data-id-origem-cadastro="<?= $cliente['id_origem_cadastro'] ?? '' ?>">
+                              <option value="" selected disabled>Selecione a Origem</option>
+                              <option value="0">Nenhuma</option>
+                              <option value="1" <?= isset($cliente['origem_cadastro']) && $cliente['origem_cadastro'] == 1 ? 'selected' : '' ?>>Funcionários</option>
+                              <option value="2" <?= isset($cliente['origem_cadastro']) && $cliente['origem_cadastro'] == 2 ? 'selected' : '' ?>>Outros Meios</option>
                             </select>
                           </div>
                         </div>
+
+                        <div class="mb-2 mt-5 col-md-3 div-pesquisa d-none">
+                          <div class="mb-2">
+                            <label class="form-label text-900 label-pesquisa"></label>
+                            <select disabled name="id_origem_cadastro" class="form-select campo-empresa select-origem-cadastro select2">
+                              <!-- js -->
+                            </select>
+                          </div>
+                        </div>
+
 
                         <div class="mb-2 col-md-12 mt-5">
                           <label class="form-label">Observação</label>
@@ -217,17 +225,17 @@
 
                         <div class="col-md-4">
                           <label class="form-label" for="bootstrap-wizard-card-name">Nome</label>
-                          <input class="form-control" placeholder="Nome do responsável" name="nome_responsavel" value="<?= $cliente['nome_responsavel'] ?? ''; ?>" type="text"/>
+                          <input class="form-control" placeholder="Nome do responsável" name="nome_responsavel" value="<?= $cliente['nome_responsavel'] ?? ''; ?>" type="text" />
                         </div>
 
                         <div class="col-md-4">
                           <label class="form-label" for="bootstrap-wizard-card-name">Telefone do Responsável</label>
-                          <input class="form-control mascara-tel" placeholder="Telefone do responsável" name="telefone_responsavel" value="<?= $cliente['telefone_responsavel'] ?? ''; ?>" type="text"/>
+                          <input class="form-control mascara-tel" placeholder="Telefone do responsável" name="telefone_responsavel" value="<?= $cliente['telefone_responsavel'] ?? ''; ?>" type="text" />
                         </div>
 
                         <div class="col-md-4">
                           <label class="form-label" for="bootstrap-wizard-card-name">Função do Responsável</label>
-                          <input class="form-control" placeholder="Função do responsável" name="funcao_responsavel" value="<?= $cliente['funcao_responsavel'] ?? ''; ?>" type="text"/>
+                          <input class="form-control" placeholder="Função do responsável" name="funcao_responsavel" value="<?= $cliente['funcao_responsavel'] ?? ''; ?>" type="text" />
                         </div>
 
                       </div>
@@ -252,7 +260,7 @@
                     </button>
                   </div>
                 </div>
-
+                
                 <div class="spinner-border text-primary load-form d-none" role="status"></div>
 
               </div>
