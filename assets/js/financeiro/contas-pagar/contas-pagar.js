@@ -688,6 +688,11 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
             setoresEmpresas.push($(this).data('setor'));
         });
 
+        let idSetorEmpresa = [];
+        $('.check-aberto:checked').each(function () {
+            idSetorEmpresa.push($(this).data('id-setor-empresa'));
+        });
+
 
         for (let i = 0; i < quantidadeContasPagar; i++) {
 
@@ -696,6 +701,7 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
                 $(this).val(valores[i]);
                 $(this).addClass('campo-form-' + ids[i]);
                 $(this).addClass('dado-financeiro-' + idsDadoFinanceiro[i]);
+                $(this).addClass('setor-empresa-' + idSetorEmpresa[i]);
             });
 
             let tituloCampos = $('<h5 class="my-3">').text(`${nomesEmpresas[i]} (${setoresEmpresas[i]})`);
@@ -790,9 +796,11 @@ function realizarVariosPagamentos() {
     $('.campos-pagamentos-novos .campos').each(function () {
         let idInput = $(this).attr('class').match(/campo-form-(\d+)/);
         let idsDadoFinanceiro = $(this).attr('class').match(/dado-financeiro-(\d+)/);
+        let idSetorEmpresa = $(this).attr('class').match(/setor-empresa-(\d+)/);
         if (idInput) {
             idInput = idInput[1];
             idsDadoFinanceiro = idsDadoFinanceiro[1];
+            idSetorEmpresa = idSetorEmpresa[1];
             let observacao = $('.obs-pagamento-varios').val()
 
             let operacaoExistente = operacoes.find(op => op.idConta === idInput);
@@ -804,6 +812,7 @@ function realizarVariosPagamentos() {
                     contasBancarias: [],
                     valores: [],
                     dataPagamento: dataPagamento,
+                    id_setor_empresa: idSetorEmpresa,
                     observacao: observacao
                 };
                 operacoes.push(novaOperacao);
@@ -850,7 +859,7 @@ const visualizarConta = (idConta) => {
             idConta: idConta
         }, beforeSend: function () {
             $('.html-clean').html('');
-        }, success: function (data) {
+        }, success: function (data) {   
 
             let dataEmissao = data['conta'].data_emissao ? formatarDatas(data['conta'].data_emissao) : "";
             let dataVencimento = formatarDatas(data['conta'].data_vencimento);
