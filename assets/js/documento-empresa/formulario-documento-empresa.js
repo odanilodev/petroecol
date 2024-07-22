@@ -1,7 +1,7 @@
 var baseUrl = $(".base-url").val();
 
-const cadastraNovoDocumento = () => {
 
+const cadastraNovoDocumento = () => {
   let permissao = verificaCamposObrigatorios('input-obrigatorio');
 
   // Captura dos valores dos campos
@@ -29,6 +29,18 @@ const cadastraNovoDocumento = () => {
     return; // Cancela o envio AJAX
   }
 
+  // Verifica o tamanho do arquivo
+  if (documentoEmpresa.size > 5120 * 1024) { // 5 MB em bytes
+    Swal.fire({
+      icon: 'error',
+      title: 'Arquivo muito grande',
+      text: 'O tamanho do arquivo excede o limite de 5 MB. Por favor, selecione um arquivo menor.',
+      confirmButtonText: 'OK'
+    });
+    $('#documentoEmpresa').val('');
+    return; // Cancela o envio AJAX
+  }
+
   // Preparação dos dados para envio via AJAX
   let formData = new FormData();
   formData.append('id', id);
@@ -38,7 +50,6 @@ const cadastraNovoDocumento = () => {
 
   // Envio do formulário via AJAX
   if (permissao) {
-
     $.ajax({
       type: "POST",
       url: `${baseUrl}documentoEmpresa/cadastraDocumentoEmpresa`,
@@ -69,7 +80,6 @@ const cadastraNovoDocumento = () => {
     });
   }
 };
-
 
 const deletaDocumentoEmpresa = (id) => {
 
@@ -111,19 +121,23 @@ function visualizarDocumento(id) {
     data: { id: id },
     beforeSend: function () {
       $('#imagemDocumento').addClass('d-none');
+      $('#downloadDocumento').addClass('d-none');
+      $('#avisoDocumento').addClass('d-none');
     },
     success: function (response) {
       if (response) {
         let imagemUrl = `${baseUrl}uploads/2/documentos-empresa/${response.documento}`;
-        $('#imagemDocumento').attr('src', imagemUrl);
+        let extensao = response.documento.split('.').pop().toLowerCase();
 
-        $('#imagemDocumento').removeClass('d-none');
-
-
-        $('#downloadDocumento').attr('href', imagemUrl).attr('download', response.documento);
+        if (['jpg', 'jpeg', 'png'].includes(extensao)) {
+          $('#imagemDocumento').attr('src', imagemUrl).removeClass('d-none');
+          $('#downloadDocumento').attr('href', imagemUrl).attr('download', response.documento).removeClass('d-none');
+        } else {
+          $('#avisoDocumento').text('A visualização prévia só está disponível para os formatos JPG, JPEG e PNG.').removeClass('d-none');
+          $('#downloadDocumento').attr('href', imagemUrl).attr('download', response.documento).removeClass('d-none');
+        }
 
         $('#modalVisualizarDocumentoLabel').text(`Visualizando Documento (${response.nome})`);
-
         $('#modalVisualizarDocumento').modal('show');
       } else {
         avisoRetorno('Erro ao carregar o documento. Por favor, tente novamente.');
