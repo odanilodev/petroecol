@@ -91,6 +91,7 @@ class FinFluxoCaixa extends CI_Controller
         $dados['tipoMovimentacao'] = $tipoMovimentacao;
 
         $dados['movimentacoes'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao);
+
         $this->load->view('admin/includes/painel/cabecalho', $dados);
         $this->load->view('admin/paginas/financeiro/fluxo-caixa');
         $this->load->view('admin/includes/painel/rodape');
