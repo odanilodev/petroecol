@@ -276,17 +276,17 @@ $(document).on('click', '.btn-salva-verba-responsavel', function () {
                 data: {
                     dadosFluxo: dadosFormulario,
                     responsavel: responsavel
-    
+
                 }, beforeSend: function () {
-    
+
                     $('.load-form-pagamento').removeClass('d-none');
                     $('.btn-salva-verba-responsavel').addClass('d-none');
-    
+
                 }, success: function (data) {
-    
+
                     $('.load-form-pagamento').addClass('d-none');
                     $('.btn-salva-verba-responsavel').removeClass('d-none');
-    
+
                     gerarRomaneio();
                 }
             })
@@ -1473,7 +1473,7 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
 
                                     ${romaneio.status == 1 ? `
                                         <a class="dropdown-item" href="${baseUrl}romaneios/detalhes/${romaneio.codigo}" title="Visualizar Romaneio">
-                                            <span class="ms-1" data-feather="eye"></span> Visualizar
+                                            <span class="ms-1 fas fa-eye"></span> Visualizar
                                         </a>
                                     ` : ''}
 
@@ -1488,6 +1488,13 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
                                             <span class="fas fa-trash ms-1"></span> Deletar
                                         </a>
                                     ` : ''}
+
+
+                                    <div class="dropdown-divider btn-realizar-pagamento-1"></div>
+
+                                    <a class="dropdown-item btn-prestar-contas" data-bs-toggle="modal" data-bs-target="#modalPrestarConta" href="#" title="Prestar Contas" data-funcionario="${romaneio.RESPONSAVEL}" data-codigo="${romaneio.codigo}" data-saldo="${romaneio.saldo}" data-id-funcionario="${romaneio.ID_RESPONSAVEL}" data-id-setor-empresa="${romaneio.id_setor_empresa}">
+                                        <span class="uil-file-check-alt ms-1"></span> Prestar Contas
+                                    </a>
 
                                 </div>
                             </div>
@@ -1534,4 +1541,57 @@ $(document).on('change', '.select-macros', function () {
 
         }
     })
+})
+
+
+$(document).on('change', '.select-grupo-recebidos', function () {
+
+    let grupo = $(this).val();
+
+    if (grupo == "clientes") {
+
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}finContasPagar/recebeTodosClientesAll`
+            , beforeSend: function () {
+                $('.select-recebido').attr('disabled', true);
+                $('.select-recebido').html('<option disabled>Carregando...</option>');
+            }, success: function (data) {
+                $('.select-recebido').attr('disabled', false);
+
+                let options = '<option disabled="disabled" value="">Selecione</option>';
+                for (let i = 0; i < data.clientes.length; i++) {
+                    options += `<option value="${data.clientes[i].id}">${data.clientes[i].nome}</option>`;
+                }
+                $('.select-recebido').html(options);
+
+                $('.select-recebido').val('').trigger('change');
+
+            }
+        })
+    } else {
+
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}finDadosFinanceiros/recebeDadosFinanceiros`,
+            data: {
+                grupo: grupo
+            },
+            beforeSend: function () {
+                $('.select-recebido').attr('disabled');
+                $('.select-recebido').html('<option value="">Carregando...</option>');
+            }, success: function (data) {
+
+                $('.select-recebido').attr('disabled', false);
+                $('.select-recebido').html('<option value="">Selecione</option>');
+
+                for (i = 0; i < data.dadosFinanceiro.length; i++) {
+
+                    $('.select-recebido').append(`<option value="${data.dadosFinanceiro[i].id}">${data.dadosFinanceiro[i].nome}</option>`);
+                }
+            }
+        })
+
+    }
+
 })

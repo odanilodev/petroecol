@@ -47,6 +47,25 @@ class Romaneios extends CI_Controller
 
 		$data['responsaveis'] = $this->Funcionarios_model->recebeResponsavelAgendamento();
 
+
+		$this->load->model('FinTiposCustos_model');
+		$data['tiposCustos'] = $this->FinTiposCustos_model->recebeTiposCustos();
+
+		$this->load->model('FinMacro_model');
+		$data['macros'] = $this->FinMacro_model->recebeMacros();
+
+		$this->load->model('FinFormaTransacao_model');
+		$this->load->model('FinContaBancaria_model');
+
+		$data['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
+		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
+
+		$this->load->model('FinDadosFinanceiros_model');
+		$data['dadosFinanceiro'] = $this->FinDadosFinanceiros_model->recebeDadosFinanceiros();
+
+		$this->load->model('FinGrupos_model');
+		$data['grupos'] = $this->FinGrupos_model->recebeGrupos();
+
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/romaneio/romaneios');
 		$this->load->view('admin/includes/painel/rodape');
