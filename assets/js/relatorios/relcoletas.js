@@ -23,7 +23,7 @@ function recebeClientesSetor(idSetor) {
 
             for (let i = 0; i < data.gruposCliente.length; i++) {
 
-                $('#select-grupos').append(`<option value="${data.gruposCliente[i]['id_grupo']}">${data.gruposCliente[i]['nome']}</option>`);
+                $('#select-grupos').append(`<option value="${data.gruposCliente[i]['id']}">${data.gruposCliente[i]['nome']}</option>`);
 
             }
 
