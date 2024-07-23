@@ -110,7 +110,7 @@
     </div>
 
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div id="members" data-list='{"valueNames":["td_data","td_recebido","td_transacao","td_tipo","td_valor","td_observacao"],"page":10,"pagination":true}'>
+        <div id="members" data-list='{"valueNames":["td_data","td_recebido","td_transacao","td_tipo","td_valor","td_setor","td_micro","td_observacao"],"page":10,"pagination":true}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3>Fluxo de caixa</h3>
@@ -150,6 +150,8 @@
                             <th class="sort align-middle text-center" scope="col" data-sort="td_transacao">Forma de Transação</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_tipo">Tipo</th>
                             <th class="sort ps-5 align-middle text-center" scope="col" data-sort="td_valor">Valor</th>
+                            <th class="sort ps-5 align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
+                            <th class="sort ps-5 align-middle text-center" scope="col" data-sort="td_micro">Micro</th>
                             <th class="sort ps-5 align-middle text-center" scope="col" data-sort="td_observacao">Observação</th>
                             <th class="sort text-end pe-0 align-middle" scope="col"></th>
                         </tr>
@@ -217,6 +219,18 @@
                                     <div class="d-none td_valor">
                                         <input type="hidden" value="<?= $movimentacao['valor']; ?>">
                                     </div>
+                                </td>
+
+                                <td class="align-middle text-center td_setor">
+                                    <h6 class="text-900 mb-0">
+                                        <?= $movimentacao['NOME_SETOR'] ?>
+                                    </h6>
+                                </td>
+
+                                <td class="align-middle text-center td_micro">
+                                    <h6 class="text-900 mb-0">
+                                        <?= $movimentacao['NOME_MICRO'] ?>
+                                    </h6>
                                 </td>
 
                                 <td class="align-middle td_observacao">
@@ -345,6 +359,25 @@
                                                         <td class="py-2">
 
                                                             <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break forma-pagamento html-clean">
+
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td class="py-2">
+                                                            <div class="d-inline-flex align-items-center">
+                                                                <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
+                                                                    <span class="text-info-600 dark__text-info-300 fas fa-money-check-alt" style="width:16px; height:16px"></span>
+                                                                </div>
+                                                                <p class="fw-bold mb-0">Setor</p>
+                                                            </div>
+                                                        </td>
+                                                        <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                                                        <td class="py-2">
+
+                                                            <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break setor-empresa html-clean">
 
                                                             </div>
 

@@ -1,5 +1,5 @@
 <div class="content">
-  <div id="members" data-list='{"valueNames":["nome"],["validade"],"page":10,"pagination":true}'>
+  <div id="members" data-list='{"valueNames":["nome","validade"],"page":10,"pagination":true}'>
     <div class="row align-items-center justify-content-between g-3 mb-4">
 
       <div class="col-auto">
@@ -22,19 +22,14 @@
     </div>
     <div class="px-4 px-lg-6 mb-9 bg-white border-y border-300 mt-2 position-relative top-1">
       <div class="table-responsive scrollbar ms-n1 ps-1">
-        <table class="table table-sm fs--1 mb-0">
+        <table class="table table-sm fs--1 mb-0" style="padding-left:0;">
           <thead>
             <tr>
-              <th class="white-space-nowrap fs--1 align-middle ps-0">
-                <!-- Check para todos -->
-                <div class="form-check mb-0 fs-0">
-                  <input class="form-check-input check-all-element cursor-pointer" type="checkbox" />
-                </div>
-              </th>
-
               <th class="sort align-middle pe-3 text-center" scope="col" data-sort="nome">Nome</th>
               <th class="sort align-middle pe-3 text-center" scope="col" data-sort="validade">Validade</th>
-              <th class="sort align-middle pe-3 text-center">Ações</th>
+              <th class="sort align-middle p-0 text-center" scope="col">Visualizar</th>
+              <th class="sort align-middle p-0 text-center" scope="col">Download</th>
+              <th class="sort align-middle pe-3 text-center" scope="col">Ações</th>
             </tr>
           </thead>
 
@@ -43,30 +38,33 @@
             <?php foreach ($documentos as $documento) { ?>
               <tr class="hover-actions-trigger btn-reveal-trigger position-static">
 
-                <!-- check para cada um -->
-                <td class="fs--1 align-middle ps-0 py-3">
-                  <div class="form-check mb-0 fs-0">
-                    <input class="form-check-input check-element cursor-pointer text-center" type="checkbox" value="<?= $documento['id'] ?>" />
-                  </div>
-                </td>
-
                 <td class="text-center nome align-middle white-space-nowrap">
-                  <?= $documento['nome'] ?>
+                  <h6><?= $documento['nome'] ?></h6>
                 </td>
 
                 <td class="text-center validade align-middle white-space-nowrap">
-                  <?= date('d/m/Y', strtotime($documento['validade'])) ?>
+                  <h6><?= date('d/m/Y', strtotime($documento['validade'])) ?></h6>
                 </td>
 
-                <td class="text-center align-middle white-space-nowrap text-end pe-0">
+                <td class="text-center align-middle white-space-nowrap">
+                  <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn" onclick="visualizarDocumento(<?= $documento['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalVisualizarDocumento">
+                    <span class="fas fa-eye"></span>
+                  </button>
+                </td>
+
+                <td class="text-center align-middle white-space-nowrap">
+                  <button class="btn btn-sm btn-phoenix-success bg-white hover-bg-100 action-btn" onclick="downloadDocumento(<?= $documento['id'] ?>)">
+                    <span class="fas fa-download"></span>
+                  </button>
+                </td>
+
+
+                <td class="align-middle white-space-nowrap text-end pe-0 text-center ">
                   <div class="font-sans-serif btn-reveal-trigger position-static">
                     <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
                       <span class="fas fa-ellipsis-h fs--2"></span>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-end py-2">
-                      <a class="dropdown-item" href="#" onclick="visualizarDocumento(<?= $documento['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalVisualizarDocumento">
-                        <span class="fas fa-eye"></span> Visualizar
-                      </a>
+                    <div class="dropdown-menu dropdown-menu-end">
                       <a class="dropdown-item" href="<?= base_url('documentoEmpresa/formulario/' . $documento['id']) ?>">
                         <span class="fas fa-pencil"></span> Editar
                       </a>
@@ -94,6 +92,23 @@
           <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
           <ul class="mb-0 pagination"></ul>
           <button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Visualizar Documento -->
+  <div class="modal fade" id="modalVisualizarDocumento" tabindex="-1" aria-labelledby="modalVisualizarDocumentoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalVisualizarDocumentoLabel">Visualizar Documento</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex flex-column align-items-center">
+          <img id="imagemDocumento" src="" class="img-fluid mb-3 d-none" alt="Imagem do Documento" style="width: 100%; height: 700px; object-fit:contain; border-radius: 1em;">
+          <div id="avisoDocumento" class="border border-500 p-5 d-none rounded-2" role="alert"></div>
+          <a id="downloadDocumento" href="#" class="btn btn-primary mt-3 d-none"><span class="fas fa-download me-2"></span>Download</a>
         </div>
       </div>
     </div>

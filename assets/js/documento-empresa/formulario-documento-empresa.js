@@ -1,15 +1,87 @@
 var baseUrl = $(".base-url").val();
 
 
-const deletaDocumentoEmpresa = (id) => {
+const cadastraNovoDocumento = () => {
+  let permissao = verificaCamposObrigatorios('input-obrigatorio');
 
-  let idsAgrupados = agruparIdsCheckbox();
+  // Captura dos valores dos campos
+  let id = $('.input-id').val();
+  let nome = $('.input-nome-documento').val();
+  let dataVencimento = $('.input-data-vencimento').val();
+  let documentoEmpresa = $('#documentoEmpresa')[0].files[0];
 
-  if (idsAgrupados.length >= 2) {
-    var ids = idsAgrupados;
-  } else {
-    var ids = [id];
+  // Validação da data de vencimento
+  let partesData = dataVencimento.split('/');
+  let dataSelecionada = new Date(partesData[2], partesData[1] - 1, partesData[0]);
+  let dataAtual = new Date(); // dataAtual contém a hora atual
+
+  // Ajusta dataAtual para representar o início do dia atual
+  dataAtual.setHours(0, 0, 0, 0);
+
+  if (dataSelecionada < dataAtual) {
+    // Exibe SweetAlert se a data for menor que a data atual
+    Swal.fire({
+      icon: 'error',
+      title: 'Data Inválida',
+      text: 'Por favor, selecione uma data igual ou posterior à data atual.',
+      confirmButtonText: 'OK'
+    });
+    return; // Cancela o envio AJAX
   }
+
+  // Verifica o tamanho do arquivo
+  if (documentoEmpresa.size > 5120 * 1024) { // 5 MB em bytes
+    Swal.fire({
+      icon: 'error',
+      title: 'Arquivo muito grande',
+      text: 'O tamanho do arquivo excede o limite de 5 MB. Por favor, selecione um arquivo menor.',
+      confirmButtonText: 'OK'
+    });
+    $('#documentoEmpresa').val('');
+    return; // Cancela o envio AJAX
+  }
+
+  // Preparação dos dados para envio via AJAX
+  let formData = new FormData();
+  formData.append('id', id);
+  formData.append('nome', nome);
+  formData.append('validade', `${partesData[2]}-${partesData[1]}-${partesData[0]}`);
+  formData.append('documento', documentoEmpresa);
+
+  // Envio do formulário via AJAX
+  if (permissao) {
+    $.ajax({
+      type: "POST",
+      url: `${baseUrl}documentoEmpresa/cadastraDocumentoEmpresa`,
+      data: formData,
+      processData: false,
+      contentType: false,
+      beforeSend: function () {
+        $('.load-form').removeClass('d-none');
+        $('.btn-envia').addClass('d-none');
+      },
+      success: function (data) {
+        $('.load-form').addClass('d-none');
+        $('.btn-envia').removeClass('d-none');
+
+        if (data.success) {
+          avisoRetorno('Sucesso!', `${data.message}`, 'success', `${baseUrl}documentoEmpresa`);
+        } else {
+          avisoRetorno('Algo deu errado!', `${data.message}`, 'error', '#');
+        }
+      },
+      error: function (xhr, status, error) {
+        $('.load-form').addClass('d-none');
+        $('.btn-envia').removeClass('d-none');
+        if (xhr.status === 403) {
+          avisoRetorno('Algo deu errado!', `Você não tem permissão para esta ação..`, 'error', '#');
+        }
+      }
+    });
+  }
+};
+
+const deletaDocumentoEmpresa = (id) => {
 
   Swal.fire({
     title: "Você tem certeza?",
@@ -26,7 +98,7 @@ const deletaDocumentoEmpresa = (id) => {
         type: "post",
         url: `${baseUrl}documentoEmpresa/deletaDocumentoEmpresa`,
         data: {
-          ids: ids,
+          id: id,
         },
         success: function () {
           avisoRetorno(
@@ -41,64 +113,69 @@ const deletaDocumentoEmpresa = (id) => {
   });
 };
 
-function novoDocumento() {
-  // Clone o último grupo de campos dentro de .campos-documento
-  let clone = $(".campos-documento .duplica-documento").clone();
 
-  // Limpe os valores dos campos clonados
-  clone.find("input").val("");
-  clone.find("label").html("");
+function visualizarDocumento(id) {
+  $.ajax({
+    type: "POST",
+    url: `${baseUrl}documentoEmpresa/recebeDocumentoEmpresa`,
+    data: { id: id },
+    beforeSend: function () {
+      $('#imagemDocumento').addClass('d-none');
+      $('#downloadDocumento').addClass('d-none');
+      $('#avisoDocumento').addClass('d-none');
+    },
+    success: function (response) {
+      if (response) {
+        let imagemUrl = `${baseUrl}uploads/2/documentos-empresa/${response.documento}`;
+        let extensao = response.documento.split('.').pop().toLowerCase();
 
-  // Remova classes específicas que não deseja manter
-  clone.removeClass('duplica-documento', 'campos-documento'); // Exemplo de remoção de uma classe específica
+        if (['jpg', 'jpeg', 'png'].includes(extensao)) {
+          $('#imagemDocumento').attr('src', imagemUrl).removeClass('d-none');
+          $('#downloadDocumento').attr('href', imagemUrl).attr('download', response.documento).removeClass('d-none');
+        } else {
+          $('#avisoDocumento').text('A visualização prévia só está disponível para os formatos JPG, JPEG e PNG.').removeClass('d-none');
+          $('#downloadDocumento').attr('href', imagemUrl).attr('download', response.documento).removeClass('d-none');
+        }
 
-  let btnRemove = `
-      <div class="col-md-1 mt-4 text-center">            
-          <button type="button" class="btn btn-sm btn-phoenix-danger deleta-documento">
-              <span class="fas fa-minus"></span>
-          </button>
-      </div>
-  `;
-
-  // Crie uma nova linha para envolver o clone e o botão de remoção
-  let novaLinha = $('<div class="row m-0 p-0"></div>');
-
-  // Adicione o clone e o botão de remoção à nova linha
-  novaLinha.append(clone);
-  novaLinha.append(btnRemove);
-
-  // Adicione o evento de remoção ao botão deleta-documento
-  novaLinha.find('.deleta-documento').on('click', function () {
-    novaLinha.remove();
+        $('#modalVisualizarDocumentoLabel').text(`Visualizando Documento (${response.nome})`);
+        $('#modalVisualizarDocumento').modal('show');
+      } else {
+        avisoRetorno('Erro ao carregar o documento. Por favor, tente novamente.');
+      }
+    },
+    error: function () {
+      avisoRetorno('Erro ao carregar o documento. Por favor, tente novamente.');
+    }
   });
+}
 
-  // Adicione a nova linha à seção de campos duplicados
-  $(".campos-duplicados").append(novaLinha);
+function downloadDocumento(id) {
+  $.ajax({
+    type: "POST",
+    url: `${baseUrl}documentoEmpresa/recebeDocumentoEmpresa`,
+    data: { id: id },
+    success: function (response) {
+      if (response && response.documento) {
+        let documentoUrl = `${baseUrl}uploads/2/documentos-empresa/${response.documento}`;
 
-  $('.datetimepicker').flatpickr({
-    dateFormat: "d/m/Y",
-    disableMobile: true
+        // Criar um link temporário e disparar o download
+        let link = document.createElement('a');
+        link.href = documentoUrl;
+        link.download = response.documento;
+        link.click();
+      } else {
+        avisoRetorno('Documento não encontrado ou erro ao obter o documento.');
+      }
+    },
+    error: function () {
+      avisoRetorno('Erro ao carregar o documento. Por favor, tente novamente.');
+    }
   });
 }
 
 
-const editarDicionarioGlobal = (id) => {
 
-  $('.campos-dicionario input').removeClass('invalido');
-  $('.campos-dicionario input').next().addClass('d-none');
 
-  $.ajax({
-    type: "POST",
-    url: `${baseUrl}dicionario/recebeIdDicionarioGlobal`,
-    data: {
-      id: id,
-    },
-    success: function (data) {
 
-      $(".input-chave").val(data["dicionario"].chave);
-      $(".input-valor-ptbr").val(data["dicionario"].valor_ptbr);
-      $(".input-valor-en").val(data["dicionario"].valor_en);
-      $(".input-id").val(id);
-    },
-  });
-};
+
+

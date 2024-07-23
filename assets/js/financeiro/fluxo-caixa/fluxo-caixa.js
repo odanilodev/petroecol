@@ -177,6 +177,7 @@ const visualizarFluxo = (id) => {
             $('.recebido').html(data['dadosFluxo'].RECEBIDO);
             $('.valor-fluxo').html(valorFluxo);
             $('.forma-pagamento').html(data['dadosFluxo'].FORMAPAGAMENTO);
+            $('.setor-empresa').html(data['dadosFluxo'].NOME_SETOR);
             $('.observacao').html(data['dadosFluxo'].observacao ?? '-');
 
         },
