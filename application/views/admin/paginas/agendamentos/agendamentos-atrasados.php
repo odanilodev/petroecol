@@ -13,7 +13,7 @@
 
               <div class="ms-3">
                 <h4 class="mb-0"><span class="total-clientes-atrasados"><?= count($agendamentosAtrasados); ?></span></h4>
-                <span class="text-800 fs--1 mb-0">Clientes atrasados <?= !$dataInicio ? 'nos últimos 30 dias' : 'no período do filtro aplicado' ?></span>
+                <span class="text-800 fs--1 mb-0">Agendamentos atrasados <?= !$dataInicio ? 'nos últimos 30 dias' : 'no período do filtro aplicado' ?></span>
               </div>
             </div>
           </div>
@@ -67,8 +67,8 @@
 
               <div class="col-12 col-md-2">
                 <div class="ms-3">
-                  <select class="form-control select-validation select-etiqueta select2" name="etiquetaFiltro" id="etiquetaFiltro">
-                    <option selected disabled value="">Etiqueta</option>
+                  <select multiple class="form-control select-validation select-etiqueta select2 cursor-pointer" name="etiquetaFiltro[]" id="etiquetaFiltro" data-placeholder="Selecione a(s) etiqueta(s)">
+                    <option selected disabled value=""></option>
                     <option <?= $etiquetaFiltro == 'todas' ? 'selected' : '' ?> value="todas">Todas</option>
                     <?php foreach ($etiquetas as $etiqueta) { ?>
                       <option <?= isset($etiquetaFiltro) && $etiquetaFiltro == $etiqueta['id'] ? 'selected' : '' ?> value="<?= $etiqueta['id'] ?>"><?= mb_convert_case($etiqueta['nome'], MB_CASE_TITLE, "UTF-8") ?>
