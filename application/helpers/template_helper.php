@@ -648,3 +648,13 @@ function scriptsFinTiposCustosFooter()
 
     );
 }
+// Pagina de Documentos Empresa
+
+function scriptsDocumentoEmpresaFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/documento-empresa/formulario-documento-empresa.js') . '"></script>'
+
+    );
+}

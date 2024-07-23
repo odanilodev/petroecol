@@ -48,7 +48,6 @@
                               <h5 class="mb-2"><span class="fa-solid fa-upload me-2"></span>Carregar foto de perfil</h5>
                             </label>
                           <?php } ?>
-
                         </div>
                       </div>
 
