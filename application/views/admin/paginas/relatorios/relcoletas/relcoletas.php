@@ -63,7 +63,7 @@
 
                                 <div class="col-md-4 mb-2">
                                     <label>Data Fim</label>
-                                    <input autocomplete="off" class="form-control datetimepicker input-data-fim" required name="data_fim" type="text" placeholder="Data Fim" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
+                                    <input autocomplete="off"' class="form-control datetimepicker input-data-fim" required name="data_fim" type="text" placeholder="Data Fim" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
                                     <span><input id="filtrar-geral" type="checkbox"/><small> Filtrar geral</small></span>
                                 </div>
 
