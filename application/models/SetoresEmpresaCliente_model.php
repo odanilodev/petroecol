@@ -161,7 +161,7 @@ class SetoresEmpresaCliente_model extends CI_Model
      // todos grupos de clientes que já tiveram coleta
     public function recebeGruposClienteSetor($id_setor_empresa)
     {
-        $this->db->select('SEC.id_setor_empresa, GC.id_grupo, G.nome');
+        $this->db->select('GC.id_grupo as id, SEC.id_setor_empresa, G.nome');
         $this->db->from('ci_setores_empresa_cliente SEC');
         $this->db->join('ci_grupo_cliente GC', 'SEC.id_cliente = GC.id_cliente', 'inner');
         $this->db->join('ci_coletas CO', 'CO.id_cliente = SEC.id_cliente', 'RIGHT');
