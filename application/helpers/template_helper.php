@@ -68,7 +68,6 @@ function scriptsPadraoFooter()
         '<script src="' . base_url('vendors/is/is.min.js') . '"></script>',
         '<script src="' . base_url('vendors/fontawesome/all.min.js') . '"></script>',
         '<script src="' . base_url('vendors/lodash/lodash.min.js') . '"></script>',
-        '<script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>',
         '<script src="' . base_url('vendors/feather-icons/feather.min.js') . '"></script>',
         '<script src="' . base_url('vendors/dayjs/dayjs.min.js') . '"></script>',
         '<script src="' . base_url('vendors/dropzone/dropzone.min.js') . '"></script>',
