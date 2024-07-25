@@ -20,7 +20,7 @@ class FinFluxo_model extends CI_Model
 
     public function recebeFluxoData($dataInicio, $dataFim, $tipoMovimentacao)
     {
-        $this->db->select('fin_fluxo.*, fin_contas_bancarias.apelido as apelido_conta_bancaria, fin_forma_transacao.nome as nome_forma_transacao, fin_dados_financeiros.nome as nome_dado_financeiro, C.nome as CLIENTE, M.nome as NOME_MICRO, SE.nome as NOME_SETOR');
+        $this->db->select('fin_fluxo.*, fin_contas_bancarias.apelido as apelido_conta_bancaria, fin_forma_transacao.nome as nome_forma_transacao, fin_dados_financeiros.nome as nome_dado_financeiro, ci_clientes.nome as CLIENTE, M.nome as NOME_MICRO, SE.nome as NOME_SETOR');
         $this->db->from('fin_fluxo');
         $this->db->join('fin_contas_bancarias', 'fin_fluxo.id_conta_bancaria = fin_contas_bancarias.id', 'left');
         $this->db->join('fin_micros M', 'M.id = fin_fluxo.id_micro', 'left');
