@@ -222,11 +222,16 @@ function atualizarSaldoFuncionario() {
 
     $('.input-valor').each(function () {
 
-        let tipoPagamento = $(this).closest('.campos-form').find('.select-tipo-pagamento').val();
+        let tipoPagamento = $(this).closest('.campos-pretacao').find('.select-tipo-pagamento option:selected').val();
+
         if (tipoPagamento == "ato") {
+
             let valorGasto = $(this).val().replace(/\./g, '').replace(',', '.');
+
             valorGasto = parseFloat(valorGasto);
+
             if (!isNaN(valorGasto)) {
+                
                 saldoAtual = saldoAtual - valorGasto;
             }
         }

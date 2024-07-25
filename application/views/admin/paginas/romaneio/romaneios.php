@@ -457,16 +457,17 @@
                             </div>
 
                         </div>
-                        <div class="modal-footer border-top-0" data-wizard-footer="data-wizard-footer">
-                            <input type="hidden" class="valor-troco-parcial">
-                            <input type="hidden" class="input-saldo-funcionario">
-                            <input type="hidden" class="codigo-romaneio">
-                            <input type="hidden" class="id-funcionario">
-                            <input type="hidden" class="id-setor-empresa">
-                            <button id="btn-voltar-etapa" class="btn btn-secondary d-none" type="button" data-wizard-prev-btn="data-wizard-prev-btn">Voltar</button>
-                            <button id="btn-proxima-etapa" class="btn btn-info btn-form btn-proxima-etapa" type="button">Próxima Etapa</button>
-                        </div>
                     </div>
+                </div>
+
+                <div class="modal-footer border-top-1" data-wizard-footer="data-wizard-footer">
+                    <input type="hidden" class="valor-troco-parcial">
+                    <input type="hidden" class="input-saldo-funcionario">
+                    <input type="hidden" class="codigo-romaneio">
+                    <input type="hidden" class="id-funcionario">
+                    <input type="hidden" class="id-setor-empresa">
+                    <button id="btn-voltar-etapa" class="btn btn-secondary d-none" type="button" data-wizard-prev-btn="data-wizard-prev-btn">Voltar</button>
+                    <button id="btn-proxima-etapa" class="btn btn-info btn-form btn-proxima-etapa" type="button">Próxima Etapa</button>
                 </div>
             </div>
         </div>
