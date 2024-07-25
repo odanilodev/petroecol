@@ -20,7 +20,7 @@ class FinFluxo_model extends CI_Model
 
     public function recebeFluxoData($dataInicio, $dataFim, $tipoMovimentacao)
     {
-        $this->db->select('fin_fluxo.*, fin_contas_bancarias.apelido as apelido_conta_bancaria, fin_forma_transacao.nome as nome_forma_transacao, fin_dados_financeiros.nome as nome_dado_financeiro, ci_clientes.nome as CLIENTE, M.nome as NOME_MICRO, SE.nome as NOME_SETOR');
+        $this->db->select('fin_fluxo.*, fin_contas_bancarias.apelido as apelido_conta_bancaria, fin_forma_transacao.nome as nome_forma_transacao, fin_dados_financeiros.nome as nome_dado_financeiro, C.nome as CLIENTE, M.nome as NOME_MICRO, SE.nome as NOME_SETOR, F.nome as FUNCIONARIO');
         $this->db->from('fin_fluxo');
         $this->db->join('fin_contas_bancarias', 'fin_fluxo.id_conta_bancaria = fin_contas_bancarias.id', 'left');
         $this->db->join('fin_micros M', 'M.id = fin_fluxo.id_micro', 'left');
@@ -28,9 +28,9 @@ class FinFluxo_model extends CI_Model
         $this->db->join('fin_forma_transacao', 'fin_fluxo.id_forma_transacao = fin_forma_transacao.id', 'left');
         $this->db->join('fin_dados_financeiros', 'fin_fluxo.id_dado_financeiro = fin_dados_financeiros.id', 'left');
 
-        $this->db->join('ci_funcionarios', 'fin_fluxo.id_funcionario = ci_funcionarios.id', 'left'); // recebido/pago (funcionario)
+        $this->db->join('ci_funcionarios F', 'fin_fluxo.id_funcionario = F.id', 'left'); // recebido/pago (funcionario)
 
-        $this->db->join('ci_clientes', 'fin_fluxo.id_cliente = ci_clientes.id', 'left'); // recebido/pago (cliente)
+        $this->db->join('ci_clientes C', 'fin_fluxo.id_cliente = C.id', 'left'); // recebido/pago (cliente)
 
         $this->db->where('fin_fluxo.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('fin_fluxo.data_movimentacao <=', $dataFim);

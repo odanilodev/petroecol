@@ -424,7 +424,7 @@
 
     <!-- Modal Incluir lançamento Caixa -->
     <div class="modal fade" tabindex="-1" id="modalEntradaFluxo">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Novo Lançamento</h5>
