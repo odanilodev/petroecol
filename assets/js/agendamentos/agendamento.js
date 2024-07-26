@@ -734,7 +734,8 @@ $(document).on('click', '.btn-gerar-romaneio-atrasado', function () {
 
   $('.select2').select2({
     dropdownParent: "#modalRomaneiosAtrasados",
-    theme: 'bootstrap-5' // Aplicar o tema Bootstrap 4
+    theme: 'bootstrap-5', // Aplicar o tema Bootstrap 4
+    placeholder: $(this).data('placeholder')
   });
 
 })

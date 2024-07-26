@@ -10,30 +10,20 @@ class Agendamentos_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    /**
-     * Recebe os agendamentos atrasados com base nas datas e setor especificados.
-     *
-     * @param string $dataInicioFormatada Data de início formatada (YYYY-MM-DD)
-     * @param string $dataFimFormatada Data de fim formatada (YYYY-MM-DD)
-     * @param string|null $setorEmpresa ID do setor da empresa ou 'todos' para todos os setores
-     * @param string|null $cidade ID da cidade do agendamento ou 'todas' para qualquer cidade
-     * @param string|null $etiqueta ID da etiqueta do agendamento ou 'todas' para qualquer etiqueta
-     * @return array Resultados da consulta como um array associativo
-     */
-    public function recebeAgendamentosAtrasados(string $dataInicioFormatada, string $dataFimFormatada, ?string $setorEmpresa, ?string $cidade, ?string $etiqueta): array
+    public function recebeAgendamentosAtrasados(string $dataInicioFormatada, string $dataFimFormatada, ?string $setorEmpresa, ?string $cidade, ?array $etiqueta): array
     {
         $this->db->select('
-            MAX(C.cidade) as cidade, 
-            MAX(C.telefone) as telefone, 
-            MAX(C.nome) as NOME_CLIENTE, 
-            MAX(SE.nome) as NOME_SETOR,
-            MAX(A.data_coleta) as data_coleta,
-            MAX(A.id_setor_empresa) as id_setor_empresa,
-            MAX(A.id_cliente) as id_cliente,
-            MAX(A.id) as ID_AGENDAMENTO,
-            MAX(EC.id_etiqueta) as ID_ETIQUETA,
-            MAX(E.nome) as NOME_ETIQUETA
-        ');
+        MAX(C.cidade) as cidade, 
+        MAX(C.telefone) as telefone, 
+        MAX(C.nome) as NOME_CLIENTE, 
+        MAX(SE.nome) as NOME_SETOR,
+        MAX(A.data_coleta) as data_coleta,
+        MAX(A.id_setor_empresa) as id_setor_empresa,
+        MAX(A.id_cliente) as id_cliente,
+        MAX(A.id) as ID_AGENDAMENTO,
+        MAX(EC.id_etiqueta) as ID_ETIQUETA,
+        MAX(E.nome) as NOME_ETIQUETA
+    ');
         $this->db->from('ci_agendamentos A');
         $this->db->join('ci_clientes C', 'A.id_cliente = C.id', 'left');
         $this->db->join('ci_setores_empresa SE', 'A.id_setor_empresa = SE.id', 'left');
@@ -55,8 +45,8 @@ class Agendamentos_model extends CI_Model
         }
 
         // Adiciona a cláusula de etiqueta apenas se $etiqueta não for null
-        if ($etiqueta !== 'todas' && $etiqueta !== null) {
-            $this->db->where('EC.id_etiqueta', $etiqueta);
+        if (isset($etiqueta) && $etiqueta[0] !== 'todas' && $etiqueta !== null) {
+            $this->db->where_in('EC.id_etiqueta', $etiqueta);
         }
 
         $this->db->group_by('A.id_cliente, A.data_coleta');
@@ -64,6 +54,7 @@ class Agendamentos_model extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
+
 
     public function recebeAgendamentos($anoAtual, $mesAtual)
     {
