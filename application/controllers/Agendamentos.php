@@ -94,6 +94,7 @@ class Agendamentos extends CI_Controller
         $data['idSetor'] = $this->input->post('setor');
         $data['cidadeFiltro'] = $this->input->post('cidadeFiltro');
         $data['etiquetaFiltro'] = $this->input->post('etiquetaFiltro');
+
         $data['responsaveis'] = $this->Funcionarios_model->recebeResponsavelAgendamento();
         $data['veiculos'] = $this->Veiculos_model->recebeVeiculos();
 

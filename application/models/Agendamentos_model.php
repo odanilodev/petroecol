@@ -10,16 +10,6 @@ class Agendamentos_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    /**
-     * Recebe os agendamentos atrasados com base nas datas e setor especificados.
-     *
-     * @param string $dataInicioFormatada Data de início formatada (YYYY-MM-DD)
-     * @param string $dataFimFormatada Data de fim formatada (YYYY-MM-DD)
-     * @param string|null $setorEmpresa ID do setor da empresa ou 'todos' para todos os setores
-     * @param string|null $cidade ID da cidade do agendamento ou 'todas' para qualquer cidade
-     * @param string|null $etiqueta ID da etiqueta do agendamento ou 'todas' para qualquer etiqueta
-     * @return array Resultados da consulta como um array associativo
-     */
     public function recebeAgendamentosAtrasados(string $dataInicioFormatada, string $dataFimFormatada, ?string $setorEmpresa, ?string $cidade, ?array $etiqueta): array
     {
         $this->db->select('
@@ -55,7 +45,7 @@ class Agendamentos_model extends CI_Model
         }
 
         // Adiciona a cláusula de etiqueta apenas se $etiqueta não for null
-        if ($etiqueta !== 'todas' && $etiqueta !== null) {
+        if (isset($etiqueta) && $etiqueta[0] !== 'todas' && $etiqueta !== null) {
             $this->db->where_in('EC.id_etiqueta', $etiqueta);
         }
 

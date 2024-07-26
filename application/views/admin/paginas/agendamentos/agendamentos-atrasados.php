@@ -3,7 +3,7 @@
     <div class="row g-4">
       <div class="col-12 col-xxl-12">
         <div class="row align-items-center g-4">
-          <div class="col-12 col-md-3">
+          <div class="col-12">
             <div class="d-flex align-items-center">
               <span class="fa-stack" style="min-height: 46px; min-width: 46px;">
                 <span class="fa-solid fa-square fa-stack-2x text-danger-300" data-fa-transform="down-4 rotate--10 left-4"></span>
@@ -27,22 +27,22 @@
             <div class="row align-items-center g-4">
               <h4 class="ms-3">Filtrar resultados</h4>
 
-              <div class="col-12 col-md-2">
+              <div class="col-12 col-md-4">
                 <div class="ms-3">
-                  <input class="form-control datetimepicker mascara-data" value="<?= isset($dataInicio) ? $dataInicio : '' ?>" name="data_inicio" id="data_inicio" type="text" placeholder="Selecione a data de início" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
+                  <input class="form-control datetimepicker mascara-data" value="<?= isset($dataInicio) ? $dataInicio : '' ?>" name="data_inicio" id="data_inicio" type="text" placeholder="Data início" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
                 </div>
               </div>
 
-              <div class="col-12 col-md-2">
+              <div class="col-12 col-md-4">
                 <div class="ms-3">
-                  <input class="form-control datetimepicker mascara-data" value="<?= isset($dataFim) ? $dataFim : '' ?>" name="data_fim" id="data_fim" type="text" placeholder="Selecione a data final" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
+                  <input class="form-control datetimepicker mascara-data" value="<?= isset($dataFim) ? $dataFim : '' ?>" name="data_fim" id="data_fim" type="text" placeholder="Data final" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
                 </div>
               </div>
 
-              <div class="col-12 col-md-2">
+              <div class="col-12 col-md-4">
                 <div class="ms-3">
                   <select class="form-control select-validation select-setor" name="setor" id="setor">
-                    <option selected disabled value="">Setor da conta</option>
+                    <option selected disabled value="">Setor</option>
                     <option <?= $idSetor == 'todos' ? 'selected' : '' ?> value="todos">Todos</option>
                     <?php foreach ($setoresEmpresa as $setor) { ?>
                       <option <?= $idSetor == $setor['id'] ? 'selected' : '' ?> value="<?= $setor['id'] ?>"><?= $setor['nome'] ?>
@@ -52,10 +52,10 @@
                 </div>
               </div>
 
-              <div class="col-12 col-md-2">
+              <div class="col-12 col-md-4">
                 <div class="ms-3">
                   <select class="form-control select-validation select-cidade select2" name="cidadeFiltro" id="cidadeFiltro">
-                    <option selected disabled value="">Cidade Agendamento</option>
+                    <option selected disabled value="">Cidade</option>
                     <option <?= $cidadeFiltro == 'todas' ? 'selected' : '' ?> value="todas">Todos</option>
                     <?php foreach ($cidades as $cidade) { ?>
                       <option <?= isset($cidadeFiltro) && $cidadeFiltro == $cidade['cidade'] ? 'selected' : '' ?> value="<?= $cidade['cidade'] ?>"><?= mb_convert_case($cidade['cidade'], MB_CASE_TITLE, "UTF-8") ?>
@@ -65,26 +65,30 @@
                 </div>
               </div>
 
-              <div class="col-12 col-md-2">
+              <div class="col-12 col-md-4">
                 <div class="ms-3">
-                  <select multiple class="form-control select-validation select-etiqueta select2 cursor-pointer" name="etiquetaFiltro[]" id="etiquetaFiltro" data-placeholder="Selecione a(s) etiqueta(s)">
-                    <option selected disabled value=""></option>
-                    <option <?= $etiquetaFiltro == 'todas' ? 'selected' : '' ?> value="todas">Todas</option>
+                  <select multiple class="form-control select-validation select-etiqueta select2 cursor-pointer" name="etiquetaFiltro[]" id="etiquetaFiltro" data-placeholder="Etiquetas">
+                    <option <?= isset($etiquetaFiltro) && in_array('todas', $etiquetaFiltro) ? 'selected' : '' ?> value="todas">Todas</option>
                     <?php foreach ($etiquetas as $etiqueta) { ?>
-                      <option <?= isset($etiquetaFiltro) && $etiquetaFiltro == $etiqueta['id'] ? 'selected' : '' ?> value="<?= $etiqueta['id'] ?>"><?= mb_convert_case($etiqueta['nome'], MB_CASE_TITLE, "UTF-8") ?>
+
+                      <option <?= isset($etiquetaFiltro) && in_array($etiqueta['id'], $etiquetaFiltro) ? 'selected' : '' ?> value="<?= $etiqueta['id'] ?>">
+                        <?= mb_convert_case($etiqueta['nome'], MB_CASE_TITLE, "UTF-8") ?>
                       </option>
                     <?php } ?>
+
                   </select>
+
+
                 </div>
               </div>
 
               <input type="hidden" name="nomeSetor" id="nomeSetor">
 
-              <div class="col-12 col-md-2">
+              <div class="col-12 col-md-4">
                 <div class="d-flex ms-3">
                   <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= !$dataInicio ? 'w-100' : 'w-60'; ?>">Filtrar</button>
                   <?php if (isset($dataInicio)) { ?>
-                    <a href="<?= base_url('agendamentos/agendamentosAtrasados'); ?>" class="btn btn-phoenix-danger w-25" title="Limpar Filtro"><i class="fas fa-ban"></i></a>
+                    <a href="<?= base_url('agendamentos/agendamentosAtrasados'); ?>" class="btn btn-phoenix-danger w-50" title="Limpar Filtro"><i class="fas fa-ban"></i></a>
                   <?php } ?>
                 </div>
               </div>
