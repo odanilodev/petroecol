@@ -410,7 +410,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                             <option disabled selected value="">Selecione</option>
                             
-                            </select>
+                        </select>
                     </div>
 
                     <div class="col-md-4 mb-2 div-pagamento">
@@ -423,12 +423,12 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     
                     <div class="col-md-4 mb-2 mt-4">
                     
-                        <button class="btn btn-info duplicar-pagamento row w-25">+</button>
+                        <button class="btn btn-phoenix-success duplicar-pagamento row w-25">+</button>
                     
                     </div>
 
-                    <div class="col-md-12 div-checkbox mb-2">
-                        <input class="form-check-input checkbox-funcionario" type="checkbox" value="1">  Pago pelo responsável
+                    <div class="col-md-12 div-checkbox mb-5">
+                        <input class="cursor-pointer form-check-input checkbox-funcionario" type="checkbox" value="1">  Pago pelo responsável
                     </div>
 
                     <div class="pagamentos-duplicados"></div>
@@ -453,7 +453,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                     <div class="col-md-4 mb-2 mt-4 row">
 
-                        <button class="btn btn-info duplicar-residuo w-25">+</button>
+                        <button class="btn btn-phoenix-success duplicar-residuo w-25">+</button>
 
                     </div>
 
@@ -537,7 +537,7 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
     `;
 
     let checkboxFuncionario = `
-        <div class="col-md-12 div-checkbox mb-2">
+        <div class="col-md-12 div-checkbox mb-5">
          <input class="form-check-input checkbox-funcionario" value="1" type="checkbox">  Pago pelo responsável
         </div>
     `;
@@ -545,7 +545,7 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
     let btnRemove = $(`
     <div class="col-md-4 mb-2 mt-1 row">
 
-        <button class="btn btn-danger remover-${novoElemento} w-25">-</button>
+        <button class="btn btn-phoenix-danger remover-${novoElemento} w-25">-</button>
 
     </div>`);
 
@@ -556,7 +556,11 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
     novaLinha.append(selectHtml);
     novaLinha.append(inputHtml);
     novaLinha.append(btnRemove);
-    novaLinha.append(checkboxFuncionario);
+
+    if (novoElemento == "pagamento") {
+
+        novaLinha.append(checkboxFuncionario);
+    }
 
     //remove a linha duplicada
     btnRemove.find(`.remover-${novoElemento}`).on('click', function () {
