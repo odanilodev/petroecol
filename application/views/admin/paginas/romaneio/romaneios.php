@@ -230,11 +230,11 @@
                                     </a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link fw-semi-bold btn-troco" href="#bootstrap-wizard-tab2" data-bs-toggle="tab" data-wizard-step="2" aria-selected="false" role="tab" tabindex="-1">
+                                    <a class="nav-link fw-semi-bold btn-troco btn-proxima-etapa" href="#bootstrap-wizard-tab2" data-bs-toggle="tab" data-wizard-step="2" aria-selected="false" role="tab" tabindex="-1">
                                         <div class="text-center d-inline-block">
                                             <span class="nav-item-circle-parent">
                                                 <span class="nav-item-circle">
-                                                    <span class="fas fa-map-marked-alt"></span>
+                                                    <span class="fas fa-coins"></span>
                                                 </span>
                                             </span>
                                             <span class="d-none d-md-block mt-1 fs--1">Troco</span>
