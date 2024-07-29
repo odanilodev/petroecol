@@ -97,7 +97,7 @@ class Agendamentos_model extends CI_Model
 
     public function obtemAgendamentosPorDataProxima($id_cliente, $data_proxima)
     {
-        $this->db->select('A.id, A.periodo_coleta, Se.nome as SETOR');
+        $this->db->select('A.id, A.periodo_coleta, SE.nome as SETOR');
         $this->db->from('ci_agendamentos A');
         $this->db->join('ci_setores_empresa SE', 'A.id_setor_empresa = SE.id', 'inner');
         $this->db->where('A.id_empresa', $this->session->userdata('id_empresa'));
