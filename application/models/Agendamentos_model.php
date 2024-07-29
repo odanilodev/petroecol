@@ -95,6 +95,20 @@ class Agendamentos_model extends CI_Model
         return $query->row_array();
     }
 
+    public function obtemAgendamentosPorDataProxima($id_cliente, $data_proxima)
+    {
+        $this->db->select('A.id, A.periodo_coleta, Se.nome as SETOR');
+        $this->db->from('ci_agendamentos A');
+        $this->db->join('ci_setores_empresa SE', 'A.id_setor_empresa = SE.id', 'inner');
+        $this->db->where('A.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('A.id_cliente', $id_cliente);
+        $this->db->where('A.data_coleta', $data_proxima);
+
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+
     public function insereAgendamento($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');
@@ -294,7 +308,7 @@ class Agendamentos_model extends CI_Model
         return $query->num_rows();
     }
 
-    public  function recebeObservacaoAgendamentoCliente($data_romaneio)
+    public function recebeObservacaoAgendamentoCliente($data_romaneio)
     {
         $this->db->select('observacao, id_cliente');
         $this->db->where_in('data_coleta', $data_romaneio);
