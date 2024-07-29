@@ -1,5 +1,5 @@
 <div class="content">
-    <div id="members" data-list='{"valueNames":["customer","email","mobile_number","city","last_active","joined"],"page":10,"pagination":true}'>
+    <div id="members">
 
         <div class="row align-items-center justify-content-between g-3 mb-4">
 

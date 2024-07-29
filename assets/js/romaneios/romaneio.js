@@ -733,14 +733,20 @@ function finalizarRomaneio() {
 
             let divPagamento = $(this).closest('.col-md-12').prevAll('.div-pagamento');
 
-            let inputValorPagamento = divPagamento.find('.input-pagamento').val();
+            let tipoPagamento = divPagamento.find('.select-pagamento option:selected').data('id-tipo-pagamento');
 
-            // Converta inputValorPagamento para um número
-            let valorNumerico = parseFloat(inputValorPagamento) || 0;
+            if (tipoPagamento == 1) {
 
-            valorTotal += valorNumerico;
+                let inputValorPagamento = divPagamento.find('.input-pagamento').val();
+    
+                // Converta inputValorPagamento para um número
+                let valorNumerico = parseFloat(inputValorPagamento) || 0;
+    
+                valorTotal += valorNumerico;
+    
+                checkboxFuncionarios.push(valorNumerico);
+            }
 
-            checkboxFuncionarios.push(valorNumerico);
         });
 
 
