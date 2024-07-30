@@ -50,6 +50,7 @@ class FinFluxoCaixa extends CI_Controller
         $this->load->model('FinFormaTransacao_model');
         $this->load->model('FinContaBancaria_model');
         $this->load->model('FinMacro_model');
+        $this->load->model('SetoresEmpresa_model');
 
         $dados['macros'] = $this->FinMacro_model->recebeMacros();
 
@@ -57,6 +58,7 @@ class FinFluxoCaixa extends CI_Controller
 
         $dados['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
         $dados['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
+        $dados['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
 
 
         $dados['saldoTotal'] = $this->findadosfinanceiros->somaSaldosBancarios();
@@ -104,6 +106,7 @@ class FinFluxoCaixa extends CI_Controller
 
         $dados['id_empresa'] = $this->session->userdata('id_empresa');
         $dados['id_conta_bancaria'] = $this->input->post('id_conta_bancaria');
+        $dados['id_setor_empresa'] = $this->input->post('id_setor_empresa');
         $dados['id_vinculo_conta'] = $this->input->post('id_vinculo_conta');
         $dados['id_tarifa_bancaria'] = $this->input->post('id_tarifa_bancaria');
         $dados['id_forma_transacao'] = $this->input->post('id_forma_transacao');
