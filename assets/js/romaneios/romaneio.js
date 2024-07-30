@@ -403,6 +403,18 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                     </div>
 
+                    <div class="col-md-3 mb-2 div-pagamento">
+
+                        <label class="form-label">Tipo de Pagamento</label>
+                        <select class="form-select select-tipo-pagamento w-100 tipo-pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-tipo-pagamento">
+
+                            <option disabled selected value="">Selecione</option>
+                            <option value="0">Pagamento no ato</option>
+                            <option value="1">Pagamento a prazo</option>
+                            
+                        </select>
+                    </div>
+
                     <div class="col-md-4 mb-2 div-pagamento">
 
                         <label class="form-label">Forma de Pagamento</label>
@@ -421,9 +433,9 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     </div>
 
                     
-                    <div class="col-md-4 mb-2 mt-4">
+                    <div class="col-md-auto mb-2 mt-4">
                     
-                        <button class="btn btn-phoenix-success duplicar-pagamento row w-25">+</button>
+                        <button class="btn btn-phoenix-success duplicar-pagamento">+</button>
                     
                     </div>
 
@@ -519,6 +531,16 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 // duplica forma de pagamento e residuos
 function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
 
+    let selectTipoPagamento = `
+        <div class="col-md-3 mb-2 div-pagamento">
+            <select class="form-select select-tipo-pagamento w-100">
+                <option disabled selected value="">Selecione</option>
+                <option value="0">Pagamento no ato</option>
+                <option value="1">Pagamento a prazo</option>
+            </select>
+        </div>
+    `;
+
     // Pega os options do select
     let options = $(btnClicado).closest('.accordion-item').find('.select-' + novoElemento).html();
 
@@ -543,9 +565,9 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
     `;
 
     let btnRemove = $(`
-    <div class="col-md-4 mb-2 mt-1 row">
+    <div class="col-md-auto mb-2 mt-1">
 
-        <button class="btn btn-phoenix-danger remover-${novoElemento} w-25">-</button>
+        <button class="btn btn-phoenix-danger remover-${novoElemento}">-</button>
 
     </div>`);
 
@@ -553,6 +575,9 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
     let novaLinha = $('<div class="row"></div>');
 
     // imprime os elementos dentro da div row
+    if (novoElemento == "pagamento") {
+        novaLinha.append(selectTipoPagamento);
+    }
     novaLinha.append(selectHtml);
     novaLinha.append(inputHtml);
     novaLinha.append(btnRemove);
@@ -733,9 +758,16 @@ function finalizarRomaneio() {
 
             let divPagamento = $(this).closest('.col-md-12').prevAll('.div-pagamento');
 
-            let tipoPagamento = divPagamento.find('.select-pagamento option:selected').data('id-tipo-pagamento');
+            let tipoMoedaPagamento = divPagamento.find('.select-pagamento option:selected').data('id-tipo-pagamento');
+
+            let tipoPagamento = divPagamento.find('.select-tipo-pagamento option:selected').val();
 
             if (tipoPagamento == 1) {
+                $(this).prop('checked', false);
+            }
+
+
+            if (tipoMoedaPagamento == 1 && tipoPagamento == 0) {
 
                 let inputValorPagamento = divPagamento.find('.input-pagamento').val();
     
@@ -749,7 +781,7 @@ function finalizarRomaneio() {
 
         });
 
-
+      
         let qtdResiduos = [];
 
         $(this).find('.input-residuo').each(function () {
