@@ -1490,12 +1490,16 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
                                     ` : ''}
 
 
-                                    <div class="dropdown-divider btn-realizar-pagamento-1"></div>
+                                    ${romaneio.prestar_conta == 0 && romaneio.status == 1 ? `
+                                        <div class="dropdown-divider btn-realizar-pagamento-1"></div>
 
-                                    <a class="dropdown-item btn-prestar-contas" data-bs-toggle="modal" data-bs-target="#modalPrestarConta" href="#" title="Prestar Contas" data-funcionario="${romaneio.RESPONSAVEL}" data-codigo="${romaneio.codigo}" data-saldo="${romaneio.saldo}" data-id-funcionario="${romaneio.ID_RESPONSAVEL}" data-id-setor-empresa="${romaneio.id_setor_empresa}">
-                                        <span class="uil-file-check-alt ms-1"></span> Prestar Contas
-                                    </a>
+                                        <a class="dropdown-item btn-prestar-contas" data-bs-toggle="modal" data-bs-target="#modalPrestarConta" href="#" title="Prestar Contas" data-funcionario="${romaneio.RESPONSAVEL}" data-codigo="${romaneio.codigo}" data-saldo="${romaneio.saldo}" data-id-funcionario="${romaneio.ID_RESPONSAVEL}" data-id-setor-empresa="${romaneio.id_setor_empresa}">
+                                            <span class="uil-file-check-alt ms-1"></span> Prestar Contas
+                                        </a>
 
+                                    ` : '' }
+
+                                    
                                 </div>
                             </div>
                     

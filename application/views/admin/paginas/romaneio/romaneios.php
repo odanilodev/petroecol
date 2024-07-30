@@ -230,7 +230,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link fw-semi-bold btn-troco btn-proxima-etapa" href="#bootstrap-wizard-tab2" data-bs-toggle="tab" data-wizard-step="2" aria-selected="false" role="tab" tabindex="-1">
+                                    <a disabled class="nav-link fw-semi-bold btn-troco" href="#bootstrap-wizard-tab2" data-bs-toggle="tab" data-wizard-step="2" aria-selected="false" role="tab" tabindex="-1">
                                         <div class="text-center d-inline-block">
                                             <span class="nav-item-circle-parent">
                                                 <span class="nav-item-circle">
@@ -265,7 +265,7 @@
 
                                                         <div class="mb-4">
                                                             <label class="text-body-highlight fw-bold mb-2">Grupos Macros</label>
-                                                            <select class="form-select select2 select-macros-prestacao input-obrigatorio-custo dados-conta" name="id_macro">
+                                                            <select required class="form-select select2 select-macros-prestacao input-obrigatorio-custo dados-conta" name="id_macro">
                                                                 <option selected disabled value="">Selecione</option>
                                                                 <?php foreach ($macros as $macro) { ?>
                                                                     <option value="<?= $macro['id'] ?>"><?= $macro['nome'] ?>
@@ -466,7 +466,9 @@
                     <input type="hidden" class="codigo-romaneio">
                     <input type="hidden" class="id-funcionario">
                     <input type="hidden" class="id-setor-empresa">
-                    <button id="btn-voltar-etapa" class="btn btn-secondary d-none" type="button" data-wizard-prev-btn="data-wizard-prev-btn">Voltar</button>
+                    
+                    <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
+                    <button id="btn-voltar-etapa" class="btn btn-secondary d-none btn-form" type="button" data-wizard-prev-btn="data-wizard-prev-btn">Voltar</button>
                     <button id="btn-proxima-etapa" class="btn btn-info btn-form btn-proxima-etapa" type="button">Próxima Etapa</button>
                 </div>
             </div>

@@ -245,23 +245,28 @@ function atualizarSaldoFuncionario() {
 
 $(function () {
 
-    $('.btn-proxima-etapa').on('click', function () {
+    $('.btn-proxima-etapa, .btn-troco').on('click', function () {
 
         let permissao = verificaCamposObrigatorios('input-obrigatorio-custo');
 
         if (permissao) {
 
-            $(this).html('Finalizar');
-            $(this).attr('onclick', 'salvarPrestacaoContas()');
+            $('.btn-proxima-etapa').html('Finalizar');
+            $('.btn-proxima-etapa').attr('onclick', 'salvarPrestacaoContas()');
+
+            $('.btn-troco').attr('disabled', false);
 
             $('#btn-voltar-etapa').removeClass('d-none');
             let nextTab = new bootstrap.Tab($('.btn-troco'));
             nextTab.show();
+        } else {
+            $('.btn-troco').attr('disabled', true);
+
         }
 
     });
 
-    $('#btn-voltar-etapa').on('click', function () {
+    $('#btn-voltar-etapa, .btn-custos').on('click', function () {
 
         $('#btn-voltar-etapa').addClass('d-none');
 
@@ -279,6 +284,14 @@ $(function () {
 
 
 const salvarPrestacaoContas = () => {
+
+    let saldoTrocoFuncionario = $('.valor-troco-parcial').val().replace(/[^\d-]/g, '');
+    saldoTrocoFuncionario = parseFloat(saldoTrocoFuncionario);
+
+    if (saldoTrocoFuncionario < 0) {
+        avisoRetorno('Algo deu errado!', 'O saldo do responsável não pode ser negativo.', 'error', '#');
+        return;
+    }
 
     // dados para tabela prestacao de contas
     let dadosPrestacaoContas = {

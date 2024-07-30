@@ -133,6 +133,12 @@ class FinPrestacaoContas extends CI_Controller
 			$retorno = $this->insereMovimentacaoPrestacaoFluxo($dadosTroco, $idFuncionario, $idSetorEmpresa);
 		}
 
+		// Atualiza o romaneio para saber que já prestou conta
+		$this->load->model('Romaneios_model');
+		$dadosRomaneios['prestar_conta'] = 1;
+		$this->Romaneios_model->editaRomaneioCodigo($codRomaneio, $dadosRomaneios);
+
+
 		if ($success && $retorno) {
 			$response = array(
 				'success' => true,
