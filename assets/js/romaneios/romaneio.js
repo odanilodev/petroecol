@@ -816,6 +816,18 @@ function finalizarRomaneio() {
 
         });
 
+        // valores pagamentos
+        let tiposPagamentos = [];
+
+        $(this).find('.div-pagamento .select-tipo-pagamento option:selected').each(function () {
+
+            if ($(this).val() != '') {
+
+                tiposPagamentos.push($(this).val());
+            }
+
+        });
+
         // salva somente os dados dos clientes que foram preenchidos
         if (salvarDados) {
 
@@ -825,6 +837,7 @@ function finalizarRomaneio() {
                 residuos: residuosSelecionados,
                 qtdColetado: qtdResiduos,
                 pagamento: formaPagamentoSelecionados,
+                tipoPagamento: tiposPagamentos,
                 valor: valorPagamento,
                 coletado: coletado,
                 obs: $(this).find('.input-obs').val()
