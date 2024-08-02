@@ -490,14 +490,14 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpre
 
             }, success: function (data) {
 
+                $('.responsavel').html(`${data.responsavel}`);
+
                 exibirDadosClientes(data.retorno, data.registros, data.residuos, data.pagamentos, data.id_cliente_prioridade);
             }
         })
-
     }
-
-
 }
+
 
 
 // formata um obj para um array
@@ -576,6 +576,18 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                     </div>
 
+                    <div class="col-md-3 mb-2 div-pagamento">
+
+                        <label class="form-label">Tipo de Pagamento</label>
+                        <select class="form-select select-tipo-pagamento w-100 tipo-pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-tipo-pagamento">
+
+                            <option disabled selected value="">Selecione</option>
+                            <option value="0">Pagamento no ato</option>
+                            <option value="1">Pagamento a prazo</option>
+                            
+                        </select>
+                    </div>
+
                     <div class="col-md-4 mb-2 div-pagamento">
 
                         <label class="form-label">Forma de Pagamento</label>
@@ -590,12 +602,18 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                         <label class="form-label">Valor Pago</label>
                         <input class="form-control input-pagamento pagamento-${clientes[i].id} campos-form-${clientes[i].id}" type="text" placeholder="Digite valor pago" value="">
+
                     </div>
 
-                    <div class="col-md-4 mb-2 mt-4 row">
+                    
+                    <div class="col-md-auto mb-2 mt-4">
+                    
+                        <button class="btn btn-phoenix-success duplicar-pagamento">+</button>
+                    
+                    </div>
 
-                        <button class="btn btn-info duplicar-pagamento w-25">+</button>
-
+                    <div class="col-md-12 div-checkbox mb-5">
+                        <input class="cursor-pointer form-check-input checkbox-funcionario" type="checkbox" value="1">  Pago pelo responsável
                     </div>
 
                     <div class="pagamentos-duplicados"></div>
@@ -620,7 +638,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                     <div class="col-md-4 mb-2 mt-4 row">
 
-                        <button class="btn btn-info duplicar-residuo w-25">+</button>
+                        <button class="btn btn-phoenix-success duplicar-residuo w-25">+</button>
 
                     </div>
 
@@ -694,12 +712,22 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 // duplica forma de pagamento e residuos
 function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
 
+    let selectTipoPagamento = `
+        <div class="col-md-3 mb-2 div-pagamento">
+            <select class="form-select select-tipo-pagamento w-100">
+                <option disabled selected value="">Selecione</option>
+                <option value="0">Pagamento no ato</option>
+                <option value="1">Pagamento a prazo</option>
+            </select>
+        </div>
+    `;
+
     // Pega os options do select
     let options = $(btnClicado).closest('.accordion-item').find('.select-' + novoElemento).html();
 
     let selectHtml = `
         <div class="col-md-4 mb-2 div-${novoElemento}">
-            <select class="form-select select-${novoElemento} w-100 ${novoElemento == "residuo" ? 'input-obrigatorio' : ''} " data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+            <select class="form-select select-${novoElemento} w-100 ${novoElemento == "residuo" ? 'input-obrigatorio' : ''} ">
                 ${options}
             </select>
         </div>
@@ -711,10 +739,16 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
         </div>
     `;
 
-    let btnRemove = $(`
-    <div class="col-md-4 mb-2 mt-1 row">
+    let checkboxFuncionario = `
+        <div class="col-md-12 div-checkbox mb-5">
+         <input class="form-check-input checkbox-funcionario" value="1" type="checkbox">  Pago pelo responsável
+        </div>
+    `;
 
-        <button class="btn btn-danger remover-${novoElemento} w-25">-</button>
+    let btnRemove = $(`
+    <div class="col-md-auto mb-2 mt-1">
+
+        <button class="btn btn-phoenix-danger remover-${novoElemento}">-</button>
 
     </div>`);
 
@@ -722,9 +756,17 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
     let novaLinha = $('<div class="row"></div>');
 
     // imprime os elementos dentro da div row
+    if (novoElemento == "pagamento") {
+        novaLinha.append(selectTipoPagamento);
+    }
     novaLinha.append(selectHtml);
     novaLinha.append(inputHtml);
     novaLinha.append(btnRemove);
+
+    if (novoElemento == "pagamento") {
+
+        novaLinha.append(checkboxFuncionario);
+    }
 
     //remove a linha duplicada
     btnRemove.find(`.remover-${novoElemento}`).on('click', function () {
@@ -865,6 +907,8 @@ function finalizarRomaneio() {
     let codRomaneio = $('.code_romaneio').val();
     let dataRomaneio = $('.data_romaneio').val();
 
+    let valorTotal = 0;
+
     $('.accordion-item').each(function () {
 
         let salvarDados = false; // uso para dar permissao para salvar os valores no array e mandar pro back
@@ -889,6 +933,36 @@ function finalizarRomaneio() {
             }
         });
 
+        // checkbox
+        let checkboxFuncionarios = [];
+        $(this).find('.checkbox-funcionario:checked').each(function () {
+
+            let divPagamento = $(this).closest('.col-md-12').prevAll('.div-pagamento');
+
+            let tipoMoedaPagamento = divPagamento.find('.select-pagamento option:selected').data('id-tipo-pagamento');
+
+            let tipoPagamento = divPagamento.find('.select-tipo-pagamento option:selected').val();
+
+            if (tipoPagamento == 1) {
+                $(this).prop('checked', false);
+            }
+
+
+            if (tipoMoedaPagamento == 1 && tipoPagamento == 0) {
+
+                let inputValorPagamento = divPagamento.find('.input-pagamento').val();
+    
+                // Converta inputValorPagamento para um número
+                let valorNumerico = parseFloat(inputValorPagamento) || 0;
+    
+                valorTotal += valorNumerico;
+    
+                checkboxFuncionarios.push(valorNumerico);
+            }
+
+        });
+
+      
         let qtdResiduos = [];
 
         $(this).find('.input-residuo').each(function () {
@@ -923,6 +997,18 @@ function finalizarRomaneio() {
 
         });
 
+        // valores pagamentos
+        let tiposPagamentos = [];
+
+        $(this).find('.div-pagamento .select-tipo-pagamento option:selected').each(function () {
+
+            if ($(this).val() != '') {
+
+                tiposPagamentos.push($(this).val());
+            }
+
+        });
+
         // salva somente os dados dos clientes que foram preenchidos
         if (salvarDados) {
 
@@ -932,6 +1018,7 @@ function finalizarRomaneio() {
                 residuos: residuosSelecionados,
                 qtdColetado: qtdResiduos,
                 pagamento: formaPagamentoSelecionados,
+                tipoPagamento: tiposPagamentos,
                 valor: valorPagamento,
                 coletado: coletado,
                 obs: $(this).find('.input-obs').val()
@@ -954,7 +1041,8 @@ function finalizarRomaneio() {
                 codRomaneio: codRomaneio,
                 dataRomaneio: dataRomaneio,
                 idSetorEmpresa: idSetorEmpresa,
-                verificaAgendamentosFuturos: true
+                verificaAgendamentosFuturos: true,
+                valorTotal: valorTotal
 
             },
             beforeSend: function () {

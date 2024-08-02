@@ -107,4 +107,18 @@ class ResiduoCliente_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+    // recebe o valor do residuo atrelado ao cliente
+    public function recebeValorResiduoCliente($idResiduo, $idCliente)
+    {
+        $this->db->select('RC.valor_forma_pagamento as valor, SC.dia_pagamento, SC.id_setor_empresa');
+        $this->db->from('ci_residuo_cliente RC');
+        $this->db->join('ci_setores_empresa_cliente SC', 'RC.id_cliente = SC.id_cliente', 'LEFT');
+        $this->db->where('RC.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('RC.id_cliente', $idCliente);
+        $this->db->where('RC.id_residuo', $idResiduo);
+        $query = $this->db->get();
+
+        return $query->row_array();
+    }
 }

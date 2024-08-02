@@ -25,6 +25,7 @@ class Romaneios extends CI_Controller
 		$this->load->model('Clientes_model');
 		$this->load->model('Romaneios_model');
 		$this->load->library('gerarRomaneio');
+		$this->load->model('Funcionarios_model');
 		date_default_timezone_set('America/Sao_Paulo');
 	}
 
@@ -42,8 +43,6 @@ class Romaneios extends CI_Controller
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsRomaneioFooter));
 
 		$data['ultimosRomaneios'] = $this->Romaneios_model->recebeUltimosRomaneios();
-
-		$this->load->model('Funcionarios_model');
 
 		$data['responsaveis'] = $this->Funcionarios_model->recebeResponsavelAgendamento();
 
@@ -255,7 +254,6 @@ class Romaneios extends CI_Controller
 
 	public function formulario()
 	{
-		$this->load->model('Funcionarios_model');
 		$this->load->model('Veiculos_model');
 		// scripts padrão
 		$scriptsPadraoHead = scriptsPadraoHead();
@@ -342,7 +340,8 @@ class Romaneios extends CI_Controller
 			'residuos' => $residuos,
 			'pagamentos' => $formas_pagamentos,
 			'id_cliente_prioridade' => $id_cliente_prioridade,
-			'registros' => count($clientesRomaneio)
+			'registros' => count($clientesRomaneio),
+			'responsavel' => $romaneio['RESPONSAVEL']
 		);
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));

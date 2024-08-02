@@ -6,7 +6,7 @@
         <div class="card-header p-4 border-bottom border-300 bg-soft">
           <div class="row g-3 justify-content-between align-items-center">
             <div class="col-12 col-md">
-              <h4 class="text-900 mb-0">Cadastrar Novo Micro de <?= $macro['nome']?></h4>
+              <h4 class="text-900 mb-0">Cadastrar Novo Micro de <?= $macro['nome'] ?></h4>
 
             </div>
           </div>
@@ -23,14 +23,23 @@
                       <div class="card-body pt-4 pb-0 row">
                         <input type="hidden" class="input-id" value="<?= $this->uri->segment(3); ?>">
 
-                        <div class="col-md-10 mb-3">
+                        <div class="col-md-6 mb-3">
                           <label class="form-label">Nome</label>
                           <input class="form-control input-nome-micro input-obrigatorio" type="text" placeholder="Nome do Micro" value="<?= $micro['nome'] ?? ''; ?>">
                           <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                         </div>
 
+                        <div class="col-md-4 mb-3">
+                          <label class="form-label">Definir Padrão</label>
+                          <select class="form-control select-padrao">
+                            <option value="">Selecione</option>
+                            <option value="romaneios">Romaneios</option>
+                          </select>
+                          <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                        </div>
+
                         <div class="flex-1 text-end my-4">
-                          <button class="btn btn-primary px-6 px-sm-6 btn-envia" onclick="cadastraMicro('.input-nome-micro')">Cadastrar
+                          <button class="btn btn-primary px-6 px-sm-6 btn-envia" onclick="cadastraMicro('.input-nome-micro', '.select-padrao')">Cadastrar
                             <span class="fas fa-chevron-right" data-fa-transform="shrink-3"> </span>
                           </button>
                           <div class="spinner-border text-primary load-form d-none" role="status"></div>
@@ -68,8 +77,8 @@
                         </th>
 
                         <th class="sort align-middle" scope="col" data-sort="nome-macro">Micro</th>
-                        <th class="sort align-middle pe-3">Editar</th>
-                        <th class="sort align-middle pe-3">Excluir</th>
+                        <th class="sort align-middle">Padrão</th>
+                        <th class="sort align-middle pe-3">Ações</th>
                       </tr>
                     </thead>
 
@@ -90,16 +99,33 @@
                             <?= $v['nome'] ?>
                           </td>
 
-                          <td class="align-middle white-space-nowrap">
-                            <a href="#" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalMicro" onclick="editarMicro(<?= $v['id'] ?>)">
-                              <span class="fas fa-pencil ms-1"></span>
-                            </a>
+                          <td class="nome-padrao align-middle white-space-nowrap col-md-6">
+                            <?= $v['padrao'] ?>
                           </td>
 
-                          <td class="align-middle white-space-nowrap">
-                            <a href="#" class="btn btn-danger" onclick="deletaMicro(<?= $v['id'] ?>, <?= $this->uri->segment(3) ?>)">
-                              <span class="fas fa-trash ms-1"></span>
-                            </a>
+
+                          <td class="align-middle white-space-nowrap pe-0">
+
+                            <div class="font-sans-serif btn-reveal-trigger position-static">
+
+                              <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                                <span class="fas fa-ellipsis-h fs--2"></span>
+                              </button>
+
+                              <div class="dropdown-menu dropdown-menu-middle py-2">
+
+                                <a class="dropdown-item editar-lancamento" href="#" data-bs-toggle="modal" data-bs-target="#modalMicro" onclick="editarMicro(<?= $v['id'] ?>)">
+                                  <span class="fas fa-pencil"></span> Editar
+                                </a>
+
+                                <a class="dropdown-item editar-lancamento" href="#" onclick="deletaMicro(<?= $v['id'] ?>, <?= $this->uri->segment(3) ?>)">
+                                  <span class="fas fa-trash"></span> Excluir
+                                </a>
+
+                              </div>
+
+                            </div>
+
                           </td>
 
                         </tr>
@@ -123,7 +149,7 @@
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Dicionário</h5>
+            <h5 class="modal-title">Micros</h5>
             <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1"></span></button>
           </div>
           <div class="modal-body">
@@ -137,6 +163,15 @@
                   <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                 </div>
+
+                <div class="col-md-12 mb-3">
+                  <label class="form-label">Definir padrão</label>
+                  <select class="form-control select-padrao-modal">
+                    <option value="">Selecione</option>
+                    <option value="romaneios">Romaneios</option>
+                  </select>
+
+                </div>
               </div>
 
             </form>
@@ -147,7 +182,7 @@
 
             <div class="spinner-border text-primary load-form d-none" role="status"></div>
 
-            <button class="btn btn-success btn-salva-residuo btn-envia" type="button" onclick="cadastraMicro('.input-nome-micro-modal')">Salvar</button>
+            <button class="btn btn-success btn-salva-residuo btn-envia" type="button" onclick="cadastraMicro('.input-nome-micro-modal', '.select-padrao-modal')">Salvar</button>
           </div>
         </div>
       </div>
