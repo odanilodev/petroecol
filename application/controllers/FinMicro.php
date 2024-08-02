@@ -50,16 +50,30 @@ class FinMicro extends CI_Controller
 	{
 
 		$id_micro = $this->input->post('idMicro');
+
 		$id_macro = $this->input->post('idMacro');
 
 		$dados['nome'] = !empty($this->input->post('nomeMicroModal')) ? $this->input->post('nomeMicroModal') : $this->input->post('nomeMicro');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
+		$dados['padrao'] = $this->input->post('padrao');
+		$dados['id_macro'] = $id_macro;
 
 		// Se não, estamos cadastrando um novo micro
 		$micro = $this->FinMicro_model->recebeNomeMicro($dados['nome'], $id_macro); // verifica se já existe o micro
 
+		if ($dados['padrao']) {
+			
+			$padraoMicro = $this->FinMicro_model->recebePadraoMicro($dados['padrao']);
+			
+			if ($padraoMicro) {
+				
+				$dadosPadrao['padrao'] = '';
+				$this->FinMicro_model->editaPadrao($padraoMicro['id'], $dadosPadrao);
+			}
+		}
+
 		// Verifica se o micro já existe
-		if ($micro) {
+		if ($micro && !$id_micro) {
 			$response = array(
 				'success' => false,
 				'message' => "Este Micro já existe! Tente cadastrar um diferente."
@@ -73,8 +87,6 @@ class FinMicro extends CI_Controller
 			$retorno = $this->FinMicro_model->editaMicro($id_micro, $id_macro, $dados);
 		} else {
 			// Insere o novo micro
-			$dados['id'] = $id_micro;
-			$dados['id_macro'] = $id_macro;
 			$retorno = $this->FinMicro_model->insereMicro($dados);
 		}
 
@@ -94,6 +106,36 @@ class FinMicro extends CI_Controller
 		}
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function alterarPadrao() 
+	{
+		$dados['padrao'] = '';
+		$padrao = $this->input->post('padrao');
+
+		$padraoMicro = $this->FinMicro_model->recebePadraoMicro($padrao);
+
+
+		$retorno = $this->FinMicro_model->editaPadrao($padraoMicro['id'], $dados);
+
+		if ($retorno) {
+			$response = array(
+				'success' => true,
+				'title' => "Sucesso!",
+				'message' => "Micro deletado com sucesso!",
+				'type' => "success"
+			);
+		} else {
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Não foi possível deletar o Micro!",
+				'type' => "error"
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
 	}
 
 	public function deletaMicro()
