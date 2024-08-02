@@ -1,5 +1,5 @@
 <div class="content">
-    <div id="members" data-list='{"valueNames":["customer","email","mobile_number","city","last_active","joined"],"page":10,"pagination":true}'>
+    <div id="members">
 
         <div class="row align-items-center justify-content-between g-3 mb-4">
 
@@ -82,12 +82,14 @@
 
     <!-- Modal Romaneio-->
     <div class="modal fade" id="modalConcluirRomaneio" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollabe">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
 
                 <div class="modal-header">
+                    <span style="font-weight:700;">Responsável: </span> <span class="responsavel" style="margin-left:5px;"></span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
                 <div class="modal-body">
 
                     <div class="row">
@@ -168,7 +170,7 @@
                                     <option selected disabled value="">Alterar Motorista</option>
 
                                     <?php foreach ($responsaveis as $responsavel) { ?>
-                                        <option value="<?= $responsavel['IDFUNCIONARIO']?>"><?= $responsavel['nome']?></option>
+                                        <option value="<?= $responsavel['IDFUNCIONARIO'] ?>"><?= $responsavel['nome'] ?></option>
                                     <?php } ?>
 
                                 </select>

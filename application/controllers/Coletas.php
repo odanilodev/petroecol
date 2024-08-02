@@ -30,6 +30,7 @@ class Coletas extends CI_Controller
         $this->load->library('agendarFrequencia');
         $this->load->model('Romaneios_model');
         $this->load->model('Agendamentos_model');
+        $this->load->model('Funcionarios_model');
 
         $coletaManual = $this->input->post('coletaManual'); // true quando insere coleta pela página de cliente
 
@@ -38,15 +39,29 @@ class Coletas extends CI_Controller
         $idResponsavel = $this->input->post('idResponsavel');
         $idSetorEmpresa = $this->input->post('idSetorEmpresa'); // Recebe o id do setor responsavel pelo agendamento
         $dataRomaneio = $this->input->post('dataRomaneio');
+        $valorTotal = $this->input->post('valorTotal');
+
+        if ($valorTotal) {
+            $saldoAtual = $this->Funcionarios_model->recebeSaldoFuncionario($idResponsavel);
+
+            $novoSaldo = $saldoAtual['saldo'] - $valorTotal;
+
+            $this->Funcionarios_model->atualizaSaldoFuncionario($idResponsavel, $novoSaldo);
+        }
 
         $verificaAgendamentosFuturos = $this->input->post('verificaAgendamentosFuturos');
 
-
         $idColeta = $this->input->post('idColeta');
-
 
         if ($payload) {
             foreach ($payload as $cliente) :
+
+                $residuos['quantidade'] = $cliente['qtdColetado'];
+                $residuos['ids'] = $cliente['residuos'];
+
+                // calcula o valor dos residuos e insere no contas a pagar as contas a prazo
+                $this->salvarValorResiduosContasPagar($residuos, $cliente['idCliente'], $cliente['tipoPagamento']);
+
 
                 $proximosAgendamentos[] = $verificaAgendamentosFuturos ? $this->Agendamentos_model->recebeProximosAgendamentosCliente($cliente['idCliente'], $dataRomaneio) : "";
 
@@ -91,7 +106,8 @@ class Coletas extends CI_Controller
 
             endforeach;
 
-            function verificaAgendamentosFuturos($agendamentos) {
+            function verificaAgendamentosFuturos($agendamentos)
+            {
                 foreach ($agendamentos as $agendamento) {
                     if (!empty($agendamento)) {
                         return true;
@@ -99,7 +115,7 @@ class Coletas extends CI_Controller
                 }
                 return false;
             }
-            
+
             if (verificaAgendamentosFuturos($proximosAgendamentos)) {
 
                 $response = array(
@@ -107,7 +123,7 @@ class Coletas extends CI_Controller
                     'agendamentos' => $proximosAgendamentos,
                     'proximosAgendamentos' => true
                 );
-            
+
                 return $this->output->set_content_type('application/json')->set_output(json_encode($response));
             } else {
                 $response = array(
@@ -120,7 +136,6 @@ class Coletas extends CI_Controller
 
             $data['status'] = 1;
             $this->Romaneios_model->editaRomaneioCodigo($codRomaneio, $data);
-
         } else {
 
             $response = array(
@@ -131,6 +146,62 @@ class Coletas extends CI_Controller
         }
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
+
+    function salvarValorResiduosContasPagar($dadosResiduos, $idCliente, $tipoPagamento)
+    {
+        $this->load->model('FinContasPagar_model');
+        $this->load->model('ResiduoCliente_model');
+        $this->load->model('FinMicro_model');
+
+        $valorTotal = 0;
+        for ($i = 0; $i < count($dadosResiduos['ids']); $i++) {
+
+            $idResiduo = $dadosResiduos['ids'][$i];
+            $quantidadeResiduo = $dadosResiduos['quantidade'][$i];
+
+            $reiduos = $this->ResiduoCliente_model->recebeValorResiduoCliente($idResiduo, $idCliente);
+
+            $diaPagamento = $reiduos['dia_pagamento'];
+            $setorEmpresa = $reiduos['id_setor_empresa'];
+
+            $valoresPago = $quantidadeResiduo * $reiduos['valor'];
+
+            // Adiciona o valor ao total
+            $valorTotal += $valoresPago;
+        }
+
+        $mesAtual = date('m');
+        $anoAtual = date('Y');
+        $dataAtual = date('Y-m-d');
+
+        $dataVencimento = $anoAtual . '-' . $mesAtual . '-' . $diaPagamento;
+        $dataVencimentoObj = new DateTime($dataVencimento);
+
+        $dataAtualObj = new DateTime($dataAtual);
+
+        if ($dataVencimentoObj < $dataAtualObj) {
+            $dataVencimentoObj->modify('+1 month');
+        }
+
+        $microPadraoRomaneio = $this->FinMicro_model->recebePadraoMicro('romaneios');
+
+        $contasPagar['valor'] = $valorTotal;
+        $contasPagar['id_cliente'] = $idCliente;
+        $contasPagar['data_vencimento'] = $dataVencimentoObj->format('Y-m-d');
+        $contasPagar['id_micro'] = $microPadraoRomaneio['id'];
+        $contasPagar['status'] = 0;
+        $contasPagar['id_empresa'] = $this->session->userdata('id_empresa');
+        $contasPagar['id_setor_empresa'] = $setorEmpresa;
+
+        for ($c = 0; $c < count($tipoPagamento); $c++) {
+            
+            // verifica se o tipo de pagamento é a prazo
+            if ($tipoPagamento[$c] == 1) {
+                
+                $this->FinContasPagar_model->insereConta($contasPagar);
+            }
+        }
     }
 
     public function cancelaProximosAgendamentosCliente()
