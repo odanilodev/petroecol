@@ -152,6 +152,7 @@ class Coletas extends CI_Controller
     {
         $this->load->model('FinContasPagar_model');
         $this->load->model('ResiduoCliente_model');
+        $this->load->model('FinMicro_model');
 
         $valorTotal = 0;
         for ($i = 0; $i < count($dadosResiduos['ids']); $i++) {
@@ -183,10 +184,12 @@ class Coletas extends CI_Controller
             $dataVencimentoObj->modify('+1 month');
         }
 
+        $microPadraoRomaneio = $this->FinMicro_model->recebePadraoMicro('romaneios');
+
         $contasPagar['valor'] = $valorTotal;
         $contasPagar['id_cliente'] = $idCliente;
         $contasPagar['data_vencimento'] = $dataVencimentoObj->format('Y-m-d');
-        $contasPagar['id_micro'] = 1;
+        $contasPagar['id_micro'] = $microPadraoRomaneio['id'];
         $contasPagar['status'] = 0;
         $contasPagar['id_empresa'] = $this->session->userdata('id_empresa');
         $contasPagar['id_setor_empresa'] = $setorEmpresa;
