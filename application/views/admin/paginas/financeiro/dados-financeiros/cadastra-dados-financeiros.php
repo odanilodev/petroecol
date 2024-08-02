@@ -28,7 +28,7 @@
 
                                         <div class="mb-2 col-md-3">
                                             <label class="form-label text-900" for="input-nome">Nome*</label>
-                                            <input required value="<?= $dadoFinanceiro['nome'] ?? "" ?>" class="form-control input-obrigatorio" id="input-nome" type="text" name="nome" placeholder="Identificação do Dado Financeiro" />
+                                            <input required value="<?= $dadoFinanceiro['nome'] ?? "" ?>" class="form-control input-obrigatorio input-obrigatorio" id="input-nome" type="text" name="nome" placeholder="Identificação do Dado Financeiro" />
                                             <div class="invalid-feedback">Preencha este campo.</div>
                                         </div>
 
@@ -57,12 +57,12 @@
                                         </div>
 
                                         <div class="mb-2 col-md-3">
-                                            <label class="form-label" for="input-telefone">Telefone</label>
-                                            <input value="<?= $dadoFinanceiro['telefone'] ?? "" ?>" id="input-telefone" class="form-control mascara-tel" type="text" name="telefone" placeholder="Digite o telefone" />
+                                            <label class="form-label" for="input-telefone">Telefone *</label>
+                                            <input value="<?= $dadoFinanceiro['telefone'] ?? "" ?>" id="input-telefone" class="form-control input-obrigatorio mascara-tel" type="text" name="telefone" placeholder="Digite o telefone" />
                                         </div>
 
                                         <div class="mb-2 col-md-3">
-                                            <label class="form-label" for="input-tipo-cadastro ">Tipo de cadastro</label>
+                                            <label class="form-label" for="input-tipo-cadastro ">Tipo de cadastro *</label>
                                             <select name="select-tipo-cadastro" class="form-select select2" id="input-tipo-cadastro">
                                                 <option disabled value="">Selecione o tipo</option>
                                                 <option value="1">Pessoa Fisica</option>
@@ -71,13 +71,19 @@
                                         </div>
 
                                         <div class="mb-2 col-md-3">
-                                            <label class="form-label text-900" for="input-conta-bancaria">Conta Bancária</label>
-                                            <input value="<?= $dadoFinanceiro['conta_bancaria'] ?? "" ?>" class="mascara-conta-bancaria form-control" id="input-conta-bancaria" type="text" name="conta-bancaria" placeholder="Digite a conta bancaria" />
+                                            <label class="form-label text-900" for="input-conta-bancaria">Conta Bancária *</label>
+                                            <input value="<?= $dadoFinanceiro['conta_bancaria'] ?? "" ?>" class="mascara-conta-bancaria form-control input-obrigatorio" id="input-conta-bancaria" type="text" name="conta-bancaria" placeholder="Digite a conta bancaria" />
                                         </div>
 
                                         <div class="mb-2 col-md-3">
-                                            <label class="form-label text-900" for="input-email">Email </label>
-                                            <input value="<?= $dadoFinanceiro['email'] ?? "" ?>" class="form-control" id="input-email" type="text" name="email" placeholder="Email" />
+                                            <label class="form-label text-900" for="input-email">Email *</label>
+                                            <input value="<?= $dadoFinanceiro['email'] ?? "" ?>" class="form-control input-obrigatorio" id="input-email" type="text" name="email" placeholder="Email" />
+                                        </div>
+
+                                        <div class="mb-2 col-md-3">
+                                            <label class="form-label text-900" for="dia-faturamento">Dia de faturamento *</label>
+                                            <input value="<?= $dadoFinanceiro['dia_faturamento'] ?? "" ?>" id="dia-faturamento" class="form-control input-obrigatorio dia-faturamento" type="number" name="dia_faturamento" placeholder="Digite o dia de faturamento" />
+
                                         </div>
                                     </div>
 
@@ -86,39 +92,39 @@
                                         <hr>
 
                                         <div class="mb-2 col-md-2">
-                                            <label class="form-label" for="input-cep">CEP</label>
-                                            <input class="form-control campo mascara-cep" id="input-cep" type="text" name="cep" value="<?= $dadoFinanceiro['cep'] ?? ''; ?>" placeholder="Insira o CEP">
+                                            <label class="form-label" for="input-cep">CEP *</label>
+                                            <input class="form-control input-obrigatorio campo mascara-cep" id="input-cep" type="text" name="cep" value="<?= $dadoFinanceiro['cep'] ?? ''; ?>" placeholder="Insira o CEP">
                                         </div>
 
                                         <div class="col-md-10"></div>
 
                                         <div class="mb-2 col-md-3">
-                                            <label class="form-label" for="input-rua">Rua </label>
-                                            <input id="input-rua" class="form-control campo" type="text" name="rua" value="<?= $dadoFinanceiro['rua'] ?? ''; ?>" placeholder="Nome da rua">
+                                            <label class="form-label" for="input-rua">Rua *</label>
+                                            <input id="input-rua" class="form-control input-obrigatorio campo" type="text" name="rua" value="<?= $dadoFinanceiro['rua'] ?? ''; ?>" placeholder="Nome da rua">
                                         </div>
 
                                         <div class="mb-2 col-md-1">
-                                            <label class="form-label" for="input-numero">N°</label>
-                                            <input class="form-control " type="text" name="numero" id="input-numero" value="<?= $dadoFinanceiro['numero'] ?? ''; ?>" placeholder="Número">
+                                            <label class="form-label" for="input-numero">N° *</label>
+                                            <input class="form-control input-obrigatorio " type="text" name="numero" id="input-numero" value="<?= $dadoFinanceiro['numero'] ?? ''; ?>" placeholder="Número">
                                         </div>
 
                                         <div class="mb-2 col-md-3">
-                                            <label class="form-label" for="input-bairro">Bairro </label>
-                                            <input id="input-bairro" class="form-control campo" type="text" name="bairro" value="<?= $dadoFinanceiro['bairro'] ?? ''; ?>" placeholder="Bairro">
+                                            <label class="form-label" for="input-bairro">Bairro *</label>
+                                            <input id="input-bairro" class="form-control input-obrigatorio campo" type="text" name="bairro" value="<?= $dadoFinanceiro['bairro'] ?? ''; ?>" placeholder="Bairro">
                                         </div>
 
                                         <div class="mb-2 col-md-3">
-                                            <label class="form-label" for="input-cidade">Cidade </label>
-                                            <input id="input-cidade" class="form-control campo" type="text" name="cidade" value="<?= $dadoFinanceiro['cidade'] ?? ''; ?>" placeholder="Cidade">
+                                            <label class="form-label" for="input-cidade">Cidade *</label>
+                                            <input id="input-cidade" class="form-control input-obrigatorio campo" type="text" name="cidade" value="<?= $dadoFinanceiro['cidade'] ?? ''; ?>" placeholder="Cidade">
                                         </div>
 
                                         <div class="mb-2 col-md-2">
-                                            <label class="form-label" for="input-estado">Estado </label>
-                                            <input disabled id="input-estado" class="form-control campo" type="text" name="estado" value="<?= $dadoFinanceiro['estado'] ?? ''; ?>" placeholder="Estado">
+                                            <label class="form-label" for="input-estado">Estado *</label>
+                                            <input disabled id="input-estado" class="form-control input-obrigatorio campo" type="text" name="estado" value="<?= $dadoFinanceiro['estado'] ?? ''; ?>" placeholder="Estado">
                                         </div>
 
                                         <div class="mb-2 col-md-4">
-                                            <label class="form-label text-900" for="input-complemento">Complemento</label>
+                                            <label class="form-label text-900" for="input-complemento">Complemento </label>
                                             <textarea value="<?= isset($dadoFinanceiro['complemento']) ? $dadoFinanceiro['complemento'] : "" ?>" rows="1" class="form-control input-residencia" id="input-complemento" type="text" name="complemento" placeholder="Digite o complemento" /></textarea>
                                         </div>
                                     </div>

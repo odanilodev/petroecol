@@ -11,6 +11,7 @@ const cadastraDadosFinanceiros = () => {
   let telefone = $('#input-telefone').val();
   let tipoCadastro = $('#input-tipo-cadastro').val();
   let contaBancaria = $('#input-conta-bancaria').val();
+  let diaFaturamento = $('.dia-faturamento').val();
   let email = $('#input-email').val();
 
   let cep = $('#input-cep').val();
@@ -80,6 +81,7 @@ const cadastraDadosFinanceiros = () => {
         tipoCadastro: tipoCadastro,
         contaBancaria: contaBancaria,
         email: email,
+        diaFaturamento: diaFaturamento,
 
         cep: cep,
         rua: rua,
@@ -116,6 +118,15 @@ const cadastraDadosFinanceiros = () => {
     });
   }
 }
+
+$('.dia-faturamento').on('input', function() {
+
+  let valor = $(this).val().replace(/\D/g, '');
+
+  valor = Math.min(Math.max(parseInt(valor, 10) || 0, ''), 31);
+
+  $(this).val(valor === 0 ? '' : valor);
+});
 
 const deletaDadosFinanceiros = (id) => {
 

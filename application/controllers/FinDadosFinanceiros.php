@@ -76,6 +76,7 @@ class FinDadosFinanceiros extends CI_Controller
 		$dados['telefone'] = $this->input->post('telefone');
 		$dados['tipo_cadastro'] = $this->input->post('tipoCadastro');
 		$dados['conta_bancaria'] = $this->input->post('contaBancaria');
+		$dados['dia_faturamento'] = $this->input->post('diaFaturamento');
 		$dados['email'] = $this->input->post('email');
 
 		$dados['cep'] = $this->input->post('cep');
