@@ -968,8 +968,6 @@ $(".select-setor").change(function () {
 
         $('#select-cidades').attr('disabled', false); // habilita o select de clientes
         $('#select-etiquetas').attr('disabled', false); // habilita o select de etiquetas
-        $('#select-etiquetas').attr('disabled', false); // habilita o select de etiquetas
-
     }
 
 });

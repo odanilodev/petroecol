@@ -3,6 +3,7 @@ $(document).on('click', '.nova-conta', function () {
     $('.select-macros').val('').trigger('change');
     $('.select-recebido').val('').trigger('change');
     $('.select-grupo-recebidos').val('').trigger('change');
+    $('.obs-pagamento').val('').trigger('change');
 })
 
 $(document).on('change', '.select-macros', function () {
@@ -15,7 +16,9 @@ $(document).on('change', '.select-macros', function () {
         data: {
             idMacro: idMacro
         }, beforeSend: function () {
-            $('.select-micros').html('<option disabled>Selecione</option>');
+            $('.select-micros').attr('disabled', true);
+            $('.select-micros').html('<option disabled>Carregando...</option>');
+
         }, success: function (data) {
 
             $('.select-micros').attr('disabled', false);
@@ -159,6 +162,8 @@ const visualizarConta = (idConta) => {
             $('.select-macros').val(data['conta'].id_macro).trigger('change');
 
             $('.select-setor').val(data['conta'].id_setor_empresa).trigger('change');
+
+            $('.obs-pagamento').val(data['conta'].observacao).trigger('change');
 
             if (data['conta'].GRUPO_CREDOR) {
                 $('.select-grupo-recebidos').val(data['conta'].GRUPO_CREDOR).trigger('change');

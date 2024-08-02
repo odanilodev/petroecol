@@ -120,6 +120,7 @@ $(document).on('click', '.btn-insere-fluxo', function () {
     let dadosFormulario = {
         movimentacao_tabela: $('.select-tipo-conta').val(),
         id_dado_financeiro: $('select[name="cadastroFinanceiro"]').val(),
+        id_setor_empresa: $('select[name="setorEmpresa"]').val(),
         data_movimentacao: $('input[name="data_movimentacao"]').val(),
         id_conta_bancaria: $('select[name="contaBancaria"]').val(),
         id_forma_transacao: $('select[name="formaPagamento"]').val(),
@@ -176,6 +177,7 @@ const visualizarFluxo = (id) => {
             $('.recebido').html(data['dadosFluxo'].RECEBIDO);
             $('.valor-fluxo').html(valorFluxo);
             $('.forma-pagamento').html(data['dadosFluxo'].FORMAPAGAMENTO);
+            $('.setor-empresa').html(data['dadosFluxo'].NOME_SETOR);
             $('.observacao').html(data['dadosFluxo'].observacao ?? '-');
 
         },

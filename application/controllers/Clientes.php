@@ -237,6 +237,8 @@ class Clientes extends CI_Controller
         $this->load->model('Funcionarios_model');
         $data['responsaveis'] = $this->Funcionarios_model->recebeResponsavelAgendamento();
 
+        $data['origemCadastroCliente'] = $this->Clientes_model->recebeOrigemCadastroCliente($id);
+
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/detalhes-cliente');
         $this->load->view('admin/paginas/clientes/modals');
@@ -377,7 +379,7 @@ class Clientes extends CI_Controller
     public function verificaAgendamentosCliente()
     {
         $id = $this->input->post('id');
-        
+
         $this->load->model('Agendamentos_model');
         $agendamentosCliente = $this->Agendamentos_model->recebeProximosAgendamentosCliente($id, date('Y-m-d'), true);
 

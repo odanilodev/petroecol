@@ -93,14 +93,16 @@
         <div class="header">
             <img style="max-width: 260px;"
                 src="<?= base_url_upload('certificados/logos/' . $modelo_certificado['logo']) ?>" alt="Logo">
-            <p style="font-size: 12px; padding-top: 10px;"><?= $modelo_certificado['descricao']; ?></p>
+            <p style="font-size: 12px; padding-top: 10px; text-align: justify;"><?= $modelo_certificado['descricao']; ?>
+            </p>
         </div>
 
         <h3><?= $modelo_certificado['titulo']; ?></h3>
 
         <table>
             <tr>
-                <th colspan="3"><?= chave('certificados-pdf-titulo-gerador') ?>: <?= $clientes_coletas['nome'] ?></th>
+                <th colspan="2"><?= chave('certificados-pdf-titulo-gerador') ?>: <?= $clientes_coletas['nome'] ?></th>
+                <th><strong>Data de emissão:</strong> <?= date('d/m/Y') ?></th>
             </tr>
             <tr>
                 <td colspan="3">
@@ -129,6 +131,8 @@
                 </td>
             </tr>
         </table>
+
+
 
         <h3>Resíduos Coletados</h3>
 

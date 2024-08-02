@@ -67,6 +67,11 @@ function duplicarElemento() {
 
 }
 
+$(document).on('change', '.select-setor-empresa', function () {
+
+    $('.input-id-setor').val($(this).val());
+
+});
 
 const cadastraContasPagar = (classe) => {
 
@@ -233,7 +238,7 @@ $(document).on('click', '.editar-lancamento', function () {
 
                 let dataEmissao = data['conta'].data_emissao.split('-');
                 dataEmissao = dataEmissao[2] + '/' + dataEmissao[1] + '/' + dataEmissao[0];
-    
+
                 $('.input-data-emissao').val(dataEmissao);
             }
 
@@ -346,6 +351,7 @@ $(document).on('click', '.realizar-pagamento', function () {
     $('.obs-pagamento-inicio').val('');
 
     $('.id-conta-pagamento').val($(this).data('id'));
+    $('.input-id-setor').val($(this).data('setor'));
     $('.id-dado-financeiro').val($(this).data('id-dado-financeiro'));
     $('.id-dado-cliente').val($(this).data('id-dado-cliente'));
     $('.input-valor').val($(this).data('valor'));
@@ -365,6 +371,7 @@ const realizarPagamento = () => {
         let obs = $('.obs-pagamento-inicio').val();
         let dataPagamento = $('.input-data-pagamento').val();
         let valorTotal = 0;
+        let idSetor = $('.input-id-setor').val();
 
         let idConta = $('.id-conta-pagamento').val();
         let idDadoFinanceiro = $('.id-dado-financeiro').val();
@@ -398,6 +405,7 @@ const realizarPagamento = () => {
                 formasPagamento: formasPagamento,
                 valores: valores,
                 obs: obs,
+                idSetor: idSetor,
                 idConta: idConta,
                 valorTotal: valorTotal,
                 idDadoFinanceiro: idDadoFinanceiro,
@@ -680,6 +688,11 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
             setoresEmpresas.push($(this).data('setor'));
         });
 
+        let idSetorEmpresa = [];
+        $('.check-aberto:checked').each(function () {
+            idSetorEmpresa.push($(this).data('id-setor-empresa'));
+        });
+
 
         for (let i = 0; i < quantidadeContasPagar; i++) {
 
@@ -688,6 +701,7 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
                 $(this).val(valores[i]);
                 $(this).addClass('campo-form-' + ids[i]);
                 $(this).addClass('dado-financeiro-' + idsDadoFinanceiro[i]);
+                $(this).addClass('setor-empresa-' + idSetorEmpresa[i]);
             });
 
             let tituloCampos = $('<h5 class="my-3">').text(`${nomesEmpresas[i]} (${setoresEmpresas[i]})`);
@@ -782,9 +796,11 @@ function realizarVariosPagamentos() {
     $('.campos-pagamentos-novos .campos').each(function () {
         let idInput = $(this).attr('class').match(/campo-form-(\d+)/);
         let idsDadoFinanceiro = $(this).attr('class').match(/dado-financeiro-(\d+)/);
+        let idSetorEmpresa = $(this).attr('class').match(/setor-empresa-(\d+)/);
         if (idInput) {
             idInput = idInput[1];
             idsDadoFinanceiro = idsDadoFinanceiro[1];
+            idSetorEmpresa = idSetorEmpresa[1];
             let observacao = $('.obs-pagamento-varios').val()
 
             let operacaoExistente = operacoes.find(op => op.idConta === idInput);
@@ -796,6 +812,7 @@ function realizarVariosPagamentos() {
                     contasBancarias: [],
                     valores: [],
                     dataPagamento: dataPagamento,
+                    id_setor_empresa: idSetorEmpresa,
                     observacao: observacao
                 };
                 operacoes.push(novaOperacao);
@@ -842,7 +859,7 @@ const visualizarConta = (idConta) => {
             idConta: idConta
         }, beforeSend: function () {
             $('.html-clean').html('');
-        }, success: function (data) {
+        }, success: function (data) {   
 
             let dataEmissao = data['conta'].data_emissao ? formatarDatas(data['conta'].data_emissao) : "";
             let dataVencimento = formatarDatas(data['conta'].data_vencimento);

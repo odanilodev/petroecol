@@ -319,6 +319,7 @@ class FinContasPagar extends CI_Controller
 		$formasPagamento = $this->input->post('formasPagamento');
 		$valores = $this->input->post('valores');
 		$obs = $this->input->post('obs');
+		$dados['id_setor_empresa'] = $this->input->post('idSetor');
 
 		$idConta = $this->input->post('idConta');
 		$idDadoFinanceiro = $this->input->post('idDadoFinanceiro');
@@ -410,6 +411,7 @@ class FinContasPagar extends CI_Controller
 
 			$valorTotalPago = 0;
 
+
 			foreach ($operacao['formasPagamento'] as $key => $formaPagamento) {
 
 				$saldoAtual = $this->FinSaldoBancario_model->recebeSaldoBancario($operacao['contasBancarias'][$key]);
@@ -432,6 +434,8 @@ class FinContasPagar extends CI_Controller
 				$dados['movimentacao_tabela'] = 0;
 				$dados['data_movimentacao'] = $dataPagamentoFormatada;
 				$dados['id_dado_financeiro'] = $operacao['idDadoFinanceiro'];
+				$dados['id_setor_empresa'] = $operacao['id_setor_empresa'];
+
 
 				if (empty($operacao['observacao'])) {
 					$dados['observacao'] = $observacaoconta['observacao'];

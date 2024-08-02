@@ -94,6 +94,7 @@ class Agendamentos extends CI_Controller
         $data['idSetor'] = $this->input->post('setor');
         $data['cidadeFiltro'] = $this->input->post('cidadeFiltro');
         $data['etiquetaFiltro'] = $this->input->post('etiquetaFiltro');
+
         $data['responsaveis'] = $this->Funcionarios_model->recebeResponsavelAgendamento();
         $data['veiculos'] = $this->Veiculos_model->recebeVeiculos();
 
@@ -103,7 +104,7 @@ class Agendamentos extends CI_Controller
 
         // Carrega os agendamentos atrasados com base nos parâmetros
         $data['agendamentosAtrasados'] = $this->Agendamentos_model->recebeAgendamentosAtrasados($dataInicioFormatada, $dataFimFormatada, $data['idSetor'], $data['cidadeFiltro'], $data['etiquetaFiltro']);
-        
+
         $data['cidades'] = $this->Clientes_model->recebeCidadesCliente();
         $data['etiquetas'] = $this->Etiquetas_model->recebeEtiquetas();
 
@@ -203,6 +204,52 @@ class Agendamentos extends CI_Controller
         // Responda com os dados em formato JSON
         return $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
+
+    public function obtemAgendamentosPorDataProxima()
+    {
+        $idCliente = $this->input->post('idCliente');
+        $dataAgendamento = $this->input->post('dataAgendamento');
+
+        // Chama a função do modelo para obter os agendamentos
+        $agendamentos = $this->Agendamentos_model->obtemAgendamentosPorDataProxima($idCliente, $dataAgendamento);
+
+        $data = array(
+            'agendamentos' => $agendamentos
+        );
+
+        // Responda com os dados em formato JSON
+        return $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
+
+    public function editaObservacaoAgendamento()
+    {
+        // Obtém os dados do POST
+        $idAgendamento = $this->input->post('idAgendamento');
+
+        $dados['observacao'] = $this->input->post('observacao');
+
+        $retorno = $this->Agendamentos_model->editaAgendamento($idAgendamento, $dados);
+
+        if ($retorno) {
+            $response = array(
+                'success' => true,
+                'type' => 'success',
+                'title' => 'Sucesso!',
+                'message' => 'Agendamento atualizado com sucesso.'
+            );
+        } else {
+            $response = array(
+                'success' => false,
+                'type' => 'error',
+                'title' => 'Algo deu errado!',
+                'message' => 'Erro ao inserir ou editar agendamento para o cliente.'
+            );
+        }
+
+        // Retorna a resposta como JSON
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
+
 
     public function cancelaAgendamentoCliente()
     {

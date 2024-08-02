@@ -114,19 +114,19 @@ function duplicarDicionario() {
             </button>
         </div>
     `;
-    //por padrão row vem com margin e padding - classes retiram
-    let novaLinha = $('<div class="row m-0 p-0"></div>');
+	//por padrão row vem com margin e padding - classes retiram
+	let novaLinha = $('<div class="row m-0 p-0"></div>');
 
-    // imprime os elementos dentro da div row
-    novaLinha.append(clone);
-    novaLinha.append(btnRemove);
+	// imprime os elementos dentro da div row
+	novaLinha.append(clone);
+	novaLinha.append(btnRemove);
 
-    $(novaLinha).find(`.deleta-dicionario`).on('click', function () {
+	$(novaLinha).find(`.deleta-dicionario`).on('click', function () {
 
-        novaLinha.remove();
-    });
+		novaLinha.remove();
+	});
 
-    $(".campos-duplicados").append(novaLinha);
+	$(".campos-duplicados").append(novaLinha);
 
 }
 
