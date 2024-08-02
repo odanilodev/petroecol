@@ -237,6 +237,8 @@ class Clientes extends CI_Controller
         $this->load->model('Funcionarios_model');
         $data['responsaveis'] = $this->Funcionarios_model->recebeResponsavelAgendamento();
 
+        $data['origemCadastroCliente'] = $this->Clientes_model->recebeOrigemCadastroCliente($id);
+
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/detalhes-cliente');
         $this->load->view('admin/paginas/clientes/modals');
@@ -263,11 +265,13 @@ class Clientes extends CI_Controller
 
         $this->load->model('FrequenciaColeta_model');
         $this->load->model('FormaPagamento_model');
-        $this->load->model('ClassificacaoCliente_model');
+        $this->load->model('TipoOrigemCadastro_model');
+        $this->load->model('Funcionarios_model');
 
         $data['frequencia'] = $this->FrequenciaColeta_model->recebeFrequenciasColeta();
         $data['formapagamento'] = $this->FormaPagamento_model->recebeFormasPagamento();
-        $data['classificacoes'] = $this->ClassificacaoCliente_model->recebeClassificacoes();
+        $data['tiposOrigemCadastros'] = $this->TipoOrigemCadastro_model->recebeTiposOrigemCadastros();
+        $data['funcionarios'] = $this->Funcionarios_model->recebeResponsavelAgendamento();
 
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/cadastra-cliente');
@@ -375,7 +379,7 @@ class Clientes extends CI_Controller
     public function verificaAgendamentosCliente()
     {
         $id = $this->input->post('id');
-        
+
         $this->load->model('Agendamentos_model');
         $agendamentosCliente = $this->Agendamentos_model->recebeProximosAgendamentosCliente($id, date('Y-m-d'), true);
 

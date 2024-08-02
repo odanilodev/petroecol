@@ -481,6 +481,32 @@
                         </table>
                       </div>
 
+                      <div class="col-sm-12 col-xxl-12 border-bottom py-3">
+                        <table class="w-100 table-stats">
+                          <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                          <tr>
+                            <td class="py-2">
+                              <div class="d-flex align-items-center">
+                                <div class="d-flex bg-warning-100 rounded-circle flex-center me-3"
+                                  style="width:24px; height:24px">
+                                  <span class="text-warning-600 dark__text-warning-300 far fa-address-book" 
+                                    style="width:16px; height:16px"></span>
+                                </div>
+                                <p class="fw-bold mb-0">Origem de Cadastro</p>
+                              </div>
+                            </td>
+                            <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                            <td class="py-2">
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0"><?= $origemCadastroCliente['NOME_ORIGEM_CADASTRO']; ?></div>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+
                       <?php if ($cliente['observacao'] != ''): ?>
                         <div class="col-sm-12 col-xxl-12 py-3">
                           <table class="w-100 table-stats">

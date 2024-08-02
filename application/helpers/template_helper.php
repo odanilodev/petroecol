@@ -656,4 +656,11 @@ function scriptsDocumentoEmpresaFooter()
         '<script src="' . base_url('assets/js/documento-empresa/formulario-documento-empresa.js') . '"></script>'
 
     );
+}function scriptsTipoOrigemCadastroFooter()
+{
+    return array(
+
+        '<script src="' . base_url('assets/js/tipo-origem-cadastro/formulario-tipo-origem-cadastro.js') . '"></script>'
+
+    );
 }

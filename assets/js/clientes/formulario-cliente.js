@@ -59,7 +59,7 @@ const salvarObsProximaColeta = () => {
 
 const verificaCampos = () => {
 
-    var permissao = true;
+    let permissao = false;
 
     let dadosEmpresa = {};
     $('#form-empresa .campo-empresa').each(function () {
@@ -76,12 +76,13 @@ const verificaCampos = () => {
         dadosResponsavel[$(this).attr('name')] = $(this).val();
     });
 
-    let camposObrigatorios = [
-        // form empresa
+    let camposObrigatoriosEmpresa = [
         'nome',
         'telefone',
-        'razao_social',
-        // form endereco
+        'razao_social'
+    ];
+
+    let camposObrigatoriosEndereco = [
         'rua',
         'numero',
         'bairro',
@@ -89,22 +90,41 @@ const verificaCampos = () => {
         'estado'
     ];
 
-    let camposVazios = [];
+    let camposVaziosEmpresa = [];
+    let camposVaziosEndereco = [];
 
-    $.each(camposObrigatorios, function (index, campo) {
-        if (dadosEndereco[campo] == "" || dadosEmpresa[campo] == "") {
-            camposVazios.push(campo);
-
+    $.each(camposObrigatoriosEmpresa, function (index, campo) {
+        if (dadosEmpresa[campo] === "") {
+            camposVaziosEmpresa.push(campo);
             $(`input[name="${campo}"]`).addClass('invalido');
+        } else {
+            $(`input[name="${campo}"]`).removeClass('invalido');
         }
     });
 
+    $.each(camposObrigatoriosEndereco, function (index, campo) {
+        if (dadosEndereco[campo] === "") {
+            camposVaziosEndereco.push(campo);
+            $(`input[name="${campo}"]`).addClass('invalido');
+        } else {
+            $(`input[name="${campo}"]`).removeClass('invalido');
+        }
+    });
+
+    // Verifica qual formulário tem campos vazios e navega para ele
+    if (camposVaziosEmpresa.length > 0) {
+        $('.btn-etapas[href="#bootstrap-wizard-tab1"]').tab('show');
+    } else if (camposVaziosEndereco.length > 0) {
+        $('.btn-etapas[href="#bootstrap-wizard-tab2"]').tab('show');
+    } else {
+        permissao = true;
+    }
 
     if (permissao) {
         cadastraCliente(dadosEmpresa, dadosEndereco, dadosResponsavel);
     }
-
 }
+
 
 const cadastraCliente = (dadosEmpresa, dadosEndereco, dadosResponsavel) => {
 
@@ -153,8 +173,98 @@ $(function () {
     }
 })
 
+function carregarOpcoesOrigemCadastro(tipo, url, label, placeholder) {
 
-$(document).ready(function () {
+    $('.label-pesquisa').html(label);
+
+    $.ajax({
+        type: "post",
+        url: url,
+        beforeSend: function () {
+            $('.select-origem-cadastro').html(`<option selected disabled value="">${placeholder}</option>`);
+            $('.select-origem-cadastro').prop('disabled', true);
+        },
+        success: function (data) {
+
+            $('.select-origem-cadastro').prop('disabled', false);
+
+            let idOrigemCadastro = $('.select-origem-cadastro-pesquisa').data('id-origem-cadastro');
+
+            let options = `<option selected disabled value="">${placeholder}</option>`;
+
+            if (tipo === 'funcionarios') {
+                for (let i = 0; i < data.funcionarios.length; i++) {
+                    options += `<option ${idOrigemCadastro == data.funcionarios[i].IDFUNCIONARIO ? 'selected' : ''} value="${data.funcionarios[i].IDFUNCIONARIO}">${data.funcionarios[i].nome}</option>`;
+                }
+            } else if (tipo === 'tipos') {
+                for (let i = 0; i < data.tipos.length; i++) {
+                    options += `<option ${idOrigemCadastro == data.tipos[i].id ? 'selected' : ''} value="${data.tipos[i].id}">${data.tipos[i].nome}</option>`;
+                }
+            }
+
+            $('.select-origem-cadastro').html(options);
+            $('.select-origem-cadastro-pesquisa').data('id-origem-cadastro', '');
+
+
+        }
+    });
+}
+
+
+$(document).on('change', '.select-origem-cadastro-pesquisa', function () {
+
+    let pesquisa = $(this).val();
+
+    if (pesquisa == 1) {
+        $('.div-pesquisa').removeClass('d-none');
+        carregarOpcoesOrigemCadastro(
+            'funcionarios',
+            `${baseUrl}funcionarios/recebeTodosFuncionarios`,
+            'Funcionários',
+            'Selecione o Funcionário'
+        );
+    } else if (pesquisa == 2) {
+        $('.div-pesquisa').removeClass('d-none');
+        carregarOpcoesOrigemCadastro(
+            'tipos',
+            `${baseUrl}tipoOrigemCadastro/recebeTodosTiposOrigemCadastro`,
+            'Outro Meios',
+            'Selecione o Meio'
+        );
+    } else {
+        $('.select-origem-cadastro').val('').trigger('change')
+        $('.div-pesquisa').addClass('d-none');
+    }
+});
+
+
+
+$(function () {
+
+    let valorSelectPesquisa = $('.select-origem-cadastro-pesquisa').val();
+
+    if (valorSelectPesquisa == 1) {
+        $('.div-pesquisa').removeClass('d-none');
+
+        carregarOpcoesOrigemCadastro(
+            'funcionarios',
+            `${baseUrl}funcionarios/recebeTodosFuncionarios`,
+            'Funcionários',
+            'Selecione o Funcionário',
+            $('.select-origem-cadastro').data('id-origem-cadastro')
+        );
+    } else if (valorSelectPesquisa == 2) {
+        $('.div-pesquisa').removeClass('d-none');
+
+        carregarOpcoesOrigemCadastro(
+            'tipos',
+            `${baseUrl}tipoOrigemCadastro/recebeTodosTiposOrigemCadastro`,
+            'Outro Meios',
+            'Selecione o Meio',
+            $('.select-origem-cadastro').data('id-origem-cadastro')
+        );
+    }
+
     $('.input-cep').on('blur', function () {
         var cep = $(this).val().replace(/\D/g, '');
 
@@ -183,7 +293,7 @@ $(document).ready(function () {
 
 
 
-$(document).ready(function () {
+$(function () {
 
     if ($('.valida-email').val() != "" && !validaEmail($('.valida-email').val())) {
 
@@ -261,7 +371,7 @@ const deletaCliente = (id) => {
                 `,
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6', 
+                confirmButtonColor: '#3085d6',
                 confirmButtonText: 'Sim, deletar',
                 cancelButtonText: 'Cancelar',
                 cancelButtonColor: '#dc3741',

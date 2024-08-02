@@ -290,4 +290,20 @@ class Clientes_model extends CI_Model
         $query = $this->db->get('ci_clientes');
         return $query->row_array();
     }
+
+    public function recebeOrigemCadastroCliente(int $id_cliente): array
+    {
+      $this->db->select(
+        'C.id, C.origem_cadastro, 
+            IF(C.origem_cadastro = 1, F.nome, TPC.nome) as NOME_ORIGEM_CADASTRO'
+      );
+      $this->db->join('ci_tipo_origem_cadastro TPC', 'TPC.id = C.id_origem_cadastro', 'left');
+      $this->db->join('ci_funcionarios F', 'F.id = C.id_origem_cadastro', 'left');
+      $this->db->where('C.id', $id_cliente);
+      $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+  
+      $query = $this->db->get('ci_clientes C');
+  
+      return $query->row_array() ?? [];
+    }
 }
