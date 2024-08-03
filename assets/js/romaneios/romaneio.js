@@ -578,7 +578,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                     <div class="col-md-3 mb-2 div-pagamento">
 
-                        <label class="form-label">Tipo de Pagamento</label>
+                        <label class="form-label teste">Tipo de Pagamento</label>
                         <select class="form-select select-tipo-pagamento w-100 tipo-pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-tipo-pagamento">
 
                             <option disabled selected value="">Selecione</option>
@@ -590,7 +590,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                     <div class="col-md-4 mb-2 div-pagamento">
 
-                        <label class="form-label">Forma de Pagamento</label>
+                        <label class="form-label forma">Forma de Pagamento</label>
                         <select class="form-select select-pagamento w-100 pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-pagamento-${i}">
 
                             <option disabled selected value="">Selecione</option>
@@ -600,7 +600,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                     <div class="col-md-4 mb-2 div-pagamento">
 
-                        <label class="form-label">Valor Pago</label>
+                        <label class="form-label valor">Valor Pago</label>
                         <input class="form-control input-pagamento pagamento-${clientes[i].id} campos-form-${clientes[i].id}" type="text" placeholder="Digite valor pago" value="">
 
                     </div>
@@ -877,8 +877,6 @@ function finalizarRomaneio() {
     let accordionAberto = false;
     $('.input-obrigatorio').each(function () {
 
-        console.log($(this).val())
-
         if (!$(this).val()) {
 
             let collapse = $(this).data('collapse');
@@ -913,7 +911,7 @@ function finalizarRomaneio() {
     let valorTotal = 0;
 
     $('.accordion-item').each(function () {
-
+        
         let salvarDados = false; // uso para dar permissao para salvar os valores no array e mandar pro back
 
         if ($(this).find('.nao-coletado').is(':checked')) {
@@ -982,7 +980,12 @@ function finalizarRomaneio() {
 
         $(this).find('.div-pagamento .select-pagamento option:selected').each(function () {
 
-            if ($(this).val() != '') {
+            let divPagamento = $(this).closest('.col-md-4').prevAll('.div-pagamento');
+
+            let tipoPagamento = divPagamento.find('.select-tipo-pagamento option:selected').val();
+
+
+            if ($(this).val() != '' && tipoPagamento == 0) {
 
                 formaPagamentoSelecionados.push($(this).val());
             }
@@ -993,7 +996,11 @@ function finalizarRomaneio() {
 
         $(this).find('.div-pagamento .input-pagamento').each(function () {
 
-            if ($(this).val() != '') {
+            let divPagamento = $(this).closest('.col-md-4').prevAll('.div-pagamento');
+
+            let tipoPagamento = divPagamento.find('.select-tipo-pagamento option:selected').val();
+
+            if ($(this).val() != '' && tipoPagamento == 0) {
 
                 valorPagamento.push($(this).val());
             }
@@ -1011,6 +1018,7 @@ function finalizarRomaneio() {
             }
 
         });
+
 
         // salva somente os dados dos clientes que foram preenchidos
         if (salvarDados) {

@@ -237,9 +237,12 @@ function atualizarSaldoFuncionario() {
         }
     });
 
-    let valorTroco = formatarValorMoeda(saldoAtual);
-    $('.saldo-funcionario').html(valorTroco);
-    $('.valor-troco-parcial').val(valorTroco); // grava o troco para fazer o calculo com mais pagamentos
+    if (!isNaN(saldoAtual)) {
+                
+        let valorTroco = formatarValorMoeda(saldoAtual);
+        $('.saldo-funcionario').html(valorTroco);
+        $('.valor-troco-parcial').val(valorTroco); // grava o troco para fazer o calculo com mais pagamentos
+    }
 }
 
 
