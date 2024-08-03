@@ -345,7 +345,7 @@ function duplicarElementos() {
 
     let contaBancaria = `
         <div class="col-md-4 mb-2 mt-2">
-            <select class="select2 form-select select-conta-bancaria w-100 input-obrigatorio" name="conta-bancaria">
+            <select class="select2 form-select select-conta-bancaria w-100" name="conta-bancaria">
                 ${optionsContaBancaria}
             </select>
             <div class="d-none aviso-obrigatorio">Preencha este campo</div>
@@ -354,7 +354,7 @@ function duplicarElementos() {
 
     let formaPagamento = `
         <div class="col-md-4 mb-2 mt-2">
-            <select class="select2 form-select select-forma-pagamento w-100 input-obrigatorio" name="forma-pagamento">
+            <select class="select2 form-select select-forma-pagamento w-100" name="forma-pagamento">
                 ${optionsFormaPagamento}
             </select>
             <div class="d-none aviso-obrigatorio">Preencha este campo</div>
@@ -362,7 +362,7 @@ function duplicarElementos() {
     `;
 
     let inputValor = `
-        <div class="col-md-3 mb-2 input-obrigatorio">
+        <div class="col-md-3 mb-2">
             <input class="form-control mt-2 input-valor mascara-dinheiro" type="text" placeholder="Digite o valor" name="valor">
         </div>
         <div class="d-none aviso-obrigatorio">Preencha este campo</div>
@@ -871,10 +871,13 @@ $(document).on('input', '.input-obs', function () {
 
 function finalizarRomaneio() {
 
+
     var permissao = true;
 
     let accordionAberto = false;
     $('.input-obrigatorio').each(function () {
+
+        console.log($(this).val())
 
         if (!$(this).val()) {
 

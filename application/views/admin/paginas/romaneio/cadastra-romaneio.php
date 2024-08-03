@@ -17,18 +17,24 @@
                         <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
 
                             <div class="card-body pt-4 pb-0">
-                                <div class="tab-pane row" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab2" id="bootstrap-wizard-validation-tab2">
-                                    <form method="post" class="needs-validation" novalidate="novalidate" data-wizard-form="1">
+                                <div class="tab-pane row" role="tabpanel"
+                                    aria-labelledby="bootstrap-wizard-validation-tab2"
+                                    id="bootstrap-wizard-validation-tab2">
+                                    <form method="post" class="needs-validation" novalidate="novalidate"
+                                        data-wizard-form="1">
 
                                         <div class="row">
 
                                             <div class="mb-2 col-md-3">
                                                 <label>Escolha o setor</label>
-                                                <select class="form-select w-100 select-setor select2" id="select-setor">
+                                                <select class="form-select w-100 select-setor select2"
+                                                    id="select-setor">
 
                                                     <option disabled selected value="">Selecione o setor</option>
                                                     <?php foreach ($setores as $setor) { ?>
-                                                        <option value="<?= $setor['id_setor_empresa'] ?>"><?= strtoupper($setor['nome']); ?></option>
+                                                        <option value="<?= $setor['id_setor_empresa'] ?>">
+                                                            <?= strtoupper($setor['nome']); ?>
+                                                        </option>
                                                     <?php } ?>
 
                                                 </select>
@@ -36,14 +42,18 @@
 
                                             <div class="mb-2 col-md-3">
                                                 <label>Etiquetas</label>
-                                                <select disabled id="select-etiquetas" class="form-select w-100 mb-3 select2 input-filtro-romaneio" multiple data-placeholder="Selecione a(s) etiqueta(s)">
+                                                <select disabled id="select-etiquetas"
+                                                    class="form-select w-100 mb-3 select2 input-filtro-romaneio"
+                                                    multiple data-placeholder="Selecione a(s) etiqueta(s)">
                                                     <!-- JS -->
                                                 </select>
                                             </div>
 
                                             <div class="mb-2 col-md-3">
                                                 <label>Cidades</label>
-                                                <select disabled id="select-cidades" class="form-select w-100 mb-3 select2 input-filtro-romaneio" multiple data-placeholder="Selecione a(s) cidade(s)">
+                                                <select disabled id="select-cidades"
+                                                    class="form-select w-100 mb-3 select2 input-filtro-romaneio"
+                                                    multiple data-placeholder="Selecione a(s) cidade(s)">
                                                     <!-- JS -->
                                                 </select>
                                             </div>
@@ -51,15 +61,22 @@
                                             <div class="col-md-3 mb-2">
                                                 <label>Data Agendamento</label>
 
-                                                <input class="form-control datetimepicker input-coleta" required name="data_coleta" type="text" placeholder="Data Agendamento" data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
-                                                <span><input id="filtrar-data" type="checkbox" autocomplete="off"/><small> Filtrar por data</small></span>
+                                                <input class="form-control datetimepicker input-coleta" required
+                                                    name="data_coleta" type="text" placeholder="Data Agendamento"
+                                                    data-options='{"disableMobile":true,"allowInput":true}'
+                                                    style="cursor: pointer;" />
+                                                <span><input id="filtrar-data" type="checkbox"
+                                                        autocomplete="off" /><small> Filtrar por data</small></span>
                                             </div>
 
                                             <div class="flex-1 text-end my-5">
-                                                <button class="btn px-3 btn-phoenix-secondary btn-envia-romaneio" onclick="filtrarClientesRomaneio()" type="button">
-                                                    Buscar Clientes <span class="fa-solid fa-filter text-primary" data-fa-transform="down-3"></span>
+                                                <button class="btn px-3 btn-phoenix-secondary btn-envia-romaneio"
+                                                    onclick="filtrarClientesRomaneio()" type="button">
+                                                    Buscar Clientes <span class="fa-solid fa-filter text-primary"
+                                                        data-fa-transform="down-3"></span>
                                                 </button>
-                                                <div class="spinner-border text-primary load-form d-none load-form-romaneio" role="status"></div>
+                                                <div class="spinner-border text-primary load-form d-none load-form-romaneio"
+                                                    role="status"></div>
                                             </div>
 
                                     </form>
@@ -79,7 +96,7 @@
 
     <!-- Modal Romaneio-->
     <div class="modal fade" id="modalRomaneio" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Gerar um Romaneio</h5>
@@ -99,7 +116,8 @@
 
                         </table>
 
-                        <i class="fas fa-plus mt-2 add-cliente btn btn-phoenix-secondary" style="cursor: pointer; float: right"></i>
+                        <i class="fas fa-plus mt-2 add-cliente btn btn-phoenix-secondary"
+                            style="cursor: pointer; float: right"></i>
 
 
                     </div>
@@ -124,7 +142,7 @@
                             <?php
                             foreach ($responsaveis as $v) { ?>
                                 <option value="<?= $v['IDFUNCIONARIO'] ?>"> <?= $v['nome'] ?> | <?= $v['CARGO'] ?></option>
-                            <?php }  ?>
+                            <?php } ?>
                         </select>
                         <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                     </div>
@@ -135,14 +153,17 @@
                             <option selected disabled>Selecione o veículo</option>
                             <?php
                             foreach ($veiculos as $veiculo) { ?>
-                                <option value="<?= $veiculo['id'] ?>"> <?= $veiculo['modelo'] ?> | <?= strtoupper($veiculo['placa']) ?></option>
-                            <?php }  ?>
+                                <option value="<?= $veiculo['id'] ?>"> <?= $veiculo['modelo'] ?> |
+                                    <?= strtoupper($veiculo['placa']) ?>
+                                </option>
+                            <?php } ?>
                         </select>
                         <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                     </div>
 
 
-                    <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
+                    <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status">
+                    </div>
                     <input type="hidden" class="id-setor-empresa">
                     <input type="hidden" class="todos-clientes">
                     <input type="hidden" class="ids-selecionados">
@@ -179,7 +200,9 @@
                                                     <div class="mb-4">
                                                         <label class="text-body-highlight fw-bold mb-2">Grupos
                                                             Macros</label>
-                                                        <select class="form-select select2 select-macros input-obrigatorio-verba" name="id_macro">
+                                                        <select
+                                                            class="form-select select2 select-macros input-obrigatorio-verba"
+                                                            name="id_macro">
                                                             <option selected disabled value="">Selecione</option>
                                                             <?php foreach ($macros as $macro) { ?>
                                                                 <option value="<?= $macro['id'] ?>"><?= $macro['nome'] ?>
@@ -196,7 +219,9 @@
                                                     <div class="mb-4 ">
                                                         <label class="text-body-highlight fw-bold mb-2 ">Grupos
                                                             Micros</label>
-                                                        <select disabled class="form-select select2 select-micros input-obrigatorio-verba" name="id_micro">
+                                                        <select disabled
+                                                            class="form-select select2 select-micros input-obrigatorio-verba"
+                                                            name="id_micro">
                                                             <option selected disabled value="">Selecione</option>
                                                             <!-- JS -->
                                                         </select>
@@ -209,8 +234,10 @@
                                             <div class="campos-pagamento row">
                                                 <div class="col-lg-4 duplica-pagamento">
                                                     <div class="mb-4">
-                                                        <label class="text-body-highlight fw-bold mb-2">Conta Bancária</label>
-                                                        <select name="conta-bancaria" class="form-select select2 select-conta-bancaria input-obrigatorio-verba">
+                                                        <label class="text-body-highlight fw-bold mb-2">Conta
+                                                            Bancária</label>
+                                                        <select name="conta-bancaria"
+                                                            class="form-select select2 select-conta-bancaria input-obrigatorio-verba">
                                                             <option value="" selected disabled>Selecione</option>
                                                             <?php foreach ($contasBancarias as $contaBancaria) { ?>
                                                                 <option value="<?= $contaBancaria['id_conta_bancaria'] ?>">
@@ -223,8 +250,10 @@
                                                 </div>
                                                 <div class="col-lg-4 duplica-pagamento">
                                                     <div class="mb-4">
-                                                        <label class="text-body-highlight fw-bold mb-2">Forma Pagamento</label>
-                                                        <select name="forma-pagamento" class="form-select select2 select-forma-pagamento input-obrigatorio-verba">
+                                                        <label class="text-body-highlight fw-bold mb-2">Forma
+                                                            Pagamento</label>
+                                                        <select name="forma-pagamento"
+                                                            class="form-select select2 select-forma-pagamento input-obrigatorio-verba">
                                                             <option value="" selected disabled>Selecione</option>
                                                             <?php foreach ($formasTransacao as $formaTransacao) { ?>
                                                                 <option value="<?= $formaTransacao['id'] ?>">
@@ -238,12 +267,15 @@
                                                 <div class="col-lg-3 duplica-pagamento">
                                                     <div class="mb-4">
                                                         <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                        <input class="form-control input-valor-recebido mascara-dinheiro input-valor-unic input-obrigatorio-verba" required name="valor" type="text" placeholder="Valor">
+                                                        <input
+                                                            class="form-control input-valor-recebido mascara-dinheiro input-valor-unic input-obrigatorio-verba"
+                                                            required name="valor" type="text" placeholder="Valor">
                                                         <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-1 mt-5">
-                                                    <button title="Mais formas de pagamento" type="button" class="btn btn-phoenix-success bg-white hover-bg-100 duplicar-pagamento">+</button>
+                                                    <button title="Mais formas de pagamento" type="button"
+                                                        class="btn btn-phoenix-success bg-white hover-bg-100 duplicar-pagamento">+</button>
                                                 </div>
 
                                                 <div class="campos-duplicados">
@@ -252,7 +284,9 @@
 
                                                 <div class="mt-2">
 
-                                                    <input type="checkbox" class="check-sem-verba form-check-input cursor-pointer"> Sem Verba
+                                                    <input type="checkbox"
+                                                        class="check-sem-verba form-check-input cursor-pointer"> Sem
+                                                    Verba
                                                 </div>
 
                                             </div>
