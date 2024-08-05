@@ -335,6 +335,13 @@ $(document).on('click', '.duplicar-pagamento', function () {
     carregaSelect2('select2', 'modalSaldoMotoristaRomaneio');
 });
 
+$(document).on('click', '.duplicar-verbas-pagamento', function () {
+
+    duplicarElementos();
+
+    carregaSelect2('select2', 'modalAdicinarVerbaRomaneio');
+});
+
 
 // duplica forma de pagamento e residuos
 function duplicarElementos() {
@@ -911,7 +918,7 @@ function finalizarRomaneio() {
     let valorTotal = 0;
 
     $('.accordion-item').each(function () {
-        
+
         let salvarDados = false; // uso para dar permissao para salvar os valores no array e mandar pro back
 
         if ($(this).find('.nao-coletado').is(':checked')) {
@@ -952,18 +959,18 @@ function finalizarRomaneio() {
             if (tipoMoedaPagamento == 1 && tipoPagamento == 0) {
 
                 let inputValorPagamento = divPagamento.find('.input-pagamento').val();
-    
+
                 // Converta inputValorPagamento para um número
                 let valorNumerico = parseFloat(inputValorPagamento) || 0;
-    
+
                 valorTotal += valorNumerico;
-    
+
                 checkboxFuncionarios.push(valorNumerico);
             }
 
         });
 
-      
+
         let qtdResiduos = [];
 
         $(this).find('.input-residuo').each(function () {
@@ -1583,11 +1590,17 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
                                     ` : ''}
 
                                     ${romaneio.status == 0 ? `
-                                        <a class="dropdown-item" href="#" title="Deletar Romaneio" ${romaneio.status == 0 ? 'disabled' : ''} onclick='deletarRomaneio(${romaneio.ID_ROMANEIO})'>
+                                        <a class="dropdown-item" href="#" title="Deletar Romaneio" onclick='deletarRomaneio(${romaneio.ID_ROMANEIO})'>
                                             <span class="fas fa-trash ms-1"></span> Deletar
                                         </a>
                                     ` : ''}
 
+                                    ${romaneio.status == 0 ? `
+                                        <div class="dropdown-divider btn-realizar-pagamento-1"></div>
+                                        <a data-funcionario="${romaneio.RESPONSAVEL}" data-codigo="${romaneio.codigo}" data-saldo="${romaneio.saldo}" data-id-funcionario="${romaneio.ID_RESPONSAVEL}" data-id-setor-empresa="${romaneio.id_setor_empresa}" class="dropdown-item btn-add-verba-romaneio" href="#" title="Adicionar verba para o responsável" data-bs-toggle="modal" data-bs-target="#modalAdicinarVerbaRomaneio">
+                                            <span class="fas fa-coins ms-1"></span> Adicionar verba
+                                        </a>
+                                    ` : ''}
 
                                     ${romaneio.prestar_conta == 0 && romaneio.status == 1 ? `
                                         <div class="dropdown-divider btn-realizar-pagamento-1"></div>
@@ -1596,7 +1609,7 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
                                             <span class="uil-file-check-alt ms-1"></span> Prestar Contas
                                         </a>
 
-                                    ` : '' }
+                                    ` : ''}
 
                                     
                                 </div>
@@ -1614,6 +1627,75 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
             }
         })
     }
+}
+
+$(document).on('click', '.btn-add-verba-romaneio', function () {
+
+    carregaSelect2('select2', 'modalAdicinarVerbaRomaneio');
+
+    let saldoResponsavel = $(this).data('saldo');
+    let nomeResponsavel = $(this).data('funcionario');
+    $('.id-responsavel').val($(this).data('id-funcionario'));
+
+    $('.nome-funcionario').html(nomeResponsavel);
+    $('.saldo-verba-funcionario').html(formatarValorMoeda(saldoResponsavel));
+
+})
+
+const salvarVerbasAdicionaisRomaneio = () => {
+
+    let permissao = true;
+
+    let dadosFormulario = {};
+    if (permissao) {
+
+        $(`.form-verba-adicional-responsavel-coleta`).find("select, input").each(function () {
+
+            let inputName = $(this).attr('name');
+            let inputValue = $(this).val();
+
+            if (!dadosFormulario[inputName]) {
+                dadosFormulario[inputName] = [];
+            }
+
+            // Adiciona o valor ao array
+            dadosFormulario[inputName].push(inputValue);
+
+            if (!$('.check-sem-verba').is(':checked')) {
+                permissao = verificaCamposObrigatorios('input-obrigatorio-verba');
+            }
+
+        });
+
+        let responsavel = $('.id-responsavel').val();
+
+        if (permissao) {
+
+            $.ajax({
+                type: 'post',
+                url: `${baseUrl}finFluxoCaixa/insereMovimentacaoRomaneioFluxo`,
+                data: {
+                    dadosFluxo: dadosFormulario,
+                    responsavel: responsavel
+
+                }, beforeSend: function () {
+
+                    $('.load-form-pagamento').removeClass('d-none');
+                    $('.btn-salva-verba-responsavel').addClass('d-none');
+
+                }, success: function (data) {
+
+                    $('.load-form-pagamento').addClass('d-none');
+                    $('.btn-salva-verba-responsavel').removeClass('d-none');
+
+                    avisoRetorno('Sucesso!', 'Verbas adicionadas com sucesso!', 'success', `${baseUrl}romaneios`)
+                }
+            })
+        }
+
+
+    }
+
 }
 
 $(document).on('change', '.select-macros', function () {

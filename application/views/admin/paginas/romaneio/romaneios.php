@@ -468,10 +468,140 @@
                     <input type="hidden" class="codigo-romaneio">
                     <input type="hidden" class="id-funcionario">
                     <input type="hidden" class="id-setor-empresa">
-                    
+
                     <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
                     <button id="btn-voltar-etapa" class="btn btn-secondary d-none btn-form" type="button" data-wizard-prev-btn="data-wizard-prev-btn">Voltar</button>
                     <button id="btn-proxima-etapa" class="btn btn-info btn-form btn-proxima-etapa" type="button">Próxima Etapa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Adicionar mais verbas para o responsável-->
+    <div class="modal fade" id="modalAdicinarVerbaRomaneio" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollabe modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Verba para o responsável pela coleta</h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="col-sm-12 col-xxl-12 py-3">
+                                        <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0 form-verba-adicional-responsavel-coleta">
+
+                                            <div class="row">
+
+                                                <div class="col-12 mb-3">
+                                                    <p>
+                                                        <span class="nome-funcionario"></span>
+                                                        - <span class="saldo-verba-funcionario"></span>
+                                                    </p>
+                                                </div>
+
+                                                <div class="col-lg-6">
+
+                                                    <div class="mb-4">
+                                                        <label class="text-body-highlight fw-bold mb-2">Grupos Macros</label>
+                                                        <select class="form-select select2 select-macros input-obrigatorio-verba" name="id_macro">
+                                                            <option selected disabled value="">Selecione</option>
+                                                            <?php foreach ($macros as $macro) { ?>
+                                                                <option value="<?= $macro['id'] ?>"><?= $macro['nome'] ?>
+                                                                </option>
+                                                            <?php } ?>
+                                                        </select>
+                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-lg-6">
+                                                    <div class="mb-4 ">
+                                                        <label class="text-body-highlight fw-bold mb-2 ">Grupos Micros</label>
+                                                        <select disabled class="form-select select2 select-micros input-obrigatorio-verba" name="id_micro">
+                                                            <option selected disabled value="">Selecione</option>
+                                                            <!-- JS -->
+                                                        </select>
+                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="campos-pagamento row">
+                                                <div class="col-lg-4 duplica-pagamento">
+                                                    <div class="mb-4">
+                                                        <label class="text-body-highlight fw-bold mb-2">Conta Bancária</label>
+                                                        <select name="conta-bancaria" class="form-select select2 select-conta-bancaria input-obrigatorio-verba">
+                                                            <option value="" selected disabled>Selecione</option>
+                                                            <?php foreach ($contasBancarias as $contaBancaria) { ?>
+                                                                <option value="<?= $contaBancaria['id_conta_bancaria'] ?>">
+                                                                    <?= $contaBancaria['apelido'] ?>
+                                                                </option>
+                                                            <?php } ?>
+                                                        </select>
+                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 duplica-pagamento">
+                                                    <div class="mb-4">
+                                                        <label class="text-body-highlight fw-bold mb-2">Forma Pagamento</label>
+                                                        <select name="forma-pagamento" class="form-select select2 select-forma-pagamento input-obrigatorio-verba">
+                                                            <option value="" selected disabled>Selecione</option>
+                                                            <?php foreach ($formasTransacao as $formaTransacao) { ?>
+                                                                <option value="<?= $formaTransacao['id'] ?>">
+                                                                    <?= $formaTransacao['nome'] ?>
+                                                                </option>
+                                                            <?php } ?>
+                                                        </select>
+                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 duplica-pagamento">
+                                                    <div class="mb-4">
+                                                        <label class="text-body-highlight fw-bold mb-2">Valor</label>
+                                                        <input class="form-control input-valor-recebido mascara-dinheiro input-valor-unic input-obrigatorio-verba" required name="valor" type="text" placeholder="Valor">
+                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-1 mt-5">
+                                                    <button title="Mais formas de pagamento" type="button" class="btn btn-phoenix-success bg-white hover-bg-100 duplicar-verbas-pagamento">+</button>
+                                                </div>
+
+                                                <div class="campos-duplicados">
+                                                    <!-- JS -->
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+
+
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+                    <input type="hidden" class="id-responsavel">
+                    <div class="spinner-border text-primary load-form-pagamento d-none" role="status"></div>
+                    <button type="button" class="btn btn-primary btn-salva-verba-responsavel" onclick="salvarVerbasAdicionaisRomaneio()">Salvar</button>
+
                 </div>
             </div>
         </div>
