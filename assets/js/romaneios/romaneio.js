@@ -586,7 +586,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     <div class="col-md-3 mb-2 div-pagamento">
 
                         <label class="form-label teste">Tipo de Pagamento</label>
-                        <select class="form-select select-tipo-pagamento w-100 tipo-pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-tipo-pagamento">
+                        <select class="select2 form-select select-tipo-pagamento w-100 tipo-pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-tipo-pagamento">
 
                             <option disabled selected value="">Selecione</option>
                             <option value="0">Pagamento no ato</option>
@@ -598,7 +598,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     <div class="col-md-4 mb-2 div-pagamento">
 
                         <label class="form-label forma">Forma de Pagamento</label>
-                        <select class="form-select select-pagamento w-100 pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-pagamento-${i}">
+                        <select class="select2 form-select select-pagamento w-100 pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-pagamento-${i}">
 
                             <option disabled selected value="">Selecione</option>
                             
@@ -711,8 +711,11 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
     }
 
     for (let i = 0; i < registros; i++) {
-        $(`#select-pagamento-${i}`).val(clientes[i].ID_FORMA_PAGAMENTO);
+        $(`#select-pagamento-${i}`).val(clientes[i].ID_FORMA_PAGAMENTO).trigger('change');
     }
+
+    carregaSelect2('select2', 'modalConcluirRomaneio');
+
 }
 
 
@@ -721,7 +724,7 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
 
     let selectTipoPagamento = `
         <div class="col-md-3 mb-2 div-pagamento">
-            <select class="form-select select-tipo-pagamento w-100">
+            <select class="select2 form-select select-tipo-pagamento w-100">
                 <option disabled selected value="">Selecione</option>
                 <option value="0">Pagamento no ato</option>
                 <option value="1">Pagamento a prazo</option>
@@ -734,7 +737,7 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
 
     let selectHtml = `
         <div class="col-md-4 mb-2 div-${novoElemento}">
-            <select class="form-select select-${novoElemento} w-100 ${novoElemento == "residuo" ? 'input-obrigatorio' : ''} ">
+            <select class="select2 form-select select-${novoElemento} w-100 ${novoElemento == "residuo" ? 'input-obrigatorio' : ''} ">
                 ${options}
             </select>
         </div>
@@ -794,6 +797,8 @@ $(document).on('click', '.duplicar-residuo', function () {
 $(document).on('click', '.duplicar-pagamento', function () {
 
     duplicarElemento(this, 'pagamento', 'valor pago', 'pagamentos-duplicados');
+
+    carregaSelect2('select2', 'modalConcluirRomaneio');
 
 });
 
