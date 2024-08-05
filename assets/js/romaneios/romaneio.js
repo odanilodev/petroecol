@@ -500,9 +500,12 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpre
                 $('.responsavel').html(`${data.responsavel}`);
 
                 exibirDadosClientes(data.retorno, data.registros, data.residuos, data.pagamentos, data.id_cliente_prioridade);
+                carregaSelect2('select2', 'modalConcluirRomaneio');
             }
         })
     }
+
+
 }
 
 
@@ -585,8 +588,8 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                     <div class="col-md-3 mb-2 div-pagamento">
 
-                        <label class="form-label teste">Tipo de Pagamento</label>
-                        <select class="select2 form-select select-tipo-pagamento w-100 tipo-pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-tipo-pagamento">
+                        <label class="form-label">Tipo de Pagamento</label>
+                        <select class="select2 form-select select-tipo-pagamento w-100 tipo-pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-tipo-pagamento-${i}">
 
                             <option disabled selected value="">Selecione</option>
                             <option value="0">Pagamento no ato</option>
@@ -629,7 +632,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                         <label class="form-label">Resíduo Coletado</label>
                         
-                        <select class="form-select select-residuo input-obg-${clientes[i].id} w-100 campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" data-collapse="${i}" id="select-residuo" >
+                        <select class="select2 form-select select-residuo input-obg-${clientes[i].id} w-100 campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" data-collapse="${i}" id="select-residuo-${i}" >
 
                             <option disabled selected value="">Selecione</option>
                             
@@ -714,8 +717,6 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
         $(`#select-pagamento-${i}`).val(clientes[i].ID_FORMA_PAGAMENTO).trigger('change');
     }
 
-    carregaSelect2('select2', 'modalConcluirRomaneio');
-
 }
 
 
@@ -791,6 +792,8 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
 $(document).on('click', '.duplicar-residuo', function () {
 
     duplicarElemento(this, 'residuo', 'quantidade coletada', 'residuos-duplicados');
+    carregaSelect2('select2', 'modalConcluirRomaneio');
+
 
 });
 
@@ -1299,14 +1302,14 @@ const novoClienteRomaneio = () => {
 
     $('.btn-adicionar-clientes-romaneio').attr('disalbed', true);
 
+    let idSetorEmpresa = $('.input-id-setor-empresa').val();
+
+    recebeClientesSetor(idSetorEmpresa);
+
     $('.select2-edita').select2({
         dropdownParent: "#modalEditarRomaneio",
         theme: 'bootstrap-5'
     });
-
-    let idSetorEmpresa = $('.input-id-setor-empresa').val();
-
-    recebeClientesSetor(idSetorEmpresa);
 }
 
 $(document).on('click', '.adicionar-cliente', function () {
