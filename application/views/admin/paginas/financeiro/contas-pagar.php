@@ -1242,7 +1242,7 @@
 
                 <div class="modal-footer">
                     <input type="hidden" class="id-editar-conta">
-                    <input type="text" class="input-id-setor">
+                    <input type="hidden" class="input-id-setor">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
                     <button class="btn btn-success btn-form cadastra-conta-pagar" type="button"
                         onclick="cadastraContasPagar('form-editar-pagar')">Salvar</button>
@@ -1359,7 +1359,7 @@
                     <input type="hidden" class="id-conta-pagamento">
                     <input type="hidden" class="id-dado-financeiro">
                     <input type="hidden" class="id-dado-cliente">
-                    <input type="text" class="input-id-setor">
+                    <input type="hidden" class="input-id-setor">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
                     <button class="btn btn-primary btn-form" type="button" onclick="realizarPagamento()">Pagar
                         Conta</button>
