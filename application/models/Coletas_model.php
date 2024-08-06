@@ -67,6 +67,8 @@ class Coletas_model extends CI_Model
         $this->db->where('data_coleta >=', $data_inicio);
         $this->db->where('data_coleta <=', $data_fim);
         $this->db->where('coletado', 1);
+        $this->db->where('status', 1);
+
 
         if ($residuo) {
 
