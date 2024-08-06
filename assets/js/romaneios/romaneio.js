@@ -2,10 +2,11 @@ var baseUrl = $('.base-url').val();
 
 let filtrarClientesRomaneio = () => {
 
-    $('.select2').select2({
+    $('.select2-modal-romaneio').select2({
         dropdownParent: "#modalRomaneio",
         theme: 'bootstrap-5'
     });
+
 
     let clientesModalRomaneio = $('.clientes-modal-romaneio');
     let checkTodos = `<tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
@@ -410,13 +411,6 @@ $(document).on('click', '.add-cliente', function () {
 
     $('#select-cliente-modal').val('').trigger('change');
     $('.div-select-modal').removeClass('d-none');
-
-    $('.select2').select2({
-        dropdownParent: "#modalRomaneio",
-        theme: 'bootstrap-5'
-    });
-
-
 })
 
 $('#select-cliente-modal').change(function () {
@@ -1196,7 +1190,7 @@ function finalizarRomaneio() {
 }
 
 // carrega o select2
-$(document).ready(function () {
+$(function () {
 
     $('.select2').select2({
         theme: "bootstrap-5",

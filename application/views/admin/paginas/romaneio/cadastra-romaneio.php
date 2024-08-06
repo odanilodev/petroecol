@@ -96,7 +96,7 @@
 
     <!-- Modal Romaneio-->
     <div class="modal fade" id="modalRomaneio" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Gerar um Romaneio</h5>
@@ -124,7 +124,7 @@
 
                     <div class="div-select-modal d-none">
                         <label>Atribuir novo cliente ao romaneio</label>
-                        <select class="form-select w-100 mb-3 select2" id="select-cliente-modal">
+                        <select class="form-select w-100 mb-3 select2-modal-romaneio" id="select-cliente-modal">
 
                             <option selected value="">Selecione o cliente</option>
 
@@ -137,7 +137,7 @@
 
                     <div class="col-12">
 
-                        <select class="form-select w-100 input-obrigatorio" id="select-responsavel">
+                        <select class="form-select w-100 input-obrigatorio select2-modal-romaneio" id="select-responsavel">
                             <option selected disabled>Selecione o responsável</option>
                             <?php
                             foreach ($responsaveis as $v) { ?>
@@ -149,7 +149,7 @@
 
                     <div class="col-12">
 
-                        <select class="form-select w-100 input-obrigatorio" id="select-veiculo">
+                        <select class="form-select w-100 input-obrigatorio select2-modal-romaneio" id="select-veiculo">
                             <option selected disabled>Selecione o veículo</option>
                             <?php
                             foreach ($veiculos as $veiculo) { ?>
