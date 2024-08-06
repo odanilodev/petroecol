@@ -1015,6 +1015,17 @@ function finalizarRomaneio() {
             }
         });
 
+        let valoresResiudos = [];
+
+        $(this).find('.input-valor-residuo').each(function () {
+
+            if ($(this).val() != '') {
+
+                valoresResiudos.push($(this).val());
+                salvarDados = true;
+            }
+        });
+
         // valores pagamentos
         let formaPagamentoSelecionados = [];
 
@@ -1067,6 +1078,7 @@ function finalizarRomaneio() {
                 idCliente: $(this).find('.input-id-cliente').val(),
                 endereco: $(this).find('.input-endereco').val(),
                 residuos: residuosSelecionados,
+                valoresResiudos: valoresResiudos,
                 qtdColetado: qtdResiduos,
                 pagamento: formaPagamentoSelecionados,
                 tipoPagamento: tiposPagamentos,
@@ -1079,6 +1091,7 @@ function finalizarRomaneio() {
         }
 
     });
+
 
     var idSetorEmpresa = $('.input-id-setor-empresa').val();
 

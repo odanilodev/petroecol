@@ -58,6 +58,7 @@ class Coletas extends CI_Controller
 
                 $residuos['quantidade'] = $cliente['qtdColetado'];
                 $residuos['ids'] = $cliente['residuos'];
+                $residuos['valores'] = $cliente['valoresResiudos'];
 
                 // calcula o valor dos residuos e insere no contas a pagar as contas a prazo
                 $this->salvarValorResiduosContasPagar($residuos, $cliente['idCliente'], $cliente['tipoPagamento']);
@@ -165,7 +166,7 @@ class Coletas extends CI_Controller
             $diaPagamento = $reiduos['dia_pagamento'];
             $setorEmpresa = $reiduos['id_setor_empresa'];
 
-            $valoresPago = $quantidadeResiduo * $reiduos['valor'];
+            $valoresPago = $quantidadeResiduo * $dadosResiduos['valores'][$i];
 
             // Adiciona o valor ao total
             $valorTotal += $valoresPago;
