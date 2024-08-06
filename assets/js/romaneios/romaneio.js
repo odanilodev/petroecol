@@ -549,7 +549,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     
                     <span class="cliente-${clientes[i].id}">
 
-                    ${idPrioridades.includes(clientes[i].id) ? '*' : ''}
+                        ${idPrioridades.includes(clientes[i].id) ? '*' : ''}
                       
                     </span>
                 </button>
@@ -633,22 +633,29 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                         <label class="form-label">Resíduo Coletado</label>
                         
                         <select class="select2 form-select select-residuo input-obg-${clientes[i].id} w-100 campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" data-collapse="${i}" id="select-residuo-${i}" >
-
+                        
                             <option disabled selected value="">Selecione</option>
                             
                         </select>
 
                     </div>
 
-                    <div class="col-md-4 mb-2">
+                    <div class="col-md-4 mb-2 div-residuo">
 
                         <label class="form-label">Quantidade Coletada</label>
                         <input class="form-control input-residuo input-obg-${clientes[i].id} campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" data-collapse="${i}" type="text" placeholder="Digite quantidade coletada" value="">
                     </div>
 
-                    <div class="col-md-4 mb-2 mt-4 row">
+                    <div class="col-md-3 mb-2 div-residuo">
 
-                        <button class="btn btn-phoenix-success duplicar-residuo w-25">+</button>
+                        <label class="form-label">Valor do resíduo</label>
+                        <input data-id-cliente="${clientes[i].id}" class="mask-valor-residuo form-control input-valor-residuo input-obg-${clientes[i].id} campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" data-collapse="${i}" type="text" placeholder="Digite o valor do resíduo" value="">
+
+                    </div>
+
+                    <div class="col-md-auto mb-2 mt-4">
+
+                        <button data-id-cliente="${clientes[i].id}" class="btn btn-phoenix-success duplicar-residuo">+</button>
 
                     </div>
 
@@ -717,11 +724,13 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
         $(`#select-pagamento-${i}`).val(clientes[i].ID_FORMA_PAGAMENTO).trigger('change');
     }
 
+    $('.mask-valor-residuo').mask('000000000000000.00', { reverse: true });
+
 }
 
 
 // duplica forma de pagamento e residuos
-function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
+function duplicarElemento(btnClicado, novoElemento, novoInput, classe, idCliente) {
 
     let selectTipoPagamento = `
         <div class="col-md-3 mb-2 div-pagamento">
@@ -730,6 +739,12 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
                 <option value="0">Pagamento no ato</option>
                 <option value="1">Pagamento a prazo</option>
             </select>
+        </div>
+    `;
+
+    let inputValorResiduo = `
+        <div class="col-md-3 mb-2 div-residuo">
+            <input data-id-cliente="${idCliente}" class="mask-valor-residuo form-control input-valor-residuo input-obrigatorio" type="text" placeholder="Digite o valor do resíduo" value="">
         </div>
     `;
 
@@ -772,6 +787,12 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
     }
     novaLinha.append(selectHtml);
     novaLinha.append(inputHtml);
+
+
+    if (novoElemento == "residuo") {
+        novaLinha.append(inputValorResiduo);
+    }
+
     novaLinha.append(btnRemove);
 
     if (novoElemento == "pagamento") {
@@ -787,19 +808,23 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
 
     $(btnClicado).closest('.accordion-item').find(`.${classe}`).append(novaLinha);
 
+    $('.mask-valor-residuo').mask('000000000000000.00', { reverse: true });
+
+
 }
 
 $(document).on('click', '.duplicar-residuo', function () {
 
-    duplicarElemento(this, 'residuo', 'quantidade coletada', 'residuos-duplicados');
-    carregaSelect2('select2', 'modalConcluirRomaneio');
+    let idCliente = $(this).data('id-cliente');
 
+    duplicarElemento(this, 'residuo', 'quantidade coletada', 'residuos-duplicados', idCliente);
+    carregaSelect2('select2', 'modalConcluirRomaneio');
 
 });
 
 $(document).on('click', '.duplicar-pagamento', function () {
 
-    duplicarElemento(this, 'pagamento', 'valor pago', 'pagamentos-duplicados');
+    duplicarElemento(this, 'pagamento', 'valor pago', 'pagamentos-duplicados', null);
 
     carregaSelect2('select2', 'modalConcluirRomaneio');
 
@@ -1165,6 +1190,28 @@ $(document).ready(function () {
         width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
         placeholder: $(this).data('placeholder'),
     });
+})
+
+
+$(document).on('change', '.select-residuo', function () {
+
+    let inputResiduo = $(this).closest('.div-residuo').nextAll('.div-residuo').find('.input-valor-residuo');
+
+    let idCliente = inputResiduo.data('id-cliente');
+
+    $.ajax({
+        type: 'post',
+        url: `${baseUrl}residuoCliente/recebeValorResiduoCliente`,
+        data: {
+            idResiduo: $(this).val(),
+            idCliente: idCliente
+        }, success: function (data) {
+
+            inputResiduo.val(data.valor);
+        }
+    })
+
+
 })
 
 
