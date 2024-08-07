@@ -592,7 +592,15 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                         </select>
                     </div>
 
-                    <div class="col-md-4 mb-2 div-pagamento">
+                    <div class="col-md-3 mb-2 div-pagamento d-none div-conta-bancaria">
+                        <label class="form-label">Conta bancária</label>
+                        <select class="select2 form-select select-tipo-pagamento w-100">
+                            <option disabled selected value="">Selecione</option>
+                            
+                        </select>
+                    </div>
+
+                    <div class="col-md-3 mb-2 div-pagamento">
 
                         <label class="form-label forma">Forma de Pagamento</label>
                         <select class="select2 form-select select-pagamento w-100 pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-pagamento-${i}">
@@ -602,7 +610,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                         </select>
                     </div>
 
-                    <div class="col-md-4 mb-2 div-pagamento">
+                    <div class="col-md-2 mb-2 div-pagamento">
 
                         <label class="form-label valor">Valor Pago</label>
                         <input class="form-control input-pagamento pagamento-${clientes[i].id} campos-form-${clientes[i].id}" type="text" placeholder="Digite valor pago" value="">
@@ -728,7 +736,19 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe, idCliente
 
     let selectTipoPagamento = `
         <div class="col-md-3 mb-2 div-pagamento">
+            <label class="form-label mt-2">Tipo de pagamento</label>
             <select class="select2 form-select select-tipo-pagamento w-100">
+                <option disabled selected value="">Selecione</option>
+                <option value="0">Pagamento no ato</option>
+                <option value="1">Pagamento a prazo</option>
+            </select>
+        </div>
+    `;
+
+    let selectContaBancaria = `
+        <div class="col-md-3 mb-2 div-pagamento d-none">
+            <label class="form-label mt-2">Conta bancária</label>
+            <select class="select2 form-select select-tipo-pagamento w-100 tipo-pagamento- campos-form-" id="select-tipo-pagamento-">
                 <option disabled selected value="">Selecione</option>
                 <option value="0">Pagamento no ato</option>
                 <option value="1">Pagamento a prazo</option>
@@ -746,7 +766,13 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe, idCliente
     let options = $(btnClicado).closest('.accordion-item').find('.select-' + novoElemento).html();
 
     let selectHtml = `
-        <div class="col-md-4 mb-2 div-${novoElemento}">
+
+        <div class="${novoElemento == "pagamento" ? 'col-md-3' : 'col-md-4'} mb-2 div-${novoElemento}">
+        
+            ${novoElemento == "pagamento" ? `
+                <label class="form-label mt-2">Forma de pagamento</label>` 
+            : ''}
+
             <select class="select2 form-select select-${novoElemento} w-100 ${novoElemento == "residuo" ? 'input-obrigatorio' : ''} ">
                 ${options}
             </select>
@@ -754,7 +780,12 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe, idCliente
     `;
 
     let inputHtml = `
-        <div class="col-md-4 mb-2 div-${novoElemento}">
+        <div class="${novoElemento == "pagamento" ? 'col-md-2' : 'col-md-4'} mb-2 div-${novoElemento}">
+
+            ${novoElemento == "pagamento" ? `
+                <label class="form-label mt-2">Valor Pago</label>` 
+            : ''}
+
             <input class="form-control input-${novoElemento} ${novoElemento == "residuo" ? 'input-obrigatorio' : ''}" type="text" placeholder="Digite ${novoInput}" value="">
         </div>
     `;
@@ -766,7 +797,7 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe, idCliente
     `;
 
     let btnRemove = $(`
-    <div class="col-md-auto mb-2 mt-1">
+    <div class="col-md-auto mb-2 ${novoElemento == "pagamento" ? 'mt-4' : 'mt-1'}">
 
         <button class="btn btn-phoenix-danger remover-${novoElemento}">-</button>
 
@@ -778,6 +809,7 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe, idCliente
     // imprime os elementos dentro da div row
     if (novoElemento == "pagamento") {
         novaLinha.append(selectTipoPagamento);
+        novaLinha.append(selectContaBancaria);
     }
     novaLinha.append(selectHtml);
     novaLinha.append(inputHtml);
@@ -1840,5 +1872,78 @@ $(document).on('change', '.select-grupo-recebidos', function () {
         })
 
     }
+
+})
+
+$(document).on('change', '.checkbox-funcionario', function () {
+
+    let divPagamento = $(this).closest('.col-md-12').prevAll('.div-pagamento');
+
+    let tipoPagamento = divPagamento.find('.select-tipo-pagamento option:selected').val();
+
+    if (tipoPagamento == 0 && !$(this).is(':checked')) {
+
+        divPagamento.closest('.div-conta-bancaria').removeClass('d-none');
+
+        let selectContaBancaria = divPagamento.closest('.div-conta-bancaria').find('select');
+
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}finContaBancaria/recebeContasBancarias`,
+            success: function (data) {
+
+                let optionsContasBancarias = "<option selected disabled value=''>Selecione</option>";
+
+                for(i = 0; i < data.length; i++) {
+
+                    optionsContasBancarias += `<option value="${data[i].id}">${data[i].apelido}</option>`;
+                }
+
+                selectContaBancaria.html(optionsContasBancarias);
+            }
+        })
+
+
+    } else {
+
+        divPagamento.closest('.div-conta-bancaria').addClass('d-none');
+
+    }
+})
+
+
+$(document).on('change', '.select-tipo-pagamento', function () {
+        
+    let pagoResponsavel = $(this).prev().closest('.accordion-body').find('.div-checkbox input');
+
+    if ($(this).val() == 0 && !pagoResponsavel.is(':checked')) {
+
+        $(this).closest('.div-pagamento').next().removeClass('d-none');
+
+        let divSelectContaBancaria = $(this).closest('.div-pagamento').next();
+
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}finContaBancaria/recebeContasBancarias`,
+            success: function (data) {
+
+                let optionsContasBancarias = "<option selected disabled value=''>Selecione</option>";
+
+                for(i = 0; i < data.length; i++) {
+
+                    optionsContasBancarias += `<option value="${data[i].id}">${data[i].apelido}</option>`;
+                }
+
+                divSelectContaBancaria.find('select').html(optionsContasBancarias);
+            }
+        })
+
+
+    } else {
+
+        $(this).closest('.div-pagamento').next().addClass('d-none');
+
+    }
+
 
 })

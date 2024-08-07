@@ -1361,8 +1361,7 @@
                     <input type="hidden" class="id-dado-cliente">
                     <input type="hidden" class="input-id-setor">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
-                    <button class="btn btn-primary btn-form" type="button" onclick="realizarPagamento()">Pagar
-                        Conta</button>
+                    <button class="btn btn-primary btn-form" type="button" onclick="realizarPagamento()">Pagar Conta</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
                 </div>
             </div>
