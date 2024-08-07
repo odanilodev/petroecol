@@ -594,7 +594,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                     <div class="col-md-3 mb-2 div-pagamento d-none div-conta-bancaria">
                         <label class="form-label">Conta bancária</label>
-                        <select class="select2 form-select select-tipo-pagamento w-100">
+                        <select class="select2 form-select w-100">
                             <option disabled selected value="">Selecione</option>
                             
                         </select>
@@ -748,7 +748,7 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe, idCliente
     let selectContaBancaria = `
         <div class="col-md-3 mb-2 div-pagamento d-none">
             <label class="form-label mt-2">Conta bancária</label>
-            <select class="select2 form-select select-tipo-pagamento w-100 tipo-pagamento- campos-form-" id="select-tipo-pagamento-">
+            <select class="select2 form-select w-100">
                 <option disabled selected value="">Selecione</option>
                 <option value="0">Pagamento no ato</option>
                 <option value="1">Pagamento a prazo</option>
@@ -1057,11 +1057,12 @@ function finalizarRomaneio() {
 
         $(this).find('.div-pagamento .select-pagamento option:selected').each(function () {
 
-            let divPagamento = $(this).closest('.col-md-4').prevAll('.div-pagamento');
+            let divPagamento = $(this).closest('.col-md-3').prevAll('.div-pagamento');
 
             let tipoPagamento = divPagamento.find('.select-tipo-pagamento option:selected').val();
 
 
+            // grava o valor pra exibir no relatorio somente oq foi pago no ato
             if ($(this).val() != '' && tipoPagamento == 0) {
 
                 formaPagamentoSelecionados.push($(this).val());
@@ -1117,7 +1118,6 @@ function finalizarRomaneio() {
         }
 
     });
-
 
     var idSetorEmpresa = $('.input-id-setor-empresa').val();
 
@@ -1875,13 +1875,15 @@ $(document).on('change', '.select-grupo-recebidos', function () {
 
 })
 
+
+
 $(document).on('change', '.checkbox-funcionario', function () {
 
     let divPagamento = $(this).closest('.col-md-12').prevAll('.div-pagamento');
 
     let tipoPagamento = divPagamento.find('.select-tipo-pagamento option:selected').val();
 
-    if (tipoPagamento == 0 && !$(this).is(':checked')) {
+    if (tipoPagamento == 0 && tipoPagamento != '' && !$(this).is(':checked')) {
 
         divPagamento.closest('.div-conta-bancaria').removeClass('d-none');
 
