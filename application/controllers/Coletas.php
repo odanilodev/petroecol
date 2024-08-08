@@ -65,7 +65,10 @@ class Coletas extends CI_Controller
                 $residuos['valores'] = $cliente['valoresResiudos'];
 
                 // calcula o saldo das contas bancarias que saiu dinheiro
-                $this->calcularNovoSaldoContasBancarias($cliente['dadosBancarios']);
+                if (!empty($cliente['dadosBancarios'])) {
+
+                    $this->calcularNovoSaldoContasBancarias($cliente['dadosBancarios']);
+                }
 
                 // calcula o valor dos residuos e insere no contas a pagar as contas a prazo
                 $this->salvarValorResiduosContasPagar($residuos, $cliente['idCliente'], $cliente['tipoPagamento']);
