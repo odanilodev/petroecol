@@ -746,12 +746,10 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe, idCliente
     `;
 
     let selectContaBancaria = `
-        <div class="col-md-3 mb-2 div-pagamento d-none">
+        <div class="col-md-3 mb-2 div-pagamento div-conta-bancaria d-none">
             <label class="form-label mt-2">Conta bancária</label>
             <select class="select2 form-select w-100">
                 <option disabled selected value="">Selecione</option>
-                <option value="0">Pagamento no ato</option>
-                <option value="1">Pagamento a prazo</option>
             </select>
         </div>
     `;
@@ -969,7 +967,6 @@ function finalizarRomaneio() {
     })
 
     let dadosClientes = [];
-
     let idResponsavel = $('.id_responsavel').val();
     let codRomaneio = $('.code_romaneio').val();
     let dataRomaneio = $('.data_romaneio').val();
@@ -1061,7 +1058,6 @@ function finalizarRomaneio() {
 
             let tipoPagamento = divPagamento.find('.select-tipo-pagamento option:selected').val();
 
-
             // grava o valor pra exibir no relatorio somente oq foi pago no ato
             if ($(this).val() != '' && tipoPagamento == 0) {
 
@@ -1071,16 +1067,33 @@ function finalizarRomaneio() {
         });
 
         let valorPagamento = [];
+        let contasBancarias = [];
+        let valorContaBancaria = [];
 
         $(this).find('.div-pagamento .input-pagamento').each(function () {
 
-            let divPagamento = $(this).closest('.col-md-4').prevAll('.div-pagamento');
+            let divPagamento = $(this).closest('.col-md-2').prevAll('.div-pagamento');
 
             let tipoPagamento = divPagamento.find('.select-tipo-pagamento option:selected').val();
 
+            let checkboxFuncionario = $(this).closest('.col-md-2').siblings().find('.checkbox-funcionario');
+
+            let tipoFormaPagamento = $(this).closest('.col-md-2').siblings().find('.select-pagamento option:selected');
+
+            let contaBancaria = divPagamento.next().find('select option:selected');
+
+            // grava o valor pra exibir no relatorio somente oq foi pago no ato
             if ($(this).val() != '' && tipoPagamento == 0) {
 
                 valorPagamento.push($(this).val());
+
+                // se não foi pago pelo responsavel e foi pago no ato e for tipo dinheiro, tem que gravar a conta bancaria no array
+                if (!checkboxFuncionario.is(':checked') && tipoFormaPagamento.data('id-tipo-pagamento') == 1) {
+
+                    contasBancarias.push(contaBancaria.val());
+                    valorContaBancaria.push($(this).val());
+                }
+
             }
 
         });
@@ -1101,7 +1114,17 @@ function finalizarRomaneio() {
         // salva somente os dados dos clientes que foram preenchidos
         if (salvarDados) {
 
+            let dadosBancarios = {
+                valor: [],
+                idContaBancaria: []
+            };
+            
+            dadosBancarios.valor.push(valorContaBancaria);
+            dadosBancarios.idContaBancaria.push(contasBancarias);
+            
+
             let dadosCliente = {
+                dadosBancarios: dadosBancarios,
                 idCliente: $(this).find('.input-id-cliente').val(),
                 endereco: $(this).find('.input-endereco').val(),
                 residuos: residuosSelecionados,
@@ -1118,6 +1141,7 @@ function finalizarRomaneio() {
         }
 
     });
+
 
     var idSetorEmpresa = $('.input-id-setor-empresa').val();
 
@@ -1898,7 +1922,7 @@ $(document).on('change', '.checkbox-funcionario', function () {
 
                 for(i = 0; i < data.length; i++) {
 
-                    optionsContasBancarias += `<option value="${data[i].id}">${data[i].apelido}</option>`;
+                    optionsContasBancarias += `<option value="${data[i].id_conta_bancaria}">${data[i].apelido}</option>`;
                 }
 
                 selectContaBancaria.html(optionsContasBancarias);
@@ -1916,7 +1940,7 @@ $(document).on('change', '.checkbox-funcionario', function () {
 
 $(document).on('change', '.select-tipo-pagamento', function () {
         
-    let pagoResponsavel = $(this).prev().closest('.accordion-body').find('.div-checkbox input');
+    let pagoResponsavel = $(this).closest('.div-pagamento').siblings('.div-checkbox').find('.checkbox-funcionario');
 
     if ($(this).val() == 0 && !pagoResponsavel.is(':checked')) {
 
@@ -1933,7 +1957,7 @@ $(document).on('change', '.select-tipo-pagamento', function () {
 
                 for(i = 0; i < data.length; i++) {
 
-                    optionsContasBancarias += `<option value="${data[i].id}">${data[i].apelido}</option>`;
+                    optionsContasBancarias += `<option value="${data[i].id_conta_bancaria}">${data[i].apelido}</option>`;
                 }
 
                 divSelectContaBancaria.find('select').html(optionsContasBancarias);

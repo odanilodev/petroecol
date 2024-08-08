@@ -23,6 +23,9 @@ class Coletas extends CI_Controller
         }
         // FIM controle sessão
         $this->load->model('Coletas_model');
+		$this->load->model('FinContaBancaria_model');
+		$this->load->model('FinSaldoBancario_model');
+
     }
 
     public function cadastraColeta()
@@ -35,6 +38,7 @@ class Coletas extends CI_Controller
         $coletaManual = $this->input->post('coletaManual'); // true quando insere coleta pela página de cliente
 
         $payload = $this->input->post('clientes');
+
         $codRomaneio = $this->input->post('codRomaneio');
         $idResponsavel = $this->input->post('idResponsavel');
         $idSetorEmpresa = $this->input->post('idSetorEmpresa'); // Recebe o id do setor responsavel pelo agendamento
@@ -59,6 +63,9 @@ class Coletas extends CI_Controller
                 $residuos['quantidade'] = $cliente['qtdColetado'];
                 $residuos['ids'] = $cliente['residuos'];
                 $residuos['valores'] = $cliente['valoresResiudos'];
+
+                // calcula o saldo das contas bancarias que saiu dinheiro
+                $this->calcularNovoSaldoContasBancarias($cliente['dadosBancarios']);
 
                 // calcula o valor dos residuos e insere no contas a pagar as contas a prazo
                 $this->salvarValorResiduosContasPagar($residuos, $cliente['idCliente'], $cliente['tipoPagamento']);
@@ -203,6 +210,23 @@ class Coletas extends CI_Controller
                 $this->FinContasPagar_model->insereConta($contasPagar);
             }
         }
+    }
+
+    function calcularNovoSaldoContasBancarias($dadosBancarios) {
+
+        for ($i = 0; $i < count($dadosBancarios['idContaBancaria'][0]); $i++) {
+
+            $idContaBancaria = $dadosBancarios['idContaBancaria'][0][$i];
+
+            $valorGasto = $dadosBancarios['valor'][0][$i];
+
+		    $contaBancaria = $this->FinContaBancaria_model->recebeContaBancaria($idContaBancaria);
+            
+            $novoSaldo = $contaBancaria['saldo'] - $valorGasto;
+            
+            $this->FinSaldoBancario_model->atualizaSaldoBancario($idContaBancaria, $novoSaldo);            
+        }
+
     }
 
     public function cancelaProximosAgendamentosCliente()
