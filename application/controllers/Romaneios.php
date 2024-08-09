@@ -331,14 +331,13 @@ class Romaneios extends CI_Controller
 		$this->load->model('Residuos_model');
 		$residuos = $this->Residuos_model->recebeResiduoSetor($idSetorEmpresa);
 
-		// formas de pagamentos
-		$this->load->model('FormaPagamento_model');
-		$formas_pagamentos = $this->FormaPagamento_model->recebeFormasPagamento();
+		$this->load->model('FinFormaTransacao_model');
+		$formasTransacao = $this->FinFormaTransacao_model->recebeFormasTransacao();
 
 		$response = array(
 			'retorno' => $clientesRomaneio,
 			'residuos' => $residuos,
-			'pagamentos' => $formas_pagamentos,
+			'pagamentos' => $formasTransacao,
 			'id_cliente_prioridade' => $id_cliente_prioridade,
 			'registros' => count($clientesRomaneio),
 			'responsavel' => $romaneio['RESPONSAVEL']

@@ -23,9 +23,11 @@ class Coletas extends CI_Controller
         }
         // FIM controle sessão
         $this->load->model('Coletas_model');
-		$this->load->model('FinContaBancaria_model');
-		$this->load->model('FinSaldoBancario_model');
-
+        $this->load->model('FinContaBancaria_model');
+        $this->load->model('FinSaldoBancario_model');
+        $this->load->model('FinFluxo_model');
+        $this->load->model('FinMicro_model');
+        $this->load->helper('verificar_array_vazio');
     }
 
     public function cadastraColeta()
@@ -71,7 +73,7 @@ class Coletas extends CI_Controller
                 }
 
                 // calcula o valor dos residuos e insere no contas a pagar as contas a prazo
-                $this->salvarValorResiduosContasPagar($residuos, $cliente['idCliente'], $cliente['tipoPagamento']);
+                $this->salvarValorResiduosContasPagar($idSetorEmpresa, $residuos, $cliente['idCliente'], $cliente['tipoPagamento'], $cliente['dadosBancarios'] ?? null);
 
 
                 $proximosAgendamentos[] = $verificaAgendamentosFuturos ? $this->Agendamentos_model->recebeProximosAgendamentosCliente($cliente['idCliente'], $dataRomaneio) : "";
@@ -159,77 +161,109 @@ class Coletas extends CI_Controller
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
-    function salvarValorResiduosContasPagar($dadosResiduos, $idCliente, $tipoPagamento)
+    function salvarValorResiduosContasPagar($idSetorEmpresa, $dadosResiduos, $idCliente, $tipoPagamento, $dadosContasBancarias)
     {
-        $this->load->model('FinContasPagar_model');
-        $this->load->model('ResiduoCliente_model');
-        $this->load->model('FinMicro_model');
-
-        $valorTotal = 0;
-        for ($i = 0; $i < count($dadosResiduos['ids']); $i++) {
-
-            $idResiduo = $dadosResiduos['ids'][$i];
-            $quantidadeResiduo = $dadosResiduos['quantidade'][$i];
-
-            $reiduos = $this->ResiduoCliente_model->recebeValorResiduoCliente($idResiduo, $idCliente);
-
-            $diaPagamento = $reiduos['dia_pagamento'];
-            $setorEmpresa = $reiduos['id_setor_empresa'];
-
-            $valoresPago = $quantidadeResiduo * $dadosResiduos['valores'][$i];
-
-            // Adiciona o valor ao total
-            $valorTotal += $valoresPago;
-        }
-
-        $mesAtual = date('m');
-        $anoAtual = date('Y');
-        $dataAtual = date('Y-m-d');
-
-        $dataVencimento = $anoAtual . '-' . $mesAtual . '-' . $diaPagamento;
-        $dataVencimentoObj = new DateTime($dataVencimento);
-
-        $dataAtualObj = new DateTime($dataAtual);
-
-        if ($dataVencimentoObj < $dataAtualObj) {
-            $dataVencimentoObj->modify('+1 month');
-        }
-
         $microPadraoRomaneio = $this->FinMicro_model->recebePadraoMicro('romaneios');
 
-        $contasPagar['valor'] = $valorTotal;
-        $contasPagar['id_cliente'] = $idCliente;
-        $contasPagar['data_vencimento'] = $dataVencimentoObj->format('Y-m-d');
-        $contasPagar['id_micro'] = $microPadraoRomaneio['id'];
-        $contasPagar['status'] = 0;
-        $contasPagar['id_empresa'] = $this->session->userdata('id_empresa');
-        $contasPagar['id_setor_empresa'] = $setorEmpresa;
+        if ($dadosContasBancarias['valor'][0]) {
+
+            for ($f = 0; $f < count($dadosContasBancarias['valor'][0]); $f++) {
+
+                if ($dadosContasBancarias['valor'][0][$f]) {
+                    // dados para o fluxo
+                    $dadosFluxo['valor'] = $dadosContasBancarias['valor'][0][$f];
+                    $dadosFluxo['id_conta_bancaria'] = $dadosContasBancarias['idContaBancaria'][0][$f];
+                    $dadosFluxo['id_forma_transacao'] = $dadosContasBancarias['formaPagamentoContaBancaria'][0][$f];
+                    $dadosFluxo['id_cliente'] = $idCliente;
+                    $dadosFluxo['id_micro'] = $microPadraoRomaneio['id']; // idMicro padrão para concluir romaneio
+                    $dadosFluxo['id_macro'] = $microPadraoRomaneio['id_macro']; // idMacro padrão para concluir romaneio
+                    $dadosFluxo['movimentacao_tabela'] = 0;
+                    $dadosFluxo['id_empresa'] = $this->session->userdata('id_empresa');
+                    $dadosFluxo['data_movimentacao'] = date('Y-m-d');
+                    $dadosFluxo['id_setor_empresa'] = $idSetorEmpresa;
+
+                    $this->FinFluxo_model->insereFluxo($dadosFluxo);
+                }
+            }
+        }
 
         for ($c = 0; $c < count($tipoPagamento); $c++) {
-            
+
+            $microPadraoRomaneio = $this->FinMicro_model->recebePadraoMicro('romaneios');
+
             // verifica se o tipo de pagamento é a prazo
             if ($tipoPagamento[$c] == 1) {
-                
+
+                $this->load->model('FinContasPagar_model');
+                $this->load->model('ResiduoCliente_model');
+                $this->load->model('FinMicro_model');
+
+                $valorTotal = 0;
+                for ($i = 0; $i < count($dadosResiduos['ids']); $i++) {
+
+                    $idResiduo = $dadosResiduos['ids'][$i];
+                    $quantidadeResiduo = $dadosResiduos['quantidade'][$i];
+
+                    $reiduos = $this->ResiduoCliente_model->recebeValorResiduoCliente($idResiduo, $idCliente);
+
+                    $diaPagamento = $reiduos['dia_pagamento'];
+                    $setorEmpresa = $reiduos['id_setor_empresa'];
+
+                    $valoresPago = $quantidadeResiduo * $dadosResiduos['valores'][$i];
+
+                    // Adiciona o valor ao total
+                    $valorTotal += $valoresPago;
+                }
+
+                $mesAtual = date('m');
+                $anoAtual = date('Y');
+                $dataAtual = date('Y-m-d');
+
+                $dataVencimento = $anoAtual . '-' . $mesAtual . '-' . $diaPagamento;
+                $dataVencimentoObj = new DateTime($dataVencimento);
+
+                $dataAtualObj = new DateTime($dataAtual);
+
+                if ($dataVencimentoObj < $dataAtualObj) {
+                    $dataVencimentoObj->modify('+1 month');
+                }
+
+
+                $contasPagar['valor'] = $valorTotal;
+                $contasPagar['id_cliente'] = $idCliente;
+                $contasPagar['data_vencimento'] = $dataVencimentoObj->format('Y-m-d');
+                $contasPagar['id_micro'] = $microPadraoRomaneio['id'];
+                $contasPagar['status'] = 0;
+                $contasPagar['id_empresa'] = $this->session->userdata('id_empresa');
+                $contasPagar['id_setor_empresa'] = $setorEmpresa;
+
                 $this->FinContasPagar_model->insereConta($contasPagar);
             }
         }
     }
 
-    function calcularNovoSaldoContasBancarias($dadosBancarios) {
+    function calcularNovoSaldoContasBancarias($dadosContasBancarias)
+    {
 
-        for ($i = 0; $i < count($dadosBancarios['idContaBancaria'][0]); $i++) {
-
-            $idContaBancaria = $dadosBancarios['idContaBancaria'][0][$i];
-
-            $valorGasto = $dadosBancarios['valor'][0][$i];
-
-		    $contaBancaria = $this->FinContaBancaria_model->recebeContaBancaria($idContaBancaria);
-            
-            $novoSaldo = $contaBancaria['saldo'] - $valorGasto;
-            
-            $this->FinSaldoBancario_model->atualizaSaldoBancario($idContaBancaria, $novoSaldo);            
+        $dadosBancarios = "";
+        if (verificaArrayVazio($dadosContasBancarias)) {
+            $dadosBancarios = $dadosContasBancarias;
         }
 
+        if ($dadosBancarios) {
+            for ($i = 0; $i < count($dadosBancarios['idContaBancaria'][0]); $i++) {
+
+                $idContaBancaria = $dadosBancarios['idContaBancaria'][0][$i];
+
+                $valorGasto = $dadosBancarios['valor'][0][$i];
+
+                $contaBancaria = $this->FinContaBancaria_model->recebeContaBancaria($idContaBancaria);
+
+                $novoSaldo = $contaBancaria['saldo'] - $valorGasto;
+
+                $this->FinSaldoBancario_model->atualizaSaldoBancario($idContaBancaria, $novoSaldo);
+            }
+        }
     }
 
     public function cancelaProximosAgendamentosCliente()
