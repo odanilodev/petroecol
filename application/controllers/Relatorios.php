@@ -120,6 +120,7 @@ class Relatorios extends CI_Controller
 			$data['residuos'] = $this->residuochaveid->residuoArrayChaveIdUnidadeMedida();
 			// todas formas de pagamento cadastrado na empresa
 			$data['formasPagamento'] = $this->formaspagamentochaveid->formaPagamentoArrayChaveId();
+			$data['formasTransacao'] = $this->formaspagamentochaveid->formaTransacaoArrayChaveId();
 			// Forma de pagamento por residuo
 			$data['residuoPagamentoCliente'] = $this->residuopagamentocliente->residuoPagamentoClienteArrayChaveId(array_unique($clientes));
 
