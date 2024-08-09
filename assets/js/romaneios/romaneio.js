@@ -903,8 +903,9 @@ $(document).on('click', '.nao-coletado', function () {
     if ($(this).is(':checked')) {
 
         // remove os valores caso tenha sido preenchido
-        $('.input-obg-' + idCliente).val('');
-        $('.pagamento-' + idCliente).val('');
+        $('.input-obg-' + idCliente).val('').trigger('change');
+        $('.pagamento-' + idCliente).val('').trigger('change');
+        $('.tipo-pagamento-' + idCliente).val('').trigger('change');
 
         $('.input-obg-' + idCliente).removeClass('input-obrigatorio');
         $('.input-obg-' + idCliente).removeClass('invalido');
@@ -954,34 +955,6 @@ function finalizarRomaneio() {
 
     var permissao = true;
 
-    let accordionAberto = false;
-    $('.input-obrigatorio').each(function () {
-
-        if (!$(this).val()) {
-
-            let collapse = $(this).data('collapse');
-
-            // abre o accordion com o input vazio
-            if (!accordionAberto) {
-
-                if (!$(`#collapse${collapse}`).hasClass('show')) {
-
-                    $(`.accordion-button-${collapse}`).trigger('click');
-                }
-                accordionAberto = true;
-            }
-
-            $(this).addClass('invalido');
-
-            permissao = false;
-
-        } else {
-            $(this).removeClass('invalido');
-
-        }
-
-    })
-
     let dadosClientes = [];
     let idResponsavel = $('.id_responsavel').val();
     let codRomaneio = $('.code_romaneio').val();
@@ -1015,6 +988,11 @@ function finalizarRomaneio() {
             if ($(this).val() != '') {
 
                 residuosSelecionados.push($(this).val());
+                $(this).closest('.div-residuo').next().find('.input-residuo').addClass('input-obrigatorio');
+
+            } else {
+                $(this).closest('.div-residuo').next().find('.input-residuo').removeClass('input-obrigatorio');
+                $(this).closest('.div-residuo').next().find('.input-residuo').removeClass('invalido');
             }
         });
 
@@ -1069,8 +1047,14 @@ function finalizarRomaneio() {
 
             if ($(this).val() != '') {
 
+                $(this).closest('.div-residuo').next().find('.input-valor-residuo').addClass('input-obrigatorio');
+
                 qtdResiduos.push($(this).val());
                 salvarDados = true;
+            } else {
+                $(this).closest('.div-residuo').next().find('.input-valor-residuo').removeClass('input-obrigatorio');
+                $(this).closest('.div-residuo').next().find('.input-valor-residuo').removeClass('invalido');
+
             }
         });
 
@@ -1168,6 +1152,35 @@ function finalizarRomaneio() {
         }
 
     });
+
+
+    let accordionAberto = false;
+    $('.input-obrigatorio').each(function () {
+
+        if (!$(this).val()) {
+
+            let collapse = $(this).data('collapse');
+
+            // abre o accordion com o input vazio
+            if (!accordionAberto) {
+
+                if (!$(`#collapse${collapse}`).hasClass('show')) {
+
+                    $(`.accordion-button-${collapse}`).trigger('click');
+                }
+                accordionAberto = true;
+            }
+
+            $(this).addClass('invalido');
+
+            permissao = false;
+
+        } else {
+            $(this).removeClass('invalido');
+
+        }
+
+    })
 
     var idSetorEmpresa = $('.input-id-setor-empresa').val();
 
@@ -1296,7 +1309,10 @@ $(document).on('change', '.select-residuo', function () {
             idCliente: idCliente
         }, success: function (data) {
 
-            inputResiduo.val(data.valor);
+            if (data && data.valor !== null) {
+
+                inputResiduo.val(data.valor);
+            }
         }
     })
 

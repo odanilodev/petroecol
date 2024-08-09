@@ -168,7 +168,7 @@ class Coletas extends CI_Controller
     {
         $microPadraoRomaneio = $this->FinMicro_model->recebePadraoMicro('romaneios');
 
-        if ($dadosContasBancarias['valor'][0]) {
+        if (verificaArrayVazio($dadosContasBancarias)) {
 
             for ($f = 0; $f < count($dadosContasBancarias['valor'][0]); $f++) {
 
@@ -191,6 +191,11 @@ class Coletas extends CI_Controller
         }
 
         if ($tipoPagamento) {
+
+            $dataAtual = new DateTime();
+            $dataAtual->modify('+30 days');
+            $diaPagamentoProximoMes = $dataAtual->format('d');
+
             for ($c = 0; $c < count($tipoPagamento); $c++) {
 
                 $microPadraoRomaneio = $this->FinMicro_model->recebePadraoMicro('romaneios');
@@ -201,6 +206,7 @@ class Coletas extends CI_Controller
                     $this->load->model('FinContasPagar_model');
                     $this->load->model('ResiduoCliente_model');
                     $this->load->model('FinMicro_model');
+                    
 
                     $valorTotal = 0;
                     for ($i = 0; $i < count($dadosResiduos['ids']); $i++) {
@@ -209,9 +215,10 @@ class Coletas extends CI_Controller
                         $quantidadeResiduo = $dadosResiduos['quantidade'][$i];
 
                         $reiduos = $this->ResiduoCliente_model->recebeValorResiduoCliente($idResiduo, $idCliente);
+                        
 
-                        $diaPagamento = $reiduos['dia_pagamento'];
-                        $setorEmpresa = $reiduos['id_setor_empresa'];
+                        $diaPagamento = $reiduos['dia_pagamento'] ?? $diaPagamentoProximoMes;
+                        $setorEmpresa = $reiduos['id_setor_empresa'] ?? null;
 
                         $valoresPago = $quantidadeResiduo * $dadosResiduos['valores'][$i];
 
