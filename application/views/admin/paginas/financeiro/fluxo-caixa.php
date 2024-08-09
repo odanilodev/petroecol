@@ -211,7 +211,16 @@
 
                                 <td class="align-middle text-center td_recebido">
                                     <h6 class="mb-0 text-900">
-                                        <?= $movimentacao['nome_dado_financeiro'] ? ucfirst($movimentacao['nome_dado_financeiro']) : ucfirst($movimentacao['CLIENTE']) ?>
+
+                                        <?php 
+                                            if ($movimentacao['nome_dado_financeiro']) { 
+                                                echo ucfirst($movimentacao['nome_dado_financeiro']);
+                                            } else if (($movimentacao['FUNCIONARIO'])) {
+                                                echo ucfirst($movimentacao['FUNCIONARIO']);
+                                            } else {
+                                                echo ucfirst($movimentacao['CLIENTE']);
+                                            }
+                                        ?>
                                     </h6>
                                 </td>
 
@@ -490,7 +499,7 @@
 
     <!-- Modal Incluir lançamento Caixa -->
     <div class="modal fade" tabindex="-1" id="modalEntradaFluxo">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Novo Lançamento</h5>

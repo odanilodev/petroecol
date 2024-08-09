@@ -25,6 +25,7 @@ class Romaneios extends CI_Controller
 		$this->load->model('Clientes_model');
 		$this->load->model('Romaneios_model');
 		$this->load->library('gerarRomaneio');
+		$this->load->model('Funcionarios_model');
 		date_default_timezone_set('America/Sao_Paulo');
 	}
 
@@ -43,9 +44,26 @@ class Romaneios extends CI_Controller
 
 		$data['ultimosRomaneios'] = $this->Romaneios_model->recebeUltimosRomaneios();
 
-		$this->load->model('Funcionarios_model');
-
 		$data['responsaveis'] = $this->Funcionarios_model->recebeResponsavelAgendamento();
+
+
+		$this->load->model('FinTiposCustos_model');
+		$data['tiposCustos'] = $this->FinTiposCustos_model->recebeTiposCustos();
+
+		$this->load->model('FinMacro_model');
+		$data['macros'] = $this->FinMacro_model->recebeMacros();
+
+		$this->load->model('FinFormaTransacao_model');
+		$this->load->model('FinContaBancaria_model');
+
+		$data['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
+		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
+
+		$this->load->model('FinDadosFinanceiros_model');
+		$data['dadosFinanceiro'] = $this->FinDadosFinanceiros_model->recebeDadosFinanceiros();
+
+		$this->load->model('FinGrupos_model');
+		$data['grupos'] = $this->FinGrupos_model->recebeGrupos();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/romaneio/romaneios');
@@ -98,7 +116,7 @@ class Romaneios extends CI_Controller
 		$this->load->view('admin/includes/painel/rodape');
 	}
 
-	public function gerarRomaneioEtiqueta()
+	public function gerarRomaneio()
 	{
 		$codigo = time();
 
@@ -228,7 +246,7 @@ class Romaneios extends CI_Controller
 	}
 
 
-	public function gerarRomaneio()
+	public function gerarRomaneioPdf()
 	{
 		$codigo = $this->uri->segment(3);
 		$this->gerarromaneio->gerarPdf($codigo);
@@ -236,7 +254,6 @@ class Romaneios extends CI_Controller
 
 	public function formulario()
 	{
-		$this->load->model('Funcionarios_model');
 		$this->load->model('Veiculos_model');
 		// scripts padrão
 		$scriptsPadraoHead = scriptsPadraoHead();
@@ -257,6 +274,16 @@ class Romaneios extends CI_Controller
 
 		$this->load->model('SetoresEmpresaCliente_model');
 		$data['setores'] = $this->SetoresEmpresaCliente_model->recebeSetoresEmpresaClientes();
+
+		$this->load->model('FinFormaTransacao_model');
+		$this->load->model('FinContaBancaria_model');
+		$this->load->model('FinContasPagar_model');
+
+		$this->load->model('FinMacro_model');
+		$data['macros'] = $this->FinMacro_model->recebeMacros();
+
+		$data['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
+		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/romaneio/cadastra-romaneio');
@@ -304,16 +331,16 @@ class Romaneios extends CI_Controller
 		$this->load->model('Residuos_model');
 		$residuos = $this->Residuos_model->recebeResiduoSetor($idSetorEmpresa);
 
-		// formas de pagamentos
-		$this->load->model('FormaPagamento_model');
-		$formas_pagamentos = $this->FormaPagamento_model->recebeFormasPagamento();
+		$this->load->model('FinFormaTransacao_model');
+		$formasTransacao = $this->FinFormaTransacao_model->recebeFormasTransacao();
 
 		$response = array(
 			'retorno' => $clientesRomaneio,
 			'residuos' => $residuos,
-			'pagamentos' => $formas_pagamentos,
+			'pagamentos' => $formasTransacao,
 			'id_cliente_prioridade' => $id_cliente_prioridade,
-			'registros' => count($clientesRomaneio)
+			'registros' => count($clientesRomaneio),
+			'responsavel' => $romaneio['RESPONSAVEL']
 		);
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));

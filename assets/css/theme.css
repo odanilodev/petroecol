@@ -34393,6 +34393,7 @@ a[href].bg-200:hover, a[href].bg-200:focus {
 
 .select2-container {
   z-index: 9999999999;
+  position: relative;
 }
 
 .select2-selection {
@@ -34634,4 +34635,16 @@ select + .select2-obrigatorio:focus {
   background-color: var(--phoenix-navbar-vertical-border-color) !important;
   color: var(--phoenix-gray-800) !important;
 
+}
+
+
+/* barra de rolagem para modal */
+.modal-body::-webkit-scrollbar {
+  width: 5px; 
+}
+
+
+.modal-body::-webkit-scrollbar-thumb {
+  background-color: var(--phoenix-border-color); 
+  border-radius: 5px; 
 }

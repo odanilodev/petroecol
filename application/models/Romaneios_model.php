@@ -53,7 +53,7 @@ class Romaneios_model extends CI_Model
 
     public function recebeRomaneioPorData($dataRomaneio)
     {
-        $this->db->select('R.data_romaneio, R.id as ID_ROMANEIO, R.criado_em, R.codigo, R.status, F.nome as RESPONSAVEL, F.id as ID_RESPONSAVEL, R.id_setor_empresa');
+        $this->db->select('R.data_romaneio, R.id as ID_ROMANEIO, R.criado_em, R.codigo, R.status, R.prestar_conta, F.nome as RESPONSAVEL, F.id as ID_RESPONSAVEL, F.saldo, R.id_setor_empresa');
         $this->db->from('ci_romaneios R');
         $this->db->join('ci_funcionarios F', 'F.id = R.id_responsavel', 'INNER');
         $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
@@ -140,5 +140,17 @@ class Romaneios_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
+    public function recebeDatasRomaneiosFuncionario($idFuncionario, $dataRomaneio)
+    {
+        $this->db->select('R.data_romaneio');
+        $this->db->from('ci_romaneios R');
+        $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('R.id_responsavel', $idFuncionario);
+        $this->db->where('R.data_romaneio', $dataRomaneio);
+
+        $query = $this->db->get();
+
+        return $query->num_rows() > 0;
+    }
 
 }

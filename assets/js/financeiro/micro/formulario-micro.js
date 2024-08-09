@@ -1,11 +1,12 @@
 var baseUrl = $(".base-url").val();
 
-const cadastraMicro = (input) => {
+const cadastraMicro = (input, selectPadrao) => {
 
 	let idMacro = $(".input-id").val();
 	let idMicro = $(".input-id-micro").val();
 	let nomeMicro = $(".input-nome-micro").val();
 	let nomeMicroModal = $(".input-nome-micro-modal").val();
+	let padrao = $(selectPadrao).val();
 
 	let permissao = true;
 
@@ -27,6 +28,7 @@ const cadastraMicro = (input) => {
 				idMacro: idMacro,
 				idMicro: idMicro,
 				nomeMicro: nomeMicro,
+				padrao: padrao,
 				nomeMicroModal: nomeMicroModal
 			},
 			beforeSend: function () {

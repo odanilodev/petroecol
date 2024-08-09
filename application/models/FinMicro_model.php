@@ -53,10 +53,6 @@ class FinMicro_model extends CI_Model
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->update('fin_micros', $dados);
 
-        if ($this->db->affected_rows()) {
-            $this->Log_model->insereLog("$id_macro | $id_micro");
-        }
-
         return $this->db->affected_rows() > 0;
     }
 
@@ -82,5 +78,25 @@ class FinMicro_model extends CI_Model
         $query = $this->db->get('fin_micros');
 
         return $query->row_array();
+    }
+
+    public function recebePadraoMicro($padrao) 
+    {
+        $this->db->where('padrao', $padrao);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('fin_micros');
+
+        return $query->row_array();
+    }
+
+    public function editaPadrao($id, $dados)
+    {
+        $dados['editado_em'] = date('Y-m-d H:i:s');
+
+        $this->db->where('id', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->update('fin_micros', $dados);
+
+        return $this->db->affected_rows() > 0;
     }
 }
