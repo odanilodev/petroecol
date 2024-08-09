@@ -347,9 +347,27 @@ $(document).on('click', '.duplicar-verbas-pagamento', function () {
 // duplica forma de pagamento e residuos
 function duplicarElementos() {
 
+    function recebeFormasTransacao () {
+
+        let optionsFormaPagamento = "<option selected disabled value=''>Selecione</option>";
+
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}finContaBancaria/recebeFormasTransacao`,
+            success: function (data) {
+                for (c = 0; c < data.length; c++) {
+                    optionsFormaPagamento += `<option data-id-tipo-pagamento="1" value="${data[c].id}">${data[c].nome}</option>`;
+                }
+            }
+        })
+        return optionsFormaPagamento;
+    }
+
     // Pega os options do select
     let optionsContaBancaria = $('.select-conta-bancaria').html();
-    let optionsFormaPagamento = $('.select-forma-pagamento').html();
+    let optionsFormaPagamento = recebeFormasTransacao();
+
+    
 
     let contaBancaria = `
         <div class="col-md-4 mb-2 mt-2">
