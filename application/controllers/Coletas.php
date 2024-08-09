@@ -413,6 +413,7 @@ class Coletas extends CI_Controller
                 'coleta' => $historicoColeta['coleta'],
                 'dataColeta' => $dataColeta,
                 'formasPagamento' => $this->formaspagamentochaveid->formaPagamentoArrayChaveId() ?? null,
+                'formasTransacao' => $this->formaspagamentochaveid->formaTransacaoArrayChaveId() ?? null,
                 'residuosColetados' => $this->residuochaveid->residuoArrayChaveId() ?? null
             );
         } else {
