@@ -62,9 +62,12 @@ class Coletas extends CI_Controller
         if ($payload) {
             foreach ($payload as $cliente) :
 
-                $residuos['quantidade'] = $cliente['qtdColetado'];
-                $residuos['ids'] = $cliente['residuos'];
-                $residuos['valores'] = $cliente['valoresResiudos'];
+                if (isset($cliente['qtdColetado'])) {
+
+                    $residuos['quantidade'] = $cliente['qtdColetado'];
+                    $residuos['ids'] = $cliente['residuos'];
+                    $residuos['valores'] = $cliente['valoresResiudos'];
+                }
 
                 // calcula o saldo das contas bancarias que saiu dinheiro
                 if (!empty($cliente['dadosBancarios'])) {
@@ -73,7 +76,7 @@ class Coletas extends CI_Controller
                 }
 
                 // calcula o valor dos residuos e insere no contas a pagar as contas a prazo
-                $this->salvarValorResiduosContasPagar($idSetorEmpresa, $residuos, $cliente['idCliente'], $cliente['tipoPagamento'], $cliente['dadosBancarios'] ?? null);
+                $this->salvarValorResiduosContasPagar($idSetorEmpresa, $residuos, $cliente['idCliente'], $cliente['tipoPagamento'] ?? null, $cliente['dadosBancarios'] ?? null);
 
 
                 $proximosAgendamentos[] = $verificaAgendamentosFuturos ? $this->Agendamentos_model->recebeProximosAgendamentosCliente($cliente['idCliente'], $dataRomaneio) : "";
@@ -187,57 +190,59 @@ class Coletas extends CI_Controller
             }
         }
 
-        for ($c = 0; $c < count($tipoPagamento); $c++) {
+        if ($tipoPagamento) {
+            for ($c = 0; $c < count($tipoPagamento); $c++) {
 
-            $microPadraoRomaneio = $this->FinMicro_model->recebePadraoMicro('romaneios');
+                $microPadraoRomaneio = $this->FinMicro_model->recebePadraoMicro('romaneios');
 
-            // verifica se o tipo de pagamento é a prazo
-            if ($tipoPagamento[$c] == 1) {
+                // verifica se o tipo de pagamento é a prazo
+                if ($tipoPagamento[$c] == 1) {
 
-                $this->load->model('FinContasPagar_model');
-                $this->load->model('ResiduoCliente_model');
-                $this->load->model('FinMicro_model');
+                    $this->load->model('FinContasPagar_model');
+                    $this->load->model('ResiduoCliente_model');
+                    $this->load->model('FinMicro_model');
 
-                $valorTotal = 0;
-                for ($i = 0; $i < count($dadosResiduos['ids']); $i++) {
+                    $valorTotal = 0;
+                    for ($i = 0; $i < count($dadosResiduos['ids']); $i++) {
 
-                    $idResiduo = $dadosResiduos['ids'][$i];
-                    $quantidadeResiduo = $dadosResiduos['quantidade'][$i];
+                        $idResiduo = $dadosResiduos['ids'][$i];
+                        $quantidadeResiduo = $dadosResiduos['quantidade'][$i];
 
-                    $reiduos = $this->ResiduoCliente_model->recebeValorResiduoCliente($idResiduo, $idCliente);
+                        $reiduos = $this->ResiduoCliente_model->recebeValorResiduoCliente($idResiduo, $idCliente);
 
-                    $diaPagamento = $reiduos['dia_pagamento'];
-                    $setorEmpresa = $reiduos['id_setor_empresa'];
+                        $diaPagamento = $reiduos['dia_pagamento'];
+                        $setorEmpresa = $reiduos['id_setor_empresa'];
 
-                    $valoresPago = $quantidadeResiduo * $dadosResiduos['valores'][$i];
+                        $valoresPago = $quantidadeResiduo * $dadosResiduos['valores'][$i];
 
-                    // Adiciona o valor ao total
-                    $valorTotal += $valoresPago;
+                        // Adiciona o valor ao total
+                        $valorTotal += $valoresPago;
+                    }
+
+                    $mesAtual = date('m');
+                    $anoAtual = date('Y');
+                    $dataAtual = date('Y-m-d');
+
+                    $dataVencimento = $anoAtual . '-' . $mesAtual . '-' . $diaPagamento;
+                    $dataVencimentoObj = new DateTime($dataVencimento);
+
+                    $dataAtualObj = new DateTime($dataAtual);
+
+                    if ($dataVencimentoObj < $dataAtualObj) {
+                        $dataVencimentoObj->modify('+1 month');
+                    }
+
+
+                    $contasPagar['valor'] = $valorTotal;
+                    $contasPagar['id_cliente'] = $idCliente;
+                    $contasPagar['data_vencimento'] = $dataVencimentoObj->format('Y-m-d');
+                    $contasPagar['id_micro'] = $microPadraoRomaneio['id'];
+                    $contasPagar['status'] = 0;
+                    $contasPagar['id_empresa'] = $this->session->userdata('id_empresa');
+                    $contasPagar['id_setor_empresa'] = $setorEmpresa;
+
+                    $this->FinContasPagar_model->insereConta($contasPagar);
                 }
-
-                $mesAtual = date('m');
-                $anoAtual = date('Y');
-                $dataAtual = date('Y-m-d');
-
-                $dataVencimento = $anoAtual . '-' . $mesAtual . '-' . $diaPagamento;
-                $dataVencimentoObj = new DateTime($dataVencimento);
-
-                $dataAtualObj = new DateTime($dataAtual);
-
-                if ($dataVencimentoObj < $dataAtualObj) {
-                    $dataVencimentoObj->modify('+1 month');
-                }
-
-
-                $contasPagar['valor'] = $valorTotal;
-                $contasPagar['id_cliente'] = $idCliente;
-                $contasPagar['data_vencimento'] = $dataVencimentoObj->format('Y-m-d');
-                $contasPagar['id_micro'] = $microPadraoRomaneio['id'];
-                $contasPagar['status'] = 0;
-                $contasPagar['id_empresa'] = $this->session->userdata('id_empresa');
-                $contasPagar['id_setor_empresa'] = $setorEmpresa;
-
-                $this->FinContasPagar_model->insereConta($contasPagar);
             }
         }
     }
