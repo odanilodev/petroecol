@@ -2,10 +2,7 @@ var baseUrl = $('.base-url').val();
 
 let filtrarClientesRomaneio = () => {
 
-    $('.select2-modal-romaneio').select2({
-        dropdownParent: "#modalRomaneio",
-        theme: 'bootstrap-5'
-    });
+    
 
 
     let clientesModalRomaneio = $('.clientes-modal-romaneio');
@@ -110,8 +107,19 @@ let filtrarClientesRomaneio = () => {
         avisoRetorno('Algo deu errado!', 'Escolha uma etiqueta ou uma cidade!', 'error', '#');
         return;
     }
+
+    $('.select2').select2({
+        dropdownParent: "#modalRomaneio",
+        theme: 'bootstrap-5'
+    });
 }
 
+
+$('#modalRomaneio').on('hide.bs.modal', function (e) {
+    $('.select2').select2({
+        theme: 'bootstrap-5'
+    });
+});
 
 
 
@@ -333,41 +341,41 @@ $(document).on('click', '.duplicar-pagamento', function () {
 
     duplicarElementos();
 
-    carregaSelect2('select2', 'modalSaldoMotoristaRomaneio');
 });
 
 $(document).on('click', '.duplicar-verbas-pagamento', function () {
 
     duplicarElementos();
 
-    carregaSelect2('select2', 'modalAdicinarVerbaRomaneio');
 });
 
 
-// duplica forma de pagamento e residuos
-function duplicarElementos() {
+async function recebeFormasTransacao() {
+    let optionsFormaPagamento = "<option selected disabled value=''>Selecione</option>";
 
-    function recebeFormasTransacao () {
-
-        let optionsFormaPagamento = "<option selected disabled value=''>Selecione</option>";
-
-        $.ajax({
+    try {
+        let response = await $.ajax({
             type: "post",
-            url: `${baseUrl}finContaBancaria/recebeFormasTransacao`,
-            success: function (data) {
-                for (c = 0; c < data.length; c++) {
-                    optionsFormaPagamento += `<option data-id-tipo-pagamento="1" value="${data[c].id}">${data[c].nome}</option>`;
-                }
-            }
-        })
-        return optionsFormaPagamento;
+            url: `${baseUrl}finContaBancaria/recebeFormasTransacao`
+        });
+
+        for (let c = 0; c < response.length; c++) {
+            optionsFormaPagamento += `<option data-id-tipo-pagamento="1" value="${response[c].id}">${response[c].nome}</option>`;
+        }
+    } catch (error) {
+        console.error('Erro ao obter formas de transação:', error);
     }
+
+    return optionsFormaPagamento;
+}
+
+
+// duplica forma de pagamento e residuos
+async function duplicarElementos() {
 
     // Pega os options do select
     let optionsContaBancaria = $('.select-conta-bancaria').html();
-    let optionsFormaPagamento = recebeFormasTransacao();
-
-    
+    let optionsFormaPagamento = await recebeFormasTransacao();    
 
     let contaBancaria = `
         <div class="col-md-4 mb-2 mt-2">
@@ -389,7 +397,7 @@ function duplicarElementos() {
 
     let inputValor = `
         <div class="col-md-3 mb-2">
-            <input class="form-control mt-2 input-valor mascara-dinheiro" type="text" placeholder="Digite o valor" name="valor">
+            <input class="form-control mt-2 input-valor mascara-dinheiro" type="text" placeholder="Valor" name="valor">
         </div>
         <div class="d-none aviso-obrigatorio">Preencha este campo</div>
     `;
@@ -422,6 +430,9 @@ function duplicarElementos() {
     $(`.campos-duplicados`).append(novaLinha);
 
     $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
+
+    carregaSelect2('select2', 'modalSaldoMotoristaRomaneio');
+
 
 }
 
@@ -643,7 +654,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     </div>
 
                     <div class="col-md-12 div-checkbox mb-5">
-                        <input class="cursor-pointer form-check-input checkbox-funcionario" type="checkbox" value="1">  Pago pelo responsável
+                        <input class="cursor-pointer form-check-input checkbox-funcionario" type="checkbox" value="1">  Pago pelo responsável da coleta
                     </div>
 
                     <div class="pagamentos-duplicados"></div>
@@ -806,7 +817,7 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe, idCliente
 
     let checkboxFuncionario = `
         <div class="col-md-12 div-checkbox mb-5">
-         <input class="form-check-input checkbox-funcionario" value="1" type="checkbox">  Pago pelo responsável
+         <input class="form-check-input checkbox-funcionario" value="1" type="checkbox">  Pago pelo responsável da coleta
         </div>
     `;
 
@@ -850,6 +861,7 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe, idCliente
 
     $('.mask-valor-residuo').mask('000000000000000.00', { reverse: true });
 
+    carregaSelect2('select2', 'modalSaldoMotoristaRomaneio');
 
 }
 
@@ -858,15 +870,12 @@ $(document).on('click', '.duplicar-residuo', function () {
     let idCliente = $(this).data('id-cliente');
 
     duplicarElemento(this, 'residuo', 'quantidade coletada', 'residuos-duplicados', idCliente);
-    carregaSelect2('select2', 'modalConcluirRomaneio');
 
 });
 
 $(document).on('click', '.duplicar-pagamento', function () {
 
     duplicarElemento(this, 'pagamento', 'valor pago', 'pagamentos-duplicados', null);
-
-    carregaSelect2('select2', 'modalConcluirRomaneio');
 
 });
 

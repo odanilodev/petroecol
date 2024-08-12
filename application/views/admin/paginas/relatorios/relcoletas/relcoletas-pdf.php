@@ -236,9 +236,9 @@
 
 
                                                 if (isset($coleta['tipo_pagamento'][$key]) && $coleta['tipo_pagamento'][$key] == 1) {
-                                                    echo "<p>R$${formattedValue} " . ($formasPagamento[$pagamento] ?? $formasTransacao[$pagamento]) . "</p>";
+                                                    echo "<p>R$$formattedValue " . ($formasPagamento[$pagamento] ?? $formasTransacao[$pagamento]) . "</p>";
                                                 } else {
-                                                    echo "<p>${formattedValue} " . ($formasPagamento[$pagamento] ?? $formasTransacao[$pagamento]) . "</p>";
+                                                    echo "<p>$formattedValue " . ($formasPagamento[$pagamento] ?? $formasTransacao[$pagamento]) . "</p>";
                                                 }
                                             }
                                         }
