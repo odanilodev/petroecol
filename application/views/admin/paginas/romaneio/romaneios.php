@@ -389,7 +389,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="campos-duplicados campos-form">
+                                            <div class="campos-duplicados-prestacao-contas campos-form">
                                                 <!-- JS -->
                                             </div>
 
