@@ -26,6 +26,7 @@ $(document).on('click', '.btn-prestar-contas', function () {
 $(document).on('click', '.duplicar-custo', function () {
     duplicarCustos();
     carregaSelect2('select2', 'modalPrestarConta');
+
 });
 
 
@@ -121,17 +122,13 @@ function duplicarCustos() {
     let btnRemove = $(`
     <div class="mt-1 text-end add-botao-mais">
         <button class="btn btn-phoenix-danger remover-inputs">-</button>
-        <button title="Mais custos" type="button" class="btn btn-phoenix-success duplicar-custo">+</button>
     </div>`);
 
     // div com row para cada grupo ficar em row diferente
     let novaLinha = $('<div class="row mb-3 campos-pretacao"></div>');
 
-    // Remove o botão + da linha atual
-    $('.duplicar-custo').last().hide();
-
     // Imprime os elementos dentro da nova linha
-    novaLinha.append('<hr>');
+    novaLinha.append('<hr class="mt-4">');
     novaLinha.append(selectMacros);
     novaLinha.append(selectMicros);
     novaLinha.append(selectTipoPagamento);
@@ -146,15 +143,6 @@ function duplicarCustos() {
 
     novaLinha.find('.select-micros-prestacao').val('').trigger('change'); // deixa vazio o select de micros
 
-    // Remove a linha duplicada
-    btnRemove.find(`.remover-inputs`).on('click', function () {
-        novaLinha.remove();
-        atualizarSaldoFuncionario();
-
-        // Reaparece o botão + na última linha existente
-        $('.duplicar-custo').last().show();
-    });
-
     // Adiciona a máscara de dinheiro aos campos apropriados
     $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
 
@@ -163,6 +151,15 @@ function duplicarCustos() {
         disableMobile: true
     });
 }
+
+
+$(document).on('click', '.remover-inputs', function () {
+
+    $(this).closest('.campos-pretacao').remove(); // Remover a linha
+    atualizarSaldoFuncionario();
+
+});
+
 
 
 $(document).on('focusout', '.input-valor', function () {
