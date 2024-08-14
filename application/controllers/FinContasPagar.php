@@ -111,7 +111,7 @@ class FinContasPagar extends CI_Controller
 		$data['cookie_filtro_contas_pagar'] = json_decode($cookie_filtro_contas_pagar, true);
 
 		// >>>> PAGINAÇÃO <<<<<
-		$limit = 15; // Número de clientes por página
+		$limit = 10; // Número de clientes por página
 		$this->load->library('pagination');
 		$config['base_url'] = base_url('finContasPagar/index');
 		$config['total_rows'] = $this->FinContasPagar_model->recebeContasPagar($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa, $cookie_filtro_contas_pagar, $limit, $page, true); // true para contar
