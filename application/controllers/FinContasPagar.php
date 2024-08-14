@@ -24,7 +24,7 @@ class FinContasPagar extends CI_Controller
 		$this->load->model('FinContasPagar_model');
 	}
 
-	public function index()
+	public function index($page = 1)
 	{
 		// scripts padrão
 		$scriptsPadraoHead = scriptsPadraoHead();
@@ -38,7 +38,6 @@ class FinContasPagar extends CI_Controller
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsContasPagarFooter));
 
 		// Define as datas padrão caso não sejam recebidas via POST
-
 		$dataInicioFormatada = '';
 
 		$dataFimFormatada = '';
@@ -93,7 +92,36 @@ class FinContasPagar extends CI_Controller
 		$data['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
 		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
 
-		$data['contasPagar'] = $this->FinContasPagar_model->recebeContasPagar($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa);
+
+		// Paginação com cookie
+		$this->load->helper('cookie');
+
+		if ($this->input->post('search')) {
+			$this->input->set_cookie('filtro_contas_pagar', json_encode($this->input->post()), 3600);
+		}
+
+		if (is_numeric($page)) {
+			$cookie_filtro_contas_pagar = $this->input->cookie('filtro_contas_pagar');
+		} else {
+			$page = 1;
+			delete_cookie('filtro_contas_pagar');
+			$cookie_filtro_contas_pagar = json_encode([]);
+		}
+
+		$data['cookie_filtro_contas_pagar'] = json_decode($cookie_filtro_contas_pagar, true);
+
+		// >>>> PAGINAÇÃO <<<<<
+		$limit = 15; // Número de clientes por página
+		$this->load->library('pagination');
+		$config['base_url'] = base_url('finContasPagar/index');
+		$config['total_rows'] = $this->FinContasPagar_model->recebeContasPagar($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa, $cookie_filtro_contas_pagar, $limit, $page, true); // true para contar
+		$config['per_page'] = $limit;
+		$config['use_page_numbers'] = TRUE; // Usar números de página em vez de offset
+		$this->pagination->initialize($config);
+		// >>>> FIM PAGINAÇÃO <<<<<
+
+
+		$data['contasPagar'] = $this->FinContasPagar_model->recebeContasPagar($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa, $cookie_filtro_contas_pagar, $limit, $page);
 
 		$this->load->library('finDadosFinanceiros');
 
@@ -106,7 +134,6 @@ class FinContasPagar extends CI_Controller
 
 		} else {
 			$data['totalPago']['valor'] = '00';
-
 		}
 
 		if ($statusConta == '0' || $statusConta == 'ambas') {

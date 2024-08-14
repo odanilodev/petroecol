@@ -150,8 +150,7 @@
     </div>
 
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div id="members"
-            data-list='{"valueNames":["td_vencimento","td_valor","td_valor_pago","td_status_pgto","td_data_pagamento","td_empresa","td_recebido","td_setor", "td_observacao", "td_micro"], <?= !$this->input->post() ? '"page":10,' : '' ?>"pagination":true}'>
+        <div id="members">
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3 class="d-flex align-items-center pd-0">Contas a pagar
@@ -171,9 +170,8 @@
 
                         <div class="col-auto flex-1">
                             <div class="search-box">
-                                <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                                    <input class="form-control search-input search form-control-sm" type="search"
-                                        placeholder="Buscar" aria-label="Search" />
+                                <form action="<?= base_url('finContasPagar') ?>" method="POST" class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                                    <input name="search" value="<?= $cookie_filtro_contas_pagar['search'] ?? 'null' ?>" class="form-control search-input search" type="search" placeholder="Buscar" aria-label="Search">
                                     <span class="fas fa-search search-box-icon"></span>
                                 </form>
                             </div>
@@ -181,10 +179,7 @@
 
                         <div class="col-auto">
 
-                            <button
-                                class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento"
-                                type="button" data-bs-toggle="modal" data-bs-target="#modalTipoContasPagar">+
-                                Lançamento</button>
+                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento" type="button" data-bs-toggle="modal" data-bs-target="#modalTipoContasPagar">+ Lançamento</button>
 
                         </div>
 
@@ -362,20 +357,14 @@
                     </tbody>
                 </table>
             </div>
-            <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
-                <div class="col-auto d-none">
-                    <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a
-                        class="fw-semi-bold" href="#!" data-list-view="*">Ver todos<span class="fas fa-angle-right ms-1"
-                            data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!"
-                        data-list-view="less">Ver menos<span class="fas fa-angle-right ms-1"
-                            data-fa-transform="down-1"></span></a>
-                </div>
-                <div class="col-auto d-flex w-100 justify-content-end mt-2 mb-2">
-                    <button class="page-link" data-list-pagination="prev"><span
-                            class="fas fa-chevron-left"></span></button>
-                    <ul class="mb-0 pagination"></ul>
-                    <button class="page-link pe-0" data-list-pagination="next"><span
-                            class="fas fa-chevron-right"></span></button>
+           <!-- Links de Paginação usando classes Bootstrap -->
+           <div class="row">
+                <div class="col-12">
+                    <nav aria-label="Page navigation" style="display: flex; float: right">
+                        <ul class="pagination mt-5">
+                            <?= $this->pagination->create_links(); ?>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
