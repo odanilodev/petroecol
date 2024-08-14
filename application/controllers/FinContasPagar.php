@@ -96,12 +96,12 @@ class FinContasPagar extends CI_Controller
 		// Paginação com cookie
 		$this->load->helper('cookie');
 
-		if ($this->input->post('search')) {
+		if ($this->input->post()) {
 			$this->input->set_cookie('filtro_contas_pagar', json_encode($this->input->post()), 3600);
 		}
 
 		if (is_numeric($page)) {
-			$cookie_filtro_contas_pagar = $this->input->cookie('filtro_contas_pagar');
+			$cookie_filtro_contas_pagar = $this->input->post() ? json_encode($this->input->post()) : $this->input->cookie('filtro_contas_pagar');
 		} else {
 			$page = 1;
 			delete_cookie('filtro_contas_pagar');
