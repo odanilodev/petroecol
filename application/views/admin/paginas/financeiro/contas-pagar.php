@@ -85,7 +85,7 @@
                         <div class="row align-items-center g-4">
                             <h4 class="ms-3">Filtrar resultados</h4>
 
-                            <div class="col-12 col-md-3" style="padding:0;">
+                            <div class="col-12 col-md-2" style="padding:0;">
                                 <div class="ms-3">
                                     <input class="form-control datetimepicker mascara-data" value="<?= $dataInicio ?>"
                                         required name="data_inicio" id="data_inicio" type="text"
@@ -94,7 +94,7 @@
                                         style="cursor: pointer;" autocomplete="off" />
                                 </div>
                             </div>
-                            <div class="col-12 col-md-3" style="padding:0;">
+                            <div class="col-12 col-md-2" style="padding:0;">
                                 <div class="ms-3">
                                     <input class="form-control datetimepicker mascara-data" value="<?= $dataFim ?>"
                                         required name="data_fim" id="data_fim" type="text"
@@ -139,6 +139,13 @@
                                         <a href="<?= base_url('finContasPagar'); ?>" class="btn btn-phoenix-danger"
                                             title="Limpar Filtro"><i class="fas fa-ban"></i></a>
                                     <?php } ?>
+                                </div>
+                            </div>
+
+                            <div class="col-12  <?= $dataInicio ? 'col-md-2' : 'col-md-2' ?>" style="padding:0;">
+                                <div class="d-flex ms-3">
+                                    <button id="exportarBtn"
+                                        class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2">Exportar</button>
                                 </div>
                             </div>
 

@@ -546,4 +546,84 @@ class FinContasPagar extends CI_Controller
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
+	public function geraExcelContasPagar()
+	{
+		// Requer o autoload do Composer
+		require_once 'vendor/autoload.php';
+
+		// Recebe as datas e filtros via POST
+		$dataInicio = $this->input->post('data_inicio');
+		$dataFim = $this->input->post('data_fim');
+		$statusConta = $this->input->post('status');
+		$setorEmpresa = $this->input->post('setor');
+
+		// Define valores padrão caso os filtros não sejam fornecidos
+		$statusConta = $statusConta ? $statusConta : 'ambas';
+		$setorEmpresa = $setorEmpresa ? $setorEmpresa : 'todos';
+
+		// Formata as datas para o formato Y-m-d
+		$dataInicioFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataInicio)));
+		$dataFimFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataFim)));
+
+		// Carrega o modelo e obtém os dados filtrados
+		$this->load->model('FinContasPagar_model');
+		$contasPagar = $this->FinContasPagar_model->recebeContasPagar($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa);
+
+		// Cria um novo arquivo Excel
+		$spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+
+		// Define o cabeçalho das colunas
+		$sheet->setCellValue('A1', 'ID');
+		$sheet->setCellValue('B1', 'Valor');
+		$sheet->setCellValue('C1', 'Data Vencimento');
+		$sheet->setCellValue('D1', 'Valor Pago');
+		$sheet->setCellValue('E1', 'Setor');
+		$sheet->setCellValue('F1', 'Status');
+		$sheet->setCellValue('G1', 'Data Pagamento');
+		$sheet->setCellValue('H1', 'Recebido/Cliente');
+		$sheet->setCellValue('I1', 'Nome Micro');
+		$sheet->setCellValue('J1', 'Observação');
+
+		// Preenche os dados no Excel
+		$row = 2;
+		foreach ($contasPagar as $contaPagar) {
+			if (is_array($contaPagar)) {
+				$sheet->setCellValue('A' . $row, $contaPagar['id'] ?? 'N/A');
+				$sheet->setCellValue('B' . $row, $contaPagar['valor'] ?? 'N/A');
+				$sheet->setCellValue('C' . $row, isset($contaPagar['data_vencimento']) ? date('d/m/Y', strtotime($contaPagar['data_vencimento'])) : 'N/A');
+				$sheet->setCellValue('D' . $row, $contaPagar['valor_pago'] ?? 'N/A');
+				$sheet->setCellValue('E' . $row, $contaPagar['SETOR'] ?? 'N/A');
+				$sheet->setCellValue('F' . $row, $contaPagar['status'] ? "Pago" : "Em aberto");
+				$sheet->setCellValue('G' . $row, isset($contaPagar['data_pagamento']) ? date('d/m/Y', strtotime($contaPagar['data_pagamento'])) : '-');
+				$sheet->setCellValue('H' . $row, $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']));
+				$sheet->setCellValue('I' . $row, $contaPagar['NOME_MICRO'] ?? 'N/A');
+				$sheet->setCellValue('J' . $row, $contaPagar['observacao'] ?? '-');
+				$row++;
+			} else {
+				// Log ou tratamento de erro para o caso em que $contaPagar não é um array
+				error_log('Dados retornados não são arrays: ' . print_r($contaPagar, true));
+			}
+		}
+
+
+		// Define o nome do arquivo
+		$fileName = 'ContasPagar_' . date('Ymd') . '.xlsx';
+
+		// Define os cabeçalhos para o download do arquivo
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="' . $fileName . '"');
+		header('Cache-Control: max-age=0');
+
+		// Limpa o buffer de saída para evitar corrupção do arquivo
+		ob_end_clean();
+
+		// Salva o arquivo Excel para o output
+		$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+		$writer->save('php://output');
+		exit;
+	}
+
+
 }
