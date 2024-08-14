@@ -171,7 +171,7 @@
                         <div class="col-auto flex-1">
                             <div class="search-box">
                                 <form action="<?= base_url('finContasPagar') ?>" method="POST" class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                                    <input name="search" value="<?= $cookie_filtro_contas_pagar['search'] ?? '' ?>" class="form-control search-input search" type="search" placeholder="Buscar" aria-label="Search">
+                                    <input name="search" value="<?= $cookie_filtro_contas_pagar['search'] ?? null ?>" class="form-control search-input search" type="search" placeholder="Buscar" aria-label="Search">
                                     <span class="fas fa-search search-box-icon"></span>
                                 </form>
                             </div>
