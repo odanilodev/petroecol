@@ -968,7 +968,7 @@ $('#exportarBtn').on('click', function(e) {
             },
             success: function(blob, status, xhr) {
                 let contentDisposition = xhr.getResponseHeader('Content-Disposition');
-                let fileName = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : 'RelatorioContasPagar.xlsx';
+                let fileName = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : 'RelatorioContasPagar.xls';
 
                 let url = window.URL.createObjectURL(blob);
                 let a = document.createElement('a');
