@@ -942,6 +942,50 @@ const deletaContaPagar = (idConta) => {
 
 }
 
+    
+$('#exportarBtn').on('click', function(e) {
+        e.preventDefault();
+
+        let $btn = $(this);
+        let originalText = $btn.html(); // Armazena o texto original do botão
+
+        let formData = new FormData($('#filtroForm')[0]);
+        let urlExportar = `${baseUrl}finContasPagar/geraExcelContasPagar`; // Defina o caminho absoluto ou relativo para a sua rota
+
+        $.ajax({
+            url: urlExportar,
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            xhrFields: {
+                responseType: 'blob' // Indica que a resposta deve ser tratada como um blob
+            },
+            beforeSend: function(){
+                $btn.prop('disabled', true);
+                $('.txt-exportar-btn').addClass('d-none');
+                $('.loader-btn-exportar').removeClass('d-none');
+            },
+            success: function(blob, status, xhr) {
+                let contentDisposition = xhr.getResponseHeader('Content-Disposition');
+                let fileName = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : 'RelatorioContasPagar.xlsx';
+
+                let url = window.URL.createObjectURL(blob);
+                let a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+
+                $btn.prop('disabled', false).html(originalText); // Reativa o botão e restaura o texto original
+            },
+            error: function(xhr, status, error) {
+                console.error('Erro ao exportar:', error);
+                $btn.prop('disabled', false).html(originalText); // Reativa o botão e restaura o texto original
+            }
+        });
+    });
 
 
 

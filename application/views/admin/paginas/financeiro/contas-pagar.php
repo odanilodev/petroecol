@@ -85,7 +85,7 @@
                         <div class="row align-items-center g-4">
                             <h4 class="ms-3">Filtrar resultados</h4>
 
-                            <div class="col-12 col-md-3" style="padding:0;">
+                            <div class="col-12 col-md-2" style="padding:0;">
                                 <div class="ms-3">
                                     <input class="form-control datetimepicker mascara-data" value="<?= $dataInicio ?? "" ?>"
                                         required name="data_inicio" id="data_inicio" type="text"
@@ -94,7 +94,7 @@
                                         style="cursor: pointer;" autocomplete="off" />
                                 </div>
                             </div>
-                            <div class="col-12 col-md-3" style="padding:0;">
+                            <div class="col-12 col-md-2" style="padding:0;">
                                 <div class="ms-3">
                                     <input class="form-control datetimepicker mascara-data" value="<?= $dataFim ?? ""?>"
                                         required name="data_fim" id="data_fim" type="text"
@@ -134,13 +134,22 @@
                             <div class="col-12 col-md-2" style="padding:0;">
                                 <div class="d-flex ms-3">
                                     <button type="submit"
-                                        class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= $dataInicio != "" ? 'w-100' : ''; ?>">Filtrar </button>
+                                        class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= $dataInicio != "" ? 'w-100' : ''; ?>">Filtrar</button>
                                     <?php if ($dataInicio != "") { ?>
-                                        <a href="<?= base_url('finContasPagar/index/all'); ?>" class="btn btn-phoenix-danger"
+
+                                        <button id="exportarBtn" class="btn btn-phoenix-secondary me-2">
+                                            <span class="txt-exportar-btn">Exportar</span>
+                                            <div class="spinner-border spinner-border-sm loader-btn-exportar d-none" role="status" style="width: 0.9rem; height: 0.9rem;"></div>
+                                        </button>
+
+                                        <a href="<?= base_url('finContasPagar'); ?>" class="btn btn-phoenix-danger"
                                             title="Limpar Filtro"><i class="fas fa-ban"></i></a>
+
                                     <?php } ?>
                                 </div>
                             </div>
+
+                           
 
                         </div>
                     </div>
