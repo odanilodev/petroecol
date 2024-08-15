@@ -48,7 +48,7 @@ class FinContasPagar extends CI_Controller
 		$data['idSetor'] = 'todos';
 		$statusConta = 'ambas';
 		$setorEmpresa = 'todos';
-		
+
 		if ($this->uri->segment(3) && $this->uri->segment(3) != "all") {
 
 
@@ -611,7 +611,7 @@ class FinContasPagar extends CI_Controller
 
 		// Carrega o modelo e obtém os dados filtrados
 		$this->load->model('FinContasPagar_model');
-		$contasPagar = $this->FinContasPagar_model->recebeContasPagar($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa);
+		$contasPagar = $this->FinContasPagar_model->recebeContasPagarExcel($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa);
 
 		// Cria um novo arquivo Excel
 		$spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
