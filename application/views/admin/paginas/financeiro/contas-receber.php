@@ -6,12 +6,16 @@
                     <div class="col-12 col-md-3">
                         <div class="d-flex align-items-center">
                             <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-success-300" data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100" data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
+                                <span class="fa-solid fa-square fa-stack-2x text-success-300"
+                                    data-fa-transform="down-4 rotate--10 left-4"></span>
+                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100"
+                                    data-fa-transform="up-4 right-3 grow-2"></span>
+                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success "
+                                    data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ <span class="total-caixa-front"><?= number_format($saldoTotal['saldo'], 2, ',', '.') ?></span>
+                                <h4 class="mb-0">R$ <span
+                                        class="total-caixa-front"><?= number_format($saldoTotal['saldo'], 2, ',', '.') ?></span>
                                 </h4>
                                 <p class="text-800 fs--1 mb-0">Total Caixa</p>
                             </div>
@@ -20,12 +24,16 @@
                     <div class="col-12 col-md-3">
                         <div class="d-flex align-items-center">
                             <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-success-300" data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100" data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success " data-fa-transform="shrink-2 up-8 right-6"></span>
+                                <span class="fa-solid fa-square fa-stack-2x text-success-300"
+                                    data-fa-transform="down-4 rotate--10 left-4"></span>
+                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100"
+                                    data-fa-transform="up-4 right-3 grow-2"></span>
+                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-success "
+                                    data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ <span class="total-recebido-front"><?= number_format($totalRecebido['valor_recebido'], 2, ',', '.') ?></span>
+                                <h4 class="mb-0">R$ <span
+                                        class="total-recebido-front"><?= number_format($totalRecebido['valor_recebido'], 2, ',', '.') ?></span>
                                 </h4>
                                 <p class="text-800 fs--1 mb-0">Total Recebido</p>
                             </div>
@@ -34,12 +42,16 @@
                     <div class="col-12 col-md-3">
                         <div class="d-flex align-items-center">
                             <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-warning-300" data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-warning-100" data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-warning" data-fa-transform="shrink-2 up-8 right-6"></span>
+                                <span class="fa-solid fa-square fa-stack-2x text-warning-300"
+                                    data-fa-transform="down-4 rotate--10 left-4"></span>
+                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-warning-100"
+                                    data-fa-transform="up-4 right-3 grow-2"></span>
+                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-warning"
+                                    data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ <span class="total-aberto-front"><?= number_format($emAberto['valor'], 2, ',', '.') ?></span>
+                                <h4 class="mb-0">R$ <span
+                                        class="total-aberto-front"><?= number_format($emAberto['valor'], 2, ',', '.') ?></span>
                                 </h4>
                                 <p class="text-800 fs--1 mb-0">A Receber</p>
                             </div>
@@ -48,12 +60,16 @@
                     <div class="col-12 col-md-3">
                         <div class="d-flex align-items-center">
                             <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                                <span class="fa-solid fa-square fa-stack-2x text-info-300" data-fa-transform="down-4 rotate--10 left-4"></span>
-                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-info-100" data-fa-transform="up-4 right-3 grow-2"></span>
-                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-info" data-fa-transform="shrink-2 up-8 right-6"></span>
+                                <span class="fa-solid fa-square fa-stack-2x text-info-300"
+                                    data-fa-transform="down-4 rotate--10 left-4"></span>
+                                <span class="fa-solid fa-circle fa-stack-2x stack-circle text-info-100"
+                                    data-fa-transform="up-4 right-3 grow-2"></span>
+                                <span class="fa-stack-1x fa-solid fas fa-dollar-sign text-info"
+                                    data-fa-transform="shrink-2 up-8 right-6"></span>
                             </span>
                             <div class="ms-3">
-                                <h4 class="mb-0">R$ <span class="total-setor-front"><?= number_format($porSetor['saldo'], 2, ',', '.') ?></span>
+                                <h4 class="mb-0">R$ <span
+                                        class="total-setor-front"><?= number_format($porSetor['saldo'], 2, ',', '.') ?></span>
                                 </h4>
                                 <p class="text-800 fs--1 mb-0">Saldo do Setor <?= $nomeSaldoSetor ?></p>
                             </div>
@@ -67,22 +83,31 @@
                 <form id="filtroForm" action="<?= base_url('finContasReceber/') ?>" method="post">
                     <div class="col-12">
                         <div class="row align-items-center g-4">
-                            <h4 class="ms-3">Filtrar resultados</h4>
-                            <div class="col-12 col-md-3">
-                                <div class="ms-3">
-                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataInicio ?>" required name="data_inicio" id="data_inicio" type="text" placeholder="Selecione a data de início" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
+                            <h4 class="ms-4">Filtrar resultados</h4>
+                            <div class="col-12 col-md-2">
+                                <div class="ms-2">
+                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataInicio ?>"
+                                        required name="data_inicio" id="data_inicio" type="text"
+                                        placeholder="Data Inicial"
+                                        data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}'
+                                        style="cursor: pointer;" autocomplete="off" />
                                 </div>
                             </div>
-                            <div class="col-12 col-md-3">
-                                <div class="ms-3">
-                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataFim ?>" required name="data_fim" id="data_fim" type="text" placeholder="Seleciona a data final" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
+                            <div class="col-12 col-md-2">
+                                <div class="ms-2">
+                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataFim ?>"
+                                        required name="data_fim" id="data_fim" type="text" placeholder="Data final"
+                                        data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}'
+                                        style="cursor: pointer;" autocomplete="off" />
                                 </div>
                             </div>
 
                             <div class="col-12 col-md-2">
                                 <div class="ms-3">
-                                    <select class="select-validation select-orientacao" required name="status" id="movimentacao">
-                                        <option <?= $status == 'ambas' ? 'selected' : '' ?> disabled> Status da conta</option>
+                                    <select class="select-validation select-orientacao" required name="status"
+                                        id="movimentacao">
+                                        <option <?= $status == 'ambas' ? 'selected' : '' ?> disabled> Status da conta
+                                        </option>
                                         <option <?= $status == '0' ? 'selected' : '' ?> value="0">A receber</option>
                                         <option <?= $status == '1' ? 'selected' : '' ?> value="1">Recebida</option>
                                         <option <?= $status == 'ambas' && $this->uri->segment(2) == 'index' ? 'selected' : '' ?> value="ambas">Ambos</option>
@@ -92,10 +117,12 @@
                             <div class="col-12 col-md-2">
                                 <div class="ms-3">
                                     <select class="select-validation select-setor" required name="setor" id="setor">
-                                        <option <?= $idSetor == 'todos' ? 'selected' : '' ?> disabled>Setor da conta</option>
+                                        <option <?= $idSetor == 'todos' ? 'selected' : '' ?> disabled>Setor da conta
+                                        </option>
                                         <option <?= $idSetor == 'todos' && $this->uri->segment(2) == 'index' ? 'selected' : '' ?> value="todos">Todos</option>
                                         <?php foreach ($setoresEmpresa as $setor) { ?>
-                                            <option <?= $idSetor == $setor['id'] ? 'selected' : '' ?> value="<?= $setor['id'] ?>"><?= $setor['nome'] ?>
+                                            <option <?= $idSetor == $setor['id'] ? 'selected' : '' ?>
+                                                value="<?= $setor['id'] ?>"><?= $setor['nome'] ?>
                                             </option>
                                         <?php } ?>
                                     </select>
@@ -105,13 +132,24 @@
 
                             <div class="col-12 col-md-2">
                                 <div class="ms-3">
-                                    <button type="submit" class="btn btn-phoenix-secondary bg-white hover-bg-100 <?= !$dataInicio ? 'w-100' : ''; ?>">Filtrar</button>
+                                    <button type="submit"
+                                        class="btn btn-phoenix-secondary bg-white hover-bg-100 <?= !$dataInicio ? 'w-100' : ''; ?>">Filtrar</button>
 
                                     <?php if ($dataInicio) { ?>
-                                        <a href="<?= base_url('finContasReceber'); ?>" class="btn btn-phoenix-danger" title="Limpar Filtro"><i class="fas fa-ban"></i></a>
+                                        <a href="<?= base_url('finContasReceber'); ?>" class="btn btn-phoenix-danger"
+                                            title="Limpar Filtro"><i class="fas fa-ban"></i></a>
                                     <?php } ?>
                                 </div>
                             </div>
+
+                            <div class="col-12 <?= $dataInicio ? 'col-md-2' : 'col-md-2' ?>" style="padding:0;">
+                                <div class="d-flex ms-3">
+                                    <button id="exportarBtn"
+                                        class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2">Exportar</button>
+                                </div>
+                            </div>
+
+
                         </div>
                         <hr class="bg-200 mb-6 mt-4" />
                     </div>
@@ -120,7 +158,8 @@
         </div>
     </div>
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div id="members" data-list='{"valueNames":["td_vencimento","td_valor","td_valor_recebido","td_status","td_data_recebimento","td_recebido","td_setor","td_observacao"], <?= !$this->input->post() ? '"page":10,' : '' ?> "pagination":true}'>
+        <div id="members"
+            data-list='{"valueNames":["td_vencimento","td_valor","td_valor_recebido","td_status","td_data_recebimento","td_recebido","td_setor","td_observacao"], <?= !$this->input->post() ? '"page":10,' : '' ?> "pagination":true}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3>Contas a Receber</h3>
@@ -130,13 +169,17 @@
                         <div class="col-auto flex-1">
                             <div class="search-box">
                                 <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                                    <input class="form-control search-input search form-control-sm" type="search" placeholder="Buscar" aria-label="Search" />
+                                    <input class="form-control search-input search form-control-sm" type="search"
+                                        placeholder="Buscar" aria-label="Search" />
                                     <span class="fas fa-search search-box-icon"></span>
                                 </form>
                             </div>
                         </div>
                         <div class="col-auto">
-                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento" type="button" data-bs-toggle="modal" data-bs-target="#modalEntradaContasReceber">+ Lançamento</button>
+                            <button
+                                class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento"
+                                type="button" data-bs-toggle="modal" data-bs-target="#modalEntradaContasReceber">+
+                                Lançamento</button>
                         </div>
                     </div>
                 </div>
@@ -147,17 +190,24 @@
                         <tr>
                             <th class="white-space-nowrap fs--1 ps-0 align-middle">
                                 <div class="form-check mb-0 fs-0">
-                                    <input class="form-check-input" id="checkbox-bulk-reviews-select" type="checkbox" data-bulk-select='{"body":"table-latest-review-body"}' />
+                                    <input class="form-check-input" id="checkbox-bulk-reviews-select" type="checkbox"
+                                        data-bulk-select='{"body":"table-latest-review-body"}' />
                                 </div>
                             </th>
-                            <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="td_vencimento">Vencimento</th>
+                            <th class="sort white-space-nowrap align-middle text-center" scope="col"
+                                data-sort="td_vencimento">Vencimento</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_valor">Valor</th>
-                            <th class="sort align-middle text-center" scope="col" data-sort="td_valor_recebido">Valor Recebido</th>
-                            <th class="sort text-start ps-5 align-middle text-center" scope="col" data-sort="td_status">Status</th>
-                            <th class="sort white-space-nowrap align-middle text-center" scope="col" data-sort="td_data_recebimento">Data Recebimento</th>
-                            <th class="sort text-start align-middle text-center" scope="col" data-sort="td_recebido">Recebido</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_valor_recebido">Valor
+                                Recebido</th>
+                            <th class="sort text-start ps-5 align-middle text-center" scope="col" data-sort="td_status">
+                                Status</th>
+                            <th class="sort white-space-nowrap align-middle text-center" scope="col"
+                                data-sort="td_data_recebimento">Data Recebimento</th>
+                            <th class="sort text-start align-middle text-center" scope="col" data-sort="td_recebido">
+                                Recebido</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
-                            <th class="sort text-end pe-0 align-middle text-center" scope="col" data-sort="td_observacao">Observação</th>
+                            <th class="sort text-end pe-0 align-middle text-center" scope="col"
+                                data-sort="td_observacao">Observação</th>
                             <th class="sort text-end pe-0 align-middle text-center" scope="col"></th>
                         </tr>
                     </thead>
@@ -170,52 +220,86 @@
                                     </div>
                                 </td>
                                 <td class="align-middle product white-space-nowrap text-center td_vencimento">
-                                    <h6 class="mb-0 text-900"><?= date('d/m/Y', strtotime($contaReceber['data_vencimento'])) ?></h6>
+                                    <h6 class="mb-0 text-900">
+                                        <?= date('d/m/Y', strtotime($contaReceber['data_vencimento'])) ?>
+                                    </h6>
                                 </td>
                                 <td class="align-middle white-space-nowrap fs--2 text-center td_valor">
-                                    <h6 class="mb-0 text-900"><?= 'R$' . number_format($contaReceber['valor'], 2, ',', '.'); ?></h6>
+                                    <h6 class="mb-0 text-900">
+                                        <?= 'R$' . number_format($contaReceber['valor'], 2, ',', '.'); ?>
+                                    </h6>
                                 </td>
                                 <td class="align-middle white-space-nowrap fs--2 text-center td_valor_recebido">
-                                    <h6 class="mb-0 text-900 valor-recebido-<?= $contaReceber['id'] ?>"><?= $contaReceber['valor_recebido'] ? 'R$' . number_format($contaReceber['valor_recebido'], 2, ',', '.') : '-' ?></h6>
+                                    <h6 class="mb-0 text-900 valor-recebido-<?= $contaReceber['id'] ?>">
+                                        <?= $contaReceber['valor_recebido'] ? 'R$' . number_format($contaReceber['valor_recebido'], 2, ',', '.') : '-' ?>
+                                    </h6>
                                 </td>
                                 <td class="align-middle text-start ps-3 status text-center td_status">
-                                    <span class="badge badge-phoenix fs--2 <?= $contaReceber['status'] ? "badge-phoenix-success" : "badge-phoenix-danger" ?> tipo-status-conta-<?= $contaReceber['id'] ?>">
-                                        <span data-id-dado-cliente="<?= $contaReceber['id_cliente'] ?>" data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" class="badge-label cursor-pointer receber-conta status-pagamento-table-<?= $contaReceber['id'] ?>" data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro'] ?>" data-id="<?= $contaReceber['id'] ?>" <?= !$contaReceber['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalReceberConta"' : '' ?>>
+                                    <span
+                                        class="badge badge-phoenix fs--2 <?= $contaReceber['status'] ? "badge-phoenix-success" : "badge-phoenix-danger" ?> tipo-status-conta-<?= $contaReceber['id'] ?>">
+                                        <span data-id-dado-cliente="<?= $contaReceber['id_cliente'] ?>"
+                                            data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>"
+                                            class="badge-label cursor-pointer receber-conta status-pagamento-table-<?= $contaReceber['id'] ?>"
+                                            data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro'] ?>"
+                                            data-id="<?= $contaReceber['id'] ?>" <?= !$contaReceber['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalReceberConta"' : '' ?>>
                                             <?= $contaReceber['status'] ? "Recebido" : "A receber" ?>
                                         </span>
-                                        <span class="ms-1 icone-status-conta-<?= $contaReceber['id'] ?>" data-feather="<?= $contaReceber['status'] ? "check" : "slash" ?>" style="height:12.8px;width:12.8px;"></span>
+                                        <span class="ms-1 icone-status-conta-<?= $contaReceber['id'] ?>"
+                                            data-feather="<?= $contaReceber['status'] ? "check" : "slash" ?>"
+                                            style="height:12.8px;width:12.8px;"></span>
                                     </span>
                                 </td>
                                 <td class="align-middle product white-space-nowrap text-center td_data_recebimento">
-                                    <h6 class="mb-0 text-900 data-recebimento-<?= $contaReceber['id'] ?>"><?= $contaReceber['data_recebimento'] ? date('d/m/Y', strtotime($contaReceber['data_recebimento'])) : '-' ?></h6>
+                                    <h6 class="mb-0 text-900 data-recebimento-<?= $contaReceber['id'] ?>">
+                                        <?= $contaReceber['data_recebimento'] ? date('d/m/Y', strtotime($contaReceber['data_recebimento'])) : '-' ?>
+                                    </h6>
                                 </td>
                                 <td class="align-middle text-start time text-center td_recebido">
-                                    <h6 class="text-900 mb-0"><?= $contaReceber['RECEBIDO'] ? ucfirst($contaReceber['RECEBIDO']) : ucfirst($contaReceber['CLIENTE']); ?></h6>
+                                    <h6 class="text-900 mb-0">
+                                        <?= $contaReceber['RECEBIDO'] ? ucfirst($contaReceber['RECEBIDO']) : ucfirst($contaReceber['CLIENTE']); ?>
+                                    </h6>
                                 </td>
                                 <td class="align-middle product white-space-nowrap text-center td_setor">
                                     <h6 class="mb-0 text-900"><?= $contaReceber['SETOR']; ?></h6>
                                 </td>
                                 <td class="align-middle product white-space-nowrap text-center td_observacao">
-                                    <h6 class="mb-0 text-900"><?= $contaReceber['observacao'] != '' ? $contaReceber['observacao'] : '-'; ?></h6>
+                                    <h6 class="mb-0 text-900">
+                                        <?= $contaReceber['observacao'] != '' ? $contaReceber['observacao'] : '-'; ?>
+                                    </h6>
                                 </td>
                                 <td class="align-middle white-space-nowrap text-end pe-0 text-center">
                                     <div class="font-sans-serif btn-reveal-trigger position-static">
-                                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                                        <button
+                                            class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2"
+                                            type="button" data-bs-toggle="dropdown" data-boundary="window"
+                                            aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
                                             <span class="fas fa-ellipsis-h fs--2"></span>
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-end py-2">
-                                            <a class="dropdown-item" href="#" onclick="visualizarConta(<?= $contaReceber['id'] ?>)" data-bs-toggle="modal" data-bs-target="#modalVisualizarContasReceber">
+                                            <a class="dropdown-item" href="#"
+                                                onclick="visualizarConta(<?= $contaReceber['id'] ?>)" data-bs-toggle="modal"
+                                                data-bs-target="#modalVisualizarContasReceber">
                                                 <span class="fas fa-eye"></span> Visualizar
                                             </a>
                                             <?php if (!$contaReceber['status']) { ?>
-                                                <a class="dropdown-item editar-lancamento btn-editar-<?= $contaReceber['id'] ?>" href="#!" data-bs-toggle="modal" data-id="<?= $contaReceber['id'] ?>" data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" data-bs-target="#modalEditarContasReceber">
+                                                <a class="dropdown-item editar-lancamento btn-editar-<?= $contaReceber['id'] ?>"
+                                                    href="#!" data-bs-toggle="modal" data-id="<?= $contaReceber['id'] ?>"
+                                                    data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>"
+                                                    data-bs-target="#modalEditarContasReceber">
                                                     <span class="fas fa-pencil"></span> Editar
                                                 </a>
-                                                <a class="dropdown-item btn-excluir-<?= $contaReceber['id'] ?>" href="#" onclick="deletaContaReceber(<?= $contaReceber['id'] ?>)">
+                                                <a class="dropdown-item btn-excluir-<?= $contaReceber['id'] ?>" href="#"
+                                                    onclick="deletaContaReceber(<?= $contaReceber['id'] ?>)">
                                                     <span class="fas fa-trash"></span> Excluir
                                                 </a>
-                                                <div class="dropdown-divider btn-receber-pagamento-<?= $contaReceber['id'] ?>"></div>
-                                                <a data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" class="dropdown-item receber-conta btn-receber-pagamento-<?= $contaReceber['id'] ?>" data-id="<?= $contaReceber['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalReceberConta" data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro'] ?>" data-id-dado-cliente="<?= $contaReceber['id_cliente'] ?>">Receber Conta</a>
+                                                <div class="dropdown-divider btn-receber-pagamento-<?= $contaReceber['id'] ?>">
+                                                </div>
+                                                <a data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>"
+                                                    class="dropdown-item receber-conta btn-receber-pagamento-<?= $contaReceber['id'] ?>"
+                                                    data-id="<?= $contaReceber['id'] ?>" href="#!" data-bs-toggle="modal"
+                                                    data-bs-target="#modalReceberConta"
+                                                    data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro'] ?>"
+                                                    data-id-dado-cliente="<?= $contaReceber['id_cliente'] ?>">Receber Conta</a>
                                             <?php } ?>
                                         </div>
                                     </div>
@@ -227,12 +311,18 @@
             </div>
             <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
                 <div class="col-auto d-none">
-                    <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!" data-list-view="*">Ver todos<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">Ver menos<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                    <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a
+                        class="fw-semi-bold" href="#!" data-list-view="*">Ver todos<span class="fas fa-angle-right ms-1"
+                            data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!"
+                        data-list-view="less">Ver menos<span class="fas fa-angle-right ms-1"
+                            data-fa-transform="down-1"></span></a>
                 </div>
                 <div class="col-auto d-flex w-100 justify-content-end mt-2 mb-2">
-                    <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
+                    <button class="page-link" data-list-pagination="prev"><span
+                            class="fas fa-chevron-left"></span></button>
                     <ul class="mb-0 pagination"></ul>
-                    <button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
+                    <button class="page-link pe-0" data-list-pagination="next"><span
+                            class="fas fa-chevron-right"></span></button>
                 </div>
             </div>
         </div>
@@ -262,15 +352,19 @@
                                                 <tr>
                                                     <td class="py-2 w-50">
                                                         <div class="d-inline-flex align-items-center">
-                                                            <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                                                <span class="text-info-600 dark__text-info-300 fas fa-id-card" style="width:16px; height:16px"></span>
+                                                            <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
+                                                                style="width:24px; height:24px">
+                                                                <span
+                                                                    class="text-info-600 dark__text-info-300 fas fa-id-card"
+                                                                    style="width:16px; height:16px"></span>
                                                             </div>
                                                             <p class="fw-bold mb-0">Setor</p>
                                                         </div>
                                                     </td>
                                                     <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                     <td class="py-2 w-50">
-                                                        <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break setor-empresa html-clean">
+                                                        <div
+                                                            class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break setor-empresa html-clean">
                                                             <!-- JS -->
                                                         </div>
                                                     </td>
@@ -279,15 +373,19 @@
                                                 <tr>
                                                     <td class="py-2 w-50">
                                                         <div class="d-inline-flex align-items-center">
-                                                            <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                                                <span class="text-info-600 dark__text-info-300 fas fa-id-card-alt" style="width:16px; height:16px"></span>
+                                                            <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
+                                                                style="width:24px; height:24px">
+                                                                <span
+                                                                    class="text-info-600 dark__text-info-300 fas fa-id-card-alt"
+                                                                    style="width:16px; height:16px"></span>
                                                             </div>
                                                             <p class="fw-bold mb-0">Empresa</p>
                                                         </div>
                                                     </td>
                                                     <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                     <td class="py-2 w-50">
-                                                        <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break nome-empresa html-clean">
+                                                        <div
+                                                            class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break nome-empresa html-clean">
                                                             <!-- JS -->
                                                         </div>
                                                     </td>
@@ -296,15 +394,19 @@
                                                 <tr>
                                                     <td class="py-2 w-50">
                                                         <div class="d-inline-flex align-items-center">
-                                                            <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                                                <span class="text-info-600 dark__text-info-300" data-feather="calendar" style="width:16px; height:16px"></span>
+                                                            <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
+                                                                style="width:24px; height:24px">
+                                                                <span class="text-info-600 dark__text-info-300"
+                                                                    data-feather="calendar"
+                                                                    style="width:16px; height:16px"></span>
                                                             </div>
                                                             <p class="fw-bold mb-0">Data de vencimento</p>
                                                         </div>
                                                     </td>
                                                     <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                     <td class="py-2 w-50">
-                                                        <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break data-vencimento html-clean">
+                                                        <div
+                                                            class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break data-vencimento html-clean">
                                                             <!-- JS -->
                                                         </div>
                                                     </td>
@@ -313,15 +415,19 @@
                                                 <tr>
                                                     <td class="py-2 w-50">
                                                         <div class="d-inline-flex align-items-center">
-                                                            <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                                                <span class="text-info-600 dark__text-info-300" data-feather="calendar" style="width:16px; height:16px"></span>
+                                                            <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
+                                                                style="width:24px; height:24px">
+                                                                <span class="text-info-600 dark__text-info-300"
+                                                                    data-feather="calendar"
+                                                                    style="width:16px; height:16px"></span>
                                                             </div>
                                                             <p class="fw-bold mb-0">Data de Emissão</p>
                                                         </div>
                                                     </td>
                                                     <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                     <td class="py-2 w-50">
-                                                        <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break data-emissao html-clean">
+                                                        <div
+                                                            class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break data-emissao html-clean">
                                                             <!-- JS -->
                                                         </div>
                                                     </td>
@@ -330,8 +436,11 @@
                                                 <tr class="div-data-recebimento d-none">
                                                     <td class="py-2 w-50">
                                                         <div class="d-inline-flex align-items-center">
-                                                            <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                                                <span class="text-info-600 dark__text-info-300" data-feather="calendar" style="width:16px; height:16px"></span>
+                                                            <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
+                                                                style="width:24px; height:24px">
+                                                                <span class="text-info-600 dark__text-info-300"
+                                                                    data-feather="calendar"
+                                                                    style="width:16px; height:16px"></span>
                                                             </div>
                                                             <p class="fw-bold mb-0">Data de Recebimento</p>
                                                         </div>
@@ -339,7 +448,8 @@
                                                     <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                     <td class="py-2 w-50">
 
-                                                        <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break data-recebimento html-clean">
+                                                        <div
+                                                            class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break data-recebimento html-clean">
                                                             <!-- JS -->
                                                         </div>
 
@@ -349,8 +459,11 @@
                                                 <tr>
                                                     <td class="py-2 w-50">
                                                         <div class="d-inline-flex align-items-center">
-                                                            <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                                                <span class="text-info-600 dark__text-info-300 fas fa-money-check-alt" style="width:16px; height:16px"></span>
+                                                            <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
+                                                                style="width:24px; height:24px">
+                                                                <span
+                                                                    class="text-info-600 dark__text-info-300 fas fa-money-check-alt"
+                                                                    style="width:16px; height:16px"></span>
                                                             </div>
                                                             <p class="fw-bold mb-0">Valor</p>
                                                         </div>
@@ -358,7 +471,8 @@
                                                     <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                     <td class="py-2 w-50">
 
-                                                        <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break valor-conta html-clean">
+                                                        <div
+                                                            class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break valor-conta html-clean">
                                                             <!-- JS -->
                                                         </div>
 
@@ -368,8 +482,11 @@
                                                 <tr class="div-valor-recebido d-none">
                                                     <td class="py-2 w-50">
                                                         <div class="d-inline-flex align-items-center">
-                                                            <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                                                <span class="text-info-600 dark__text-info-300 fas fa-money-check-alt" style="width:16px; height:16px"></span>
+                                                            <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
+                                                                style="width:24px; height:24px">
+                                                                <span
+                                                                    class="text-info-600 dark__text-info-300 fas fa-money-check-alt"
+                                                                    style="width:16px; height:16px"></span>
                                                             </div>
                                                             <p class="fw-bold mb-0">Valor Recebido</p>
                                                         </div>
@@ -377,7 +494,8 @@
                                                     <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                     <td class="py-2 w-50">
 
-                                                        <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break valor-recebido html-clean">
+                                                        <div
+                                                            class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break valor-recebido html-clean">
                                                             <!-- JS -->
                                                         </div>
 
@@ -387,8 +505,11 @@
                                                 <tr>
                                                     <td class="py-2 w-50">
                                                         <div class="d-inline-flex align-items-center">
-                                                            <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
-                                                                <span class="text-info-600 dark__text-info-300 fas fa-message" style="width:16px; height:16px"></span>
+                                                            <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
+                                                                style="width:24px; height:24px">
+                                                                <span
+                                                                    class="text-info-600 dark__text-info-300 fas fa-message"
+                                                                    style="width:16px; height:16px"></span>
                                                             </div>
                                                             <p class="fw-bold mb-0">Observação</p>
                                                         </div>
@@ -396,7 +517,8 @@
                                                     <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                                     <td class="py-2 w-50">
 
-                                                        <div class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break obs-conta html-clean">
+                                                        <div
+                                                            class="ps-6 ps-sm-0 fw-semi-bold mb-0 text-break obs-conta html-clean">
                                                             <!-- JS -->
                                                         </div>
 
@@ -443,7 +565,9 @@
 
                                             <div class="mb-4">
                                                 <label class="text-body-highlight fw-bold mb-2">Setor da Empresa</label>
-                                                <select class="form-select select2 select-setor-empresa input-obrigatorio dados-conta" name="setor">
+                                                <select
+                                                    class="form-select select2 select-setor-empresa input-obrigatorio dados-conta"
+                                                    name="setor">
                                                     <option selected disabled value="">Selecione</option>
                                                     <?php foreach ($setoresEmpresa as $setor) { ?>
                                                         <option value="<?= $setor['id'] ?>"><?= $setor['nome'] ?>
@@ -460,7 +584,8 @@
                                             <div class="mb-4">
                                                 <label class="text-body-highlight fw-bold mb-2">Grupos
                                                     Macros</label>
-                                                <select class="form-select select2 select-macros input-obrigatorio" name="macros">
+                                                <select class="form-select select2 select-macros input-obrigatorio"
+                                                    name="macros">
                                                     <option selected disabled>Selecione</option>
                                                     <?php foreach ($macros as $macro) { ?>
                                                         <option value="<?= $macro['id'] ?>">
@@ -479,7 +604,9 @@
                                             <div class="mb-4">
                                                 <label class="text-body-highlight fw-bold mb-2">Grupos
                                                     Micros</label>
-                                                <select disabled class="form-select select2 select-micros input-obrigatorio" name="micros">
+                                                <select disabled
+                                                    class="form-select select2 select-micros input-obrigatorio"
+                                                    name="micros">
                                                     <option selected disabled value="">Selecione</option>
                                                     <!-- JS -->
                                                 </select>
@@ -494,7 +621,9 @@
                                             <div class="mb-4">
                                                 <label class="text-body-highlight fw-bold mb-2">Grupo
                                                     recebidos</label>
-                                                <select class="form-select select2 select-grupo-recebidos input-obrigatorio" name="grupo-recebido">
+                                                <select
+                                                    class="form-select select2 select-grupo-recebidos input-obrigatorio"
+                                                    name="grupo-recebido">
                                                     <option selected disabled>Selecione</option>
                                                     <?php foreach ($grupos as $grupo) { ?>
                                                         <option value="<?= $grupo['id'] ?>"><?= $grupo['nome'] ?>
@@ -513,7 +642,8 @@
 
                                             <div class="mb-4">
                                                 <label class="text-body-highlight fw-bold mb-2">Recebido</label>
-                                                <select class="form-select select2 select-recebido input-obrigatorio" name="recebido">
+                                                <select class="form-select select2 select-recebido input-obrigatorio"
+                                                    name="recebido">
                                                     <option selected disabled>Selecione</option>
                                                     <?php foreach ($dadosFinanceiro as $dadoFinanceiro) { ?>
                                                         <option value="<?= $dadoFinanceiro['id'] ?>">
@@ -555,7 +685,10 @@
                                             <div class="mb-4">
                                                 <label class="text-body-highlight fw-bold mb-2">Data
                                                     Vencimento</label>
-                                                <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio mascara-data" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
+                                                <input
+                                                    class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio mascara-data"
+                                                    required name="data_vencimento" type="text" placeholder="dd/mm/aaaa"
+                                                    data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
                                                 <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                             </div>
@@ -566,7 +699,10 @@
 
                                             <div class="mb-4">
                                                 <label class="text-body-highlight fw-bold mb-2">Data Emissão</label>
-                                                <input class="form-control datetimepicker cursor-pointer input-data-emissao mascara-data" required name="data_emissao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
+                                                <input
+                                                    class="form-control datetimepicker cursor-pointer input-data-emissao mascara-data"
+                                                    required name="data_emissao" type="text" placeholder="dd/mm/aaaa"
+                                                    data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
                                                 <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                             </div>
@@ -577,7 +713,10 @@
 
                                             <div class="mb-4">
                                                 <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                <input class="form-control mascara-dinheiro input-valor input-obrigatorio" required name="valor" type="text" placeholder="Valor total da conta">
+                                                <input
+                                                    class="form-control mascara-dinheiro input-valor input-obrigatorio"
+                                                    required name="valor" type="text"
+                                                    placeholder="Valor total da conta">
                                                 <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                                             </div>
 
@@ -604,7 +743,8 @@
 
             <div class="modal-footer">
                 <div class="spinner-border text-primary load-form d-none" role="status"></div>
-                <button class="btn btn-primary btn-form" type="button" onclick="cadastraContasReceber('form-entrada-receber')">Salvar</button>
+                <button class="btn btn-primary btn-form" type="button"
+                    onclick="cadastraContasReceber('form-entrada-receber')">Salvar</button>
                 <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
             </div>
@@ -633,7 +773,9 @@
 
                                             <div class="mb-4">
                                                 <label class="text-body-highlight fw-bold mb-2">Setor da Empresa</label>
-                                                <select class="form-select select2 select-setor-empresa input-obrigatorio dados-conta" name="setor">
+                                                <select
+                                                    class="form-select select2 select-setor-empresa input-obrigatorio dados-conta"
+                                                    name="setor">
                                                     <option selected disabled value="">Selecione</option>
                                                     <?php foreach ($setoresEmpresa as $setor) { ?>
                                                         <option value="<?= $setor['id'] ?>"><?= $setor['nome'] ?>
@@ -649,7 +791,10 @@
 
                                             <div class="mb-4">
                                                 <label class="text-body-highlight fw-bold mb-2">Data Vencimento</label>
-                                                <input class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio dados-conta mascara-data" required name="data_vencimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
+                                                <input
+                                                    class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio dados-conta mascara-data"
+                                                    required name="data_vencimento" type="text" placeholder="dd/mm/aaaa"
+                                                    data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
                                                 <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                             </div>
@@ -659,7 +804,10 @@
 
                                             <div class="mb-4">
                                                 <label class="text-body-highlight fw-bold mb-2">Data Emissão</label>
-                                                <input class="form-control datetimepicker cursor-pointer input-data-emissao dados-conta mascara-data" required name="data_emissao" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
+                                                <input
+                                                    class="form-control datetimepicker cursor-pointer input-data-emissao dados-conta mascara-data"
+                                                    required name="data_emissao" type="text" placeholder="dd/mm/aaaa"
+                                                    data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
                                                 <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                             </div>
@@ -670,7 +818,10 @@
 
                                             <div class="mb-4">
                                                 <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                <input class="form-control input-obrigatorio mascara-dinheiro input-editar-valor dados-conta" required name="valor" type="text" placeholder="Valor total da conta">
+                                                <input
+                                                    class="form-control input-obrigatorio mascara-dinheiro input-editar-valor dados-conta"
+                                                    required name="valor" type="text"
+                                                    placeholder="Valor total da conta">
                                                 <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                             </div>
@@ -681,7 +832,8 @@
 
                                             <div class="mb-4">
                                                 <label class="text-body-highlight fw-bold mb-2">Observação</label>
-                                                <textarea class="form-control input-observacao" name="observacao"></textarea>
+                                                <textarea class="form-control input-observacao"
+                                                    name="observacao"></textarea>
                                             </div>
 
                                         </div>
@@ -698,7 +850,8 @@
             <div class="modal-footer">
                 <input type="hidden" class="id-editar-conta">
                 <div class="spinner-border text-primary load-form d-none" role="status"></div>
-                <button class="btn btn-success btn-form" type="button" onclick="cadastraContasReceber('form-editar-receber')">Salvar</button>
+                <button class="btn btn-success btn-form" type="button"
+                    onclick="cadastraContasReceber('form-editar-receber')">Salvar</button>
                 <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
             </div>
@@ -726,7 +879,10 @@
                                             <div class="mb-4">
                                                 <label class="text-body-highlight fw-bold mb-2">Data
                                                     Recebimento</label>
-                                                <input class="form-control datetimepicker input-data-recebimento cursor-pointer mascara-data" name="data_recebimento" type="text" placeholder="dd/mm/aaaa" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
+                                                <input
+                                                    class="form-control datetimepicker input-data-recebimento cursor-pointer mascara-data"
+                                                    name="data_recebimento" type="text" placeholder="dd/mm/aaaa"
+                                                    data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
                                             </div>
                                         </div>
 
@@ -762,11 +918,15 @@
                                             <div class="col-lg-3 duplica-pagamento">
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                    <input class="form-control input-valor-recebido mascara-dinheiro input-valor-unic" required name="valor" type="text" placeholder="Valor">
+                                                    <input
+                                                        class="form-control input-valor-recebido mascara-dinheiro input-valor-unic"
+                                                        required name="valor" type="text" placeholder="Valor">
                                                 </div>
                                             </div>
                                             <div class="col-lg-1 mt-5">
-                                                <button title="Mais formas de pagamento" type="button" class="btn btn-phoenix-success bg-white hover-bg-100" onclick="duplicarFormasPagamento()">+</button>
+                                                <button title="Mais formas de pagamento" type="button"
+                                                    class="btn btn-phoenix-success bg-white hover-bg-100"
+                                                    onclick="duplicarFormasPagamento()">+</button>
                                             </div>
                                         </div>
                                         <div class="campos-duplicados row">

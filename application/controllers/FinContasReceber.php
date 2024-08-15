@@ -343,4 +343,75 @@ class FinContasReceber extends CI_Controller
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
+	public function geraExcelContasReceber()
+	{
+		// Requer o autoload do Composer
+		require_once 'vendor/autoload.php';
+
+		// Recebe as datas e filtros via POST
+		$dataInicio = $this->input->post('data_inicio');
+		$dataFim = $this->input->post('data_fim');
+		$statusConta = $this->input->post('status');
+		$setorEmpresa = $this->input->post('setor');
+
+		// Formata as datas para o formato Y-m-d
+		$dataInicioFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataInicio)));
+		$dataFimFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataFim)));
+
+		// Carrega o modelo e obtém os dados filtrados
+		$this->load->model('FinContasReceber_model');
+		$contasReceber = $this->FinContasReceber_model->recebeContasReceber($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa);
+
+		// Cria um novo arquivo Excel
+		$spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+
+		// Define o cabeçalho das colunas
+		$sheet->setCellValue('A1', 'Data Vencimento');
+		$sheet->setCellValue('B1', 'Valor');
+		$sheet->setCellValue('C1', 'Valor Recebido');
+		$sheet->setCellValue('D1', 'Status');
+		$sheet->setCellValue('E1', 'Data Recebimento');
+		$sheet->setCellValue('F1', 'Recebido/Cliente');
+		$sheet->setCellValue('G1', 'Setor');
+		$sheet->setCellValue('H1', 'Observação');
+
+		// Preenche os dados no Excel
+		$row = 2;
+		foreach ($contasReceber as $contaReceber) {
+			if (is_array($contaReceber)) {
+				$sheet->setCellValue('A' . $row, isset($contaReceber['data_vencimento']) ? date('d/m/Y', strtotime($contaReceber['data_vencimento'])) : 'N/A');
+				$sheet->setCellValue('B' . $row, 'R$' . number_format($contaReceber['valor'], 2, ',', '.'));
+				$sheet->setCellValue('C' . $row, $contaReceber['valor_recebido'] ? 'R$' . number_format($contaReceber['valor_recebido'], 2, ',', '.') : '-');
+				$sheet->setCellValue('D' . $row, $contaReceber['status'] ? "Recebido" : "A receber");
+				$sheet->setCellValue('E' . $row, isset($contaReceber['data_recebimento']) ? date('d/m/Y', strtotime($contaReceber['data_recebimento'])) : '-');
+				$sheet->setCellValue('F' . $row, $contaReceber['RECEBIDO'] ? ucfirst($contaReceber['RECEBIDO']) : ucfirst($contaReceber['CLIENTE']));
+				$sheet->setCellValue('G' . $row, $contaReceber['SETOR'] ?? 'N/A');
+				$sheet->setCellValue('H' . $row, $contaReceber['observacao'] != '' ? $contaReceber['observacao'] : '-');
+				$row++;
+			} else {
+				// Log ou tratamento de erro para o caso em que $contaReceber não é um array
+				error_log('Dados retornados não são arrays: ' . print_r($contaReceber, true));
+			}
+		}
+
+		// Define o nome do arquivo
+		$fileName = 'ContasReceber_' . date('Ymd') . '.xlsx';
+
+		// Define os cabeçalhos para o download do arquivo
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="' . $fileName . '"');
+		header('Cache-Control: max-age=0');
+
+		// Limpa o buffer de saída para evitar corrupção do arquivo
+		ob_end_clean();
+
+		// Salva o arquivo Excel para o output
+		$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+		$writer->save('php://output');
+		exit;
+	}
+
+
 }

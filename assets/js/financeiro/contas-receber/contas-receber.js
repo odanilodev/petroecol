@@ -530,8 +530,47 @@ $(function () {
     });
 });
 
+$('#exportarBtn').on('click', function(e) {
+    e.preventDefault(); // Evita o comportamento padrão de enviar o formulário e recarregar a página
 
+    let $btn = $(this);
+    let originalContent = $btn.html(); // Armazena o conteúdo original do botão
 
+    let formData = new FormData($('#filtroForm')[0]);
+    let urlExportar = `${baseUrl}finContasReceber/geraExcelContasReceber`; // Defina o caminho correto para a sua rota
+
+    $.ajax({
+        url: urlExportar,
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        xhrFields: {
+            responseType: 'blob' // Indica que a resposta deve ser tratada como um blob
+        },
+        beforeSend: function() {
+            $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'); // Substitui o conteúdo por um spinner
+        },
+        success: function(blob, status, xhr) {
+            let contentDisposition = xhr.getResponseHeader('Content-Disposition');
+            let fileName = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : 'RelatorioContasReceber.xlsx';
+
+            let url = window.URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+
+            $btn.prop('disabled', false).html(originalContent); // Reativa o botão e restaura o conteúdo original
+        },
+        error: function(xhr, status, error) {
+            console.error('Erro ao exportar:', error);
+            $btn.prop('disabled', false).html(originalContent); // Reativa o botão e restaura o conteúdo original
+        }
+    });
+});
 
 
 
