@@ -48,7 +48,9 @@ class FinContasPagar extends CI_Controller
 		$data['idSetor'] = 'todos';
 		$statusConta = 'ambas';
 		$setorEmpresa = 'todos';
-		if ($this->uri->segment(3) != "all" && !is_numeric($this->uri->segment(3))) {
+		
+		if ($this->uri->segment(3) && $this->uri->segment(3) != "all") {
+
 
 			// dados no cookie para refazer o filtro
 			$cookieDataInicio = json_decode($this->input->cookie('filtro_data_inicio_pagar'));
@@ -64,22 +66,25 @@ class FinContasPagar extends CI_Controller
 			$nomeSetorEmpresa = $this->input->post('nomeSetor') ?? $cookieNomeSetor;
 
 			// define os cookies para filtrar por datas
-			$this->input->set_cookie('filtro_data_inicio_pagar', json_encode($dataInicio), 3600);
-			$this->input->set_cookie('filtro_data_fim_pagar', json_encode($dataFim), 3600);
-			$this->input->set_cookie('filtro_status_pagar', json_encode($statusConta), 3600);
-			$this->input->set_cookie('filtro_setor_pagar', json_encode($setorEmpresa), 3600);
-			$this->input->set_cookie('filtro_nome_setor_pagar', json_encode($nomeSetorEmpresa), 3600);
+			if ($dataInicio) {
 
-			// converte as datas para o formato americano (Y-m-d)
-			$dataInicioFormatada = $dataInicio ? date('Y-m-d', strtotime(str_replace('/', '-', $dataInicio))) : "";
-			$dataFimFormatada = $dataFim ? date('Y-m-d', strtotime(str_replace('/', '-', $dataFim))) : "";
+				$this->input->set_cookie('filtro_data_inicio_pagar', json_encode($dataInicio), 3600);
+				$this->input->set_cookie('filtro_data_fim_pagar', json_encode($dataFim), 3600);
+				$this->input->set_cookie('filtro_status_pagar', json_encode($statusConta), 3600);
+				$this->input->set_cookie('filtro_setor_pagar', json_encode($setorEmpresa), 3600);
+				$this->input->set_cookie('filtro_nome_setor_pagar', json_encode($nomeSetorEmpresa), 3600);
+				// converte as datas para o formato americano (Y-m-d)
+				$dataInicioFormatada = $dataInicio ? date('Y-m-d', strtotime(str_replace('/', '-', $dataInicio))) : "";
+				$dataFimFormatada = $dataFim ? date('Y-m-d', strtotime(str_replace('/', '-', $dataFim))) : "";
+				// dados para exibir no formulário novamente
+				$data['dataInicio'] = $dataInicio;
+				$data['dataFim'] = $dataFim;
+				$data['nomeSaldoSetor'] = $nomeSetorEmpresa;
+				$data['status'] = $statusConta;
+				$data['idSetor'] = $setorEmpresa;
+			}
 
-			// dados para exibir no formulário novamente
-			$data['dataInicio'] = $dataInicio;
-			$data['dataFim'] = $dataFim;
-			$data['nomeSaldoSetor'] = $nomeSetorEmpresa;
-			$data['status'] = $statusConta;
-			$data['idSetor'] = $setorEmpresa;
+
 		} else {
 
 			delete_cookie('filtro_data_inicio_pagar');
@@ -109,7 +114,7 @@ class FinContasPagar extends CI_Controller
 		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
 
 		// search com cookie
-		if ($this->input->post('search')) {
+		if ($this->input->post()) {
 			$this->input->set_cookie('filtro_contas_pagar', json_encode($this->input->post()), 3600);
 		}
 
@@ -123,10 +128,11 @@ class FinContasPagar extends CI_Controller
 
 		$data['cookie_filtro_contas_pagar'] = json_decode($cookie_filtro_contas_pagar, true);
 
+
 		// >>>> PAGINAÇÃO <<<<<
 		$limit = 10; // Número de clientes por página
 		$this->load->library('pagination');
-		$config['base_url'] = base_url('finContasPagar/index');
+		$config['base_url'] = base_url('finContasPagar/index/1');
 		$config['total_rows'] = $this->FinContasPagar_model->recebeContasPagar($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa, $cookie_filtro_contas_pagar, $limit, $page, true); // true para contar
 		$config['per_page'] = $limit;
 		$config['use_page_numbers'] = TRUE; // Usar números de página em vez de offset

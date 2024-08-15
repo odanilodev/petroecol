@@ -27,18 +27,21 @@ class FinContasPagar_model extends CI_Model
         $this->db->where('CP.id_empresa', $this->session->userdata('id_empresa'));
 
         if ($dataInicio && $dataFim) {
+            
 
             $this->db->where('CP.data_vencimento <=', $dataFim);
             $this->db->where('CP.data_vencimento >=', $dataInicio);
         }
 
         // Verifica se o tipo de movimentação não é 'ambas', para adicionar uma restrição
-        if ($status !== 'ambas') {
+        if ($status != "" && $status !== 'ambas') {
+
             $this->db->where('CP.status', $status);
         }
 
         // Adiciona a cláusula do setor apenas se $setor não for null
-        if ($setor !== 'todos' && $setor !== '') {
+        if ($setor !== 'todos' && $setor != '') {
+
             $this->db->where('CP.id_setor_empresa', $setor);
         }
 

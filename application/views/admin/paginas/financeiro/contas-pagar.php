@@ -80,7 +80,7 @@
             </div>
 
             <div class="col-12 col-xxl-12 mt-0">
-                <form id="filtroForm" action="<?= base_url('finContasPagar/') ?>" method="post">
+                <form id="filtroForm" action="<?= base_url('finContasPagar/index/filtro') ?>" method="post">
                     <div class="col-12">
                         <div class="row align-items-center g-4">
                             <h4 class="ms-3">Filtrar resultados</h4>
@@ -170,7 +170,7 @@
 
                         <div class="col-auto flex-1">
                             <div class="search-box">
-                                <form action="<?= base_url('finContasPagar/') ?>" method="POST" class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                                <form action="<?= base_url('finContasPagar/index/1') ?>" method="POST" class="position-relative" data-bs-toggle="search" data-bs-display="static">
                                     <input name="search" value="<?= $cookie_filtro_contas_pagar['search'] ?? null ?>" class="form-control search-input search" type="search" placeholder="Buscar" aria-label="Search">
                                     <span class="fas fa-search search-box-icon"></span>
                                 </form>
