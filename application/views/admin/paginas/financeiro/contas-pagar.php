@@ -71,7 +71,7 @@
                                 <h4 class="mb-0">R$ <span
                                         class="total-setor-front"><?= number_format($porSetor['saldo'], 2, ',', '.') ?></span>
                                 </h4>
-                                <p class="text-800 fs--1 mb-0">Saldo do Setor <?= $nomeSaldoSetor ?></p>
+                                <p class="text-800 fs--1 mb-0">Saldo do Setor <?= $nomeSaldoSetor ?? "" ?></p>
                             </div>
                         </div>
                     </div>
@@ -87,7 +87,7 @@
 
                             <div class="col-12 col-md-3" style="padding:0;">
                                 <div class="ms-3">
-                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataInicio ?>"
+                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataInicio ?? "" ?>"
                                         required name="data_inicio" id="data_inicio" type="text"
                                         placeholder="Selecione a data de início"
                                         data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}'
@@ -96,7 +96,7 @@
                             </div>
                             <div class="col-12 col-md-3" style="padding:0;">
                                 <div class="ms-3">
-                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataFim ?>"
+                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataFim ?? ""?>"
                                         required name="data_fim" id="data_fim" type="text"
                                         placeholder="Seleciona a data final"
                                         data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}'
@@ -111,7 +111,7 @@
                                         </option>
                                         <option <?= $status == '0' ? 'selected' : '' ?> value="0">Em aberto</option>
                                         <option <?= $status == '1' ? 'selected' : '' ?> value="1">Paga</option>
-                                        <option <?= $status == 'ambas' && $this->uri->segment(2) == 'index' ? 'selected' : '' ?> value="ambas">Ambos</option>
+                                        <option <?= $status == 'ambas' ? 'selected' : '' ?> value="ambas">Ambos</option>
                                     </select>
                                 </div>
                             </div>
@@ -134,9 +134,9 @@
                             <div class="col-12 col-md-2" style="padding:0;">
                                 <div class="d-flex ms-3">
                                     <button type="submit"
-                                        class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= !$dataInicio ? 'w-100' : ''; ?>">Filtrar</button>
-                                    <?php if ($dataInicio) { ?>
-                                        <a href="<?= base_url('finContasPagar'); ?>" class="btn btn-phoenix-danger"
+                                        class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= $dataInicio != "" ? 'w-100' : ''; ?>">Filtrar </button>
+                                    <?php if ($dataInicio != "") { ?>
+                                        <a href="<?= base_url('finContasPagar/index/all'); ?>" class="btn btn-phoenix-danger"
                                             title="Limpar Filtro"><i class="fas fa-ban"></i></a>
                                     <?php } ?>
                                 </div>
@@ -170,7 +170,7 @@
 
                         <div class="col-auto flex-1">
                             <div class="search-box">
-                                <form action="<?= base_url('finContasPagar') ?>" method="POST" class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                                <form action="<?= base_url('finContasPagar/') ?>" method="POST" class="position-relative" data-bs-toggle="search" data-bs-display="static">
                                     <input name="search" value="<?= $cookie_filtro_contas_pagar['search'] ?? null ?>" class="form-control search-input search" type="search" placeholder="Buscar" aria-label="Search">
                                     <span class="fas fa-search search-box-icon"></span>
                                 </form>
