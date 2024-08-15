@@ -1008,7 +1008,9 @@ $('#exportarBtn').on('click', function(e) {
                 responseType: 'blob' // Indica que a resposta deve ser tratada como um blob
             },
             beforeSend: function(){
-                $btn.prop('disabled', true).html('Exportando...'); // Desativa o botão e muda o texto para "Exportando..."
+                $btn.prop('disabled', true);
+                $('.txt-exportar-btn').addClass('d-none');
+                $('.loader-btn-exportar').removeClass('d-none');
             },
             success: function(blob, status, xhr) {
                 let contentDisposition = xhr.getResponseHeader('Content-Disposition');

@@ -136,18 +136,20 @@
                                     <button type="submit"
                                         class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= !$dataInicio ? 'w-100' : ''; ?>">Filtrar</button>
                                     <?php if ($dataInicio) { ?>
+
+                                        <button id="exportarBtn" class="btn btn-phoenix-secondary me-2">
+                                            <span class="txt-exportar-btn">Exportar</span>
+                                            <div class="spinner-border spinner-border-sm loader-btn-exportar d-none" role="status" style="width: 0.9rem; height: 0.9rem;"></div>
+                                        </button>
+
                                         <a href="<?= base_url('finContasPagar'); ?>" class="btn btn-phoenix-danger"
                                             title="Limpar Filtro"><i class="fas fa-ban"></i></a>
+
                                     <?php } ?>
                                 </div>
                             </div>
 
-                            <div class="col-12  <?= $dataInicio ? 'col-md-2' : 'col-md-2' ?>" style="padding:0;">
-                                <div class="d-flex ms-3">
-                                    <button id="exportarBtn"
-                                        class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2">Exportar</button>
-                                </div>
-                            </div>
+                           
 
                         </div>
                     </div>
