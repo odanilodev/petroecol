@@ -44,8 +44,16 @@ class FinDadosFinanceiros
 		$this->CI->db->select_sum($coluna);
 		$this->CI->db->where('id_empresa', $this->CI->session->userdata('id_empresa'));
 		$this->CI->db->where('status', $status);
-		$this->CI->db->where('data_vencimento >=', $dataInicio);
-		$this->CI->db->where('data_vencimento <=', $dataFim);
+
+		if ($dataInicio) {
+
+			$this->CI->db->where('data_vencimento >=', $dataInicio);
+		}
+
+		if ($dataFim) {
+
+			$this->CI->db->where('data_vencimento <=', $dataFim);
+		}
 
 		if ($setor !== 'todos') {
 			$this->CI->db->where('id_setor_empresa', $setor);

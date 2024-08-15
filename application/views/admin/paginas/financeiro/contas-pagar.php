@@ -71,7 +71,7 @@
                                 <h4 class="mb-0">R$ <span
                                         class="total-setor-front"><?= number_format($porSetor['saldo'], 2, ',', '.') ?></span>
                                 </h4>
-                                <p class="text-800 fs--1 mb-0">Saldo do Setor <?= $nomeSaldoSetor ?></p>
+                                <p class="text-800 fs--1 mb-0">Saldo do Setor <?= $nomeSaldoSetor ?? "" ?></p>
                             </div>
                         </div>
                     </div>
@@ -80,14 +80,14 @@
             </div>
 
             <div class="col-12 col-xxl-12 mt-0">
-                <form id="filtroForm" action="<?= base_url('finContasPagar/') ?>" method="post">
+                <form id="filtroForm" action="<?= base_url('finContasPagar/index/filtro') ?>" method="post">
                     <div class="col-12">
                         <div class="row align-items-center g-4">
                             <h4 class="ms-3">Filtrar resultados</h4>
 
                             <div class="col-12 col-md-3" style="padding:0;">
                                 <div class="ms-3">
-                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataInicio ?>"
+                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataInicio ?? "" ?>"
                                         required name="data_inicio" id="data_inicio" type="text"
                                         placeholder="Selecione a data de início"
                                         data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}'
@@ -96,7 +96,7 @@
                             </div>
                             <div class="col-12 col-md-3" style="padding:0;">
                                 <div class="ms-3">
-                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataFim ?>"
+                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataFim ?? ""?>"
                                         required name="data_fim" id="data_fim" type="text"
                                         placeholder="Seleciona a data final"
                                         data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}'
@@ -111,7 +111,7 @@
                                         </option>
                                         <option <?= $status == '0' ? 'selected' : '' ?> value="0">Em aberto</option>
                                         <option <?= $status == '1' ? 'selected' : '' ?> value="1">Paga</option>
-                                        <option <?= $status == 'ambas' && $this->uri->segment(2) == 'index' ? 'selected' : '' ?> value="ambas">Ambos</option>
+                                        <option <?= $status == 'ambas' ? 'selected' : '' ?> value="ambas">Ambos</option>
                                     </select>
                                 </div>
                             </div>
@@ -134,9 +134,9 @@
                             <div class="col-12 col-md-2" style="padding:0;">
                                 <div class="d-flex ms-3">
                                     <button type="submit"
-                                        class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= !$dataInicio ? 'w-100' : ''; ?>">Filtrar</button>
-                                    <?php if ($dataInicio) { ?>
-                                        <a href="<?= base_url('finContasPagar'); ?>" class="btn btn-phoenix-danger"
+                                        class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= $dataInicio != "" ? 'w-100' : ''; ?>">Filtrar </button>
+                                    <?php if ($dataInicio != "") { ?>
+                                        <a href="<?= base_url('finContasPagar/index/all'); ?>" class="btn btn-phoenix-danger"
                                             title="Limpar Filtro"><i class="fas fa-ban"></i></a>
                                     <?php } ?>
                                 </div>
@@ -150,8 +150,7 @@
     </div>
 
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div id="members"
-            data-list='{"valueNames":["td_vencimento","td_valor","td_valor_pago","td_status_pgto","td_data_pagamento","td_empresa","td_recebido","td_setor", "td_observacao", "td_micro"], <?= !$this->input->post() ? '"page":10,' : '' ?>"pagination":true}'>
+        <div id="members">
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3 class="d-flex align-items-center pd-0">Contas a pagar
@@ -171,9 +170,8 @@
 
                         <div class="col-auto flex-1">
                             <div class="search-box">
-                                <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                                    <input class="form-control search-input search form-control-sm" type="search"
-                                        placeholder="Buscar" aria-label="Search" />
+                                <form action="<?= base_url('finContasPagar/index/1') ?>" method="POST" class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                                    <input name="search" value="<?= $cookie_filtro_contas_pagar['search'] ?? null ?>" class="form-control search-input search" type="search" placeholder="Buscar" aria-label="Search">
                                     <span class="fas fa-search search-box-icon"></span>
                                 </form>
                             </div>
@@ -181,10 +179,7 @@
 
                         <div class="col-auto">
 
-                            <button
-                                class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento"
-                                type="button" data-bs-toggle="modal" data-bs-target="#modalTipoContasPagar">+
-                                Lançamento</button>
+                            <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn novo-lancamento" type="button" data-bs-toggle="modal" data-bs-target="#modalTipoContasPagar">+ Lançamento</button>
 
                         </div>
 
@@ -362,20 +357,14 @@
                     </tbody>
                 </table>
             </div>
-            <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
-                <div class="col-auto d-none">
-                    <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a
-                        class="fw-semi-bold" href="#!" data-list-view="*">Ver todos<span class="fas fa-angle-right ms-1"
-                            data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!"
-                        data-list-view="less">Ver menos<span class="fas fa-angle-right ms-1"
-                            data-fa-transform="down-1"></span></a>
-                </div>
-                <div class="col-auto d-flex w-100 justify-content-end mt-2 mb-2">
-                    <button class="page-link" data-list-pagination="prev"><span
-                            class="fas fa-chevron-left"></span></button>
-                    <ul class="mb-0 pagination"></ul>
-                    <button class="page-link pe-0" data-list-pagination="next"><span
-                            class="fas fa-chevron-right"></span></button>
+           <!-- Links de Paginação usando classes Bootstrap -->
+           <div class="row">
+                <div class="col-12">
+                    <nav aria-label="Page navigation" style="display: flex; float: right">
+                        <ul class="pagination mt-5">
+                            <?= $this->pagination->create_links(); ?>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>

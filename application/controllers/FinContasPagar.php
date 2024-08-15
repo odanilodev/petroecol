@@ -24,8 +24,10 @@ class FinContasPagar extends CI_Controller
 		$this->load->model('FinContasPagar_model');
 	}
 
-	public function index()
+	public function index($page = 1)
 	{
+		$this->load->helper('cookie');
+
 		// scripts padrão
 		$scriptsPadraoHead = scriptsPadraoHead();
 		$scriptsPadraoFooter = scriptsPadraoFooter();
@@ -38,46 +40,64 @@ class FinContasPagar extends CI_Controller
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsContasPagarFooter));
 
 		// Define as datas padrão caso não sejam recebidas via POST
-
 		$dataInicioFormatada = '';
-
 		$dataFimFormatada = '';
 
-		// Verifica se as datas foram recebidas via POST
-		if ($this->input->post('data_inicio') && $this->input->post('data_fim')) {
-			// Recebe as datas do POST
-			$dataInicioFormatada = $this->input->post('data_inicio');
-			$dataFimFormatada = $this->input->post('data_fim');
+		$data['dataInicio'] = "";
+		$data['status'] = 'ambas';
+		$data['idSetor'] = 'todos';
+		$statusConta = 'ambas';
+		$setorEmpresa = 'todos';
+		
+		if ($this->uri->segment(3) && $this->uri->segment(3) != "all") {
 
-			// Converte as datas para o formato americano (Y-m-d)
-			$dataInicioFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataInicioFormatada)));
-			$dataFimFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataFimFormatada)));
+
+			// dados no cookie para refazer o filtro
+			$cookieDataInicio = json_decode($this->input->cookie('filtro_data_inicio_pagar'));
+			$cookieDataFim = json_decode($this->input->cookie('filtro_data_fim_pagar'));
+			$cookieStatus = json_decode($this->input->cookie('filtro_status_pagar'));
+			$cookieSetor = json_decode($this->input->cookie('filtro_setor_pagar'));
+			$cookieNomeSetor = json_decode($this->input->cookie('filtro_nome_setor_pagar'));
+
+			$dataInicio = $this->input->post('data_inicio') ?? $cookieDataInicio;
+			$dataFim = $this->input->post('data_fim') ?? $cookieDataFim;
+			$statusConta = $this->input->post('status') ?? $cookieStatus;
+			$setorEmpresa = $this->input->post('setor') ?? $cookieSetor;
+			$nomeSetorEmpresa = $this->input->post('nomeSetor') ?? $cookieNomeSetor;
+
+			// define os cookies para filtrar por datas
+			if ($dataInicio) {
+
+				$this->input->set_cookie('filtro_data_inicio_pagar', json_encode($dataInicio), 3600);
+				$this->input->set_cookie('filtro_data_fim_pagar', json_encode($dataFim), 3600);
+				$this->input->set_cookie('filtro_status_pagar', json_encode($statusConta), 3600);
+				$this->input->set_cookie('filtro_setor_pagar', json_encode($setorEmpresa), 3600);
+				$this->input->set_cookie('filtro_nome_setor_pagar', json_encode($nomeSetorEmpresa), 3600);
+				// converte as datas para o formato americano (Y-m-d)
+				$dataInicioFormatada = $dataInicio ? date('Y-m-d', strtotime(str_replace('/', '-', $dataInicio))) : "";
+				$dataFimFormatada = $dataFim ? date('Y-m-d', strtotime(str_replace('/', '-', $dataFim))) : "";
+				// dados para exibir no formulário novamente
+				$data['dataInicio'] = $dataInicio;
+				$data['dataFim'] = $dataFim;
+				$data['nomeSaldoSetor'] = $nomeSetorEmpresa;
+				$data['status'] = $statusConta;
+				$data['idSetor'] = $setorEmpresa;
+			}
+
+
+		} else {
+
+			delete_cookie('filtro_data_inicio_pagar');
+			delete_cookie('filtro_data_fim_pagar');
+			delete_cookie('filtro_status_pagar');
+			delete_cookie('filtro_setor_pagar');
+			delete_cookie('filtro_nome_setor_pagar');
 		}
 
-		$data['dataInicio'] = $this->input->post('data_inicio');
-		$data['dataFim'] = $this->input->post('data_fim');
-		$data['nomeSaldoSetor'] = $this->input->post('nomeSetor');
-
-		// Verifica se o tipo de movimentação foi recebido via POST
-		$statusConta = $this->input->post('status');
-
-		// Se não houver nenhum valor recebido via POST, define 'ambas' como valor padrão
-		if ($statusConta === null || $statusConta === '') {
-			$statusConta = 'ambas';
-		}
-
-		$setorEmpresa = $this->input->post('setor');
-
-		if ($setorEmpresa === null || $setorEmpresa === '') {
-			$setorEmpresa = 'todos';
-		}
 
 		// Setores Empresa 
 		$this->load->model('SetoresEmpresa_model');
 		$data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
-
-		$data['status'] = $statusConta;
-		$data['idSetor'] = $setorEmpresa;
 
 		$this->load->model('FinMacro_model');
 		$data['macros'] = $this->FinMacro_model->recebeMacros();
@@ -93,12 +113,36 @@ class FinContasPagar extends CI_Controller
 		$data['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
 		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
 
-		$data['contasPagar'] = $this->FinContasPagar_model->recebeContasPagar($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa);
+		// search com cookie
+		if ($this->input->post()) {
+			$this->input->set_cookie('filtro_contas_pagar', json_encode($this->input->post()), 3600);
+		}
+
+		if (is_numeric($page)) {
+			$cookie_filtro_contas_pagar = $this->input->post() ? json_encode($this->input->post()) : $this->input->cookie('filtro_contas_pagar');
+		} else {
+			$page = 1;
+			delete_cookie('filtro_contas_pagar');
+			$cookie_filtro_contas_pagar = json_encode([]);
+		}
+
+		$data['cookie_filtro_contas_pagar'] = json_decode($cookie_filtro_contas_pagar, true);
+
+
+		// >>>> PAGINAÇÃO <<<<<
+		$limit = 10; // Número de clientes por página
+		$this->load->library('pagination');
+		$config['base_url'] = base_url('finContasPagar/index/1');
+		$config['total_rows'] = $this->FinContasPagar_model->recebeContasPagar($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa, $cookie_filtro_contas_pagar, $limit, $page, true); // true para contar
+		$config['per_page'] = $limit;
+		$config['use_page_numbers'] = TRUE; // Usar números de página em vez de offset
+		$this->pagination->initialize($config);
+		// >>>> FIM PAGINAÇÃO <<<<<
+
+		$data['contasPagar'] = $this->FinContasPagar_model->recebeContasPagar($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa, $cookie_filtro_contas_pagar, $limit, $page);
 
 		$this->load->library('finDadosFinanceiros');
-
 		$data['saldoTotal'] = $this->findadosfinanceiros->somaSaldosBancarios();
-
 
 		if ($statusConta == '1' || $statusConta == 'ambas') {
 
@@ -106,7 +150,6 @@ class FinContasPagar extends CI_Controller
 
 		} else {
 			$data['totalPago']['valor'] = '00';
-
 		}
 
 		if ($statusConta == '0' || $statusConta == 'ambas') {
