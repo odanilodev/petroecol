@@ -81,7 +81,7 @@
     </div>
 
     <!-- Modal Romaneio-->
-    <div class="modal fade" id="modalConcluirRomaneio" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade modal-romaneio-select2" id="modalConcluirRomaneio" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
 

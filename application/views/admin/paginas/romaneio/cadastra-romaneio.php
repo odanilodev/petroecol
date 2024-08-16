@@ -175,7 +175,7 @@
 
 
     <!-- lançar saldo para saída do motorista-->
-    <div class="modal fade" id="modalSaldoMotoristaRomaneio" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade modal-romaneio-select2" id="modalSaldoMotoristaRomaneio" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollabe modal-lg">
             <div class="modal-content">
 
