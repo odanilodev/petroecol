@@ -150,4 +150,12 @@ class FormaPagamento extends CI_Controller
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
+	public function recebeFormasPagamentos()
+	{
+		$formas_pagamentos = $this->FormaPagamento_model->recebeFormasPagamento();
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($formas_pagamentos));
+
+	}
 }

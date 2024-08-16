@@ -10,6 +10,7 @@ class FormasPagamentoChaveId
 	{
 		$this->CI = &get_instance();
 		$this->CI->load->model('FormaPagamento_model');
+		$this->CI->load->model('FinFormaTransacao_model');
 	}
 
 	public function formaPagamentoArrayChaveId(): array
@@ -21,6 +22,21 @@ class FormasPagamentoChaveId
 		if ($formasPagamento) {
 			foreach ($formasPagamento as $v) {
 				$formasArray[$v['id']] = $v['forma_pagamento'];
+			}
+		}
+
+		return $formasArray;
+	}
+
+	public function formaTransacaoArrayChaveId(): array
+	{
+		$formasTransacao = $this->CI->FinFormaTransacao_model->recebeFormasTransacao();
+
+		$formasArray = [];
+
+		if ($formasTransacao) {
+			foreach ($formasTransacao as $v) {
+				$formasArray[$v['id']] = $v['nome'];
 			}
 		}
 

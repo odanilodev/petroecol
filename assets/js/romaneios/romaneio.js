@@ -2,10 +2,8 @@ var baseUrl = $('.base-url').val();
 
 let filtrarClientesRomaneio = () => {
 
-    $('.select2').select2({
-        dropdownParent: "#modalRomaneio",
-        theme: 'bootstrap-5'
-    });
+    
+
 
     let clientesModalRomaneio = $('.clientes-modal-romaneio');
     let checkTodos = `<tr class="hover-actions-trigger btn-reveal-trigger position-static clientes-romaneio">
@@ -109,8 +107,19 @@ let filtrarClientesRomaneio = () => {
         avisoRetorno('Algo deu errado!', 'Escolha uma etiqueta ou uma cidade!', 'error', '#');
         return;
     }
+
+    $('.select2').select2({
+        dropdownParent: "#modalRomaneio",
+        theme: 'bootstrap-5'
+    });
 }
 
+
+$('#modalRomaneio').on('hide.bs.modal', function (e) {
+    $('.select2').select2({
+        theme: 'bootstrap-5'
+    });
+});
 
 
 
@@ -156,11 +165,10 @@ $('#searchInput').on('input', function () {
     atualizarListaClientes(query);
 });
 
-const gerarRomaneio = () => {
+
+$(document).on('click', '.btn-salva-romaneio', function () {
 
     let permissao = true;
-
-    $('#select-cliente-modal').val('').trigger('change');
 
     $(".input-obrigatorio").each(function () {
 
@@ -179,15 +187,31 @@ const gerarRomaneio = () => {
         }
     });
 
-    // novo clientes para gerar romaneio
-    let clientes = $('.ids-selecionados').val().split(',');
-
 
     if (!$('.ids-selecionados').val()) {
         avisoRetorno('Algo deu errado', 'Você precisa selecionar algum cliente para gerar o romaneio.', 'error', '#');
         permissao = false;
-
     }
+
+    if (permissao) {
+
+        $('#modalSaldoMotoristaRomaneio').modal('show');
+        $('#modalRomaneio').modal('hide');
+        carregaSelect2('select2', 'modalSaldoMotoristaRomaneio');
+        $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
+    }
+
+
+})
+
+const gerarRomaneio = () => {
+
+    let permissao = true;
+
+    $('#select-cliente-modal').val('').trigger('change');
+
+    // novo clientes para gerar romaneio
+    let clientes = $('.ids-selecionados').val().split(',');
 
     let responsavel = $('#select-responsavel').val();
     let veiculo = $('#select-veiculo').val();
@@ -198,7 +222,7 @@ const gerarRomaneio = () => {
 
         $.ajax({
             type: "POST",
-            url: `${baseUrl}romaneios/gerarRomaneioEtiqueta`,
+            url: `${baseUrl}romaneios/gerarRomaneio`,
             data: {
                 clientes: clientes,
                 responsavel: responsavel,
@@ -213,6 +237,7 @@ const gerarRomaneio = () => {
             }, success: function (data) {
 
                 if (data.success) {
+
                     avisoRetorno('Sucesso!', data.message, 'success', `${baseUrl}romaneios/`);
                 } else {
                     avisoRetorno('Erro!', data.message, 'error', `${baseUrl}romaneios/formulario/`);
@@ -225,17 +250,196 @@ const gerarRomaneio = () => {
 
 }
 
+$(document).on('click', '.btn-salva-verba-responsavel', function () {
+
+    let permissao = true;
+
+    let dadosFormulario = {};
+    if (permissao) {
+
+        $(`.form-verba-responsavel-coleta`).find("select, input").each(function () {
+
+            let inputName = $(this).attr('name');
+            let inputValue = $(this).val();
+
+            if (!dadosFormulario[inputName]) {
+                dadosFormulario[inputName] = [];
+            }
+
+            // Adiciona o valor ao array
+            dadosFormulario[inputName].push(inputValue);
+
+            if (!$('.check-sem-verba').is(':checked')) {
+                permissao = verificaCamposObrigatorios('input-obrigatorio-verba');
+            }
+
+        });
+
+        let responsavel = $('#select-responsavel').val();
+
+        if (permissao) {
+
+            $.ajax({
+                type: 'post',
+                url: `${baseUrl}finFluxoCaixa/insereMovimentacaoRomaneioFluxo`,
+                data: {
+                    dadosFluxo: dadosFormulario,
+                    responsavel: responsavel
+
+                }, beforeSend: function () {
+
+                    $('.load-form-pagamento').removeClass('d-none');
+                    $('.btn-salva-verba-responsavel').addClass('d-none');
+
+                }, success: function (data) {
+
+                    $('.load-form-pagamento').addClass('d-none');
+                    $('.btn-salva-verba-responsavel').removeClass('d-none');
+
+                    gerarRomaneio();
+                }
+            })
+        }
+
+
+    }
+})
+
+$(document).on('click', '.check-sem-verba', function () {
+
+    if ($(this).is(':checked')) {
+
+        $('.duplicar-pagamento').prop('disabled', true);
+        $('.duplicar-pagamento').addClass('text-success');
+
+        $('.input-obrigatorio-verba').each(function () {
+            $(this).removeClass('invalido');
+            $(this).next().removeClass('select2-obrigatorio');
+            $(this).val('').trigger('change');
+            $(this).val('');
+            $(this).attr('disabled', true);
+        })
+
+        $('.aviso-obrigatorio').each(function () {
+            $(this).addClass('d-none');
+        })
+
+        $('.campos-duplicados').html('');
+    } else {
+
+        $('.duplicar-pagamento').prop('disabled', false);
+        $('.duplicar-pagamento').removeClass('text-success');
+
+        $('.input-obrigatorio-verba').each(function () {
+            $(this).attr('disabled', false)
+        })
+
+    }
+})
+
+$(document).on('click', '.duplicar-pagamento', function () {
+
+    duplicarElementos();
+
+});
+
+$(document).on('click', '.duplicar-verbas-pagamento', function () {
+
+    duplicarElementos();
+
+});
+
+
+async function recebeFormasTransacao() {
+    let optionsFormaPagamento = "<option selected disabled value=''>Selecione</option>";
+
+    try {
+        let response = await $.ajax({
+            type: "post",
+            url: `${baseUrl}finContaBancaria/recebeFormasTransacao`
+        });
+
+        for (let c = 0; c < response.length; c++) {
+            optionsFormaPagamento += `<option data-id-tipo-pagamento="1" value="${response[c].id}">${response[c].nome}</option>`;
+        }
+    } catch (error) {
+        console.error('Erro ao obter formas de transação:', error);
+    }
+
+    return optionsFormaPagamento;
+}
+
+
+// duplica forma de pagamento e residuos
+async function duplicarElementos() {
+
+    // Pega os options do select
+    let optionsContaBancaria = $('.select-conta-bancaria').html();
+    let optionsFormaPagamento = await recebeFormasTransacao();    
+
+    let contaBancaria = `
+        <div class="col-md-4 mb-2 mt-2">
+            <select class="select2 form-select select-conta-bancaria w-100" name="conta-bancaria">
+                ${optionsContaBancaria}
+            </select>
+            <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+        </div>
+    `;
+
+    let formaPagamento = `
+        <div class="col-md-4 mb-2 mt-2">
+            <select class="select2 form-select select-forma-pagamento w-100" name="forma-pagamento">
+                ${optionsFormaPagamento}
+            </select>
+            <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+        </div>
+    `;
+
+    let inputValor = `
+        <div class="col-md-3 mb-2">
+            <input class="form-control mt-2 input-valor mascara-dinheiro" type="text" placeholder="Valor" name="valor">
+        </div>
+        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+    `;
+
+    let btnRemove = $(`
+    <div class="col-md-1 mb-2 mt-1">
+
+        <button class="btn btn-phoenix-danger remover-inputs">-</button>
+
+    </div>`);
+
+    // div com row para cada grupo ficar em row diferente
+    let novaLinha = $('<div class="row"></div>');
+
+    // imprime os elementos dentro da div row
+    novaLinha.append(contaBancaria);
+    novaLinha.append(formaPagamento);
+    novaLinha.append(inputValor);
+    novaLinha.append(btnRemove);
+    let idMacro = $('.select-macros option:selected').val();
+    let idMicro = $('.select-micros option:selected').val();
+    novaLinha.append(`<input type="hidden" name="id_macro" value="${idMacro}"><input type="hidden" name="id_micro" value="${idMicro}">`); // macro Custo Operacional micro insumo de produção
+
+    //remove a linha duplicada
+    btnRemove.find(`.remover-inputs`).on('click', function () {
+
+        novaLinha.remove();
+    });
+
+    $(`.campos-duplicados`).append(novaLinha);
+
+    $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
+
+    carregaSelect2('select2', 'modalSaldoMotoristaRomaneio');
+
+
+}
+
 $(document).on('click', '.add-cliente', function () {
 
     $('#select-cliente-modal').val('').trigger('change');
     $('.div-select-modal').removeClass('d-none');
-
-    $('.select2').select2({
-        dropdownParent: "#modalRomaneio",
-        theme: 'bootstrap-5'
-    });
-
-
 })
 
 $('#select-cliente-modal').change(function () {
@@ -316,14 +520,17 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpre
 
             }, success: function (data) {
 
+                $('.responsavel').html(`${data.responsavel}`);
+
                 exibirDadosClientes(data.retorno, data.registros, data.residuos, data.pagamentos, data.id_cliente_prioridade);
+                carregaSelect2('select2', 'modalConcluirRomaneio');
             }
         })
-
     }
 
 
 }
+
 
 
 // formata um obj para um array
@@ -365,7 +572,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     
                     <span class="cliente-${clientes[i].id}">
 
-                    ${idPrioridades.includes(clientes[i].id) ? '*' : ''}
+                        ${idPrioridades.includes(clientes[i].id) ? '*' : ''}
                       
                     </span>
                 </button>
@@ -402,26 +609,52 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                     </div>
 
-                    <div class="col-md-4 mb-2 div-pagamento">
+                    <div class="col-md-3 mb-2 div-pagamento">
 
-                        <label class="form-label">Forma de Pagamento</label>
-                        <select class="form-select select-pagamento w-100 pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-pagamento-${i}">
+                        <label class="form-label">Tipo de Pagamento</label>
+                        <select class="select2 form-select select-tipo-pagamento w-100 tipo-pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-tipo-pagamento-${i}">
+
+                            <option disabled selected value="">Selecione</option>
+                            <option value="0">Pagamento no ato</option>
+                            <option value="1">Pagamento a prazo</option>
+                            
+                        </select>
+                    </div>
+
+                    <div class="col-md-3 mb-2 div-pagamento d-none div-conta-bancaria">
+                        <label class="form-label">Conta bancária</label>
+                        <select class="select2 form-select w-100 select-conta-bancaria">
+                            <option disabled selected value="">Selecione</option>
+                            
+                        </select>
+                    </div>
+
+                    <div class="col-md-3 mb-2 div-pagamento div-select-forma-pagamento">
+
+                        <label class="form-label forma">Forma de Pagamento</label>
+                        <select class="select2 form-select select-pagamento w-100 pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-pagamento-${i}">
 
                             <option disabled selected value="">Selecione</option>
                             
                         </select>
                     </div>
 
-                    <div class="col-md-4 mb-2 div-pagamento">
+                    <div class="col-md-2 mb-2 div-pagamento">
 
-                        <label class="form-label">Valor Pago</label>
+                        <label class="form-label valor">Valor Pago</label>
                         <input class="form-control input-pagamento pagamento-${clientes[i].id} campos-form-${clientes[i].id}" type="text" placeholder="Digite valor pago" value="">
+
                     </div>
 
-                    <div class="col-md-4 mb-2 mt-4 row">
+                    
+                    <div class="col-md-auto mb-2 mt-4">
+                    
+                        <button class="btn btn-phoenix-success duplicar-pagamento">+</button>
+                    
+                    </div>
 
-                        <button class="btn btn-info duplicar-pagamento w-25">+</button>
-
+                    <div class="col-md-12 div-checkbox mb-5">
+                        <input class="cursor-pointer form-check-input checkbox-funcionario" type="checkbox" value="1">  Pago pelo responsável da coleta
                     </div>
 
                     <div class="pagamentos-duplicados"></div>
@@ -430,23 +663,30 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                         <label class="form-label">Resíduo Coletado</label>
                         
-                        <select class="form-select select-residuo input-obg-${clientes[i].id} w-100 campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" data-collapse="${i}" id="select-residuo" >
-
+                        <select class="select2 form-select select-residuo input-obg-${clientes[i].id} w-100 campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" data-collapse="${i}" id="select-residuo-${i}" >
+                        
                             <option disabled selected value="">Selecione</option>
                             
                         </select>
 
                     </div>
 
-                    <div class="col-md-4 mb-2">
+                    <div class="col-md-4 mb-2 div-residuo">
 
                         <label class="form-label">Quantidade Coletada</label>
                         <input class="form-control input-residuo input-obg-${clientes[i].id} campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" data-collapse="${i}" type="text" placeholder="Digite quantidade coletada" value="">
                     </div>
 
-                    <div class="col-md-4 mb-2 mt-4 row">
+                    <div class="col-md-3 mb-2 div-residuo">
 
-                        <button class="btn btn-info duplicar-residuo w-25">+</button>
+                        <label class="form-label">Valor do resíduo</label>
+                        <input data-id-cliente="${clientes[i].id}" class="mask-valor-residuo form-control input-valor-residuo input-obg-${clientes[i].id} campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" data-collapse="${i}" type="text" placeholder="Digite o valor do resíduo" value="">
+
+                    </div>
+
+                    <div class="col-md-auto mb-2 mt-4">
+
+                        <button data-id-cliente="${clientes[i].id}" class="btn btn-phoenix-success duplicar-residuo">+</button>
 
                     </div>
 
@@ -504,43 +744,87 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
     // formas de pagamento no select
     for (c = 0; c < pagamentos.length; c++) {
 
-        var optionPagamentos = `<option data-id-tipo-pagamento="${pagamentos[c].id_tipo_pagamento}" value="${pagamentos[c].id}">${pagamentos[c].forma_pagamento}</option>`;
+        let optionPagamentos = `<option data-id-tipo-pagamento="1" value="${pagamentos[c].id}">${pagamentos[c].nome}</option>`;
 
         for (let i = 0; i < registros; i++) {
             $(`#select-pagamento-${i}`).append(optionPagamentos);
+            
         }
     }
 
-    for (let i = 0; i < registros; i++) {
-        $(`#select-pagamento-${i}`).val(clientes[i].ID_FORMA_PAGAMENTO);
-    }
+
+    $('.mask-valor-residuo').mask('000000000000000.00', { reverse: true });
+
 }
 
 
 // duplica forma de pagamento e residuos
-function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
+function duplicarElemento(btnClicado, novoElemento, novoInput, classe, idCliente) {
+
+    let selectTipoPagamento = `
+        <div class="col-md-3 mb-2 div-pagamento">
+            <label class="form-label mt-2">Tipo de pagamento</label>
+            <select class="select2 form-select select-tipo-pagamento w-100">
+                <option disabled selected value="">Selecione</option>
+                <option value="0">Pagamento no ato</option>
+                <option value="1">Pagamento a prazo</option>
+            </select>
+        </div>
+    `;
+
+    let selectContaBancaria = `
+        <div class="col-md-3 mb-2 div-pagamento div-conta-bancaria d-none">
+            <label class="form-label mt-2">Conta bancária</label>
+            <select class="select2 form-select w-100 select-conta-bancaria">
+                <option disabled selected value="">Selecione</option>
+            </select>
+        </div>
+    `;
+
+    let inputValorResiduo = `
+        <div class="col-md-3 mb-2 div-residuo">
+            <input data-id-cliente="${idCliente}" class="mask-valor-residuo form-control input-valor-residuo input-obrigatorio" type="text" placeholder="Digite o valor do resíduo" value="">
+        </div>
+    `;
 
     // Pega os options do select
     let options = $(btnClicado).closest('.accordion-item').find('.select-' + novoElemento).html();
 
     let selectHtml = `
-        <div class="col-md-4 mb-2 div-${novoElemento}">
-            <select class="form-select select-${novoElemento} w-100 ${novoElemento == "residuo" ? 'input-obrigatorio' : ''} " data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+
+        <div class="${novoElemento == "pagamento" ? 'col-md-3 div-select-forma-pagamento' : 'col-md-4'} mb-2 div-${novoElemento}">
+        
+            ${novoElemento == "pagamento" ? `
+                <label class="form-label mt-2">Forma de pagamento</label>`
+            : ''}
+
+            <select class="select2 form-select select-${novoElemento} w-100 ${novoElemento == "residuo" ? 'input-obrigatorio' : ''} ">
                 ${options}
             </select>
         </div>
     `;
 
     let inputHtml = `
-        <div class="col-md-4 mb-2 div-${novoElemento}">
+        <div class="${novoElemento == "pagamento" ? 'col-md-2' : 'col-md-4'} mb-2 div-${novoElemento}">
+
+            ${novoElemento == "pagamento" ? `
+                <label class="form-label mt-2">Valor Pago</label>`
+            : ''}
+
             <input class="form-control input-${novoElemento} ${novoElemento == "residuo" ? 'input-obrigatorio' : ''}" type="text" placeholder="Digite ${novoInput}" value="">
         </div>
     `;
 
-    let btnRemove = $(`
-    <div class="col-md-4 mb-2 mt-1 row">
+    let checkboxFuncionario = `
+        <div class="col-md-12 div-checkbox mb-5">
+         <input class="form-check-input checkbox-funcionario" value="1" type="checkbox">  Pago pelo responsável da coleta
+        </div>
+    `;
 
-        <button class="btn btn-danger remover-${novoElemento} w-25">-</button>
+    let btnRemove = $(`
+    <div class="col-md-auto mb-2 ${novoElemento == "pagamento" ? 'mt-4' : 'mt-1'}">
+
+        <button class="btn btn-phoenix-danger remover-${novoElemento}">-</button>
 
     </div>`);
 
@@ -548,9 +832,24 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
     let novaLinha = $('<div class="row"></div>');
 
     // imprime os elementos dentro da div row
+    if (novoElemento == "pagamento") {
+        novaLinha.append(selectTipoPagamento);
+        novaLinha.append(selectContaBancaria);
+    }
     novaLinha.append(selectHtml);
     novaLinha.append(inputHtml);
+
+
+    if (novoElemento == "residuo") {
+        novaLinha.append(inputValorResiduo);
+    }
+
     novaLinha.append(btnRemove);
+
+    if (novoElemento == "pagamento") {
+
+        novaLinha.append(checkboxFuncionario);
+    }
 
     //remove a linha duplicada
     btnRemove.find(`.remover-${novoElemento}`).on('click', function () {
@@ -560,17 +859,23 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe) {
 
     $(btnClicado).closest('.accordion-item').find(`.${classe}`).append(novaLinha);
 
+    $('.mask-valor-residuo').mask('000000000000000.00', { reverse: true });
+
+    carregaSelect2('select2', 'modalSaldoMotoristaRomaneio');
+
 }
 
 $(document).on('click', '.duplicar-residuo', function () {
 
-    duplicarElemento(this, 'residuo', 'quantidade coletada', 'residuos-duplicados');
+    let idCliente = $(this).data('id-cliente');
+
+    duplicarElemento(this, 'residuo', 'quantidade coletada', 'residuos-duplicados', idCliente);
 
 });
 
 $(document).on('click', '.duplicar-pagamento', function () {
 
-    duplicarElemento(this, 'pagamento', 'valor pago', 'pagamentos-duplicados');
+    duplicarElemento(this, 'pagamento', 'valor pago', 'pagamentos-duplicados', null);
 
 });
 
@@ -607,8 +912,9 @@ $(document).on('click', '.nao-coletado', function () {
     if ($(this).is(':checked')) {
 
         // remove os valores caso tenha sido preenchido
-        $('.input-obg-' + idCliente).val('');
-        $('.pagamento-' + idCliente).val('');
+        $('.input-obg-' + idCliente).val('').trigger('change');
+        $('.pagamento-' + idCliente).val('').trigger('change');
+        $('.tipo-pagamento-' + idCliente).val('').trigger('change');
 
         $('.input-obg-' + idCliente).removeClass('input-obrigatorio');
         $('.input-obg-' + idCliente).removeClass('invalido');
@@ -655,7 +961,207 @@ $(document).on('input', '.input-obs', function () {
 
 function finalizarRomaneio() {
 
+
     var permissao = true;
+
+    let dadosClientes = [];
+    let idResponsavel = $('.id_responsavel').val();
+    let codRomaneio = $('.code_romaneio').val();
+    let dataRomaneio = $('.data_romaneio').val();
+
+    let valorTotal = 0;
+
+    $('.accordion-item').each(function () {
+
+        let formasPagamentosContaBancarias = [];
+        let contasBancarias = [];
+        let valorContaBancaria = [];
+
+
+        let salvarDados = false; // uso para dar permissao para salvar os valores no array e mandar pro back
+
+        if ($(this).find('.nao-coletado').is(':checked')) {
+
+            var coletado = 0;
+            salvarDados = true;
+
+        } else {
+            var coletado = 1;
+        }
+
+        // valores resíduos 
+        let residuosSelecionados = [];
+
+        $(this).find('.select-residuo option:selected').each(function () {
+
+            if ($(this).val() != '') {
+
+                residuosSelecionados.push($(this).val());
+                $(this).closest('.div-residuo').next().find('.input-residuo').addClass('input-obrigatorio');
+
+            } else {
+                $(this).closest('.div-residuo').next().find('.input-residuo').removeClass('input-obrigatorio');
+                $(this).closest('.div-residuo').next().find('.input-residuo').removeClass('invalido');
+            }
+        });
+
+        // checkbox
+        let checkboxFuncionarios = [];
+        $(this).find('.checkbox-funcionario').each(function () {
+
+            let divPagamento = $(this).closest('.col-md-12').prevAll('.div-pagamento');
+
+            let tipoMoedaPagamento = divPagamento.find('.select-pagamento option:selected').data('id-tipo-pagamento');
+
+            let tipoPagamento = divPagamento.find('.select-tipo-pagamento option:selected').val();
+
+            if (tipoPagamento == 1) {
+                $(this).prop('checked', false);
+            }
+
+            if ($(this).is(':checked')) {
+
+                if (tipoMoedaPagamento == 1 && tipoPagamento == 0) {
+
+                    let inputValorPagamento = divPagamento.find('.input-pagamento').val();
+
+                    // Converta inputValorPagamento para um número
+                    let valorNumerico = parseFloat(inputValorPagamento) || 0;
+
+                    valorTotal += valorNumerico;
+
+                    checkboxFuncionarios.push(valorNumerico);
+                }
+
+            } else {
+
+                let contaBancaria = divPagamento.find('.select-conta-bancaria option:selected').val();
+                contasBancarias.push(contaBancaria);
+
+                let inputValorPagamento = divPagamento.find('.input-pagamento').val();
+                valorContaBancaria.push(inputValorPagamento);
+
+                let formaPagamentoContaBancaria = divPagamento.find('.select-pagamento option:selected').val();
+                formasPagamentosContaBancarias.push(formaPagamentoContaBancaria)
+
+            }
+
+
+        });
+
+
+        let qtdResiduos = [];
+
+        $(this).find('.input-residuo').each(function () {
+
+            if ($(this).val() != '') {
+
+                $(this).closest('.div-residuo').next().find('.input-valor-residuo').addClass('input-obrigatorio');
+
+                qtdResiduos.push($(this).val());
+                salvarDados = true;
+            } else {
+                $(this).closest('.div-residuo').next().find('.input-valor-residuo').removeClass('input-obrigatorio');
+                $(this).closest('.div-residuo').next().find('.input-valor-residuo').removeClass('invalido');
+
+            }
+        });
+
+        let valoresResiudos = [];
+
+        $(this).find('.input-valor-residuo').each(function () {
+
+            if ($(this).val() != '') {
+
+                valoresResiudos.push($(this).val());
+                salvarDados = true;
+            }
+        });
+
+        // valores pagamentos
+        let formaPagamentoSelecionados = [];
+
+        $(this).find('.div-pagamento .select-pagamento option:selected').each(function () {
+
+            let divPagamento = $(this).closest('.col-md-3').prevAll('.div-pagamento');
+
+            let tipoPagamento = divPagamento.find('.select-tipo-pagamento option:selected').val();
+
+            let checkboxFuncionario = $(this).closest('.col-md-3').siblings().find('.checkbox-funcionario');
+
+            // grava o valor pra exibir no relatorio somente oq foi pago no ato
+            if ($(this).val() != '' && tipoPagamento == 0) {
+
+                formaPagamentoSelecionados.push($(this).val());
+
+            }
+
+        });
+
+        let valorPagamento = [];
+
+
+        $(this).find('.div-pagamento .input-pagamento').each(function () {
+
+            let divPagamento = $(this).closest('.col-md-2').prevAll('.div-pagamento');
+
+            let tipoPagamento = divPagamento.find('.select-tipo-pagamento option:selected').val();
+
+            // grava o valor pra exibir no relatorio somente oq foi pago no ato
+            if ($(this).val() != '' && tipoPagamento == 0) {
+
+                valorPagamento.push($(this).val());
+
+            }
+
+        });
+
+        // valores pagamentos
+        let tiposPagamentos = [];
+
+        $(this).find('.div-pagamento .select-tipo-pagamento option:selected').each(function () {
+
+            if ($(this).val() != '') {
+
+                tiposPagamentos.push($(this).val());
+            }
+
+        });
+
+
+        // salva somente os dados dos clientes que foram preenchidos
+        if (salvarDados) {
+
+            let dadosBancarios = {
+                valor: [],
+                idContaBancaria: [],
+                formaPagamentoContaBancaria: []
+            };
+
+            dadosBancarios.valor.push(valorContaBancaria);
+            dadosBancarios.idContaBancaria.push(contasBancarias);
+            dadosBancarios.formaPagamentoContaBancaria.push(formasPagamentosContaBancarias);
+
+
+            let dadosCliente = {
+                dadosBancarios: dadosBancarios,
+                idCliente: $(this).find('.input-id-cliente').val(),
+                endereco: $(this).find('.input-endereco').val(),
+                residuos: residuosSelecionados,
+                valoresResiudos: valoresResiudos,
+                qtdColetado: qtdResiduos,
+                pagamento: formaPagamentoSelecionados,
+                tipoPagamento: tiposPagamentos,
+                valor: valorPagamento,
+                coletado: coletado,
+                obs: $(this).find('.input-obs').val()
+            };
+
+            dadosClientes.push(dadosCliente);
+        }
+
+    });
+
 
     let accordionAberto = false;
     $('.input-obrigatorio').each(function () {
@@ -685,89 +1191,6 @@ function finalizarRomaneio() {
 
     })
 
-    let dadosClientes = [];
-
-    let idResponsavel = $('.id_responsavel').val();
-    let codRomaneio = $('.code_romaneio').val();
-    let dataRomaneio = $('.data_romaneio').val();
-
-    $('.accordion-item').each(function () {
-
-        let salvarDados = false; // uso para dar permissao para salvar os valores no array e mandar pro back
-
-        if ($(this).find('.nao-coletado').is(':checked')) {
-
-            var coletado = 0;
-            salvarDados = true;
-
-        } else {
-            var coletado = 1;
-        }
-
-        // valores resíduos 
-        let residuosSelecionados = [];
-
-        $(this).find('.select-residuo option:selected').each(function () {
-
-            if ($(this).val() != '') {
-
-                residuosSelecionados.push($(this).val());
-            }
-        });
-
-        let qtdResiduos = [];
-
-        $(this).find('.input-residuo').each(function () {
-
-            if ($(this).val() != '') {
-
-                qtdResiduos.push($(this).val());
-                salvarDados = true;
-            }
-        });
-
-        // valores pagamentos
-        let formaPagamentoSelecionados = [];
-
-        $(this).find('.div-pagamento .select-pagamento option:selected').each(function () {
-
-            if ($(this).val() != '') {
-
-                formaPagamentoSelecionados.push($(this).val());
-            }
-
-        });
-
-        let valorPagamento = [];
-
-        $(this).find('.div-pagamento .input-pagamento').each(function () {
-
-            if ($(this).val() != '') {
-
-                valorPagamento.push($(this).val());
-            }
-
-        });
-
-        // salva somente os dados dos clientes que foram preenchidos
-        if (salvarDados) {
-
-            let dadosCliente = {
-                idCliente: $(this).find('.input-id-cliente').val(),
-                endereco: $(this).find('.input-endereco').val(),
-                residuos: residuosSelecionados,
-                qtdColetado: qtdResiduos,
-                pagamento: formaPagamentoSelecionados,
-                valor: valorPagamento,
-                coletado: coletado,
-                obs: $(this).find('.input-obs').val()
-            };
-
-            dadosClientes.push(dadosCliente);
-        }
-
-    });
-
     var idSetorEmpresa = $('.input-id-setor-empresa').val();
 
     if (permissao) {
@@ -780,7 +1203,8 @@ function finalizarRomaneio() {
                 codRomaneio: codRomaneio,
                 dataRomaneio: dataRomaneio,
                 idSetorEmpresa: idSetorEmpresa,
-                verificaAgendamentosFuturos: true
+                verificaAgendamentosFuturos: true,
+                valorTotal: valorTotal
 
             },
             beforeSend: function () {
@@ -870,13 +1294,38 @@ function finalizarRomaneio() {
 }
 
 // carrega o select2
-$(document).ready(function () {
+$(function () {
 
     $('.select2').select2({
         theme: "bootstrap-5",
         width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
         placeholder: $(this).data('placeholder'),
     });
+})
+
+
+$(document).on('change', '.select-residuo', function () {
+
+    let inputResiduo = $(this).closest('.div-residuo').nextAll('.div-residuo').find('.input-valor-residuo');
+
+    let idCliente = inputResiduo.data('id-cliente');
+
+    $.ajax({
+        type: 'post',
+        url: `${baseUrl}residuoCliente/recebeValorResiduoCliente`,
+        data: {
+            idResiduo: $(this).val(),
+            idCliente: idCliente
+        }, success: function (data) {
+
+            if (data && data.valor !== null) {
+
+                inputResiduo.val(data.valor);
+            }
+        }
+    })
+
+
 })
 
 
@@ -1012,14 +1461,14 @@ const novoClienteRomaneio = () => {
 
     $('.btn-adicionar-clientes-romaneio').attr('disalbed', true);
 
+    let idSetorEmpresa = $('.input-id-setor-empresa').val();
+
+    recebeClientesSetor(idSetorEmpresa);
+
     $('.select2-edita').select2({
         dropdownParent: "#modalEditarRomaneio",
         theme: 'bootstrap-5'
     });
-
-    let idSetorEmpresa = $('.input-id-setor-empresa').val();
-
-    recebeClientesSetor(idSetorEmpresa);
 }
 
 $(document).on('click', '.adicionar-cliente', function () {
@@ -1285,7 +1734,7 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
                                 <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2"></span></button>
                                 <div class="dropdown-menu dropdown-menu-end py-2">
             
-                                    <a target="_blank" class="dropdown-item" href="${baseUrl}romaneios/gerarromaneio/${romaneio.codigo}" title="Gerar Romaneio">
+                                    <a target="_blank" class="dropdown-item" href="${baseUrl}romaneios/gerarromaneiopdf/${romaneio.codigo}" title="Gerar Romaneio">
                                         <span class="fas fa-download ms-1"></span> Gerar
                                     </a>
 
@@ -1297,7 +1746,7 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
 
                                     ${romaneio.status == 1 ? `
                                         <a class="dropdown-item" href="${baseUrl}romaneios/detalhes/${romaneio.codigo}" title="Visualizar Romaneio">
-                                            <span class="ms-1" data-feather="eye"></span> Visualizar
+                                            <span class="ms-1 fas fa-eye"></span> Visualizar
                                         </a>
                                     ` : ''}
 
@@ -1308,11 +1757,28 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
                                     ` : ''}
 
                                     ${romaneio.status == 0 ? `
-                                        <a class="dropdown-item" href="#" title="Deletar Romaneio" ${romaneio.status == 0 ? 'disabled' : ''} onclick='deletarRomaneio(${romaneio.ID_ROMANEIO})'>
+                                        <a class="dropdown-item" href="#" title="Deletar Romaneio" onclick='deletarRomaneio(${romaneio.ID_ROMANEIO})'>
                                             <span class="fas fa-trash ms-1"></span> Deletar
                                         </a>
                                     ` : ''}
 
+                                    ${romaneio.status == 0 ? `
+                                        <div class="dropdown-divider btn-realizar-pagamento-1"></div>
+                                        <a data-funcionario="${romaneio.RESPONSAVEL}" data-codigo="${romaneio.codigo}" data-saldo="${romaneio.saldo}" data-id-funcionario="${romaneio.ID_RESPONSAVEL}" data-id-setor-empresa="${romaneio.id_setor_empresa}" class="dropdown-item btn-add-verba-romaneio" href="#" title="Adicionar verba para o responsável" data-bs-toggle="modal" data-bs-target="#modalAdicinarVerbaRomaneio">
+                                            <span class="fas fa-coins ms-1"></span> Adicionar verba
+                                        </a>
+                                    ` : ''}
+
+                                    ${romaneio.prestar_conta == 0 && romaneio.status == 1 ? `
+                                        <div class="dropdown-divider btn-realizar-pagamento-1"></div>
+
+                                        <a class="dropdown-item btn-prestar-contas" data-bs-toggle="modal" data-bs-target="#modalPrestarConta" href="#" title="Prestar Contas" data-funcionario="${romaneio.RESPONSAVEL}" data-codigo="${romaneio.codigo}" data-saldo="${romaneio.saldo}" data-id-funcionario="${romaneio.ID_RESPONSAVEL}" data-id-setor-empresa="${romaneio.id_setor_empresa}">
+                                            <span class="uil-file-check-alt ms-1"></span> Prestar Contas
+                                        </a>
+
+                                    ` : ''}
+
+                                    
                                 </div>
                             </div>
                     
@@ -1330,4 +1796,270 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
     }
 }
 
+$(document).on('click', '.btn-add-verba-romaneio', function () {
 
+    carregaSelect2('select2', 'modalAdicinarVerbaRomaneio');
+
+    let saldoResponsavel = $(this).data('saldo');
+    let nomeResponsavel = $(this).data('funcionario');
+    $('.id-responsavel').val($(this).data('id-funcionario'));
+
+    $('.nome-funcionario').html(nomeResponsavel);
+    $('.saldo-verba-funcionario').html(formatarValorMoeda(saldoResponsavel));
+
+})
+
+const salvarVerbasAdicionaisRomaneio = () => {
+
+    let permissao = true;
+
+    let dadosFormulario = {};
+    if (permissao) {
+
+        $(`.form-verba-adicional-responsavel-coleta`).find("select, input").each(function () {
+
+            let inputName = $(this).attr('name');
+            let inputValue = $(this).val();
+
+            if (!dadosFormulario[inputName]) {
+                dadosFormulario[inputName] = [];
+            }
+
+            // Adiciona o valor ao array
+            dadosFormulario[inputName].push(inputValue);
+
+            if (!$('.check-sem-verba').is(':checked')) {
+                permissao = verificaCamposObrigatorios('input-obrigatorio-verba');
+            }
+
+        });
+
+        let responsavel = $('.id-responsavel').val();
+
+        if (permissao) {
+
+            $.ajax({
+                type: 'post',
+                url: `${baseUrl}finFluxoCaixa/insereMovimentacaoRomaneioFluxo`,
+                data: {
+                    dadosFluxo: dadosFormulario,
+                    responsavel: responsavel
+
+                }, beforeSend: function () {
+
+                    $('.load-form-pagamento').removeClass('d-none');
+                    $('.btn-salva-verba-responsavel').addClass('d-none');
+
+                }, success: function (data) {
+
+                    $('.load-form-pagamento').addClass('d-none');
+                    $('.btn-salva-verba-responsavel').removeClass('d-none');
+
+                    avisoRetorno('Sucesso!', 'Verbas adicionadas com sucesso!', 'success', `${baseUrl}romaneios`)
+                }
+            })
+        }
+
+
+    }
+
+}
+
+$(document).on('change', '.select-macros', function () {
+
+    let idMacro = $(this).val();
+
+    $.ajax({
+        type: "post",
+        url: `${baseUrl}finMicro/recebeMicrosMacro`,
+        data: {
+            idMacro: idMacro
+        }, beforeSend: function () {
+            $('.select-micros').html('<option disabled>Selecione</option>');
+        }, success: function (data) {
+
+            $('.select-micros').attr('disabled', false);
+
+            let options = '<option value="" disabled >Selecione</option>';
+
+            for (i = 0; i < data.microsMacro.length; i++) {
+
+                options += `<option value="${data.microsMacro[i].id}">${data.microsMacro[i].nome}</option>`;
+            }
+
+            $('.select-micros').html(options);
+
+            $('.select-micros').val('').trigger('change');
+
+        }
+    })
+})
+
+
+$(document).on('change', '.select-grupo-recebidos', function () {
+
+    let grupo = $(this).val();
+
+    if (grupo == "clientes") {
+
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}finContasPagar/recebeTodosClientesAll`
+            , beforeSend: function () {
+                $('.select-recebido').attr('disabled', true);
+                $('.select-recebido').html('<option disabled>Carregando...</option>');
+            }, success: function (data) {
+                $('.select-recebido').attr('disabled', false);
+
+                let options = '<option disabled="disabled" value="">Selecione</option>';
+                for (let i = 0; i < data.clientes.length; i++) {
+                    options += `<option value="${data.clientes[i].id}">${data.clientes[i].nome}</option>`;
+                }
+                $('.select-recebido').html(options);
+
+                $('.select-recebido').val('').trigger('change');
+
+            }
+        })
+    } else {
+
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}finDadosFinanceiros/recebeDadosFinanceiros`,
+            data: {
+                grupo: grupo
+            },
+            beforeSend: function () {
+                $('.select-recebido').attr('disabled');
+                $('.select-recebido').html('<option value="">Carregando...</option>');
+            }, success: function (data) {
+
+                $('.select-recebido').attr('disabled', false);
+                $('.select-recebido').html('<option value="">Selecione</option>');
+
+                for (i = 0; i < data.dadosFinanceiro.length; i++) {
+
+                    $('.select-recebido').append(`<option value="${data.dadosFinanceiro[i].id}">${data.dadosFinanceiro[i].nome}</option>`);
+                }
+            }
+        })
+
+    }
+
+})
+
+
+
+$(document).on('change', '.checkbox-funcionario', function () {
+
+    let divPagamento = $(this).closest('.col-md-12').prevAll('.div-pagamento');
+
+    let tipoPagamento = divPagamento.find('.select-tipo-pagamento option:selected').val();
+
+    if (tipoPagamento == 0 && tipoPagamento != '' && !$(this).is(':checked')) {
+
+        divPagamento.closest('.div-conta-bancaria').removeClass('d-none');
+
+        let selectContaBancaria = divPagamento.closest('.div-conta-bancaria').find('select');
+
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}finContaBancaria/recebeContasBancarias`,
+            success: function (data) {
+
+                let optionsContasBancarias = "<option selected disabled value=''>Selecione</option>";
+
+                for (i = 0; i < data.length; i++) {
+
+                    optionsContasBancarias += `<option value="${data[i].id_conta_bancaria}">${data[i].apelido}</option>`;
+                }
+
+                selectContaBancaria.html(optionsContasBancarias);
+            }
+        })
+
+        let selectFormaPagamento = divPagamento.closest('.div-select-forma-pagamento').find('select');
+
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}finContaBancaria/recebeFormasTransacao`,
+            success: function (data) {
+
+                let optionFormaPagamentos = "<option selected disabled value=''>Selecione</option>";
+
+                for (c = 0; c < data.length; c++) {
+
+                    optionFormaPagamentos += `<option data-id-tipo-pagamento="1" value="${data[c].id}">${data[c].nome}</option>`;
+           
+                }
+
+                selectFormaPagamento.html(optionFormaPagamentos);
+            }
+        })
+
+
+    } else {
+
+        let selectFormaPagamentoFuncionario = divPagamento.closest('.div-select-forma-pagamento').find('select');
+
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}formaPagamento/recebeFormasPagamentos`,
+            beforeSend: function () {
+                selectFormaPagamentoFuncionario.html('');
+            },
+            success: function (data) {
+
+                let optionFormaPagamentos = "<option selected disabled value=''>Selecione</option>";
+
+                for (f = 0; f < data.length; f++) {
+
+                    optionFormaPagamentos += `<option data-id-tipo-pagamento="${data[f].id_tipo_pagamento}" value="${data[f].id}">${data[f].forma_pagamento}</option>`;
+           
+                }
+
+                selectFormaPagamentoFuncionario.html(optionFormaPagamentos);
+            }
+        })
+
+        divPagamento.closest('.div-conta-bancaria').addClass('d-none');
+
+    }
+})
+
+
+$(document).on('change', '.select-tipo-pagamento', function () {
+
+    let pagoResponsavel = $(this).closest('.div-pagamento').siblings('.div-checkbox').find('.checkbox-funcionario');
+
+    if ($(this).val() == 0 && !pagoResponsavel.is(':checked')) {
+
+        $(this).closest('.div-pagamento').next().removeClass('d-none');
+
+        let divSelectContaBancaria = $(this).closest('.div-pagamento').next();
+
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}finContaBancaria/recebeContasBancarias`,
+            success: function (data) {
+
+                let optionsContasBancarias = "<option selected disabled value=''>Selecione</option>";
+
+                for (i = 0; i < data.length; i++) {
+
+                    optionsContasBancarias += `<option value="${data[i].id_conta_bancaria}">${data[i].apelido}</option>`;
+                }
+
+                divSelectContaBancaria.find('select').html(optionsContasBancarias);
+            }
+        })
+
+
+    } else {
+
+        $(this).closest('.div-pagamento').next().addClass('d-none');
+
+    }
+
+
+})

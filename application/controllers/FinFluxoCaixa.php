@@ -112,10 +112,16 @@ class FinFluxoCaixa extends CI_Controller
         $dados['id_forma_transacao'] = $this->input->post('id_forma_transacao');
         $dados['valor'] = str_replace(['.', ','], ['', '.'], $this->input->post('valor'));
         $dados['movimentacao_tabela'] = $this->input->post('movimentacao_tabela');
-        $dados['id_dado_financeiro'] = $this->input->post('id_dado_financeiro');
         $dados['id_micro'] = $this->input->post('micros');
         $dados['id_macro'] = $this->input->post('macros');
         $data_movimentacao = $this->input->post('data_movimentacao');
+        $grupoRecebido = $this->input->post('grupo_recebido');
+
+        if ($grupoRecebido == 'clientes') {
+            $dados['id_cliente'] = $this->input->post('id_dado_financeiro');
+        } else {
+            $dados['id_dado_financeiro'] = $this->input->post('id_dado_financeiro');
+        }
 
 
         $dados['data_movimentacao'] = date('Y-m-d', strtotime(str_replace('/', '-', $data_movimentacao)));
@@ -155,6 +161,53 @@ class FinFluxoCaixa extends CI_Controller
         );
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
+
+    public function insereMovimentacaoRomaneioFluxo()
+    {
+        $this->load->model('FinSaldoBancario_model');
+
+        $idResponsavel = $this->input->post('responsavel');
+
+		$this->load->model('Funcionarios_model');
+
+        $dadosFluxo = $this->input->post('dadosFluxo');
+
+        $dados['id_empresa'] = $this->session->userdata('id_empresa');
+
+        if (!empty($dadosFluxo['valor'][0])) {
+
+            for ($i = 0; $i < count($dadosFluxo['id_micro']); $i++) {
+
+                $dados['id_conta_bancaria'] = $dadosFluxo['conta-bancaria'][$i];
+
+                $dados['id_forma_transacao'] = $dadosFluxo['forma-pagamento'][$i];
+                $dados['valor'] = str_replace(['.', ','], ['', '.'], $dadosFluxo['valor'][$i]);
+                $dados['movimentacao_tabela'] = 0; // sempre saída
+
+                $dados['id_micro'] = $dadosFluxo['id_micro'][$i];
+                $dados['id_macro'] = $dadosFluxo['id_macro'][$i];
+                $dados['data_movimentacao'] = date('Y-m-d');
+                $dados['id_funcionario'] = $idResponsavel;
+
+                $this->FinFluxo_model->insereFluxo($dados); // insere a movimentação no fluxo
+
+
+                // atualiza as contas bancarias
+                $saldoAtualContaBancaria = $this->FinSaldoBancario_model->recebeSaldoBancario($dadosFluxo['conta-bancaria'][$i]);
+                $novoSaldoContaBancaria = $saldoAtualContaBancaria['saldo'] - $dados['valor'];
+                $this->FinSaldoBancario_model->atualizaSaldoBancario($dadosFluxo['conta-bancaria'][$i],  $novoSaldoContaBancaria);
+                
+                // atualiza o saldo do responsavel
+                $saldoAtualFuncionario = $this->Funcionarios_model->recebeSaldoFuncionario($idResponsavel);
+                $novoSaldoFuncionario =  $saldoAtualFuncionario['saldo'] + $dados['valor'];
+                $this->Funcionarios_model->atualizaSaldoFuncionario($idResponsavel, $novoSaldoFuncionario);
+
+            }
+        }
+
+        return true;
+
     }
 
     public function recebeMovimentoFluxo()

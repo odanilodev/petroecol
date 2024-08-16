@@ -213,8 +213,11 @@
 
                                     <td style="width: 10px; display:none">
                                         <?php
+
                                         if (!empty($coleta['pagamentos'])) {
+
                                             foreach ($coleta['pagamentos'] as $key => $pagamento) {
+
                                                 if (!isset($valor_total[$pagamento])) {
                                                     $valor_total[$pagamento] = ['valor' => 0, 'tipo_pagamento' => ''];
                                                 }
@@ -233,9 +236,9 @@
 
 
                                                 if (isset($coleta['tipo_pagamento'][$key]) && $coleta['tipo_pagamento'][$key] == 1) {
-                                                    echo "<p>R$${formattedValue} " . ($formasPagamento[$pagamento] ?? "") . "</p>";
+                                                    echo "<p>R$$formattedValue " . ($formasPagamento[$pagamento] ?? $formasTransacao[$pagamento]) . "</p>";
                                                 } else {
-                                                    echo "<p>${formattedValue} " . ($formasPagamento[$pagamento] ?? "") . "</p>";
+                                                    echo "<p>$formattedValue " . ($formasPagamento[$pagamento] ?? $formasTransacao[$pagamento]) . "</p>";
                                                 }
                                             }
                                         }
@@ -277,9 +280,9 @@
                                         $valor_total_geral[$key]['tipo_pagamento'] = $val['tipo_pagamento'];
                                     }
                                     if ($val['tipo_pagamento'] == 1) {
-                                        echo '<p> R$' . (number_format($val['valor'], 2, ',', '.')) . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                                        echo '<p> R$' . (number_format($val['valor'], 2, ',', '.')) . ' ' . ($formasPagamento[$key] ?? $formasTransacao[$key]) . '</p>';
                                     } else {
-                                        echo '<p>' . $val['valor'] . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                                        echo '<p>' . $val['valor'] . ' ' . ($formasPagamento[$key] ?? $formasTransacao[$key]) . '</p>';
                                     }
                                 }
                                 ?>
@@ -294,7 +297,7 @@
                                         } else {
                                             $valor_total_mensal_geral[$key] = $val;
                                         }
-                                        echo '<p>' . $val . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                                        echo '<p>' . $val . ' ' . ($formasPagamento[$key] ?? $formasTransacao[$key]) . '</p>';
                                     }
                                     ?>
                                 </td>
@@ -334,9 +337,9 @@
                         if (isset($valor_total_geral)) {
                             foreach ($valor_total_geral as $key => $val) {
                                 if ($val['tipo_pagamento'] == 1) {
-                                    echo '<p>R$ ' . (number_format($val['valor'], 2, ',', '.')) . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                                    echo '<p>R$ ' . (number_format($val['valor'], 2, ',', '.')) . ' ' . ($formasPagamento[$key] ?? $formasTransacao[$key]) . '</p>';
                                 } else {
-                                    echo '<p>' . $val['valor'] . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                                    echo '<p>' . $val['valor'] . ' ' . ($formasPagamento[$key] ?? $formasTransacao[$key]) . '</p>';
                                 }
                             }
                         }
@@ -346,7 +349,7 @@
                         <td style="width: 8px;">
                             <?php
                             foreach ($valor_total_mensal_geral as $key => $val) {
-                                echo '<p>' . $val . ' ' . ($formasPagamento[$key] ?? "") . '</p>';
+                                echo '<p>' . $val . ' ' . ($formasPagamento[$key] ?? $formasTransacao[$key]) . '</p>';
                             }
                             ?>
                         </td>

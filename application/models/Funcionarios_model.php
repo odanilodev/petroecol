@@ -21,6 +21,19 @@ class Funcionarios_model extends CI_Model
         return $query->result_array();
     }
 
+    public function recebeFuncionariosSaldos()
+    {
+        $this->db->where('status', 1);
+        $this->db->where('saldo IS NOT NULL');
+        $this->db->where('saldo >', 0);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->order_by('nome', 'DESC');
+
+        $query = $this->db->get('ci_funcionarios');
+
+        return $query->result_array();
+    }
+
     public function recebeFuncionario($id)
     {
         $this->db->select('F.*, C.nome as funcao_nome');
@@ -34,6 +47,34 @@ class Funcionarios_model extends CI_Model
         $query = $this->db->get();
 
         return $query->row_array();
+    }
+
+    public function recebeSaldoFuncionario($id)
+    {
+        $this->db->select('F.saldo');
+        $this->db->from('ci_funcionarios F');
+        $this->db->where('F.id', $id);
+        $this->db->where('F.status', 1);
+        $this->db->where('F.id_empresa', $this->session->userdata('id_empresa'));
+
+        $query = $this->db->get();
+
+        return $query->row_array();
+    }
+
+    public function atualizaSaldoFuncionario($idResponsavel, $novoSaldoFuncionario)
+    {
+        $dados['editado_em'] = date('Y-m-d H:i:s');
+        $dados['saldo'] = $novoSaldoFuncionario;
+        $this->db->where('id', $idResponsavel);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->update('ci_funcionarios', $dados);
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($idResponsavel);
+        }
+
+        return $this->db->affected_rows() > 0;
     }
 
     public function recebeResponsavelAgendamento()
@@ -95,7 +136,7 @@ class Funcionarios_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function verificaCpfFuncionario($cpf,$id)
+    public function verificaCpfFuncionario($cpf, $id)
     {
         $this->db->where('cpf', $cpf);
         $this->db->where('id <>', $id);
@@ -126,4 +167,5 @@ class Funcionarios_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
 }

@@ -199,4 +199,21 @@ class FinContaBancaria extends CI_Controller
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
+	public function recebeContasBancarias()
+	{
+		$contasBancarias = $this->FinContaBancaria_model->recebeContasBancarias();
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($contasBancarias));
+	}
+
+	public function recebeFormasTransacao()
+	{
+		$this->load->model('FinFormaTransacao_model');
+		$formasTransacao = $this->FinFormaTransacao_model->recebeFormasTransacao();
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($formasTransacao));
+	}
+
+
 }

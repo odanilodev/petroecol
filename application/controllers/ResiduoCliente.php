@@ -128,4 +128,15 @@ class ResiduoCliente extends CI_Controller
 			</span>';
 		}
 	}
+
+	public function recebeValorResiduoCliente()
+	{
+		$idCliente = $this->input->post('idCliente');
+		$idResiduo = $this->input->post('idResiduo');
+
+		$residuos = $this->ResiduoCliente_model->recebeValorResiduoCliente($idResiduo, $idCliente);
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($residuos));
+
+	}
 }

@@ -557,7 +557,7 @@ const detalhesHistoricoColeta = (idColeta, classe) => {
                 let residuos = JSON.parse(data.coleta['residuos_coletados']);
 
                 for (let i = 0; i < valorPago.length; i++) {
-                    let totalPago = `<span class="mb-0">${valorPago[i]} em ${data.formasPagamento[formaPag[i]]}</span><br>`;
+                    let totalPago = `<span class="mb-0">${valorPago[i]} em ${data.formasPagamento[formaPag[i]] ?? data.formasTransacao[formaPag[i]]}</span><br>`;
                     $('.total-pago').append(totalPago)
                 }
 
