@@ -76,7 +76,7 @@ class Coletas extends CI_Controller
                 }
 
                 // calcula o valor dos residuos e insere no contas a pagar as contas a prazo
-                $this->salvarValorResiduosContasPagar($idSetorEmpresa, $residuos, $cliente['idCliente'], $cliente['tipoPagamento'] ?? null, $cliente['dadosBancarios'] ?? null);
+                $this->salvarValorResiduosContasPagar($idSetorEmpresa, $residuos, $cliente['idCliente'], $cliente['tipoPagamento'] ?? null, $cliente['dadosBancarios'] ?? null, $codRomaneio);
 
 
                 $proximosAgendamentos[] = $verificaAgendamentosFuturos ? $this->Agendamentos_model->recebeProximosAgendamentosCliente($cliente['idCliente'], $dataRomaneio) : "";
@@ -164,7 +164,7 @@ class Coletas extends CI_Controller
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
-    function salvarValorResiduosContasPagar($idSetorEmpresa, $dadosResiduos, $idCliente, $tipoPagamento, $dadosContasBancarias)
+    function salvarValorResiduosContasPagar($idSetorEmpresa, $dadosResiduos, $idCliente, $tipoPagamento, $dadosContasBancarias, $codRomaneio)
     {
         $microPadraoRomaneio = $this->FinMicro_model->recebePadraoMicro('romaneios');
 
@@ -180,6 +180,7 @@ class Coletas extends CI_Controller
                     $dadosFluxo['id_cliente'] = $idCliente;
                     $dadosFluxo['id_micro'] = $microPadraoRomaneio['id']; // idMicro padrão para concluir romaneio
                     $dadosFluxo['id_macro'] = $microPadraoRomaneio['id_macro']; // idMacro padrão para concluir romaneio
+                    $dadosFluxo['observacao'] = 'Romaneio: ' . $codRomaneio; 
                     $dadosFluxo['movimentacao_tabela'] = 0;
                     $dadosFluxo['id_empresa'] = $this->session->userdata('id_empresa');
                     $dadosFluxo['data_movimentacao'] = date('Y-m-d');
@@ -244,6 +245,8 @@ class Coletas extends CI_Controller
                     $contasPagar['id_cliente'] = $idCliente;
                     $contasPagar['data_vencimento'] = $dataVencimentoObj->format('Y-m-d');
                     $contasPagar['id_micro'] = $microPadraoRomaneio['id'];
+                    $contasPagar['id_macro'] = $microPadraoRomaneio['id_macro'];
+                    $contasPagar['observacao'] = 'Romaneio: ' . $codRomaneio; 
                     $contasPagar['status'] = 0;
                     $contasPagar['id_empresa'] = $this->session->userdata('id_empresa');
                     $contasPagar['id_setor_empresa'] = $setorEmpresa;
