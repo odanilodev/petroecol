@@ -339,13 +339,13 @@ $(document).on('click', '.check-sem-verba', function () {
 
 $(document).on('click', '.duplicar-pagamento', function () {
 
-    duplicarElementos();
+    duplicarElementos('romaneio');
 
 });
 
 $(document).on('click', '.duplicar-verbas-pagamento', function () {
 
-    duplicarElementos();
+    duplicarElementos('verbas');
 
 });
 
@@ -371,7 +371,7 @@ async function recebeFormasTransacao() {
 
 
 // duplica forma de pagamento e residuos
-async function duplicarElementos() {
+async function duplicarElementos(nomeModal) {
 
     // Pega os options do select
     let optionsContaBancaria = $('.select-conta-bancaria').html();
@@ -431,10 +431,18 @@ async function duplicarElementos() {
 
     $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
 
-    $(`.select2`).select2({
-        dropdownParent: `.modal-romaneio-select2`,
-        theme: "bootstrap-5",
-    });
+    if (nomeModal == "verbas") {
+        $(`.select2`).select2({
+            dropdownParent: `.modal-verbas-select2`,
+            theme: "bootstrap-5",
+        });
+    } else {
+
+        $(`.select2`).select2({
+            dropdownParent: `.modal-romaneio-select2`,
+            theme: "bootstrap-5",
+        });
+    }
 
 
 }

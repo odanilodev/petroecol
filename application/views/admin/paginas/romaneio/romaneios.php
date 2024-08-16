@@ -478,7 +478,7 @@
     </div>
 
     <!-- Adicionar mais verbas para o responsável-->
-    <div class="modal fade" id="modalAdicinarVerbaRomaneio" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade modal-verbas-select2" id="modalAdicinarVerbaRomaneio" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollabe modal-lg">
             <div class="modal-content">
 
