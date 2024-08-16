@@ -2,7 +2,7 @@ var baseUrl = $('.base-url').val();
 
 let filtrarClientesRomaneio = () => {
 
-    
+
 
 
     let clientesModalRomaneio = $('.clientes-modal-romaneio');
@@ -375,7 +375,7 @@ async function duplicarElementos() {
 
     // Pega os options do select
     let optionsContaBancaria = $('.select-conta-bancaria').html();
-    let optionsFormaPagamento = await recebeFormasTransacao();    
+    let optionsFormaPagamento = await recebeFormasTransacao();
 
     let contaBancaria = `
         <div class="col-md-4 mb-2 mt-2">
@@ -431,7 +431,10 @@ async function duplicarElementos() {
 
     $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
 
-    carregaSelect2('select2', 'modalSaldoMotoristaRomaneio');
+    $(`.select2`).select2({
+        dropdownParent: `.modal-romaneio-select2`,
+        theme: "bootstrap-5",
+    });
 
 
 }
@@ -748,7 +751,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
         for (let i = 0; i < registros; i++) {
             $(`#select-pagamento-${i}`).append(optionPagamentos);
-            
+
         }
     }
 
@@ -861,7 +864,11 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe, idCliente
 
     $('.mask-valor-residuo').mask('000000000000000.00', { reverse: true });
 
-    carregaSelect2('select2', 'modalSaldoMotoristaRomaneio');
+    $(`.select2`).select2({
+        dropdownParent: `.modal-romaneio-select2`,
+        theme: "bootstrap-5",
+    });
+
 
 }
 
@@ -1992,7 +1999,7 @@ $(document).on('change', '.checkbox-funcionario', function () {
                 for (c = 0; c < data.length; c++) {
 
                     optionFormaPagamentos += `<option data-id-tipo-pagamento="1" value="${data[c].id}">${data[c].nome}</option>`;
-           
+
                 }
 
                 selectFormaPagamento.html(optionFormaPagamentos);
@@ -2017,7 +2024,7 @@ $(document).on('change', '.checkbox-funcionario', function () {
                 for (f = 0; f < data.length; f++) {
 
                     optionFormaPagamentos += `<option data-id-tipo-pagamento="${data[f].id_tipo_pagamento}" value="${data[f].id}">${data[f].forma_pagamento}</option>`;
-           
+
                 }
 
                 selectFormaPagamentoFuncionario.html(optionFormaPagamentos);
