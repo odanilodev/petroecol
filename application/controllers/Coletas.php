@@ -231,7 +231,15 @@ class Coletas extends CI_Controller
                     $anoAtual = date('Y');
                     $dataAtual = date('Y-m-d');
 
+                    if ($diaPagamento) {
+                        $diaPagamento = $diaPagamento;
+                    } else {
+                        $diaPagamento = $diaPagamentoProximoMes;
+                    }
+
                     $dataVencimento = $anoAtual . '-' . $mesAtual . '-' . $diaPagamento;
+
+                    
                     $dataVencimentoObj = new DateTime($dataVencimento);
 
                     $dataAtualObj = new DateTime($dataAtual);
