@@ -105,9 +105,10 @@ class Romaneios extends CI_Controller
 
 		// todos residuos cadastrado na empresa
 		$data['residuos'] = $this->residuochaveid->residuoArrayChaveId();
+
 		// todas formas de pagamento cadastrado na empresa
 		$data['formasPagamento'] = $this->formaspagamentochaveid->formaPagamentoArrayChaveId();
-
+		$data['formasTransacao'] = $this->formaspagamentochaveid->formaTransacaoArrayChaveId();
 
 		$data['romaneio'] = $this->Coletas_model->recebeColetaRomaneio($codRomaneio);
 
