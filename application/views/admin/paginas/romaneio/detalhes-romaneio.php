@@ -76,9 +76,14 @@
                                                     $total_pagamento[$idPagamento] = $valor_pago[$key] ?? 0;
                                                 }
 
-                                                if (isset($valor_pago[$key]) && isset($formasPagamento[$idPagamento])) {
+                                                if (isset($valor_pago[$key])) {
 
-                                                    echo "<p>$valor_pago[$key] ($formasPagamento[$idPagamento])</p>";
+                                                    if (isset($formasTransacao[$idPagamento])) {
+                                                        echo "<p>$valor_pago[$key] (". $formasTransacao[$idPagamento] . ")" . "</p>";
+                                                    } else {
+                                                        echo "<p>$valor_pago[$key] (" . $formasPagamento[$idPagamento] . ")" . "</p>";
+                                                    }
+
                                                 } else {
                                                     echo "<p>--</p>";
                                                 }
@@ -126,8 +131,9 @@
                                     <?php foreach($total_pagamento as $key => $v) { 
                                         
                                         if (isset($formasPagamento[$key])) {
-
                                             echo "<p>$v $formasPagamento[$key]";
+                                        } else if (isset($formasTransacao[$key])) {
+                                            echo "<p>$v $formasTransacao[$key]";
                                         } else {
                                             echo "--";
                                         }

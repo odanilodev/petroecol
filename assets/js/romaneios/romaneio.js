@@ -623,7 +623,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     <div class="col-md-3 mb-2 div-pagamento">
 
                         <label class="form-label">Tipo de Pagamento</label>
-                        <select data-collapse="${i}" class="input-obrigatorio select2 form-select select-tipo-pagamento w-100 tipo-pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-tipo-pagamento-${i}">
+                        <select data-collapse="${i}" class="select2 form-select select-tipo-pagamento w-100 tipo-pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-tipo-pagamento-${i}">
 
                             <option disabled selected value="">Selecione</option>
                             <option value="0">Pagamento no ato</option>
