@@ -623,7 +623,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     <div class="col-md-3 mb-2 div-pagamento">
 
                         <label class="form-label">Tipo de Pagamento</label>
-                        <select class="select2 form-select select-tipo-pagamento w-100 tipo-pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-tipo-pagamento-${i}">
+                        <select data-collapse="${i}" class="input-obrigatorio select2 form-select select-tipo-pagamento w-100 tipo-pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-tipo-pagamento-${i}">
 
                             <option disabled selected value="">Selecione</option>
                             <option value="0">Pagamento no ato</option>
@@ -634,7 +634,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                     <div class="col-md-3 mb-2 div-pagamento d-none div-conta-bancaria">
                         <label class="form-label">Conta bancária</label>
-                        <select class="select2 form-select w-100 select-conta-bancaria">
+                        <select data-collapse="${i}" class="select2 form-select w-100 select-conta-bancaria">
                             <option disabled selected value="">Selecione</option>
                             
                         </select>
@@ -643,7 +643,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     <div class="col-md-3 mb-2 div-pagamento div-select-forma-pagamento">
 
                         <label class="form-label forma">Forma de Pagamento</label>
-                        <select class="select2 form-select select-pagamento w-100 pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-pagamento-${i}">
+                        <select data-collapse="${i}" class="select2 form-select select-pagamento w-100 pagamento-${clientes[i].id} campos-form-${clientes[i].id}" id="select-pagamento-${i}">
 
                             <option disabled selected value="">Selecione</option>
                             
@@ -653,7 +653,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     <div class="col-md-2 mb-2 div-pagamento">
 
                         <label class="form-label valor">Valor Pago</label>
-                        <input class="form-control input-pagamento pagamento-${clientes[i].id} campos-form-${clientes[i].id}" type="text" placeholder="Digite valor pago" value="">
+                        <input data-collapse="${i}" class="form-control input-pagamento pagamento-${clientes[i].id} campos-form-${clientes[i].id}" type="text" placeholder="Digite valor pago" value="">
 
                     </div>
 
@@ -679,6 +679,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                             <option disabled selected value="">Selecione</option>
                             
                         </select>
+                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                     </div>
 
@@ -686,12 +687,15 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                         <label class="form-label">Quantidade Coletada</label>
                         <input class="form-control input-residuo input-obg-${clientes[i].id} campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" data-collapse="${i}" type="text" placeholder="Digite quantidade coletada" value="">
+                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
                     </div>
 
                     <div class="col-md-3 mb-2 div-residuo">
 
                         <label class="form-label">Valor do resíduo</label>
-                        <input data-id-cliente="${clientes[i].id}" class="mask-valor-residuo form-control input-valor-residuo input-obg-${clientes[i].id} campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" data-collapse="${i}" type="text" placeholder="Digite o valor do resíduo" value="">
+                        <input data-id-cliente="${clientes[i].id}" class="mask-valor-residuo form-control input-valor-residuo input-obg-${clientes[i].id} campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" data-collapse="${i}" type="text" placeholder="Digite o valor do resíduo" value="0">
+                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                     </div>
 
@@ -1011,11 +1015,7 @@ function finalizarRomaneio() {
             if ($(this).val() != '') {
 
                 residuosSelecionados.push($(this).val());
-                $(this).closest('.div-residuo').next().find('.input-residuo').addClass('input-obrigatorio');
 
-            } else {
-                $(this).closest('.div-residuo').next().find('.input-residuo').removeClass('input-obrigatorio');
-                $(this).closest('.div-residuo').next().find('.input-residuo').removeClass('invalido');
             }
         });
 
@@ -1070,15 +1070,9 @@ function finalizarRomaneio() {
 
             if ($(this).val() != '') {
 
-                $(this).closest('.div-residuo').next().find('.input-valor-residuo').addClass('input-obrigatorio');
-
                 qtdResiduos.push($(this).val());
                 salvarDados = true;
-            } else {
-                $(this).closest('.div-residuo').next().find('.input-valor-residuo').removeClass('input-obrigatorio');
-                $(this).closest('.div-residuo').next().find('.input-valor-residuo').removeClass('invalido');
-
-            }
+            } 
         });
 
         let valoresResiudos = [];
@@ -1184,6 +1178,15 @@ function finalizarRomaneio() {
 
             let collapse = $(this).data('collapse');
 
+            // verifica se é select2
+            if ($(this).hasClass('select2')) {
+                $(this).next().next().removeClass('d-none');
+                $(this).next().addClass('select2-obrigatorio');
+            } else {
+                $(this).next().removeClass('d-none');
+                $(this).addClass('invalido');
+            }
+
             // abre o accordion com o input vazio
             if (!accordionAberto) {
 
@@ -1194,13 +1197,20 @@ function finalizarRomaneio() {
                 accordionAberto = true;
             }
 
-            $(this).addClass('invalido');
 
             permissao = false;
 
         } else {
-            $(this).removeClass('invalido');
 
+            // verifica se é select2
+            if ($(this).hasClass('select2')) {
+                $(this).next().next().addClass('d-none');
+                $(this).next().removeClass('select2-obrigatorio');
+            } else {
+                $(this).removeClass('invalido');
+                $(this).next().addClass('d-none');
+
+            }
         }
 
     })
@@ -2046,7 +2056,17 @@ $(document).on('change', '.select-tipo-pagamento', function () {
 
     let pagoResponsavel = $(this).closest('.div-pagamento').siblings('.div-checkbox').find('.checkbox-funcionario');
 
+    let divResiduo = $(this).closest('.div-pagamento').siblings('.div-residuo');
+    divResiduo.find('.select-residuo').addClass('input-obrigatorio');
+    divResiduo.find('.input-residuo').addClass('input-obrigatorio');
+    divResiduo.find('.input-valor-residuo').addClass('input-obrigatorio');
+
+    let divPagamento = $(this).closest('.div-pagamento').siblings('.div-pagamento');
+
+    // pago no ato mas não foi pago por responsável
     if ($(this).val() == 0 && !pagoResponsavel.is(':checked')) {
+
+        divPagamento.find(':input').addClass('input-obrigatorio');
 
         $(this).closest('.div-pagamento').next().removeClass('d-none');
 
@@ -2069,9 +2089,16 @@ $(document).on('change', '.select-tipo-pagamento', function () {
         })
 
 
-    } else {
+    } else if ($(this).val() == 1 && !pagoResponsavel.is(':checked')){
 
-        $(this).closest('.div-pagamento').next().addClass('d-none');
+        $(this).closest('.div-pagamento').next().addClass('d-none'); // esconde os select de contas bancarias
+
+        // tratamento para campos obrigatorios
+        divPagamento.find(':input').removeClass('input-obrigatorio');
+        divPagamento.find(':input').removeClass('invalido');
+        divPagamento.find('.select2').next().removeClass('select2-obrigatorio');
+        
+
 
     }
 
