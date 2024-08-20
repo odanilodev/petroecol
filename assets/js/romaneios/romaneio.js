@@ -2024,6 +2024,8 @@ $(document).on('change', '.checkbox-funcionario', function () {
 
     } else {
 
+        divPagamento.closest('.div-conta-bancaria').find('select').removeClass('input-obrigatorio');
+
         let selectFormaPagamentoFuncionario = divPagamento.closest('.div-select-forma-pagamento').find('select');
 
         $.ajax({
@@ -2053,6 +2055,7 @@ $(document).on('change', '.checkbox-funcionario', function () {
 
 
 $(document).on('change', '.select-tipo-pagamento', function () {
+
 
     let pagoResponsavel = $(this).closest('.div-pagamento').siblings('.div-checkbox').find('.checkbox-funcionario');
 
@@ -2099,6 +2102,10 @@ $(document).on('change', '.select-tipo-pagamento', function () {
         divPagamento.find('.select2').next().removeClass('select2-obrigatorio');
         
 
+
+    } else if ($(this).val() == 0 && pagoResponsavel.is(':checked')) {
+
+        divPagamento.find('.select-conta-bancaria').removeClass('input-obrigatorio');
 
     }
 
