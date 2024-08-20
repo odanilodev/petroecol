@@ -130,10 +130,10 @@
 
                                     <?php foreach($total_pagamento as $key => $v) { 
                                         
-                                        if (isset($formasPagamento[$key])) {
-                                            echo "<p>$v $formasPagamento[$key]";
-                                        } else if (isset($formasTransacao[$key])) {
+                                        if (isset($formasTransacao[$key])) {
                                             echo "<p>$v $formasTransacao[$key]";
+                                        } else if (isset($formasPagamento[$key])) {
+                                            echo "<p>$v $formasPagamento[$key]";
                                         } else {
                                             echo "--";
                                         }
