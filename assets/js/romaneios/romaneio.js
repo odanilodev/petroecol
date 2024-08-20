@@ -1079,7 +1079,7 @@ function finalizarRomaneio() {
 
         $(this).find('.input-valor-residuo').each(function () {
 
-            if ($(this).val() != '') {
+            if ($(this).val() != '' && $(this).val() != 0) {
 
                 valoresResiudos.push($(this).val());
                 salvarDados = true;
