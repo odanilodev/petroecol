@@ -49,7 +49,7 @@ class FinContasPagar extends CI_Controller
 		$statusConta = 'ambas';
 		$setorEmpresa = 'todos';
 
-		if ($this->uri->segment(3) && $this->uri->segment(3) != "all") {
+		if ($page != "all") {
 
 
 			// dados no cookie para refazer o filtro
@@ -132,7 +132,7 @@ class FinContasPagar extends CI_Controller
 		// >>>> PAGINAÇÃO <<<<<
 		$limit = 10; // Número de clientes por página
 		$this->load->library('pagination');
-		$config['base_url'] = base_url('finContasPagar/index/1');
+		$config['base_url'] = base_url('finContasPagar/index/');
 		$config['total_rows'] = $this->FinContasPagar_model->recebeContasPagar($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa, $cookie_filtro_contas_pagar, $limit, $page, true); // true para contar
 		$config['per_page'] = $limit;
 		$config['use_page_numbers'] = TRUE; // Usar números de página em vez de offset

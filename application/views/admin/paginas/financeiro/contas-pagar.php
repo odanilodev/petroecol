@@ -142,7 +142,7 @@
                                             <div class="spinner-border spinner-border-sm loader-btn-exportar d-none" role="status" style="width: 0.9rem; height: 0.9rem;"></div>
                                         </button>
 
-                                        <a href="<?= base_url('finContasPagar'); ?>" class="btn btn-phoenix-danger"
+                                        <a href="<?= base_url('finContasPagar/index/all'); ?>" class="btn btn-phoenix-danger"
                                             title="Limpar Filtro"><i class="fas fa-ban"></i></a>
 
                                     <?php } ?>
