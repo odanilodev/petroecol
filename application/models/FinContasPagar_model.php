@@ -60,6 +60,7 @@ class FinContasPagar_model extends CI_Model
             $this->db->or_where("LOWER(C.nome) LIKE LOWER('%$search%')");
             $this->db->or_where("CP.valor LIKE '%$search%'");
             $this->db->or_where("CP.valor_pago LIKE '%$search%'");
+            $this->db->or_where("CP.observacao LIKE '%$search%'");
             $this->db->group_end();
         }
 
