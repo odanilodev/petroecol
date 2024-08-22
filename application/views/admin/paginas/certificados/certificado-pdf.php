@@ -183,9 +183,10 @@
                             </tr>
                         <?php endforeach; ?>
                         <tr>
-                            <td><strong>Total Coletado: <?= $totalQuantidade ?>
+                            <td><strong>Total Coletado: <?= number_format($totalQuantidade, 0, '', '.') ?>
                                     <?= $residuosColetatos[$residuo]['unidade_medida'] ?></strong></td>
                             <td></td>
+
                         </tr>
                     </tbody>
                 </table>
