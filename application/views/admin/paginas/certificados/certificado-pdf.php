@@ -178,7 +178,9 @@
                     <tbody>
                         <?php foreach ($coletas as $coleta): ?>
                             <tr>
-                                <td><?= $coleta['quantidade'] ?>         <?= $residuosColetatos[$residuo]['unidade_medida'] ?></td>
+                                <td><?= number_format($coleta['quantidade'], 0, '', '.') ?>
+                                    <?= $residuosColetatos[$residuo]['unidade_medida'] ?>
+                                </td>
                                 <td><?= $coleta['data'] ?></td>
                             </tr>
                         <?php endforeach; ?>
