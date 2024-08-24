@@ -104,6 +104,7 @@ class FinPrestacaoContas extends CI_Controller
 				$contasPagar['id_micro'] = $micros[$i];
 				$contasPagar['id_macro'] = $macros[$i];
 				$contasPagar['id_setor_empresa'] = $idSetorEmpresa;
+				$contasPagar['observacao'] = "Romaneio: $codRomaneio";
 				$this->load->model('FinContasPagar_model');
 
 				$this->FinContasPagar_model->insereConta($contasPagar);
