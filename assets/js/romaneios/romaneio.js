@@ -694,7 +694,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                     <div class="col-md-3 mb-2 div-residuo">
 
                         <label class="form-label">Valor do resíduo</label>
-                        <input data-id-cliente="${clientes[i].id}" class="mask-valor-residuo form-control input-valor-residuo input-obg-${clientes[i].id} campos-form-${clientes[i].id} ${idPrioridades.includes(clientes[i].id) ? 'input-obrigatorio' : ''}" data-collapse="${i}" type="text" placeholder="Digite o valor do resíduo" value="0">
+                        <input data-id-cliente="${clientes[i].id}" class="mask-valor-residuo form-control input-valor-residuo input-obg-${clientes[i].id} campos-form-${clientes[i].id}" data-collapse="${i}" type="text" placeholder="Digite o valor do resíduo">
                         <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                     </div>
@@ -798,7 +798,7 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe, idCliente
 
     let inputValorResiduo = `
         <div class="col-md-3 mb-2 div-residuo">
-            <input data-id-cliente="${idCliente}" class="mask-valor-residuo form-control input-valor-residuo input-obrigatorio" type="text" placeholder="Digite o valor do resíduo" value="">
+            <input data-id-cliente="${idCliente}" class="mask-valor-residuo form-control input-valor-residuo" type="text" placeholder="Digite o valor do resíduo">
         </div>
     `;
 
@@ -1079,7 +1079,7 @@ function finalizarRomaneio() {
 
         $(this).find('.input-valor-residuo').each(function () {
 
-            if ($(this).val() != '' && $(this).val() != 0) {
+            if ($(this).val() != '') {
 
                 valoresResiudos.push($(this).val());
                 salvarDados = true;
@@ -1331,6 +1331,7 @@ $(function () {
 $(document).on('change', '.select-residuo', function () {
 
     let inputResiduo = $(this).closest('.div-residuo').nextAll('.div-residuo').find('.input-valor-residuo');
+    inputResiduo.addClass('input-obrigatorio');
 
     let idCliente = inputResiduo.data('id-cliente');
 
@@ -1345,6 +1346,9 @@ $(document).on('change', '.select-residuo', function () {
             if (data && data.valor !== null) {
 
                 inputResiduo.val(data.valor);
+            } else {
+                inputResiduo.val(0);
+
             }
         }
     })
@@ -2062,14 +2066,11 @@ $(document).on('change', '.select-tipo-pagamento', function () {
     let divResiduo = $(this).closest('.div-pagamento').siblings('.div-residuo');
     divResiduo.find('.select-residuo').addClass('input-obrigatorio');
     divResiduo.find('.input-residuo').addClass('input-obrigatorio');
-    divResiduo.find('.input-valor-residuo').addClass('input-obrigatorio');
 
     let divPagamento = $(this).closest('.div-pagamento').siblings('.div-pagamento');
 
     // pago no ato mas não foi pago por responsável
     if ($(this).val() == 0 && !pagoResponsavel.is(':checked')) {
-
-        divPagamento.find(':input').addClass('input-obrigatorio');
 
         $(this).closest('.div-pagamento').next().removeClass('d-none');
 
