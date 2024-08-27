@@ -77,6 +77,7 @@ class FinDadosFinanceiros extends CI_Controller
 		$dados['tipo_cadastro'] = $this->input->post('tipoCadastro');
 		$dados['conta_bancaria'] = $this->input->post('contaBancaria');
 		$dados['email'] = $this->input->post('email');
+		$dados['dia_faturamento'] = $this->input->post('dia_faturamento');
 
 		$dados['cep'] = $this->input->post('cep');
 		$dados['rua'] = $this->input->post('rua');
@@ -93,7 +94,7 @@ class FinDadosFinanceiros extends CI_Controller
 
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-		$nomeDadosFinanceiros = $this->FinDadosFinanceiros_model->recebeNomeDadosFinanceiros($dados['nome'], $dados['cnpj'], $id); // verifica se já existem os Dados Financeiros 
+		$nomeDadosFinanceiros = $this->FinDadosFinanceiros_model->recebeNomeDadosFinanceiros($dados['nome'], $id); // verifica se já existem os Dados Financeiros 
 
 		// Verifica se os Dados Financeiros já existem e se não são os Dados Financeiros que estão sendo editados
 		if ($nomeDadosFinanceiros) {

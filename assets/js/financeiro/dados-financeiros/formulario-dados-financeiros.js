@@ -1,5 +1,14 @@
 var baseUrl = $('.base-url').val();
 
+$('#input-dia-faturamento').on('input', function () {
+
+  let valor = $(this).val().replace(/\D/g, '');
+
+  valor = Math.min(Math.max(parseInt(valor, 10) || 0, ''), 31);
+
+  $(this).val(valor === 0 ? '' : valor);
+});
+
 const cadastraDadosFinanceiros = () => {
 
   let id = $('.input-id').val();
@@ -12,6 +21,7 @@ const cadastraDadosFinanceiros = () => {
   let tipoCadastro = $('#input-tipo-cadastro').val();
   let contaBancaria = $('#input-conta-bancaria').val();
   let email = $('#input-email').val();
+  let dia_faturamento = $('#input-dia-faturamento').val();
 
   let cep = $('#input-cep').val();
   let rua = $('#input-rua').val();
@@ -80,6 +90,7 @@ const cadastraDadosFinanceiros = () => {
         tipoCadastro: tipoCadastro,
         contaBancaria: contaBancaria,
         email: email,
+        dia_faturamento: dia_faturamento,
 
         cep: cep,
         rua: rua,

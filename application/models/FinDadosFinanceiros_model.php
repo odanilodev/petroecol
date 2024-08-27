@@ -32,11 +32,10 @@ class FinDadosFinanceiros_model extends CI_Model
         return $query->row_array();
     }
 
-    public function recebeNomeDadosFinanceiros($nome, $cnpj, $id)
+    public function recebeNomeDadosFinanceiros($nome, $id)
     {
         $this->db->group_start();
         $this->db->or_where('nome', $nome);
-        $this->db->or_where('cnpj', $cnpj);
         $this->db->group_end();
         $this->db->where('id <>', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
