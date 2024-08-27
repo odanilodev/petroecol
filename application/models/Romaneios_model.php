@@ -60,9 +60,9 @@ class Romaneios_model extends CI_Model
         $this->db->where('R.data_romaneio', $dataRomaneio);
         $this->db->order_by('criado_em', 'DESC');
         $query = $this->db->get();
-        
+
         return $query->result_array();
-        
+
     }
 
     public function recebeUltimosRomaneios()
@@ -71,7 +71,10 @@ class Romaneios_model extends CI_Model
         $this->db->from('ci_romaneios R');
         $this->db->join('ci_funcionarios F', 'F.id = R.id_responsavel', 'INNER');
         $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->limit(60);
+
+        // Adiciona a condição para incluir romaneios dos últimos 15 dias até hoje e também datas futuras
+        $this->db->where('R.data_romaneio >=', date('Y-m-d', strtotime('-15 days')));
+
         $this->db->order_by('data_romaneio', 'DESC');
         $this->db->group_by('R.data_romaneio');
         $query = $this->db->get();
@@ -79,15 +82,16 @@ class Romaneios_model extends CI_Model
         return $query->result_array();
     }
 
+
     public function filtrarClientesRomaneio($dados, $setorEmpresa)
     {
         $this->db->select('C.nome AS CLIENTE, C.id AS ID_CLIENTE, C.cidade, ANY_VALUE(A.data_coleta), ANY_VALUE(E.nome) AS ETIQUETA');
         $this->db->from('ci_clientes C');
         $this->db->join('ci_agendamentos A', 'A.id_cliente = C.id', 'left');
         $this->db->join('ci_etiqueta_cliente EC', 'EC.id_cliente = C.id', 'left');
-        $this->db->join('ci_etiquetas E', 'EC.id_etiqueta = E.id', 'left');    
-        $this->db->join('ci_setores_empresa_cliente SEC', 'C.id = SEC.id_cliente', 'left');    
-   
+        $this->db->join('ci_etiquetas E', 'EC.id_etiqueta = E.id', 'left');
+        $this->db->join('ci_setores_empresa_cliente SEC', 'C.id = SEC.id_cliente', 'left');
+
         $this->db->where('SEC.id_setor_empresa', $setorEmpresa);
 
         $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
@@ -126,7 +130,7 @@ class Romaneios_model extends CI_Model
         return $query->row_array();
     }
 
-    public function deletaRomaneio($id) 
+    public function deletaRomaneio($id)
     {
         $this->db->where('id', $id);
         $this->db->where('status', 0);
