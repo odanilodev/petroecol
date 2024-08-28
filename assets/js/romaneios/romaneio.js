@@ -1169,7 +1169,7 @@ function finalizarRomaneio() {
         }
 
     });
-
+    
 
     let accordionAberto = false;
     $('.input-obrigatorio').each(function () {
@@ -1281,21 +1281,8 @@ function finalizarRomaneio() {
                                 }
                             });
                             // salva os agendamentos sem cancelar os próximos
-                        } else if (result.dismiss === Swal.DismissReason.cancel) {
-                            $.ajax({
-                                type: 'post',
-                                url: `${baseUrl}coletas/cadastraColeta`,
-                                data: {
-                                    clientes: dadosClientes,
-                                    idResponsavel: idResponsavel,
-                                    codRomaneio: codRomaneio,
-                                    dataRomaneio: dataRomaneio,
-                                    idSetorEmpresa: idSetorEmpresa
-                                },
-                                success: function () {
-                                    avisoRetorno(`Sucesso!`, `O romaneio foi concluído com sucesso sem remover os agendamentos`, `success`, `${baseUrl}romaneios`);
-                                }
-                            });
+                        } else {
+                            avisoRetorno(`Sucesso!`, `O romaneio foi concluído com sucesso sem remover os agendamentos`, `success`, `${baseUrl}romaneios`);
                         }
                     });
                 } else if (data.success && !data.proximosAgendamentos) {
