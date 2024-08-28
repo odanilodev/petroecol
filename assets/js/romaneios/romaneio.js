@@ -1753,9 +1753,10 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
                             ${dataCompleta}
                         </td>
             
-                        <td class="align-middle white-space-nowrap">
-                            <i class="fas fa-check-circle ${romaneio.status == 1 ? 'text-success' : ''}"></i>
+                       <td class="align-middle white-space-nowrap">
+                            <i class="fas fa-check-circle ${romaneio.status == 1 ? (romaneio.prestar_conta == 0 ? 'text-warning' : 'text-success') : ''}"></i>
                         </td>
+
                         
                         <td>
                             <div class="font-sans-serif btn-reveal-trigger position-static">
