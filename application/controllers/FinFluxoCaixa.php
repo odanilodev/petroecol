@@ -169,7 +169,7 @@ class FinFluxoCaixa extends CI_Controller
 
         $idResponsavel = $this->input->post('responsavel');
 
-		$this->load->model('Funcionarios_model');
+        $this->load->model('Funcionarios_model');
 
         $dadosFluxo = $this->input->post('dadosFluxo');
 
@@ -196,11 +196,11 @@ class FinFluxoCaixa extends CI_Controller
                 // atualiza as contas bancarias
                 $saldoAtualContaBancaria = $this->FinSaldoBancario_model->recebeSaldoBancario($dadosFluxo['conta-bancaria'][$i]);
                 $novoSaldoContaBancaria = $saldoAtualContaBancaria['saldo'] - $dados['valor'];
-                $this->FinSaldoBancario_model->atualizaSaldoBancario($dadosFluxo['conta-bancaria'][$i],  $novoSaldoContaBancaria);
-                
+                $this->FinSaldoBancario_model->atualizaSaldoBancario($dadosFluxo['conta-bancaria'][$i], $novoSaldoContaBancaria);
+
                 // atualiza o saldo do responsavel
                 $saldoAtualFuncionario = $this->Funcionarios_model->recebeSaldoFuncionario($idResponsavel);
-                $novoSaldoFuncionario =  $saldoAtualFuncionario['saldo'] + $dados['valor'];
+                $novoSaldoFuncionario = $saldoAtualFuncionario['saldo'] + $dados['valor'];
                 $this->Funcionarios_model->atualizaSaldoFuncionario($idResponsavel, $novoSaldoFuncionario);
 
             }
@@ -275,4 +275,91 @@ class FinFluxoCaixa extends CI_Controller
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
+
+    public function geraExcelFluxo()
+    {
+        // Recebe as datas e filtros via POST
+        $dataInicio = $this->input->post('data_inicio');
+        $dataFim = $this->input->post('data_fim');
+        $tipoMovimentacao = $this->input->post('movimentacao');
+
+        // Define valores padrão caso os filtros não sejam fornecidos
+        $tipoMovimentacao = $tipoMovimentacao ? $tipoMovimentacao : 'ambas';
+
+        // Formata as datas para o formato Y-m-d
+        $dataInicioFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataInicio)));
+        $dataFimFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataFim)));
+
+        // Carrega o modelo e obtém os dados filtrados
+        $this->load->model('FinFluxo_model');
+        $movimentacoes = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao);
+
+        // Cria o conteúdo do Excel usando XML
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>';
+        $xml .= '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:x="urn:schemas-microsoft-com:office:excel">';
+        $xml .= '<Worksheet ss:Name="FluxoCaixa">';
+        $xml .= '<Table>';
+
+        // Cabeçalhos das colunas
+        $xml .= '<Row>';
+        $xml .= '<Cell><Data ss:Type="String">Data</Data></Cell>';
+        $xml .= '<Cell><Data ss:Type="String">Valor</Data></Cell>';
+        $xml .= '<Cell><Data ss:Type="String">Recebido Por</Data></Cell>';  // Nova coluna
+        $xml .= '<Cell><Data ss:Type="String">Forma Transação</Data></Cell>';
+        $xml .= '<Cell><Data ss:Type="String">Tipo</Data></Cell>';
+        $xml .= '<Cell><Data ss:Type="String">Setor</Data></Cell>';
+        $xml .= '<Cell><Data ss:Type="String">Micro</Data></Cell>';
+
+        $xml .= '</Row>';
+
+        // Preenche os dados no Excel
+        foreach ($movimentacoes as $movimentacao) {
+            if (is_array($movimentacao)) {
+                $recebidoPor = '';
+
+                // Define quem recebeu a movimentação
+                if (!empty($movimentacao['nome_dado_financeiro'])) {
+                    $recebidoPor = ucfirst($movimentacao['nome_dado_financeiro']);
+                } else if (!empty($movimentacao['FUNCIONARIO'])) {
+                    $recebidoPor = ucfirst($movimentacao['FUNCIONARIO']);
+                } else {
+                    $recebidoPor = ucfirst($movimentacao['CLIENTE']);
+                }
+
+                $xml .= '<Row>';
+                $xml .= '<Cell><Data ss:Type="String">' . (isset($movimentacao['data_movimentacao']) ? date('d/m/Y', strtotime($movimentacao['data_movimentacao'])) : 'N/A') . '</Data></Cell>';
+                $xml .= '<Cell><Data ss:Type="String">' . ($movimentacao['valor'] ?? 'N/A') . '</Data></Cell>';
+                $xml .= '<Cell><Data ss:Type="String">' . $recebidoPor . '</Data></Cell>';  // Adiciona o valor da variável 'Recebido Por'
+                $xml .= '<Cell><Data ss:Type="String">' . ($movimentacao['nome_forma_transacao'] ?? 'N/A') . '</Data></Cell>';
+                $xml .= '<Cell><Data ss:Type="String">' . ($movimentacao['movimentacao_tabela'] == 1 ? "Entrada" : "Saída") . '</Data></Cell>';
+                $xml .= '<Cell><Data ss:Type="String">' . ($movimentacao['NOME_SETOR'] ?? 'N/A') . '</Data></Cell>';
+                $xml .= '<Cell><Data ss:Type="String">' . ($movimentacao['NOME_MICRO'] ?? 'N/A') . '</Data></Cell>';
+
+                $xml .= '</Row>';
+            }
+        }
+
+        // Fecha a tabela e a planilha
+        $xml .= '</Table>';
+        $xml .= '</Worksheet>';
+        $xml .= '</Workbook>';
+
+        // Define o nome do arquivo
+        $fileName = 'FluxoCaixa_' . date('Ymd') . '.xls';
+
+        // Define os cabeçalhos para o download do arquivo
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="' . $fileName . '"');
+        header('Cache-Control: max-age=0');
+
+        // Limpa o buffer de saída para evitar corrupção do arquivo
+        ob_end_clean();
+
+        // Imprime o conteúdo XML gerado
+        echo $xml;
+        exit;
+    }
+
+
+
 }
