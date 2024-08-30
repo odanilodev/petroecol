@@ -628,7 +628,6 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
                             <option disabled selected value="">Selecione</option>
                             <option value="0">Pagamento no ato</option>
                             <option value="1">Pagamento a prazo</option>
-                            <option value="2">Doação</option>
                             
                         </select>
                     </div>
@@ -784,8 +783,6 @@ function duplicarElemento(btnClicado, novoElemento, novoInput, classe, idCliente
                 <option disabled selected value="">Selecione</option>
                 <option value="0">Pagamento no ato</option>
                 <option value="1">Pagamento a prazo</option>
-                <option value="2">Doação</option>
-
             </select>
         </div>
     `;
