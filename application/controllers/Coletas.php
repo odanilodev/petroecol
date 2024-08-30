@@ -259,7 +259,11 @@ class Coletas extends CI_Controller
                     $contasPagar['id_empresa'] = $this->session->userdata('id_empresa');
                     $contasPagar['id_setor_empresa'] = $setorEmpresa;
 
-                    $this->FinContasPagar_model->insereConta($contasPagar);
+                    if ($contasPagar['valor']) {
+
+                        $this->FinContasPagar_model->insereConta($contasPagar);
+                    }
+
                 }
             }
         }
