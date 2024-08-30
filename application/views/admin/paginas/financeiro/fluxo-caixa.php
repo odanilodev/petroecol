@@ -118,7 +118,15 @@
                             <div class="d-flex ms-3">
                                 <button type="submit"
                                     class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= !$dataInicio ? 'w-100' : 'w-75'; ?>">Filtrar</button>
+
                                 <?php if ($dataInicio) { ?>
+
+                                    <button id="exportarBtn" class="btn btn-phoenix-secondary me-2">
+                                        <span class="txt-exportar-btn">Exportar</span>
+                                        <div class="spinner-border spinner-border-sm loader-btn-exportar d-none"
+                                            role="status" style="width: 0.9rem; height: 0.9rem;"></div>
+                                    </button>
+
                                     <a href="<?= base_url('finFluxoCaixa'); ?>" class="btn btn-phoenix-danger"
                                         title="Limpar Filtro"><i class="fas fa-ban"></i></a>
                                 <?php } ?>
@@ -212,14 +220,14 @@
                                 <td class="align-middle text-center td_recebido">
                                     <h6 class="mb-0 text-900">
 
-                                        <?php 
-                                            if ($movimentacao['nome_dado_financeiro']) { 
-                                                echo ucfirst($movimentacao['nome_dado_financeiro']);
-                                            } else if (($movimentacao['FUNCIONARIO'])) {
-                                                echo ucfirst($movimentacao['FUNCIONARIO']);
-                                            } else {
-                                                echo ucfirst($movimentacao['CLIENTE']);
-                                            }
+                                        <?php
+                                        if ($movimentacao['nome_dado_financeiro']) {
+                                            echo ucfirst($movimentacao['nome_dado_financeiro']);
+                                        } else if (($movimentacao['FUNCIONARIO'])) {
+                                            echo ucfirst($movimentacao['FUNCIONARIO']);
+                                        } else {
+                                            echo ucfirst($movimentacao['CLIENTE']);
+                                        }
                                         ?>
                                     </h6>
                                 </td>

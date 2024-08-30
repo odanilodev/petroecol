@@ -280,48 +280,51 @@ const deletarFluxo = (idMovimentacao, idContaBancaria, valorMovimentacao, tipoMo
 
 }
 
-$(function () {
-    // Função para obter a data formatada conforme necessário
-    function formatarDataParaNomeArquivo(data) {
-        if (!data) {
-            return 'geral';
-        } else {
-            // Formato esperado: dd/mm/yy
-            var parts = data.split('/');
-            return parts[0] + parts[1] + parts[2].slice(-2); // Concatenação das partes da data
-        }
-    }
+        
+$('#exportarBtn').on('click', function(e) {
+    e.preventDefault();
+    
+    let $btn = $(this);
+    let originalText = $btn.html(); // Armazena o texto original do botão
 
-    // Função para obter o nome do arquivo com base nas datas de início e fim
-    function obterNomeArquivo(base, dataInicio, dataFim) {
-        var inicioFormatado = formatarDataParaNomeArquivo(dataInicio);
-        var fimFormatado = formatarDataParaNomeArquivo(dataFim);
+    let formData = new FormData($('#filtroForm')[0]);
+    let urlExportar = `${baseUrl}finFluxoCaixa/geraExcelFluxo`; // Defina o caminho absoluto ou relativo para a sua rota
 
-        if (inicioFormatado === 'geral' && fimFormatado === 'geral') {
-            return base + '-geral';
-        } else {
-            return base + '-' + inicioFormatado + '-' + fimFormatado;
-        }
-    }
-
-    new DataTable('#table-fluxo', {
-        layout: {
-            topStart: {
-                buttons: [
-                    { extend: 'copy', filename: 'fluxo-copia', text: '<span class="fas fa-copy me-2"></span> Copy', className: 'btn-phoenix-secondary' },
-                    { extend: 'excel', filename: function () { return obterNomeArquivo('fluxo-excel', $('#data_inicio').val(), $('#data_fim').val()); }, text: '<span class="fas fa-file-excel me-2"></span> Excel', className: 'btn-phoenix-secondary' },
-                    { extend: 'pdf', filename: function () { return obterNomeArquivo('fluxo-pdf', $('#data_inicio').val(), $('#data_fim').val()); }, text: '<span class="fas fa-file-pdf me-2"></span> PDF', className: 'btn-phoenix-secondary' },
-                    { extend: 'print', filename: 'fluxo-print', text: '<span class="fas fa-file me-2"></span> Print', className: 'btn-phoenix-secondary' }
-                ]
-            }
+    $.ajax({
+        url: urlExportar,
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        xhrFields: {
+            responseType: 'blob' // Indica que a resposta deve ser tratada como um blob
         },
-        order: [],  // Desativa a ordenação inicial
-        ordering: false,  // Desativa a ordenação em todas as colunas
-        searching: false,  // Desativa a caixa de pesquisa
-        columnDefs: [
-            { orderable: false, targets: '_all' }  // Garante que todas as colunas não sejam ordenáveis
-        ],
-        paging: false,  // Desativa a paginação
-        info: false  // Remove a mensagem "Showing 1 to 10 of 10 entries"
+        beforeSend: function(){
+            $btn.prop('disabled', true);
+            $('.txt-exportar-btn').addClass('d-none');
+            $('.loader-btn-exportar').removeClass('d-none');
+        },
+        success: function(blob, status, xhr) {
+            let contentDisposition = xhr.getResponseHeader('Content-Disposition');
+            let fileName = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : 'RelatorioFluxo.xls';
+
+            let url = window.URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+
+            $btn.prop('disabled', false).html(originalText); // Reativa o botão e restaura o texto original
+        },
+        error: function(xhr, status, error) {
+            console.error('Erro ao exportar:', error);
+            $btn.prop('disabled', false).html(originalText); // Reativa o botão e restaura o texto original
+        }
     });
 });
+
+
+
+
