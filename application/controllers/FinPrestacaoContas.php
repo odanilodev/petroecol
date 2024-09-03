@@ -62,58 +62,69 @@ class FinPrestacaoContas extends CI_Controller
 		$codRomaneio = $this->input->post('codigoRomaneio');
 		$idSetorEmpresa = $this->input->post('idSetorEmpresa');
 
+		$prestarContas = true;
+
 		// dados prestação de contas
 		$dadosPrestacaoContas = $this->input->post('dadosPrestacaoContas');
 
-		$tiposCustos = $dadosPrestacaoContas['idTipoCusto'];
-		$valores = $dadosPrestacaoContas['valor'];
-		$recebido = $dadosPrestacaoContas['idRecebido'];
-		$tipoPagamento = $dadosPrestacaoContas['tipoPagamento'];
-		$dataPagamento = $dadosPrestacaoContas['dataPagamento'];
-		$macros = $dadosPrestacaoContas['macros'];
-		$micros = $dadosPrestacaoContas['micros'];
+		if (empty($dadosPrestacaoContas['valor'][0])) {
 
-		$success = true;
+			$prestarContas = false;
+		} 
+
 		$valorTotal = 0;
-		for ($i = 0; $i < count($tiposCustos); $i++) {
+		$success = true;
 
-			// valor que o funcionario gastou na rua do bolso dele (pagamento no ato)
-			if (!$tipoPagamento[$i]) {
-				$dados['id_tipo_custo'] = $tiposCustos[$i];
-				$dados['valor'] = str_replace(['.', ','], ['', '.'], $valores[$i]); // valor para tabela prestacao
-				$dados['id_recebido'] = $recebido[$i];
-				$dados['tipo_pagamento'] = $tipoPagamento[$i];
-				$dados['id_empresa'] = $this->session->userdata('id_empresa');
-				$dados['id_funcionario'] = $idFuncionario;
-				$dados['codigo_romaneio'] = $codRomaneio;
-				$dados['id_setor_empresa'] = $idSetorEmpresa;
+		if ($prestarContas) {
 
-				$valorTotal += floatval($dados['valor']); // valor total que o funcionario gastou
+			$tiposCustos = $dadosPrestacaoContas['idTipoCusto'];
+			$valores = $dadosPrestacaoContas['valor'];
+			$recebido = $dadosPrestacaoContas['idRecebido'];
+			$tipoPagamento = $dadosPrestacaoContas['tipoPagamento'];
+			$dataPagamento = $dadosPrestacaoContas['dataPagamento'];
+			$macros = $dadosPrestacaoContas['macros'];
+			$micros = $dadosPrestacaoContas['micros'];
 
-			} else {
-				$dados['id_tipo_custo'] = $tiposCustos[$i];
-				$dados['valor'] = str_replace(['.', ','], ['', '.'], $valores[$i]); // valor para tabela prestacao
-				$dados['id_recebido'] = $recebido[$i];
-				$dados['tipo_pagamento'] = $tipoPagamento[$i];
+			for ($i = 0; $i < count($tiposCustos); $i++) {
 
-				$contasPagar['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dataPagamento[$i])));
-				$contasPagar['valor'] = str_replace(['.', ','], ['', '.'], $valores[$i]);
-				$contasPagar['id_funcionario'] = $idFuncionario;
-				$contasPagar['id_empresa'] = $this->session->userdata('id_empresa');
-				$contasPagar['id_dado_financeiro'] = $recebido[$i];
-				$contasPagar['id_micro'] = $micros[$i];
-				$contasPagar['id_macro'] = $macros[$i];
-				$contasPagar['id_setor_empresa'] = $idSetorEmpresa;
-				$contasPagar['observacao'] = "Romaneio: $codRomaneio";
-				$this->load->model('FinContasPagar_model');
+				// valor que o funcionario gastou na rua do bolso dele (pagamento no ato)
+				if (!$tipoPagamento[$i]) {
+					$dados['id_tipo_custo'] = $tiposCustos[$i];
+					$dados['valor'] = str_replace(['.', ','], ['', '.'], $valores[$i]); // valor para tabela prestacao
+					$dados['id_recebido'] = $recebido[$i];
+					$dados['tipo_pagamento'] = $tipoPagamento[$i];
+					$dados['id_empresa'] = $this->session->userdata('id_empresa');
+					$dados['id_funcionario'] = $idFuncionario;
+					$dados['codigo_romaneio'] = $codRomaneio;
+					$dados['id_setor_empresa'] = $idSetorEmpresa;
 
-				$this->FinContasPagar_model->insereConta($contasPagar);
-			}
+					$valorTotal += floatval($dados['valor']); // valor total que o funcionario gastou
 
-			$retorno = $this->FinPrestacaoContas_model->inserePrestacaoContas($dados);
-			if (!$retorno) {
-				$success = false;
-				break;
+				} else {
+					$dados['id_tipo_custo'] = $tiposCustos[$i];
+					$dados['valor'] = str_replace(['.', ','], ['', '.'], $valores[$i]); // valor para tabela prestacao
+					$dados['id_recebido'] = $recebido[$i];
+					$dados['tipo_pagamento'] = $tipoPagamento[$i];
+
+					$contasPagar['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dataPagamento[$i])));
+					$contasPagar['valor'] = str_replace(['.', ','], ['', '.'], $valores[$i]);
+					$contasPagar['id_funcionario'] = $idFuncionario;
+					$contasPagar['id_empresa'] = $this->session->userdata('id_empresa');
+					$contasPagar['id_dado_financeiro'] = $recebido[$i];
+					$contasPagar['id_micro'] = $micros[$i];
+					$contasPagar['id_macro'] = $macros[$i];
+					$contasPagar['id_setor_empresa'] = $idSetorEmpresa;
+					$contasPagar['observacao'] = "Romaneio: $codRomaneio";
+					$this->load->model('FinContasPagar_model');
+
+					$this->FinContasPagar_model->insereConta($contasPagar);
+				}
+
+				$retorno = $this->FinPrestacaoContas_model->inserePrestacaoContas($dados);
+				if (!$retorno) {
+					$success = false;
+					break;
+				}
 			}
 		}
 
@@ -129,7 +140,7 @@ class FinPrestacaoContas extends CI_Controller
 		$this->Funcionarios_model->editaFuncionario($idFuncionario, $dadosFuncionario);
 
 		//dados para inserir movimentação no fluxo (troco do funcionario)
-		if ($dadosTroco['valor'] && $success) {
+		if ($dadosTroco['valor'] && $success && $prestarContas) {
 
 			$retorno = $this->insereMovimentacaoPrestacaoFluxo($dadosTroco, $idFuncionario, $idSetorEmpresa);
 		}
@@ -140,7 +151,7 @@ class FinPrestacaoContas extends CI_Controller
 		$this->Romaneios_model->editaRomaneioCodigo($codRomaneio, $dadosRomaneios);
 
 
-		if ($success && $retorno) {
+		if ($success) {
 			$response = array(
 				'success' => true,
 				'title' => "Sucesso!",
@@ -155,7 +166,7 @@ class FinPrestacaoContas extends CI_Controller
 				'type' => "error"
 			);
 		}
-	
+
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 

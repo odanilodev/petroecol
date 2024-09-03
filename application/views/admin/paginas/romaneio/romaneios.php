@@ -312,7 +312,7 @@
 
                                                         <div class="mb-4">
                                                             <label class="text-body-highlight fw-bold mb-2">Tipo de custo</label>
-                                                            <select class="form-select select2 input-obrigatorio-custo select-tipos-custos" name="tipos-custos">
+                                                            <select class="form-select select2 input-obrigatorio-custo select-tipos-custos dados-conta" name="tipos-custos">
                                                                 <option selected disabled value="">Selecione</option>
                                                                 <?php foreach ($tiposCustos as $tipoCusto) { ?>
                                                                     <option value="<?= $tipoCusto['id'] ?>"><?= $tipoCusto['nome']; ?></option>
@@ -365,7 +365,7 @@
 
                                                         <div class="mb-4">
                                                             <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                            <input class="form-control input-obrigatorio-custo mascara-dinheiro input-valor" required name="valor" type="text" placeholder="Valor total da conta">
+                                                            <input class="form-control input-obrigatorio-custo mascara-dinheiro input-valor dados-conta" required name="valor" type="text" placeholder="Valor total da conta">
                                                             <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                         </div>
@@ -376,7 +376,7 @@
 
                                                         <div class="mb-4">
                                                             <label class="text-body-highlight fw-bold mb-2">Data Para pagamento</label>
-                                                            <input disabled autocomplete="off" class="form-control datetimepicker data-pagamento" required type="text" placeholder="Escolha uma Data" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
+                                                            <input disabled autocomplete="off" class="form-control datetimepicker data-pagamento " required type="text" placeholder="Escolha uma Data" data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}' style="cursor: pointer;" autocomplete="off" />
                                                             <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                                                         </div>
 
@@ -384,6 +384,11 @@
 
                                                     <div class="text-end mt-3 btn-duplica-campos">
                                                         <button title="Mais custos" type="button" class="btn btn-phoenix-success duplicar-custo">+</button>
+                                                    </div>
+
+                                                    <div class="text-start">
+
+                                                        <input type="checkbox" class="check-sem-custos form-check-input cursor-pointer"> Sem custos
                                                     </div>
 
                                                 </div>

@@ -455,3 +455,12 @@ $(document).on('change', '.select-macros-prestacao', function () {
         }
     })
 })
+
+$(document).on('change', '.check-sem-custos', function () {
+
+    if ($(this).is(':checked')) {
+        $('.dados-conta').removeClass('input-obrigatorio-custo');
+    } else {
+        $('.dados-conta').addClass('input-obrigatorio-custo');
+    }
+})
