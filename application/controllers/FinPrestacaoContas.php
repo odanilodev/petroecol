@@ -140,7 +140,7 @@ class FinPrestacaoContas extends CI_Controller
 		$this->Funcionarios_model->editaFuncionario($idFuncionario, $dadosFuncionario);
 
 		//dados para inserir movimentação no fluxo (troco do funcionario)
-		if ($dadosTroco['valor'] && $success && $prestarContas) {
+		if ($dadosTroco['valor'] && $success) {
 
 			$retorno = $this->insereMovimentacaoPrestacaoFluxo($dadosTroco, $idFuncionario, $idSetorEmpresa);
 		}
