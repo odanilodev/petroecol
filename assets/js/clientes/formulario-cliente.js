@@ -576,6 +576,15 @@ const detalhesHistoricoColeta = (idColeta, classe) => {
                     $('.observacao-coleta').html('');
                 }
 
+                if (data.coleta.cod_romaneio) {
+                    $('.div-cod-romaneio').removeClass('d-none');
+                    $('.codigo-romaneio').html(data.coleta.cod_romaneio);
+
+                } else {
+                    $('.div-cod-romaneio').addClass('d-none');
+
+                }
+
                 $(classe ? classe : '.data-coleta').html(data.dataColeta);
                 $('.responsavel-coleta').html(data.coleta.nome_responsavel);
 
