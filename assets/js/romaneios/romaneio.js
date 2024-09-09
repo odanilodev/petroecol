@@ -1075,13 +1075,13 @@ function finalizarRomaneio() {
             } 
         });
 
-        let valoresResiudos = [];
+        let valoresResiduos = [];
 
         $(this).find('.input-valor-residuo').each(function () {
 
             if ($(this).val() != '') {
 
-                valoresResiudos.push($(this).val());
+                valoresResiduos.push($(this).val());
                 salvarDados = true;
             }
         });
@@ -1156,7 +1156,7 @@ function finalizarRomaneio() {
                 idCliente: $(this).find('.input-id-cliente').val(),
                 endereco: $(this).find('.input-endereco').val(),
                 residuos: residuosSelecionados,
-                valoresResiudos: valoresResiudos,
+                valoresResiduos: valoresResiduos,
                 qtdColetado: qtdResiduos,
                 pagamento: formaPagamentoSelecionados,
                 tipoPagamento: tiposPagamentos,

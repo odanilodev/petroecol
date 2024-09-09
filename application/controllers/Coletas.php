@@ -66,7 +66,7 @@ class Coletas extends CI_Controller
 
                     $residuos['quantidade'] = $cliente['qtdColetado'];
                     $residuos['ids'] = $cliente['residuos'];
-                    $residuos['valores'] = $cliente['valoresResiudos'];
+                    $residuos['valores'] = $cliente['valoresResiduos'] ?? "";
                 }
 
                 // calcula o saldo das contas bancarias que saiu dinheiro
