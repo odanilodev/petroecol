@@ -238,7 +238,7 @@ class Clientes_model extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function recebeClientesAprovacaoInativacao()
+    public function recebeClientesAprovacaoInativacao($limitarRegistros)
     {
         $this->load->driver('cache', array('adapter' => 'file'));
         $clientesParaInativar = $this->cache->get('clientesinativar/clientes_para_inativar_empresa_' . $this->session->userdata('id_empresa'));
@@ -250,7 +250,11 @@ class Clientes_model extends CI_Model
             $this->db->where('C.STATUS', 1);
             $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
             $this->db->where('((CI.criado_em < DATE_SUB(NOW(), INTERVAL 3 MONTH) AND CI.criado_em IS NOT NULL) OR (CI.criado_em IS NULL AND C.criado_em < DATE_SUB(NOW(), INTERVAL 3 MONTH)))', null, false);
-            $this->db->limit(200);
+
+            if ($limitarRegistros) {
+
+                $this->db->limit(200);
+            }
 
             $query = $this->db->get();
             $clientesParaInativar = $query->result_array();
@@ -293,17 +297,54 @@ class Clientes_model extends CI_Model
 
     public function recebeOrigemCadastroCliente(int $id_cliente): array
     {
-      $this->db->select(
-        'C.id, C.origem_cadastro, 
+        $this->db->select(
+            'C.id, C.origem_cadastro, 
             IF(C.origem_cadastro = 1, F.nome, TPC.nome) as NOME_ORIGEM_CADASTRO'
-      );
-      $this->db->join('ci_tipo_origem_cadastro TPC', 'TPC.id = C.id_origem_cadastro', 'left');
-      $this->db->join('ci_funcionarios F', 'F.id = C.id_origem_cadastro', 'left');
-      $this->db->where('C.id', $id_cliente);
-      $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
-  
-      $query = $this->db->get('ci_clientes C');
-  
-      return $query->row_array() ?? [];
+        );
+        $this->db->join('ci_tipo_origem_cadastro TPC', 'TPC.id = C.id_origem_cadastro', 'left');
+        $this->db->join('ci_funcionarios F', 'F.id = C.id_origem_cadastro', 'left');
+        $this->db->where('C.id', $id_cliente);
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+
+        $query = $this->db->get('ci_clientes C');
+
+        return $query->row_array() ?? [];
+    }
+
+    public function recebeClientesSemAtividades($cookie_filtro_clientes, $limit, $page, $count = null)
+    {
+        $this->db->select('C.nome, C.telefone, C.cidade, C.id, C.criado_em AS CLIENTE_CRIADO_EM, CI.criado_em AS ULTIMA_COLETA, SE.nome as SETOR_EMPRESA, SE.id as ID_SETOR_EMPRESA');
+        $this->db->from('ci_clientes AS C');
+        $this->db->join('(SELECT id_cliente, MAX(criado_em) AS criado_em FROM ci_coletas WHERE coletado = 1 GROUP BY id_cliente) AS CI', 'CI.id_cliente = C.id', 'left');
+        $this->db->join('ci_setores_empresa_cliente SEC', 'SEC.id_cliente = C.id', 'left');
+        $this->db->join('ci_setores_empresa SE', 'SEC.id_setor_empresa = SE.id', 'left');
+        $this->db->where('C.STATUS', 1);
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('((CI.criado_em < DATE_SUB(NOW(), INTERVAL 3 MONTH) AND CI.criado_em IS NOT NULL) OR (CI.criado_em IS NULL AND C.criado_em < DATE_SUB(NOW(), INTERVAL 3 MONTH)))', null, false);
+
+        $filtro = json_decode($cookie_filtro_clientes, true);
+
+
+        if (($filtro['cidade'] ?? false) && $filtro['cidade'] != 'all') {
+            $this->db->where('C.cidade', $filtro['cidade']);
+        }
+
+        if ($filtro['nome'] ?? false) {
+            $nome = $filtro['nome'];
+            $this->db->where("LOWER(C.nome) COLLATE utf8mb4_unicode_ci LIKE LOWER('%$nome%')");
+        }
+
+        if (!$count) {
+            $offset = ($page - 1) * $limit;
+            $this->db->limit($limit, $offset);
+        }
+
+        $query = $this->db->get();
+
+        if ($count) {
+            return $query->num_rows();
+        }
+
+        return $query->result_array();
     }
 }
