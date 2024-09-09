@@ -1205,21 +1205,9 @@ const cadastraColetaCliente = (idCliente) => {
                                     avisoRetorno(`Sucesso!`, `A coleta foi registrada com sucesso!`, `success`, `${baseUrl}clientes/detalhes/${idCliente}`);
                                 }
                             });
-                            // salva os agendamentos sem cancelar os próximos
-                        } else if (result.dismiss === Swal.DismissReason.cancel) {
-                            $.ajax({
-                                type: 'post',
-                                url: `${baseUrl}coletas/cadastraColeta`,
-                                data: {
-                                    clientes: dadosClientes,
-                                    idResponsavel: idResponsavel,
-                                    dataRomaneio: dataColetaFormatada,
-                                    idSetorEmpresa: setorEmpresa
-                                },
-                                success: function () {
-                                    avisoRetorno(`Sucesso!`, `A coleta foi registrada com sucesso sem remover os agendamentos`, `success`, `${baseUrl}clientes/detalhes/${idCliente}`);
-                                }
-                            });
+                        } else {
+                            avisoRetorno(`Sucesso!`, `A coleta foi registrada com sucesso sem remover os agendamentos`, `success`, `${baseUrl}clientes/detalhes/${idCliente}`);
+
                         }
                     });
                 } else if (data.success && !data.proximosAgendamentos) {
