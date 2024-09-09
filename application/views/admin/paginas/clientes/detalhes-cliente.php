@@ -493,7 +493,7 @@
                               <div class="d-flex align-items-center">
                                 <div class="d-flex bg-warning-100 rounded-circle flex-center me-3"
                                   style="width:24px; height:24px">
-                                  <span class="text-warning-600 dark__text-warning-300 far fa-address-book" 
+                                  <span class="text-warning-600 dark__text-warning-300 far fa-address-book"
                                     style="width:16px; height:16px"></span>
                                 </div>
                                 <p class="fw-bold mb-0">Origem de Cadastro</p>
@@ -918,6 +918,27 @@
                       <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
                         <div class="col-sm-12 col-xxl-12 border-bottom py-3">
                           <table class="w-100 table-stats">
+
+                            <tr class="div-cod-romaneio d-none">
+                              <td class="py-2">
+                                <div class="d-inline-flex align-items-center">
+                                  <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
+                                    style="width:24px; height:24px">
+                                    <span class="text-info-600 dark__text-info-300 fas fa-barcode"
+                                      style="width:16px; height:16px"></span> 
+                                  </div>
+                                  <p class="fw-bold mb-0">Código do Romaneio</p>
+                                </div>
+                              </td>
+                              <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
+                              <td class="py-2">
+                                <div
+                                  class="ps-6 ps-sm-0 fw-semi-bold mb-0 pb-3 pb-sm-0 text-break codigo-romaneio html-clean">
+                                  <!-- JS -->
+                                </div>
+                              </td>
+                            </tr>
+
                             <tr>
                               <td class="py-2">
                                 <div class="d-inline-flex align-items-center">
