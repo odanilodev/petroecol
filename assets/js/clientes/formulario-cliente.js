@@ -1238,3 +1238,11 @@ const cadastraColetaCliente = (idCliente) => {
         })
     }
 }
+
+$(document).on('click', '.btn-nova-coleta-cliente', function () {
+
+    $('.select2').select2({
+        dropdownParent: ".modal-cadastrar-coleta",
+        theme: "bootstrap-5",
+    });
+})
