@@ -36,6 +36,14 @@ class Trajetos_model extends CI_Model
         return $query->result_array();
     }
 
+    public function recebeTodosTrajetos()
+    {
+        $this->db->order_by('nome', 'DESC');
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('ci_trajetos');
+        return $query->result_array();
+    }
+
     public function recebeTrajeto($id)
     {
         $this->db->where('id', $id);

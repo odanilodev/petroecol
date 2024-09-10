@@ -125,6 +125,7 @@ class Romaneios extends CI_Controller
 		$dados['id_responsavel'] = $this->input->post('responsavel');
 		$dados['id_veiculo'] = $this->input->post('veiculo');
 		$dados['data_romaneio'] = $this->input->post('data_coleta');
+		$dados['id_trajeto'] = $this->input->post('id_trajeto');
 		$dados['clientes'] = json_encode($this->input->post('clientes')); // Recebe um array e depois passa os dados por JSON
 		$dados['id_setor_empresa'] = $this->input->post('setorEmpresa');
 		$dados['codigo'] = $codigo;
@@ -285,6 +286,9 @@ class Romaneios extends CI_Controller
 
 		$data['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
 		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
+
+		$this->load->model('Trajetos_model');
+		$data['trajetos'] = $this->Trajetos_model->recebeTodosTrajetos();
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/romaneio/cadastra-romaneio');
