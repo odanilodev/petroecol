@@ -66,7 +66,7 @@ class Coletas extends CI_Controller
 
                     $residuos['quantidade'] = $cliente['qtdColetado'];
                     $residuos['ids'] = $cliente['residuos'];
-                    $residuos['valores'] = $cliente['valoresResiduos'] ?? "";
+                    $residuos['valores'] = $cliente['valoresResiduos'];
                 }
 
                 // calcula o saldo das contas bancarias que saiu dinheiro
@@ -76,7 +76,7 @@ class Coletas extends CI_Controller
                 }
 
                 // calcula o valor dos residuos e insere no contas a pagar as contas a prazo
-                $this->salvarValorResiduosContasPagar($idSetorEmpresa, $residuos, $cliente['idCliente'], $cliente['tipoPagamento'] ?? null, $cliente['dadosBancarios'] ?? null, $codRomaneio);
+                $this->salvarValorResiduosContasPagar($idSetorEmpresa, $residuos ?? null, $cliente['idCliente'], $cliente['tipoPagamento'] ?? null, $cliente['dadosBancarios'] ?? null, $codRomaneio);
 
 
                 $proximosAgendamentos[] = $verificaAgendamentosFuturos ? $this->Agendamentos_model->recebeProximosAgendamentosCliente($cliente['idCliente'], $dataRomaneio) : "";
