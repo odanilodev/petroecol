@@ -219,7 +219,6 @@ class Coletas extends CI_Controller
                         
 
                         $diaPagamento = $reiduos['dia_pagamento'] ?? $diaPagamentoProximoMes;
-                        $setorEmpresa = $reiduos['id_setor_empresa'] ?? null;
 
                         $valoresPago = $quantidadeResiduo * $dadosResiduos['valores'][$i];
 
@@ -257,7 +256,7 @@ class Coletas extends CI_Controller
                     $contasPagar['observacao'] = 'Romaneio: ' . $codRomaneio; 
                     $contasPagar['status'] = 0;
                     $contasPagar['id_empresa'] = $this->session->userdata('id_empresa');
-                    $contasPagar['id_setor_empresa'] = $setorEmpresa;
+                    $contasPagar['id_setor_empresa'] = $idSetorEmpresa;
 
                     if ($contasPagar['valor']) {
 
