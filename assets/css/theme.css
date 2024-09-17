@@ -6565,6 +6565,34 @@ textarea.form-control-lg {
   list-style: none;
 }
 
+.pagination-customizada {
+  --phoenix-pagination-padding-x: 0.75rem;
+  --phoenix-pagination-padding-y: 0.5rem;
+  --phoenix-pagination-font-size: 0.8rem;
+  --phoenix-pagination-color: var(--phoenix-gray-800);
+  --phoenix-pagination-bg: transparent;
+  --phoenix-pagination-border-width: 0;
+  --phoenix-pagination-border-color: #cbd0dd;
+  --phoenix-pagination-border-radius: 0.375rem;
+  --phoenix-pagination-hover-color: #3874ff;
+  --phoenix-pagination-hover-bg: #e3e6ed;
+  --phoenix-pagination-hover-border-color: #cbd0dd;
+  --phoenix-pagination-focus-color: var(--phoenix-link-hover-color);
+  --phoenix-pagination-focus-bg: #e3e6ed;
+  --phoenix-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(56, 116, 255, 0.25);
+  --phoenix-pagination-active-color: #fff;
+  --phoenix-pagination-active-bg: #3874ff;
+  --phoenix-pagination-active-border-color: #3874ff;
+  --phoenix-pagination-disabled-color: #6e7891;
+  --phoenix-pagination-disabled-bg: #fff;
+  --phoenix-pagination-disabled-border-color: #cbd0dd;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+}
+
 .page-link {
   position: relative;
   display: block;
