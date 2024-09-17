@@ -7053,6 +7053,7 @@ $(document).on('click', '.altera-logo-tema', function () {
   var baseUrl = $('.base-url').val();
 
   let paginacao = $(".pagination");
+  let paginacaoCustomizada = $(".pagination-customizada");
 
   if (window.config.config.phoenixTheme == "dark") {
 
@@ -7063,6 +7064,9 @@ $(document).on('click', '.altera-logo-tema', function () {
     paginacao.removeClass("pagination-dark");
     paginacao.addClass("pagination-light");
 
+    paginacaoCustomizada.removeClass("pagination-dark");
+    paginacaoCustomizada.addClass("pagination-light");
+
   } else {
 
     // logo tema escuro
@@ -7072,6 +7076,9 @@ $(document).on('click', '.altera-logo-tema', function () {
     paginacao.removeClass("pagination-light");
     paginacao.addClass("pagination-dark");
 
+    paginacaoCustomizada.removeClass("pagination-light");
+    paginacaoCustomizada.addClass("pagination-dark");
+
   }
 
 })
@@ -7080,6 +7087,8 @@ $(document).on('click', '.altera-logo-tema', function () {
 function alteraTema() {
 
   let paginacao = $(".pagination");
+  let paginacaoCustomizada = $(".pagination-customizada");
+
 
   var baseUrl = $('.base-url').val();
 
@@ -7092,6 +7101,9 @@ function alteraTema() {
     paginacao.removeClass("pagination-light");
     paginacao.addClass("pagination-dark");
 
+    paginacaoCustomizada.removeClass("pagination-light");
+    paginacaoCustomizada.addClass("pagination-dark");
+
   } else {
 
     // logo tema claro
@@ -7100,6 +7112,9 @@ function alteraTema() {
     //paginação tema claro
     paginacao.removeClass("pagination-dark");
     paginacao.addClass("pagination-light");
+
+    paginacaoCustomizada.removeClass("pagination-dark");
+    paginacaoCustomizada.addClass("pagination-light");
 
   }
 }

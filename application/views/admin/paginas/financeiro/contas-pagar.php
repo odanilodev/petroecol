@@ -159,7 +159,7 @@
     </div>
 
     <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div id="members">
+        <div id="members" data-list='{"valueNames":["td_vencimento", "td_valor", "td_valor_pago", "td_status_pgto", "td_data_pagamento", "td_empresa", "td_setor", "td_micro", "td_observacao"], "pagination":false}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3 class="d-flex align-items-center pd-0">Contas a pagar
@@ -180,7 +180,7 @@
                         <div class="col-auto flex-1">
                             <div class="search-box">
                                 <form action="<?= base_url('finContasPagar/index/1') ?>" method="POST" class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                                    <input name="search" value="<?= $cookie_filtro_contas_pagar['search'] ?? null ?>" class="form-control search-input search" type="search" placeholder="Buscar" aria-label="Search">
+                                    <input name="search" value="<?= $cookie_filtro_contas_pagar['search'] ?? null ?>" class="form-control search-input " type="search" placeholder="Buscar" aria-label="Search">
                                     <span class="fas fa-search search-box-icon"></span>
                                 </form>
                             </div>
@@ -370,7 +370,7 @@
            <div class="row">
                 <div class="col-12">
                     <nav aria-label="Page navigation" style="display: flex; float: right">
-                        <ul class="pagination mt-5">
+                        <ul class="pagination-customizada mt-5">
                             <?= $this->pagination->create_links(); ?>
                         </ul>
                     </nav>
