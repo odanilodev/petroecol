@@ -47,7 +47,7 @@ class Romaneios extends CI_Controller
 			$data['ultimosRomaneios'] = $this->Romaneios_model->recebeUltimosRomaneios($codRomaneio);
 
 		} else {
-			$data['ultimosRomaneios'] = $this->Romaneios_model->recebeUltimosRomaneios(null);
+			$data['ultimosRomaneios'] = $this->Romaneios_model->recebeUltimosRomaneios();
 		}
 
 
