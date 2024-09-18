@@ -147,19 +147,17 @@
 
                   </div>
 
-                  <p class="mb-0 me-2">Próxima Coleta</p>
+                  <p class="mb-0 me-2"></p>
+
                   <div class="d-flex align-items-center">
                     <span class="d-inline-block lh-sm me-1" data-feather="calendar"
                       style="height:16px;width:16px;"></span>
-                    <?php if (!empty($proxima_coleta) && $proxima_coleta != '--'): ?>
+
                       <a href="#" data-bs-toggle="modal" data-bs-target=".modal-proxima-coleta"
                         class="d-inline-block lh-sm"
                         onclick="alterarObsProximaColeta('<?= $proxima_coleta ?>', <?= $this->uri->segment(3) ?>)">
-                        <?= $proxima_coleta; ?>
+                        Observação para próxima Coleta
                       </a>
-                    <?php else: ?>
-                      <span class="d-inline-block lh-sm"><?= $proxima_coleta; ?></span>
-                    <?php endif; ?>
                   </div>
 
                 </div>
@@ -860,8 +858,7 @@
     </div>
 
     <!-- Modal próxima coleta -->
-    <div class="modal fade modal-proxima-coleta" tabindex="-1" id="modalProximaColeta"
-      data-proxima-coleta="<?= $proxima_coleta ?>">
+    <div class="modal fade modal-proxima-coleta" tabindex="-1" id="modalProximaColeta">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
@@ -869,17 +866,6 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p>Selecione o setor de coleta agendado</p>
-            <div class="mb-3">
-              <label for="agendamentoSelect" class="form-label">Selecione um agendamento:</label>
-              <select class="form-select input-obrigatorio-obs" id="agendamentoSelect" name="idAgendamento" required>
-                <!-- JS -->
-              </select>
-
-              <div class="aviso-obrigatorio d-none">Preencha este campo.</div>
-
-              <input type="hidden" class="form-control" id="dataAtual" name="data_atual" value='<?= date('Y-m-d') ?>'>
-            </div>
             <div class="mb-3">
               <label for="observacao" class="form-label">Observação:</label>
               <textarea class="form-control input-obrigatorio-obs" id="observacao" name="observacao" rows="3"

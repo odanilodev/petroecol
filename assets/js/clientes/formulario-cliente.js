@@ -1,33 +1,8 @@
 var baseUrl = $('.base-url').val();
 
 
-const alterarObsProximaColeta = (dataAgendamento, idCliente) => {
-
-    let dataAgendamentoArray = dataAgendamento.split('/');
-
-    let dataAgendamentoFormatada = `${dataAgendamentoArray[2]}-${dataAgendamentoArray[1]}-${dataAgendamentoArray[0]}`;
-
-    $.ajax({
-        type: 'post',
-        url: `${baseUrl}agendamentos/obtemAgendamentosPorDataProxima`,
-        data: {
-            idCliente: idCliente,
-            dataAgendamento: dataAgendamentoFormatada
-        }, success: function (data) {
-
-            let options = "<option value='' selected disbled>Selecione</option>";
-            for (i = 0; i < data.agendamentos.length; i++) {
-                options += `<option value='${data.agendamentos[i].id}'>${data.agendamentos[i].SETOR}</option>`;
-            }
-            $('#agendamentoSelect').html(options);
-
-        }
-    })
-}
-
 const salvarObsProximaColeta = () => {
 
-    let agendamento = $('#agendamentoSelect').find('option:selected').val();
     let observacao = $('#observacao').val();
     let idCliente = $('.id-cliente').val();
 
@@ -36,9 +11,9 @@ const salvarObsProximaColeta = () => {
     if (permissao) {
         $.ajax({
             type: 'post',
-            url: `${baseUrl}agendamentos/editaObservacaoAgendamento`,
+            url: `${baseUrl}clientes/alteraObservacaoCliente`,
             data: {
-                idAgendamento: agendamento,
+                idCliente: idCliente,
                 observacao: observacao
             }, beforeSend: function () {
                 $('.btn-form').addClass('d-none');

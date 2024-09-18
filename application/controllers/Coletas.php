@@ -59,10 +59,16 @@ class Coletas extends CI_Controller
 
         $idColeta = $this->input->post('idColeta');
 
+
         if ($payload) {
             foreach ($payload as $cliente) :
 
+                // remove a observação de coleta do cliente
+                $obsColetaCliente['observacao_coleta'] = "";
+                $this->Clientes_model->editaCliente($cliente['idCliente'], $obsColetaCliente);
+
                 if (isset($cliente['qtdColetado'])) {
+                    
 
                     $residuos['quantidade'] = $cliente['qtdColetado'];
                     $residuos['ids'] = $cliente['residuos'];

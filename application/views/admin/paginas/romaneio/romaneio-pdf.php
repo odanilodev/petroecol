@@ -145,6 +145,9 @@
                         }
                         ?>
 
+                        <!-- observacao de coleta do cliente -->
+                        <?= $cliente['observacao_coleta'] ?? "";?> 
+
                     </td>
 
 
