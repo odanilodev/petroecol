@@ -65,7 +65,7 @@ class Romaneios_model extends CI_Model
 
     }
 
-    public function recebeUltimosRomaneios()
+    public function recebeUltimosRomaneios($codRomaneio = null)
     {
         $this->db->select('R.data_romaneio, MAX(R.id) as ID_ROMANEIO, MAX(R.criado_em) as criado_em, MAX(F.nome) as RESPONSAVEL, MAX(R.id_setor_empresa) as id_setor_empresa');
         $this->db->from('ci_romaneios R');
@@ -74,6 +74,10 @@ class Romaneios_model extends CI_Model
 
         // Adiciona a condição para incluir romaneios dos últimos 15 dias até hoje e também datas futuras
         $this->db->where('R.data_romaneio >=', date('Y-m-d', strtotime('-15 days')));
+
+        if ($codRomaneio) {
+            $this->db->where('R.codigo', $codRomaneio);
+        }
 
         $this->db->order_by('data_romaneio', 'DESC');
         $this->db->group_by('R.data_romaneio');
