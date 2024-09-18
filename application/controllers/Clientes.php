@@ -425,4 +425,32 @@ class Clientes extends CI_Controller
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
+
+    public function alteraObservacaoCliente()
+    {
+        $id = $this->input->post('idCliente');
+        $dados['observacao_coleta'] = $this->input->post('observacao');
+
+        $retorno = $this->Clientes_model->editaCliente($id, $dados);
+
+        if ($retorno) { // alterou status
+
+            $response = array(
+                'success' => true,
+                'message' => 'Observação para coletada adicionada com sucesso!',
+                'type' => "success",
+                'title' => "Sucesso!"
+            );
+        } else { // erro ao deletar
+
+            $response = array(
+                'success' => false,
+                'message' => 'Erro ao adicionar a observação!',
+                'type' => "error",
+                'title' => "Algo deu errado!"
+            );
+        }
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
 }
