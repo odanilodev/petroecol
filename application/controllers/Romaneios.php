@@ -42,7 +42,14 @@ class Romaneios extends CI_Controller
 		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsRomaneioHead));
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsRomaneioFooter));
 
-		$data['ultimosRomaneios'] = $this->Romaneios_model->recebeUltimosRomaneios();
+		$codRomaneio = $this->input->post('cod-romaneio');
+		if ($codRomaneio) {
+			$data['ultimosRomaneios'] = $this->Romaneios_model->recebeUltimosRomaneios($codRomaneio);
+
+		} else {
+			$data['ultimosRomaneios'] = $this->Romaneios_model->recebeUltimosRomaneios(null);
+		}
+
 
 		$data['responsaveis'] = $this->Funcionarios_model->recebeResponsavelAgendamento();
 
@@ -64,6 +71,7 @@ class Romaneios extends CI_Controller
 
 		$this->load->model('FinGrupos_model');
 		$data['grupos'] = $this->FinGrupos_model->recebeGrupos();
+		$data['cod_romaneio'] =  $this->input->post('cod-romaneio');
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/romaneio/romaneios');
