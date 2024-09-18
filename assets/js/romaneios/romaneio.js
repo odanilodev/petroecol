@@ -239,6 +239,8 @@ const gerarRomaneio = () => {
                 if (data.success) {
 
                     avisoRetorno('Sucesso!', data.message, 'success', `${baseUrl}romaneios/`);
+
+                    adicionarVerbasResponsavel(data.codigo_romaneio)
                 } else {
                     avisoRetorno('Erro!', data.message, 'error', `${baseUrl}romaneios/formulario/`);
 
@@ -252,7 +254,15 @@ const gerarRomaneio = () => {
 
 $(document).on('click', '.btn-salva-verba-responsavel', function () {
 
+    gerarRomaneio();
+
+})
+
+function adicionarVerbasResponsavel(codRomaneio) {
+
     let permissao = true;
+
+    let setorEmpresa = $('.id-setor-empresa').val();
 
     let dadosFormulario = {};
     if (permissao) {
@@ -284,7 +294,9 @@ $(document).on('click', '.btn-salva-verba-responsavel', function () {
                 url: `${baseUrl}finFluxoCaixa/insereMovimentacaoRomaneioFluxo`,
                 data: {
                     dadosFluxo: dadosFormulario,
-                    responsavel: responsavel
+                    responsavel: responsavel,
+                    codRomaneio: codRomaneio,
+                    setorEmpresa: setorEmpresa
 
                 }, beforeSend: function () {
 
@@ -296,14 +308,13 @@ $(document).on('click', '.btn-salva-verba-responsavel', function () {
                     $('.load-form-pagamento').addClass('d-none');
                     $('.btn-salva-verba-responsavel').removeClass('d-none');
 
-                    gerarRomaneio();
                 }
             })
         }
 
 
     }
-})
+}
 
 $(document).on('click', '.check-sem-verba', function () {
 
@@ -1072,7 +1083,7 @@ function finalizarRomaneio() {
 
                 qtdResiduos.push($(this).val());
                 salvarDados = true;
-            } 
+            }
         });
 
         let valoresResiduos = [];
@@ -1169,7 +1180,7 @@ function finalizarRomaneio() {
         }
 
     });
-    
+
 
     let accordionAberto = false;
     $('.input-obrigatorio').each(function () {
@@ -1818,6 +1829,8 @@ $(document).on('click', '.btn-add-verba-romaneio', function () {
 
     let saldoResponsavel = $(this).data('saldo');
     let nomeResponsavel = $(this).data('funcionario');
+    $('.codigo-romaneio').val($(this).data('codigo'));
+    $('.id-setor-empresa').val($(this).data('id-setor-empresa'));
     $('.id-responsavel').val($(this).data('id-funcionario'));
 
     $('.nome-funcionario').html(nomeResponsavel);
@@ -1826,6 +1839,9 @@ $(document).on('click', '.btn-add-verba-romaneio', function () {
 })
 
 const salvarVerbasAdicionaisRomaneio = () => {
+
+    let codRomaneio = $('.codigo-romaneio').val();
+    let setorEmpresa = $('.id-setor-empresa').val();
 
     let permissao = true;
 
@@ -1859,7 +1875,9 @@ const salvarVerbasAdicionaisRomaneio = () => {
                 url: `${baseUrl}finFluxoCaixa/insereMovimentacaoRomaneioFluxo`,
                 data: {
                     dadosFluxo: dadosFormulario,
-                    responsavel: responsavel
+                    responsavel: responsavel,
+                    codRomaneio: codRomaneio,
+                    setorEmpresa: setorEmpresa
 
                 }, beforeSend: function () {
 
@@ -2081,7 +2099,7 @@ $(document).on('change', '.select-tipo-pagamento', function () {
         })
 
 
-    } else if ($(this).val() == 1 && !pagoResponsavel.is(':checked')){
+    } else if ($(this).val() == 1 && !pagoResponsavel.is(':checked')) {
 
         $(this).closest('.div-pagamento').next().addClass('d-none'); // esconde os select de contas bancarias
 
@@ -2089,7 +2107,7 @@ $(document).on('change', '.select-tipo-pagamento', function () {
         divPagamento.find(':input').removeClass('input-obrigatorio');
         divPagamento.find(':input').removeClass('invalido');
         divPagamento.find('.select2').next().removeClass('select2-obrigatorio');
-        
+
 
 
     } else if ($(this).val() == 0 && pagoResponsavel.is(':checked')) {
