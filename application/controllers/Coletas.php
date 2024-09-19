@@ -82,7 +82,7 @@ class Coletas extends CI_Controller
                 }
 
                 // calcula o valor dos residuos e insere no contas a pagar as contas a prazo
-                $this->salvarValorResiduosContasPagar($idSetorEmpresa, $residuos ?? null, $cliente['idCliente'], $cliente['tipoPagamento'] ?? null, $cliente['dadosBancarios'] ?? null, $codRomaneio);
+                $this->salvarValorResiduosContasPagar($idSetorEmpresa, $residuos ?? null, $cliente['idCliente'], $cliente['tipoPagamento'] ?? null, $cliente['dadosBancarios'] ?? null, $codRomaneio, $dataRomaneio);
 
 
                 $proximosAgendamentos[] = $verificaAgendamentosFuturos ? $this->Agendamentos_model->recebeProximosAgendamentosCliente($cliente['idCliente'], $dataRomaneio) : "";
@@ -156,7 +156,7 @@ class Coletas extends CI_Controller
                 );
             }
 
-            $data['status'] = 1;
+            $data['status'] = 1; 
             $this->Romaneios_model->editaRomaneioCodigo($codRomaneio, $data);
         } else {
 
@@ -170,7 +170,7 @@ class Coletas extends CI_Controller
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
-    function salvarValorResiduosContasPagar($idSetorEmpresa, $dadosResiduos, $idCliente, $tipoPagamento, $dadosContasBancarias, $codRomaneio)
+    function salvarValorResiduosContasPagar($idSetorEmpresa, $dadosResiduos, $idCliente, $tipoPagamento, $dadosContasBancarias, $codRomaneio, $dataRomaneio)
     {
         $microPadraoRomaneio = $this->FinMicro_model->recebePadraoMicro('romaneios');
 
@@ -189,7 +189,7 @@ class Coletas extends CI_Controller
                     $dadosFluxo['observacao'] = 'Romaneio: ' . $codRomaneio; 
                     $dadosFluxo['movimentacao_tabela'] = 0;
                     $dadosFluxo['id_empresa'] = $this->session->userdata('id_empresa');
-                    $dadosFluxo['data_movimentacao'] = date('Y-m-d');
+                    $dadosFluxo['data_movimentacao'] = $dataRomaneio;
                     $dadosFluxo['id_setor_empresa'] = $idSetorEmpresa;
 
                     $this->FinFluxo_model->insereFluxo($dadosFluxo);
@@ -221,10 +221,11 @@ class Coletas extends CI_Controller
                         $idResiduo = $dadosResiduos['ids'][$i];
                         $quantidadeResiduo = $dadosResiduos['quantidade'][$i];
 
-                        $reiduos = $this->ResiduoCliente_model->recebeValorResiduoCliente($idResiduo, $idCliente);
+                        $residuos = $this->ResiduoCliente_model->recebeValorResiduoCliente($idResiduo, $idCliente);
                         
+                        
+                        $diaPagamento = $residuos['dia_pagamento'] ? $residuos['dia_pagamento'] : $diaPagamentoProximoMes;
 
-                        $diaPagamento = $reiduos['dia_pagamento'] ?? $diaPagamentoProximoMes;
 
                         $valoresPago = $quantidadeResiduo * $dadosResiduos['valores'][$i];
 
@@ -243,7 +244,6 @@ class Coletas extends CI_Controller
                     }
 
                     $dataVencimento = $anoAtual . '-' . $mesAtual . '-' . $diaPagamento;
-
                     
                     $dataVencimentoObj = new DateTime($dataVencimento);
 
