@@ -77,7 +77,7 @@ class Residuos extends CI_Controller
 		$id = $this->input->post('id');
 
 		$nome = $this->input->post('residuo');
-		$dados['nome'] = mb_convert_case(trim($nome), MB_CASE_TITLE, 'UTF-8');
+		$dados['nome'] = trim($nome);
 		$dados['id_grupo'] = $this->input->post('grupo');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 		$dados['unidade_medida'] = $this->input->post('unidade');
@@ -161,24 +161,24 @@ class Residuos extends CI_Controller
 	public function recebeResiduosSetor()
 	{
 
-	 $idSetor = $this->input->post('idSetor');
+		$idSetor = $this->input->post('idSetor');
 
-	 $retorno = $this->Residuos_model->recebeResiduoSetor($idSetor);
+		$retorno = $this->Residuos_model->recebeResiduoSetor($idSetor);
 
-	 if ($retorno) {
-		$response = array(
-			'success' => true,
-			'residuos' => $retorno
-		);
-	} else {
+		if ($retorno) {
+			$response = array(
+				'success' => true,
+				'residuos' => $retorno
+			);
+		} else {
 
-		$response = array(
-			'success' => false,
-			'residuos' => []
-		);
-	}
-	 
-	 
-	 return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+			$response = array(
+				'success' => false,
+				'residuos' => []
+			);
+		}
+
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 }
