@@ -101,7 +101,7 @@
                                     style="cursor: pointer;" autocomplete="off" />
                             </div>
                         </div>
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-2">
                             <div class="ms-3">
                                 <select class="select-validation select-orientacao" required name="movimentacao"
                                     id="movimentacao">
@@ -114,7 +114,20 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-md-3" style="padding:0;">
+                        <div class="col-12 col-md-2">
+                            <div class="ms-3">
+                                <select class="select-validation" required name="setor-empresa" id="setor-empresa">
+                                    <option selected disabled value=''>Setor da Empresa</option>
+                                    <option <?= $idSetor == 'todos' ? 'selected' : '' ?> value="todos">Todos</option>
+
+                                    <?php foreach ($setoresEmpresa as $setorEmpresa) { ?>
+                                        <option <?= $idSetor == $setorEmpresa['id'] ? "selected" : ""?> value="<?= $setorEmpresa['id']?>"><?= $setorEmpresa['nome']?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-2" style="padding:0;">
                             <div class="d-flex ms-3">
                                 <button type="submit"
                                     class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= !$dataInicio ? 'w-100' : 'w-75'; ?>">Filtrar</button>

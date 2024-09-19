@@ -81,6 +81,11 @@ class FinFluxoCaixa extends CI_Controller
 
         $dados['dataInicio'] = $this->input->post('data_inicio');
         $dados['dataFim'] = $this->input->post('data_fim');
+        $idSetor = $this->input->post('setor-empresa');
+
+        if ($idSetor === null || $idSetor === '') {
+            $idSetor = "todos";
+        }
 
         // Verifica se o tipo de movimentação foi recebido via POST
         $tipoMovimentacao = $this->input->post('movimentacao');
@@ -91,8 +96,9 @@ class FinFluxoCaixa extends CI_Controller
         }
 
         $dados['tipoMovimentacao'] = $tipoMovimentacao;
+        $dados['idSetor'] = $idSetor;
 
-        $dados['movimentacoes'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao);
+        $dados['movimentacoes'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao, $idSetor);
 
         $this->load->view('admin/includes/painel/cabecalho', $dados);
         $this->load->view('admin/paginas/financeiro/fluxo-caixa');
