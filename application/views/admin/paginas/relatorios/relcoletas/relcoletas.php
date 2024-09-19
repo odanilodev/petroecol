@@ -47,7 +47,7 @@
 
                                 <div class="mb-2 col-md-4">
                                     <label>Resíduos</label>
-                                    <select id="select-residuos" class="form-select w-100 mb-3 select2" multiple data-placeholder="Resíduos">
+                                    <select disabled id="select-residuos" class="form-select w-100 mb-3 select2" multiple data-placeholder="Resíduos">
 
                                         <?php foreach ($residuos as $residuo) { ?>
                                             <option value="<?= $residuo['id'] ?>"><?= $residuo['nome'] ?></option>

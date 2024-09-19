@@ -34,12 +34,49 @@ function recebeClientesSetor(idSetor) {
 
 }
 
+function recebeResiduosSetor(idSetor) {
+
+    $.ajax({
+        type: 'POST',
+        url: `${baseUrl}residuos/recebeResiduosSetor`,
+        data: {
+            idSetor: idSetor
+        }, success: function (data) {
+
+            let optionResiduosSetor = "<option value='todos'>Todos</option>";
+
+            for (let i = 0; i < data.residuos.length; i++) {
+
+                optionResiduosSetor += `<option value="${data.residuos[i]['id']}">${data.residuos[i]['nome']}</option>`;
+
+            }
+
+            $('#select-residuos').html(optionResiduosSetor);
+            $('#select-residuos').prop('disabled', false);
+
+        }
+
+    })
+
+}
+
+$("#select-residuos").on('change', function () {
+
+    if ($(this).val().includes('todos')) {
+        $("#select-residuos option").not('[value="todos"]').prop('selected', false).prop('disabled', true);
+    } else {
+        $("#select-residuos option").prop('disabled', false);
+    }
+});
+
+
 // seleciona os clientes por setor
-$("#select-setor").change(function () {
+$("#select-setor").on('change', function () {
 
     if ($(this).val() != null) {
 
         recebeClientesSetor($(this).val());
+        recebeResiduosSetor($(this).val());
     }
 
 });
@@ -65,6 +102,19 @@ const relatorioColetas = () => {
     // verificar campos cliente e grupos
     let grupos = $('#select-grupos').val();
     let residuos = $('#select-residuos').val();
+
+    let todosResiduos = [];
+    if (residuos == "todos") {
+
+        $('#select-residuos option').each(function () {
+
+            if ($(this).val() != "todos") {
+                todosResiduos.push($(this).val());
+            }
+        })
+
+        residuos = todosResiduos;
+    } 
 
     if (residuos.length === 0) {
         avisoRetorno('Algo deu errado!', 'Selecione algum resíduo!', 'error', '#');
