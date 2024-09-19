@@ -81,6 +81,11 @@ class FinFluxoCaixa extends CI_Controller
 
         $dados['dataInicio'] = $this->input->post('data_inicio');
         $dados['dataFim'] = $this->input->post('data_fim');
+        $idSetor = $this->input->post('setor-empresa');
+
+        if ($idSetor === null || $idSetor === '') {
+            $idSetor = "todos";
+        }
 
         // Verifica se o tipo de movimentação foi recebido via POST
         $tipoMovimentacao = $this->input->post('movimentacao');
@@ -91,8 +96,9 @@ class FinFluxoCaixa extends CI_Controller
         }
 
         $dados['tipoMovimentacao'] = $tipoMovimentacao;
+        $dados['idSetor'] = $idSetor;
 
-        $dados['movimentacoes'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao);
+        $dados['movimentacoes'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao, $idSetor);
 
         $this->load->view('admin/includes/painel/cabecalho', $dados);
         $this->load->view('admin/paginas/financeiro/fluxo-caixa');
@@ -282,9 +288,12 @@ class FinFluxoCaixa extends CI_Controller
         $dataInicio = $this->input->post('data_inicio');
         $dataFim = $this->input->post('data_fim');
         $tipoMovimentacao = $this->input->post('movimentacao');
+        $idSetor = $this->input->post('setor-empresa');
+
 
         // Define valores padrão caso os filtros não sejam fornecidos
         $tipoMovimentacao = $tipoMovimentacao ? $tipoMovimentacao : 'ambas';
+        $idSetorEmpresa = $idSetor ? $idSetor : 'todos';
 
         // Formata as datas para o formato Y-m-d
         $dataInicioFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataInicio)));
@@ -292,7 +301,7 @@ class FinFluxoCaixa extends CI_Controller
 
         // Carrega o modelo e obtém os dados filtrados
         $this->load->model('FinFluxo_model');
-        $movimentacoes = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao);
+        $movimentacoes = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao, $idSetorEmpresa);
 
         // Cria o conteúdo do Excel usando XML
         $xml = '<?xml version="1.0" encoding="UTF-8"?>';

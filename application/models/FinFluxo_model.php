@@ -18,7 +18,7 @@ class FinFluxo_model extends CI_Model
         return $query->result_array();
     }
 
-    public function recebeFluxoData($dataInicio, $dataFim, $tipoMovimentacao)
+    public function recebeFluxoData($dataInicio, $dataFim, $tipoMovimentacao, $idSetor)
     {
         $this->db->select('fin_fluxo.*, fin_contas_bancarias.apelido as apelido_conta_bancaria, fin_forma_transacao.nome as nome_forma_transacao, fin_dados_financeiros.nome as nome_dado_financeiro, C.nome as CLIENTE, M.nome as NOME_MICRO, SE.nome as NOME_SETOR, F.nome as FUNCIONARIO');
         $this->db->from('fin_fluxo');
@@ -39,6 +39,10 @@ class FinFluxo_model extends CI_Model
         // Verifica se o tipo de movimentação não é 'ambas', para adicionar uma restrição
         if ($tipoMovimentacao !== 'ambas') {
             $this->db->where('fin_fluxo.movimentacao_tabela', $tipoMovimentacao);
+        }
+
+        if ($idSetor !== 'todos') {
+            $this->db->where('fin_fluxo.id_setor_empresa', $idSetor);
         }
 
         $this->db->order_by('fin_fluxo.data_movimentacao', 'DESC');
