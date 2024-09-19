@@ -163,7 +163,12 @@ class Residuos extends CI_Controller
 
 		$idSetor = $this->input->post('idSetor');
 
-		$retorno = $this->Residuos_model->recebeResiduoSetor($idSetor);
+		if ($idSetor == "todos") {
+			$retorno = $this->Residuos_model->recebeTodosResiduos();
+		} else {
+			$retorno = $this->Residuos_model->recebeResiduoSetor($idSetor);
+		}
+
 
 		if ($retorno) {
 			$response = array(
