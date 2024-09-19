@@ -143,6 +143,7 @@ class Romaneios extends CI_Controller
 		if ($insereRomaneio) {
 			$response = array(
 				'success' => true,
+				'codigo_romaneio' => $codigo,
 				'message' => 'Romaneio gerado com sucesso.'
 			);
 		} else {

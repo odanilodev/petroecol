@@ -174,6 +174,8 @@ class FinFluxoCaixa extends CI_Controller
         $this->load->model('FinSaldoBancario_model');
 
         $idResponsavel = $this->input->post('responsavel');
+        $idEmpresa = $this->input->post('setorEmpresa');
+        $codigoRomaneio = $this->input->post('codRomaneio');
 
         $this->load->model('Funcionarios_model');
 
@@ -195,6 +197,8 @@ class FinFluxoCaixa extends CI_Controller
                 $dados['id_macro'] = $dadosFluxo['id_macro'][$i];
                 $dados['data_movimentacao'] = date('Y-m-d');
                 $dados['id_funcionario'] = $idResponsavel;
+                $dados['id_setor_empresa'] = $idEmpresa;
+                $dados['observacao'] = "Romaneio: $codigoRomaneio";
 
                 $this->FinFluxo_model->insereFluxo($dados); // insere a movimentação no fluxo
 
