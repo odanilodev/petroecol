@@ -869,7 +869,7 @@
             <div class="mb-3">
               <label for="observacao" class="form-label">Observação:</label>
               <textarea class="form-control input-obrigatorio-obs" id="observacao" name="observacao" rows="3"
-                required></textarea>
+                required><?= $cliente['observacao_coleta'] ?? ""?></textarea>
               <div class="aviso-obrigatorio d-none">Preencha este campo.</div>
             </div>
             <div class="modal-footer">
