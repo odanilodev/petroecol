@@ -722,7 +722,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                         <div class="col-12">
                             <label class="form-label">Observação</label>
-                            <textarea class="form-control input-obs input-ons-${clientes[i].id}" id="exampleTextarea" rows="3"> ${clientes[i].observacao_coleta ?? ""}</textarea>
+                            <textarea class="form-control input-obs input-ons-${clientes[i].id}" id="exampleTextarea" rows="3"></textarea>
                             <div class="text-danger d-none aviso-msg">Preencha este campo.</div>
                         </div>
 
