@@ -168,25 +168,7 @@ $('#searchInput').on('input', function () {
 
 $(document).on('click', '.btn-salva-romaneio', function () {
 
-    let permissao = true;
-
-    $(".input-obrigatorio").each(function () {
-
-        // Verifica se o valor do input atual está vazio
-        if ($(this).val() === "" || $(this).val() === null) {
-
-            $(this).addClass('invalido');
-            $(this).next().removeClass('d-none');
-
-            permissao = false;
-
-        } else {
-
-            $(this).removeClass('invalido');
-            $(this).next().addClass('d-none');
-        }
-    });
-
+    let permissao = verificaCamposObrigatorios('input-obrigatorio');
 
     if (!$('.ids-selecionados').val()) {
         avisoRetorno('Algo deu errado', 'Você precisa selecionar algum cliente para gerar o romaneio.', 'error', '#');
@@ -217,6 +199,8 @@ const gerarRomaneio = () => {
     let veiculo = $('#select-veiculo').val();
     let data_coleta = $('.input-coleta').val();
     let setorEmpresa = $('.id-setor-empresa').val();
+    let trajeto = $('#select-trajetos').val();
+
 
     if (permissao) {
 
@@ -228,7 +212,8 @@ const gerarRomaneio = () => {
                 responsavel: responsavel,
                 veiculo: veiculo,
                 data_coleta: data_coleta,
-                setorEmpresa: setorEmpresa
+                setorEmpresa: setorEmpresa,
+                id_trajeto: trajeto
             },
             beforeSend: function () {
                 $('.load-form-modal-romaneio').removeClass('d-none');
@@ -543,6 +528,8 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpre
             }, success: function (data) {
 
                 $('.responsavel').html(`${data.responsavel}`);
+
+                $('.input-id-trajeto').val(data.id_trajeto);
 
                 exibirDadosClientes(data.retorno, data.registros, data.residuos, data.pagamentos, data.id_cliente_prioridade);
                 carregaSelect2('select2', 'modalConcluirRomaneio');
@@ -997,6 +984,7 @@ function finalizarRomaneio() {
     let idResponsavel = $('.id_responsavel').val();
     let codRomaneio = $('.code_romaneio').val();
     let dataRomaneio = $('.data_romaneio').val();
+    let idTrajeto = $('.input-id-trajeto').val();
 
     let valorTotal = 0;
 
@@ -1239,7 +1227,8 @@ function finalizarRomaneio() {
                 dataRomaneio: dataRomaneio,
                 idSetorEmpresa: idSetorEmpresa,
                 verificaAgendamentosFuturos: true,
-                valorTotal: valorTotal
+                valorTotal: valorTotal,
+                idTrajeto: idTrajeto
 
             },
             beforeSend: function () {
