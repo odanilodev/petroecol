@@ -1,207 +1,84 @@
 <div class="content">
     <div id="members">
 
-        <div class="row align-items-center justify-content-between g-3 mb-4">
+        <div class="px-4 px-lg-6 mb-9 bg-white border-y border-300 mt-2 position-relative top-1">
+            <div class="table-responsive scrollbar ms-n1 ps-1">
+                <table class="table table-sm fs--1 mb-0">
+                    <thead>
+                        <tr>
+                            <th class="sort align-middle text-center" scope="col">Data da coleta</th>
+                            <th class="sort align-middle text-center" scope="col">Romaneio</th>
+                            <th class="sort align-middle text-center" scope="col">Responsável</th>
+                            <th class="sort align-middle text-center" scope="col">Aferido</th>
+                            <th class="sort align-middle text-center" scope="col">Trajeto</th>
+                            <th class="sort align-middle text-center" scope="col">Ações</th>
+                        </tr>
+                    </thead>
 
-            <div class="col-auto">
-                <div class="d-flex align-items-center">
-                    <button class="btn btn-link text-900 me-4 px-0 d-none"><span class="fa-solid fa-file-export fs--1 me-2"></span>Export</button>
-                    <a href="<?= base_url("romaneios/formulario") ?>" class="btn btn-primary"><span class="fas fa-plus me-2"></span>Novo Romaneio</a>
-                </div>
-            </div>
+                    <tbody class="list" id="members-table-body">
 
-            <div class="col col-auto">
-                <div class="search-box">
-                    <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                        <input class="form-control search-input search" type="search" placeholder="Buscar Romaneios" aria-label="Search" />
-                        <span class="fas fa-search search-box-icon"></span>
+                        <?php foreach ($afericoes as $afericao) { ?>
+                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
 
-                    </form>
-                </div>
-            </div>
-        </div>
+                                <td class="align-middle text-center white-space-nowrap">
+                                    <?= date('d/m/Y', strtotime($afericao['data_coleta'])) ?>
+                                </td>
 
-        <?php if (!empty($ultimosRomaneios)) { ?>
+                                <td class="align-middle text-center white-space-nowrap">
+                                    <?= $afericao['cod_romaneio'] ?>
+                                </td>
 
-            <div class="px-4 px-lg-6 mb-9 bg-white border-y border-300 mt-2 position-relative top-1">
+                                <td class="align-middle text-center white-space-nowrap">
+                                    <?= $afericao['nome'] ?>
+                                </td>
 
+                                <td class="align-middle text-center white-space-nowrap">
+                                    <i class="fas fa-check-circle <?= $afericao['aferido'] ? "text-success" : "text-secondary" ?>"></i>
+                                </td>
 
-                <div class="accordion" id="accordionExample">
+                                <td class="align-middle text-center white-space-nowrap">
+                                    <?= $afericao['TRAJETO'] ?>
+                                </td>
 
-                    <input type="hidden" class="id-setor-empresa" value="<?= $ultimosRomaneios[0]['id_setor_empresa'] ?>">
+                                <td class="align-middle text-center white-space-nowrap">
+                                    <div class="font-sans-serif btn-reveal-trigger position-static">
+                                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2"
+                                            type="button" data-bs-toggle="dropdown" data-boundary="window"
+                                            aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                                            <span class="fas fa-ellipsis-h fs--2"></span>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-end py-2">
 
-                    <?php foreach ($ultimosRomaneios as $romaneio) { ?>
+                                            <?php if (!$afericao['aferido']) { ?>
 
+                                                <a class="dropdown-item" href="<?= base_url('afericao/aferirResiduos/' . $afericao['cod_romaneio']) ?>">
+                                                    <span class="fas fa-eye"></span> Aferir
+                                                </a>
 
-                        <div class="accordion-item border-top">
-                            <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button collapsed btn-accordion-<?= $romaneio['ID_ROMANEIO'] ?>" type="button" data-bs-toggle="collapse" data-bs-target="#romaneio-<?= $romaneio['ID_ROMANEIO'] ?>" aria-expanded="true" aria-controls="romaneio-<?= $romaneio['ID_ROMANEIO'] ?>" onclick="buscarRomaneioPorData('<?= $romaneio['data_romaneio'] ?>', '<?= $romaneio['ID_ROMANEIO'] ?>')">
-                                    <?= date('d/m/Y', strtotime($romaneio['data_romaneio'])); ?>
-                                </button>
-                            </h2>
-                            <div class="accordion-collapse collapse" id="romaneio-<?= $romaneio['ID_ROMANEIO'] ?>" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                <div class="accordion-body pt-0">
+                                            <?php } ?>
 
-                                    <div class="spinner-border text-primary load-form load-<?= $romaneio['ID_ROMANEIO'] ?> ml-3 d-none" role="status" style="height: 15px; width: 15px; margin-left: 20px"></div>
+                                            <a class="dropdown-item" href="#" onclick="" data-bs-toggle="modal" data-bs-target="#modalPrestarConta">
+                                                <span class="fas fa-coins"></span> Adicionar Custos
+                                            </a>
 
-
-                                    <div class="table-responsive scrollbar ms-n1 ps-1">
-
-                                        <table class="table table-lg mb-0 text-center">
-                                            <thead class="head-romaneio">
-                                                <tr>
-
-                                                    <th class="sort align-middle">Código</th>
-                                                    <th class="sort align-middle">Responsável</th>
-                                                    <th class="sort align-middle">Gerado em</th>
-                                                    <th class="sort align-middle">Status</th>
-                                                    <th class="sort align-middle p-3">Ação</th>
-                                                    <th class="sort align-middle p-3"></th>
-                                                </tr>
-                                            </thead>
-
-                                            <tbody class="list accortion-<?= $romaneio['ID_ROMANEIO'] ?>" id="members-table-body">
-
-                                                <!-- JS -->
-                                            </tbody>
-                                        </table>
-
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
+                                </td>
 
-                    <?php } ?>
+                            </tr>
 
-                </div>
+                        <?php } ?>
 
+                    </tbody>
+                </table>
             </div>
-
-        <?php } ?>
-    </div>
-
-    <!-- Modal Romaneio-->
-    <div class="modal fade modal-romaneio-select2" id="modalConcluirRomaneio" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <span style="font-weight:700;">Responsável: </span> <span class="responsavel" style="margin-left:5px;"></span>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <div class="modal-body">
-
-                    <div class="row">
-
-
-
-                        <div class="accordion dados-clientes-div" id="accordionConcluir">
-
-                            <!-- Manipulado JS -->
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="modal-footer">
-                    <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
-                    <button type="button" class="btn btn-primary btn-finaliza-romaneio" onclick="finalizarRomaneio()">Finalizar Romaneio</button>
-                    <input type="hidden" class="id_responsavel">
-                    <input type="hidden" class="code_romaneio">
-                    <input type="hidden" class="data_romaneio">
-                    <input type="hidden" class="input-id-setor-empresa">
-                    <input type="hidden" class="input-id-trajeto">
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- edita romaneio-->
-    <div class="modal fade" id="modalEditarRomaneio" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollabe">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-
-                    <!-- Edita romaneio -->
-                    <div class="col-4">
-
-                        <button type="button" class="btn btn-secondary btn-adicionar-clientes-romaneio mb-5" onclick="novoClienteRomaneio()">+ Novo Cliente</button>
-                    </div>
-
-                    <div class="col-12 row div-select-cliente d-none">
-                        <input type="hidden" class="nome-setor">
-
-                        <div class="col-4">
-
-                            <div class="mt-2 mb-4">
-                                <select class="form-select w-100 mb-3 select2-edita add-novo-cliente-romaneio" id="select-cliente-modal">
-
-                                    <option selected value="">Selecione o cliente</option>
-
-
-                                </select>
-                                <div class="d-none aviso-obrigatorio aviso-novo-cliente-romaneio">Preencha este campo</div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-2 mt-2 mb-4">
-                            <button type="button" class="btn btn-secondary adicionar-cliente">Adicionar</button>
-                        </div>
-
-                    </div>
-
-                    <div class="col-12 row">
-
-                        <div class="col-4">
-
-                            <div class="mt-2 mb-4">
-
-                                <label>Motorista</label>
-                                <select class="form-select w-100 mb-3 select2" id="select-editar-motorista">
-
-                                    <option selected disabled value="">Alterar Motorista</option>
-
-                                    <?php foreach ($responsaveis as $responsavel) { ?>
-                                        <option value="<?= $responsavel['IDFUNCIONARIO'] ?>"><?= $responsavel['nome'] ?></option>
-                                    <?php } ?>
-
-                                </select>
-                                <div class="d-none aviso-obrigatorio">Preencha este campo</div>
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                    <div class="row">
-
-                        <div class="accordion dados-clientes-div-editar" id="accordionEditar">
-
-                            <!-- Manipulado JS -->
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="modal-footer">
-                    <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
-                    <button type="button" class="btn btn-primary btn-salva-edicao-romaneio">Salvar</button>
-                    <input type="hidden" class="id_responsavel">
-                    <input type="hidden" class="code_romaneio">
-                    <input type="hidden" class="data_romaneio">
-                    <input type="hidden" class="input-id-setor-empresa">
-
+            <div class="row">
+                <div class="col-12">
+                    <nav aria-label="Page navigation" style="display: flex; float: right">
+                        <ul class="pagination mt-5">
+                            <?= $this->pagination->create_links(); ?>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
@@ -478,136 +355,6 @@
                     <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
                     <button id="btn-voltar-etapa" class="btn btn-secondary d-none btn-form" type="button" data-wizard-prev-btn="data-wizard-prev-btn">Voltar</button>
                     <button id="btn-proxima-etapa" class="btn btn-info btn-form btn-proxima-etapa" type="button">Próxima Etapa</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Adicionar mais verbas para o responsável-->
-    <div class="modal fade modal-verbas-select2" id="modalAdicinarVerbaRomaneio" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollabe modal-lg">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Verba para o responsável pela coleta</h5>
-
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row g-3">
-                                <div class="col-12">
-                                    <div class="col-sm-12 col-xxl-12 py-3">
-                                        <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0 form-verba-adicional-responsavel-coleta">
-
-                                            <div class="row">
-
-                                                <div class="col-12 mb-3">
-                                                    <p>
-                                                        <span class="nome-funcionario"></span>
-                                                        - <span class="saldo-verba-funcionario"></span>
-                                                    </p>
-                                                </div>
-
-                                                <div class="col-lg-6">
-
-                                                    <div class="mb-4">
-                                                        <label class="text-body-highlight fw-bold mb-2">Grupos Macros</label>
-                                                        <select class="form-select select2 select-macros input-obrigatorio-verba" name="id_macro">
-                                                            <option selected disabled value="">Selecione</option>
-                                                            <?php foreach ($macros as $macro) { ?>
-                                                                <option value="<?= $macro['id'] ?>"><?= $macro['nome'] ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
-
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="col-lg-6">
-                                                    <div class="mb-4 ">
-                                                        <label class="text-body-highlight fw-bold mb-2 ">Grupos Micros</label>
-                                                        <select disabled class="form-select select2 select-micros input-obrigatorio-verba" name="id_micro">
-                                                            <option selected disabled value="">Selecione</option>
-                                                            <!-- JS -->
-                                                        </select>
-                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-                                            <div class="campos-pagamento row">
-                                                <div class="col-lg-4 duplica-pagamento">
-                                                    <div class="mb-4">
-                                                        <label class="text-body-highlight fw-bold mb-2">Conta Bancária</label>
-                                                        <select name="conta-bancaria" class="form-select select2 select-conta-bancaria input-obrigatorio-verba">
-                                                            <option value="" selected disabled>Selecione</option>
-                                                            <?php foreach ($contasBancarias as $contaBancaria) { ?>
-                                                                <option value="<?= $contaBancaria['id_conta_bancaria'] ?>">
-                                                                    <?= $contaBancaria['apelido'] ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 duplica-pagamento">
-                                                    <div class="mb-4">
-                                                        <label class="text-body-highlight fw-bold mb-2">Forma Pagamento</label>
-                                                        <select name="forma-pagamento" class="form-select select2 select-forma-pagamento input-obrigatorio-verba">
-                                                            <option value="" selected disabled>Selecione</option>
-                                                            <?php foreach ($formasTransacao as $formaTransacao) { ?>
-                                                                <option value="<?= $formaTransacao['id'] ?>">
-                                                                    <?= $formaTransacao['nome'] ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3 duplica-pagamento">
-                                                    <div class="mb-4">
-                                                        <label class="text-body-highlight fw-bold mb-2">Valor</label>
-                                                        <input class="form-control input-valor-recebido mascara-dinheiro input-valor-unic input-obrigatorio-verba" required name="valor" type="text" placeholder="Valor">
-                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-1 mt-5">
-                                                    <button title="Mais formas de pagamento" type="button" class="btn btn-phoenix-success bg-white hover-bg-100 duplicar-verbas-pagamento">+</button>
-                                                </div>
-
-                                                <div class="campos-duplicados">
-                                                    <!-- JS -->
-                                                </div>
-
-                                            </div>
-
-
-                                        </div>
-
-
-
-
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <div class="modal-footer">
-                    <input type="hidden" class="id-responsavel">
-                    <div class="spinner-border text-primary load-form-pagamento d-none" role="status"></div>
-                    <button type="button" class="btn btn-primary btn-salva-verba-responsavel" onclick="salvarVerbasAdicionaisRomaneio()">Salvar</button>
-
                 </div>
             </div>
         </div>

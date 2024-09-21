@@ -43,6 +43,7 @@ class Coletas extends CI_Controller
 
         $codRomaneio = $this->input->post('codRomaneio');
         $idResponsavel = $this->input->post('idResponsavel');
+        $idTrajeto = $this->input->post('idTrajeto');
         $idSetorEmpresa = $this->input->post('idSetorEmpresa'); // Recebe o id do setor responsavel pelo agendamento
         $dataRomaneio = $this->input->post('dataRomaneio');
         $valorTotal = $this->input->post('valorTotal');
@@ -84,6 +85,7 @@ class Coletas extends CI_Controller
                 $dados = array(
                     'id_cliente' => $cliente['idCliente'],
                     'id_responsavel' => $idResponsavel,
+                    'id_trajeto' => $idTrajeto,
                     'residuos_coletados' => json_encode($cliente['residuos'] ?? ""),
                     'forma_pagamento' => json_encode($cliente['pagamento'] ?? ""),
                     'quantidade_coletada' => json_encode($cliente['qtdColetado'] ?? ""),
@@ -262,6 +264,7 @@ class Coletas extends CI_Controller
                     if ($contasPagar['valor']) {
 
                         $this->FinContasPagar_model->insereConta($contasPagar);
+                        
                     }
 
                 }
@@ -438,6 +441,7 @@ class Coletas extends CI_Controller
                 'formasTransacao' => $this->formaspagamentochaveid->formaTransacaoArrayChaveId() ?? null,
                 'residuosColetados' => $this->residuochaveid->residuoArrayChaveId() ?? null
             );
+            
         } else {
 
             $response = array(

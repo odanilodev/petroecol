@@ -345,7 +345,8 @@ class Romaneios extends CI_Controller
 			'pagamentos' => $formasTransacao,
 			'id_cliente_prioridade' => $id_cliente_prioridade,
 			'registros' => count($clientesRomaneio),
-			'responsavel' => $romaneio['RESPONSAVEL']
+			'responsavel' => $romaneio['RESPONSAVEL'],
+			'id_trajeto' => $romaneio['id_trajeto']
 		);
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));

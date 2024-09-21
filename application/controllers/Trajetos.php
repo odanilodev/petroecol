@@ -123,7 +123,7 @@ class Trajetos extends CI_Controller
 
 			$response = array(
 				'success' => true,
-				'message' => $id ? 'Trajeto editado com sucesso!' : 'Trajeto cadastradp com sucesso!'
+				'message' => $id ? 'Trajeto editado com sucesso!' : 'Trajeto cadastrado com sucesso!'
 			);
 		} else { // erro ao inserir ou editar
 

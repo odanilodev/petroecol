@@ -200,5 +200,19 @@ class Coletas_model extends CI_Model
     
         return $ultimaColetaCLiente;
     }
+
+    public function editaColetaAfericao($codRomaneio, $dados)
+    {
+        $dados['editado_em'] = date('Y-m-d H:i:s');
+        $this->db->where('cod_romaneio', $codRomaneio);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->update('ci_coletas', $dados);
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($codRomaneio);
+        }
+
+        return $this->db->affected_rows() > 0;
+    }
     
 }

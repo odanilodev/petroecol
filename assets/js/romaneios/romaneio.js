@@ -518,6 +518,8 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpre
 
                 $('.responsavel').html(`${data.responsavel}`);
 
+                $('.input-id-trajeto').val(data.id_trajeto);
+
                 exibirDadosClientes(data.retorno, data.registros, data.residuos, data.pagamentos, data.id_cliente_prioridade);
                 carregaSelect2('select2', 'modalConcluirRomaneio');
             }
@@ -971,6 +973,7 @@ function finalizarRomaneio() {
     let idResponsavel = $('.id_responsavel').val();
     let codRomaneio = $('.code_romaneio').val();
     let dataRomaneio = $('.data_romaneio').val();
+    let idTrajeto = $('.input-id-trajeto').val();
 
     let valorTotal = 0;
 
@@ -1213,7 +1216,8 @@ function finalizarRomaneio() {
                 dataRomaneio: dataRomaneio,
                 idSetorEmpresa: idSetorEmpresa,
                 verificaAgendamentosFuturos: true,
-                valorTotal: valorTotal
+                valorTotal: valorTotal,
+                idTrajeto: idTrajeto
 
             },
             beforeSend: function () {
