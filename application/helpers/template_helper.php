@@ -725,9 +725,14 @@ function scriptsAfericaoHead()
 function scriptsAfericaoFooter()
 {
     return array(
-
+        '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>',
         '<script src="' . base_url('assets/js/afericao/afericao.js') . '"></script>',
-        '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>'
+        '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>',
+        '<script src="' . base_url('assets/js/helpers-js/formatar-moeda-real.js') . '"></script>',
+        '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>',
+        '<script src="' . base_url('assets/js/helpers-js/formatar-data.js') . '"></script>',
+        '<script src="' . base_url('assets/js/helpers-js/carregar-select2.js') . '"></script>',
+        '<script src="' . base_url('assets/js/financeiro/prestacao-contas/prestacao-contas.js') . '"></script>'
 
 
     );

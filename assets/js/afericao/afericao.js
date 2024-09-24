@@ -42,3 +42,26 @@ $(document).on('click', '.btn-finalizar-afericao', function () {
 
 })
 
+$(document).on('click', '.btn-prestar-contas-afericao', function () {
+
+    $('.id-setor-empresa').val($(this).data('id-setor-empresa'));
+
+    $(`.campos-duplicados`).html('');
+
+    carregaSelect2('select2', 'modalPrestarConta');
+
+    $('.codigo-romaneio').val($(this).data('codigo'));
+
+    $('.nome-funcionario').html($(this).data('funcionario'));
+    $('.saldo-funcionario').html(formatarValorMoeda($(this).data('saldo')));
+
+    $('.input-saldo-funcionario').val($(this).data('saldo'));
+
+    $('.id-funcionario').val($(this).data('id-funcionario'));
+
+    $('.total-troco').html('');
+    $('.campos-duplicados').html('');
+});
+
+
+

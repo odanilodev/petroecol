@@ -57,7 +57,7 @@
 
                                             <?php } ?>
 
-                                            <a class="dropdown-item" href="#" onclick="" data-bs-toggle="modal" data-bs-target="#modalPrestarConta">
+                                            <a data-id-setor-empresa="<?= $afericao['id_setor_empresa']?>" data-saldo="<?= $afericao['saldo']?>" data-id-funcionario="<?= $afericao['ID_FUNCIONARIO']?>" data-codigo="<?= $afericao['cod_romaneio'] ?>" data-funcionario="<?= $afericao['nome'] ?>" class="dropdown-item btn-prestar-contas-afericao" href="#" data-bs-toggle="modal" data-bs-target="#modalPrestarConta">
                                                 <span class="fas fa-coins"></span> Adicionar Custos
                                             </a>
 
@@ -262,11 +262,6 @@
 
                                                     <div class="text-end mt-3 btn-duplica-campos">
                                                         <button title="Mais custos" type="button" class="btn btn-phoenix-success duplicar-custo">+</button>
-                                                    </div>
-
-                                                    <div class="text-start">
-
-                                                        <input type="checkbox" class="check-sem-custos form-check-input cursor-pointer"> Sem custos
                                                     </div>
 
                                                 </div>

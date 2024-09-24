@@ -14,7 +14,7 @@ class Afericao_model extends CI_Model
     {
         $filtro = json_decode($cookie_filtro_clientes, true);
 
-        $this->db->select('C.cod_romaneio, MAX(C.id) as ID_COLETA, MAX(C.data_coleta) as data_coleta,  MAX(C.aferido) as aferido, MAX(F.id) as ID_FUNCIONARIO, MAX(F.nome) as nome, MAX(T.nome) as TRAJETO');
+        $this->db->select('C.cod_romaneio, MAX(id_setor_empresa) as id_setor_empresa, MAX(C.id) as ID_COLETA, MAX(C.data_coleta) as data_coleta,  MAX(C.aferido) as aferido, MAX(F.id) as ID_FUNCIONARIO, MAX(F.nome) as nome, MAX(F.saldo) as saldo, MAX(T.nome) as TRAJETO');
         $this->db->from('ci_coletas C');
         $this->db->join('ci_funcionarios F', ' C.id_responsavel = F.id', 'LEFT');
         $this->db->join('ci_trajetos T', ' C.id_trajeto = T.id', 'LEFT');
