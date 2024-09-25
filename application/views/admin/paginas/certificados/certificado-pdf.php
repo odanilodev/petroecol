@@ -63,6 +63,7 @@
             margin-top: 30px;
         }
 
+
         .signature {
             text-align: center;
             margin-top: 30px;
@@ -198,6 +199,13 @@
             <div class="declaration">
                 <h4 style="font-weight: bold; margin-bottom: 10px;">Declaração</h4>
                 <p style="font-size: 12px;"><?= $modelo_certificado['declaracao']; ?></p>
+            </div>
+        <?php endif; ?>
+
+
+        <?php if ($modelo_certificado['declaracao']): ?>
+            <div class="declaration" style="text-align: center;">
+                <h5 style="font-weight: bold; margin-bottom: 10px;">MTR 5588785587</h5>
             </div>
         <?php endif; ?>
 

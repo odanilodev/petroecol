@@ -61,14 +61,14 @@ class Coletas extends CI_Controller
 
 
         if ($payload) {
-            foreach ($payload as $cliente) :
+            foreach ($payload as $cliente):
 
                 // remove a observação de coleta do cliente
                 $obsColetaCliente['observacao_coleta'] = "";
                 $this->Clientes_model->editaCliente($cliente['idCliente'], $obsColetaCliente);
 
                 if (isset($cliente['qtdColetado'])) {
-                    
+
 
                     $residuos['quantidade'] = $cliente['qtdColetado'];
                     $residuos['ids'] = $cliente['residuos'];
@@ -156,7 +156,7 @@ class Coletas extends CI_Controller
                 );
             }
 
-            $data['status'] = 1; 
+            $data['status'] = 1;
             $this->Romaneios_model->editaRomaneioCodigo($codRomaneio, $data);
         } else {
 
@@ -186,7 +186,7 @@ class Coletas extends CI_Controller
                     $dadosFluxo['id_cliente'] = $idCliente;
                     $dadosFluxo['id_micro'] = $microPadraoRomaneio['id']; // idMicro padrão para concluir romaneio
                     $dadosFluxo['id_macro'] = $microPadraoRomaneio['id_macro']; // idMacro padrão para concluir romaneio
-                    $dadosFluxo['observacao'] = 'Romaneio: ' . $codRomaneio; 
+                    $dadosFluxo['observacao'] = 'Romaneio: ' . $codRomaneio;
                     $dadosFluxo['movimentacao_tabela'] = 0;
                     $dadosFluxo['id_empresa'] = $this->session->userdata('id_empresa');
                     $dadosFluxo['data_movimentacao'] = $dataRomaneio;
@@ -213,7 +213,7 @@ class Coletas extends CI_Controller
                     $this->load->model('FinContasPagar_model');
                     $this->load->model('ResiduoCliente_model');
                     $this->load->model('FinMicro_model');
-                    
+
 
                     $valorTotal = 0;
                     for ($i = 0; $i < count($dadosResiduos['ids']); $i++) {
@@ -222,8 +222,8 @@ class Coletas extends CI_Controller
                         $quantidadeResiduo = $dadosResiduos['quantidade'][$i];
 
                         $residuos = $this->ResiduoCliente_model->recebeValorResiduoCliente($idResiduo, $idCliente);
-                        
-                        
+
+
                         $diaPagamento = $residuos['dia_pagamento'] ? $residuos['dia_pagamento'] : $diaPagamentoProximoMes;
 
 
@@ -244,7 +244,7 @@ class Coletas extends CI_Controller
                     }
 
                     $dataVencimento = $anoAtual . '-' . $mesAtual . '-' . $diaPagamento;
-                    
+
                     $dataVencimentoObj = new DateTime($dataVencimento);
 
                     $dataAtualObj = new DateTime($dataAtual);
@@ -259,7 +259,7 @@ class Coletas extends CI_Controller
                     $contasPagar['data_vencimento'] = $dataVencimentoObj->format('Y-m-d');
                     $contasPagar['id_micro'] = $microPadraoRomaneio['id'];
                     $contasPagar['id_macro'] = $microPadraoRomaneio['id_macro'];
-                    $contasPagar['observacao'] = 'Romaneio: ' . $codRomaneio; 
+                    $contasPagar['observacao'] = 'Romaneio: ' . $codRomaneio;
                     $contasPagar['status'] = 0;
                     $contasPagar['id_empresa'] = $this->session->userdata('id_empresa');
                     $contasPagar['id_setor_empresa'] = $idSetorEmpresa;
@@ -338,6 +338,8 @@ class Coletas extends CI_Controller
         $enviarEmail = $this->input->post('envia-certificado') ?? null; //Recebe o valor `email` para definir que é um envio de certificado, caso contrario somente gerar.
         $idCliente = $this->input->post('cliente') ?? null;
         $emailsCliente = $this->input->post('emails') ?? null;
+        $numero_mtr = $this->input->post('numero_mtr') ?? null;
+
 
         // retorna erro caso não tenha email
         if (!$emailsCliente && $enviarEmail) {
@@ -354,10 +356,10 @@ class Coletas extends CI_Controller
 
             switch ($idModelo) {
                 case '2':
-                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $enviarEmail); // alterar a função para cada cliente personalizado
+                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $enviarEmail, $numero_mtr); // alterar a função para cada cliente personalizado
                     break;
                 case '1':
-                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $enviarEmail); // alterar a função para cada cliente personalizado
+                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $enviarEmail, $numero_mtr); // alterar a função para cada cliente personalizado
                     break;
                 default:
 
@@ -375,7 +377,7 @@ class Coletas extends CI_Controller
             }
         } else {
 
-            $result = $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $idCliente, $emailsCliente, $enviarEmail);
+            $result = $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $idCliente, $emailsCliente, $enviarEmail, $numero_mtr);
 
             if ($result && $enviarEmail) {
                 $this->session->set_flashdata('titulo_retorno_funcao', 'Sucesso!');
