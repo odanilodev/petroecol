@@ -20,13 +20,19 @@ class Job extends CI_Controller
 
             $tables = $this->db->list_tables();
 
+            // Tabelas específicas a serem removidas do backup
+            $tables_to_exclude = array('ci_log');
+
+            // Remover as tabelas específicas da lista
+            $tables = array_diff($tables, $tables_to_exclude);
+
             $prefs = array(
-                'tables'      => $tables,
-                'format'      => 'zip',
-                'filename'    => 'backup_petroecol.sql',
-                'add_drop'    => TRUE,
-                'add_insert'  => TRUE,
-                'newline'     => "\n"
+                'tables' => $tables,
+                'format' => 'zip',
+                'filename' => 'backup_petroecol.sql',
+                'add_drop' => TRUE,
+                'add_insert' => TRUE,
+                'newline' => "\n"
             );
 
             $backup = $this->dbutil->backup($prefs, 'default');
@@ -49,9 +55,9 @@ class Job extends CI_Controller
 
         $dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-        foreach($clientes as $cliente){
+        foreach ($clientes as $cliente) {
 
-            $dados['id_cliente'] =  $cliente['id'];
+            $dados['id_cliente'] = $cliente['id'];
 
             $dados['transacao_coleta'] = '0';
             $dados['id_setor_empresa'] = '3';
