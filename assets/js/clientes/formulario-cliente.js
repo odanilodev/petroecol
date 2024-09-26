@@ -677,7 +677,11 @@ $(document).on('click', '.btn-gerar-certificado', function () {
     const idModelo = modeloCertificado;
     const coleta = $('.input-id-coleta').val();
     const numeroMtr = $('.input-mtr').val();
-    const idResiduo = $('.id-residuo-coleta').val() != null ? $('.id-residuo-coleta').val() : "";
+    let idResiduo = $('.id-residuo-coleta').val();
+
+    if (idResiduo == null || !idResiduo) {
+        idResiduo = "todos";
+    } 
 
     if (idModelo && coleta) {
         var redirect = `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}/${idResiduo}/${numeroMtr}`;

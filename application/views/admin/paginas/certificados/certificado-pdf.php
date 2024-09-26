@@ -146,7 +146,7 @@
 
             foreach ($dado['quantidade_coletada'] as $i => $quantidade) {
 
-                if ($dado['residuos'][$i] == $id_residuo or !$id_residuo) {
+                if ($dado['residuos'][$i] == $id_residuo or $id_residuo == "todos") {
                     $dataColeta = $dado['dataColeta'];
                     $residuo = $dado['residuos'][$i];
                     if (!isset($coletasPorResiduo[$residuo])) {
