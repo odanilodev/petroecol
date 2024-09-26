@@ -72,8 +72,8 @@ class Romaneios_model extends CI_Model
         $this->db->join('ci_funcionarios F', 'F.id = R.id_responsavel', 'INNER');
         $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
 
-        // Adiciona a condição para incluir romaneios dos últimos 15 dias até hoje e também datas futuras
-        $this->db->where('R.data_romaneio >=', date('Y-m-d', strtotime('-15 days')));
+        // Adiciona a condição para incluir romaneios dos últimos 30 dias até hoje e também datas futuras
+        $this->db->where('R.data_romaneio >=', date('Y-m-d', strtotime('-30 days')));
 
         if ($codRomaneio) {
             $this->db->where('R.codigo', $codRomaneio);
