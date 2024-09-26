@@ -203,9 +203,9 @@
         <?php endif; ?>
 
 
-        <?php if ($modelo_certificado['declaracao']): ?>
+        <?php if ($mtr): ?>
             <div class="declaration" style="text-align: center;">
-                <h5 style="font-weight: bold; margin-bottom: 10px;">MTR 5588785587</h5>
+                <h5 style="font-weight: bold; margin-bottom: 10px;">MTR <?= $mtr ?></h5>
             </div>
         <?php endif; ?>
 

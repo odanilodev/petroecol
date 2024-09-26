@@ -334,11 +334,12 @@ class Coletas extends CI_Controller
 
         $idColeta = $this->input->post('coleta') ?? $this->uri->segment(3);
         $idModelo = $this->input->post('modelo') ?? $this->uri->segment(4);
+        $numero_mtr = $this->input->post('numero_mtr') ?? $this->uri->segment(5);
+
 
         $enviarEmail = $this->input->post('envia-certificado') ?? null; //Recebe o valor `email` para definir que é um envio de certificado, caso contrario somente gerar.
         $idCliente = $this->input->post('cliente') ?? null;
         $emailsCliente = $this->input->post('emails') ?? null;
-        $numero_mtr = $this->input->post('numero_mtr') ?? null;
 
 
         // retorna erro caso não tenha email

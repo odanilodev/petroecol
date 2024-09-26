@@ -1140,9 +1140,8 @@
                     <?php } ?>
                   </select>
                   <div class="invalid-feedback">Preencha este campo</div>
-
                   <label class="form-label text-900">Número de MTR (Caso contenha)</label>
-                  <input type="text" required name="numero_mtr" class="form-control"
+                  <input type="text" name="numero_mtr" class="form-control input-mtr"
                     placeholder="Digite o número de MTR" />
                   <div class="invalid-feedback">Preencha este campo</div>
 
