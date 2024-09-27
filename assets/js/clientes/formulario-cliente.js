@@ -450,9 +450,9 @@ const emailsCertificadoColeta = (idColeta, idCliente) => {
 
     if (idColeta) {
 
-        $('.btn-gerar-certificado').addClass('d-none');
-
+        
         detalhesHistoricoColeta(idColeta, '.data-coleta-certificado'); // exibe os detalhes
+        $('.btn-gerar-certificado').addClass('d-none');
     }
 
     // busca os emails
@@ -511,6 +511,7 @@ const emailsCertificadoColeta = (idColeta, idCliente) => {
 const detalhesHistoricoColeta = (idColeta, classe) => {
 
     $('.input-id-coleta').val(idColeta);
+    $('.btn-gerar-certificado').removeClass('d-none');
 
     $.ajax({
         type: 'post',
