@@ -20,7 +20,7 @@
                 </div>
                 <hr class="bg-200 mb-4 mt-3" />
             </div>
-            <form id="filtroForm" action="<?= base_url('clientesSemAtividade/index') ?>" method="post">
+            <form id="filtroForm" action="<?= base_url('clientesSemAtividade') ?>" method="post">
                 <div class="col-12">
                     <div class="row align-items-center g-4">
 
@@ -28,11 +28,11 @@
                             <div class="ms-3">
                                 <select class="select-validation select2" required name="cidade" id="cidade">
                                     <option selected disabled value=''>Cidade</option>
-                                    <option <?= $cookie_filtro_clientes_sem_atividade['cidade'] == 'all' ? 'selected' : '' ?> value="all">Todos</option>
+                                    <option <?= ($cookie_filtro_clientes['cidade'] ?? null) == 'all' ? 'selected' : '' ?> value="all">Todos</option>
 
 
                                     <?php foreach ($cidades as $cidade) { ?>
-                                        <option <?= $cookie_filtro_clientes_sem_atividade['cidade'] == $cidade['cidade'] ? "selected" : "" ?> value="<?= $cidade['cidade'] ?>"><?= $cidade['cidade'] ?></option>
+                                        <option <?= ($cookie_filtro_clientes_sem_atividade['cidade'] ?? null) == $cidade['cidade'] ? "selected" : "" ?> value="<?= $cidade['cidade'] ?>"><?= $cidade['cidade'] ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -42,10 +42,10 @@
                             <div class="ms-3">
                                 <select class="select-validation select2" required name="setor-empresa" id="setor-empresa">
                                     <option selected disabled value=''>Setor da Empresa</option>
-                                    <option <?= $cookie_filtro_clientes_sem_atividade['setor-empresa'] == 'all' ? 'selected' : '' ?> value="all">Todos</option>
+                                    <option <?= ($cookie_filtro_clientes_sem_atividade['setor-empresa'] ?? null) == 'all' ? 'selected' : '' ?> value="all">Todos</option>
 
                                     <?php foreach ($setoresEmpresa as $setorEmpresa) { ?>
-                                        <option <?= $cookie_filtro_clientes_sem_atividade['setor-empresa'] == $setorEmpresa['id'] ? "selected" : "" ?> value="<?= $setorEmpresa['id'] ?>"><?= $setorEmpresa['nome'] ?></option>
+                                        <option <?= ($cookie_filtro_clientes_sem_atividade['setor-empresa'] ?? null) == $setorEmpresa['id'] ? "selected" : "" ?> value="<?= $setorEmpresa['id'] ?>"><?= $setorEmpresa['nome'] ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -54,11 +54,11 @@
                         <div class="col-12 col-md-4" style="padding:0;">
                             <div class="d-flex ms-3">
                                 <button type="submit"
-                                    class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= !$cookie_filtro_clientes_sem_atividade['cidade'] ? 'w-100' : 'w-75'; ?>">Filtrar</button>
+                                    class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= !($cookie_filtro_clientes_sem_atividade['cidade'] ?? null) ? 'w-100' : 'w-75'; ?>">Filtrar</button>
 
-                                <?php if ($cookie_filtro_clientes_sem_atividade['cidade']) { ?>
+                                <?php if (($cookie_filtro_clientes_sem_atividade['cidade'] ?? null)) { ?>
 
-                                    <a href="<?= base_url('clientesSemAtividade/index'); ?>" class="btn btn-phoenix-danger"
+                                    <a href="<?= base_url('clientesSemAtividade/index/all'); ?>" class="btn btn-phoenix-danger"
                                         title="Limpar Filtro"><i class="fas fa-ban"></i></a>
                                 <?php } ?>
                             </div>
