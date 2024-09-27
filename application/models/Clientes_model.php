@@ -329,6 +329,10 @@ class Clientes_model extends CI_Model
             $this->db->where('C.cidade', $filtro['cidade']);
         }
 
+        if (($filtro['setor-empresa'] ?? false) && $filtro['setor-empresa'] != 'all') {
+            $this->db->where('SE.id', $filtro['setor-empresa']);
+        }
+
         if ($filtro['nome'] ?? false) {
             $nome = $filtro['nome'];
             $this->db->where("LOWER(C.nome) COLLATE utf8mb4_unicode_ci LIKE LOWER('%$nome%')");
@@ -345,6 +349,20 @@ class Clientes_model extends CI_Model
             return $query->num_rows();
         }
 
+        return $query->result_array();
+    }
+
+    public function recebeCidadesClientesSemAtividades()
+    {
+        $this->db->select('C.cidade');
+        $this->db->from('ci_clientes AS C');
+        $this->db->join('(SELECT id_cliente, MAX(criado_em) AS criado_em FROM ci_coletas WHERE coletado = 1 GROUP BY id_cliente) AS CI', 'CI.id_cliente = C.id', 'left');
+        $this->db->where('C.STATUS', 1);
+        $this->db->where('C.cidade <>', '');
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('((CI.criado_em < DATE_SUB(NOW(), INTERVAL 3 MONTH) AND CI.criado_em IS NOT NULL) OR (CI.criado_em IS NULL AND C.criado_em < DATE_SUB(NOW(), INTERVAL 3 MONTH)))', null, false);
+        $this->db->group_by('C.cidade');
+        $query = $this->db->get();
         return $query->result_array();
     }
 }
