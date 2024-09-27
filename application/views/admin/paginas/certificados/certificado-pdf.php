@@ -205,7 +205,7 @@
 
         <?php if ($mtr): ?>
             <div class="declaration" style="text-align: center;">
-                <h5 style="font-weight: bold; margin-bottom: 10px;">MTR <?= $mtr ?></h5>
+                <h5 style="font-weight: bold; margin-bottom: 10px;">MTR N° <?= $mtr ?></h5>
             </div>
         <?php endif; ?>
 
