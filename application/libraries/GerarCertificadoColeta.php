@@ -41,7 +41,7 @@ class GerarCertificadoColeta
 
 		$data['dados'] = $dados;
 
-		$data['mtr'] = $numero_mtr;
+		$data['mtr'] = urldecode($numero_mtr);
 
 		// todos residuos cadastrado na empresa
 		$data['residuosColetatos'] = $this->CI->residuochaveid->residuoArrayChaveIdUnidadeMedida();
