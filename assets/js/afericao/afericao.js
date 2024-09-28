@@ -1,44 +1,59 @@
 $(document).on('click', '.btn-finalizar-afericao', function () {
 
-    let codRomaneio = $('.codigo-romaneio').val();
-    let dadosResiduos = [];
-    $('.input-aferido').each(function () {
+    let permissao = verificaCamposObrigatorios('input-obrigatorio');
 
-        if ($(this).val()) {
-            dadosResiduos.push({
-                idResiduo: $(this).data('id-residuo'),
-                qtdColetada: $(this).data('qtd-coletada'),
-                setorEmpresa: $(this).data('id-setor-empresa'),
-                aferido: $(this).val()
-            });
-        }
+    if (permissao) {
 
-    });
-   
-    $.ajax({
-        type: "post",
-        url: `${baseUrl}afericao/salvarAfericao`,
-        data: {
-            dadosResiduos: dadosResiduos,
-            codRomaneio: codRomaneio
-        }, beforeSend: function () {
-            
-        }, success: function (data) {
+        let codRomaneio = $('.codigo-romaneio').val();
+        let dadosResiduos = [];
+        $('.input-aferido').each(function () {
 
-            let redirect = '#';
-            if (data.success) {
-                redirect = `${baseUrl}afericao`;
+            let selectMedida = $(this).closest('.div-input-aferido').next().find('select');
+
+            if ($(this).val()) {
+                dadosResiduos.push({
+                    idResiduo: $(this).data('id-residuo'),
+                    qtdColetada: $(this).data('qtd-coletada'),
+                    setorEmpresa: $(this).data('id-setor-empresa'),
+                    idTrajeto: $(this).data('id-trajeto'),
+                    aferido: $(this).val(),
+                    medida: selectMedida.val()
+                });
             }
 
-            avisoRetorno(data.title, data.message, data.type, redirect);
+        });
 
-        }, error: function (xhr, status, error) {
+        $.ajax({
+            type: "post",
+            url: `${baseUrl}afericao/salvarAfericao`,
+            data: {
+                dadosResiduos: dadosResiduos,
+                codRomaneio: codRomaneio
+            }, beforeSend: function () {
 
-            if (xhr.status === 403) {
-              avisoRetorno('Algo deu errado!', `Você não tem permissão para realizar essa operação!`, 'error', '#');
+                $('.btn-form').addClass('d-none');
+                $('.load-form').removeClass('d-none');
+
+            }, success: function (data) {
+
+                $('.btn-form').removeClass('d-none');
+                $('.load-form').addClass('d-none');
+
+                let redirect = '#';
+                if (data.success) {
+                    redirect = `${baseUrl}afericao`;
+                }
+
+                avisoRetorno(data.title, data.message, data.type, redirect);
+
+            }, error: function (xhr, status, error) {
+
+                if (xhr.status === 403) {
+                    avisoRetorno('Algo deu errado!', `Você não tem permissão para realizar essa operação!`, 'error', '#');
+                }
             }
-          }
-    })
+        })
+    }
 
 })
 
@@ -62,6 +77,51 @@ $(document).on('click', '.btn-prestar-contas-afericao', function () {
     $('.total-troco').html('');
     $('.campos-duplicados').html('');
 });
+
+
+$(document).on('click', '.btn-add-trajeto', function () {
+
+    carregaSelect2('select2', 'modalTrajeto');
+    $('.codigo-romaneio').val($(this).data('codigo'));
+    $('.select-trajeto').val($(this).data('id-trajeto')).trigger('change');
+})
+
+const finalizarTrajetoAfericao = () => {
+
+    let codigoRomaneio = $('.codigo-romaneio').val();
+    let idTrajeto = $('.select-trajeto').val();
+
+    $.ajax({
+        type: "post",
+        url: `${baseUrl}afericao/salvarTrajetoAfericao`,
+        data: {
+            idTrajeto: idTrajeto,
+            codRomaneio: codigoRomaneio
+        }, beforeSend: function () {
+
+            $('.btn-form').addClass('d-none');
+            $('.load-form').removeClass('d-none');
+
+        }, success: function (data) {
+
+            $('.btn-form').removeClass('d-none');
+            $('.load-form').addClass('d-none');
+
+            let redirect = '#';
+            if (data.success) {
+                redirect = `${baseUrl}afericao`;
+            }
+
+            avisoRetorno(data.title, data.message, data.type, redirect);
+
+        }, error: function (xhr, status, error) {
+
+            if (xhr.status === 403) {
+                avisoRetorno('Algo deu errado!', `Você não tem permissão para realizar essa operação!`, 'error', '#');
+            }
+        }
+    })
+}
 
 
 

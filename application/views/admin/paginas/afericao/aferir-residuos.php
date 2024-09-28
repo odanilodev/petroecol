@@ -20,6 +20,7 @@
                             <th class="sort align-middle text-center" scope="col">Resíduo coletado</th>
                             <th class="sort align-middle text-center" scope="col">Quantidade coletada</th>
                             <th style="width: 120px;" class="sort align-middle text-center" scope="col">Aferido</th>
+                            <th style="width: 120px;" class="sort align-middle text-center" scope="col">Medida</th>
                         </tr>
                     </thead>
 
@@ -41,12 +42,15 @@
 
                                 if (isset($residuosAgrupados[$idResiduo])) {
                                     $residuosAgrupados[$idResiduo]['quantidade'] += $quantidade;
+                                    $residuosAgrupados[$idResiduo]['id_trajeto'] += $coleta['id_trajeto'];
                                 } else {
                                     $residuosAgrupados[$idResiduo]['quantidade'] = $quantidade;
                                     $residuosAgrupados[$idResiduo]['id_setor_empresa'] = $coleta['id_setor_empresa'];
+                                    $residuosAgrupados[$idResiduo]['id_trajeto'] = $coleta['id_trajeto'];
                                 }
                             }
                         }
+
                         ?>
 
                         <?php foreach ($residuosAgrupados as $idResiduo => $dadosResiduos) { ?>
@@ -56,14 +60,27 @@
                                 </td>
 
                                 <td class="align-middle text-center white-space-nowrap py-3">
-                                    <?= $dadosResiduos['quantidade']; ?>
+                                    <?= number_format($dadosResiduos['quantidade'], 0, '', '.'); ?>
+                                </td>
+
+                                <td class="align-middle text-center white-space-nowrap py-3 div-input-aferido">
+                                    <input type="number" class="form-control input-aferido text-center input-obrigatorio"
+                                        data-id-setor-empresa="<?= $dadosResiduos['id_setor_empresa'] ?>"
+                                        data-id-residuo="<?= $idResiduo; ?>"
+                                        data-qtd-coletada="<?= $dadosResiduos['quantidade']; ?>"
+                                        data-id-trajeto="<?= $dadosResiduos['id_trajeto'] ?>">
+                                    <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
                                 </td>
 
                                 <td class="align-middle text-center white-space-nowrap py-3">
-                                    <input type="number" class="form-control input-aferido text-center"
-                                        data-id-setor-empresa="<?= $dadosResiduos['id_setor_empresa'] ?>"
-                                        data-id-residuo="<?= $idResiduo; ?>"
-                                        data-qtd-coletada="<?= $dadosResiduos['quantidade']; ?>">
+                                    <select class="form-select select-medida input-obrigatorio">
+                                        <option selected disabled value="">Selecione</option>
+
+                                        <?php foreach ($unidadesMedidas as $unidadeMedida) { ?>
+                                            <option value="<?= $unidadeMedida['id']?>"><?= ucfirst($unidadeMedida['nome'])?></option>
+                                        <?php } ?>
+                                    </select>
+                                    <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -75,7 +92,10 @@
                 </table>
 
                 <div style="float: right;">
-                    <button class="btn btn-phoenix-success my-4 d-flex btn-finalizar-afericao">Finalizar</button>
+                    <div class="p-3">
+                        <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                    </div>
+                    <button class="btn btn-phoenix-success my-4 d-flex btn-finalizar-afericao btn-form">Finalizar</button>
                 </div>
 
             </div>

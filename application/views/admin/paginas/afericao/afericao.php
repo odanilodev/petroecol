@@ -55,9 +55,13 @@
                                                     <span class="fas fa-eye"></span> Aferir
                                                 </a>
 
+                                                <a data-codigo="<?= $afericao['cod_romaneio'] ?>" data-id-trajeto="<?= $afericao['ID_TRAJETO']?>" class="dropdown-item btn-add-trajeto" href="#" data-bs-toggle="modal" data-bs-target="#modalTrajeto">
+                                                    <span class="fas fa-map-marked"></span> <?= $afericao['TRAJETO'] ? "Editar" : "Adicionar"?>  Trajeto
+                                                </a>
+
                                             <?php } ?>
 
-                                            <a data-id-setor-empresa="<?= $afericao['id_setor_empresa']?>" data-saldo="<?= $afericao['saldo']?>" data-id-funcionario="<?= $afericao['ID_FUNCIONARIO']?>" data-codigo="<?= $afericao['cod_romaneio'] ?>" data-funcionario="<?= $afericao['nome'] ?>" class="dropdown-item btn-prestar-contas-afericao" href="#" data-bs-toggle="modal" data-bs-target="#modalPrestarConta">
+                                            <a data-id-setor-empresa="<?= $afericao['id_setor_empresa'] ?>" data-saldo="<?= $afericao['saldo'] ?>" data-id-funcionario="<?= $afericao['ID_FUNCIONARIO'] ?>" data-codigo="<?= $afericao['cod_romaneio'] ?>" data-funcionario="<?= $afericao['nome'] ?>" class="dropdown-item btn-prestar-contas-afericao" href="#" data-bs-toggle="modal" data-bs-target="#modalPrestarConta">
                                                 <span class="fas fa-coins"></span> Adicionar Custos
                                             </a>
 
@@ -351,6 +355,46 @@
                     <button id="btn-voltar-etapa" class="btn btn-secondary d-none btn-form" type="button" data-wizard-prev-btn="data-wizard-prev-btn">Voltar</button>
                     <button id="btn-proxima-etapa" class="btn btn-info btn-form btn-proxima-etapa" type="button">Próxima Etapa</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Prestar Contas -->
+    <div class="modal fade" tabindex="-1" id="modalTrajeto">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Atribuir Trajeto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body body-dados-financeiros">
+                    <div class="card theme-wizard mb-5">
+
+                        <div class="card-body pt-4 pb-0">
+
+                            <div class="col-lg-12">
+                                <div class="mb-4">
+                                    <label class="text-body-highlight fw-bold mb-2">Adicionar Trajeto</label>
+                                    <select class="form-select select2 input-obrigatorio-trajeto select-trajeto">
+                                        <option selected disabled value="">Selecione</option>
+                                        <?php foreach ($trajetos as $trajeto) { ?>
+                                            <option value="<?= $trajeto['id']?>"><?= $trajeto['nome']?></option>
+                                        <?php } ?>
+                                    </select>
+                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer border-top-1">
+                    <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
+                    <button class="btn btn-info btn-form" onclick="finalizarTrajetoAfericao()" type="button">Finalizar</button>
+                </div>
+
             </div>
         </div>
     </div>

@@ -81,7 +81,8 @@ class Afericao extends CI_Controller
 		$this->load->model('FinGrupos_model');
 		$data['grupos'] = $this->FinGrupos_model->recebeGrupos();
 
-
+		$this->load->model('Trajetos_model');
+		$data['trajetos'] = $this->Trajetos_model->recebeTodosTrajetos();
 		$data['afericoes'] = $this->Afericao_model->recebeAfericoes($cookie_filtro_afericao, $limit, $page);
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
@@ -110,6 +111,10 @@ class Afericao extends CI_Controller
 
 		$data['coletas'] = $this->Coletas_model->recebeColetaRomaneio($codigoRomaneio);
 
+		$this->load->model('UnidadesMedidas_model');
+
+		$data['unidadesMedidas'] = $this->UnidadesMedidas_model->recebeUnidadesMedidas();
+
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/afericao/aferir-residuos');
 		$this->load->view('admin/includes/painel/rodape');
@@ -126,9 +131,11 @@ class Afericao extends CI_Controller
 		foreach ($dadosResiduosAferidos as $dadosResiduosAferido) {
 
 			$dados['id_residuo'] = $dadosResiduosAferido['idResiduo'];
+			$dados['id_unidade_medida'] = $dadosResiduosAferido['medida'];
 			$dados['quantidade_coletada'] = $dadosResiduosAferido['qtdColetada'];
 			$dados['id_setor_empresa'] = $dadosResiduosAferido['setorEmpresa'];
 			$dados['aferido'] = $dadosResiduosAferido['aferido'];
+			$dados['id_trajeto'] = $dadosResiduosAferido['idTrajeto'];
 			$dados['cod_romaneio'] = $this->input->post('codRomaneio');
 			$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
@@ -156,6 +163,47 @@ class Afericao extends CI_Controller
 				'title' => 'Algo deu errado!',
 				'type' => 'error',
 				'message' => "Erro ao aferir os resíduos!"
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function salvarTrajetoAfericao()
+	{
+		$this->load->model('Romaneios_model');
+		$this->load->model('Coletas_model');
+
+		$idTrajeto = $this->input->post('idTrajeto');
+		$codRomaneio = $this->input->post('codRomaneio');
+
+		if ($codRomaneio) {
+
+			$dados['id_trajeto'] = $idTrajeto;
+
+			$this->Romaneios_model->editaRomaneioCodigo($codRomaneio, $dados);
+			$retorno = $this->Coletas_model->editaColetaAfericao($codRomaneio, $dados);
+
+		} else {
+
+			$dadosAfericao['id_trajeto'] = $idTrajeto;
+		}
+
+
+		if ($retorno) {
+		
+			$response = array(
+				'success' => true,
+				'title' => "Sucesso!",
+				'message' => "Trajeto modificado com sucesso!",
+				'type' => "success"
+			);
+		} else {
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Não foi possível modificar o Trajeto!",
+				'type' => "error"
 			);
 		}
 
