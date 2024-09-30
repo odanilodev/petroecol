@@ -67,17 +67,13 @@ class ClientesSemAtividade extends CI_Controller
         //clientes
         $data['clientes'] = $this->Clientes_model->recebeClientesSemAtividades($cookie_filtro_clientes_sem_atividade, $limit, $page);
 
-        $data['dataInicio'] = $this->input->post('data_inicio');
-        $data['dataFim'] = $this->input->post('data_fim');
-        $data['idSetor'] = $this->input->post('setor');
-        $data['cidadeFiltro'] = $this->input->post('cidadeFiltro');
-        $data['etiquetaFiltro'] = $this->input->post('etiquetaFiltro');
-
         // Carrega os setores da empresa
         $this->load->model('SetoresEmpresa_model');
         $data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
 
-        
+        // cidades
+        $data['cidades'] = $this->Clientes_model->recebeCidadesClientesSemAtividades();
+
 
         $data['responsaveis'] = $this->Funcionarios_model->recebeResponsavelAgendamento();
         $data['veiculos'] = $this->Veiculos_model->recebeVeiculos();

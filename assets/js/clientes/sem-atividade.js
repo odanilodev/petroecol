@@ -1,9 +1,9 @@
 $(document).on('click', '.btn-gerar-romaneio-cliente', function () {
 
-    $('.select2').select2({
-        dropdownParent: "#modalRomaneiosAtrasados",
-        theme: "bootstrap-5",
-    });
+  $('.select2').select2({
+    dropdownParent: "#modalRomaneiosAtrasados",
+    theme: "bootstrap-5",
+  });
 })
 
 let checkElementsAgendamento = [];
@@ -147,3 +147,8 @@ function gerarRomaneioClientesSemAtividades() {
   }
 }
 
+$(function () {
+  $('.select2').select2({
+    theme: "bootstrap-5",
+  });
+})
