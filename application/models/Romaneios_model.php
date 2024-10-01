@@ -62,7 +62,6 @@ class Romaneios_model extends CI_Model
         $query = $this->db->get();
 
         return $query->result_array();
-
     }
 
     public function recebeUltimosRomaneios($codRomaneio = null)
@@ -72,11 +71,10 @@ class Romaneios_model extends CI_Model
         $this->db->join('ci_funcionarios F', 'F.id = R.id_responsavel', 'INNER');
         $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
 
-        // Adiciona a condição para incluir romaneios dos últimos 30 dias até hoje e também datas futuras
-        $this->db->where('R.data_romaneio >=', date('Y-m-d', strtotime('-30 days')));
-
         if ($codRomaneio) {
             $this->db->where('R.codigo', $codRomaneio);
+        } else {
+            $this->db->where('R.data_romaneio >=', date('Y-m-d', strtotime('-30 days')));
         }
 
         $this->db->order_by('data_romaneio', 'DESC');
@@ -109,7 +107,6 @@ class Romaneios_model extends CI_Model
 
         if ($dados['data_coleta']) {
             $this->db->where('A.data_coleta', $dados['data_coleta']);
-
         }
 
         if ($dados['ids_etiquetas']) {
@@ -160,5 +157,4 @@ class Romaneios_model extends CI_Model
 
         return $query->num_rows() > 0;
     }
-
 }
