@@ -240,7 +240,7 @@ const gerarRomaneio = () => {
 
                     avisoRetorno('Sucesso!', data.message, 'success', `${baseUrl}romaneios/`);
 
-                    adicionarVerbasResponsavel(data.codigo_romaneio)
+                    adicionarVerbasResponsavel(data.codigo_romaneio, data.data_romaneio)
                 } else {
                     avisoRetorno('Erro!', data.message, 'error', `${baseUrl}romaneios/formulario/`);
 
@@ -258,7 +258,7 @@ $(document).on('click', '.btn-salva-verba-responsavel', function () {
 
 })
 
-function adicionarVerbasResponsavel(codRomaneio) {
+function adicionarVerbasResponsavel(codRomaneio, dataRomaneio) {
 
     let permissao = true;
 
@@ -296,7 +296,8 @@ function adicionarVerbasResponsavel(codRomaneio) {
                     dadosFluxo: dadosFormulario,
                     responsavel: responsavel,
                     codRomaneio: codRomaneio,
-                    setorEmpresa: setorEmpresa
+                    setorEmpresa: setorEmpresa,
+                    dataRomaneio: dataRomaneio
 
                 }, beforeSend: function () {
 
@@ -1791,7 +1792,7 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
 
                                     ${romaneio.status == 0 ? `
                                         <div class="dropdown-divider btn-realizar-pagamento-1"></div>
-                                        <a data-funcionario="${romaneio.RESPONSAVEL}" data-codigo="${romaneio.codigo}" data-saldo="${romaneio.saldo}" data-id-funcionario="${romaneio.ID_RESPONSAVEL}" data-id-setor-empresa="${romaneio.id_setor_empresa}" class="dropdown-item btn-add-verba-romaneio" href="#" title="Adicionar verba para o responsável" data-bs-toggle="modal" data-bs-target="#modalAdicinarVerbaRomaneio">
+                                        <a data-romaneio-date="${romaneio.data_romaneio}" data-funcionario="${romaneio.RESPONSAVEL}" data-codigo="${romaneio.codigo}" data-saldo="${romaneio.saldo}" data-id-funcionario="${romaneio.ID_RESPONSAVEL}" data-id-setor-empresa="${romaneio.id_setor_empresa}" class="dropdown-item btn-add-verba-romaneio" href="#" title="Adicionar verba para o responsável" data-bs-toggle="modal" data-bs-target="#modalAdicinarVerbaRomaneio">
                                             <span class="fas fa-coins ms-1"></span> Adicionar verba
                                         </a>
                                     ` : ''}
@@ -1832,6 +1833,7 @@ $(document).on('click', '.btn-add-verba-romaneio', function () {
     $('.codigo-romaneio').val($(this).data('codigo'));
     $('.id-setor-empresa').val($(this).data('id-setor-empresa'));
     $('.id-responsavel').val($(this).data('id-funcionario'));
+    $('.data-romaneio').val($(this).data('romaneio-date'));
 
     $('.nome-funcionario').html(nomeResponsavel);
     $('.saldo-verba-funcionario').html(formatarValorMoeda(saldoResponsavel));
@@ -1842,6 +1844,7 @@ const salvarVerbasAdicionaisRomaneio = () => {
 
     let codRomaneio = $('.codigo-romaneio').val();
     let setorEmpresa = $('.id-setor-empresa').val();
+    let dataRomaneio = $('.data-romaneio').val();
 
     let permissao = true;
 
@@ -1877,7 +1880,8 @@ const salvarVerbasAdicionaisRomaneio = () => {
                     dadosFluxo: dadosFormulario,
                     responsavel: responsavel,
                     codRomaneio: codRomaneio,
-                    setorEmpresa: setorEmpresa
+                    setorEmpresa: setorEmpresa,
+                    dataRomaneio: dataRomaneio
 
                 }, beforeSend: function () {
 
