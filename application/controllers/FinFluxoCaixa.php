@@ -197,7 +197,7 @@ class FinFluxoCaixa extends CI_Controller
 
                 $dados['id_micro'] = $dadosFluxo['id_micro'][$i];
                 $dados['id_macro'] = $dadosFluxo['id_macro'][$i];
-                $dados['data_movimentacao'] = $dataRomaneio;
+                $dados['data_movimentacao'] = $dataRomaneio ?? date('Y-m-d');
                 $dados['id_funcionario'] = $idResponsavel;
                 $dados['id_setor_empresa'] = $idEmpresa;
                 $dados['observacao'] = "Romaneio: $codigoRomaneio";
