@@ -91,6 +91,7 @@ class Clientes_model extends CI_Model
         $this->db->select('nome, id');
         $this->db->order_by('nome');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('status', 1);
         $query = $this->db->get('ci_clientes');
         return $query->result_array();
     }
