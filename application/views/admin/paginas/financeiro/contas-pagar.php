@@ -382,7 +382,7 @@
 
     <!-- Modal visualizar contas a pagar -->
     <div class="modal fade" tabindex="-1" id="modalVisualizarContasPagar">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Detalhes da conta</h5>
@@ -639,7 +639,7 @@
     <!-- Modal escolher tipo de lançamento Contas a Pagar -->
 
     <div class="modal fade" tabindex="-1" id="modalTipoContasPagar">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Novo Lançamento</h5>
@@ -693,7 +693,7 @@
     <!-- Modal Lançamento Contas a Pagar Comum -->
 
     <div class="modal fade" tabindex="-1" id="modalLancamentoContasPagar">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Novo Lançamento</h5>
@@ -909,7 +909,7 @@
     <!-- Modal Contas a Pagar Recorrentes -->
 
     <div class="modal fade" tabindex="-1" id="modalSelecionarContasPagarRecorrentes">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Selecione as contas recorrentes</h5>
@@ -1022,7 +1022,7 @@
     </div>
 
     <div class="modal fade" tabindex="-1" id="modalLancamentoContasPagarRecorrentes">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Novo Lançamento</h5>
@@ -1061,7 +1061,7 @@
     <!-- Modal Editar Contas a Pagar -->
 
     <div class="modal fade" tabindex="-1" id="modalEditarContasPagar">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Editando Detalhes da conta</h5>
@@ -1254,7 +1254,7 @@
 
     <!-- Modal Pagar conta -->
     <div class="modal fade" tabindex="-1" id="modalPagarConta">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Realizar pagamento</h5>
@@ -1369,7 +1369,7 @@
 
     <!-- Modal pagar várias contas de uma vez -->
     <div class="modal fade" tabindex="-1" id="modalPagarVariasContas">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Realizar pagamento</h5>

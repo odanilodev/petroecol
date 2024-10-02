@@ -225,8 +225,8 @@ $(document).on('click', '.editar-lancamento', function () {
 
             $(setTimeout(() => {
                 $('.select-micros').val(data.conta.id_micro).trigger('change');
-                $('.select-recebido').val(data.conta.id_dado_financeiro != 0 ? data.conta.id_dado_financeiro : data.conta.id_cliente).trigger('change');
-            }, 550));
+                $('.select-recebido').val(data.conta.id_dado_financeiro ? data.conta.id_dado_financeiro : data.conta.id_cliente).trigger('change');
+            }, 1000));
 
             $('.select-setor-empresa').val(data['conta'].id_setor_empresa).trigger('change');
 
@@ -261,7 +261,7 @@ $(document).on('change', '.select-macros', function () {
         data: {
             idMacro: idMacro
         }, beforeSend: function () {
-            $('.select-micros').html('<option disabled>Selecione</option>');
+            $('.select-micros').html('<option value="">Carregando...</option>');
         }, success: function (data) {
 
             $('.select-micros').attr('disabled', false);
@@ -292,7 +292,7 @@ $(document).on('change', '.select-grupo-recebidos', function () {
             url: `${baseUrl}finContasPagar/recebeTodosClientesAll`
             , beforeSend: function () {
                 $('.select-recebido').attr('disabled', true);
-                $('.select-recebido').html('<option disabled>Carregando...</option>');
+                $('.select-recebido').html('<option value="">Carregando...</option>');
             }, success: function (data) {
                 $('.select-recebido').attr('disabled', false);
 
@@ -320,12 +320,18 @@ $(document).on('change', '.select-grupo-recebidos', function () {
             }, success: function (data) {
 
                 $('.select-recebido').attr('disabled', false);
-                $('.select-recebido').html('<option value="">Selecione</option>');
 
+                let options = '<option disabled="disabled" value="">Selecione</option>';
                 for (i = 0; i < data.dadosFinanceiro.length; i++) {
 
-                    $('.select-recebido').append(`<option value="${data.dadosFinanceiro[i].id}">${data.dadosFinanceiro[i].nome}</option>`);
+                    options += `<option value="${data.dadosFinanceiro[i].id}">${data.dadosFinanceiro[i].nome}</option>`;
+
                 }
+
+                $('.select-recebido').html(options);
+                $('.select-recebido').val('').trigger('change');
+
+
             }
         })
 
