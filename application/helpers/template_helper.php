@@ -676,6 +676,7 @@ function scriptsFinPrestacaoContasHead()
 function scriptsFinPrestacaoContasFooter()
 {
     return array(
+        '<script src="' . base_url('assets/js/helpers-js/formatar-moeda-real.js') . '"></script>',
         '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>',
         '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>',
         '<script src="' . base_url('assets/js/helpers-js/formatar-data.js') . '"></script>',

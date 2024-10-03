@@ -37,7 +37,7 @@ class FinPrestacaoContas extends CI_Controller
 		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsPrestacaoContasHead));
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsPrestacaoContasFooter));
 
-		$data['prestacaoContas'] = $this->Funcionarios_model->recebeFuncionariosSaldos();
+		$data['prestacaoContas'] = $this->FinPrestacaoContas_model->recebePrestacaoContas();
 
 		$this->load->model('FinTiposCustos_model');
 		$data['tiposCustos'] = $this->FinTiposCustos_model->recebeTiposCustos();
@@ -205,5 +205,27 @@ class FinPrestacaoContas extends CI_Controller
 		$prestacaoContasFuncionario = $this->Romaneios_model->recebeDatasRomaneiosFuncionario($idFuncionario, $dataRomaneio);
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($prestacaoContasFuncionario));
+	}
+
+	public function visualizarPrestacaoContas()
+	{
+		$codRomaneio = $this->input->post('codRomaneio');
+
+		$retorno = $this->FinPrestacaoContas_model->recebeCustosPrestacaoContasRomaneio($codRomaneio);
+
+		if ($retorno) {
+
+			return $this->output->set_content_type('application/json')->set_output(json_encode($retorno));
+			
+		} else {
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Falha ao exibir os custos deste romaneio. Por favor, tente novamente.",
+				'type' => "error"
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 }
