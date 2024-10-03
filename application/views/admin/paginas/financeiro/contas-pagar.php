@@ -1101,7 +1101,7 @@
                                                     <label class="text-body-highlight fw-bold mb-2">Grupos
                                                         Macros</label>
                                                     <select
-                                                        class="form-select select2 select-macros input-obrigatorio dados-conta"
+                                                        class="form-select select2 select-macros-editar input-obrigatorio dados-conta"
                                                         name="macros">
                                                         <option selected disabled value="">Selecione</option>
                                                         <?php foreach ($macros as $macro) { ?>
@@ -1136,8 +1136,7 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Grupo de
                                                         Credores</label>
-                                                    <select
-                                                        class="form-select select2 select-grupo-recebidos input-obrigatorio dados-conta"
+                                                    <select class="form-select select2 select-grupo-recebidos-editar input-obrigatorio dados-conta"
                                                         name="grupo-recebido">
                                                         <option selected disabled value="">Selecione</option>
                                                         <?php foreach ($grupos as $grupo) { ?>
