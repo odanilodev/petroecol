@@ -464,3 +464,61 @@ $(document).on('change', '.check-sem-custos', function () {
         $('.dados-conta').addClass('input-obrigatorio-custo');
     }
 })
+
+
+const visualizarPrestacaoContas = (codigoRomaneio, valorTotal) => {
+
+    $('.cod-romaneio').html(codigoRomaneio);
+
+    $.ajax({
+        type: 'post',
+        url: `${baseUrl}finPrestacaoContas/visualizarPrestacaoContas`,
+        data: {
+            codRomaneio: codigoRomaneio
+        }, beforeSend: function () {
+            $('.div-tabela-tipos-custos-modal').addClass('d-none');
+            $('.load-form-modal').removeClass('d-none');
+        }, success: function (data) {
+
+            $('.load-form-modal').addClass('d-none');
+            $('.div-tabela-tipos-custos-modal').removeClass('d-none');
+
+            let conteudoTabelaModal;
+            for (i = 0; i < data.length; i++) {
+
+                conteudoTabelaModal += `
+                    <tr class="hover-actions-trigger btn-reveal-trigger position-static text-center">
+                        <td class="align-middle text-center data white-space-nowrap">
+                            <h6 class="mb-0 text-900 text-center">
+                                ${data[i].CUSTO}
+                            </h6>
+                        </td>
+                        <td class="align-middle text-center data white-space-nowrap">
+                            <h6 class="mb-0 text-900 text-center">
+                                ${formatarValorMoeda(data[i].valor)}
+                            </h6>
+                        </td>
+                    </tr>
+
+                `;
+            }
+
+            $('.tabela-tipos-custos-modal').html(conteudoTabelaModal);
+
+            let conteudoTotal = `
+                <tr class="hover-actions-trigger btn-reveal-trigger position-static text-center">
+                    <td class="align-middle text-center data white-space-nowrap"> </td>
+                    <td class="align-middle text-center data white-space-nowrap">
+                        <h6 class="mb-0 text-1000 text-center">
+                            Total: ${formatarValorMoeda(valorTotal)}
+                        </h6>
+                    </td>
+                </tr>
+            `;
+
+            $('.tabela-tipos-custos-modal').append(conteudoTotal);
+           
+            
+        }
+    })
+}
