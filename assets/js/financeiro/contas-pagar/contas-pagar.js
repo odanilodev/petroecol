@@ -215,23 +215,26 @@ $(document).on('click', '.editar-lancamento', function () {
 
         }, success: function (data) {
 
-            $('.select-macros').val(data.conta.id_macro).trigger('change');
+            $('.select-macros-editar').val(data.conta.id_macro).trigger('change');
+
+            changeSelectMacros(data.conta.id_macro, data.conta.id_micro);
+
+            let idRecebido = data.conta.id_dado_financeiro != null ? data.conta.id_dado_financeiro : data.conta.id_cliente;
 
             if (data.conta.GRUPO_CREDOR) {
-                $('.select-grupo-recebidos').val(data.conta.GRUPO_CREDOR).trigger('change');
-            } else {
-                $('.select-grupo-recebidos').val('clientes').trigger('change');
-            }
+                $('.select-grupo-recebidos-editar').val(data.conta.GRUPO_CREDOR).trigger('change');
+                changeSelectRecebidos(data.conta.GRUPO_CREDOR, idRecebido);
 
-            $(setTimeout(() => {
-                $('.select-micros').val(data.conta.id_micro).trigger('change');
-                $('.select-recebido').val(data.conta.id_dado_financeiro ? data.conta.id_dado_financeiro : data.conta.id_cliente).trigger('change');
-            }, 1000));
+            } else {
+                $('.select-grupo-recebidos-editar').val('clientes').trigger('change');
+                changeSelectRecebidos('clientes', idRecebido);
+            }
 
             $('.select-setor-empresa').val(data['conta'].id_setor_empresa).trigger('change');
 
             let dataVencimento = data['conta'].data_vencimento.split('-');
             dataVencimento = dataVencimento[2] + '/' + dataVencimento[1] + '/' + dataVencimento[0];
+
             $('.input-data-vencimento').val(dataVencimento);
 
             if (data['conta'].data_emissao) {
@@ -249,41 +252,7 @@ $(document).on('click', '.editar-lancamento', function () {
 
 })
 
-
-
-$(document).on('change', '.select-macros', function () {
-
-    let idMacro = $(this).val();
-
-    $.ajax({
-        type: "post",
-        url: `${baseUrl}finMicro/recebeMicrosMacro`,
-        data: {
-            idMacro: idMacro
-        }, beforeSend: function () {
-            $('.select-micros').html('<option value="">Carregando...</option>');
-        }, success: function (data) {
-
-            $('.select-micros').attr('disabled', false);
-
-            let options = '<option value="" disabled >Selecione</option>';
-
-            for (i = 0; i < data.microsMacro.length; i++) {
-
-                options += `<option value="${data.microsMacro[i].id}">${data.microsMacro[i].nome}</option>`;
-            }
-
-            $('.select-micros').html(options);
-
-            $('.select-micros').val('').trigger('change');
-
-        }
-    })
-})
-
-$(document).on('change', '.select-grupo-recebidos', function () {
-
-    let grupo = $(this).val();
+function changeSelectRecebidos(grupo, idRecebido = null) {
 
     if (grupo == "clientes") {
 
@@ -292,18 +261,17 @@ $(document).on('change', '.select-grupo-recebidos', function () {
             url: `${baseUrl}finContasPagar/recebeTodosClientesAll`
             , beforeSend: function () {
                 $('.select-recebido').attr('disabled', true);
-                $('.select-recebido').html('<option value="">Carregando...</option>');
+                $('.select-recebido').html('<option disabled>Carregando...</option>');
             }, success: function (data) {
                 $('.select-recebido').attr('disabled', false);
 
-                let options = '<option disabled="disabled" value="">Selecione</option>';
+                let options = '<option selected disabled="disabled" value="">Selecione</option>';
                 for (let i = 0; i < data.clientes.length; i++) {
-                    options += `<option value="${data.clientes[i].id}">${data.clientes[i].nome}</option>`;
+
+                    options += `<option ${idRecebido != null && idRecebido == data.clientes[i].id ? "selected" : ""} value="${data.clientes[i].id}">${data.clientes[i].nome}</option>`;
                 }
+
                 $('.select-recebido').html(options);
-
-                $('.select-recebido').val('').trigger('change');
-
             }
         })
     } else {
@@ -320,23 +288,58 @@ $(document).on('change', '.select-grupo-recebidos', function () {
             }, success: function (data) {
 
                 $('.select-recebido').attr('disabled', false);
+                $('.select-recebido').html('<option value="">Selecione</option>');
 
-                let options = '<option disabled="disabled" value="">Selecione</option>';
                 for (i = 0; i < data.dadosFinanceiro.length; i++) {
 
-                    options += `<option value="${data.dadosFinanceiro[i].id}">${data.dadosFinanceiro[i].nome}</option>`;
-
+                    $('.select-recebido').append(`<option value="${data.dadosFinanceiro[i].id}">${data.dadosFinanceiro[i].nome}</option>`);
                 }
-
-                $('.select-recebido').html(options);
-                $('.select-recebido').val('').trigger('change');
-
-
             }
         })
 
     }
 
+}
+
+function changeSelectMacros(idMacro, idMicro = null) {
+
+    $.ajax({
+        type: "post",
+        url: `${baseUrl}finMicro/recebeMicrosMacro`,
+        data: {
+            idMacro: idMacro
+        }, beforeSend: function () {
+            $('.select-micros').html('<option disabled>Selecione</option>');
+        }, success: function (data) {
+
+            $('.select-micros').attr('disabled', false);
+
+            let options = '<option selected value="" disabled >Selecione</option>';
+
+            for (i = 0; i < data.microsMacro.length; i++) {
+
+                options += `<option ${idMicro != null && idMicro == data.microsMacro[i].id ? "selected" : ""} value="${data.microsMacro[i].id}">${data.microsMacro[i].nome}</option>`;
+            }
+
+            $('.select-micros').html(options);
+
+        }
+    })
+
+}
+
+$(document).on('change', '.select-macros', function () {
+
+    let idMacro = $(this).val();
+    changeSelectMacros(idMacro);
+    
+})
+
+$(document).on('change', '.select-grupo-recebidos', function () {
+
+    let grupo = $(this).val();
+
+    changeSelectRecebidos(grupo);
 })
 
 

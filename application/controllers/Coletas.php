@@ -224,7 +224,7 @@ class Coletas extends CI_Controller
                         $residuos = $this->ResiduoCliente_model->recebeValorResiduoCliente($idResiduo, $idCliente);
 
 
-                        $diaPagamento = $residuos['dia_pagamento'] ? $residuos['dia_pagamento'] : $diaPagamentoProximoMes;
+                        $diaPagamento = $residuos['dia_pagamento'] ?? $diaPagamentoProximoMes;
 
 
                         $valoresPago = $quantidadeResiduo * $dadosResiduos['valores'][$i];
