@@ -146,15 +146,12 @@
 
             foreach ($dado['quantidade_coletada'] as $i => $quantidade) {
 
-                if ($dado['residuos'][$i] == $id_residuo or $id_residuo == "todos") {
-                    $dataColeta = $dado['dataColeta'];
-                    $residuo = $dado['residuos'][$i];
-                    if (!isset($coletasPorResiduo[$residuo])) {
-                        $coletasPorResiduo[$residuo] = [];
-                    }
-                    $coletasPorResiduo[$residuo][] = ['quantidade' => $quantidade, 'data' => $dataColeta];
+                $dataColeta = $dado['dataColeta'];
+                $residuo = $dado['residuos'][$i];
+                if (!isset($coletasPorResiduo[$residuo])) {
+                    $coletasPorResiduo[$residuo] = [];
                 }
-
+                $coletasPorResiduo[$residuo][] = ['quantidade' => $quantidade, 'data' => $dataColeta];
             }
         }
         ?>
@@ -205,7 +202,7 @@
 
         <?php if ($mtr): ?>
             <div class="declaration" style="text-align: center;">
-                <h5 style="font-weight: bold; margin-bottom: 10px;">MTR N° <?= $mtr ?></h5>
+                <h5 style="font-weight: bold; margin-bottom: 10px;">MTR <?= $mtr ?></h5>
             </div>
         <?php endif; ?>
 
