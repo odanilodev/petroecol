@@ -737,3 +737,28 @@ function scriptsAfericaoFooter()
 
     );
 }
+
+// Pagina de conversao de unidade de medida
+function scriptsConversaoUnidadeMedidaHead()
+{
+    return array(
+
+        '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />',
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />',
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />'
+
+    );
+}
+
+function scriptsConversaoUnidadeMedidaFooter()
+{
+    return array(
+        '<script src="' . base_url('assets/js/mascaras/mascaras-input.js') . '"></script>',
+        '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>',
+        '<script src="' . base_url('assets/js/helpers-js/formatar-moeda-real.js') . '"></script>',
+        '<script src="' . base_url('node_modules/jquery-mask-plugin/src/jquery.mask.js') . '"></script>',
+        '<script src="' . base_url('assets/js/helpers-js/formatar-data.js') . '"></script>',
+        '<script src="' . base_url('assets/js/helpers-js/carregar-select2.js') . '"></script>',
+        '<script src="' . base_url('assets/js/conversao-unidades-medidas/conversao-medidas.js') . '"></script>'
+    );
+}
