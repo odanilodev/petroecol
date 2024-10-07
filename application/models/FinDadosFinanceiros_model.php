@@ -84,4 +84,14 @@ class FinDadosFinanceiros_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+    public function recebeNomesFornecedores()
+    {
+        $this->db->select('nome, id');
+        $this->db->order_by('nome', 'DESC');
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('fin_dados_financeiros');
+
+        return $query->result_array();
+    }
 }
