@@ -85,7 +85,7 @@
             <form id="filtroForm" action="<?= base_url('finFluxoCaixa/index') ?>" method="post">
                 <div class="col-12">
                     <div class="row align-items-center g-4">
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-2">
                             <div class="ms-3">
                                 <input class="form-control datetimepicker" value="<?= $dataInicio ?>" required
                                     name="data_inicio" id="data_inicio" type="text" placeholder="Data Início"
@@ -93,7 +93,7 @@
                                     style="cursor: pointer;" autocomplete="off" />
                             </div>
                         </div>
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-2">
                             <div class="ms-3">
                                 <input class="form-control datetimepicker" value="<?= $dataFim ?>" required
                                     name="data_fim" id="data_fim" type="text" placeholder="Data Fim"
@@ -121,13 +121,14 @@
                                     <option <?= $idSetor == 'todos' ? 'selected' : '' ?> value="todos">Todos</option>
 
                                     <?php foreach ($setoresEmpresa as $setorEmpresa) { ?>
-                                        <option <?= $idSetor == $setorEmpresa['id'] ? "selected" : ""?> value="<?= $setorEmpresa['id']?>"><?= $setorEmpresa['nome']?></option>
+                                        <option <?= $idSetor == $setorEmpresa['id'] ? "selected" : "" ?>
+                                            value="<?= $setorEmpresa['id'] ?>"><?= $setorEmpresa['nome'] ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="col-12 col-md-2" style="padding:0;">
+                        <div class="col-12 col-md-4" style="padding:0;">
                             <div class="d-flex ms-3">
                                 <button type="submit"
                                     class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= !$dataInicio ? 'w-100' : 'w-75'; ?>">Filtrar</button>
