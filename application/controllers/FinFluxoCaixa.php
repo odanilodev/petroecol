@@ -73,12 +73,6 @@ class FinFluxoCaixa extends CI_Controller
             $dataFimFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataFimFormatada)));
         }
 
-        //Soma as movimentacoes da tabela fluxo.
-        $dados['totalSaida'] = $this->findadosfinanceiros->totalFluxoFinanceiro('valor', 0, $dataInicioFormatada, $dataFimFormatada);
-        $dados['totalEntrada'] = $this->findadosfinanceiros->totalFluxoFinanceiro('valor', 1, $dataInicioFormatada, $dataFimFormatada);
-
-        $dados['balancoFinanceiro'] = $dados['totalEntrada']['valor'] - $dados['totalSaida']['valor'];
-
         $dados['dataInicio'] = $this->input->post('data_inicio');
         $dados['dataFim'] = $this->input->post('data_fim');
         $idSetor = $this->input->post('setor-empresa');
@@ -86,6 +80,12 @@ class FinFluxoCaixa extends CI_Controller
         if ($idSetor === null || $idSetor === '') {
             $idSetor = "todos";
         }
+
+        //Soma as movimentacoes da tabela fluxo.
+        $dados['totalSaida'] = $this->findadosfinanceiros->totalFluxoFinanceiro('valor', 0, $dataInicioFormatada, $dataFimFormatada, $idSetor);
+        $dados['totalEntrada'] = $this->findadosfinanceiros->totalFluxoFinanceiro('valor', 1, $dataInicioFormatada, $dataFimFormatada, $idSetor);
+
+        $dados['balancoFinanceiro'] = $dados['totalEntrada']['valor'] - $dados['totalSaida']['valor'];
 
         // Verifica se o tipo de movimentação foi recebido via POST
         $tipoMovimentacao = $this->input->post('movimentacao');
