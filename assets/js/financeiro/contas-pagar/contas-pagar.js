@@ -222,11 +222,11 @@ $(document).on('click', '.editar-lancamento', function () {
             let idRecebido = data.conta.id_dado_financeiro != null ? data.conta.id_dado_financeiro : data.conta.id_cliente;
 
             if (data.conta.GRUPO_CREDOR) {
-                $('.select-grupo-recebidos-editar').val(data.conta.GRUPO_CREDOR).trigger('change');
+                $('.select-grupo-recebidos').val(data.conta.GRUPO_CREDOR);
                 changeSelectRecebidos(data.conta.GRUPO_CREDOR, idRecebido);
 
             } else {
-                $('.select-grupo-recebidos-editar').val('clientes').trigger('change');
+                $('.select-grupo-recebidos').val('clientes');
                 changeSelectRecebidos('clientes', idRecebido);
             }
 
@@ -290,10 +290,14 @@ function changeSelectRecebidos(grupo, idRecebido = null) {
                 $('.select-recebido').attr('disabled', false);
                 $('.select-recebido').html('<option value="">Selecione</option>');
 
+                let options = '<option selected disabled="disabled" value="">Selecione</option>';
                 for (i = 0; i < data.dadosFinanceiro.length; i++) {
 
-                    $('.select-recebido').append(`<option value="${data.dadosFinanceiro[i].id}">${data.dadosFinanceiro[i].nome}</option>`);
+                    options += `<option ${idRecebido != null && idRecebido == data.dadosFinanceiro[i].id ? "selected" : ""} value="${data.dadosFinanceiro[i].id}">${data.dadosFinanceiro[i].nome}</option>`;
+
                 }
+
+                $('.select-recebido').html(options);
             }
         })
 
