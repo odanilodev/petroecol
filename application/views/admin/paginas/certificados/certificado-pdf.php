@@ -86,7 +86,6 @@
 </head>
 
 <body>
-
     <div class="container">
 
         <?php $id_residuo = $this->uri->segment(5); ?>
@@ -104,6 +103,12 @@
             <tr>
                 <th colspan="2"><?= chave('certificados-pdf-titulo-gerador') ?>: <?= $clientes_coletas['nome'] ?></th>
                 <th><strong>Data de emissão:</strong> <?= date('d/m/Y') ?></th>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <strong><?= chave('certificados-pdf-titulo-codigo-certificado') ?>: </strong>
+                    <?= $codigoCertificado ? $codigoCertificado : "Não informado."; ?>
+                </td>
             </tr>
             <tr>
                 <td colspan="3">
@@ -132,6 +137,7 @@
                 </td>
             </tr>
         </table>
+
 
 
 
@@ -202,7 +208,7 @@
 
         <?php if ($mtr): ?>
             <div class="declaration" style="text-align: center;">
-                <h5 style="font-weight: bold; margin-bottom: 10px;">MTR <?= $mtr ?></h5>
+                <h5 style="font-weight: bold; margin-bottom: 10px;">MTR N° <?= $mtr ?></h5>
             </div>
         <?php endif; ?>
 
