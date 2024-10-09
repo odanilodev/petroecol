@@ -331,6 +331,7 @@ class Coletas extends CI_Controller
     public function certificadoColeta()
     {
         $this->load->library('GerarCertificadoColeta');
+        $this->load->model('Certificados_coleta_model');
 
         $idColeta = $this->input->post('coleta') ?? $this->uri->segment(3);
         $idModelo = $this->input->post('modelo') ?? $this->uri->segment(4);
@@ -340,6 +341,13 @@ class Coletas extends CI_Controller
         $enviarEmail = $this->input->post('envia-certificado') ?? null; //Recebe o valor `email` para definir que é um envio de certificado, caso contrario somente gerar.
         $idCliente = $this->input->post('cliente') ?? null;
         $emailsCliente = $this->input->post('emails') ?? null;
+
+        //Armazena os dados para registrar no banco o historico de certificados gerado
+        $dados['id_coleta'] = $idColeta;
+        $dados['id_modelo'] = $idModelo;
+        $dados['numero_mtr'] = $numero_mtr;
+
+        $codigoCertificado = $this->Certificados_coleta_model->insereCertificado($dados);
 
 
         // retorna erro caso não tenha email
@@ -357,10 +365,10 @@ class Coletas extends CI_Controller
 
             switch ($idModelo) {
                 case '2':
-                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $enviarEmail, $numero_mtr); // alterar a função para cada cliente personalizado
+                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $enviarEmail, $numero_mtr, $codigoCertificado); // alterar a função para cada cliente personalizado
                     break;
                 case '1':
-                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $enviarEmail, $numero_mtr); // alterar a função para cada cliente personalizado
+                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $enviarEmail, $numero_mtr, $codigoCertificado); // alterar a função para cada cliente personalizado
                     break;
                 default:
 
@@ -378,7 +386,7 @@ class Coletas extends CI_Controller
             }
         } else {
 
-            $result = $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $idCliente, $emailsCliente, $enviarEmail, $numero_mtr);
+            $result = $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $idCliente, $emailsCliente, $enviarEmail, $numero_mtr, $codigoCertificado);
 
             if ($result && $enviarEmail) {
                 $this->session->set_flashdata('titulo_retorno_funcao', 'Sucesso!');
