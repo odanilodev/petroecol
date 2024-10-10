@@ -41,6 +41,7 @@ $(document).on('click', '.btn-finalizar-afericao', function () {
 
                 let redirect = '#';
                 if (data.success) {
+                    
                     redirect = `${baseUrl}afericao`;
                 }
 

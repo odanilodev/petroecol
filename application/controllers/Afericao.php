@@ -126,6 +126,7 @@ class Afericao extends CI_Controller
 		$dadosResiduosAferidos = $this->input->post('dadosResiduos');
 
 		$this->load->model('Coletas_model');
+		$this->load->model('EstoqueResiduos_model');
 
 		$sucesso = 0; // conta quantos registros foram inseridos com sucesso
 		foreach ($dadosResiduosAferidos as $dadosResiduosAferido) {
@@ -142,6 +143,15 @@ class Afericao extends CI_Controller
 			$retorno = $this->Afericao_model->insereAfericao($dados);
 
 			if ($retorno) {
+
+				$dadosResiduosEstoque['id_residuo'] = $dadosResiduosAferido['idResiduo'];
+				$dadosResiduosEstoque['quantidade'] = $dadosResiduosAferido['aferido'];
+				$dadosResiduosEstoque['id_unidade_medida'] = $dadosResiduosAferido['medida'];
+				$dadosResiduosEstoque['tipo_movimentacao'] = 1; // entrada
+				$dadosResiduosEstoque['id_empresa'] = $this->session->userdata('id_empresa');
+
+				$this->EstoqueResiduos_model->insereEstoqueResiduos($dadosResiduosEstoque); 
+
 				$sucesso++; 
 
 				// altera o status para aferido
