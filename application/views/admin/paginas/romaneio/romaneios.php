@@ -604,6 +604,7 @@
 
                 <div class="modal-footer">
                     <input type="hidden" class="id-responsavel">
+                    <input type="hidden" class="data-romaneio">
                     <div class="spinner-border text-primary load-form-pagamento d-none" role="status"></div>
                     <button type="button" class="btn btn-primary btn-salva-verba-responsavel" onclick="salvarVerbasAdicionaisRomaneio()">Salvar</button>
 

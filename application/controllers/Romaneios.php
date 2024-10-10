@@ -144,6 +144,7 @@ class Romaneios extends CI_Controller
 			$response = array(
 				'success' => true,
 				'codigo_romaneio' => $codigo,
+				'data_romaneio' => $dados['data_romaneio'],
 				'message' => 'Romaneio gerado com sucesso.'
 			);
 		} else {
