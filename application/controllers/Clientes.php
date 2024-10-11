@@ -111,6 +111,14 @@ class Clientes extends CI_Controller
         $this->load->model('FrequenciaColeta_model');
         $data['frequenciaColeta'] = $this->FrequenciaColeta_model->recebeFrequenciasColeta();
 
+        // todos alertas ou alertas ativos (status)
+        $statusAlerta = true;
+        $this->load->model('AlertasWhatsapp_model');
+        $data['alertas'] = $this->AlertasWhatsapp_model->recebeAlertasWhatsApp($statusAlerta);
+
+        //Recebe Ruas Cidades 
+        $data['ruasCidade'] = $this->Clientes_model->recebeRuasCidadeCliente();
+
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/clientes');
         $this->load->view('admin/paginas/clientes/modals');

@@ -36,9 +36,13 @@ class Clientes_model extends CI_Model
             $this->db->where('C.cidade', $filtro['cidade']);
         }
 
+        if (($filtro['rua'] ?? false) && $filtro['rua'] != 'all') {
+            $this->db->like('C.rua', $filtro['rua']);
+        }
+
         if ($filtro['nome'] ?? false) {
             $nome = $filtro['nome'];
-            $this->db->where("LOWER(C.nome) COLLATE utf8mb4_unicode_ci LIKE LOWER('%$nome%')");
+            $this->db->group_start()->like("LOWER(C.nome)", strtolower($nome))->or_like("LOWER(C.rua)", strtolower($nome))->group_end();
         }
 
         if (($filtro['id_recipiente'] ?? false) && $filtro['id_recipiente'] != 'all') {
@@ -126,9 +130,23 @@ class Clientes_model extends CI_Model
     {
         $this->db->select('cidade');
         $this->db->where('status', 1);
+        $this->db->where('cidade <>', '');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->order_by('cidade');
         $this->db->group_by('cidade');
+        $query = $this->db->get('ci_clientes');
+        return $query->result_array();
+    }
+
+    public function recebeRuasCidadeCliente()
+    {
+        $this->db->select('rua');
+        $this->db->where('status', 1);
+        $this->db->where('rua <>', '');
+        $this->db->where('rua <>', '-');
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->order_by('rua');
+        $this->db->group_by('rua');
         $query = $this->db->get('ci_clientes');
         return $query->result_array();
     }
