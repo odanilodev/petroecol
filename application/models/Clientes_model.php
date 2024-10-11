@@ -141,15 +141,20 @@ class Clientes_model extends CI_Model
     public function recebeRuasCidadeCliente()
     {
         $this->db->select('rua');
+
         $this->db->where('status', 1);
-        $this->db->where('rua <>', '');
-        $this->db->where('rua <>', '-');
+        $this->db->where("rua NOT IN ('', '-')");
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->order_by('rua');
-        $this->db->group_by('rua');
+        
+        $this->db->distinct();
+
+        $this->db->order_by('rua', 'ASC');
+        
         $query = $this->db->get('ci_clientes');
+    
         return $query->result_array();
     }
+    
 
     public function recebeCliente($id)
     {
