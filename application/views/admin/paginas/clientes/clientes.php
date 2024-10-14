@@ -184,7 +184,7 @@
                     </button>
                 </div>
                 <form action="<?= base_url('clientes') ?>" method="POST" id="addEventForm" autocomplete="off" style="display:contents;">
-                    <div class="modal-body pt-4 pb-2 px-4" >
+                    <div class="modal-body pt-4 pb-2 px-4">
                         <!-- Status -->
                         <div class="mb-3">
                             <label class="fw-bold mb-2 text-1000">Status</label>
@@ -258,6 +258,16 @@
                                 <?php foreach ($grupos as $v) { ?>
                                     <option <?= ($cookie_filtro_clientes['id_grupo'] ?? null) == $v['id'] ? 'selected' : '' ?> value="<?= $v['id'] ?>"><?= $v['nome'] ?></option>
                                 <?php } ?>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="fw-bold mb-2 text-1000">Classificação</label>
+                            <select name="classificacao" class="form-select select2">
+                                <option value="all" selected="selected">--</option>
+                                <option <?= ($cookie_filtro_clientes['classificacao'] ?? null) == '1' ? 'selected' : '' ?> value="1">Bronze</option>
+                                <option <?= ($cookie_filtro_clientes['classificacao'] ?? null) == '2' ? 'selected' : '' ?> value="2">Prata</option>
+                                <option <?= ($cookie_filtro_clientes['classificacao'] ?? null) == '3' ? 'selected' : '' ?> value="3">Ouro</option>
                             </select>
                         </div>
 
