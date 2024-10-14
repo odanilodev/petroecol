@@ -744,16 +744,6 @@ const enviarAlertaCliente = () => {
 
 }
 
-$(document).ready(function () {
-
-    $('#select-select-classificacao-cliente').val('').trigger('change');
-
-    $('.select2').select2({
-        // dropdownParent: ".modal-cadastrar-coleta",
-        theme: "bootstrap-5",
-    });
-
-})
 
 //Select2 dentro do modal de filtros
 $('.filtros-clientes').click(function () {
