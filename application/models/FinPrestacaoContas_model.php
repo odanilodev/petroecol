@@ -48,4 +48,15 @@ class FinPrestacaoContas_model extends CI_Model
         return $query->result_array();
     }
 
+    public function recebeRomaneiosSemPrestarContasResponsavel($codRomaneio, $idResponsavel)
+    {
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('codigo <>', $codRomaneio);
+        $this->db->where('id_responsavel', $idResponsavel);
+        $this->db->where('prestar_conta', 0);
+        $query = $this->db->get('ci_romaneios');
+        
+        return $query->row_array();
+    }
+
 }
