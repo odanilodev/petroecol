@@ -560,7 +560,8 @@ const verificaPrestacaoContasFuncionario = (codRomaneio, idResponsavel, dataRoma
         url: `${baseUrl}finPrestacaoContas/verificaPrestacaoContasFuncionario` ,
         data: {
             codRomaneio: codRomaneio,
-            idResponsavel: idResponsavel
+            idResponsavel: idResponsavel,
+            dataRomaneio: dataRomaneio
         },
         success: function (response) {
 
