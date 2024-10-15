@@ -176,7 +176,14 @@ class FinFluxoCaixa extends CI_Controller
         $idResponsavel = $this->input->post('responsavel');
         $idEmpresa = $this->input->post('setorEmpresa');
         $codigoRomaneio = $this->input->post('codRomaneio');
+        $dataRomaneio = $this->input->post('dataRomaneio');
 
+        if ($dataRomaneio > date('Y-m-d')) {
+            $dataFluxo = date('Y-m-d');
+        } else {
+            $dataFluxo = $dataRomaneio;
+        }
+        
         $this->load->model('Funcionarios_model');
 
         $dadosFluxo = $this->input->post('dadosFluxo');
@@ -195,7 +202,7 @@ class FinFluxoCaixa extends CI_Controller
 
                 $dados['id_micro'] = $dadosFluxo['id_micro'][$i];
                 $dados['id_macro'] = $dadosFluxo['id_macro'][$i];
-                $dados['data_movimentacao'] = date('Y-m-d');
+                $dados['data_movimentacao'] = $dataFluxo;
                 $dados['id_funcionario'] = $idResponsavel;
                 $dados['id_setor_empresa'] = $idEmpresa;
                 $dados['observacao'] = "Romaneio: $codigoRomaneio";
