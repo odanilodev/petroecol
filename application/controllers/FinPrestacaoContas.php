@@ -70,7 +70,7 @@ class FinPrestacaoContas extends CI_Controller
 		if (empty($dadosPrestacaoContas['valor'][0])) {
 
 			$prestarContas = false;
-		} 
+		}
 
 		$valorTotal = 0;
 		$success = true;
@@ -216,7 +216,7 @@ class FinPrestacaoContas extends CI_Controller
 		if ($retorno) {
 
 			return $this->output->set_content_type('application/json')->set_output(json_encode($retorno));
-			
+
 		} else {
 			$response = array(
 				'success' => false,
@@ -233,8 +233,9 @@ class FinPrestacaoContas extends CI_Controller
 	{
 		$codRomaneio = $this->input->post('codRomaneio');
 		$idResponsavel = $this->input->post('idResponsavel');
+		$dataRomaneio = $this->input->post('dataRomaneio');
 
-		$response = $this->FinPrestacaoContas_model->recebeRomaneiosSemPrestarContasResponsavel($codRomaneio, $idResponsavel);
+		$response = $this->FinPrestacaoContas_model->recebeRomaneiosSemPrestarContasResponsavel($codRomaneio, $idResponsavel, $dataRomaneio);
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 
