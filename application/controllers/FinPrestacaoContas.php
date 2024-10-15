@@ -228,4 +228,15 @@ class FinPrestacaoContas extends CI_Controller
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
+	function verificaPrestacaoContasFuncionario()
+	{
+		$codRomaneio = $this->input->post('codRomaneio');
+		$idResponsavel = $this->input->post('idResponsavel');
+
+		$response = $this->FinPrestacaoContas_model->recebeRomaneiosSemPrestarContasResponsavel($codRomaneio, $idResponsavel);
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
+	}
 }

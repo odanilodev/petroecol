@@ -553,6 +553,31 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpre
 
 }
 
+const verificaPrestacaoContasFuncionario = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpresa) => {
+
+    $.ajax({
+        type: "post",
+        url: `${baseUrl}finPrestacaoContas/verificaPrestacaoContasFuncionario` ,
+        data: {
+            codRomaneio: codRomaneio,
+            idResponsavel: idResponsavel
+        },
+        success: function (response) {
+
+            if (response) {
+                avisoRetorno(`Pendências de Romaneios`, `Para concluir este romaneio, é necessário prestar contas do romaneio anterior vinculado a este funcionário. Por favor, regularize as pendências para prosseguir.`, 'error', `#`);
+            } else {
+                concluirRomaneio(codRomaneio, idResponsavel, dataRomaneio, idSetorEmpresa)
+            }
+        },
+        error: function (xhr, status, error) {
+            avisoRetorno(`Erro ${xhr.status}`, `Entre em contato com o administrador.`, 'error', `${baseUrl}`);
+        }
+
+    });
+
+}
+
 
 
 // formata um obj para um array
@@ -1766,7 +1791,7 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
                                     </a>
 
                                     ${romaneio.status == 0 ? `
-                                        <a class="dropdown-item" href="#" title="Concluir Romaneio" onclick="concluirRomaneio('${romaneio.codigo}', ${romaneio.ID_RESPONSAVEL}, '${romaneio.data_romaneio}', ${romaneio.id_setor_empresa})">
+                                        <a class="dropdown-item" href="#" title="Concluir Romaneio" onclick="verificaPrestacaoContasFuncionario('${romaneio.codigo}', ${romaneio.ID_RESPONSAVEL}, '${romaneio.data_romaneio}', ${romaneio.id_setor_empresa})">
                                             <span class="ms-1 fas fa-check-circle"></span> Concluir
                                         </a>
                                     ` : ''}
