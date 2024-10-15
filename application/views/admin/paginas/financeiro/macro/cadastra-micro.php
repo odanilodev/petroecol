@@ -34,6 +34,7 @@
                           <select class="form-control select-padrao">
                             <option value="">Selecione</option>
                             <option value="romaneios">Romaneios</option>
+                            <option value="troco-funcionario">Troco de funcionários</option>
                           </select>
                           <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                         </div>
@@ -169,6 +170,8 @@
                   <select class="form-control select-padrao-modal">
                     <option value="">Selecione</option>
                     <option value="romaneios">Romaneios</option>
+                    <option value="troco-funcionario">Troco de funcionários</option>
+
                   </select>
 
                 </div>

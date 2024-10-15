@@ -315,25 +315,29 @@ const salvarPrestacaoContas = () => {
         formaPagamentoTroco: $('.forma-pagamento-troco').val()
     }
 
-    $('.campos-pretacao').each(function () {
-        
-        let tipoPagamento = $(this).find('.select-tipo-pagamento'); 
-        let tipoCusto = $(this).find('.select-tipos-custos').val();
-        let recebido = $(this).find('.select-recebido').val();
-        let valor = $(this).find('.input-valor').val();
-        let dataPagamento = $(this).find('.data-pagamento').val();
-        let macro = $(this).find('.select-macros-prestacao').val();
-        let micro = $(this).find('.select-micros-prestacao').val();
 
-        dadosPrestacaoContas.idTipoCusto.push(tipoCusto);
-        dadosPrestacaoContas.idRecebido.push(recebido);
-        dadosPrestacaoContas.valor.push(valor);
-        dadosPrestacaoContas.macros.push(macro);
-        dadosPrestacaoContas.micros.push(micro);
-        dadosPrestacaoContas.dataPagamento.push(dataPagamento ?? '');
-        dadosPrestacaoContas.tipoPagamento.push(tipoPagamento.find('option:selected').data('tipo'));
+    if (!$('.check-sem-custos').is(':checked')) {
 
-    });
+        $('.campos-pretacao').each(function () {
+            
+            let tipoPagamento = $(this).find('.select-tipo-pagamento'); 
+            let tipoCusto = $(this).find('.select-tipos-custos').val();
+            let recebido = $(this).find('.select-recebido').val();
+            let valor = $(this).find('.input-valor').val();
+            let dataPagamento = $(this).find('.data-pagamento').val();
+            let macro = $(this).find('.select-macros-prestacao').val();
+            let micro = $(this).find('.select-micros-prestacao').val();
+    
+            dadosPrestacaoContas.idTipoCusto.push(tipoCusto);
+            dadosPrestacaoContas.idRecebido.push(recebido);
+            dadosPrestacaoContas.valor.push(valor);
+            dadosPrestacaoContas.macros.push(macro);
+            dadosPrestacaoContas.micros.push(micro);
+            dadosPrestacaoContas.dataPagamento.push(dataPagamento ?? '');
+            dadosPrestacaoContas.tipoPagamento.push(tipoPagamento.find('option:selected').data('tipo'));
+    
+        });
+    }
 
     let permissao = verificaCamposObrigatorios('input-obrigatorio-modal');
 

@@ -173,11 +173,14 @@ class FinPrestacaoContas extends CI_Controller
 
 	function insereMovimentacaoPrestacaoFluxo($dados, $idFuncionario, $idSetorEmpresa)
 	{
+		$this->load->model('FinMicro_model');
+
+        $microPadraoRomaneio = $this->FinMicro_model->recebePadraoMicro('troco-funcionario');
 
 		$valor = str_replace(['.', ','], ['', '.'], $dados['valor']);
 
-		$dadosFluxo['id_macro'] = 11;
-		$dadosFluxo['id_micro'] = 1;
+		$dadosFluxo['id_macro'] = $microPadraoRomaneio['id_macro'];
+		$dadosFluxo['id_micro'] = $microPadraoRomaneio['id'];
 		$dadosFluxo['id_setor_empresa'] = $idSetorEmpresa;
 		$dadosFluxo['id_conta_bancaria'] = $dados['contaBancaria'];
 		$dadosFluxo['id_forma_transacao'] = $dados['formaPagamentoTroco'];
