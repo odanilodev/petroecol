@@ -29,7 +29,7 @@ const salvarObsProximaColeta = () => {
         })
     }
 
-    
+
 }
 
 const verificaCampos = () => {
@@ -450,7 +450,7 @@ const emailsCertificadoColeta = (idColeta, idCliente) => {
 
     if (idColeta) {
 
-        
+
         detalhesHistoricoColeta(idColeta, '.data-coleta-certificado'); // exibe os detalhes
         $('.btn-gerar-certificado').addClass('d-none');
     }
@@ -682,7 +682,7 @@ $(document).on('click', '.btn-gerar-certificado', function () {
 
     if (idResiduo == null || !idResiduo) {
         idResiduo = "todos";
-    } 
+    }
 
     if (idModelo && coleta) {
         var redirect = `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}/${idResiduo}/${numeroMtr}`;
@@ -744,16 +744,6 @@ const enviarAlertaCliente = () => {
 
 }
 
-$(document).ready(function () {
-
-    $('#select-select-classificacao-cliente').val('').trigger('change');
-
-    $('.select2').select2({
-        // dropdownParent: ".modal-cadastrar-coleta",
-        theme: "bootstrap-5",
-    });
-
-})
 
 //Select2 dentro do modal de filtros
 $('.filtros-clientes').click(function () {
@@ -767,7 +757,6 @@ $('.filtros-clientes').click(function () {
         placeholder: $(this).data('placeholder'),
     });
 })
-
 
 const recebeDadosColeta = (idColeta, idCliente) => {
 
