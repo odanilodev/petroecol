@@ -635,9 +635,16 @@ class FinContasPagar extends CI_Controller
 			if (is_array($contaPagar)) {
 				$xml .= '<Row>';
 				$xml .= '<Cell><Data ss:Type="String">' . ($contaPagar['id'] ?? 'N/A') . '</Data></Cell>';
-				$xml .= '<Cell><Data ss:Type="String">' . ($contaPagar['valor'] ?? 'N/A') . '</Data></Cell>';
+
+				// Converte o valor para o formato brasileiro
+				$valorFormatado = number_format($contaPagar['valor'], 2, ',', '');
+				$xml .= '<Cell><Data ss:Type="Number">' . str_replace(',', '.', $valorFormatado) . '</Data></Cell>';
+
 				$xml .= '<Cell><Data ss:Type="String">' . (isset($contaPagar['data_vencimento']) ? date('d/m/Y', strtotime($contaPagar['data_vencimento'])) : 'N/A') . '</Data></Cell>';
-				$xml .= '<Cell><Data ss:Type="String">' . ($contaPagar['valor_pago'] ?? 'N/A') . '</Data></Cell>';
+
+				$valorPagoFormatado = number_format($contaPagar['valor_pago'], 2, ',', '');
+				$xml .= '<Cell><Data ss:Type="Number">' . str_replace(',', '.', $valorPagoFormatado) . '</Data></Cell>';
+
 				$xml .= '<Cell><Data ss:Type="String">' . ($contaPagar['SETOR'] ?? 'N/A') . '</Data></Cell>';
 				$xml .= '<Cell><Data ss:Type="String">' . ($contaPagar['status'] ? "Pago" : "Em aberto") . '</Data></Cell>';
 				$xml .= '<Cell><Data ss:Type="String">' . (isset($contaPagar['data_pagamento']) ? date('d/m/Y', strtotime($contaPagar['data_pagamento'])) : '-') . '</Data></Cell>';
