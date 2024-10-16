@@ -54,6 +54,7 @@ class FinPrestacaoContas_model extends CI_Model
         $this->db->where('codigo <>', $codRomaneio);
         $this->db->where('id_responsavel', $idResponsavel);
         $this->db->where('prestar_conta', 0);
+        $this->db->where('data_romaneio >=', date('Y-m-d', strtotime('-30 days')));
         $this->db->where('data_romaneio <', $dataRomaneio);
         $query = $this->db->get('ci_romaneios');
 
