@@ -24,38 +24,6 @@ class FinPrestacaoContas extends CI_Controller
 		$this->load->model('Funcionarios_model');
 	}
 
-	public function index()
-	{
-		// scripts padrão
-		$scriptsPadraoHead = scriptsPadraoHead();
-		$scriptsPadraoFooter = scriptsPadraoFooter();
-
-		// Scripts para Prestação de Contas
-		$scriptsPrestacaoContasHead = scriptsFinPrestacaoContasHead();
-		$scriptsPrestacaoContasFooter = scriptsFinPrestacaoContasFooter();
-
-		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsPrestacaoContasHead));
-		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsPrestacaoContasFooter));
-
-		$data['prestacaoContas'] = $this->FinPrestacaoContas_model->recebePrestacaoContas();
-
-		$this->load->model('FinTiposCustos_model');
-		$data['tiposCustos'] = $this->FinTiposCustos_model->recebeTiposCustos();
-
-		$this->load->model('FinMacro_model');
-		$data['macros'] = $this->FinMacro_model->recebeMacros();
-
-		$this->load->model('FinFormaTransacao_model');
-		$this->load->model('FinContaBancaria_model');
-
-		$data['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
-		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
-
-		$this->load->view('admin/includes/painel/cabecalho', $data);
-		$this->load->view('admin/paginas/financeiro/prestacao-contas');
-		$this->load->view('admin/includes/painel/rodape');
-	}
-
 	public function cadastraPrestacaoContas()
 	{
 		$idFuncionario = $this->input->post('idFuncionario');
@@ -216,9 +184,17 @@ class FinPrestacaoContas extends CI_Controller
 
 		$retorno = $this->FinPrestacaoContas_model->recebeCustosPrestacaoContasRomaneio($codRomaneio);
 
+		$valorTotalCustos = $this->FinPrestacaoContas_model->recebeCustoTotalPrestacaoContasRomaneio($codRomaneio);
+
+
 		if ($retorno) {
 
-			return $this->output->set_content_type('application/json')->set_output(json_encode($retorno));
+			$response = array(
+				'valorTotal' => $valorTotalCustos,
+				'custos' => $retorno,
+			);
+
+			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 
 		} else {
 			$response = array(

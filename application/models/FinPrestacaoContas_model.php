@@ -10,19 +10,6 @@ class FinPrestacaoContas_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebePrestacaoContas()
-    {
-        $this->db->select('PC.codigo_romaneio, MAX(F.nome) as FUNCIONARIO, SUM(PC.valor) as valor_total');
-        $this->db->from('fin_prestacao_contas PC');
-        $this->db->join('ci_funcionarios F', 'PC.id_funcionario = F.id', 'LEFT');
-        $this->db->where('PC.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->group_by('PC.codigo_romaneio');
-        $query = $this->db->get();
-
-        return $query->result_array();
-    }
-
-
     public function inserePrestacaoContas($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');
@@ -46,6 +33,17 @@ class FinPrestacaoContas_model extends CI_Model
         $query = $this->db->get();
 
         return $query->result_array();
+    }
+
+    public function recebeCustoTotalPrestacaoContasRomaneio($codRomaneio)
+    {
+        $this->db->select('SUM(PC.valor) as valor_total');
+        $this->db->from('fin_prestacao_contas PC');
+        $this->db->where('PC.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('PC.codigo_romaneio', $codRomaneio);
+        $query = $this->db->get();
+
+        return $query->row_array();
     }
 
     public function recebeRomaneiosSemPrestarContasResponsavel($codRomaneio, $idResponsavel, $dataRomaneio)
