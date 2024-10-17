@@ -80,7 +80,7 @@
                     <div class="d-flex align-items-center">
                         <h3 class="me-3">Clientes sem atividades</h3>
                         <button class="d-none btn btn-phoenix-info btn-gerar-romaneio-cliente" onclick="" data-bs-toggle="modal" data-bs-target="#modalRomaneiosAtrasados">
-                            <i class="fas fa-clipboard-list me-2"></i>Gerar Romaneio
+                            <i class="fas fa-clipboard-list me-2"></i>Gerar Romaneio <span class="contador-gerar-romaneio-cliente"></span>
                         </button>
                     </div>
                 </div>
@@ -120,7 +120,7 @@
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static tr-pagamento">
                                 <td class="fs--1 align-middle ps-0">
                                     <div class="form-check mb-0 fs-0">
-                                        <input class="form-check-input check-element-agendamentos cursor-pointer" data-id-cliente="<?= $cliente['id'] ?>" type="checkbox" value="<?= $cliente['id'] ?>|" />
+                                        <input class="form-check-input check-element-agendamentos cursor-pointer" data-id-cliente="<?= $cliente['id'] ?>" type="checkbox" value="<?= $cliente['id'] ?>" />
 
                                     </div>
                                 </td>
