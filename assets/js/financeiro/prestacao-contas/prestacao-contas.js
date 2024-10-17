@@ -470,7 +470,7 @@ $(document).on('change', '.check-sem-custos', function () {
 })
 
 
-const visualizarPrestacaoContas = (codigoRomaneio, valorTotal) => {
+const visualizarPrestacaoContas = (codigoRomaneio) => {
 
     $('.cod-romaneio').html(codigoRomaneio);
 
@@ -488,18 +488,18 @@ const visualizarPrestacaoContas = (codigoRomaneio, valorTotal) => {
             $('.div-tabela-tipos-custos-modal').removeClass('d-none');
 
             let conteudoTabelaModal;
-            for (i = 0; i < data.length; i++) {
+            for (i = 0; i < data.custos.length; i++) {
 
                 conteudoTabelaModal += `
                     <tr class="hover-actions-trigger btn-reveal-trigger position-static text-center">
                         <td class="align-middle text-center data white-space-nowrap">
                             <h6 class="mb-0 text-900 text-center">
-                                ${data[i].CUSTO}
+                                ${data.custos[i].CUSTO}
                             </h6>
                         </td>
                         <td class="align-middle text-center data white-space-nowrap">
                             <h6 class="mb-0 text-900 text-center">
-                                ${formatarValorMoeda(data[i].valor)}
+                                ${formatarValorMoeda(data.custos[i].valor)}
                             </h6>
                         </td>
                     </tr>
@@ -514,7 +514,7 @@ const visualizarPrestacaoContas = (codigoRomaneio, valorTotal) => {
                     <td class="align-middle text-center data white-space-nowrap"> </td>
                     <td class="align-middle text-center data white-space-nowrap">
                         <h6 class="mb-0 text-1000 text-center">
-                            Total: ${formatarValorMoeda(valorTotal)}
+                            Total: ${formatarValorMoeda(data.valorTotal.valor_total)}
                         </h6>
                     </td>
                 </tr>

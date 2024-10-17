@@ -557,7 +557,7 @@ const verificaPrestacaoContasFuncionario = (codRomaneio, idResponsavel, dataRoma
 
     $.ajax({
         type: "post",
-        url: `${baseUrl}finPrestacaoContas/verificaPrestacaoContasFuncionario` ,
+        url: `${baseUrl}finPrestacaoContas/verificaPrestacaoContasFuncionario`,
         data: {
             codRomaneio: codRomaneio,
             idResponsavel: idResponsavel,
@@ -1801,6 +1801,12 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
                                         <a class="dropdown-item" href="${baseUrl}romaneios/detalhes/${romaneio.codigo}" title="Visualizar Romaneio">
                                             <span class="ms-1 fas fa-eye"></span> Visualizar
                                         </a>
+                                    ` : ''}
+
+                                    ${romaneio.status == 1 && romaneio.prestar_conta == 1 ? `
+                                        <a onclick="visualizarPrestacaoContas(${romaneio.codigo})" class="dropdown-item" href="#" title="Visualizar Custos" data-bs-toggle="modal" data-bs-target="#modalVisualizarCustosRomaneio">
+                                            <span class="ms-1 fas fa-coins"></span> Ver custos
+                                        </a>    
                                     ` : ''}
 
                                     ${romaneio.status == 0 ? `
