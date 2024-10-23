@@ -100,7 +100,6 @@ const verificaCampos = () => {
     }
 }
 
-
 const cadastraCliente = (dadosEmpresa, dadosEndereco, dadosResponsavel) => {
 
     let id = $('.input-id').val();
@@ -185,7 +184,6 @@ function carregarOpcoesOrigemCadastro(tipo, url, label, placeholder) {
     });
 }
 
-
 $(document).on('change', '.select-origem-cadastro-pesquisa', function () {
 
     let pesquisa = $(this).val();
@@ -211,8 +209,6 @@ $(document).on('change', '.select-origem-cadastro-pesquisa', function () {
         $('.div-pesquisa').addClass('d-none');
     }
 });
-
-
 
 $(function () {
 
@@ -265,8 +261,6 @@ $(function () {
         }
     });
 });
-
-
 
 $(function () {
 
@@ -803,8 +797,6 @@ const recebeDadosColeta = (idColeta, idCliente) => {
 
 }
 
-
-
 // verifica qual é o tipo da forma de pagamento para aplicar mascara
 $(document).on('change', '.select-pagamento', function () {
 
@@ -869,7 +861,6 @@ $(document).on('change', '.select-setor-empresa', function () {
 
 });
 
-
 const salvarColetaEdit = () => {
 
     let idColeta = $('.input-id-coleta').val();
@@ -925,7 +916,6 @@ const salvarColetaEdit = () => {
         }
 
     });
-
 
     let dadosCliente = {
         idCliente: idCliente,
@@ -985,8 +975,6 @@ const salvarColetaEdit = () => {
         })
     }
 }
-
-
 // duplica forma de pagamento e residuos
 function duplicarElemento(novoElemento, novoInput, classe) {
 
