@@ -480,7 +480,6 @@ class Coletas extends CI_Controller
         // nome de todos residuos
         $todosResiduos = $this->residuochaveid->residuoArrayNomes() ?? null;
 
-
         $responsavelColeta = json_decode($historicoColeta['coleta']['id_responsavel']);
         $residuosColetados = json_decode($historicoColeta['coleta']['residuos_coletados']);
         $quantidadeColetada = json_decode($historicoColeta['coleta']['quantidade_coletada']);
@@ -546,8 +545,8 @@ class Coletas extends CI_Controller
             // Se não houver formas de pagamento, adiciona uma linha com o campo de seleção vazio
             $selectRow = '<div class="row">';
             $selectFormaPagamento = '
-                <div class="col-6 mb-4">
-                    <select class="form-select select2 input-obrigatorio-coleta">
+                <div class="col-6 mb-4 div-pagamento">
+                    <select class="form-select select2 input-obrigatorio-coleta select-pagamento">
                         <option value="" selected disabled>Selecione</option>';
 
             foreach ($todasFormasPagamento as $key => $formaPagamento) {
@@ -560,8 +559,8 @@ class Coletas extends CI_Controller
 
             // Cria o input para o valor correspondente à forma de pagamento
             $inputValorPagamento = '
-                <div class="col-6 mb-4">
-                    <input type="text" class="form-control mascara-dinheiro input-obrigatorio-coleta" name="valor_0" value="">
+                <div class="col-6 mb-4 ">
+                    <input type="text" class="input-pagamento form-control mascara-dinheiro input-obrigatorio-coleta" name="valor_0" value="">
                     <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
                 </div>';
 
