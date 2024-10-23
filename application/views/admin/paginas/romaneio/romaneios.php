@@ -113,6 +113,7 @@
                     <input type="hidden" class="code_romaneio">
                     <input type="hidden" class="data_romaneio">
                     <input type="hidden" class="input-id-setor-empresa">
+                    <input type="hidden" class="input-id-trajeto">
 
                 </div>
             </div>
