@@ -11,7 +11,7 @@ let checkElementsAgendamento = localStorage.getItem('paginacao') ? JSON.parse(lo
 // Atualiza o localStorage e exibe o botão
 function atualizarLocalStorage() {
   localStorage.setItem('paginacao', JSON.stringify(checkElementsAgendamento));
-  $('.btn-gerar-romaneio-cliente').toggleClass('d-none', checkElementsAgendamento.length === 0);
+  $('.dropdown-sem-atividade').toggleClass('d-none', checkElementsAgendamento.length === 0);
   $('.contador-gerar-romaneio-cliente').html(`(${checkElementsAgendamento.length})`)
 
 }
@@ -28,7 +28,7 @@ function resetarAgendamentos() {
   localStorage.removeItem('paginacao');
   checkElementsAgendamento = [];
   $('.check-element-agendamentos').prop('checked', false);
-  $('.btn-gerar-romaneio-cliente').addClass('d-none'); // Esconde o botão
+  $('.dropdown-sem-atividade').addClass('d-none'); // Esconde o botão
 }
 
 // Verifica se o último parâmetro da URL é "/all"
@@ -59,7 +59,7 @@ $(document).on('change', '.check-all-element-agendamentos', function () {
 
         checkElementsAgendamento.push(valor);
 
-      } 
+      }
     } else {
       checkElementsAgendamento = checkElementsAgendamento.filter(item => item !== valor);
     }
@@ -71,13 +71,10 @@ $(document).on('change', '.check-all-element-agendamentos', function () {
 // checkbox individual
 $(document).on('change', '.check-element-agendamentos', function () {
   let valor = $(this).val();
-  $(this).prop('checked')
-    ? !checkElementsAgendamento.includes(valor) && checkElementsAgendamento.push(valor)
-    : checkElementsAgendamento = checkElementsAgendamento.filter(item => item !== valor);
+  $(this).prop('checked') ? !checkElementsAgendamento.includes(valor) && checkElementsAgendamento.push(valor) : checkElementsAgendamento = checkElementsAgendamento.filter(item => item !== valor);
 
   atualizarLocalStorage();
 });
-
 
 const agruparIdsCheckboxAgendamentos = () => {
   let idsArray = checkElementsAgendamento;
@@ -89,7 +86,6 @@ const agruparIdsCheckboxAgendamentos = () => {
 $(document).on('click', '[data-list-pagination="next"], [data-list-pagination="prev"], .page', function () {
   $('.check-all-element-agendamentos').prop('checked', false);
 });
-
 
 function gerarRomaneioClientesSemAtividades() {
 
@@ -160,3 +156,67 @@ $(function () {
     theme: "bootstrap-5",
   });
 })
+
+$(document).on('click', '.btn-inativar-clientes', function () {
+  inativarClientesSemAtividade();
+})
+
+function inativarClientesSemAtividade() {
+
+  let ids = agruparIdsCheckboxAgendamentos();
+
+  Swal.fire({
+    title: 'Você tem certeza?',
+    text: "Deseja inativar os clientes selecionados?",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sim, inativar!',
+    cancelButtonText: 'Não, cancelar',
+    allowOutsideClick: false 
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        type: 'post',
+        url: `${baseUrl}clientes/inativaArrayClientes`,
+        data: {
+          ids: ids
+        },
+        success: function (data) {
+          if (data.success) {
+            Swal.fire({
+              title: 'Sucesso!',
+              text: data.message,
+              icon: 'success',
+              confirmButtonText: 'OK',
+              allowOutsideClick: false 
+            }).then(() => {
+              window.location.href = `${baseUrl}clientesSemAtividade/index/all`;
+            });
+          } else {
+            let listaClientes = '<ul>';
+            Object.entries(data.dataClientesRecipientes).forEach(([idCliente, clienteNome]) => {
+              listaClientes += `<li><a href="${baseUrl}clientes/detalhes/${idCliente}" target="_blank">${clienteNome}</a></li>`;
+            });
+            listaClientes += '</ul>';
+
+            let mensagem = '<small>* Clique para ir ao cliente.</small>'
+
+            Swal.fire({
+              title: 'Atenção!',
+              html: `${data.message}<br><br>${mensagem}<br>${listaClientes}`,
+              icon: 'warning',
+              confirmButtonText: 'Recarregar Página',
+              allowOutsideClick: false 
+
+            }).then(() => {
+              window.location.href = `${baseUrl}clientesSemAtividade/index/all`;
+            });
+          }
+        }
+      });
+    }
+  });
+}
+
+
+
