@@ -145,16 +145,16 @@ class Clientes_model extends CI_Model
         $this->db->where('status', 1);
         $this->db->where("rua NOT IN ('', '-')");
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        
+
         $this->db->distinct();
 
         $this->db->order_by('rua', 'ASC');
-        
+
         $query = $this->db->get('ci_clientes');
-    
+
         return $query->result_array();
     }
-    
+
 
     public function recebeCliente($id)
     {
@@ -260,6 +260,22 @@ class Clientes_model extends CI_Model
         $this->db->get('ci_recipiente_cliente');
 
         return $this->db->affected_rows() > 0;
+    }
+
+    public function verificaArrayRecipienteCliente($id)
+    {
+        $this->db->select('C.nome as NOME_CLIENTE');
+
+        $this->db->from('ci_recipiente_cliente RC');
+
+        $this->db->where('RC.id_cliente', $id);
+        $this->db->where('RC.id_empresa', $this->session->userdata('id_empresa'));
+        
+        $this->db->join('ci_clientes C', 'C.id = RC.id_cliente');
+
+        $query = $this->db->get();
+
+        return $query->row_array();
     }
 
     public function recebeClientesAprovacaoInativacao($limitarRegistros)

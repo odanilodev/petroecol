@@ -384,6 +384,54 @@ class Clientes extends CI_Controller
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
+    // Verifica se existem recipientes atrelados a um array de Clientes, inativa os permitidos e retorna os vinculados.
+    public function inativaArrayClientes()
+    {
+        $idsClientes = $this->input->post('ids');
+
+        $clientesComRecipientes = [];
+        $clientesSemRecipientes = [];
+
+        foreach ($idsClientes as $idCliente) {
+            $temRecipiente = $this->Clientes_model->verificaArrayRecipienteCliente($idCliente);
+
+            if ($temRecipiente) {
+                $clientesComRecipientes[$idCliente] = $temRecipiente['NOME_CLIENTE'];
+            } else {
+                $clientesSemRecipientes[$idCliente] = $this->Clientes_model->recebeCliente($idCliente)['nome'];
+            }
+        }
+
+        $this->db->trans_start();
+
+        foreach ($clientesSemRecipientes as $id => $nomeCliente) {
+            $this->Clientes_model->deletaCliente($id);
+        }
+
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            $resposta = [
+                'success' => false,
+                'message' => "Erro ao inativar clientes. Por favor, tente novamente."
+            ];
+        } else if (!empty($clientesComRecipientes)) {
+            $resposta = [
+                'success' => false,
+                'message' => "Clientes inativados com sucesso. Não foi possível inativar o(s) seguinte(s) cliente(s) pois existem recipientes atrelados a eles:",
+                'dataClientesRecipientes' => $clientesComRecipientes,
+                'clientesInativados' => $clientesSemRecipientes,
+            ];
+        } else {
+            $resposta = [
+                'success' => true,
+                'message' => "Cliente(s) inativado(s) com sucesso."
+            ];
+        }
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($resposta));
+    }
+
     public function verificaAgendamentosCliente()
     {
         $id = $this->input->post('id');
