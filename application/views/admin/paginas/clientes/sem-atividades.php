@@ -79,9 +79,25 @@
                 <div class="col-auto">
                     <div class="d-flex align-items-center">
                         <h3 class="me-3">Clientes sem atividades</h3>
-                        <button class="d-none btn btn-phoenix-info btn-gerar-romaneio-cliente" onclick="" data-bs-toggle="modal" data-bs-target="#modalRomaneiosAtrasados">
-                            <i class="fas fa-clipboard-list me-2"></i>Gerar Romaneio <span class="contador-gerar-romaneio-cliente"></span>
-                        </button>
+                        <div class="dropdown-sem-atividade">
+                            <button class="btn btn-phoenix-info dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="contador-gerar-romaneio-cliente"></span>
+                                Selecionados
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li>
+                                    <button class="dropdown-item btn-gerar-romaneio-cliente" data-bs-toggle="modal" data-bs-target="#modalRomaneiosAtrasados">
+                                        <i class="fas fa-clipboard-list me-2 ms-1"></i>Gerar Romaneio(s)
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item btn-inativar-clientes">
+                                        <i class="fas fa-user-times me-2"></i>Inativar Cliente(s)
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+
                     </div>
                 </div>
                 <div class="col-12 col-md-auto">
@@ -97,6 +113,7 @@
                     </div>
                 </div>
             </div>
+
 
             <div class="table-responsive mx-n1 px-1 scrollbar">
                 <table class="table fs--1 mb-0 border-top border-200">
