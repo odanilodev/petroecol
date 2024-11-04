@@ -185,7 +185,7 @@ class Login extends CI_Controller
                 if (isset($url_redirecionamento[1])) { // manda o usuário pra url que ele tentou acessar com a senha expirada
                     redirect($url_redirecionamento[1]);
                 }
-                redirect('admin');
+                redirect('dashboard');
                 exit;
             } else {
                 // A senha está incorreta.

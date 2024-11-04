@@ -1,0 +1,28 @@
+.hover-dark-coletas:hover {
+	color: #0b3c12 !important; /* Cor mais escura para "Coletas" */
+}
+
+.hover-dark-agendamentos:hover {
+	color: #0c5460 !important; /* Cor mais escura para "Agendamentos" */
+}
+
+.hover-dark-agendamentos-atrasados:hover {
+	color: #721c24 !important; /* Cor mais escura para "Agendamentos Atrasados" */
+}
+
+.text-status-cabecalho {
+	font-size: 1.25em;
+}
+
+.icon-button {
+	width: 50px; /* Aumente o tamanho do botão */
+	height: 50px; /* Aumente o tamanho do botão */
+	transition: background-color 0.3s, color 0.3s;
+	text-decoration: none; /* Remove o underline do link */
+	font-size: 20px;
+	position: relative; /* Necessário para posicionar o pseudo-elemento */
+}
+
+.icon-button:hover {
+	color: rgba(82, 155, 250, 0.747); /* Cor cinza claro */
+}

@@ -80,6 +80,27 @@ function scriptsPadraoFooter()
     );
 }
 
+function scriptsDashboardHead()
+{
+    return array(
+        '<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>',
+        '<link href="' . base_url('assets/css/dashboard.css') . '" rel="stylesheet">',
+        '<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>',
+    );
+}
+
+function scriptsDashboardFooter()
+{
+    return array(
+        '<script src="' . base_url('assets/js/dashboard/formulario-dashboard.js') . '"></script>',
+        '<script src="' . base_url('vendors/leaflet/leaflet.js') . '"></script>',
+        '<script src="' . base_url('vendors/leaflet.markercluster/leaflet.markercluster.js') . '"></script>',
+        '<script src="' . base_url('vendors/leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js') . '"></script>',
+        '<script src="' . base_url('assets/js/ecommerce-dashboard.js') . '"></script>',
+    );
+}
+
+
 
 // pagina de usuario
 function scriptsUsuarioHead()
