@@ -96,7 +96,7 @@
                             </div>
                             <div class="col-12 col-md-2" style="padding:0;">
                                 <div class="ms-3">
-                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataFim ?? ""?>"
+                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataFim ?? "" ?>"
                                         required name="data_fim" id="data_fim" type="text"
                                         placeholder="Seleciona a data final"
                                         data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}'
@@ -149,7 +149,7 @@
                                 </div>
                             </div>
 
-                           
+
 
                         </div>
                     </div>
@@ -366,8 +366,8 @@
                     </tbody>
                 </table>
             </div>
-           <!-- Links de Paginação usando classes Bootstrap -->
-           <div class="row">
+            <!-- Links de Paginação usando classes Bootstrap -->
+            <div class="row">
                 <div class="col-12">
                     <nav aria-label="Page navigation" style="display: flex; float: right">
                         <ul class="pagination-customizada mt-5">
@@ -777,6 +777,7 @@
                                                             </option>
                                                         <?php } ?>
                                                         <option value="clientes">Clientes</option>
+                                                        <option value="funcionarios">Funcionários</option>
 
                                                     </select>
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
