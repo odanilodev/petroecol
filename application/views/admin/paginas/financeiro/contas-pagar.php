@@ -471,7 +471,7 @@
                                                                         class="text-info-600 dark__text-info-300 fas fa-id-card-alt"
                                                                         style="width:16px; height:16px"></span>
                                                                 </div>
-                                                                <p class="fw-bold mb-0">Empresa</p>
+                                                                <p class="fw-bold mb-0 label-empresa-funcionario">Empresa</p>
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
@@ -1145,6 +1145,7 @@
                                                             </option>
                                                         <?php } ?>
                                                         <option value="clientes">Clientes</option>
+                                                        <option value="funcionarios">Funcionários</option>
 
                                                     </select>
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>

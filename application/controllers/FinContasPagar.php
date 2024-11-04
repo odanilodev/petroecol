@@ -83,8 +83,6 @@ class FinContasPagar extends CI_Controller
 				$data['status'] = $statusConta;
 				$data['idSetor'] = $setorEmpresa;
 			}
-
-
 		} else {
 
 			delete_cookie('filtro_data_inicio_pagar');
@@ -177,6 +175,8 @@ class FinContasPagar extends CI_Controller
 
 		if ($dadosLancamento['grupo-recebido'] == 'clientes') {
 			$data['id_cliente'] = $dadosLancamento['recebido'];
+		} else if ($dadosLancamento['grupo-recebido'] == 'funcionarios') {
+			$data['id_funcionario'] = $dadosLancamento['recebido'];
 		} else {
 			$data['id_dado_financeiro'] = $dadosLancamento['recebido'];
 		}
@@ -279,6 +279,8 @@ class FinContasPagar extends CI_Controller
 
 		if ($dadosLancamento['grupo-recebido'] == 'clientes') {
 			$data['id_cliente'] = $dadosLancamento['recebido'];
+		} else if ($dadosLancamento['grupo-recebido'] == 'funcionarios') {
+			$data['id_funcionario'] = $dadosLancamento['recebido'];
 		} else {
 			$data['id_dado_financeiro'] = $dadosLancamento['recebido'];
 		}
@@ -695,7 +697,4 @@ class FinContasPagar extends CI_Controller
 		echo $xml;
 		exit;
 	}
-
-
-
 }

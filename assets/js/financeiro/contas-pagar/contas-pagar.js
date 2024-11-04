@@ -206,51 +206,36 @@ $(document).on('click', '.editar-lancamento', function () {
     $.ajax({
         type: "post",
         url: `${baseUrl}finContasPagar/recebeContaPagar`,
-        data: {
-            id: id
-        }, beforeSend: function () {
-
-            $('.select-micros').attr('disabled', false);
+        data: { id },
+        beforeSend: function () {
+            $('.select-micros').prop('disabled', false);
             $('.editando').removeClass('d-none');
-
-        }, success: function (data) {
+        },
+        success: function (data) {
 
             $('.select-macros-editar').val(data.conta.id_macro).trigger('change');
-
             changeSelectMacros(data.conta.id_macro, data.conta.id_micro);
+            $('.select-setor-empresa').val(data.conta.id_setor_empresa).trigger('change');
 
-            let idRecebido = data.conta.id_dado_financeiro != null ? data.conta.id_dado_financeiro : data.conta.id_cliente;
+            let idRecebido = data.conta.id_funcionario || data.conta.id_dado_financeiro || data.conta.id_cliente;
 
-            if (data.conta.GRUPO_CREDOR) {
-                $('.select-grupo-recebidos').val(data.conta.GRUPO_CREDOR);
-                changeSelectRecebidos(data.conta.GRUPO_CREDOR, idRecebido);
+            let grupo = data.conta.GRUPO_CREDOR || (data.conta.id_funcionario ? 'funcionarios' : 'clientes');
+            $('.select-grupo-recebidos').val(grupo);
+            changeSelectRecebidos(grupo, idRecebido);
 
-            } else {
-                $('.select-grupo-recebidos').val('clientes');
-                changeSelectRecebidos('clientes', idRecebido);
-            }
-
-            $('.select-setor-empresa').val(data['conta'].id_setor_empresa).trigger('change');
-
-            let dataVencimento = data['conta'].data_vencimento.split('-');
-            dataVencimento = dataVencimento[2] + '/' + dataVencimento[1] + '/' + dataVencimento[0];
-
+            let dataVencimento = data.conta.data_vencimento.split('-').reverse().join('/');
             $('.input-data-vencimento').val(dataVencimento);
 
-            if (data['conta'].data_emissao) {
-
-                let dataEmissao = data['conta'].data_emissao.split('-');
-                dataEmissao = dataEmissao[2] + '/' + dataEmissao[1] + '/' + dataEmissao[0];
-
+            if (data.conta.data_emissao) {
+                let dataEmissao = data.conta.data_emissao.split('-').reverse().join('/');
                 $('.input-data-emissao').val(dataEmissao);
             }
 
-            $('.input-observacao').text(data['conta'].observacao);
-
+            $('.input-observacao').text(data.conta.observacao);
         }
-    })
+    });
+});
 
-})
 
 function changeSelectRecebidos(grupo, idRecebido = null) {
     let url;
@@ -877,8 +862,13 @@ const visualizarConta = (idConta) => {
             let valorPago = formatarValorExibicao(parseFloat(data['conta'].valor_pago));
 
             if (data['conta'].RECEBIDO) {
+                $('.label-empresa-funcionario').html('Fornecedor');
                 $('.nome-empresa').html(data['conta'].RECEBIDO);
+            } else if(data['conta'].NOME_FUNCIONARIO){
+                $('.label-empresa-funcionario').html('Funcionário');
+                $('.nome-empresa').html(data['conta'].NOME_FUNCIONARIO);
             } else {
+                $('.label-empresa-funcionario').html('Empresa');
                 $('.nome-empresa').html(data['conta'].CLIENTE);
             }
 
