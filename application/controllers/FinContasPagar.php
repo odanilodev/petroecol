@@ -389,6 +389,7 @@ class FinContasPagar extends CI_Controller
 		$idConta = $this->input->post('idConta');
 		$idDadoFinanceiro = $this->input->post('idDadoFinanceiro');
 		$idCliente = $this->input->post('idDadoCliente');
+		$idFuncionario = $this->input->post('idFuncionario');
 
 		$dataPagamento = $this->input->post('dataPagamento');
 
@@ -426,6 +427,7 @@ class FinContasPagar extends CI_Controller
 			$dados['data_movimentacao'] = $dataPagamentoFormatada;
 			$dados['id_dado_financeiro'] = $idDadoFinanceiro;
 			$dados['id_cliente'] = $idCliente;
+			$dados['id_funcionario'] = $idFuncionario;
 
 			if (empty($obs)) {
 				$dados['observacao'] = $observacaoconta['observacao'];

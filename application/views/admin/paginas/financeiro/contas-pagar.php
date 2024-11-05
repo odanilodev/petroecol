@@ -215,7 +215,7 @@
                             <th class="sort align-middle text-center" scope="col" data-sort="td_status_pgto">Status</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_data_pagamento">Data do
                                 Pagamento</th>
-                            <th class="sort align-middle text-center" scope="col" data-sort="td_empresa">Empresa</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_empresa">Empresa / Funcionário</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_micro">Micro</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_observacao">Observação
@@ -236,6 +236,7 @@
                                             class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>"
                                             type="checkbox" value="<?= $contaPagar['id'] ?>"
                                             data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>"
+                                            data-id-funcionario="<?= $contaPagar['id_funcionario'] ?>"
                                             data-nome-empresa="<?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>"
                                             data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>"
                                             data-valor="<?= $contaPagar['valor'] ?>"
@@ -277,6 +278,7 @@
                                             class="badge-label cursor-pointer realizar-pagamento status-pagamento-<?= $contaPagar['id'] ?>"
                                             data-id="<?= $contaPagar['id'] ?>"
                                             data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>"
+                                            data-id-funcionario="<?= $contaPagar['id_funcionario'] ?>"
                                             <?= !$contaPagar['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalPagarConta"' : "" ?>
                                             data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>">
                                             <?= $contaPagar['status'] ? "Pago" : "Em aberto" ?>
@@ -297,7 +299,8 @@
                                 <td class="align-middle review td_empresa text-center">
                                     <h6 class="mb-0 text-900">
 
-                                        <?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>
+                                        <?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ($contaPagar['CLIENTE'] ? ucfirst($contaPagar['CLIENTE']) : strtoupper($contaPagar['NOME_FUNCIONARIO'])); ?>
+
                                     </h6>
                                 </td>
 
@@ -354,6 +357,7 @@
                                                     data-id="<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal"
                                                     data-bs-target="#modalPagarConta"
                                                     data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>"
+                                                    data-id-funcionario="<?= $contaPagar['id_funcionario'] ?>"
                                                     data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>">Realizar
                                                     Pagamento</a>
                                             <?php } ?>
@@ -1357,6 +1361,7 @@
                 <div class="modal-footer">
                     <input type="hidden" class="id-conta-pagamento">
                     <input type="hidden" class="id-dado-financeiro">
+                    <input type="hidden" class="id-funcionario">
                     <input type="hidden" class="id-dado-cliente">
                     <input type="hidden" class="input-id-setor">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
@@ -1508,6 +1513,7 @@
                     <div>
                         <input type="hidden" class="id-conta-pagamento">
                         <input type="hidden" class="id-dado-financeiro">
+                        <input type="hidden" class="id-funcionario">
                         <input type="hidden" class="id-dado-cliente">
                         <input type="hidden" class="id-setor-empresa">
                         <div class="spinner-border text-primary load-form d-none" role="status"></div>

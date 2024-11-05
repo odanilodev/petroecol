@@ -501,6 +501,7 @@
                                                         </option>
                                                     <?php } ?>
                                                     <option value="clientes">Clientes</option>
+                                                    <option value="funcionarios">Funcionários</option>
                                                 </select>
                                                 <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 

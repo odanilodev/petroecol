@@ -348,6 +348,7 @@ $(document).on('click', '.realizar-pagamento', function () {
     $('.id-conta-pagamento').val($(this).data('id'));
     $('.input-id-setor').val($(this).data('setor'));
     $('.id-dado-financeiro').val($(this).data('id-dado-financeiro'));
+    $('.id-funcionario').val($(this).data('id-funcionario'));
     $('.id-dado-cliente').val($(this).data('id-dado-cliente'));
     $('.input-valor').val($(this).data('valor'));
     $('.valor-total-conta').html(`R$ ${$(this).data('valor')}`);
@@ -370,6 +371,7 @@ const realizarPagamento = () => {
 
         let idConta = $('.id-conta-pagamento').val();
         let idDadoFinanceiro = $('.id-dado-financeiro').val();
+        let idFuncionario = $('.id-funcionario').val()
         let idDadoCliente = $('.id-dado-cliente').val();
 
         $('.select-conta-bancaria-unic').each(function () {
@@ -405,6 +407,7 @@ const realizarPagamento = () => {
                 valorTotal: valorTotal,
                 idDadoFinanceiro: idDadoFinanceiro,
                 idDadoCliente: idDadoCliente,
+                idFuncionario: idFuncionario,
                 dataPagamento: dataPagamento
             }, beforeSend: function () {
                 $(".load-form").removeClass("d-none");
@@ -665,11 +668,11 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
         $('.check-aberto:checked').each(function () {
 
             if ($(this).data('id-dado-financeiro')) {
-
                 idsDadoFinanceiro.push($(this).data('id-dado-financeiro'));
-            } else {
+            } else if ($(this).data('id-dado-cliente')) {
                 idsDadoFinanceiro.push($(this).data('id-dado-cliente'));
-
+            } else {
+                idsDadoFinanceiro.push($(this).data('id-funcionario'));
             }
         });
 
@@ -864,9 +867,9 @@ const visualizarConta = (idConta) => {
             if (data['conta'].RECEBIDO) {
                 $('.label-empresa-funcionario').html('Fornecedor');
                 $('.nome-empresa').html(data['conta'].RECEBIDO);
-            } else if(data['conta'].NOME_FUNCIONARIO){
+            } else if (data['conta'].NOME_FUNCIONARIO) {
                 $('.label-empresa-funcionario').html('Funcionário');
-                $('.nome-empresa').html(data['conta'].NOME_FUNCIONARIO);
+                $('.nome-empresa').html(data['conta'].NOME_FUNCIONARIO.toUpperCase());
             } else {
                 $('.label-empresa-funcionario').html('Empresa');
                 $('.nome-empresa').html(data['conta'].CLIENTE);
@@ -875,7 +878,7 @@ const visualizarConta = (idConta) => {
             $('.setor-empresa').html(data['conta'].SETOR);
             $('.data-vencimento').html(dataVencimento);
             $('.data-emissao').html(dataEmissao);
-            $('.valor-conta').html(valorConta);
+            $('.valor-conta').html('R$' + valorConta);
             $('.obs-conta').html(data['conta'].observacao);
             $('.nome-macro').html(data['conta'].MACRO);
             $('.nome-micro').html(data['conta'].MICRO);
@@ -883,7 +886,7 @@ const visualizarConta = (idConta) => {
             if (data['conta'].valor_pago) {
                 let dataPagamento = formatarDatas(data['conta'].data_pagamento);
                 $('.div-valor-pago').removeClass('d-none');
-                $('.valor-pago').html(valorPago);
+                $('.valor-pago').html('R$' + valorPago);
                 $('.div-data-pagamento').removeClass('d-none');
                 $('.data-pagamento').html(dataPagamento);
                 $('.obs-conta').html(data['conta'].observacao ? data['conta'].observacao : '-');
