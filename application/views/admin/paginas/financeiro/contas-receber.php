@@ -180,7 +180,7 @@
                                 </td>
                                 <td class="align-middle text-start ps-3 status text-center td_status">
                                     <span class="badge badge-phoenix fs--2 <?= $contaReceber['status'] ? "badge-phoenix-success" : "badge-phoenix-danger" ?> tipo-status-conta-<?= $contaReceber['id'] ?>">
-                                        <span data-id-dado-cliente="<?= $contaReceber['id_cliente'] ?>" data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" class="badge-label cursor-pointer receber-conta status-pagamento-table-<?= $contaReceber['id'] ?>" data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro'] ?>" data-id="<?= $contaReceber['id'] ?>" <?= !$contaReceber['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalReceberConta"' : '' ?>>
+                                        <span data-id-dado-cliente="<?= $contaReceber['id_cliente'] ?>" data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" class="badge-label cursor-pointer receber-conta status-pagamento-table-<?= $contaReceber['id'] ?>" data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro'] ?>" data-id-funcionario="<?= $contaReceber['id_funcionario'] ?>" data-id="<?= $contaReceber['id'] ?>" <?= !$contaReceber['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalReceberConta"' : '' ?>>
                                             <?= $contaReceber['status'] ? "Recebido" : "A receber" ?>
                                         </span>
                                         <span class="ms-1 icone-status-conta-<?= $contaReceber['id'] ?>" data-feather="<?= $contaReceber['status'] ? "check" : "slash" ?>" style="height:12.8px;width:12.8px;"></span>
@@ -190,7 +190,14 @@
                                     <h6 class="mb-0 text-900 data-recebimento-<?= $contaReceber['id'] ?>"><?= $contaReceber['data_recebimento'] ? date('d/m/Y', strtotime($contaReceber['data_recebimento'])) : '-' ?></h6>
                                 </td>
                                 <td class="align-middle text-start time text-center td_recebido">
-                                    <h6 class="text-900 mb-0"><?= $contaReceber['RECEBIDO'] ? ucfirst($contaReceber['RECEBIDO']) : ucfirst($contaReceber['CLIENTE']); ?></h6>
+                                    <h6 class="text-900 mb-0">
+                                        <?= $contaReceber['RECEBIDO']
+                                            ? ucfirst($contaReceber['RECEBIDO'])
+                                            : ($contaReceber['CLIENTE']
+                                                ? ucfirst($contaReceber['CLIENTE'])
+                                                : ucfirst($contaReceber['NOME_FUNCIONARIO']));
+                                        ?>
+                                    </h6>
                                 </td>
                                 <td class="align-middle product white-space-nowrap text-center td_setor">
                                     <h6 class="mb-0 text-900"><?= $contaReceber['SETOR']; ?></h6>
@@ -215,7 +222,7 @@
                                                     <span class="fas fa-trash"></span> Excluir
                                                 </a>
                                                 <div class="dropdown-divider btn-receber-pagamento-<?= $contaReceber['id'] ?>"></div>
-                                                <a data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" class="dropdown-item receber-conta btn-receber-pagamento-<?= $contaReceber['id'] ?>" data-id="<?= $contaReceber['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalReceberConta" data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro'] ?>" data-id-dado-cliente="<?= $contaReceber['id_cliente'] ?>">Receber Conta</a>
+                                                <a data-valor="<?= number_format($contaReceber['valor'], 2, ',', '.'); ?>" class="dropdown-item receber-conta btn-receber-pagamento-<?= $contaReceber['id'] ?>" data-id="<?= $contaReceber['id'] ?>" href="#!" data-bs-toggle="modal" data-bs-target="#modalReceberConta" data-id-dado-financeiro="<?= $contaReceber['id_dado_financeiro'] ?>" data-id-dado-cliente="<?= $contaReceber['id_cliente'] ?>" data-id-dado-cliente="<?= $contaReceber['id_funcionario'] ?>">Receber Conta</a>
                                             <?php } ?>
                                         </div>
                                     </div>
@@ -225,7 +232,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+            <div class=" row align-items-center justify-content-between py-2 pe-0 fs--1">
                 <div class="col-auto d-none">
                     <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!" data-list-view="*">Ver todos<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">Ver menos<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
                 </div>
@@ -796,6 +803,7 @@
             <div class="modal-footer">
                 <input type="hidden" class="id-conta-pagamento">
                 <input type="hidden" class="id-dado-financeiro">
+                <input type="hidden" class="id-funcionario">
                 <input type="hidden" class="id-dado-cliente">
                 <div class="spinner-border text-primary load-form d-none" role="status"></div>
                 <button class="btn btn-primary btn-form" type="button" onclick="receberConta()">Receber

@@ -184,64 +184,70 @@ function duplicarFormasPagamento() {
 
 $(document).on('click', '.receber-conta', function () {
 
+    $('.select2').select2({
+        dropdownParent: "#modalReceberConta",
+        theme: "bootstrap-5",
+    });
+
     $('.id-conta-pagamento').val($(this).data('id'));
     $('.input-valor-recebido').val($(this).data('valor'));
     $('.valor-total-conta').html(`R$ ${$(this).data('valor')}`);
     $('.id-dado-financeiro').val($(this).data('id-dado-financeiro'));
     $('.id-dado-cliente').val($(this).data('id-dado-cliente'));
+    $('.id-funcionario').val($(this).data('id-funcionario'));
 })
 
 $(document).on('change', '.select-grupo-recebidos', function () {
 
     let grupo = $(this).val();
+    let url;
 
-    if (grupo == "clientes") {
-
-        $.ajax({
-            type: "post",
-            url: `${baseUrl}finContasPagar/recebeTodosClientesAll`
-            , beforeSend: function () {
-                $('.select-recebido').attr('disabled', true);
-                $('.select-recebido').html('<option disabled>Carregando...</option>');
-            }, success: function (data) {
-                $('.select-recebido').attr('disabled', false);
-
-                let options = '<option disabled="disabled" value="">Selecione</option>';
-                for (let i = 0; i < data.clientes.length; i++) {
-                    options += `<option value="${data.clientes[i].id}">${data.clientes[i].nome}</option>`;
-                }
-                $('.select-recebido').html(options);
-
-                $('.select-recebido').val('').trigger('change');
-
-            }
-        })
-    } else {
-
-        $.ajax({
-            type: "post",
-            url: `${baseUrl}finDadosFinanceiros/recebeDadosFinanceiros`,
-            data: {
-                grupo: grupo
-            },
-            beforeSend: function () {
-                $('.select-recebido').attr('disabled');
-                $('.select-recebido').html('<option value="">Carregando...</option>');
-            }, success: function (data) {
-
-                $('.select-recebido').attr('disabled', false);
-                $('.select-recebido').html('<option value="">Selecione</option>');
-
-                for (i = 0; i < data.dadosFinanceiro.length; i++) {
-
-                    $('.select-recebido').append(`<option value="${data.dadosFinanceiro[i].id}">${data.dadosFinanceiro[i].nome}</option>`);
-                }
-            }
-        })
-
+    switch (grupo) {
+        case "clientes":
+            url = `${baseUrl}finContasPagar/recebeTodosClientesAll`;
+            break;
+        case "funcionarios":
+            url = `${baseUrl}finContasPagar/recebeTodosFuncionariosAll`;
+            break;
+        default:
+            url = `${baseUrl}finDadosFinanceiros/recebeDadosFinanceiros`;
+            break;
     }
 
-})
+    $.ajax({
+        type: "post",
+        url: url,
+        data: grupo !== "clientes" ? { grupo: grupo } : {},
+        beforeSend: function () {
+            $('.select-recebido').attr('disabled', true).html('<option disabled>Carregando...</option>');
+        },
+        success: function (data) {
+            $('.select-recebido').attr('disabled', false);
+
+            let options = '<option selected disabled="disabled" value="">Selecione</option>';
+            let dados;
+
+            switch (grupo) {
+                case "clientes":
+                    dados = data.clientes;
+                    break;
+                case "funcionarios":
+                    dados = data.funcionarios;
+                    break;
+                default:
+                    dados = data.dadosFinanceiro;
+                    break;
+            }
+
+            dados.forEach(dado => {
+                options += `<option value="${dado.id}">${dado.nome}</option>`;
+            });
+
+            $('.select-recebido').html(options);
+            $('.select-recebido').val('').trigger('change');
+        }
+    });
+});
 
 
 const receberConta = () => {
@@ -255,6 +261,7 @@ const receberConta = () => {
 
     let idConta = $('.id-conta-pagamento').val();
     let idDadoFinanceiro = $('.id-dado-financeiro').val();
+    let idFuncionario = $('.id-funcionario').val();
     let idDadoCliente = $('.id-dado-cliente').val();
 
     $('.select-conta-bancaria').each(function () {
@@ -294,6 +301,7 @@ const receberConta = () => {
             valorTotal: valorTotal,
             idDadoFinanceiro: idDadoFinanceiro,
             idDadoCliente: idDadoCliente,
+            idFuncionario: idFuncionario,
             dataRecebimento: dataRecebimento
         }, beforeSend: function () {
             $(".load-form").removeClass("d-none");
@@ -403,7 +411,7 @@ function formatarValorExibicao(valor) {
 }
 
 const visualizarConta = (idConta) => {
-    
+
     $.ajax({
         type: "post",
         url: `${baseUrl}finContasReceber/visualizarConta`,
@@ -412,7 +420,7 @@ const visualizarConta = (idConta) => {
         }, beforeSend: function () {
             $('.html-clean').html('');
         }, success: function (data) {
-            
+
             let dataEmissao = formatarDatas(data['conta'].data_emissao);
             let dataVencimento = formatarDatas(data['conta'].data_vencimento);
             let valorConta = formatarValorExibicao(parseFloat(data['conta'].valor));
@@ -426,7 +434,7 @@ const visualizarConta = (idConta) => {
 
             $('.setor-empresa').html(data['conta'].SETOR);
             $('.data-vencimento').html(dataVencimento);
-            
+
             $('.data-emissao').html(data['conta'].data_emissao != '1969-12-31' ? dataEmissao : "");
             $('.valor-conta').html(valorConta);
             $('.obs-conta').html(data['conta'].observacao ? data['conta'].observacao : '-');
