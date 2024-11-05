@@ -36,7 +36,7 @@ function duplicarElemento() {
 
     let inputValor = `
         <div class="col-md-3 mb-2 input-obrigatorio">
-            <input class="form-control mt-2 input-valor" type="text" placeholder="Digite o valor" value="">
+            <input class="form-control mt-2 input-valor input-valor-unic mascara-dinheiro" type="text" placeholder="Digite o valor" value="">
         </div>
         <div class="d-none aviso-obrigatorio">Preencha este campo</div>
     `;
@@ -64,6 +64,9 @@ function duplicarElemento() {
     });
 
     $(`.campos-duplicados`).append(novaLinha);
+
+    $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
+
 
 }
 
