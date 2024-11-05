@@ -20,7 +20,7 @@ class FinFluxo_model extends CI_Model
 
     public function recebeFluxoData($dataInicio, $dataFim, $tipoMovimentacao, $idSetor)
     {
-        $this->db->select('fin_fluxo.*, fin_contas_bancarias.apelido as apelido_conta_bancaria, fin_forma_transacao.nome as nome_forma_transacao, fin_dados_financeiros.nome as nome_dado_financeiro, C.nome as CLIENTE, M.nome as NOME_MICRO, SE.nome as NOME_SETOR, F.nome as FUNCIONARIO');
+        $this->db->select('fin_fluxo.*, fin_contas_bancarias.apelido as apelido_conta_bancaria, fin_forma_transacao.nome as nome_forma_transacao, fin_dados_financeiros.nome as nome_dado_financeiro, C.nome as CLIENTE, M.nome as NOME_MICRO, SE.nome as NOME_SETOR, F.nome as NOME_FUNCIONARIO');
         $this->db->from('fin_fluxo');
         $this->db->join('fin_contas_bancarias', 'fin_fluxo.id_conta_bancaria = fin_contas_bancarias.id', 'left');
         $this->db->join('fin_micros M', 'M.id = fin_fluxo.id_micro', 'left');
@@ -68,7 +68,7 @@ class FinFluxo_model extends CI_Model
 
     public function recebeMovimentoFluxo($id)
     {
-        $this->db->select('DF.nome as RECEBIDO, F.id_conta_bancaria, F.valor, FT.nome as FORMAPAGAMENTO, MA.nome as NOME_MACRO, MI.nome as NOME_MICRO, F.data_movimentacao as DATA_FLUXO, F.observacao as OBSERVACAOFLUXO, SE.nome as NOME_SETOR');
+        $this->db->select('DF.nome as RECEBIDO, F.id_conta_bancaria, F.valor, FT.nome as FORMAPAGAMENTO, MA.nome as NOME_MACRO, MI.nome as NOME_MICRO, F.data_movimentacao as DATA_FLUXO, F.observacao as OBSERVACAO_FLUXO, SE.nome as NOME_SETOR');
         $this->db->from('fin_fluxo F');
         $this->db->join('fin_forma_transacao FT', 'F.id_forma_transacao = FT.id', 'left');
         $this->db->join('ci_setores_empresa SE', 'F.id_setor_empresa = SE.id', 'left');

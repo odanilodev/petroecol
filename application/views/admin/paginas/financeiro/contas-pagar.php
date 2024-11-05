@@ -318,8 +318,7 @@
 
                                 <td class="align-middle product white-space-nowrap td_observacao text-center">
                                     <h6 class="mb-0 text-900">
-                                        <?= $contaPagar['observacao'] != '' ? $contaPagar['observacao'] : '-'; ?>
-                                        
+                                        <?= empty($contaPagar['observacao']) ? '-' : $contaPagar['observacao'] ?>
                                     </h6>
                                 </td>
 

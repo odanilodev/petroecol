@@ -237,8 +237,8 @@
                                         <?php
                                         if ($movimentacao['nome_dado_financeiro']) {
                                             echo ucfirst($movimentacao['nome_dado_financeiro']);
-                                        } else if (($movimentacao['FUNCIONARIO'])) {
-                                            echo ucfirst($movimentacao['FUNCIONARIO']);
+                                        } else if (($movimentacao['id_funcionario'])) {
+                                            echo ucfirst($movimentacao['NOME_FUNCIONARIO']);
                                         } else {
                                             echo ucfirst($movimentacao['CLIENTE']);
                                         }
@@ -294,8 +294,9 @@
 
                                 <td class="align-middle td_observacao">
                                     <h6 class="text-900 mb-0">
-                                        <?= $movimentacao['observacao'] ?? '-' ?>
+                                        <?= empty($movimentacao['observacao']) ? '-' : $movimentacao['observacao'] ?>
                                     </h6>
+
                                 </td>
 
                                 <td class="align-middle white-space-nowrap text-end pe-0">
@@ -637,6 +638,7 @@
                                                             </option>
                                                         <?php } ?>
                                                         <option value="clientes">Clientes</option>
+                                                        <option value="funcionarios">Funcionários</option>
                                                     </select>
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
