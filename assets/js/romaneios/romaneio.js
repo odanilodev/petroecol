@@ -240,7 +240,7 @@ const gerarRomaneio = () => {
 
                     avisoRetorno('Sucesso!', data.message, 'success', `${baseUrl}romaneios/`);
 
-                    adicionarVerbasResponsavel(data.codigo_romaneio)
+                    adicionarVerbasResponsavel(data.codigo_romaneio, data.data_romaneio)
                 } else {
                     avisoRetorno('Erro!', data.message, 'error', `${baseUrl}romaneios/formulario/`);
 
@@ -258,7 +258,7 @@ $(document).on('click', '.btn-salva-verba-responsavel', function () {
 
 })
 
-function adicionarVerbasResponsavel(codRomaneio) {
+function adicionarVerbasResponsavel(codRomaneio, dataRomaneio) {
 
     let permissao = true;
 
@@ -296,7 +296,9 @@ function adicionarVerbasResponsavel(codRomaneio) {
                     dadosFluxo: dadosFormulario,
                     responsavel: responsavel,
                     codRomaneio: codRomaneio,
-                    setorEmpresa: setorEmpresa
+                    setorEmpresa: setorEmpresa,
+                    dataRomaneio: dataRomaneio
+
 
                 }, beforeSend: function () {
 
