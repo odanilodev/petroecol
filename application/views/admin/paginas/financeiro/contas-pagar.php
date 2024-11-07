@@ -215,7 +215,7 @@
                             <th class="sort align-middle text-center" scope="col" data-sort="td_status_pgto">Status</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_data_pagamento">Data do
                                 Pagamento</th>
-                            <th class="sort align-middle text-center" scope="col" data-sort="td_empresa">Empresa / Funcionário</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_empresa">Credor</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_micro">Micro</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_observacao">Observação

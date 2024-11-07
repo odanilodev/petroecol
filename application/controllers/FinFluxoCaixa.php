@@ -123,12 +123,16 @@ class FinFluxoCaixa extends CI_Controller
         $data_movimentacao = $this->input->post('data_movimentacao');
         $grupoRecebido = $this->input->post('grupo_recebido');
 
+        $dados['id_cliente'] = null;
+        $dados['id_funcionario'] = null;
+        $dados['id_dado_financeiro'] = null;
+
         if ($grupoRecebido == 'clientes') {
             $dados['id_cliente'] = $this->input->post('id_dado_financeiro');
         } else if ($grupoRecebido == 'funcionarios') {
             $dados['id_funcionario'] = $this->input->post('id_dado_financeiro');
         } else {
-            $data['id_dado_financeiro'] = $this->input->post('id_dado_financeiro');
+            $dados['id_dado_financeiro'] = $this->input->post('id_dado_financeiro');
         }
 
         $dados['data_movimentacao'] = date('Y-m-d', strtotime(str_replace('/', '-', $data_movimentacao)));
@@ -147,7 +151,6 @@ class FinFluxoCaixa extends CI_Controller
                 $novoSaldo = $saldoAtual['saldo'] - $valorMovimentacaoFormatado;
             }
         }
-
 
         $retornoConta = $this->FinSaldoBancario_model->atualizaSaldoBancario($dados['id_conta_bancaria'], $novoSaldo);
 

@@ -57,7 +57,6 @@ $(document).on('change', '.select-grupo-recebidos', function () {
     });
 });
 
-
 $(document).on('change', '.select-macros', function () {
 
     let idMacro = $(this).val();
@@ -90,6 +89,8 @@ $(document).on('change', '.select-macros', function () {
 
 $(document).on('click', '.btn-novo-lancamento', function () {
 
+    $('.select-recebido').attr('disabled', true);
+
     $('.select2').select2({
         dropdownParent: "#modalEntradaFluxo",
         theme: "bootstrap-5",
@@ -103,7 +104,6 @@ $(document).on('change', '.select-recebido', function () {
 
     $('.nome-recebido').val(nomeRecebido);
 })
-
 
 $(document).on('click', '.btn-insere-fluxo', function () {
 
@@ -166,6 +166,8 @@ const visualizarFluxo = (id) => {
             $('.html-clean').html('');
         },
         success: function (data) {
+
+            console.log(data)
 
             let dataFluxo = formatarDatas(data.dadosFluxo.DATA_FLUXO);
             let valorFluxo = formatarValorExibicao(parseFloat(data['dadosFluxo'].valor));
