@@ -103,7 +103,10 @@ $(document).on('click', '.novo-lancamento', function () {
         dropdownParent: "#modalEntradaContasReceber",
         theme: "bootstrap-5",
     });
-})
+
+    $('.input-data-vencimento').val('');
+    $('.input-data-emissao').val('');
+});
 
 $(document).on('click', '.editar-lancamento', function () {
 
