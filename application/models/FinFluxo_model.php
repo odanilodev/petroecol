@@ -68,11 +68,12 @@ class FinFluxo_model extends CI_Model
 
     public function recebeMovimentoFluxo($id)
     {
-        $this->db->select('DF.nome as RECEBIDO, F.id_conta_bancaria, F.valor, FT.nome as FORMAPAGAMENTO, MA.nome as NOME_MACRO, MI.nome as NOME_MICRO, F.data_movimentacao as DATA_FLUXO, F.observacao as OBSERVACAO_FLUXO, SE.nome as NOME_SETOR');
+        $this->db->select('DF.nome as RECEBIDO, F.id_conta_bancaria, F.valor, FT.nome as FORMAPAGAMENTO, MA.nome as NOME_MACRO, MI.nome as NOME_MICRO, F.data_movimentacao as DATA_FLUXO, F.observacao as OBSERVACAO_FLUXO, SE.nome as NOME_SETOR, FUNC.nome as NOME_FUNCIONARIO');
         $this->db->from('fin_fluxo F');
         $this->db->join('fin_forma_transacao FT', 'F.id_forma_transacao = FT.id', 'left');
         $this->db->join('ci_setores_empresa SE', 'F.id_setor_empresa = SE.id', 'left');
         $this->db->join('fin_dados_financeiros DF', 'F.id_dado_financeiro = DF.id', 'left');
+        $this->db->join('ci_funcionarios FUNC', 'FUNC.id = F.id_funcionario', 'left');
         $this->db->join('fin_macros MA', 'F.id_macro = MA.id', 'left');
         $this->db->join('fin_micros MI', 'F.id_micro = MI.id', 'left');
         $this->db->where('F.id_empresa', $this->session->userdata('id_empresa'));

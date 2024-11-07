@@ -10,7 +10,7 @@ $(document).on('change', '.select-macros', function () {
         data: {
             idMacro: idMacro
         }, beforeSend: function () {
-            $('.select-micros').html('<option value="">Selecione</option>');
+            $('.select-micros').html('<option disabled selected value="">Selecione</option>');
         }, success: function (data) {
 
             $('.select-micros').attr('disabled', false);
@@ -415,46 +415,48 @@ const visualizarConta = (idConta) => {
     $.ajax({
         type: "post",
         url: `${baseUrl}finContasReceber/visualizarConta`,
-        data: {
-            idConta: idConta
-        }, beforeSend: function () {
+        data: { idConta: idConta },
+        beforeSend: function () {
             $('.html-clean').html('');
-        }, success: function (data) {
+        },
+        success: function (data) {
 
-            let dataEmissao = formatarDatas(data['conta'].data_emissao);
-            let dataVencimento = formatarDatas(data['conta'].data_vencimento);
+            let dataEmissao = data['conta'].data_emissao ? formatarDatas(data['conta'].data_emissao) : "N/C";
+            let dataVencimento = data['conta'].data_vencimento ? formatarDatas(data['conta'].data_vencimento) : "";
             let valorConta = formatarValorExibicao(parseFloat(data['conta'].valor));
             let valorRecebido = formatarValorExibicao(parseFloat(data['conta'].valor_recebido));
 
             if (data['conta'].RECEBIDO) {
+                $('.modal-visualizar-txt-empresa').html('Fornecedor');
                 $('.nome-empresa').html(data['conta'].RECEBIDO);
-            } else {
+            } else if (data['conta'].CLIENTE) {
+                $('.modal-visualizar-txt-empresa').html('Empresa');
                 $('.nome-empresa').html(data['conta'].CLIENTE);
+            } else {
+                $('.modal-visualizar-txt-empresa').html('Funcionário');
+                $('.nome-empresa').html(data['conta'].NOME_FUNCIONARIO.toUpperCase());
             }
 
             $('.setor-empresa').html(data['conta'].SETOR);
             $('.data-vencimento').html(dataVencimento);
 
-            $('.data-emissao').html(data['conta'].data_emissao != '1969-12-31' ? dataEmissao : "");
-            $('.valor-conta').html(valorConta);
+            $('.data-emissao').html(dataEmissao);
+            $('.valor-conta').html('R$' + valorConta);
             $('.obs-conta').html(data['conta'].observacao ? data['conta'].observacao : '-');
 
             if (data['conta'].valor_recebido) {
-                let dataRecebimento = formatarDatas(data['conta'].data_recebimento);
+                let dataRecebimento = data['conta'].data_recebimento ? formatarDatas(data['conta'].data_recebimento) : "N/C";
                 $('.div-valor-recebido').removeClass('d-none');
                 $('.valor-recebido').html(valorRecebido);
                 $('.div-data-recebimento').removeClass('d-none');
                 $('.data-recebimento').html(dataRecebimento);
-
             } else {
                 $('.div-valor-recebido').addClass('d-none');
             }
-
-
         }
-    })
-
+    });
 }
+
 
 const deletaContaReceber = (idConta) => {
 

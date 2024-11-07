@@ -192,10 +192,10 @@
                                 <td class="align-middle text-start time text-center td_recebido">
                                     <h6 class="text-900 mb-0">
                                         <?= $contaReceber['RECEBIDO']
-                                            ? ucfirst($contaReceber['RECEBIDO'])
+                                            ? strtoupper($contaReceber['RECEBIDO'])
                                             : ($contaReceber['CLIENTE']
-                                                ? ucfirst($contaReceber['CLIENTE'])
-                                                : ucfirst($contaReceber['NOME_FUNCIONARIO']));
+                                                ? strtoupper($contaReceber['CLIENTE'])
+                                                : strtoupper($contaReceber['NOME_FUNCIONARIO']));
                                         ?>
                                     </h6>
                                 </td>
@@ -244,7 +244,7 @@
             </div>
         </div>
     </div>
-</div>
+
 
 
 <!-- Modal visualizar contas a receber -->
@@ -289,7 +289,7 @@
                                                             <div class="d-flex bg-info-100 rounded-circle flex-center me-3" style="width:24px; height:24px">
                                                                 <span class="text-info-600 dark__text-info-300 fas fa-id-card-alt" style="width:16px; height:16px"></span>
                                                             </div>
-                                                            <p class="fw-bold mb-0">Empresa</p>
+                                                            <p class="fw-bold mb-0 modal-visualizar-txt-empresa">Empresa</p>
                                                         </div>
                                                     </td>
                                                     <td class="py-2 d-none d-sm-block pe-sm-2">:</td>

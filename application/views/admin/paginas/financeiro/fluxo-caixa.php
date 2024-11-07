@@ -236,11 +236,11 @@
 
                                         <?php
                                         if ($movimentacao['nome_dado_financeiro']) {
-                                            echo ucfirst($movimentacao['nome_dado_financeiro']);
+                                            echo strtoupper($movimentacao['nome_dado_financeiro']);
                                         } else if (($movimentacao['id_funcionario'])) {
-                                            echo ucfirst($movimentacao['NOME_FUNCIONARIO']);
+                                            echo strtoupper($movimentacao['NOME_FUNCIONARIO']);
                                         } else {
-                                            echo ucfirst($movimentacao['CLIENTE']);
+                                            echo strtoupper($movimentacao['CLIENTE']);
                                         }
                                         ?>
                                     </h6>

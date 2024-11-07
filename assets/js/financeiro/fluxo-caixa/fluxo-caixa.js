@@ -167,14 +167,13 @@ const visualizarFluxo = (id) => {
         },
         success: function (data) {
 
-            console.log(data)
 
             let dataFluxo = formatarDatas(data.dadosFluxo.DATA_FLUXO);
             let valorFluxo = formatarValorExibicao(parseFloat(data['dadosFluxo'].valor));
 
             $('.data-fluxo').html('Movimentação do dia ' + dataFluxo);
             $('.macro-micro').html(data['dadosFluxo'].NOME_MACRO + ' / ' + data['dadosFluxo'].NOME_MICRO);
-            $('.recebido').html(data['dadosFluxo'].RECEBIDO);
+            $('.recebido').html(data['dadosFluxo'].RECEBIDO ?? data['dadosFluxo'].NOME_FUNCIONARIO.toUpperCase());
             $('.valor-fluxo').html(valorFluxo);
             $('.forma-pagamento').html(data['dadosFluxo'].FORMAPAGAMENTO);
             $('.setor-empresa').html(data['dadosFluxo'].NOME_SETOR);
