@@ -652,7 +652,7 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Recebido</label>
                                                     <select class="form-select select2 select-recebido select2 input-fluxo-obrigatorio" name="cadastroFinanceiro">
-                                                        <option disabled>Selecione</option>
+                                                        <option disabled selected value="">Selecione</option>
                                                         <!-- js -->
                                                     </select>
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>

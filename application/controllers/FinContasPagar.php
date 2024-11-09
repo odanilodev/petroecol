@@ -315,34 +315,15 @@ class FinContasPagar extends CI_Controller
 	}
 	
 
-	public function recebeTodosClientesAll()
+	public function recebeClientes()
 	{
 		$this->load->model('Clientes_model');
-		$todosClientes = $this->Clientes_model->recebeTodosClientesAll();
+		$todosClientes = $this->Clientes_model->recebeTodosClientes();
 
 		if ($todosClientes) {
 
 			$response = array(
 				'clientes' => $todosClientes,
-				'success' => true
-			);
-		} else {
-			$response = array(
-				'success' => false
-			);
-		}
-		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-	}
-
-	public function recebeTodosFuncionariosAll()
-	{
-		$this->load->model('Funcionarios_model');
-		$todosFuncionarios = $this->Funcionarios_model->recebeFuncionarios();
-
-		if ($todosFuncionarios) {
-
-			$response = array(
-				'funcionarios' => $todosFuncionarios,
 				'success' => true
 			);
 		} else {

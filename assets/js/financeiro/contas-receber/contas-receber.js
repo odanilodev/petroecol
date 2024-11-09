@@ -207,10 +207,10 @@ $(document).on('change', '.select-grupo-recebidos', function () {
 
     switch (grupo) {
         case "clientes":
-            url = `${baseUrl}finContasPagar/recebeTodosClientesAll`;
+            url = `${baseUrl}finContasPagar/recebeClientes`;
             break;
         case "funcionarios":
-            url = `${baseUrl}finContasPagar/recebeTodosFuncionariosAll`;
+            url = `${baseUrl}funcionarios/recebeTodosFuncionarios`;
             break;
         default:
             url = `${baseUrl}finDadosFinanceiros/recebeDadosFinanceiros`;

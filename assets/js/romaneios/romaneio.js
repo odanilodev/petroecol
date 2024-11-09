@@ -1974,7 +1974,7 @@ $(document).on('change', '.select-grupo-recebidos', function () {
 
         $.ajax({
             type: "post",
-            url: `${baseUrl}finContasPagar/recebeTodosClientesAll`
+            url: `${baseUrl}finContasPagar/recebeClientes`
             , beforeSend: function () {
                 $('.select-recebido').attr('disabled', true);
                 $('.select-recebido').html('<option disabled>Carregando...</option>');

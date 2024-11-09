@@ -19,7 +19,7 @@ $(document).on('change', '.select-grupo-recebidos', function () {
             url = `${baseUrl}finContasPagar/recebeTodosClientesAll`;
             break;
         case "funcionarios":
-            url = `${baseUrl}finContasPagar/recebeTodosFuncionariosAll`;
+            url = `${baseUrl}funcionarios/recebeTodosFuncionarios`;
             break;
         default:
             url = `${baseUrl}finDadosFinanceiros/recebeDadosFinanceiros`;
