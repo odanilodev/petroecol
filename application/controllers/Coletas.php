@@ -247,11 +247,8 @@ class Coletas extends CI_Controller
 
                     $dataVencimentoObj = new DateTime($dataVencimento);
 
-                    $dataAtualObj = new DateTime($dataAtual);
-
-                    if ($dataVencimentoObj < $dataAtualObj) {
-                        $dataVencimentoObj->modify('+1 month');
-                    }
+                    $dataVencimentoObj->modify('+1 month');
+                   
 
 
                     $contasPagar['valor'] = $valorTotal;
@@ -271,6 +268,7 @@ class Coletas extends CI_Controller
 
                 }
             }
+
         }
     }
 
