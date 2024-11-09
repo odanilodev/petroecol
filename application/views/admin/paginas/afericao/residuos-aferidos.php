@@ -21,7 +21,7 @@
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
 
                                 <td class="align-middle text-center white-space-nowrap py-3">
-                                    <?= ucfirst($residuoAferido['cod_romaneio']); ?>
+                                    <?= $residuoAferido['cod_romaneio']; ?>
                                 </td>
 
                                 <td class="align-middle text-center white-space-nowrap py-3">
