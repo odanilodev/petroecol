@@ -22,6 +22,9 @@ class Afericao extends CI_Controller
 
 		$this->load->model('Afericao_model');
 		$this->load->model('Coletas_model');
+
+		$this->load->library('residuoChaveId');
+
 	}
 
 	public function index($page = 1)
@@ -85,6 +88,9 @@ class Afericao extends CI_Controller
 		$data['trajetos'] = $this->Trajetos_model->recebeTodosTrajetos();
 		$data['afericoes'] = $this->Afericao_model->recebeAfericoes($cookie_filtro_afericao, $limit, $page);
 
+		$data['residuosArray'] = $this->residuochaveid->residuoArrayNomes();
+	
+
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/afericao/afericao');
 		$this->load->view('admin/includes/painel/rodape');
@@ -102,8 +108,6 @@ class Afericao extends CI_Controller
 
 		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsAfericaoHead));
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsAfericaoFooter));
-
-		$this->load->library('residuoChaveId');
 
 		$codigoRomaneio = $this->uri->segment(3);
 
@@ -218,5 +222,34 @@ class Afericao extends CI_Controller
 		}
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function residuosAferidos()
+	{
+
+		// scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
+
+		// scripts para afericao
+		$scriptsAfericaoFooter = scriptsAfericaoFooter();
+		$scriptsAfericaoHead = scriptsAfericaoHead();
+
+		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsAfericaoHead));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsAfericaoFooter));
+		
+		$data['residuosArray'] = $this->residuochaveid->residuoArrayNomes();
+
+
+		$data['residuosAferidos'] = $this->Afericao_model->recebeResiduosAferidos();
+
+		// echo '<pre>';
+		// print_r($data['residuosAferidos']);
+		// exit;
+		
+	
+		$this->load->view('admin/includes/painel/cabecalho', $data);
+		$this->load->view('admin/paginas/afericao/residuos-aferidos');
+		$this->load->view('admin/includes/painel/rodape');
 	}
 }

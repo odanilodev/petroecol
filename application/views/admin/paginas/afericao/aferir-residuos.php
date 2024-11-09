@@ -11,6 +11,8 @@
 
             </div>
 
+
+
         </div>
         <div class="px-4 px-lg-6 mb-9 bg-white border-y border-300 mt-2 position-relative top-1">
             <div class="table-responsive scrollbar ms-n1 ps-1">
@@ -32,24 +34,28 @@
 
                         foreach ($coletas as $coleta) {
 
-                            $residuosColetados = json_decode($coleta['residuos_coletados'], true);
-                            $quantidadesColetadas = json_decode($coleta['quantidade_coletada'], true);
+                            if ($coleta['coletado']) {
 
-                            for ($i = 0; $i < count($residuosColetados); $i++) {
+                                $residuosColetados = json_decode($coleta['residuos_coletados'], true);
+                                $quantidadesColetadas = json_decode($coleta['quantidade_coletada'], true);
 
-                                $idResiduo = $residuosColetados[$i];
-                                $quantidade = $quantidadesColetadas[$i];
+                                for ($i = 0; $i < count($residuosColetados); $i++) {
 
-                                if (isset($residuosAgrupados[$idResiduo])) {
-                                    $residuosAgrupados[$idResiduo]['quantidade'] += $quantidade;
-                                    $residuosAgrupados[$idResiduo]['id_trajeto'] += $coleta['id_trajeto'];
-                                } else {
-                                    $residuosAgrupados[$idResiduo]['quantidade'] = $quantidade;
+                                    $idResiduo = $residuosColetados[$i];
+                                    $quantidade = $quantidadesColetadas[$i];
+
+                                    if (isset($residuosAgrupados[$idResiduo])) {
+                                        $residuosAgrupados[$idResiduo]['quantidade'] += $quantidade;
+                                    } else {
+                                        $residuosAgrupados[$idResiduo]['quantidade'] = $quantidade;
+                                    }
+
                                     $residuosAgrupados[$idResiduo]['id_setor_empresa'] = $coleta['id_setor_empresa'];
                                     $residuosAgrupados[$idResiduo]['id_trajeto'] = $coleta['id_trajeto'];
                                 }
                             }
                         }
+
 
                         ?>
 
@@ -75,9 +81,8 @@
                                 <td class="align-middle text-center white-space-nowrap py-3">
                                     <select class="form-select select-medida input-obrigatorio">
                                         <option selected disabled value="">Selecione</option>
-
                                         <?php foreach ($unidadesMedidas as $unidadeMedida) { ?>
-                                            <option value="<?= $unidadeMedida['id']?>"><?= ucfirst($unidadeMedida['nome'])?></option>
+                                            <option value="<?= $unidadeMedida['id'] ?>"><?= ucfirst($unidadeMedida['nome']) ?></option>
                                         <?php } ?>
                                     </select>
                                     <div class="d-none aviso-obrigatorio">Preencha este campo.</div>

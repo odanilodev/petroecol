@@ -1,5 +1,6 @@
 <div class="content">
     <div id="members">
+        <a href="<?= base_url('afericao/residuosAferidos')?>" class="btn btn-phoenix-primary mb-3">Resíduos Aferidos</a>
 
         <div class="px-4 px-lg-6 mb-9 bg-white border-y border-300 mt-2 position-relative top-1">
             <div class="table-responsive scrollbar ms-n1 ps-1">

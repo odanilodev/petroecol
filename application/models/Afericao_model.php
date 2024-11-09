@@ -34,7 +34,7 @@ class Afericao_model extends CI_Model
         }
 
         $this->db->group_by('C.cod_romaneio');
-        
+
         $this->db->order_by('MAX(C.data_coleta)', 'DESC');
 
         $query = $this->db->get();
@@ -44,14 +44,23 @@ class Afericao_model extends CI_Model
         }
 
         return $query->result_array();
-
     }
 
-    public function recebeAfericao () 
+    public function recebeResiduosAferidos()
     {
-
+        $this->db->select('A.quantidade_coletada as quantidade_coletada, A.aferido as aferido, R.nome as RESIDUO, A.cod_romaneio, T.nome as TRAJETO, F.nome as RESPONSAVEL');
+        $this->db->from('ci_afericao A');
+        $this->db->join('ci_residuos R', 'A.id_residuo = R.id', 'LEFT');
+        $this->db->join('ci_trajetos T', 'A.id_trajeto = T.id', 'LEFT');
+        $this->db->join('ci_romaneios RO', 'A.cod_romaneio = RO.codigo', 'LEFT');
+        $this->db->join('ci_funcionarios F', 'RO.id_responsavel = F.id', 'LEFT');
+        $this->db->where('A.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->order_by('cod_romaneio');
+        $query = $this->db->get();
+    
+        return $query->result_array();
     }
-
+    
     public function insereAfericao($dados)
     {
         $dados['criado_em'] = date('Y-m-d H:i:s');
@@ -64,6 +73,4 @@ class Afericao_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
-
-   
 }

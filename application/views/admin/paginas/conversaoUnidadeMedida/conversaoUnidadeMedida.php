@@ -4,7 +4,7 @@
 
             <div class="col-auto">
                 <div class="d-flex align-items-center">
-                    <a href="<?= base_url("conversaoUnidadeMedida/formulario") ?>" class="btn btn-primary"><span class="fas fa-plus me-2"></span>Adicionar Conversão</a>
+                    <a href="<?= base_url("conversaoUnidadeMedida/formulario") ?>" class="btn btn-phoenix-primary"><span class="fas fa-plus me-2"></span>Adicionar Conversão</a>
                 </div>
             </div>
 
@@ -113,7 +113,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Exemplo de Conversao</h5>
+                    <h5 class="modal-title">Exemplo de Conversão</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body body-coleta">

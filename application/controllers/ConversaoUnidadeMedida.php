@@ -86,11 +86,7 @@ class ConversaoUnidadeMedida extends CI_Controller
 		$dados['id_medida_destino'] = $this->input->post('medida_final');
 		$dados['tipo_operacao'] = $this->input->post('operador');
 		$dados['simbolo_operacao'] = $this->input->post('simbolo');
-		$valor = $this->input->post('valor');
-		$valor = str_replace('.', '', $valor); 
-		$valor = str_replace(',', '.', $valor);
-
-		$dados['valor'] = $valor;
+		$dados['valor'] = str_replace(',', '.', $this->input->post('valor'));
 
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
