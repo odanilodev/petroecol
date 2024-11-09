@@ -20,6 +20,16 @@ class Funcionarios_model extends CI_Model
 
         return $query->result_array();
     }
+    public function recebeFuncionariosInativados()
+    {
+        $this->db->where('status', 3);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->order_by('nome', 'DESC');
+
+        $query = $this->db->get('ci_funcionarios');
+
+        return $query->result_array();
+    }
 
     public function recebeFuncionariosSaldos()
     {
