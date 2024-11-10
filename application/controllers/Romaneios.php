@@ -260,7 +260,8 @@ class Romaneios extends CI_Controller
 	public function gerarRomaneioPdf()
 	{
 		$codigo = $this->uri->segment(3);
-		$this->gerarromaneio->gerarPdf($codigo);
+		$IA = $this->uri->segment(4) ?? false;
+		$this->gerarromaneio->gerarPdf($codigo, $IA);
 	}
 
 	public function formulario()
