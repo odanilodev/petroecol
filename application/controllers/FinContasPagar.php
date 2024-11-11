@@ -182,21 +182,18 @@ class FinContasPagar extends CI_Controller
 		}
 
 		$data['id_empresa'] = $this->session->userdata('id_empresa');
-		$data['valor'] = str_replace(['.', ','], ['', '.'], $dadosLancamento['valor']);
 		$data['id_micro'] = $dadosLancamento['micros'];
 		$data['id_macro'] = $dadosLancamento['macros'];
 		$data['id_setor_empresa'] = $dadosLancamento['setor'];
 		$data['observacao'] = $dadosLancamento['observacao'];
-		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
-		$data['data_emissao'] = $dadosLancamento['data_emissao'] ? date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao']))) : "";
+		$data['data_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao'])));
 
 		$success = true;
 
 		for ($i = 0; $i < $dadosLancamento['parcelas']; $i++) {
-
-			if ($i > 0) {
-				$data['data_vencimento'] = date('Y-m-d', strtotime($data['data_vencimento'] . ' +30 days'));
-			}
+			$data['valor'] = str_replace(['.', ','], ['', '.'], $dadosLancamento['valor'][$i]);
+			$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'][$i])));
+			$data['numero_parcela'] = $dadosLancamento['parcelas'] > 1 ? $i + 1 . '/' . $dadosLancamento['parcelas'] : '';
 
 			$retorno = $this->FinContasPagar_model->insereConta($data);
 
