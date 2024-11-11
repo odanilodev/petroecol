@@ -271,6 +271,7 @@
                                 </td>
 
                                 <td class="align-middle text-start ps-3 status td_status_pgto text-center">
+                                    
                                     <span
                                         class="badge badge-phoenix fs--2 <?= $contaPagar['status'] ? "badge-phoenix-success" : "badge-phoenix-danger" ?> tipo-status-conta-<?= $contaPagar['id'] ?>">
                                         <span data-setor="<?= $contaPagar['id_setor_empresa'] ?>"
@@ -281,7 +282,7 @@
                                             data-id-funcionario="<?= $contaPagar['id_funcionario'] ?>"
                                             <?= !$contaPagar['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalPagarConta"' : "" ?>
                                             data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>">
-                                            <?= $contaPagar['status'] ? "Pago" : "Em aberto" ?>
+                                            <?= $contaPagar['status'] ? "Pago " . $contaPagar['numero_parcela'] ?? '' : "Em aberto " . $contaPagar['numero_parcela'] ?? '' ?>
                                         </span>
                                         <span class="ms-1 icone-status-conta-<?= $contaPagar['id'] ?>"
                                             data-feather="<?= $contaPagar['status'] ? "check" : "slash" ?>"
@@ -812,7 +813,7 @@
 
                                             </div>
 
-                                            <div class="col-lg-4">
+                                            <div class="col-lg-6">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Parcelas</label>
@@ -836,23 +837,7 @@
 
                                             </div>
 
-                                            <div class="col-lg-4">
-
-                                                <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Data
-                                                        Vencimento</label>
-
-                                                    <input
-                                                        class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio dados-conta mascara-data"
-                                                        required name="data_vencimento" type="text"
-                                                        placeholder="dd/mm/aaaa"
-                                                        data-options='{"disableMobile":true, "allowInput":true, "dateFormat":"d/m/Y"}' />
-                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
-
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-4">
+                                            <div class="col-lg-6">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data Emissão</label>
@@ -866,22 +851,56 @@
 
                                             </div>
 
-                                            <div class="col-lg-4">
+                                            <div class="text-resumo-parcelas d-none">
+
+                                                <p>Resumo de Parcelas</p>
+                                                <hr>
+                                            </div>
+
+                                            <div class="col-12 mb-2 text-primeira-parcela d-none">1ª Parcela </div>
+
+                                            <div class="col-lg-6 div-input-data-vencimento div-input-primeira-data">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Data de Vencimento</label>
+
+                                                    <input
+                                                        class="form-control datetimepicker cursor-pointer input-data-vencimento input-obrigatorio dados-conta mascara-data input-data-primeira-parcela"
+                                                        required name="data_vencimento" type="text"
+                                                        placeholder="dd/mm/aaaa"
+                                                        data-options='{"disableMobile":true, "allowInput":true, "dateFormat":"d/m/Y"}' />
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                </div>
+                                            </div>
+
+                                            
+
+                                            <div class="col-lg-6 div-input-valor div-input-primeiro-valor">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Valor</label>
                                                     <input
-                                                        class="form-control input-obrigatorio mascara-dinheiro dados-conta"
+                                                        class="form-control input-obrigatorio mascara-dinheiro dados-conta input-valor-primeira-parcela"
                                                         required name="valor" type="text"
                                                         placeholder="Valor total da conta">
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
 
-
                                             </div>
 
-                                            <div class="col-lg-8 div-observacao">
+                                            <hr>
+                                            
+
+                                            <div class="mt-3 div-resumo-parcelas d-none">
+
+                                                <div class="resumo-parcelas row">
+                                                    <!-- JS -->
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12 div-observacao">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Observação</label>
@@ -890,6 +909,7 @@
                                                 </div>
 
                                             </div>
+
 
                                         </div>
                                     </div>

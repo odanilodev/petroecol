@@ -81,11 +81,22 @@ const cadastraContasPagar = (classe) => {
     let idConta = $('.id-editar-conta').val();
 
     let dadosFormulario = {};
+
     let permissao = true;
+
+    dadosFormulario['data_vencimento'] = [];
+    dadosFormulario['valor'] = [];
 
     $(`.${classe}`).find(":input").each(function (index) {
 
-        dadosFormulario[$(this).attr('name')] = $(this).val();
+        if ($(this).attr('name') !== 'data_vencimento' && $(this).attr('name') !== 'valor') {
+            dadosFormulario[$(this).attr('name')] = $(this).val();
+        } else {
+            dadosFormulario[$(this).attr('name')].push($(this).val());
+        }
+
+
+        // dadosFormulario[$(this).attr('name')] = $(this).val();
 
         if ($(this).hasClass('input-obrigatorio') && !$(this).val()) {
 
@@ -119,6 +130,7 @@ const cadastraContasPagar = (classe) => {
         }
 
     })
+
 
     if (permissao) {
 
@@ -992,6 +1004,90 @@ $('#exportarBtn').on('click', function (e) {
         }
     });
 });
+
+$(document).on('change', '.input-data-primeira-parcela', function () {
+
+    let quantidadeParcela = 2;
+    let dataBR = $(this).val(); // formato DD/MM/YYYY
+    let [dia, mes, ano] = dataBR.split("/"); // separa dia, mês e ano
+    let dataPrimeiraParcela = new Date(`${ano}-${mes}-${dia}`); // formata para YYYY-MM-DD
+
+    $('.input-data-parcela-adicional').each(function () {
+        let dataParcelaAtual = new Date(dataPrimeiraParcela);
+
+        // Incrementa o mês com base na quantidadeParcela - 1 para cada input
+        dataParcelaAtual.setMonth(dataParcelaAtual.getMonth() + (quantidadeParcela - 1));
+
+        let dia = String(dataParcelaAtual.getDate() + 1).padStart(2, '0');
+        let mes = String(dataParcelaAtual.getMonth() + 1).padStart(1, '0');
+
+        console.log(mes)
+        let ano = dataParcelaAtual.getFullYear();
+        let dataFormatada = `${dia}/${mes}/${ano}`;
+
+        $(`.input-data-parcela-${quantidadeParcela}`).val(dataFormatada);
+
+        quantidadeParcela++;
+    });
+
+});
+
+
+$(document).on('focusout', '.input-valor-primeira-parcela', function () {
+
+    $('.input-valor-parcela-adicional').val($(this).val())
+})
+
+
+
+$(document).on('change', '.select-parcela', function () {
+
+    let quantidadeParcelas = $(this).val();
+
+    if (quantidadeParcelas > 1) {
+
+        $('.div-resumo-parcelas').removeClass('d-none');
+        $('.text-resumo-parcelas').removeClass('d-none');
+        $('.text-primeira-parcela').removeClass('d-none');
+
+        let divDataVencimento = $('.div-input-data-vencimento').clone();
+        let divValor = $('.div-input-valor').clone();
+
+        let htmlParcelas = ``;
+        for (i = 2; i <= quantidadeParcelas; i++) {
+
+            if (i != 1) {
+                divDataVencimento.find('input').removeClass('input-data-primeira-parcela');
+                divDataVencimento.find('input').addClass('input-data-parcela-adicional input-data-parcela-' + i);
+                divValor.find('input').removeClass('input-valor-primeira-parcela');
+                divValor.find('input').addClass('input-valor-parcela-adicional');
+            }
+
+            htmlParcelas += `<div class="col-12 mb-2">${i}ª Parcela </div>`;
+            htmlParcelas += `<div class="col-md-6 col-12">${divDataVencimento.html()}</div>`;
+            htmlParcelas += `<div class="col-md-6 col-12">${divValor.html()}</div>`;
+            htmlParcelas += '<hr>';
+        }
+
+        $('.resumo-parcelas').html(htmlParcelas);
+
+        $('.datetimepicker').flatpickr({
+            dateFormat: "d/m/Y",
+            disableMobile: true,
+            allowInput: true
+        });
+
+        $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
+        $('.mascara-data').mask('00/00/0000');
+
+    } else {
+        $('.resumo-parcelas').find('input').remove();
+        $('.div-resumo-parcelas').addClass('d-none');
+        $('.text-resumo-parcelas').addClass('d-none');
+        $('.text-primeira-parcela').addClass('d-none');
+    }
+
+})
 
 
 
