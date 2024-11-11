@@ -207,7 +207,7 @@ $(document).on('change', '.select-grupo-recebidos', function () {
 
     switch (grupo) {
         case "clientes":
-            url = `${baseUrl}finContasPagar/recebeClientes`;
+            url = `${baseUrl}clientes/recebeNomeClientes`;
             break;
         case "funcionarios":
             url = `${baseUrl}funcionarios/recebeTodosFuncionarios`;

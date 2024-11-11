@@ -90,6 +90,16 @@ class Clientes_model extends CI_Model
         return $query->result_array();
     }
 
+    public function recebeNomeClientes()
+    {
+        $this->db->select('nome, id');
+        $this->db->order_by('nome');
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('status', 1);
+        $query = $this->db->get('ci_clientes');
+        return $query->result_array();
+    }
+
     public function recebeTodosClientesColetados()
     {
         $this->db->select('C.*, ANY_VALUE(C.id)');
@@ -165,7 +175,6 @@ class Clientes_model extends CI_Model
         return $cliente;
     }
 
-
     //Recebe clientes com varios Ids selecionados
     public function recebeClientesIds($ids, $id_setor_empresa)
     {
@@ -183,8 +192,6 @@ class Clientes_model extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
-
-
 
     public function insereCliente($dados)
     {

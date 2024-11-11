@@ -509,4 +509,23 @@ class Clientes extends CI_Controller
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
+
+    public function recebeNomeClientes()
+	{
+		$this->load->model('Clientes_model');
+		$nomesClientes = $this->Clientes_model->recebeNomeClientes();
+
+		if ($nomesClientes) {
+
+			$response = array(
+				'clientes' => $nomesClientes,
+				'success' => true
+			);
+		} else {
+			$response = array(
+				'success' => false
+			);
+		}
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
 }

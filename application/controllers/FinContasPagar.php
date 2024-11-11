@@ -313,26 +313,6 @@ class FinContasPagar extends CI_Controller
 	
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
-	
-
-	public function recebeClientes()
-	{
-		$this->load->model('Clientes_model');
-		$todosClientes = $this->Clientes_model->recebeTodosClientes();
-
-		if ($todosClientes) {
-
-			$response = array(
-				'clientes' => $todosClientes,
-				'success' => true
-			);
-		} else {
-			$response = array(
-				'success' => false
-			);
-		}
-		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-	}
 
 	public function recebeContaPagar()
 	{

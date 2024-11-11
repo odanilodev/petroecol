@@ -245,7 +245,7 @@ function changeSelectRecebidos(grupo, idRecebido = null) {
 
     switch (grupo) {
         case "clientes":
-            url = `${baseUrl}finContasPagar/recebeClientes`;
+            url = `${baseUrl}clientes/recebeNomeClientes`;
             break;
         case "funcionarios":
             url = `${baseUrl}funcionarios/recebeTodosFuncionarios`;
