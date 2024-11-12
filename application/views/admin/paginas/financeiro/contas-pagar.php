@@ -271,7 +271,7 @@
                                 </td>
 
                                 <td class="align-middle text-start ps-3 status td_status_pgto text-center">
-                                    
+
                                     <span
                                         class="badge badge-phoenix fs--2 <?= $contaPagar['status'] ? "badge-phoenix-success" : "badge-phoenix-danger" ?> tipo-status-conta-<?= $contaPagar['id'] ?>">
                                         <span data-setor="<?= $contaPagar['id_setor_empresa'] ?>"
@@ -874,7 +874,7 @@
                                                 </div>
                                             </div>
 
-                                            
+
 
                                             <div class="col-lg-6 div-input-valor div-input-primeiro-valor">
 
@@ -891,7 +891,7 @@
                                             </div>
 
                                             <hr>
-                                            
+
 
                                             <div class="mt-3 div-resumo-parcelas d-none">
 

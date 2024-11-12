@@ -316,10 +316,12 @@ class Funcionarios extends CI_Controller
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+	
 	public function recebeTodosFuncionarios()
 	{
+
 		$this->load->model('Funcionarios_model');
-		$funcionarios = $this->Funcionarios_model->recebeResponsavelAgendamento();
+		$funcionarios = $this->Funcionarios_model->recebeFuncionarios();
 
 		if ($funcionarios) {
 

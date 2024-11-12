@@ -273,13 +273,13 @@ class FinContasPagar extends CI_Controller
 	{
 		$id = $this->input->post('idConta');
 		$dadosLancamento = $this->input->post('dados');
-		
+
 		$data = [
 			'id_cliente' => null,
 			'id_funcionario' => null,
 			'id_dado_financeiro' => null
 		];
-		
+
 		if ($dadosLancamento['grupo-recebido'] == 'clientes') {
 			$data['id_cliente'] = $dadosLancamento['recebido'];
 		} elseif ($dadosLancamento['grupo-recebido'] == 'funcionarios') {
@@ -287,29 +287,28 @@ class FinContasPagar extends CI_Controller
 		} else {
 			$data['id_dado_financeiro'] = $dadosLancamento['recebido'];
 		}
-	
-		$data['valor'] = str_replace(['.', ','], ['', '.'], $dadosLancamento['valor']);
+
+		$data['valor'] = str_replace(['.', ','], ['', '.'], $dadosLancamento['valor'][0]);
 		$data['observacao'] = $dadosLancamento['observacao'];
 		$data['id_setor_empresa'] = $dadosLancamento['setor'];
-		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
-		$data['data_emissao'] = $dadosLancamento['data_emissao'] 
-			? date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao']))) 
-			: null;
+		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'][0])));
+		$data['data_emissao'] = $dadosLancamento['data_emissao'] ? date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao']))) : "";
 		$data['id_empresa'] = $this->session->userdata('id_empresa');
-		$data['id_micro'] = $dadosLancamento['micros'];
-		$data['id_macro'] = $dadosLancamento['macros'];
-	
+		$data['id_micro'] = $dadosLancamento['micros'] ?? null;
+		$data['id_macro'] = $dadosLancamento['macros'] ?? null;
+
 		$retorno = $this->FinContasPagar_model->editaConta($id, $data);
-	
+
 		$response = [
 			'success' => (bool) $retorno,
 			'title' => $retorno ? "Sucesso!" : "Algo deu errado!",
 			'message' => $retorno ? "Conta editada com sucesso!" : "Falha ao editar conta. Por favor, tente novamente.",
 			'type' => $retorno ? "success" : "error"
 		];
-	
+
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
 
 	public function recebeContaPagar()
 	{
