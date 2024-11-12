@@ -12,54 +12,50 @@ $(document).on('change', '.select-tipo-conta', function () {
 $(document).on('change', '.select-grupo-recebidos', function () {
 
     let grupo = $(this).val();
+    let url;
 
-    if (grupo == "clientes") {
-
-        $.ajax({
-            type: "post",
-            url: `${baseUrl}finContasPagar/recebeTodosClientesAll`
-            , beforeSend: function () {
-                $('.select-recebido').attr('disabled', true);
-                $('.select-recebido').html('<option disabled>Carregando...</option>');
-            }, success: function (data) {
-                $('.select-recebido').attr('disabled', false);
-
-                let options = '<option disabled="disabled" value="">Selecione</option>';
-                for (let i = 0; i < data.clientes.length; i++) {
-                    options += `<option value="${data.clientes[i].id}">${data.clientes[i].nome}</option>`;
-                }
-                $('.select-recebido').html(options);
-
-                $('.select-recebido').val('').trigger('change');
-
-            }
-        })
-    } else {
-
-        $.ajax({
-            type: "post",
-            url: `${baseUrl}finDadosFinanceiros/recebeDadosFinanceiros`,
-            data: {
-                grupo: grupo
-            },
-            beforeSend: function () {
-                $('.select-recebido').attr('disabled');
-                $('.select-recebido').html('<option value="">Carregando...</option>');
-            }, success: function (data) {
-
-                $('.select-recebido').attr('disabled', false);
-                $('.select-recebido').html('<option value="">Selecione</option>');
-
-                for (i = 0; i < data.dadosFinanceiro.length; i++) {
-
-                    $('.select-recebido').append(`<option value="${data.dadosFinanceiro[i].id}">${data.dadosFinanceiro[i].nome}</option>`);
-                }
-            }
-        })
-
+    switch (grupo) {
+        case "clientes":
+            url = `${baseUrl}clientes/recebeNomeClientes`;
+            break;
+        case "funcionarios":
+            url = `${baseUrl}funcionarios/recebeTodosFuncionarios`;
+            break;
+        default:
+            url = `${baseUrl}finDadosFinanceiros/recebeDadosFinanceiros`;
+            break;
     }
 
-})
+    $.ajax({
+        type: "post",
+        url: url,
+        data: grupo !== "clientes" && grupo !== "funcionarios" ? { grupo: grupo } : {},
+        beforeSend: function () {
+            $('.select-recebido').attr('disabled', true).html('<option disabled>Carregando...</option>');
+        },
+        success: function (data) {
+            $('.select-recebido').attr('disabled', false);
+            let options = '<option disabled="disabled" value="">Selecione</option>';
+            let dados;
+
+            // Ajusta a variável de dados conforme o grupo selecionado
+            if (grupo === "clientes") {
+                dados = data.clientes;
+            } else if (grupo === "funcionarios") {
+                dados = data.funcionarios;
+            } else {
+                dados = data.dadosFinanceiro;
+            }
+
+            // Preenche o select com as opções
+            dados.forEach(dado => {
+                options += `<option value="${dado.id}">${dado.nome}</option>`;
+            });
+
+            $('.select-recebido').html(options).val('').trigger('change');
+        }
+    });
+});
 
 $(document).on('change', '.select-macros', function () {
 
@@ -93,6 +89,8 @@ $(document).on('change', '.select-macros', function () {
 
 $(document).on('click', '.btn-novo-lancamento', function () {
 
+    $('.select-recebido').attr('disabled', true);
+
     $('.select2').select2({
         dropdownParent: "#modalEntradaFluxo",
         theme: "bootstrap-5",
@@ -106,7 +104,6 @@ $(document).on('change', '.select-recebido', function () {
 
     $('.nome-recebido').val(nomeRecebido);
 })
-
 
 $(document).on('click', '.btn-insere-fluxo', function () {
 
@@ -170,12 +167,13 @@ const visualizarFluxo = (id) => {
         },
         success: function (data) {
 
+
             let dataFluxo = formatarDatas(data.dadosFluxo.DATA_FLUXO);
             let valorFluxo = formatarValorExibicao(parseFloat(data['dadosFluxo'].valor));
 
             $('.data-fluxo').html('Movimentação do dia ' + dataFluxo);
             $('.macro-micro').html(data['dadosFluxo'].NOME_MACRO + ' / ' + data['dadosFluxo'].NOME_MICRO);
-            $('.recebido').html(data['dadosFluxo'].RECEBIDO);
+            $('.recebido').html(data['dadosFluxo'].RECEBIDO ?? data['dadosFluxo'].NOME_FUNCIONARIO.toUpperCase());
             $('.valor-fluxo').html(valorFluxo);
             $('.forma-pagamento').html(data['dadosFluxo'].FORMAPAGAMENTO);
             $('.setor-empresa').html(data['dadosFluxo'].NOME_SETOR);
@@ -280,10 +278,10 @@ const deletarFluxo = (idMovimentacao, idContaBancaria, valorMovimentacao, tipoMo
 
 }
 
-        
-$('#exportarBtn').on('click', function(e) {
+
+$('#exportarBtn').on('click', function (e) {
     e.preventDefault();
-    
+
     let $btn = $(this);
     let originalText = $btn.html(); // Armazena o texto original do botão
 
@@ -299,12 +297,12 @@ $('#exportarBtn').on('click', function(e) {
         xhrFields: {
             responseType: 'blob' // Indica que a resposta deve ser tratada como um blob
         },
-        beforeSend: function(){
+        beforeSend: function () {
             $btn.prop('disabled', true);
             $('.txt-exportar-btn').addClass('d-none');
             $('.loader-btn-exportar').removeClass('d-none');
         },
-        success: function(blob, status, xhr) {
+        success: function (blob, status, xhr) {
             let contentDisposition = xhr.getResponseHeader('Content-Disposition');
             let fileName = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : 'RelatorioFluxo.xls';
 
@@ -318,7 +316,7 @@ $('#exportarBtn').on('click', function(e) {
 
             $btn.prop('disabled', false).html(originalText); // Reativa o botão e restaura o texto original
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.error('Erro ao exportar:', error);
             $btn.prop('disabled', false).html(originalText); // Reativa o botão e restaura o texto original
         }

@@ -83,8 +83,6 @@ class FinContasPagar extends CI_Controller
 				$data['status'] = $statusConta;
 				$data['idSetor'] = $setorEmpresa;
 			}
-
-
 		} else {
 
 			delete_cookie('filtro_data_inicio_pagar');
@@ -177,6 +175,8 @@ class FinContasPagar extends CI_Controller
 
 		if ($dadosLancamento['grupo-recebido'] == 'clientes') {
 			$data['id_cliente'] = $dadosLancamento['recebido'];
+		} else if ($dadosLancamento['grupo-recebido'] == 'funcionarios') {
+			$data['id_funcionario'] = $dadosLancamento['recebido'];
 		} else {
 			$data['id_dado_financeiro'] = $dadosLancamento['recebido'];
 		}
@@ -274,8 +274,16 @@ class FinContasPagar extends CI_Controller
 		$id = $this->input->post('idConta');
 		$dadosLancamento = $this->input->post('dados');
 
+		$data = [
+			'id_cliente' => null,
+			'id_funcionario' => null,
+			'id_dado_financeiro' => null
+		];
+
 		if ($dadosLancamento['grupo-recebido'] == 'clientes') {
 			$data['id_cliente'] = $dadosLancamento['recebido'];
+		} elseif ($dadosLancamento['grupo-recebido'] == 'funcionarios') {
+			$data['id_funcionario'] = $dadosLancamento['recebido'];
 		} else {
 			$data['id_dado_financeiro'] = $dadosLancamento['recebido'];
 		}
@@ -286,49 +294,22 @@ class FinContasPagar extends CI_Controller
 		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'][0])));
 		$data['data_emissao'] = $dadosLancamento['data_emissao'] ? date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao']))) : "";
 		$data['id_empresa'] = $this->session->userdata('id_empresa');
-		$data['id_micro'] = $dadosLancamento['micros'];
-		$data['id_macro'] = $dadosLancamento['macros'];
-
+		$data['id_micro'] = $dadosLancamento['micros'] ?? null;
+		$data['id_macro'] = $dadosLancamento['macros'] ?? null;
 
 		$retorno = $this->FinContasPagar_model->editaConta($id, $data);
 
-		if ($retorno) {
-			$response = array(
-				'success' => true,
-				'title' => "Sucesso!",
-				'message' => "Conta editada com sucesso!",
-				'type' => "success"
-			);
-		} else {
-			$response = array(
-				'success' => false,
-				'title' => "Algo deu errado!",
-				'message' => "Falha ao editar conta. Por favor, tente novamente.",
-				'type' => "error"
-			);
-		}
+		$response = [
+			'success' => (bool) $retorno,
+			'title' => $retorno ? "Sucesso!" : "Algo deu errado!",
+			'message' => $retorno ? "Conta editada com sucesso!" : "Falha ao editar conta. Por favor, tente novamente.",
+			'type' => $retorno ? "success" : "error"
+		];
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
-	public function recebeTodosClientesAll()
-	{
-		$this->load->model('Clientes_model');
-		$todosClientes = $this->Clientes_model->recebeTodosClientesAll();
 
-		if ($todosClientes) {
-
-			$response = array(
-				'clientes' => $todosClientes,
-				'success' => true
-			);
-		} else {
-			$response = array(
-				'success' => false
-			);
-		}
-		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-	}
 	public function recebeContaPagar()
 	{
 		$id = $this->input->post('id');
@@ -364,6 +345,7 @@ class FinContasPagar extends CI_Controller
 		$idConta = $this->input->post('idConta');
 		$idDadoFinanceiro = $this->input->post('idDadoFinanceiro');
 		$idCliente = $this->input->post('idDadoCliente');
+		$idFuncionario = $this->input->post('idFuncionario');
 
 		$dataPagamento = $this->input->post('dataPagamento');
 
@@ -401,6 +383,7 @@ class FinContasPagar extends CI_Controller
 			$dados['data_movimentacao'] = $dataPagamentoFormatada;
 			$dados['id_dado_financeiro'] = $idDadoFinanceiro;
 			$dados['id_cliente'] = $idCliente;
+			$dados['id_funcionario'] = $idFuncionario;
 
 			if (empty($obs)) {
 				$dados['observacao'] = $observacaoconta['observacao'];
@@ -672,7 +655,4 @@ class FinContasPagar extends CI_Controller
 		echo $xml;
 		exit;
 	}
-
-
-
 }

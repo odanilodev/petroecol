@@ -96,7 +96,7 @@
                             </div>
                             <div class="col-12 col-md-2" style="padding:0;">
                                 <div class="ms-3">
-                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataFim ?? ""?>"
+                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataFim ?? "" ?>"
                                         required name="data_fim" id="data_fim" type="text"
                                         placeholder="Seleciona a data final"
                                         data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}'
@@ -149,7 +149,7 @@
                                 </div>
                             </div>
 
-                           
+
 
                         </div>
                     </div>
@@ -215,7 +215,7 @@
                             <th class="sort align-middle text-center" scope="col" data-sort="td_status_pgto">Status</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_data_pagamento">Data do
                                 Pagamento</th>
-                            <th class="sort align-middle text-center" scope="col" data-sort="td_empresa">Empresa</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_empresa">Credor</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_micro">Micro</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_observacao">Observação
@@ -236,6 +236,7 @@
                                             class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>"
                                             type="checkbox" value="<?= $contaPagar['id'] ?>"
                                             data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>"
+                                            data-id-funcionario="<?= $contaPagar['id_funcionario'] ?>"
                                             data-nome-empresa="<?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>"
                                             data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>"
                                             data-valor="<?= $contaPagar['valor'] ?>"
@@ -270,7 +271,7 @@
                                 </td>
 
                                 <td class="align-middle text-start ps-3 status td_status_pgto text-center">
-                                    
+
                                     <span
                                         class="badge badge-phoenix fs--2 <?= $contaPagar['status'] ? "badge-phoenix-success" : "badge-phoenix-danger" ?> tipo-status-conta-<?= $contaPagar['id'] ?>">
                                         <span data-setor="<?= $contaPagar['id_setor_empresa'] ?>"
@@ -278,6 +279,7 @@
                                             class="badge-label cursor-pointer realizar-pagamento status-pagamento-<?= $contaPagar['id'] ?>"
                                             data-id="<?= $contaPagar['id'] ?>"
                                             data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>"
+                                            data-id-funcionario="<?= $contaPagar['id_funcionario'] ?>"
                                             <?= !$contaPagar['status'] ? 'data-bs-toggle="modal" data-bs-target="#modalPagarConta"' : "" ?>
                                             data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>">
                                             <?= $contaPagar['status'] ? "Pago " . $contaPagar['numero_parcela'] ?? '' : "Em aberto " . $contaPagar['numero_parcela'] ?? '' ?>
@@ -298,7 +300,8 @@
                                 <td class="align-middle review td_empresa text-center">
                                     <h6 class="mb-0 text-900">
 
-                                        <?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>
+                                        <?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ($contaPagar['CLIENTE'] ? ucfirst($contaPagar['CLIENTE']) : strtoupper($contaPagar['NOME_FUNCIONARIO'])); ?>
+
                                     </h6>
                                 </td>
 
@@ -316,7 +319,7 @@
 
                                 <td class="align-middle product white-space-nowrap td_observacao text-center">
                                     <h6 class="mb-0 text-900">
-                                        <?= $contaPagar['observacao'] != '' ? $contaPagar['observacao'] : '-'; ?>
+                                        <?= empty($contaPagar['observacao']) ? '-' : $contaPagar['observacao'] ?>
                                     </h6>
                                 </td>
 
@@ -355,6 +358,7 @@
                                                     data-id="<?= $contaPagar['id'] ?>" href="#!" data-bs-toggle="modal"
                                                     data-bs-target="#modalPagarConta"
                                                     data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>"
+                                                    data-id-funcionario="<?= $contaPagar['id_funcionario'] ?>"
                                                     data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>">Realizar
                                                     Pagamento</a>
                                             <?php } ?>
@@ -367,8 +371,8 @@
                     </tbody>
                 </table>
             </div>
-           <!-- Links de Paginação usando classes Bootstrap -->
-           <div class="row">
+            <!-- Links de Paginação usando classes Bootstrap -->
+            <div class="row">
                 <div class="col-12">
                     <nav aria-label="Page navigation" style="display: flex; float: right">
                         <ul class="pagination-customizada mt-5">
@@ -472,7 +476,7 @@
                                                                         class="text-info-600 dark__text-info-300 fas fa-id-card-alt"
                                                                         style="width:16px; height:16px"></span>
                                                                 </div>
-                                                                <p class="fw-bold mb-0">Empresa</p>
+                                                                <p class="fw-bold mb-0 label-empresa-funcionario">Empresa</p>
                                                             </div>
                                                         </td>
                                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
@@ -778,6 +782,7 @@
                                                             </option>
                                                         <?php } ?>
                                                         <option value="clientes">Clientes</option>
+                                                        <option value="funcionarios">Funcionários</option>
 
                                                     </select>
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
@@ -869,7 +874,7 @@
                                                 </div>
                                             </div>
 
-                                            
+
 
                                             <div class="col-lg-6 div-input-valor div-input-primeiro-valor">
 
@@ -886,7 +891,7 @@
                                             </div>
 
                                             <hr>
-                                            
+
 
                                             <div class="mt-3 div-resumo-parcelas d-none">
 
@@ -1164,6 +1169,7 @@
                                                             </option>
                                                         <?php } ?>
                                                         <option value="clientes">Clientes</option>
+                                                        <option value="funcionarios">Funcionários</option>
 
                                                     </select>
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
@@ -1375,6 +1381,7 @@
                 <div class="modal-footer">
                     <input type="hidden" class="id-conta-pagamento">
                     <input type="hidden" class="id-dado-financeiro">
+                    <input type="hidden" class="id-funcionario">
                     <input type="hidden" class="id-dado-cliente">
                     <input type="hidden" class="input-id-setor">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
@@ -1526,6 +1533,7 @@
                     <div>
                         <input type="hidden" class="id-conta-pagamento">
                         <input type="hidden" class="id-dado-financeiro">
+                        <input type="hidden" class="id-funcionario">
                         <input type="hidden" class="id-dado-cliente">
                         <input type="hidden" class="id-setor-empresa">
                         <div class="spinner-border text-primary load-form d-none" role="status"></div>

@@ -168,7 +168,7 @@ function carregarOpcoesOrigemCadastro(tipo, url, label, placeholder) {
 
             if (tipo === 'funcionarios') {
                 for (let i = 0; i < data.funcionarios.length; i++) {
-                    options += `<option ${idOrigemCadastro == data.funcionarios[i].IDFUNCIONARIO ? 'selected' : ''} value="${data.funcionarios[i].IDFUNCIONARIO}">${data.funcionarios[i].nome}</option>`;
+                    options += `<option ${idOrigemCadastro == data.funcionarios[i].id ? 'selected' : ''} value="${data.funcionarios[i].id}">${data.funcionarios[i].nome}</option>`;
                 }
             } else if (tipo === 'tipos') {
                 for (let i = 0; i < data.tipos.length; i++) {

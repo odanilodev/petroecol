@@ -16,9 +16,10 @@ class FinContasPagar_model extends CI_Model
 
         $filtro = json_decode($cookie_filtro_contas_pagar, true);
 
-        $this->db->select('CP.*, DF.nome as RECEBIDO, SE.nome as SETOR, C.nome as CLIENTE, M.nome as NOME_MICRO');
+        $this->db->select('CP.*, DF.nome as RECEBIDO, SE.nome as SETOR, C.nome as CLIENTE, M.nome as NOME_MICRO, F.nome as NOME_FUNCIONARIO');
         $this->db->from('fin_contas_pagar CP');
         $this->db->join('fin_dados_financeiros DF', 'CP.id_dado_financeiro = DF.id', 'LEFT');
+        $this->db->join('ci_funcionarios F', 'CP.id_funcionario = F.id', 'LEFT');
         $this->db->join('fin_micros M', 'M.id = CP.id_micro', 'LEFT');
         $this->db->join('ci_setores_empresa SE', 'CP.id_setor_empresa = SE.id', 'LEFT');
 
@@ -81,10 +82,11 @@ class FinContasPagar_model extends CI_Model
 
     public function recebeContaPagar($id)
     {
-        $this->db->select('CP.*, DF.nome as RECEBIDO, DF.id_grupo as GRUPO_CREDOR, SE.nome as SETOR, ci_clientes.nome as CLIENTE, M.nome as MACRO, MICROS.nome as MICRO');
+        $this->db->select('CP.*, DF.nome as RECEBIDO, DF.id_grupo as GRUPO_CREDOR, SE.nome as SETOR, ci_clientes.nome as CLIENTE, M.nome as MACRO, MICROS.nome as MICRO, F.nome as NOME_FUNCIONARIO');
         $this->db->from('fin_contas_pagar CP');
         $this->db->join('fin_dados_financeiros DF', 'CP.id_dado_financeiro = DF.id', 'LEFT');
         $this->db->join('ci_setores_empresa SE', 'CP.id_setor_empresa = SE.id', 'LEFT');
+        $this->db->join('ci_funcionarios F', 'F.id = CP.id_funcionario', 'LEFT');
 
         $this->db->join('ci_clientes', 'CP.id_cliente = ci_clientes.id', 'left'); // recebido/pago (cliente)
 

@@ -221,104 +221,86 @@ $(document).on('click', '.editar-lancamento', function () {
     $.ajax({
         type: "post",
         url: `${baseUrl}finContasPagar/recebeContaPagar`,
-        data: {
-            id: id
-        }, beforeSend: function () {
-
-            $('.select-micros').attr('disabled', false);
+        data: { id },
+        beforeSend: function () {
+            $('.select-micros').prop('disabled', false);
             $('.editando').removeClass('d-none');
-
-        }, success: function (data) {
+        },
+        success: function (data) {
 
             $('.select-macros-editar').val(data.conta.id_macro).trigger('change');
-
             changeSelectMacros(data.conta.id_macro, data.conta.id_micro);
+            $('.select-setor-empresa').val(data.conta.id_setor_empresa).trigger('change');
 
-            let idRecebido = data.conta.id_dado_financeiro != null ? data.conta.id_dado_financeiro : data.conta.id_cliente;
+            let idRecebido = data.conta.id_funcionario || data.conta.id_dado_financeiro || data.conta.id_cliente;
 
-            if (data.conta.GRUPO_CREDOR) {
-                $('.select-grupo-recebidos').val(data.conta.GRUPO_CREDOR);
-                changeSelectRecebidos(data.conta.GRUPO_CREDOR, idRecebido);
+            let grupo = data.conta.GRUPO_CREDOR || (data.conta.id_funcionario ? 'funcionarios' : 'clientes');
+            $('.select-grupo-recebidos').val(grupo);
+            changeSelectRecebidos(grupo, idRecebido);
 
-            } else {
-                $('.select-grupo-recebidos').val('clientes');
-                changeSelectRecebidos('clientes', idRecebido);
-            }
-
-            $('.select-setor-empresa').val(data['conta'].id_setor_empresa).trigger('change');
-
-            let dataVencimento = data['conta'].data_vencimento.split('-');
-            dataVencimento = dataVencimento[2] + '/' + dataVencimento[1] + '/' + dataVencimento[0];
-
+            let dataVencimento = data.conta.data_vencimento.split('-').reverse().join('/');
             $('.input-data-vencimento').val(dataVencimento);
 
-            if (data['conta'].data_emissao) {
-
-                let dataEmissao = data['conta'].data_emissao.split('-');
-                dataEmissao = dataEmissao[2] + '/' + dataEmissao[1] + '/' + dataEmissao[0];
-
+            if (data.conta.data_emissao) {
+                let dataEmissao = data.conta.data_emissao.split('-').reverse().join('/');
                 $('.input-data-emissao').val(dataEmissao);
             }
 
-            $('.input-observacao').text(data['conta'].observacao);
-
+            $('.input-observacao').text(data.conta.observacao);
         }
-    })
+    });
+});
 
-})
 
 function changeSelectRecebidos(grupo, idRecebido = null) {
+    let url;
 
-    if (grupo == "clientes") {
-
-        $.ajax({
-            type: "post",
-            url: `${baseUrl}finContasPagar/recebeTodosClientesAll`
-            , beforeSend: function () {
-                $('.select-recebido').attr('disabled', true);
-                $('.select-recebido').html('<option disabled>Carregando...</option>');
-            }, success: function (data) {
-                $('.select-recebido').attr('disabled', false);
-
-                let options = '<option selected disabled="disabled" value="">Selecione</option>';
-                for (let i = 0; i < data.clientes.length; i++) {
-
-                    options += `<option ${idRecebido != null && idRecebido == data.clientes[i].id ? "selected" : ""} value="${data.clientes[i].id}">${data.clientes[i].nome}</option>`;
-                }
-
-                $('.select-recebido').html(options);
-            }
-        })
-    } else {
-
-        $.ajax({
-            type: "post",
-            url: `${baseUrl}finDadosFinanceiros/recebeDadosFinanceiros`,
-            data: {
-                grupo: grupo
-            },
-            beforeSend: function () {
-                $('.select-recebido').attr('disabled');
-                $('.select-recebido').html('<option value="">Carregando...</option>');
-            }, success: function (data) {
-
-                $('.select-recebido').attr('disabled', false);
-                $('.select-recebido').html('<option value="">Selecione</option>');
-
-                let options = '<option selected disabled="disabled" value="">Selecione</option>';
-                for (i = 0; i < data.dadosFinanceiro.length; i++) {
-
-                    options += `<option ${idRecebido != null && idRecebido == data.dadosFinanceiro[i].id ? "selected" : ""} value="${data.dadosFinanceiro[i].id}">${data.dadosFinanceiro[i].nome}</option>`;
-
-                }
-
-                $('.select-recebido').html(options);
-            }
-        })
-
+    switch (grupo) {
+        case "clientes":
+            url = `${baseUrl}clientes/recebeNomeClientes`;
+            break;
+        case "funcionarios":
+            url = `${baseUrl}funcionarios/recebeTodosFuncionarios`;
+            break;
+        default:
+            url = `${baseUrl}finDadosFinanceiros/recebeDadosFinanceiros`;
+            break;
     }
 
+    $.ajax({
+        type: "post",
+        url: url,
+        beforeSend: function () {
+            $('.select-recebido').attr('disabled', true).html('<option disabled>Carregando...</option>');
+        },
+        success: function (data) {
+            $('.select-recebido').attr('disabled', false);
+
+            let options = '<option selected disabled="disabled" value="">Selecione</option>';
+            let dados;
+
+            switch (grupo) {
+                case "clientes":
+                    dados = data.clientes;
+                    break;
+                case "funcionarios":
+                    dados = data.funcionarios;
+                    break;
+                default:
+                    dados = data.dadosFinanceiro;
+                    break;
+            }
+
+            dados.forEach(dado => {
+                options += `<option ${idRecebido !== null && idRecebido == dado.id ? "selected" : ""} value="${dado.id}">${dado.nome}</option>`;
+            });
+
+            $('.select-recebido').html(options);
+        }
+    });
 }
+
+
 
 function changeSelectMacros(idMacro, idMicro = null) {
 
@@ -381,6 +363,7 @@ $(document).on('click', '.realizar-pagamento', function () {
     $('.id-conta-pagamento').val($(this).data('id'));
     $('.input-id-setor').val($(this).data('setor'));
     $('.id-dado-financeiro').val($(this).data('id-dado-financeiro'));
+    $('.id-funcionario').val($(this).data('id-funcionario'));
     $('.id-dado-cliente').val($(this).data('id-dado-cliente'));
     $('.input-valor').val($(this).data('valor'));
     $('.valor-total-conta').html(`R$ ${$(this).data('valor')}`);
@@ -403,6 +386,7 @@ const realizarPagamento = () => {
 
         let idConta = $('.id-conta-pagamento').val();
         let idDadoFinanceiro = $('.id-dado-financeiro').val();
+        let idFuncionario = $('.id-funcionario').val()
         let idDadoCliente = $('.id-dado-cliente').val();
 
         $('.select-conta-bancaria-unic').each(function () {
@@ -438,6 +422,7 @@ const realizarPagamento = () => {
                 valorTotal: valorTotal,
                 idDadoFinanceiro: idDadoFinanceiro,
                 idDadoCliente: idDadoCliente,
+                idFuncionario: idFuncionario,
                 dataPagamento: dataPagamento
             }, beforeSend: function () {
                 $(".load-form").removeClass("d-none");
@@ -698,11 +683,11 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
         $('.check-aberto:checked').each(function () {
 
             if ($(this).data('id-dado-financeiro')) {
-
                 idsDadoFinanceiro.push($(this).data('id-dado-financeiro'));
-            } else {
+            } else if ($(this).data('id-dado-cliente')) {
                 idsDadoFinanceiro.push($(this).data('id-dado-cliente'));
-
+            } else {
+                idsDadoFinanceiro.push($(this).data('id-funcionario'));
             }
         });
 
@@ -895,15 +880,20 @@ const visualizarConta = (idConta) => {
             let valorPago = formatarValorExibicao(parseFloat(data['conta'].valor_pago));
 
             if (data['conta'].RECEBIDO) {
+                $('.label-empresa-funcionario').html('Fornecedor');
                 $('.nome-empresa').html(data['conta'].RECEBIDO);
+            } else if (data['conta'].NOME_FUNCIONARIO) {
+                $('.label-empresa-funcionario').html('Funcionário');
+                $('.nome-empresa').html(data['conta'].NOME_FUNCIONARIO.toUpperCase());
             } else {
+                $('.label-empresa-funcionario').html('Empresa');
                 $('.nome-empresa').html(data['conta'].CLIENTE);
             }
 
             $('.setor-empresa').html(data['conta'].SETOR);
             $('.data-vencimento').html(dataVencimento);
             $('.data-emissao').html(dataEmissao);
-            $('.valor-conta').html(valorConta);
+            $('.valor-conta').html('R$' + valorConta);
             $('.obs-conta').html(data['conta'].observacao);
             $('.nome-macro').html(data['conta'].MACRO);
             $('.nome-micro').html(data['conta'].MICRO);
@@ -911,7 +901,7 @@ const visualizarConta = (idConta) => {
             if (data['conta'].valor_pago) {
                 let dataPagamento = formatarDatas(data['conta'].data_pagamento);
                 $('.div-valor-pago').removeClass('d-none');
-                $('.valor-pago').html(valorPago);
+                $('.valor-pago').html('R$' + valorPago);
                 $('.div-data-pagamento').removeClass('d-none');
                 $('.data-pagamento').html(dataPagamento);
                 $('.obs-conta').html(data['conta'].observacao ? data['conta'].observacao : '-');
@@ -1039,8 +1029,8 @@ $(document).on('change', '.input-data-primeira-parcela', function () {
 
         quantidadeParcela++;
     });
-
 });
+
 
 
 $(document).on('focusout', '.input-valor-primeira-parcela', function () {
