@@ -121,7 +121,7 @@ const deletarFuncionario = (id) => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Sim, deletar'
+        confirmButtonText: 'Sim, inativar'
 
     }).then((result) => {
 

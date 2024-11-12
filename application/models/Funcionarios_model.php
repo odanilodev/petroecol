@@ -44,13 +44,19 @@ class Funcionarios_model extends CI_Model
         return $query->result_array();
     }
 
-    public function recebeFuncionario($id)
+    public function recebeFuncionario($id, $inativados = null)
     {
         $this->db->select('F.*, C.nome as funcao_nome');
         $this->db->from('ci_funcionarios F');
         $this->db->join('ci_cargos C', 'C.id = F.id_cargo', 'left');
         $this->db->where('F.id', $id);
-        $this->db->where('F.status', 1);
+
+        if ($inativados) {
+            $this->db->where('F.status', 3);
+        } else {
+            $this->db->where('F.status', 1);
+        }
+
         $this->db->where('F.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->limit(1);
 
@@ -58,6 +64,7 @@ class Funcionarios_model extends CI_Model
 
         return $query->row_array();
     }
+
 
     public function recebeSaldoFuncionario($id)
     {
@@ -135,6 +142,8 @@ class Funcionarios_model extends CI_Model
     public function deletaFuncionario($id)
     {
         $dados['status'] = 3;
+        $dados['data_demissao'] = date('Y-m-d H:i:s');
+        
         $this->db->where('id', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->update('ci_funcionarios', $dados);
@@ -145,6 +154,7 @@ class Funcionarios_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
 
     public function verificaCpfFuncionario($cpf, $id)
     {
@@ -177,5 +187,4 @@ class Funcionarios_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
-
 }

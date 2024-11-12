@@ -1,5 +1,5 @@
 <div class="content">
-    <div id="members-inativados" data-list='{"valueNames":["nome","cpf","saldo"],"page":10,"pagination":true}'>
+    <div id="members-inativados" data-list='{"valueNames":["nome","data-demissao","cpf","saldo"],"page":10,"pagination":true}'>
         <div class="row align-items-center justify-content-between g-3 mb-4">
             <div class="col-auto">
                 <div class="d-flex align-items-center">
@@ -29,6 +29,7 @@
                             </th>
 
                             <th class="sort align-middle" scope="col" data-sort="nome">Funcionário</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="data-demissao">Data Demissão</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="cpf">CPF</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="saldo">Saldo</th>
                             <th class="sort align-middle pe-3 text-center">Alterar status</th>
@@ -46,12 +47,18 @@
                                 </td>
 
                                 <td class="customer align-middle white-space-nowrap">
-                                    <a class="d-flex align-items-center text-900" href="<?= base_url('funcionarios/detalhes/') . $funcionarioInativado['id'] ?>">
+                                    <a class="d-flex align-items-center text-900" href="<?= base_url('funcionarios/detalhes/') . $funcionarioInativado['id'] . '/0' ?> ">
                                         <div class="avatar avatar-m">
                                             <img class="rounded-circle" src="<?= $funcionarioInativado['foto_perfil'] ? base_url_upload('funcionarios/perfil/' . ($funcionarioInativado['foto_perfil'])) : base_url('assets/img/icons/sem_foto.jpg') ?>">
                                         </div>
                                         <h6 class="mb-0 ms-3 fw-semi-bold nome"><?= $funcionarioInativado['nome'] ?></h6>
                                     </a>
+                                </td>
+
+                                <td class="mobile_number align-middle white-space-nowrap data-demissao text-center">
+                                    <h6 class="fw-bold text-1100">
+                                        <?= !empty($funcionarioInativado['data_demissao']) ? date('d/m/Y', strtotime($funcionarioInativado['data_demissao'])) : (!empty($funcionarioInativado['editado_em']) ? date('d/m/Y', strtotime($funcionarioInativado['editado_em'])) : 'Data não disponível') ?>
+                                    </h6>
                                 </td>
 
                                 <td class="mobile_number align-middle white-space-nowrap cpf text-center">
