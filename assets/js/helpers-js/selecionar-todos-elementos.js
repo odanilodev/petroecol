@@ -109,5 +109,15 @@ function salvarElementosLocalStorage() {
 }
 
 $(function () {
-    carregaElementosLocalStorage();
+
+    let urlAtual = window.location.href;
+
+    if (urlAtual.includes('all')) {
+
+        localStorage.removeItem('idsElementosSelecionados');
+        localStorage.removeItem('atributosElementosSelecionados');
+    } else {
+
+        carregaElementosLocalStorage();
+    }
 });

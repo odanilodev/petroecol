@@ -172,7 +172,7 @@
 
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <li>
-                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalPagarVariasContas">
+                                    <button class="dropdown-item btn-pagar-todos" data-bs-toggle="modal" data-bs-target="#modalPagarVariasContas">
                                         <span data-feather="dollar-sign"></span> Pagar todos
                                     </button>
                                 </li>
@@ -249,7 +249,7 @@
                                             type="checkbox" value="<?= $contaPagar['id'] ?>"
                                             data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>"
                                             data-id-funcionario="<?= $contaPagar['id_funcionario'] ?>"
-                                            data-nome-empresa="<?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ucfirst($contaPagar['CLIENTE']); ?>"
+                                            data-nome-empresa="<?=  $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ($contaPagar['CLIENTE'] ? ucfirst($contaPagar['CLIENTE']) : strtoupper($contaPagar['NOME_FUNCIONARIO'])) ?>"
                                             data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>"
                                             data-valor="<?= $contaPagar['valor'] ?>"
                                             data-setor="<?= $contaPagar['SETOR'] ?>"

@@ -525,7 +525,7 @@ function formatarValorMoeda(valor) {
 }
 
 
-$(document).on('click', '.btn-pagar-tudo', function () {
+$(document).on('click', '.btn-pagar-todos', function () {
 
     carregaSelect2('select2', 'modalPagarVariasContas');
 
@@ -669,49 +669,44 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
         $('.proxima-etapa-pagamento').addClass('d-none');
         $('.finalizar-varios-pagamentos').removeClass('d-none');
 
-        let quantidadeContasPagar = $('.check-aberto:checked').length;
-
         let divPagamentoInicial = $('.campos-pagamento-inicio').clone();
 
         divPagamentoInicial.removeClass('d-none');
 
         let valores = valoresContasPagar();
 
-        let ids = idsContasPagar();
+        let quantidadeContasPagar = valores.length;
+
+        let ids = idsElementosSelecionados;
 
         let idsDadoFinanceiro = [];
-        $('.check-aberto:checked').each(function () {
-
-            if ($(this).data('id-dado-financeiro')) {
-                idsDadoFinanceiro.push($(this).data('id-dado-financeiro'));
-            } else if ($(this).data('id-dado-cliente')) {
-                idsDadoFinanceiro.push($(this).data('id-dado-cliente'));
-            } else {
-                idsDadoFinanceiro.push($(this).data('id-funcionario'));
-            }
-        });
-
         let nomesEmpresas = [];
-        $('.check-aberto:checked').each(function () {
-            nomesEmpresas.push($(this).data('nome-empresa'));
-        });
-
-        let setoresEmpresas = [];
-        $('.check-aberto:checked').each(function () {
-            setoresEmpresas.push($(this).data('setor'));
-        });
-
+        let setoresEmpresas = []; 
         let idSetorEmpresa = [];
-        $('.check-aberto:checked').each(function () {
-            idSetorEmpresa.push($(this).data('id-setor-empresa'));
-        });
+        for (i = 0; i < atributosElementosSelecionados.length; i++) {
+            nomesEmpresas.push(atributosElementosSelecionados[i].nomeEmpresa);
+            setoresEmpresas.push(atributosElementosSelecionados[i].setor);
+            idSetorEmpresa.push(atributosElementosSelecionados[i].idSetorEmpresa);
+
+            // id credor
+            if (atributosElementosSelecionados[i].idDadoFinanceiro) {
+                idsDadoFinanceiro.push(atributosElementosSelecionados[i].idDadoFinanceiro);
+            } else if ($(this).data('id-dado-cliente')) {
+                idsDadoFinanceiro.push(atributosElementosSelecionados[i].idDadoCliente);
+            } else {
+                idsDadoFinanceiro.push(atributosElementosSelecionados[i].idFuncionario);
+            }
+        }
 
 
         for (let i = 0; i < quantidadeContasPagar; i++) {
 
             let clone = divPagamentoInicial.clone();
             clone.find('select, input').each(function () {
-                $(this).val(valores[i]);
+
+                let valor = valores[i].replace('R$ ', '');
+                
+                $(this).val(valor);
                 $(this).addClass('campo-form-' + ids[i]);
                 $(this).addClass('dado-financeiro-' + idsDadoFinanceiro[i]);
                 $(this).addClass('setor-empresa-' + idSetorEmpresa[i]);
@@ -739,18 +734,16 @@ function valoresContasPagar() {
     let valores = [];
     let totalAberto = 0;
 
-    $('.check-aberto:checked').each(function () {
-
-        let valorAtual = parseFloat($(this).data('valor'));
-        // Formatando o valor atual como moeda BRL sem o símbolo do Real (R$)
-        let valorFormatado = valorAtual.toLocaleString('pt-BR', {
+    for (i = 0; i < atributosElementosSelecionados.length; i++) {
+        let valor = parseFloat(atributosElementosSelecionados[i].valor);
+        let valorFormatado = valor.toLocaleString('pt-BR', {
             style: 'currency',
             currency: 'BRL'
-        }).replace('R$', '').trim();
+        });
 
         valores.push(valorFormatado);
-        totalAberto += valorAtual;
-    });
+        totalAberto += valor;
+    }
 
     let totalFormatado = totalAberto.toLocaleString('pt-BR', {
         style: 'currency',
@@ -807,10 +800,13 @@ function realizarVariosPagamentos() {
     let operacoes = [];
 
     $('.campos-pagamentos-novos .campos').each(function () {
+
         let idInput = $(this).attr('class').match(/campo-form-(\d+)/);
         let idsDadoFinanceiro = $(this).attr('class').match(/dado-financeiro-(\d+)/);
         let idSetorEmpresa = $(this).attr('class').match(/setor-empresa-(\d+)/);
+
         if (idInput) {
+
             idInput = idInput[1];
             idsDadoFinanceiro = idsDadoFinanceiro[1];
             idSetorEmpresa = idSetorEmpresa[1];
@@ -854,7 +850,7 @@ function realizarVariosPagamentos() {
 
             $(".load-form").addClass("d-none");
 
-            let redirect = data.type != 'error' ? `${baseUrl}finContasPagar` : '#';
+            let redirect = data.type != 'error' ? `${baseUrl}finContasPagar/index/all` : '#';
 
             avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
             $(".btn-form").removeClass("d-none");
@@ -918,7 +914,7 @@ const visualizarConta = (idConta) => {
 
 const deletaContaPagar = (idConta) => {
 
-    let idsAgrupados = agruparIdsCheckbox();
+    let idsAgrupados = idsElementosSelecionados;
 
     if (idsAgrupados.length >= 2) {
         var ids = idsAgrupados;
@@ -947,7 +943,7 @@ const deletaContaPagar = (idConta) => {
                     ids: ids
                 }, success: function (data) {
 
-                    let redirect = data.type != 'error' ? `${baseUrl}finContasPagar` : '#';
+                    let redirect = data.type != 'error' ? `${baseUrl}finContasPagar/index/all` : '#';
 
                     avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
