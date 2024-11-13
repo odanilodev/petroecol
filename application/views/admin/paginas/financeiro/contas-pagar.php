@@ -162,17 +162,30 @@
         <div id="members" data-list='{"valueNames":["td_vencimento", "td_valor", "td_valor_pago", "td_status_pgto", "td_data_pagamento", "td_empresa", "td_setor", "td_micro", "td_observacao"], "pagination":false}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
-                    <h3 class="d-flex align-items-center pd-0">Contas a pagar
-                        <a href="#" class="btn btn-phoenix-success d-none btn-pagar-tudo d-flex align-items-center mx-2"
-                            data-bs-toggle="modal" data-bs-target="#modalPagarVariasContas">
-                            <span data-feather="dollar-sign" class="me-2"></span> Pagar todos
-                        </a>
-                        <a href="#"
-                            class="btn btn-phoenix-danger d-none btn-excluir-contas d-flex align-items-center mx-2"
-                            onclick="deletaContaPagar()">
-                            <span class="fas fa-trash me-2"></span> Excluir tudo
-                        </a>
-                    </h3>
+                    <div class="d-flex align-items-center">
+                        <h3 class="me-3 teste-btn">Contas a pagar</h3>
+                        <div class="btn-acoes-elementos-selecionados d-none">
+                            <button class="btn btn-phoenix-info dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="contador-elementos-selecionados"></span>
+                                Selecionados
+                            </button>
+
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li>
+                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalPagarVariasContas">
+                                        <span data-feather="dollar-sign"></span> Pagar todos
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item btn-excluir-contas" onclick="deletaContaPagar()">
+                                        <span data-feather="trash"></span> Excluir tudo
+                                    </button>
+                                </li>
+                            </ul>
+
+                        </div>
+
+                    </div>
                 </div>
                 <div class="col-12 col-md-auto">
                     <div class="row g-2 gy-3">
@@ -203,8 +216,7 @@
                         <tr>
                             <th class="white-space-nowrap fs--1 ps-0 align-middle">
                                 <div class="form-check mb-0 fs-0">
-                                    <input class="form-check-input check-all-element cursor-pointer"
-                                        id="checkbox-bulk-reviews-select" type="checkbox" />
+                                    <input class="form-check-input cursor-pointer check-todos-elementos" id="checkbox-bulk-reviews-select" type="checkbox" onclick="selecionarTodosElementos()" />
                                 </div>
                             </th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_vencimento">Vencimento
@@ -233,7 +245,7 @@
                                 <td class="fs--1 align-middle ps-0">
                                     <div class="form-check mb-0 fs-0">
                                         <input
-                                            class="form-check-input check-element cursor-pointer <?= !$contaPagar['status'] ? 'check-aberto' : '' ?>"
+                                            class="form-check-input check-input cursor-pointer <?= !$contaPagar['status'] ? 'check-elemento check-' . $contaPagar['id'] : '' ?>"
                                             type="checkbox" value="<?= $contaPagar['id'] ?>"
                                             data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>"
                                             data-id-funcionario="<?= $contaPagar['id_funcionario'] ?>"
