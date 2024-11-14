@@ -40,8 +40,8 @@ class Clientes_model extends CI_Model
             $this->db->like('C.rua', $filtro['rua']);
         }
 
-        $filtro['nome'] = str_replace(' ', '', $filtro['nome']);
         if (($filtro['nome'] ?? false)) {
+            $filtro['nome'] = str_replace(' ', '', $filtro['nome']);
             $nome = $filtro['nome'];
             $this->db->group_start()
                 ->like("LOWER(REPLACE(REPLACE(C.nome, ' ', ''), 'áéíóú', 'aeiou'))", strtolower($nome), 'both')
