@@ -40,9 +40,13 @@ class Clientes_model extends CI_Model
             $this->db->like('C.rua', $filtro['rua']);
         }
 
-        if ($filtro['nome'] ?? false) {
+        $filtro['nome'] = str_replace(' ', '', $filtro['nome']);
+        if (($filtro['nome'] ?? false)) {
             $nome = $filtro['nome'];
-            $this->db->group_start()->like("LOWER(C.nome)", strtolower($nome))->or_like("LOWER(C.rua)", strtolower($nome))->group_end();
+            $this->db->group_start()
+                ->like("LOWER(REPLACE(REPLACE(C.nome, ' ', ''), 'áéíóú', 'aeiou'))", strtolower($nome), 'both')
+                ->or_like("LOWER(REPLACE(REPLACE(C.rua, ' ', ''), 'áéíóú', 'aeiou'))", strtolower($nome), 'both')
+                ->group_end();
         }
 
         if (($filtro['id_recipiente'] ?? false) && $filtro['id_recipiente'] != 'all') {
@@ -267,7 +271,7 @@ class Clientes_model extends CI_Model
 
         $this->db->where('RC.id_cliente', $id);
         $this->db->where('RC.id_empresa', $this->session->userdata('id_empresa'));
-        
+
         $this->db->join('ci_clientes C', 'C.id = RC.id_cliente');
 
         $query = $this->db->get();
