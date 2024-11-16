@@ -405,4 +405,14 @@ class Clientes_model extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
+
+    public function editaVariosClientes($idsClientes, $dados) 
+    {
+        $dados['editado_em'] = date('Y-m-d H:i:s');
+        $this->db->where_in('id', $idsClientes);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->update('ci_clientes', $dados);
+
+        return $this->db->affected_rows() > 0;
+    }
 }

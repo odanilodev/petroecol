@@ -1027,8 +1027,13 @@ function finalizarRomaneio() {
     let dataRomaneio = $('.data_romaneio').val();
 
     let valorTotal = 0;
-
+    let todosIdsClientes = [];
     $('.accordion-item').each(function () {
+
+        if ($(this).find('.input-id-cliente').val()) {
+
+            todosIdsClientes.push($(this).find('.input-id-cliente').val());
+        }
 
         let formasPagamentosContaBancarias = [];
         let contasBancarias = [];
@@ -1261,6 +1266,7 @@ function finalizarRomaneio() {
             type: "POST",
             url: `${baseUrl}coletas/cadastraColeta`,
             data: {
+                todosIdsClientes: todosIdsClientes,
                 clientes: dadosClientes,
                 idResponsavel: idResponsavel,
                 codRomaneio: codRomaneio,

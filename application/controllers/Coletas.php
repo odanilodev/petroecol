@@ -59,6 +59,10 @@ class Coletas extends CI_Controller
 
         $idColeta = $this->input->post('idColeta');
 
+        $obsColetaCliente['observacao_coleta'] = "";
+        $todosIdsClientes = $this->input->post('todosIdsClientes');
+        $this->Clientes_model->editaVariosClientes($todosIdsClientes, $obsColetaCliente);
+
 
         if ($payload) {
             foreach ($payload as $cliente):
@@ -248,7 +252,7 @@ class Coletas extends CI_Controller
                     $dataVencimentoObj = new DateTime($dataVencimento);
 
                     $dataVencimentoObj->modify('+1 month');
-                   
+
 
 
                     $contasPagar['valor'] = $valorTotal;
@@ -265,10 +269,8 @@ class Coletas extends CI_Controller
 
                         $this->FinContasPagar_model->insereConta($contasPagar);
                     }
-
                 }
             }
-
         }
     }
 
