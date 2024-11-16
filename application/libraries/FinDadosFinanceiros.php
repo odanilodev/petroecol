@@ -64,15 +64,22 @@ class FinDadosFinanceiros
 		return $query->row_array();
 	}
 
-	public function totalFluxoFinanceiro($coluna, $status, $dataInicio, $dataFim)
+	public function totalFluxoFinanceiro($coluna, $status, $dataInicio, $dataFim, $setor = null)
 	{
 		$this->CI->db->select_sum($coluna);
 		$this->CI->db->where('id_empresa', $this->CI->session->userdata('id_empresa'));
 		$this->CI->db->where('movimentacao_tabela', $status);
+
+		// Verifica se o setor foi passado e se é válido
+		if (!empty($setor) && $setor !== 'todos') {
+			$this->CI->db->where('id_setor_empresa', $setor);
+		}
+
 		$this->CI->db->where('data_movimentacao >=', $dataInicio);
 		$this->CI->db->where('data_movimentacao <=', $dataFim);
 		$query = $this->CI->db->get('fin_fluxo');
 
 		return $query->row_array();
 	}
+
 }

@@ -62,18 +62,20 @@ class Romaneios_model extends CI_Model
         $query = $this->db->get();
 
         return $query->result_array();
-
     }
 
-    public function recebeUltimosRomaneios()
+    public function recebeUltimosRomaneios($codRomaneio = null)
     {
         $this->db->select('R.data_romaneio, MAX(R.id) as ID_ROMANEIO, MAX(R.criado_em) as criado_em, MAX(F.nome) as RESPONSAVEL, MAX(R.id_setor_empresa) as id_setor_empresa');
         $this->db->from('ci_romaneios R');
         $this->db->join('ci_funcionarios F', 'F.id = R.id_responsavel', 'INNER');
         $this->db->where('R.id_empresa', $this->session->userdata('id_empresa'));
 
-        // Adiciona a condição para incluir romaneios dos últimos 15 dias até hoje e também datas futuras
-        $this->db->where('R.data_romaneio >=', date('Y-m-d', strtotime('-15 days')));
+        if ($codRomaneio) {
+            $this->db->where('R.codigo', $codRomaneio);
+        } else {
+            $this->db->where('R.data_romaneio >=', date('Y-m-d', strtotime('-30 days')));
+        }
 
         $this->db->order_by('data_romaneio', 'DESC');
         $this->db->group_by('R.data_romaneio');
@@ -105,7 +107,6 @@ class Romaneios_model extends CI_Model
 
         if ($dados['data_coleta']) {
             $this->db->where('A.data_coleta', $dados['data_coleta']);
-
         }
 
         if ($dados['ids_etiquetas']) {
@@ -156,5 +157,4 @@ class Romaneios_model extends CI_Model
 
         return $query->num_rows() > 0;
     }
-
 }

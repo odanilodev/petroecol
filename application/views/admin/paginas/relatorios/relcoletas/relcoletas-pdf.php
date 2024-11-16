@@ -53,7 +53,12 @@
         th {
             background-color: #444;
             color: #fff;
+            font-size: 11px;
+            /* Tamanho do cabeçalho menor */
+            padding: 6px !important;
+            /* Reduz o espaçamento interno (padding) */
         }
+
 
         tr:nth-child(even) {
             background-color: #f2f2f2;
@@ -141,12 +146,12 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th style="width: 10px;" scope="col">Data</th>
-                            <th style="width: 10px;" scope="col">Motorista</th>
-                            <th style="width: 10px;" scope="col">Movimentado</th>
-                            <th style="width: 10px;" scope="col">Total</th>
+                            <th style="width: 5px;" scope="col">Data</th>
+                            <th style="width: 5px;" scope="col">Motorista</th>
+                            <th style="width: 5px;" scope="col">Movimentado</th>
+                            <th style="width: 5px;" scope="col">Total</th>
                             <?php if (!$filtrar_geral) { ?>
-                                <th style="width: 10px;" scope="col">Total Base</th>
+                                <th style="width: 5px;" scope="col">Total Base</th>
                             <?php } ?>
                         </tr>
                     </thead>

@@ -63,6 +63,7 @@
             margin-top: 30px;
         }
 
+
         .signature {
             text-align: center;
             margin-top: 30px;
@@ -85,7 +86,6 @@
 </head>
 
 <body>
-
     <div class="container">
 
         <?php $id_residuo = $this->uri->segment(5); ?>
@@ -103,6 +103,12 @@
             <tr>
                 <th colspan="2"><?= chave('certificados-pdf-titulo-gerador') ?>: <?= $clientes_coletas['nome'] ?></th>
                 <th><strong>Data de emissão:</strong> <?= date('d/m/Y') ?></th>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <strong><?= chave('certificados-pdf-titulo-codigo-certificado') ?>: </strong>
+                    <?= $codigoCertificado ? $codigoCertificado : "Não informado."; ?>
+                </td>
             </tr>
             <tr>
                 <td colspan="3">
@@ -134,6 +140,7 @@
 
 
 
+
         <h3>Resíduos Coletados</h3>
 
         <?php
@@ -145,15 +152,12 @@
 
             foreach ($dado['quantidade_coletada'] as $i => $quantidade) {
 
-                if ($dado['residuos'][$i] == $id_residuo or !$id_residuo) {
-                    $dataColeta = $dado['dataColeta'];
-                    $residuo = $dado['residuos'][$i];
-                    if (!isset($coletasPorResiduo[$residuo])) {
-                        $coletasPorResiduo[$residuo] = [];
-                    }
-                    $coletasPorResiduo[$residuo][] = ['quantidade' => $quantidade, 'data' => $dataColeta];
+                $dataColeta = $dado['dataColeta'];
+                $residuo = $dado['residuos'][$i];
+                if (!isset($coletasPorResiduo[$residuo])) {
+                    $coletasPorResiduo[$residuo] = [];
                 }
-
+                $coletasPorResiduo[$residuo][] = ['quantidade' => $quantidade, 'data' => $dataColeta];
             }
         }
         ?>
@@ -198,6 +202,13 @@
             <div class="declaration">
                 <h4 style="font-weight: bold; margin-bottom: 10px;">Declaração</h4>
                 <p style="font-size: 12px;"><?= $modelo_certificado['declaracao']; ?></p>
+            </div>
+        <?php endif; ?>
+
+
+        <?php if ($mtr): ?>
+            <div class="declaration" style="text-align: center;">
+                <h5 style="font-weight: bold; margin-bottom: 10px;">MTR N° <?= $mtr ?></h5>
             </div>
         <?php endif; ?>
 

@@ -18,8 +18,9 @@ class GerarCertificadoColeta
 
 	}
 
-	public function gerarPdfPadrao($idColeta, $idModelo, $idCliente, $emailsCliente, $enviarEmail = null)
+	public function gerarPdfPadrao($idColeta, $idModelo, $idCliente, $emailsCliente, $enviarEmail = null, $numero_mtr = null, $codigoCertificado = null)
 	{
+
 		$this->CI->load->library('detalhesColeta');
 		$this->CI->load->library('residuoChaveId');
 
@@ -39,6 +40,10 @@ class GerarCertificadoColeta
 		}
 
 		$data['dados'] = $dados;
+
+		$data['mtr'] = urldecode($numero_mtr);
+
+		$data['codigoCertificado'] = $codigoCertificado;
 
 		// todos residuos cadastrado na empresa
 		$data['residuosColetatos'] = $this->CI->residuochaveid->residuoArrayChaveIdUnidadeMedida();

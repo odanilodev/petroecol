@@ -315,25 +315,29 @@ const salvarPrestacaoContas = () => {
         formaPagamentoTroco: $('.forma-pagamento-troco').val()
     }
 
-    $('.campos-pretacao').each(function () {
-        
-        let tipoPagamento = $(this).find('.select-tipo-pagamento'); 
-        let tipoCusto = $(this).find('.select-tipos-custos').val();
-        let recebido = $(this).find('.select-recebido').val();
-        let valor = $(this).find('.input-valor').val();
-        let dataPagamento = $(this).find('.data-pagamento').val();
-        let macro = $(this).find('.select-macros-prestacao').val();
-        let micro = $(this).find('.select-micros-prestacao').val();
 
-        dadosPrestacaoContas.idTipoCusto.push(tipoCusto);
-        dadosPrestacaoContas.idRecebido.push(recebido);
-        dadosPrestacaoContas.valor.push(valor);
-        dadosPrestacaoContas.macros.push(macro);
-        dadosPrestacaoContas.micros.push(micro);
-        dadosPrestacaoContas.dataPagamento.push(dataPagamento ?? '');
-        dadosPrestacaoContas.tipoPagamento.push(tipoPagamento.find('option:selected').data('tipo'));
+    if (!$('.check-sem-custos').is(':checked')) {
 
-    });
+        $('.campos-pretacao').each(function () {
+            
+            let tipoPagamento = $(this).find('.select-tipo-pagamento'); 
+            let tipoCusto = $(this).find('.select-tipos-custos').val();
+            let recebido = $(this).find('.select-recebido').val();
+            let valor = $(this).find('.input-valor').val();
+            let dataPagamento = $(this).find('.data-pagamento').val();
+            let macro = $(this).find('.select-macros-prestacao').val();
+            let micro = $(this).find('.select-micros-prestacao').val();
+    
+            dadosPrestacaoContas.idTipoCusto.push(tipoCusto);
+            dadosPrestacaoContas.idRecebido.push(recebido);
+            dadosPrestacaoContas.valor.push(valor);
+            dadosPrestacaoContas.macros.push(macro);
+            dadosPrestacaoContas.micros.push(micro);
+            dadosPrestacaoContas.dataPagamento.push(dataPagamento ?? '');
+            dadosPrestacaoContas.tipoPagamento.push(tipoPagamento.find('option:selected').data('tipo'));
+    
+        });
+    }
 
     let permissao = verificaCamposObrigatorios('input-obrigatorio-modal');
 
@@ -464,3 +468,61 @@ $(document).on('change', '.check-sem-custos', function () {
         $('.dados-conta').addClass('input-obrigatorio-custo');
     }
 })
+
+
+const visualizarPrestacaoContas = (codigoRomaneio) => {
+
+    $('.cod-romaneio').html(codigoRomaneio);
+
+    $.ajax({
+        type: 'post',
+        url: `${baseUrl}finPrestacaoContas/visualizarPrestacaoContas`,
+        data: {
+            codRomaneio: codigoRomaneio
+        }, beforeSend: function () {
+            $('.div-tabela-tipos-custos-modal').addClass('d-none');
+            $('.load-form-modal').removeClass('d-none');
+        }, success: function (data) {
+
+            $('.load-form-modal').addClass('d-none');
+            $('.div-tabela-tipos-custos-modal').removeClass('d-none');
+
+            let conteudoTabelaModal;
+            for (i = 0; i < data.custos.length; i++) {
+
+                conteudoTabelaModal += `
+                    <tr class="hover-actions-trigger btn-reveal-trigger position-static text-center">
+                        <td class="align-middle text-center data white-space-nowrap">
+                            <h6 class="mb-0 text-900 text-center">
+                                ${data.custos[i].CUSTO}
+                            </h6>
+                        </td>
+                        <td class="align-middle text-center data white-space-nowrap">
+                            <h6 class="mb-0 text-900 text-center">
+                                ${formatarValorMoeda(data.custos[i].valor)}
+                            </h6>
+                        </td>
+                    </tr>
+
+                `;
+            }
+
+            $('.tabela-tipos-custos-modal').html(conteudoTabelaModal);
+
+            let conteudoTotal = `
+                <tr class="hover-actions-trigger btn-reveal-trigger position-static text-center">
+                    <td class="align-middle text-center data white-space-nowrap"> </td>
+                    <td class="align-middle text-center data white-space-nowrap">
+                        <h6 class="mb-0 text-1000 text-center">
+                            Total: ${formatarValorMoeda(data.valorTotal.valor_total)}
+                        </h6>
+                    </td>
+                </tr>
+            `;
+
+            $('.tabela-tipos-custos-modal').append(conteudoTotal);
+           
+            
+        }
+    })
+}

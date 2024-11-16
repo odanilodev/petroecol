@@ -114,7 +114,7 @@
             <div class="card-body">
               <div class="row align-items-center g-3">
                 <div class="col-12 col-sm-auto flex-1">
-                  <h3 class="fw-bolder mb-2 line-clamp-1">
+                  <h3 class="fw-bolder mb-2">
                     <?php if (isset($cliente['cor'])) { ?>
                       <span class="fas fa-certificate pb-1"
                         style="width:16px; height:16px; color: <?= $cliente['cor'] ?>"></span>
@@ -147,19 +147,17 @@
 
                   </div>
 
-                  <p class="mb-0 me-2">Próxima Coleta</p>
+                  <p class="mb-0 me-2"></p>
+
                   <div class="d-flex align-items-center">
                     <span class="d-inline-block lh-sm me-1" data-feather="calendar"
                       style="height:16px;width:16px;"></span>
-                    <?php if (!empty($proxima_coleta) && $proxima_coleta != '--'): ?>
-                      <a href="#" data-bs-toggle="modal" data-bs-target=".modal-proxima-coleta"
-                        class="d-inline-block lh-sm"
-                        onclick="alterarObsProximaColeta('<?= $proxima_coleta ?>', <?= $this->uri->segment(3) ?>)">
-                        <?= $proxima_coleta; ?>
-                      </a>
-                    <?php else: ?>
-                      <span class="d-inline-block lh-sm"><?= $proxima_coleta; ?></span>
-                    <?php endif; ?>
+
+                    <a href="#" data-bs-toggle="modal" data-bs-target=".modal-proxima-coleta"
+                      class="d-inline-block lh-sm"
+                      onclick="alterarObsProximaColeta('<?= $proxima_coleta ?>', <?= $this->uri->segment(3) ?>)">
+                      Observação para próxima Coleta
+                    </a>
                   </div>
 
                 </div>
@@ -501,7 +499,9 @@
                             </td>
                             <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                             <td class="py-2">
-                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0"><?= $origemCadastroCliente['NOME_ORIGEM_CADASTRO']; ?></div>
+                              <div class="ps-6 ps-sm-0 fw-semi-bold mb-0">
+                                <?= $origemCadastroCliente['NOME_ORIGEM_CADASTRO']; ?>
+                              </div>
                             </td>
                           </tr>
                         </table>
@@ -669,8 +669,8 @@
           <div class="tab-pane fade active show" id="tab-activity" role="tabpanel" aria-labelledby="activity-tab">
 
             <h2 class="mb-6">Histórico de Coleta
-              <a href="#" class="btn btn-phoenix-success px-3 px-sm-5 me-2 btn-nova-coleta-cliente" style="float: right;" data-bs-toggle="modal"
-                data-bs-target=".modal-cadastrar-coleta">
+              <a href="#" class="btn btn-phoenix-success px-3 px-sm-5 me-2 btn-nova-coleta-cliente"
+                style="float: right;" data-bs-toggle="modal" data-bs-target=".modal-cadastrar-coleta">
                 <span class="fa-solid fas fa-recycle me-sm-2"></span>
                 <span class="d-none d-sm-inline">Nova Coleta </span>
               </a>
@@ -680,17 +680,17 @@
               <div class="row">
 
                 <div class="col-md-3">
-                  <input class="form-control datetimepicker data-inicio-coleta" required name="data_coleta_inicio"
-                    type="text" placeholder="Data Inicio" data-options='{"disableMobile":true,"allowInput":true}'
-                    style="cursor: pointer;" />
+                  <input autocomplete="off" class="form-control datetimepicker data-inicio-coleta" required
+                    name="data_coleta_inicio" type="text" placeholder="Data Inicio"
+                    data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
 
                 </div>
 
                 <div class="col-md-3">
 
-                  <input class="form-control datetimepicker data-fim-coleta" required name="data_coleta_fim" type="text"
-                    placeholder="Data Fim" data-options='{"disableMobile":true,"allowInput":true}'
-                    style="cursor: pointer;" />
+                  <input autocomplete="off" class="form-control datetimepicker data-fim-coleta" required
+                    name="data_coleta_fim" type="text" placeholder="Data Fim"
+                    data-options='{"disableMobile":true,"allowInput":true}' style="cursor: pointer;" />
 
                 </div>
 
@@ -860,8 +860,7 @@
     </div>
 
     <!-- Modal próxima coleta -->
-    <div class="modal fade modal-proxima-coleta" tabindex="-1" id="modalProximaColeta"
-      data-proxima-coleta="<?= $proxima_coleta ?>">
+    <div class="modal fade modal-proxima-coleta" tabindex="-1" id="modalProximaColeta">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
@@ -869,21 +868,10 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p>Selecione o setor de coleta agendado</p>
-            <div class="mb-3">
-              <label for="agendamentoSelect" class="form-label">Selecione um agendamento:</label>
-              <select class="form-select input-obrigatorio-obs" id="agendamentoSelect" name="idAgendamento" required>
-                <!-- JS -->
-              </select>
-
-              <div class="aviso-obrigatorio d-none">Preencha este campo.</div>
-
-              <input type="hidden" class="form-control" id="dataAtual" name="data_atual" value='<?= date('Y-m-d') ?>'>
-            </div>
             <div class="mb-3">
               <label for="observacao" class="form-label">Observação:</label>
               <textarea class="form-control input-obrigatorio-obs" id="observacao" name="observacao" rows="3"
-                required></textarea>
+                required><?= $cliente['observacao_coleta'] ?? "" ?></textarea>
               <div class="aviso-obrigatorio d-none">Preencha este campo.</div>
             </div>
             <div class="modal-footer">
@@ -925,7 +913,7 @@
                                   <div class="d-flex bg-info-100 rounded-circle flex-center me-3"
                                     style="width:24px; height:24px">
                                     <span class="text-info-600 dark__text-info-300 fas fa-barcode"
-                                      style="width:16px; height:16px"></span> 
+                                      style="width:16px; height:16px"></span>
                                   </div>
                                   <p class="fw-bold mb-0">Código do Romaneio</p>
                                 </div>
@@ -1152,6 +1140,11 @@
                     <?php } ?>
                   </select>
                   <div class="invalid-feedback">Preencha este campo</div>
+                  <label class="form-label text-900 mt-3">Número de MTR</label>
+                  <input type="text" name="numero_mtr" class="form-control input-mtr"
+                    placeholder="Digite o número de MTR" />
+                  <div class="invalid-feedback">Preencha este campo</div>
+
                 </div>
               </div>
 

@@ -1,33 +1,8 @@
 var baseUrl = $('.base-url').val();
 
 
-const alterarObsProximaColeta = (dataAgendamento, idCliente) => {
-
-    let dataAgendamentoArray = dataAgendamento.split('/');
-
-    let dataAgendamentoFormatada = `${dataAgendamentoArray[2]}-${dataAgendamentoArray[1]}-${dataAgendamentoArray[0]}`;
-
-    $.ajax({
-        type: 'post',
-        url: `${baseUrl}agendamentos/obtemAgendamentosPorDataProxima`,
-        data: {
-            idCliente: idCliente,
-            dataAgendamento: dataAgendamentoFormatada
-        }, success: function (data) {
-
-            let options = "<option value='' selected disbled>Selecione</option>";
-            for (i = 0; i < data.agendamentos.length; i++) {
-                options += `<option value='${data.agendamentos[i].id}'>${data.agendamentos[i].SETOR}</option>`;
-            }
-            $('#agendamentoSelect').html(options);
-
-        }
-    })
-}
-
 const salvarObsProximaColeta = () => {
 
-    let agendamento = $('#agendamentoSelect').find('option:selected').val();
     let observacao = $('#observacao').val();
     let idCliente = $('.id-cliente').val();
 
@@ -36,9 +11,9 @@ const salvarObsProximaColeta = () => {
     if (permissao) {
         $.ajax({
             type: 'post',
-            url: `${baseUrl}agendamentos/editaObservacaoAgendamento`,
+            url: `${baseUrl}clientes/alteraObservacaoCliente`,
             data: {
-                idAgendamento: agendamento,
+                idCliente: idCliente,
                 observacao: observacao
             }, beforeSend: function () {
                 $('.btn-form').addClass('d-none');
@@ -54,7 +29,7 @@ const salvarObsProximaColeta = () => {
         })
     }
 
-    
+
 }
 
 const verificaCampos = () => {
@@ -125,7 +100,6 @@ const verificaCampos = () => {
     }
 }
 
-
 const cadastraCliente = (dadosEmpresa, dadosEndereco, dadosResponsavel) => {
 
     let id = $('.input-id').val();
@@ -194,7 +168,7 @@ function carregarOpcoesOrigemCadastro(tipo, url, label, placeholder) {
 
             if (tipo === 'funcionarios') {
                 for (let i = 0; i < data.funcionarios.length; i++) {
-                    options += `<option ${idOrigemCadastro == data.funcionarios[i].IDFUNCIONARIO ? 'selected' : ''} value="${data.funcionarios[i].IDFUNCIONARIO}">${data.funcionarios[i].nome}</option>`;
+                    options += `<option ${idOrigemCadastro == data.funcionarios[i].id ? 'selected' : ''} value="${data.funcionarios[i].id}">${data.funcionarios[i].nome}</option>`;
                 }
             } else if (tipo === 'tipos') {
                 for (let i = 0; i < data.tipos.length; i++) {
@@ -209,7 +183,6 @@ function carregarOpcoesOrigemCadastro(tipo, url, label, placeholder) {
         }
     });
 }
-
 
 $(document).on('change', '.select-origem-cadastro-pesquisa', function () {
 
@@ -236,8 +209,6 @@ $(document).on('change', '.select-origem-cadastro-pesquisa', function () {
         $('.div-pesquisa').addClass('d-none');
     }
 });
-
-
 
 $(function () {
 
@@ -290,8 +261,6 @@ $(function () {
         }
     });
 });
-
-
 
 $(function () {
 
@@ -475,9 +444,9 @@ const emailsCertificadoColeta = (idColeta, idCliente) => {
 
     if (idColeta) {
 
-        $('.btn-gerar-certificado').addClass('d-none');
 
         detalhesHistoricoColeta(idColeta, '.data-coleta-certificado'); // exibe os detalhes
+        $('.btn-gerar-certificado').addClass('d-none');
     }
 
     // busca os emails
@@ -536,6 +505,7 @@ const emailsCertificadoColeta = (idColeta, idCliente) => {
 const detalhesHistoricoColeta = (idColeta, classe) => {
 
     $('.input-id-coleta').val(idColeta);
+    $('.btn-gerar-certificado').removeClass('d-none');
 
     $.ajax({
         type: 'post',
@@ -701,10 +671,15 @@ $(document).on('click', '.btn-gerar-certificado', function () {
 
     const idModelo = modeloCertificado;
     const coleta = $('.input-id-coleta').val();
-    const idResiduo = $('.id-residuo-coleta').val() != null ? $('.id-residuo-coleta').val() : "";
+    const numeroMtr = $('.input-mtr').val();
+    let idResiduo = $('.id-residuo-coleta').val();
+
+    if (idResiduo == null || !idResiduo) {
+        idResiduo = "todos";
+    }
 
     if (idModelo && coleta) {
-        var redirect = `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}/${idResiduo}`;
+        var redirect = `${baseUrl}coletas/certificadoColeta/${coleta}/${idModelo}/${idResiduo}/${numeroMtr}`;
         window.open(redirect, '_blank');
     } else {
         avisoRetorno('Algo deu errado!', 'Não foi possível encontrar o certificado de coleta.', 'error', `#`);
@@ -763,16 +738,6 @@ const enviarAlertaCliente = () => {
 
 }
 
-$(document).ready(function () {
-
-    $('#select-select-classificacao-cliente').val('').trigger('change');
-
-    $('.select2').select2({
-        // dropdownParent: ".modal-cadastrar-coleta",
-        theme: "bootstrap-5",
-    });
-
-})
 
 //Select2 dentro do modal de filtros
 $('.filtros-clientes').click(function () {
@@ -786,7 +751,6 @@ $('.filtros-clientes').click(function () {
         placeholder: $(this).data('placeholder'),
     });
 })
-
 
 const recebeDadosColeta = (idColeta, idCliente) => {
 
@@ -832,8 +796,6 @@ const recebeDadosColeta = (idColeta, idCliente) => {
     })
 
 }
-
-
 
 // verifica qual é o tipo da forma de pagamento para aplicar mascara
 $(document).on('change', '.select-pagamento', function () {
@@ -899,7 +861,6 @@ $(document).on('change', '.select-setor-empresa', function () {
 
 });
 
-
 const salvarColetaEdit = () => {
 
     let idColeta = $('.input-id-coleta').val();
@@ -955,7 +916,6 @@ const salvarColetaEdit = () => {
         }
 
     });
-
 
     let dadosCliente = {
         idCliente: idCliente,
@@ -1015,8 +975,6 @@ const salvarColetaEdit = () => {
         })
     }
 }
-
-
 // duplica forma de pagamento e residuos
 function duplicarElemento(novoElemento, novoInput, classe) {
 

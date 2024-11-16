@@ -60,14 +60,24 @@ class Coletas extends CI_Controller
 
         $idColeta = $this->input->post('idColeta');
 
+        $obsColetaCliente['observacao_coleta'] = "";
+        $todosIdsClientes = $this->input->post('todosIdsClientes');
+        $this->Clientes_model->editaVariosClientes($todosIdsClientes, $obsColetaCliente);
+
+
         if ($payload) {
-            foreach ($payload as $cliente) :
+            foreach ($payload as $cliente):
+
+                // remove a observação de coleta do cliente
+                $obsColetaCliente['observacao_coleta'] = "";
+                $this->Clientes_model->editaCliente($cliente['idCliente'], $obsColetaCliente);
 
                 if (isset($cliente['qtdColetado'])) {
 
+
                     $residuos['quantidade'] = $cliente['qtdColetado'];
                     $residuos['ids'] = $cliente['residuos'];
-                    $residuos['valores'] = $cliente['valoresResiduos'] ?? "";
+                    $residuos['valores'] = $cliente['valoresResiduos'] ?? 0;
                 }
 
                 // calcula o saldo das contas bancarias que saiu dinheiro
@@ -77,7 +87,7 @@ class Coletas extends CI_Controller
                 }
 
                 // calcula o valor dos residuos e insere no contas a pagar as contas a prazo
-                $this->salvarValorResiduosContasPagar($idSetorEmpresa, $residuos, $cliente['idCliente'], $cliente['tipoPagamento'] ?? null, $cliente['dadosBancarios'] ?? null, $codRomaneio);
+                $this->salvarValorResiduosContasPagar($idSetorEmpresa, $residuos ?? null, $cliente['idCliente'], $cliente['tipoPagamento'] ?? null, $cliente['dadosBancarios'] ?? null, $codRomaneio, $dataRomaneio);
 
 
                 $proximosAgendamentos[] = $verificaAgendamentosFuturos ? $this->Agendamentos_model->recebeProximosAgendamentosCliente($cliente['idCliente'], $dataRomaneio) : "";
@@ -166,7 +176,7 @@ class Coletas extends CI_Controller
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
-    function salvarValorResiduosContasPagar($idSetorEmpresa, $dadosResiduos, $idCliente, $tipoPagamento, $dadosContasBancarias, $codRomaneio)
+    function salvarValorResiduosContasPagar($idSetorEmpresa, $dadosResiduos, $idCliente, $tipoPagamento, $dadosContasBancarias, $codRomaneio, $dataRomaneio)
     {
         $microPadraoRomaneio = $this->FinMicro_model->recebePadraoMicro('romaneios');
 
@@ -182,10 +192,10 @@ class Coletas extends CI_Controller
                     $dadosFluxo['id_cliente'] = $idCliente;
                     $dadosFluxo['id_micro'] = $microPadraoRomaneio['id']; // idMicro padrão para concluir romaneio
                     $dadosFluxo['id_macro'] = $microPadraoRomaneio['id_macro']; // idMacro padrão para concluir romaneio
-                    $dadosFluxo['observacao'] = 'Romaneio: ' . $codRomaneio; 
+                    $dadosFluxo['observacao'] = 'Romaneio: ' . $codRomaneio;
                     $dadosFluxo['movimentacao_tabela'] = 0;
                     $dadosFluxo['id_empresa'] = $this->session->userdata('id_empresa');
-                    $dadosFluxo['data_movimentacao'] = date('Y-m-d');
+                    $dadosFluxo['data_movimentacao'] = $dataRomaneio;
                     $dadosFluxo['id_setor_empresa'] = $idSetorEmpresa;
 
                     $this->FinFluxo_model->insereFluxo($dadosFluxo);
@@ -209,7 +219,7 @@ class Coletas extends CI_Controller
                     $this->load->model('FinContasPagar_model');
                     $this->load->model('ResiduoCliente_model');
                     $this->load->model('FinMicro_model');
-                    
+
 
                     $valorTotal = 0;
                     for ($i = 0; $i < count($dadosResiduos['ids']); $i++) {
@@ -217,11 +227,11 @@ class Coletas extends CI_Controller
                         $idResiduo = $dadosResiduos['ids'][$i];
                         $quantidadeResiduo = $dadosResiduos['quantidade'][$i];
 
-                        $reiduos = $this->ResiduoCliente_model->recebeValorResiduoCliente($idResiduo, $idCliente);
-                        
+                        $residuos = $this->ResiduoCliente_model->recebeValorResiduoCliente($idResiduo, $idCliente);
 
-                        $diaPagamento = $reiduos['dia_pagamento'] ?? $diaPagamentoProximoMes;
-                        $setorEmpresa = $reiduos['id_setor_empresa'] ?? null;
+
+                        $diaPagamento = $residuos['dia_pagamento'] ?? $diaPagamentoProximoMes;
+
 
                         $valoresPago = $quantidadeResiduo * $dadosResiduos['valores'][$i];
 
@@ -241,14 +251,10 @@ class Coletas extends CI_Controller
 
                     $dataVencimento = $anoAtual . '-' . $mesAtual . '-' . $diaPagamento;
 
-                    
                     $dataVencimentoObj = new DateTime($dataVencimento);
 
-                    $dataAtualObj = new DateTime($dataAtual);
+                    $dataVencimentoObj->modify('+1 month');
 
-                    if ($dataVencimentoObj < $dataAtualObj) {
-                        $dataVencimentoObj->modify('+1 month');
-                    }
 
 
                     $contasPagar['valor'] = $valorTotal;
@@ -256,17 +262,16 @@ class Coletas extends CI_Controller
                     $contasPagar['data_vencimento'] = $dataVencimentoObj->format('Y-m-d');
                     $contasPagar['id_micro'] = $microPadraoRomaneio['id'];
                     $contasPagar['id_macro'] = $microPadraoRomaneio['id_macro'];
-                    $contasPagar['observacao'] = 'Romaneio: ' . $codRomaneio; 
+                    $contasPagar['observacao'] = 'Romaneio: ' . $codRomaneio;
                     $contasPagar['status'] = 0;
                     $contasPagar['id_empresa'] = $this->session->userdata('id_empresa');
-                    $contasPagar['id_setor_empresa'] = $setorEmpresa;
+                    $contasPagar['id_setor_empresa'] = $idSetorEmpresa;
 
                     if ($contasPagar['valor']) {
 
                         $this->FinContasPagar_model->insereConta($contasPagar);
                         
                     }
-
                 }
             }
         }
@@ -329,13 +334,24 @@ class Coletas extends CI_Controller
     public function certificadoColeta()
     {
         $this->load->library('GerarCertificadoColeta');
+        $this->load->model('Certificados_coleta_model');
 
         $idColeta = $this->input->post('coleta') ?? $this->uri->segment(3);
         $idModelo = $this->input->post('modelo') ?? $this->uri->segment(4);
+        $numero_mtr = $this->input->post('numero_mtr') ?? $this->uri->segment(6);
+
 
         $enviarEmail = $this->input->post('envia-certificado') ?? null; //Recebe o valor `email` para definir que é um envio de certificado, caso contrario somente gerar.
         $idCliente = $this->input->post('cliente') ?? null;
         $emailsCliente = $this->input->post('emails') ?? null;
+
+        //Armazena os dados para registrar no banco o historico de certificados gerado
+        $dados['id_coleta'] = $idColeta;
+        $dados['id_modelo'] = $idModelo;
+        $dados['numero_mtr'] = $numero_mtr;
+
+        $codigoCertificado = $this->Certificados_coleta_model->insereCertificado($dados);
+
 
         // retorna erro caso não tenha email
         if (!$emailsCliente && $enviarEmail) {
@@ -352,10 +368,10 @@ class Coletas extends CI_Controller
 
             switch ($idModelo) {
                 case '2':
-                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $enviarEmail); // alterar a função para cada cliente personalizado
+                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $enviarEmail, $numero_mtr, $codigoCertificado); // alterar a função para cada cliente personalizado
                     break;
                 case '1':
-                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $enviarEmail); // alterar a função para cada cliente personalizado
+                    $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $enviarEmail, $numero_mtr, $codigoCertificado); // alterar a função para cada cliente personalizado
                     break;
                 default:
 
@@ -373,7 +389,7 @@ class Coletas extends CI_Controller
             }
         } else {
 
-            $result = $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $idCliente, $emailsCliente, $enviarEmail);
+            $result = $this->gerarcertificadocoleta->gerarPdfPadrao($idColeta, $idModelo, $idCliente, $emailsCliente, $enviarEmail, $numero_mtr, $codigoCertificado);
 
             if ($result && $enviarEmail) {
                 $this->session->set_flashdata('titulo_retorno_funcao', 'Sucesso!');
@@ -468,7 +484,6 @@ class Coletas extends CI_Controller
         // nome de todos residuos
         $todosResiduos = $this->residuochaveid->residuoArrayNomes() ?? null;
 
-
         $responsavelColeta = json_decode($historicoColeta['coleta']['id_responsavel']);
         $residuosColetados = json_decode($historicoColeta['coleta']['residuos_coletados']);
         $quantidadeColetada = json_decode($historicoColeta['coleta']['quantidade_coletada']);
@@ -534,8 +549,8 @@ class Coletas extends CI_Controller
             // Se não houver formas de pagamento, adiciona uma linha com o campo de seleção vazio
             $selectRow = '<div class="row">';
             $selectFormaPagamento = '
-                <div class="col-6 mb-4">
-                    <select class="form-select select2 input-obrigatorio-coleta">
+                <div class="col-6 mb-4 div-pagamento">
+                    <select class="form-select select2 input-obrigatorio-coleta select-pagamento">
                         <option value="" selected disabled>Selecione</option>';
 
             foreach ($todasFormasPagamento as $key => $formaPagamento) {
@@ -548,8 +563,8 @@ class Coletas extends CI_Controller
 
             // Cria o input para o valor correspondente à forma de pagamento
             $inputValorPagamento = '
-                <div class="col-6 mb-4">
-                    <input type="text" class="form-control mascara-dinheiro input-obrigatorio-coleta" name="valor_0" value="">
+                <div class="col-6 mb-4 ">
+                    <input type="text" class="input-pagamento form-control mascara-dinheiro input-obrigatorio-coleta" name="valor_0" value="">
                     <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
                 </div>';
 

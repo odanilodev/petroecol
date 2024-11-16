@@ -4,21 +4,23 @@
 
             <div class="col-auto">
                 <div class="d-flex align-items-center">
-                    <button class="btn btn-link text-900 me-4 px-0 d-none"><span class="fa-solid fa-file-export fs--1 me-2"></span>Export</button>
-                    <a href="<?= base_url("funcionarios/formulario") ?>" class="btn btn-primary"><span class="fas fa-plus me-2"></span>Adicionar Funcionario</a>
+                    <a href="<?= base_url("funcionarios/formulario") ?>" class="btn btn-primary me-2"><span class="fas fa-plus me-2"></span>Adicionar Funcionário</a>
                 </div>
             </div>
 
             <div class="col col-auto">
-                <div class="search-box">
-                    <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                        <input class="form-control search-input search" type="search" placeholder="Buscar Funcionarios" aria-label="Search" />
-                        <span class="fas fa-search search-box-icon"></span>
-
-                    </form>
+                <div class="d-flex align-items-center">
+                    <div class="search-box me-2">
+                        <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                            <input class="form-control search-input search" type="search" placeholder="Buscar Funcionarios" aria-label="Search" />
+                            <span class="fas fa-search search-box-icon"></span>
+                        </form>
+                    </div>
+                    <a href="<?= base_url("funcionarios/inativados") ?>" class="btn btn-secondary"><span class="fas fa-users-slash me-2"></span>Ver Inativados</a>
                 </div>
             </div>
         </div>
+
         <div class="px-4 px-lg-6 mb-9 bg-white border-y border-300 mt-2 position-relative top-1">
             <div class="table-responsive scrollbar ms-n1 ps-1">
                 <table class="table table-sm fs--1 mb-0">
@@ -34,8 +36,6 @@
                             <th class="sort align-middle text-center" scope="col" data-sort="cpf">CPF</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="saldo">Saldo</th>
                             <th class="sort align-middle pe-3 text-center">Detalhes</th>
-                            <th class="sort align-middle pe-3 text-center">Editar</th>
-                            <th class="sort align-middle pe-3 text-center">Excluir</th>
                         </tr>
                     </thead>
 
@@ -68,23 +68,28 @@
                                     </h6>
                                 </td>
 
-                                <td class="align-middle white-space-nowrap text-center">
-                                    <a href="<?= base_url('funcionarios/detalhes/' . $v['id']) ?>" class="btn btn-phoenix-warning">
-                                        <span class="fas fa-eye ms-1"></span>
-                                    </a>
+                                <td class="align-middle white-space-nowrap text-center pe-0">
+                                    <div class="font-sans-serif btn-reveal-trigger position-static">
+                                        <button
+                                            class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2"
+                                            type="button" data-bs-toggle="dropdown" data-boundary="window"
+                                            aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                                            <span class="fas fa-ellipsis-h fs--2"></span>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-end py-2">
+                                            <a class="dropdown-item" href="<?= base_url('funcionarios/detalhes/' . $v['id']) ?>">
+                                                <span class="fas fa-eye"></span> Visualizar
+                                            </a>
+                                            <a class="dropdown-item" href="<?= base_url('funcionarios/formulario/' . $v['id']) ?>">
+                                                <span class="fas fa-pencil"></span> Editar
+                                            </a>
+                                            <a class="dropdown-item" href="#" onclick="deletarFuncionario(<?= $v['id'] ?>)">
+                                                <span class="fas fa-trash"></span> Inativar
+                                            </a>
+                                        </div>
+                                    </div>
                                 </td>
 
-                                <td class="align-middle white-space-nowrap text-center">
-                                    <a href="<?= base_url('funcionarios/formulario/' . $v['id']) ?>" class="btn btn-phoenix-info">
-                                        <span class="fas fa-pencil ms-1"></span>
-                                    </a>
-                                </td>
-
-                                <td class="align-middle white-space-nowrap text-center">
-                                    <a href="#" class="btn btn-phoenix-danger" onclick="deletarFuncionario(<?= $v['id'] ?>)">
-                                        <span class="fas fa-trash ms-1"></span>
-                                    </a>
-                                </td>
                             </tr>
 
                         <?php } ?>

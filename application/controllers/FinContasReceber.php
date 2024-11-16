@@ -127,6 +127,8 @@ class FinContasReceber extends CI_Controller
 
 		if ($dadosLancamento['grupo-recebido'] == 'clientes') {
 			$data['id_cliente'] = $dadosLancamento['recebido'];
+		} else if ($dadosLancamento['grupo-recebido'] == 'funcionarios') {
+			$data['id_funcionario'] = $dadosLancamento['recebido'];
 		} else {
 			$data['id_dado_financeiro'] = $dadosLancamento['recebido'];
 		}
@@ -140,7 +142,9 @@ class FinContasReceber extends CI_Controller
 		$data['observacao'] = $dadosLancamento['observacao'];
 		$data['id_setor_empresa'] = $dadosLancamento['setor'];
 		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
-		$data['data_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao'])));
+		$data['data_emissao'] = !empty($dadosLancamento['data_emissao'])
+			? date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao'])))
+			: null;
 
 
 		$success = true;
@@ -178,6 +182,22 @@ class FinContasReceber extends CI_Controller
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
+	public function visualizarConta()
+	{
+		$idConta = $this->input->post('idConta');
+
+		$conta = $this->FinContasReceber_model->recebeContaReceber($idConta);
+
+		if ($conta) {
+			$response = array(
+				'success' => true,
+				'conta' => $conta
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
 	public function receberConta()
 	{
 		$this->load->model('FinFluxo_model');
@@ -191,6 +211,7 @@ class FinContasReceber extends CI_Controller
 		$idConta = $this->input->post('idConta');
 		$idDadoFinanceiro = $this->input->post('idDadoFinanceiro');
 		$idDadoCliente = $this->input->post('idDadoCliente');
+		$idFuncionario = $this->input->post('idFuncionario');
 
 		$dataRecebimento = $this->input->post('dataRecebimento');
 
@@ -226,6 +247,7 @@ class FinContasReceber extends CI_Controller
 			$dados['movimentacao_tabela'] = 1;
 			$dados['id_dado_financeiro'] = $idDadoFinanceiro;
 			$dados['id_cliente'] = $idDadoCliente;
+			$dados['id_funcionario'] = $idFuncionario;
 			$dados['observacao'] = $obs;
 
 			$this->FinFluxo_model->insereFluxo($dados);
@@ -274,49 +296,28 @@ class FinContasReceber extends CI_Controller
 		$id = $this->input->post('idConta');
 		$dadosLancamento = $this->input->post('dados');
 
-		$data['valor'] = str_replace(['.', ','], ['', '.'], $dadosLancamento['valor']);
-		$data['observacao'] = $dadosLancamento['observacao'];
-		$data['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento'])));
-		$data['data_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao'])));
-		$data['id_setor_empresa'] = $dadosLancamento['setor'];
-
+		$data = [
+			'valor' => str_replace(['.', ','], ['', '.'], $dadosLancamento['valor']),
+			'observacao' => $dadosLancamento['observacao'],
+			'data_vencimento' => date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_vencimento']))),
+			'data_emissao' => !empty($dadosLancamento['data_emissao'])
+				? date('Y-m-d', strtotime(str_replace('/', '-', $dadosLancamento['data_emissao'])))
+				: null,
+			'id_setor_empresa' => $dadosLancamento['setor']
+		];
 
 		$retorno = $this->FinContasReceber_model->editaConta($id, $data);
 
-		if ($retorno) {
-			$response = array(
-				'success' => true,
-				'title' => "Sucesso!",
-				'message' => "Conta editada com sucesso!",
-				'type' => "success"
-			);
-		} else {
-			$response = array(
-				'success' => false,
-				'title' => "Algo deu errado!",
-				'message' => "Falha ao editar conta. Por favor, tente novamente.",
-				'type' => "error"
-			);
-		}
+		$response = [
+			'success' => (bool) $retorno,
+			'title' => $retorno ? "Sucesso!" : "Algo deu errado!",
+			'message' => $retorno ? "Conta editada com sucesso!" : "Falha ao editar conta. Por favor, tente novamente.",
+			'type' => $retorno ? "success" : "error"
+		];
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
-	public function visualizarConta()
-	{
-		$idConta = $this->input->post('idConta');
-
-		$conta = $this->FinContasReceber_model->recebeContaReceber($idConta);
-
-		if ($conta) {
-			$response = array(
-				'success' => true,
-				'conta' => $conta
-			);
-		}
-
-		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-	}
 
 	public function deletarConta()
 	{

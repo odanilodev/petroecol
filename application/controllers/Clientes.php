@@ -111,6 +111,14 @@ class Clientes extends CI_Controller
         $this->load->model('FrequenciaColeta_model');
         $data['frequenciaColeta'] = $this->FrequenciaColeta_model->recebeFrequenciasColeta();
 
+        // todos alertas ou alertas ativos (status)
+        $statusAlerta = true;
+        $this->load->model('AlertasWhatsapp_model');
+        $data['alertas'] = $this->AlertasWhatsapp_model->recebeAlertasWhatsApp($statusAlerta);
+
+        //Recebe Ruas Cidades 
+        $data['ruasCidade'] = $this->Clientes_model->recebeRuasCidadeCliente();
+
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/clientes/clientes');
         $this->load->view('admin/paginas/clientes/modals');
@@ -281,7 +289,7 @@ class Clientes extends CI_Controller
     public function cadastraCliente()
     {
         $dadosEmpresa = $this->input->post('dadosEmpresa');
-        $dadosEmpresa['nome'] = strtoupper($dadosEmpresa['nome']);
+        $dadosEmpresa['nome'] = mb_strtoupper($dadosEmpresa['nome'], 'UTF-8');
         $dadosEndereco = $this->input->post('dadosEndereco');
         $dadosEndereco['cidade'] = mb_strtoupper($dadosEndereco['cidade'], 'UTF-8');
         $dadosResponsavel = $this->input->post('dadosResponsavel');
@@ -376,6 +384,54 @@ class Clientes extends CI_Controller
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
+    // Verifica se existem recipientes atrelados a um array de Clientes, inativa os permitidos e retorna os vinculados.
+    public function inativaArrayClientes()
+    {
+        $idsClientes = $this->input->post('ids');
+
+        $clientesComRecipientes = [];
+        $clientesSemRecipientes = [];
+
+        foreach ($idsClientes as $idCliente) {
+            $temRecipiente = $this->Clientes_model->verificaArrayRecipienteCliente($idCliente);
+
+            if ($temRecipiente) {
+                $clientesComRecipientes[$idCliente] = $temRecipiente['NOME_CLIENTE'];
+            } else {
+                $clientesSemRecipientes[$idCliente] = $this->Clientes_model->recebeCliente($idCliente)['nome'];
+            }
+        }
+
+        $this->db->trans_start();
+
+        foreach ($clientesSemRecipientes as $id => $nomeCliente) {
+            $this->Clientes_model->deletaCliente($id);
+        }
+
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            $resposta = [
+                'success' => false,
+                'message' => "Erro ao inativar clientes. Por favor, tente novamente."
+            ];
+        } else if (!empty($clientesComRecipientes)) {
+            $resposta = [
+                'success' => false,
+                'message' => "Clientes inativados com sucesso. Não foi possível inativar o(s) seguinte(s) cliente(s) pois existem recipientes atrelados a eles:",
+                'dataClientesRecipientes' => $clientesComRecipientes,
+                'clientesInativados' => $clientesSemRecipientes,
+            ];
+        } else {
+            $resposta = [
+                'success' => true,
+                'message' => "Cliente(s) inativado(s) com sucesso."
+            ];
+        }
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($resposta));
+    }
+
     public function verificaAgendamentosCliente()
     {
         $id = $this->input->post('id');
@@ -425,4 +481,51 @@ class Clientes extends CI_Controller
 
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
+
+    public function alteraObservacaoCliente()
+    {
+        $id = $this->input->post('idCliente');
+        $dados['observacao_coleta'] = $this->input->post('observacao');
+
+        $retorno = $this->Clientes_model->editaCliente($id, $dados);
+
+        if ($retorno) { // alterou status
+
+            $response = array(
+                'success' => true,
+                'message' => 'Observação para coletada adicionada com sucesso!',
+                'type' => "success",
+                'title' => "Sucesso!"
+            );
+        } else { // erro ao deletar
+
+            $response = array(
+                'success' => false,
+                'message' => 'Erro ao adicionar a observação!',
+                'type' => "error",
+                'title' => "Algo deu errado!"
+            );
+        }
+
+        return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
+
+    public function recebeNomeClientes()
+	{
+		$this->load->model('Clientes_model');
+		$nomesClientes = $this->Clientes_model->recebeNomeClientes();
+
+		if ($nomesClientes) {
+
+			$response = array(
+				'clientes' => $nomesClientes,
+				'success' => true
+			);
+		} else {
+			$response = array(
+				'success' => false
+			);
+		}
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
 }

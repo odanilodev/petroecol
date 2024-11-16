@@ -23,7 +23,7 @@ class Funcionarios extends CI_Controller
 		$this->load->model('Funcionarios_model');
 		date_default_timezone_set('America/Sao_Paulo');
 	}
-	
+
 	private function formatarInformacaoData($dataString)
 	{
 		if ($dataString && $dataString != '0000-00-00') {
@@ -76,8 +76,12 @@ class Funcionarios extends CI_Controller
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsFuncionarioFooter));
 
 		$id = $this->uri->segment(3);
-
-		$data['funcionario'] = $this->Funcionarios_model->recebeFuncionario($id);
+		
+		if ($this->uri->segment(4) == '0') {
+			$data['funcionario'] = $this->Funcionarios_model->recebeFuncionario($id, 1);
+		} else {
+			$data['funcionario'] = $this->Funcionarios_model->recebeFuncionario($id);
+		}
 
 		$data['documentos'] = ['cnh', 'cpf', 'aso', 'epi', 'registro', 'carteira', 'vacinacao', 'certificados', 'ordem'];
 
@@ -87,6 +91,26 @@ class Funcionarios extends CI_Controller
 
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/funcionarios/ver_funcionario');
+		$this->load->view('admin/includes/painel/rodape');
+	}
+
+	public function inativados()
+	{
+		// scripts padrão
+		$scriptsPadraoHead = scriptsPadraoHead();
+		$scriptsPadraoFooter = scriptsPadraoFooter();
+
+		// scripts para Funcionarios
+		$scriptsFuncionarioHead = scriptsFuncionarioHead();
+		$scriptsFuncionarioFooter = scriptsFuncionarioFooter();
+
+		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsFuncionarioHead));
+		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsFuncionarioFooter));
+
+		$data['funcionariosInativados'] = $this->Funcionarios_model->recebeFuncionariosInativados();
+
+		$this->load->view('admin/includes/painel/cabecalho', $data);
+		$this->load->view('admin/paginas/funcionarios/funcionarios-inativos');
 		$this->load->view('admin/includes/painel/rodape');
 	}
 
@@ -129,6 +153,28 @@ class Funcionarios extends CI_Controller
 
 		$id = $this->input->post('id');
 
+		$status = $this->input->post('status');
+
+		if ($status !== null && $id) {
+			$retorno = $this->Funcionarios_model->editaFuncionario($id, ['status' => $status]);
+			$response = $retorno
+				? [
+					'success' => true,
+					'title' => "Sucesso!",
+					'message' => "Status do funcionário atualizado com sucesso!",
+					'type' => "success"
+				]
+				: [
+					'success' => false,
+					'title' => "Erro!",
+					'message' => "Erro ao atualizar o status do funcionário.",
+					'type' => "error"
+				];
+
+			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+		}
+
+
 		$nome = $this->input->post('nome');
 		$dados['nome'] = mb_convert_case($nome, MB_CASE_TITLE, 'UTF-8');
 		$dados['data_cnh'] = $this->input->post('data_cnh');
@@ -157,14 +203,14 @@ class Funcionarios extends CI_Controller
 			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 		}
 
-    // Validar o CPF usando a função do helper
-    if (!validarCpf($dados['cpf'])) {
+		// Validar o CPF usando a função do helper
+		if (!validarCpf($dados['cpf'])) {
 			$response = array(
-					'success' => false,
-					'message' => 'CPF inválido. Por favor, insira um CPF válido.'
+				'success' => false,
+				'message' => 'CPF inválido. Por favor, insira um CPF válido.'
 			);
 			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
-	}
+		}
 
 		$imagemAntiga = $this->Funcionarios_model->recebeFuncionario($id);
 
@@ -214,7 +260,7 @@ class Funcionarios extends CI_Controller
 			$response = array(
 				'success' => true,
 				'title' => "Sucesso!",
-				'message' => "Funcionário deletado com sucesso!",
+				'message' => "Funcionário inativado com sucesso!",
 				'type' => "success"
 			);
 		} else {
@@ -222,7 +268,7 @@ class Funcionarios extends CI_Controller
 			$response = array(
 				'success' => false,
 				'title' => "Algo deu errado!",
-				'message' => "Não foi possivel deletar o funcionário!",
+				'message' => "Não foi possivel inativar o funcionário!",
 				'type' => "error"
 			);
 		}
@@ -257,7 +303,7 @@ class Funcionarios extends CI_Controller
 				'success' => true,
 				'message' => $coluna != 'foto_perfil' ? 'Documento(s) deletado com sucesso!' : 'Foto de perfil deletada com sucesso!',
 				'caminho' => $coluna != 'foto_perfil' ? 'detalhes' : 'formulario',
-				'documento' => $coluna, 
+				'documento' => $coluna,
 				'type' => "success",
 				'title' => "Sucesso!"
 			);
@@ -274,10 +320,12 @@ class Funcionarios extends CI_Controller
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+	
 	public function recebeTodosFuncionarios()
 	{
+
 		$this->load->model('Funcionarios_model');
-		$funcionarios = $this->Funcionarios_model->recebeResponsavelAgendamento();
+		$funcionarios = $this->Funcionarios_model->recebeFuncionarios();
 
 		if ($funcionarios) {
 
@@ -292,5 +340,4 @@ class Funcionarios extends CI_Controller
 		}
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
-
 }

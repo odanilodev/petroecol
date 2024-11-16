@@ -85,7 +85,7 @@
             <form id="filtroForm" action="<?= base_url('finFluxoCaixa/index') ?>" method="post">
                 <div class="col-12">
                     <div class="row align-items-center g-4">
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-2">
                             <div class="ms-3">
                                 <input class="form-control datetimepicker" value="<?= $dataInicio ?>" required
                                     name="data_inicio" id="data_inicio" type="text" placeholder="Data Início"
@@ -93,7 +93,7 @@
                                     style="cursor: pointer;" autocomplete="off" />
                             </div>
                         </div>
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-2">
                             <div class="ms-3">
                                 <input class="form-control datetimepicker" value="<?= $dataFim ?>" required
                                     name="data_fim" id="data_fim" type="text" placeholder="Data Fim"
@@ -101,7 +101,7 @@
                                     style="cursor: pointer;" autocomplete="off" />
                             </div>
                         </div>
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-2">
                             <div class="ms-3">
                                 <select class="select-validation select-orientacao" required name="movimentacao"
                                     id="movimentacao">
@@ -114,7 +114,21 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-md-3" style="padding:0;">
+                        <div class="col-12 col-md-2">
+                            <div class="ms-3">
+                                <select class="select-validation" required name="setor-empresa" id="setor-empresa">
+                                    <option selected disabled value=''>Setor da Empresa</option>
+                                    <option <?= $idSetor == 'todos' ? 'selected' : '' ?> value="todos">Todos</option>
+
+                                    <?php foreach ($setoresEmpresa as $setorEmpresa) { ?>
+                                        <option <?= $idSetor == $setorEmpresa['id'] ? "selected" : "" ?>
+                                            value="<?= $setorEmpresa['id'] ?>"><?= $setorEmpresa['nome'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4" style="padding:0;">
                             <div class="d-flex ms-3">
                                 <button type="submit"
                                     class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= !$dataInicio ? 'w-100' : 'w-75'; ?>">Filtrar</button>
@@ -222,11 +236,11 @@
 
                                         <?php
                                         if ($movimentacao['nome_dado_financeiro']) {
-                                            echo ucfirst($movimentacao['nome_dado_financeiro']);
-                                        } else if (($movimentacao['FUNCIONARIO'])) {
-                                            echo ucfirst($movimentacao['FUNCIONARIO']);
+                                            echo strtoupper($movimentacao['nome_dado_financeiro']);
+                                        } else if (($movimentacao['id_funcionario'])) {
+                                            echo strtoupper($movimentacao['NOME_FUNCIONARIO']);
                                         } else {
-                                            echo ucfirst($movimentacao['CLIENTE']);
+                                            echo strtoupper($movimentacao['CLIENTE']);
                                         }
                                         ?>
                                     </h6>
@@ -280,8 +294,9 @@
 
                                 <td class="align-middle td_observacao">
                                     <h6 class="text-900 mb-0">
-                                        <?= $movimentacao['observacao'] ?? '-' ?>
+                                        <?= empty($movimentacao['observacao']) ? '-' : $movimentacao['observacao'] ?>
                                     </h6>
+
                                 </td>
 
                                 <td class="align-middle white-space-nowrap text-end pe-0">
@@ -623,6 +638,7 @@
                                                             </option>
                                                         <?php } ?>
                                                         <option value="clientes">Clientes</option>
+                                                        <option value="funcionarios">Funcionários</option>
                                                     </select>
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
@@ -635,15 +651,9 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Recebido</label>
-                                                    <select
-                                                        class="form-select select2 select-recebido select2 input-fluxo-obrigatorio"
-                                                        name="cadastroFinanceiro">
-                                                        <option selected disabled>Selecione</option>
-                                                        <?php foreach ($dadosFinanceiro as $dadoFinanceiro) { ?>
-                                                            <option value="<?= $dadoFinanceiro['id'] ?>">
-                                                                <?= $dadoFinanceiro['nome'] ?>
-                                                            </option>
-                                                        <?php } ?>
+                                                    <select class="form-select select2 select-recebido select2 input-fluxo-obrigatorio" name="cadastroFinanceiro">
+                                                        <option disabled selected value="">Selecione</option>
+                                                        <!-- js -->
                                                     </select>
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 

@@ -12,8 +12,8 @@
 
             <div class="col col-auto">
                 <div class="search-box">
-                    <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                        <input class="form-control search-input search" type="search" placeholder="Buscar Romaneios" aria-label="Search" />
+                    <form class="position-relative" method="post" action="<?= base_url("romaneios/")?>" data-bs-toggle="search" data-bs-display="static">
+                        <input value="<?= $cod_romaneio?>" name="cod-romaneio" class="form-control search-input search" type="search" placeholder="Buscar Romaneios" aria-label="Search" />
                         <span class="fas fa-search search-box-icon"></span>
 
                     </form>
@@ -605,8 +605,73 @@
 
                 <div class="modal-footer">
                     <input type="hidden" class="id-responsavel">
+                    <input type="hidden" class="data-romaneio">
                     <div class="spinner-border text-primary load-form-pagamento d-none" role="status"></div>
                     <button type="button" class="btn btn-primary btn-salva-verba-responsavel" onclick="salvarVerbasAdicionaisRomaneio()">Salvar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- Modal visualizar Custos -->
+        <div class="modal fade" tabindex="-1" id="modalVisualizarCustosRomaneio">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Custos do romaneio:
+                        <span class="cod-romaneio">
+                            <!-- JS -->
+                        </span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body body-coleta">
+
+                    
+                    
+                    <div class="card">
+                        <div class="card-body form-editar-pagar">
+                            <div class="spinner-border text-primary load-form-modal d-none" role="status"></div>
+
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="col-sm-12 col-xxl-12 py-3">
+                                        <div class="mx-0 mx-sm-1 mx-lg-0 px-lg-0 div-tabela-tipos-custos-modal">
+                                            <div class="table-responsive mx-n1 px-1 scrollbar">
+
+                                                <table class="table fs--1 mb-0 border-top border-200">
+                                                    <thead>
+                                                        <tr class="text-center">
+                                                            <th class="white-space-nowrap" scope="col" data-sort="td_romaneio">Tipo de custo</th>
+                                                            <th class="white-space-nowrap" scope="col" data-sort="td_valor">Valor</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody class="tabela-tipos-custos-modal">
+                                                        <!-- JS -->
+                                                    </tbody>
+
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer ">
+
+                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
                 </div>
             </div>

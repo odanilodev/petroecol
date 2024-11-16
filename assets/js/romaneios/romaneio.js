@@ -224,6 +224,8 @@ const gerarRomaneio = () => {
                 if (data.success) {
 
                     avisoRetorno('Sucesso!', data.message, 'success', `${baseUrl}romaneios/`);
+
+                    adicionarVerbasResponsavel(data.codigo_romaneio, data.data_romaneio)
                 } else {
                     avisoRetorno('Erro!', data.message, 'error', `${baseUrl}romaneios/formulario/`);
 
@@ -237,7 +239,15 @@ const gerarRomaneio = () => {
 
 $(document).on('click', '.btn-salva-verba-responsavel', function () {
 
+    gerarRomaneio();
+
+})
+
+function adicionarVerbasResponsavel(codRomaneio, dataRomaneio) {
+
     let permissao = true;
+
+    let setorEmpresa = $('.id-setor-empresa').val();
 
     let dadosFormulario = {};
     if (permissao) {
@@ -269,7 +279,11 @@ $(document).on('click', '.btn-salva-verba-responsavel', function () {
                 url: `${baseUrl}finFluxoCaixa/insereMovimentacaoRomaneioFluxo`,
                 data: {
                     dadosFluxo: dadosFormulario,
-                    responsavel: responsavel
+                    responsavel: responsavel,
+                    codRomaneio: codRomaneio,
+                    setorEmpresa: setorEmpresa,
+                    dataRomaneio: dataRomaneio
+
 
                 }, beforeSend: function () {
 
@@ -281,14 +295,13 @@ $(document).on('click', '.btn-salva-verba-responsavel', function () {
                     $('.load-form-pagamento').addClass('d-none');
                     $('.btn-salva-verba-responsavel').removeClass('d-none');
 
-                    gerarRomaneio();
                 }
             })
         }
 
 
     }
-})
+}
 
 $(document).on('click', '.check-sem-verba', function () {
 
@@ -529,6 +542,32 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpre
 
 }
 
+const verificaPrestacaoContasFuncionario = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpresa) => {
+
+    $.ajax({
+        type: "post",
+        url: `${baseUrl}finPrestacaoContas/verificaPrestacaoContasFuncionario`,
+        data: {
+            codRomaneio: codRomaneio,
+            idResponsavel: idResponsavel,
+            dataRomaneio: dataRomaneio
+        },
+        success: function (response) {
+
+            if (response) {
+                avisoRetorno(`Pendências de Romaneios`, `Para concluir este romaneio, é necessário prestar contas do romaneio anterior vinculado a este funcionário. Por favor, regularize as pendências para prosseguir.`, 'error', `#`);
+            } else {
+                concluirRomaneio(codRomaneio, idResponsavel, dataRomaneio, idSetorEmpresa)
+            }
+        },
+        error: function (xhr, status, error) {
+            avisoRetorno(`Erro ${xhr.status}`, `Entre em contato com o administrador.`, 'error', `${baseUrl}`);
+        }
+
+    });
+
+}
+
 
 
 // formata um obj para um array
@@ -698,7 +737,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
                         <div class="col-12">
                             <label class="form-label">Observação</label>
-                            <textarea class="form-control input-obs input-ons-${clientes[i].id}" id="exampleTextarea" rows="3"> </textarea>
+                            <textarea class="form-control input-obs input-ons-${clientes[i].id}" id="exampleTextarea" rows="3"></textarea>
                             <div class="text-danger d-none aviso-msg">Preencha este campo.</div>
                         </div>
 
@@ -976,8 +1015,13 @@ function finalizarRomaneio() {
     let idTrajeto = $('.input-id-trajeto').val();
 
     let valorTotal = 0;
-
+    let todosIdsClientes = [];
     $('.accordion-item').each(function () {
+
+        if ($(this).find('.input-id-cliente').val()) {
+
+            todosIdsClientes.push($(this).find('.input-id-cliente').val());
+        }
 
         let formasPagamentosContaBancarias = [];
         let contasBancarias = [];
@@ -1060,7 +1104,7 @@ function finalizarRomaneio() {
 
                 qtdResiduos.push($(this).val());
                 salvarDados = true;
-            } 
+            }
         });
 
         let valoresResiduos = [];
@@ -1157,7 +1201,7 @@ function finalizarRomaneio() {
         }
 
     });
-    
+
 
     let accordionAberto = false;
     $('.input-obrigatorio').each(function () {
@@ -1210,6 +1254,7 @@ function finalizarRomaneio() {
             type: "POST",
             url: `${baseUrl}coletas/cadastraColeta`,
             data: {
+                todosIdsClientes: todosIdsClientes,
                 clientes: dadosClientes,
                 idResponsavel: idResponsavel,
                 codRomaneio: codRomaneio,
@@ -1744,7 +1789,7 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
                                     </a>
 
                                     ${romaneio.status == 0 ? `
-                                        <a class="dropdown-item" href="#" title="Concluir Romaneio" onclick="concluirRomaneio('${romaneio.codigo}', ${romaneio.ID_RESPONSAVEL}, '${romaneio.data_romaneio}', ${romaneio.id_setor_empresa})">
+                                        <a class="dropdown-item" href="#" title="Concluir Romaneio" onclick="verificaPrestacaoContasFuncionario('${romaneio.codigo}', ${romaneio.ID_RESPONSAVEL}, '${romaneio.data_romaneio}', ${romaneio.id_setor_empresa})">
                                             <span class="ms-1 fas fa-check-circle"></span> Concluir
                                         </a>
                                     ` : ''}
@@ -1753,6 +1798,12 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
                                         <a class="dropdown-item" href="${baseUrl}romaneios/detalhes/${romaneio.codigo}" title="Visualizar Romaneio">
                                             <span class="ms-1 fas fa-eye"></span> Visualizar
                                         </a>
+                                    ` : ''}
+
+                                    ${romaneio.status == 1 && romaneio.prestar_conta == 1 ? `
+                                        <a onclick="visualizarPrestacaoContas(${romaneio.codigo})" class="dropdown-item" href="#" title="Visualizar Custos" data-bs-toggle="modal" data-bs-target="#modalVisualizarCustosRomaneio">
+                                            <span class="ms-1 fas fa-coins"></span> Ver custos
+                                        </a>    
                                     ` : ''}
 
                                     ${romaneio.status == 0 ? `
@@ -1769,7 +1820,7 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
 
                                     ${romaneio.status == 0 ? `
                                         <div class="dropdown-divider btn-realizar-pagamento-1"></div>
-                                        <a data-funcionario="${romaneio.RESPONSAVEL}" data-codigo="${romaneio.codigo}" data-saldo="${romaneio.saldo}" data-id-funcionario="${romaneio.ID_RESPONSAVEL}" data-id-setor-empresa="${romaneio.id_setor_empresa}" class="dropdown-item btn-add-verba-romaneio" href="#" title="Adicionar verba para o responsável" data-bs-toggle="modal" data-bs-target="#modalAdicinarVerbaRomaneio">
+                                        <a data-data-romaneio="${romaneio.data_romaneio}" data-funcionario="${romaneio.RESPONSAVEL}" data-codigo="${romaneio.codigo}" data-saldo="${romaneio.saldo}" data-id-funcionario="${romaneio.ID_RESPONSAVEL}" data-id-setor-empresa="${romaneio.id_setor_empresa}" class="dropdown-item btn-add-verba-romaneio" href="#" title="Adicionar verba para o responsável" data-bs-toggle="modal" data-bs-target="#modalAdicinarVerbaRomaneio">
                                             <span class="fas fa-coins ms-1"></span> Adicionar verba
                                         </a>
                                     ` : ''}
@@ -1807,7 +1858,10 @@ $(document).on('click', '.btn-add-verba-romaneio', function () {
 
     let saldoResponsavel = $(this).data('saldo');
     let nomeResponsavel = $(this).data('funcionario');
+    $('.codigo-romaneio').val($(this).data('codigo'));
+    $('.id-setor-empresa').val($(this).data('id-setor-empresa'));
     $('.id-responsavel').val($(this).data('id-funcionario'));
+    $('.data-romaneio').val($(this).data('data-romaneio'))
 
     $('.nome-funcionario').html(nomeResponsavel);
     $('.saldo-verba-funcionario').html(formatarValorMoeda(saldoResponsavel));
@@ -1816,6 +1870,9 @@ $(document).on('click', '.btn-add-verba-romaneio', function () {
 
 const salvarVerbasAdicionaisRomaneio = () => {
 
+    let codRomaneio = $('.codigo-romaneio').val();
+    let setorEmpresa = $('.id-setor-empresa').val();
+    let dataRomaneio = $('.data-romaneio').val();
     let permissao = true;
 
     let dadosFormulario = {};
@@ -1848,7 +1905,10 @@ const salvarVerbasAdicionaisRomaneio = () => {
                 url: `${baseUrl}finFluxoCaixa/insereMovimentacaoRomaneioFluxo`,
                 data: {
                     dadosFluxo: dadosFormulario,
-                    responsavel: responsavel
+                    responsavel: responsavel,
+                    codRomaneio: codRomaneio,
+                    setorEmpresa: setorEmpresa,
+                    dataRomaneio: dataRomaneio
 
                 }, beforeSend: function () {
 
@@ -1909,7 +1969,7 @@ $(document).on('change', '.select-grupo-recebidos', function () {
 
         $.ajax({
             type: "post",
-            url: `${baseUrl}finContasPagar/recebeTodosClientesAll`
+            url: `${baseUrl}clientes/recebeNomeClientes`
             , beforeSend: function () {
                 $('.select-recebido').attr('disabled', true);
                 $('.select-recebido').html('<option disabled>Carregando...</option>');
@@ -2070,7 +2130,7 @@ $(document).on('change', '.select-tipo-pagamento', function () {
         })
 
 
-    } else if ($(this).val() == 1 && !pagoResponsavel.is(':checked')){
+    } else if ($(this).val() == 1 && !pagoResponsavel.is(':checked')) {
 
         $(this).closest('.div-pagamento').next().addClass('d-none'); // esconde os select de contas bancarias
 
@@ -2078,7 +2138,7 @@ $(document).on('change', '.select-tipo-pagamento', function () {
         divPagamento.find(':input').removeClass('input-obrigatorio');
         divPagamento.find(':input').removeClass('invalido');
         divPagamento.find('.select2').next().removeClass('select2-obrigatorio');
-        
+
 
 
     } else if ($(this).val() == 0 && pagoResponsavel.is(':checked')) {

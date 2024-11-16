@@ -53,15 +53,15 @@ const cadastraFuncionario = () => {
 
     // Valida se veio nome
     $('.input-obrigatorio').each(function () {
-        
+
         if ($(this).val().trim() === "") {
 
             $(this).addClass('invalido');
             $(this).next().removeClass('d-none');
 
-			permissao = false;
+            permissao = false;
 
-		} else {
+        } else {
 
             $(this).removeClass('invalido');
             $(this).next().addClass('d-none');
@@ -99,8 +99,8 @@ const cadastraFuncionario = () => {
 
                 }
 
-            },  error: function (xhr, status, error) {
-                
+            }, error: function (xhr, status, error) {
+
                 $('.load-form').addClass('d-none');
                 $('.btn-envia').removeClass('d-none');
                 if (xhr.status === 403) {
@@ -121,7 +121,7 @@ const deletarFuncionario = (id) => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Sim, deletar'
+        confirmButtonText: 'Sim, inativar'
 
     }).then((result) => {
 
@@ -132,14 +132,14 @@ const deletarFuncionario = (id) => {
                 url: `${baseUrl}funcionarios/deletaFuncionario`,
                 data: {
                     id: id
-                }, success: function (data) {  
+                }, success: function (data) {
 
                     let redirect = data.type != 'error' ? `${baseUrl}funcionarios/` : '#';
 
                     avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
                 },
-        
+
             })
 
         }
@@ -173,7 +173,7 @@ const deletaDocumentoFuncionario = (id, coluna) => {
                 }, success: function (data) {
 
                     var redirect = data.type != 'error' ? `${baseUrl}funcionarios/${data.caminho}/${id}` : '#';
-          
+
                     avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
                 }
@@ -191,7 +191,7 @@ const deletaFotoPerfil = (id, coluna) => {
 }
 
 $(document).ready(function () {
-    
+
     $('#input-cargo').val('').trigger('change');
 
     $('.select2').select2({
@@ -200,3 +200,32 @@ $(document).ready(function () {
         placeholder: $(this).data('placeholder'),
     });
 })
+
+function reativarFuncionario(id) {
+    Swal.fire({
+        title: "Tem certeza?",
+        text: "Deseja realmente reativar este funcionário?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sim, reativar",
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "POST",
+                url: `${baseUrl}funcionarios/cadastraFuncionario`,
+                data: {
+                    id: id,
+                    status: 1
+                },
+                success: function (data) {
+                    avisoRetorno(data.title, data.message, data.type, `${baseUrl}funcionarios/inativados`);
+                },
+                error: function () {
+                    avisoRetorno("Erro", "Ocorreu um erro ao tentar reativar o funcionário.", "error", `${baseUrl}funcionarios/inativados`);
+                }
+            });
+        }
+    });
+}
+

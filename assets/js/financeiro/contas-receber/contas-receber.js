@@ -10,7 +10,7 @@ $(document).on('change', '.select-macros', function () {
         data: {
             idMacro: idMacro
         }, beforeSend: function () {
-            $('.select-micros').html('<option value="">Selecione</option>');
+            $('.select-micros').html('<option disabled selected value="">Selecione</option>');
         }, success: function (data) {
 
             $('.select-micros').attr('disabled', false);
@@ -103,7 +103,10 @@ $(document).on('click', '.novo-lancamento', function () {
         dropdownParent: "#modalEntradaContasReceber",
         theme: "bootstrap-5",
     });
-})
+
+    $('.input-data-vencimento').val('');
+    $('.input-data-emissao').val('');
+});
 
 $(document).on('click', '.editar-lancamento', function () {
 
@@ -184,64 +187,70 @@ function duplicarFormasPagamento() {
 
 $(document).on('click', '.receber-conta', function () {
 
+    $('.select2').select2({
+        dropdownParent: "#modalReceberConta",
+        theme: "bootstrap-5",
+    });
+
     $('.id-conta-pagamento').val($(this).data('id'));
     $('.input-valor-recebido').val($(this).data('valor'));
     $('.valor-total-conta').html(`R$ ${$(this).data('valor')}`);
     $('.id-dado-financeiro').val($(this).data('id-dado-financeiro'));
     $('.id-dado-cliente').val($(this).data('id-dado-cliente'));
+    $('.id-funcionario').val($(this).data('id-funcionario'));
 })
 
 $(document).on('change', '.select-grupo-recebidos', function () {
 
     let grupo = $(this).val();
+    let url;
 
-    if (grupo == "clientes") {
-
-        $.ajax({
-            type: "post",
-            url: `${baseUrl}finContasPagar/recebeTodosClientesAll`
-            , beforeSend: function () {
-                $('.select-recebido').attr('disabled', true);
-                $('.select-recebido').html('<option disabled>Carregando...</option>');
-            }, success: function (data) {
-                $('.select-recebido').attr('disabled', false);
-
-                let options = '<option disabled="disabled" value="">Selecione</option>';
-                for (let i = 0; i < data.clientes.length; i++) {
-                    options += `<option value="${data.clientes[i].id}">${data.clientes[i].nome}</option>`;
-                }
-                $('.select-recebido').html(options);
-
-                $('.select-recebido').val('').trigger('change');
-
-            }
-        })
-    } else {
-
-        $.ajax({
-            type: "post",
-            url: `${baseUrl}finDadosFinanceiros/recebeDadosFinanceiros`,
-            data: {
-                grupo: grupo
-            },
-            beforeSend: function () {
-                $('.select-recebido').attr('disabled');
-                $('.select-recebido').html('<option value="">Carregando...</option>');
-            }, success: function (data) {
-
-                $('.select-recebido').attr('disabled', false);
-                $('.select-recebido').html('<option value="">Selecione</option>');
-
-                for (i = 0; i < data.dadosFinanceiro.length; i++) {
-
-                    $('.select-recebido').append(`<option value="${data.dadosFinanceiro[i].id}">${data.dadosFinanceiro[i].nome}</option>`);
-                }
-            }
-        })
-
+    switch (grupo) {
+        case "clientes":
+            url = `${baseUrl}clientes/recebeNomeClientes`;
+            break;
+        case "funcionarios":
+            url = `${baseUrl}funcionarios/recebeTodosFuncionarios`;
+            break;
+        default:
+            url = `${baseUrl}finDadosFinanceiros/recebeDadosFinanceiros`;
+            break;
     }
 
-})
+    $.ajax({
+        type: "post",
+        url: url,
+        data: grupo !== "clientes" ? { grupo: grupo } : {},
+        beforeSend: function () {
+            $('.select-recebido').attr('disabled', true).html('<option disabled>Carregando...</option>');
+        },
+        success: function (data) {
+            $('.select-recebido').attr('disabled', false);
+
+            let options = '<option selected disabled="disabled" value="">Selecione</option>';
+            let dados;
+
+            switch (grupo) {
+                case "clientes":
+                    dados = data.clientes;
+                    break;
+                case "funcionarios":
+                    dados = data.funcionarios;
+                    break;
+                default:
+                    dados = data.dadosFinanceiro;
+                    break;
+            }
+
+            dados.forEach(dado => {
+                options += `<option value="${dado.id}">${dado.nome}</option>`;
+            });
+
+            $('.select-recebido').html(options);
+            $('.select-recebido').val('').trigger('change');
+        }
+    });
+});
 
 
 const receberConta = () => {
@@ -255,6 +264,7 @@ const receberConta = () => {
 
     let idConta = $('.id-conta-pagamento').val();
     let idDadoFinanceiro = $('.id-dado-financeiro').val();
+    let idFuncionario = $('.id-funcionario').val();
     let idDadoCliente = $('.id-dado-cliente').val();
 
     $('.select-conta-bancaria').each(function () {
@@ -294,6 +304,7 @@ const receberConta = () => {
             valorTotal: valorTotal,
             idDadoFinanceiro: idDadoFinanceiro,
             idDadoCliente: idDadoCliente,
+            idFuncionario: idFuncionario,
             dataRecebimento: dataRecebimento
         }, beforeSend: function () {
             $(".load-form").removeClass("d-none");
@@ -403,50 +414,52 @@ function formatarValorExibicao(valor) {
 }
 
 const visualizarConta = (idConta) => {
-    
+
     $.ajax({
         type: "post",
         url: `${baseUrl}finContasReceber/visualizarConta`,
-        data: {
-            idConta: idConta
-        }, beforeSend: function () {
+        data: { idConta: idConta },
+        beforeSend: function () {
             $('.html-clean').html('');
-        }, success: function (data) {
-            
-            let dataEmissao = formatarDatas(data['conta'].data_emissao);
-            let dataVencimento = formatarDatas(data['conta'].data_vencimento);
+        },
+        success: function (data) {
+
+            let dataEmissao = data['conta'].data_emissao ? formatarDatas(data['conta'].data_emissao) : "N/C";
+            let dataVencimento = data['conta'].data_vencimento ? formatarDatas(data['conta'].data_vencimento) : "";
             let valorConta = formatarValorExibicao(parseFloat(data['conta'].valor));
             let valorRecebido = formatarValorExibicao(parseFloat(data['conta'].valor_recebido));
 
             if (data['conta'].RECEBIDO) {
+                $('.modal-visualizar-txt-empresa').html('Fornecedor');
                 $('.nome-empresa').html(data['conta'].RECEBIDO);
-            } else {
+            } else if (data['conta'].CLIENTE) {
+                $('.modal-visualizar-txt-empresa').html('Empresa');
                 $('.nome-empresa').html(data['conta'].CLIENTE);
+            } else {
+                $('.modal-visualizar-txt-empresa').html('Funcionário');
+                $('.nome-empresa').html(data['conta'].NOME_FUNCIONARIO.toUpperCase());
             }
 
             $('.setor-empresa').html(data['conta'].SETOR);
             $('.data-vencimento').html(dataVencimento);
-            
-            $('.data-emissao').html(data['conta'].data_emissao != '1969-12-31' ? dataEmissao : "");
-            $('.valor-conta').html(valorConta);
+
+            $('.data-emissao').html(dataEmissao);
+            $('.valor-conta').html('R$' + valorConta);
             $('.obs-conta').html(data['conta'].observacao ? data['conta'].observacao : '-');
 
             if (data['conta'].valor_recebido) {
-                let dataRecebimento = formatarDatas(data['conta'].data_recebimento);
+                let dataRecebimento = data['conta'].data_recebimento ? formatarDatas(data['conta'].data_recebimento) : "N/C";
                 $('.div-valor-recebido').removeClass('d-none');
                 $('.valor-recebido').html(valorRecebido);
                 $('.div-data-recebimento').removeClass('d-none');
                 $('.data-recebimento').html(dataRecebimento);
-
             } else {
                 $('.div-valor-recebido').addClass('d-none');
             }
-
-
         }
-    })
-
+    });
 }
+
 
 const deletaContaReceber = (idConta) => {
 

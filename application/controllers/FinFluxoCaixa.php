@@ -73,14 +73,19 @@ class FinFluxoCaixa extends CI_Controller
             $dataFimFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataFimFormatada)));
         }
 
-        //Soma as movimentacoes da tabela fluxo.
-        $dados['totalSaida'] = $this->findadosfinanceiros->totalFluxoFinanceiro('valor', 0, $dataInicioFormatada, $dataFimFormatada);
-        $dados['totalEntrada'] = $this->findadosfinanceiros->totalFluxoFinanceiro('valor', 1, $dataInicioFormatada, $dataFimFormatada);
-
-        $dados['balancoFinanceiro'] = $dados['totalEntrada']['valor'] - $dados['totalSaida']['valor'];
-
         $dados['dataInicio'] = $this->input->post('data_inicio');
         $dados['dataFim'] = $this->input->post('data_fim');
+        $idSetor = $this->input->post('setor-empresa');
+
+        if ($idSetor === null || $idSetor === '') {
+            $idSetor = "todos";
+        }
+
+        //Soma as movimentacoes da tabela fluxo.
+        $dados['totalSaida'] = $this->findadosfinanceiros->totalFluxoFinanceiro('valor', 0, $dataInicioFormatada, $dataFimFormatada, $idSetor);
+        $dados['totalEntrada'] = $this->findadosfinanceiros->totalFluxoFinanceiro('valor', 1, $dataInicioFormatada, $dataFimFormatada, $idSetor);
+
+        $dados['balancoFinanceiro'] = $dados['totalEntrada']['valor'] - $dados['totalSaida']['valor'];
 
         // Verifica se o tipo de movimentação foi recebido via POST
         $tipoMovimentacao = $this->input->post('movimentacao');
@@ -91,8 +96,9 @@ class FinFluxoCaixa extends CI_Controller
         }
 
         $dados['tipoMovimentacao'] = $tipoMovimentacao;
+        $dados['idSetor'] = $idSetor;
 
-        $dados['movimentacoes'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao);
+        $dados['movimentacoes'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao, $idSetor);
 
         $this->load->view('admin/includes/painel/cabecalho', $dados);
         $this->load->view('admin/paginas/financeiro/fluxo-caixa');
@@ -117,12 +123,17 @@ class FinFluxoCaixa extends CI_Controller
         $data_movimentacao = $this->input->post('data_movimentacao');
         $grupoRecebido = $this->input->post('grupo_recebido');
 
+        $dados['id_cliente'] = null;
+        $dados['id_funcionario'] = null;
+        $dados['id_dado_financeiro'] = null;
+
         if ($grupoRecebido == 'clientes') {
             $dados['id_cliente'] = $this->input->post('id_dado_financeiro');
+        } else if ($grupoRecebido == 'funcionarios') {
+            $dados['id_funcionario'] = $this->input->post('id_dado_financeiro');
         } else {
             $dados['id_dado_financeiro'] = $this->input->post('id_dado_financeiro');
         }
-
 
         $dados['data_movimentacao'] = date('Y-m-d', strtotime(str_replace('/', '-', $data_movimentacao)));
 
@@ -140,7 +151,6 @@ class FinFluxoCaixa extends CI_Controller
                 $novoSaldo = $saldoAtual['saldo'] - $valorMovimentacaoFormatado;
             }
         }
-
 
         $retornoConta = $this->FinSaldoBancario_model->atualizaSaldoBancario($dados['id_conta_bancaria'], $novoSaldo);
 
@@ -168,6 +178,15 @@ class FinFluxoCaixa extends CI_Controller
         $this->load->model('FinSaldoBancario_model');
 
         $idResponsavel = $this->input->post('responsavel');
+        $idEmpresa = $this->input->post('setorEmpresa');
+        $codigoRomaneio = $this->input->post('codRomaneio');
+        $dataRomaneio = $this->input->post('dataRomaneio');
+
+        if ($dataRomaneio > date('Y-m-d')) {
+            $dataFluxo = date('Y-m-d');
+        } else {
+            $dataFluxo = $dataRomaneio;
+        }
 
         $this->load->model('Funcionarios_model');
 
@@ -187,8 +206,10 @@ class FinFluxoCaixa extends CI_Controller
 
                 $dados['id_micro'] = $dadosFluxo['id_micro'][$i];
                 $dados['id_macro'] = $dadosFluxo['id_macro'][$i];
-                $dados['data_movimentacao'] = date('Y-m-d');
+                $dados['data_movimentacao'] = $dataFluxo;
                 $dados['id_funcionario'] = $idResponsavel;
+                $dados['id_setor_empresa'] = $idEmpresa;
+                $dados['observacao'] = "Romaneio: $codigoRomaneio";
 
                 $this->FinFluxo_model->insereFluxo($dados); // insere a movimentação no fluxo
 
@@ -202,12 +223,10 @@ class FinFluxoCaixa extends CI_Controller
                 $saldoAtualFuncionario = $this->Funcionarios_model->recebeSaldoFuncionario($idResponsavel);
                 $novoSaldoFuncionario = $saldoAtualFuncionario['saldo'] + $dados['valor'];
                 $this->Funcionarios_model->atualizaSaldoFuncionario($idResponsavel, $novoSaldoFuncionario);
-
             }
         }
 
         return true;
-
     }
 
     public function recebeMovimentoFluxo()
@@ -282,9 +301,12 @@ class FinFluxoCaixa extends CI_Controller
         $dataInicio = $this->input->post('data_inicio');
         $dataFim = $this->input->post('data_fim');
         $tipoMovimentacao = $this->input->post('movimentacao');
+        $idSetor = $this->input->post('setor-empresa');
+
 
         // Define valores padrão caso os filtros não sejam fornecidos
         $tipoMovimentacao = $tipoMovimentacao ? $tipoMovimentacao : 'ambas';
+        $idSetorEmpresa = $idSetor ? $idSetor : 'todos';
 
         // Formata as datas para o formato Y-m-d
         $dataInicioFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataInicio)));
@@ -292,7 +314,7 @@ class FinFluxoCaixa extends CI_Controller
 
         // Carrega o modelo e obtém os dados filtrados
         $this->load->model('FinFluxo_model');
-        $movimentacoes = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao);
+        $movimentacoes = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao, $idSetorEmpresa);
 
         // Cria o conteúdo do Excel usando XML
         $xml = '<?xml version="1.0" encoding="UTF-8"?>';
@@ -359,7 +381,4 @@ class FinFluxoCaixa extends CI_Controller
         echo $xml;
         exit;
     }
-
-
-
 }

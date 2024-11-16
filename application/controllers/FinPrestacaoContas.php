@@ -24,38 +24,6 @@ class FinPrestacaoContas extends CI_Controller
 		$this->load->model('Funcionarios_model');
 	}
 
-	public function index()
-	{
-		// scripts padrão
-		$scriptsPadraoHead = scriptsPadraoHead();
-		$scriptsPadraoFooter = scriptsPadraoFooter();
-
-		// Scripts para Prestação de Contas
-		$scriptsPrestacaoContasHead = scriptsFinPrestacaoContasHead();
-		$scriptsPrestacaoContasFooter = scriptsFinPrestacaoContasFooter();
-
-		add_scripts('header', array_merge($scriptsPadraoHead, $scriptsPrestacaoContasHead));
-		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsPrestacaoContasFooter));
-
-		$data['prestacaoContas'] = $this->Funcionarios_model->recebeFuncionariosSaldos();
-
-		$this->load->model('FinTiposCustos_model');
-		$data['tiposCustos'] = $this->FinTiposCustos_model->recebeTiposCustos();
-
-		$this->load->model('FinMacro_model');
-		$data['macros'] = $this->FinMacro_model->recebeMacros();
-
-		$this->load->model('FinFormaTransacao_model');
-		$this->load->model('FinContaBancaria_model');
-
-		$data['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
-		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
-
-		$this->load->view('admin/includes/painel/cabecalho', $data);
-		$this->load->view('admin/paginas/financeiro/prestacao-contas');
-		$this->load->view('admin/includes/painel/rodape');
-	}
-
 	public function cadastraPrestacaoContas()
 	{
 		$idFuncionario = $this->input->post('idFuncionario');
@@ -70,7 +38,7 @@ class FinPrestacaoContas extends CI_Controller
 		if (empty($dadosPrestacaoContas['valor'][0])) {
 
 			$prestarContas = false;
-		} 
+		}
 
 		$valorTotal = 0;
 		$success = true;
@@ -173,11 +141,14 @@ class FinPrestacaoContas extends CI_Controller
 
 	function insereMovimentacaoPrestacaoFluxo($dados, $idFuncionario, $idSetorEmpresa)
 	{
+		$this->load->model('FinMicro_model');
+
+        $microPadraoRomaneio = $this->FinMicro_model->recebePadraoMicro('troco-funcionario');
 
 		$valor = str_replace(['.', ','], ['', '.'], $dados['valor']);
 
-		$dadosFluxo['id_macro'] = 11;
-		$dadosFluxo['id_micro'] = 1;
+		$dadosFluxo['id_macro'] = $microPadraoRomaneio['id_macro'];
+		$dadosFluxo['id_micro'] = $microPadraoRomaneio['id'];
 		$dadosFluxo['id_setor_empresa'] = $idSetorEmpresa;
 		$dadosFluxo['id_conta_bancaria'] = $dados['contaBancaria'];
 		$dadosFluxo['id_forma_transacao'] = $dados['formaPagamentoTroco'];
@@ -205,5 +176,46 @@ class FinPrestacaoContas extends CI_Controller
 		$prestacaoContasFuncionario = $this->Romaneios_model->recebeDatasRomaneiosFuncionario($idFuncionario, $dataRomaneio);
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($prestacaoContasFuncionario));
+	}
+
+	public function visualizarPrestacaoContas()
+	{
+		$codRomaneio = $this->input->post('codRomaneio');
+
+		$retorno = $this->FinPrestacaoContas_model->recebeCustosPrestacaoContasRomaneio($codRomaneio);
+
+		$valorTotalCustos = $this->FinPrestacaoContas_model->recebeCustoTotalPrestacaoContasRomaneio($codRomaneio);
+
+
+		if ($retorno) {
+
+			$response = array(
+				'valorTotal' => $valorTotalCustos,
+				'custos' => $retorno,
+			);
+
+			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
+		} else {
+			$response = array(
+				'success' => false,
+				'title' => "Algo deu errado!",
+				'message' => "Falha ao exibir os custos deste romaneio. Por favor, tente novamente.",
+				'type' => "error"
+			);
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	function verificaPrestacaoContasFuncionario()
+	{
+		$codRomaneio = $this->input->post('codRomaneio');
+		$idResponsavel = $this->input->post('idResponsavel');
+		$dataRomaneio = $this->input->post('dataRomaneio');
+
+		$response = $this->FinPrestacaoContas_model->recebeRomaneiosSemPrestarContasResponsavel($codRomaneio, $idResponsavel, $dataRomaneio);
+		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+
 	}
 }
