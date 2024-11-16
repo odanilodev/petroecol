@@ -76,8 +76,12 @@ class Funcionarios extends CI_Controller
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsFuncionarioFooter));
 
 		$id = $this->uri->segment(3);
-
-		$data['funcionario'] = $this->Funcionarios_model->recebeFuncionario($id);
+		
+		if ($this->uri->segment(4) == '0') {
+			$data['funcionario'] = $this->Funcionarios_model->recebeFuncionario($id, 1);
+		} else {
+			$data['funcionario'] = $this->Funcionarios_model->recebeFuncionario($id);
+		}
 
 		$data['documentos'] = ['cnh', 'cpf', 'aso', 'epi', 'registro', 'carteira', 'vacinacao', 'certificados', 'ordem'];
 
