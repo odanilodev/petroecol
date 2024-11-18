@@ -1,6 +1,6 @@
 <div class="content">
     <div id="members">
-        <a href="<?= base_url('afericao/residuosAferidos')?>" class="btn btn-phoenix-primary mb-3">Resíduos Aferidos</a>
+        <a href="<?= base_url('afericao/residuosAferidos') ?>" class="btn btn-phoenix-primary mb-3">Resíduos Aferidos</a>
 
         <div class="px-4 px-lg-6 mb-9 bg-white border-y border-300 mt-2 position-relative top-1">
             <div class="table-responsive scrollbar ms-n1 ps-1">
@@ -56,11 +56,15 @@
                                                     <span class="fas fa-eye"></span> Aferir
                                                 </a>
 
-                                                <a data-codigo="<?= $afericao['cod_romaneio'] ?>" data-id-trajeto="<?= $afericao['ID_TRAJETO']?>" class="dropdown-item btn-add-trajeto" href="#" data-bs-toggle="modal" data-bs-target="#modalTrajeto">
-                                                    <span class="fas fa-map-marked"></span> <?= $afericao['TRAJETO'] ? "Editar" : "Adicionar"?>  Trajeto
+                                                <a data-codigo="<?= $afericao['cod_romaneio'] ?>" data-id-trajeto="<?= $afericao['ID_TRAJETO'] ?>" class="dropdown-item btn-add-trajeto" href="#" data-bs-toggle="modal" data-bs-target="#modalTrajeto">
+                                                    <span class="fas fa-map-marked"></span> <?= $afericao['TRAJETO'] ? "Editar" : "Adicionar" ?> Trajeto
                                                 </a>
 
                                             <?php } ?>
+
+                                            <a onclick="visualizarPrestacaoContas(<?= $afericao['cod_romaneio'] ?>)" class="dropdown-item" href="#" title="Visualizar Custos" data-bs-toggle="modal" data-bs-target="#modalVisualizarCustosRomaneio">
+                                                <span class="ms-1 fas fa-coins"></span> Ver custos
+                                            </a>
 
                                             <a data-id-setor-empresa="<?= $afericao['id_setor_empresa'] ?>" data-saldo="<?= $afericao['saldo'] ?>" data-id-funcionario="<?= $afericao['ID_FUNCIONARIO'] ?>" data-codigo="<?= $afericao['cod_romaneio'] ?>" data-funcionario="<?= $afericao['nome'] ?>" class="dropdown-item btn-prestar-contas-afericao" href="#" data-bs-toggle="modal" data-bs-target="#modalPrestarConta">
                                                 <span class="fas fa-coins"></span> Adicionar Custos
@@ -379,7 +383,7 @@
                                     <select class="form-select select2 input-obrigatorio-trajeto select-trajeto">
                                         <option selected disabled value="">Selecione</option>
                                         <?php foreach ($trajetos as $trajeto) { ?>
-                                            <option value="<?= $trajeto['id']?>"><?= $trajeto['nome']?></option>
+                                            <option value="<?= $trajeto['id'] ?>"><?= $trajeto['nome'] ?></option>
                                         <?php } ?>
                                     </select>
                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
@@ -396,6 +400,70 @@
                     <button class="btn btn-info btn-form" onclick="finalizarTrajetoAfericao()" type="button">Finalizar</button>
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal visualizar Custos -->
+    <div class="modal fade" tabindex="-1" id="modalVisualizarCustosRomaneio">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Custos do romaneio:
+                        <span class="cod-romaneio">
+                            <!-- JS -->
+                        </span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body body-coleta">
+
+
+
+                    <div class="card">
+                        <div class="card-body form-editar-pagar">
+                            <div class="spinner-border text-primary load-form-modal d-none" role="status"></div>
+
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="col-sm-12 col-xxl-12 py-3">
+                                        <div class="mx-0 mx-sm-1 mx-lg-0 px-lg-0 div-tabela-tipos-custos-modal">
+                                            <div class="table-responsive mx-n1 px-1 scrollbar">
+
+                                                <table class="table fs--1 mb-0 border-top border-200">
+                                                    <thead>
+                                                        <tr class="text-center">
+                                                            <th class="white-space-nowrap" scope="col" data-sort="td_romaneio">Tipo de custo</th>
+                                                            <th class="white-space-nowrap" scope="col" data-sort="td_valor">Valor</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody class="tabela-tipos-custos-modal">
+                                                        <!-- JS -->
+                                                    </tbody>
+
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer ">
+
+                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+
+                </div>
             </div>
         </div>
     </div>

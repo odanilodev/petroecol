@@ -242,11 +242,6 @@ class Afericao extends CI_Controller
 
 
 		$data['residuosAferidos'] = $this->Afericao_model->recebeResiduosAferidos();
-
-		// echo '<pre>';
-		// print_r($data['residuosAferidos']);
-		// exit;
-		
 	
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/afericao/residuos-aferidos');

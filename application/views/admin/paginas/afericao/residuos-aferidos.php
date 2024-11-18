@@ -25,7 +25,7 @@
                                 </td>
 
                                 <td class="align-middle text-center white-space-nowrap py-3">
-                                    <?= ucfirst($residuoAferido['cod_romaneio']); ?>
+                                    <?= ucfirst($residuoAferido['RESPONSAVEL']); ?>
                                 </td>
 
                                 <td class="align-middle text-center white-space-nowrap py-3">
