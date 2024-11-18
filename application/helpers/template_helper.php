@@ -567,7 +567,8 @@ function scriptsFinContasPagarFooter()
         '<script src="' . base_url('assets/js/helpers-js/formatar-data.js') . '"></script>',
         '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>',
         '<script src="' . base_url('assets/js/financeiro/contas-pagar/contas-pagar.js') . '"></script>',
-        '<script src="' . base_url('assets/js/helpers-js/carregar-select2.js') . '"></script>'
+        '<script src="' . base_url('assets/js/helpers-js/carregar-select2.js') . '"></script>',
+        '<script src="' . base_url('assets/js/helpers-js/selecionar-todos-elementos.js') . '"></script>'
 
     );
 }
