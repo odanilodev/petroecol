@@ -56,23 +56,20 @@ class FinPrestacaoContas extends CI_Controller
 			for ($i = 0; $i < count($tiposCustos); $i++) {
 
 				// valor que o funcionario gastou na rua do bolso dele (pagamento no ato)
+				$dados['id_tipo_custo'] = $tiposCustos[$i];
+				$dados['valor'] = str_replace(['.', ','], ['', '.'], $valores[$i]); // valor para tabela prestacao
+				$dados['id_recebido'] = $recebido[$i];
+				$dados['tipo_pagamento'] = $tipoPagamento[$i];
+				$dados['id_empresa'] = $this->session->userdata('id_empresa');
+				$dados['id_funcionario'] = $idFuncionario;
+				$dados['codigo_romaneio'] = $codRomaneio;
+				$dados['id_setor_empresa'] = $idSetorEmpresa;
+
 				if (!$tipoPagamento[$i]) {
-					$dados['id_tipo_custo'] = $tiposCustos[$i];
-					$dados['valor'] = str_replace(['.', ','], ['', '.'], $valores[$i]); // valor para tabela prestacao
-					$dados['id_recebido'] = $recebido[$i];
-					$dados['tipo_pagamento'] = $tipoPagamento[$i];
-					$dados['id_empresa'] = $this->session->userdata('id_empresa');
-					$dados['id_funcionario'] = $idFuncionario;
-					$dados['codigo_romaneio'] = $codRomaneio;
-					$dados['id_setor_empresa'] = $idSetorEmpresa;
 
 					$valorTotal += floatval($dados['valor']); // valor total que o funcionario gastou
 
 				} else {
-					$dados['id_tipo_custo'] = $tiposCustos[$i];
-					$dados['valor'] = str_replace(['.', ','], ['', '.'], $valores[$i]); // valor para tabela prestacao
-					$dados['id_recebido'] = $recebido[$i];
-					$dados['tipo_pagamento'] = $tipoPagamento[$i];
 
 					$contasPagar['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dataPagamento[$i])));
 					$contasPagar['valor'] = str_replace(['.', ','], ['', '.'], $valores[$i]);
