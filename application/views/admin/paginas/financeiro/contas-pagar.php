@@ -352,13 +352,13 @@
 
                                             <?php if (!$contaPagar['status']) { ?>
                                                 <a class="dropdown-item editar-lancamento btn-editar-<?= $contaPagar['id'] ?>"
-                                                    href="#!" data-bs-toggle="modal" data-id="<?= $contaPagar['id'] ?>"
+                                                    href="#!" data-bs-toggle="modal" data-integracao="<?= $contaPagar['integracao']?>" data-id="<?= $contaPagar['id'] ?>"
                                                     data-valor="<?= number_format($contaPagar['valor'], 2, ',', '.'); ?>"
                                                     data-bs-target="#modalEditarContasPagar">
                                                     <span class="fas fa-pencil"></span> Editar
                                                 </a>
 
-                                                <a class="dropdown-item editar-lancamento btn-excluir-<?= $contaPagar['id'] ?>"
+                                                <a class="dropdown-item btn-excluir-<?= $contaPagar['id'] ?>"
                                                     href="#" onclick="deletaContaPagar(<?= $contaPagar['id'] ?>)">
                                                     <span class="fas fa-trash"></span> Excluir
                                                 </a>
@@ -1277,6 +1277,7 @@
 
                 <div class="modal-footer">
                     <input type="hidden" class="id-editar-conta">
+                    <input type="hidden" class="id-integracao">
                     <input type="hidden" class="input-id-setor">
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
                     <button class="btn btn-success btn-form cadastra-conta-pagar" type="button"
