@@ -5,7 +5,7 @@ let quantidadeElementosSelecionados = 0;
 function selecionarTodosElementos() {
 
     if ($('.check-todos-elementos').is(':checked')) {
-        $('.btn-acoes-elementos-selecionados').removeClass('d-none');
+
         $('.check-elemento').prop('checked', true); // ativa os checkbox
 
         $('.check-elemento').each(function () {
@@ -25,6 +25,10 @@ function selecionarTodosElementos() {
                 atributosElementosSelecionados.push({ id: elementoId, ...attrData }); 
             }
         });
+
+        if (quantidadeElementosSelecionados > 1) {
+            $('.btn-acoes-elementos-selecionados').removeClass('d-none');
+        }
 
         $('.contador-elementos-selecionados').html(`(${quantidadeElementosSelecionados})`);
         salvarElementosLocalStorage();
