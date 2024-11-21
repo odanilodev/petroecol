@@ -278,7 +278,6 @@ const deletarFluxo = (idMovimentacao, idContaBancaria, valorMovimentacao, tipoMo
 
 }
 
-
 $('#exportarBtn').on('click', function (e) {
     e.preventDefault();
 
@@ -321,6 +320,41 @@ $('#exportarBtn').on('click', function (e) {
             $btn.prop('disabled', false).html(originalText); // Reativa o botão e restaura o texto original
         }
     });
+});
+
+$(document).on('click', '.check-elemento, .check-todos-elementos', function () {
+
+    let totalEntrada = 0;
+    let totalSaida = 0;
+
+    for (i = 0; i < atributosElementosSelecionados.length; i++) {
+
+        let tipoMovimentacao = atributosElementosSelecionados[i].tipo;
+        if (tipoMovimentacao == 1) {
+
+            totalEntrada = parseFloat(atributosElementosSelecionados[i].valor) + totalEntrada;
+
+        } else {
+            totalSaida = parseFloat(atributosElementosSelecionados[i].valor) + totalSaida;
+
+        }
+    }
+
+    if (totalSaida > 0) {
+        $('.badge-label-saida').html(totalSaida);
+        $('.badge-saida').removeClass('d-none');
+    } else {
+        $('.badge-saida').addClass('d-none');
+    }
+
+    if (totalEntrada > 0) {
+        $('.badge-label-entrada').html(totalEntrada);
+        $('.badge-entrada').removeClass('d-none');
+    } else {
+        $('.badge-entrada').addClass('d-none');
+
+    }
+
 });
 
 

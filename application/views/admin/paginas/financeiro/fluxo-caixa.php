@@ -161,7 +161,35 @@
             data-list='{"valueNames":["td_data","td_recebido","td_transacao","td_tipo","td_valor","td_setor","td_micro","td_observacao"],"page":10,"pagination":true}'>
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
-                    <h3>Fluxo de caixa</h3>
+                    <div class="d-flex align-items-center">
+                        <h3>Fluxo de caixa</h3>
+                        <div class="btn-acoes-elementos-selecionados d-none ms-2">
+                            <button class="btn btn-phoenix-info dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="contador-elementos-selecionados"></span>
+                                Selecionados
+                            </button>
+
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li>
+                                    <button class="dropdown-item btn-excluir-fluxos" onclick="deletaFluxos()">
+                                        <span data-feather="trash"></span> Excluir tudo
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="">
+                        <span class="badge badge-phoenix fs--2 badge-phoenix-warning d-none badge-saida">
+                            <span class="badge-label-saida"></span>
+                            <span class="ms-1" data-feather="trending-down"
+                                style="height:12.8px;width:12.8px;"></span>
+                        </span>
+                        <span class="badge badge-phoenix fs--2 badge-phoenix-success d-none badge-entrada">
+                            <span class="badge-label-entrada"></span>
+                            <span class="ms-1" data-feather="trending-up"
+                                style="height:12.8px;width:12.8px;"></span>
+                        </span>
+                    </div>
                 </div>
                 <div class="col-12 col-md-auto">
                     <div class="row g-2 gy-3">
@@ -194,8 +222,8 @@
                         <tr class="text-center">
                             <th class="white-space-nowrap fs--1 ps-0 align-middle">
                                 <div class="form-check mb-0 fs-0">
-                                    <input class="form-check-input" id="checkbox-bulk-reviews-select" type="checkbox"
-                                        data-bulk-select='{"body":"table-latest-review-body"}' />
+                                    <input class="form-check-input check-todos-elementos" id="checkbox-bulk-reviews-select" type="checkbox"
+                                        data-bulk-select='{"body":"table-latest-review-body"}' onclick="selecionarTodosElementos()" />
                                 </div>
                             </th>
                             <th class="sort white-space-nowrap align-middle text-center" scope="col"
@@ -221,7 +249,7 @@
 
                                 <td class="fs--1 align-middle ps-0">
                                     <div class="form-check mb-0 fs-0">
-                                        <input class="form-check-input" type="checkbox" />
+                                        <input data-tipo="<?= $movimentacao['movimentacao_tabela'] ?>" data-valor="<?= $movimentacao['valor'] ?>" class="form-check-input check-elemento" type="checkbox" value="<?= $movimentacao['id'] ?>" />
                                     </div>
                                 </td>
 
