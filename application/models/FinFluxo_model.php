@@ -18,38 +18,72 @@ class FinFluxo_model extends CI_Model
         return $query->result_array();
     }
 
-    public function recebeFluxoData($dataInicio, $dataFim, $tipoMovimentacao, $idSetor)
+    public function recebeFluxoData($dataInicio, $dataFim, $tipoMovimentacao, $idSetor, $cookie_filtro_fluxo_caixa, $limit, $page, $count = null)
     {
-        $this->db->select('fin_fluxo.*, fin_contas_bancarias.apelido as apelido_conta_bancaria, fin_forma_transacao.nome as nome_forma_transacao, fin_dados_financeiros.nome as nome_dado_financeiro, C.nome as CLIENTE, M.nome as NOME_MICRO, SE.nome as NOME_SETOR, F.nome as NOME_FUNCIONARIO');
-        $this->db->from('fin_fluxo');
-        $this->db->join('fin_contas_bancarias', 'fin_fluxo.id_conta_bancaria = fin_contas_bancarias.id', 'left');
-        $this->db->join('fin_micros M', 'M.id = fin_fluxo.id_micro', 'left');
-        $this->db->join('ci_setores_empresa SE', 'SE.id = fin_fluxo.id_setor_empresa', 'left');
-        $this->db->join('fin_forma_transacao', 'fin_fluxo.id_forma_transacao = fin_forma_transacao.id', 'left');
-        $this->db->join('fin_dados_financeiros', 'fin_fluxo.id_dado_financeiro = fin_dados_financeiros.id', 'left');
+        $filtro = json_decode($cookie_filtro_fluxo_caixa, true);
 
-        $this->db->join('ci_funcionarios F', 'fin_fluxo.id_funcionario = F.id', 'left'); // recebido/pago (funcionario)
+        $this->db->select('F.*, CB.apelido as apelido_conta_bancaria, FT.nome as nome_forma_transacao, DF.nome as nome_dado_financeiro, C.nome as CLIENTE, M.nome as NOME_MICRO, SE.nome as NOME_SETOR, FNC.nome as NOME_FUNCIONARIO');
+        $this->db->from('fin_fluxo F');
+        $this->db->join('fin_contas_bancarias CB', 'F.id_conta_bancaria = CB.id', 'left');
+        $this->db->join('fin_micros M', 'M.id = F.id_micro', 'left');
+        $this->db->join('ci_setores_empresa SE', 'SE.id = F.id_setor_empresa', 'left');
+        $this->db->join('fin_forma_transacao FT', 'F.id_forma_transacao = FT.id', 'left');
+        $this->db->join('fin_dados_financeiros DF', 'F.id_dado_financeiro = DF.id', 'left');
+        $this->db->join('ci_funcionarios FNC', 'F.id_funcionario = FNC.id', 'left');
+        $this->db->join('ci_clientes C', 'F.id_cliente = C.id', 'left');
 
-        $this->db->join('ci_clientes C', 'fin_fluxo.id_cliente = C.id', 'left'); // recebido/pago (cliente)
+        $this->db->where('F.id_empresa', $this->session->userdata('id_empresa'));
 
-        $this->db->where('fin_fluxo.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('fin_fluxo.data_movimentacao <=', $dataFim);
-        $this->db->where('fin_fluxo.data_movimentacao >=', $dataInicio);
+        if ($dataInicio && $dataFim) {
+            $this->db->where('F.data_movimentacao <=', $dataFim);
+            $this->db->where('F.data_movimentacao >=', $dataInicio);
+        }
 
-        // Verifica se o tipo de movimentação não é 'ambas', para adicionar uma restrição
+
         if ($tipoMovimentacao !== 'ambas') {
-            $this->db->where('fin_fluxo.movimentacao_tabela', $tipoMovimentacao);
+            $this->db->where('F.movimentacao_tabela', $tipoMovimentacao);
         }
 
         if ($idSetor !== 'todos') {
-            $this->db->where('fin_fluxo.id_setor_empresa', $idSetor);
+            $this->db->where('F.id_setor_empresa', $idSetor);
         }
 
-        $this->db->order_by('fin_fluxo.data_movimentacao', 'DESC');
+
+        if ($filtro['search'] ?? false) {
+            $search = $filtro['search'];
+
+            // verifica se tem , no texto digitado para buscar valor
+            if (preg_match('/[.,]/', $search)) {
+                $search = str_replace(['.', ','], ['', '.'], $search);
+                $search = (float) $search;
+            }
+
+            $this->db->group_start();
+            $this->db->where("LOWER(DF.nome) LIKE LOWER('%$search%')");
+            $this->db->or_where("LOWER(M.nome) LIKE LOWER('%$search%')");
+            $this->db->or_where("LOWER(C.nome) LIKE LOWER('%$search%')");
+            $this->db->or_where("LOWER(FNC.nome) LIKE LOWER('%$search%')");
+            $this->db->or_where("F.valor LIKE '%$search%'");
+            $this->db->or_where("F.observacao LIKE '%$search%'");
+            $this->db->group_end();
+        }
+
+        if (!$count) {
+            $offset = ($page - 1) * $limit;
+            $this->db->limit($limit, $offset);
+        }
+
+        $this->db->order_by('F.data_movimentacao', 'DESC');
 
         $query = $this->db->get();
+
+        if ($count) {
+            return $query->num_rows();
+        }
+
         return $query->result_array();
     }
+
 
 
 

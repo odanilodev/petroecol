@@ -139,7 +139,7 @@ $(document).on('click', '.btn-insere-fluxo', function () {
                 $('.btn-form').addClass('d-none');
             },
             success: function (data) {
-                avisoRetorno(data.title, data.message, data.type, `${baseUrl}finFluxoCaixa`);
+                avisoRetorno(data.title, data.message, data.type, `${baseUrl}finFluxoCaixa/index/all`);
             },
             error: function (xhr, status, error) {
                 //Tratamento de erro
@@ -257,7 +257,7 @@ const deletarFluxo = (idMovimentacao, idContaBancaria, valorMovimentacao, tipoMo
             },
             success: function (data) {
 
-                let redirect = data.type != 'error' ? `${baseUrl}finFluxoCaixa` : '#';
+                let redirect = data.type != 'error' ? `${baseUrl}finFluxoCaixa/index/all` : '#';
 
                 avisoRetorno(`${data.title}`, `${data.message}`, `${data.type}`, `${redirect}`);
 
@@ -277,7 +277,6 @@ const deletarFluxo = (idMovimentacao, idContaBancaria, valorMovimentacao, tipoMo
     }
 
 }
-
 
 $('#exportarBtn').on('click', function (e) {
     e.preventDefault();
@@ -321,6 +320,58 @@ $('#exportarBtn').on('click', function (e) {
             $btn.prop('disabled', false).html(originalText); // Reativa o botão e restaura o texto original
         }
     });
+});
+
+$(document).on('click', '.check-elemento, .check-todos-elementos', function () {
+    calculaValorEntradaSaida();
+});
+
+function calculaValorEntradaSaida() {
+    let totalEntrada = 0;
+    let totalSaida = 0;
+
+    for (i = 0; i < atributosElementosSelecionados.length; i++) {
+
+        let tipoMovimentacao = atributosElementosSelecionados[i].tipo;
+        if (tipoMovimentacao == 1) {
+
+            totalEntrada = parseFloat(atributosElementosSelecionados[i].valor) + totalEntrada;
+
+        } else {
+            totalSaida = parseFloat(atributosElementosSelecionados[i].valor) + totalSaida;
+
+        }
+    }
+
+    if (totalSaida > 0) {
+        $('.badge-label-saida').html(formatarValorMoeda(totalSaida));
+        $('.badge-saida').removeClass('d-none');
+    } else {
+        $('.badge-saida').addClass('d-none');
+    }
+
+    if (totalEntrada > 0) {
+        $('.badge-label-entrada').html(formatarValorMoeda(totalEntrada));
+        $('.badge-entrada').removeClass('d-none');
+    } else {
+        $('.badge-entrada').addClass('d-none');
+
+    }
+}
+
+
+$(function () {
+
+    calculaValorEntradaSaida();
+
+    if (atributosElementosSelecionados.length > 1) {
+        $('.badge-entrada').removeClass('d-none');
+        $('.badge-saida').removeClass('d-none');
+    } else {
+        $('.badge-entrada').addClass('d-none');
+        $('.badge-saida').addClass('d-none');
+    }
+
 });
 
 
