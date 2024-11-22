@@ -1829,8 +1829,7 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
                                         </a>
                                     ` : ''}
 
-                                    ${romaneio.status == 0 ? `
-                                        <div class="dropdown-divider btn-realizar-pagamento-1"></div>
+                                    ${romaneio.status == 0 || romaneio.prestar_conta == 0 ? `
                                         <a data-data-romaneio="${romaneio.data_romaneio}" data-funcionario="${romaneio.RESPONSAVEL}" data-codigo="${romaneio.codigo}" data-saldo="${romaneio.saldo}" data-id-funcionario="${romaneio.ID_RESPONSAVEL}" data-id-setor-empresa="${romaneio.id_setor_empresa}" class="dropdown-item btn-add-verba-romaneio" href="#" title="Adicionar verba para o responsável" data-bs-toggle="modal" data-bs-target="#modalAdicinarVerbaRomaneio">
                                             <span class="fas fa-coins ms-1"></span> Adicionar verba
                                         </a>
