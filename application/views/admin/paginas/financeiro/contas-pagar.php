@@ -163,7 +163,7 @@
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <div class="d-flex align-items-center">
-                        <h3 class="me-3">Contas a pagar</h3>
+                        <h3 class="me-3 teste-btn">Contas a pagar</h3>
                         <div class="btn-acoes-elementos-selecionados d-none">
                             <button class="btn btn-phoenix-info dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span class="contador-elementos-selecionados"></span>

@@ -176,7 +176,7 @@ class Funcionarios extends CI_Controller
 
 
 		$nome = $this->input->post('nome');
-		$dados['nome'] = mb_convert_case($nome, MB_CASE_TITLE, 'UTF-8');
+		$dados['nome'] = mb_strtoupper($nome, 'UTF-8');
 		$dados['data_cnh'] = $this->input->post('data_cnh');
 		$dados['data_aso'] = $this->input->post('data_aso');
 		$dados['telefone'] = $this->input->post('telefone');

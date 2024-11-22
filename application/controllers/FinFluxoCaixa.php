@@ -23,8 +23,10 @@ class FinFluxoCaixa extends CI_Controller
         // FIM controle sessão
     }
 
-    public function index()
+    public function index($page = 1)
     {
+        $this->load->helper('cookie');
+
         // scripts padrão
         $scriptsPadraoHead = scriptsPadraoHead();
         $scriptsPadraoFooter = scriptsPadraoFooter();
@@ -44,25 +46,6 @@ class FinFluxoCaixa extends CI_Controller
         $dataFim = new DateTime();
         $dataFimFormatada = $dataFim->format('Y-m-d');
 
-        $this->load->library('finDadosFinanceiros');
-
-        $this->load->model('FinGrupos_model');
-        $this->load->model('FinFormaTransacao_model');
-        $this->load->model('FinContaBancaria_model');
-        $this->load->model('FinMacro_model');
-        $this->load->model('SetoresEmpresa_model');
-
-        $dados['macros'] = $this->FinMacro_model->recebeMacros();
-
-        $dados['grupos'] = $this->FinGrupos_model->recebeGrupos();
-
-        $dados['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
-        $dados['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
-        $dados['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
-
-
-        $dados['saldoTotal'] = $this->findadosfinanceiros->somaSaldosBancarios();
-
         // Verifica se as datas foram recebidas via POST
         if ($this->input->post('data_inicio') && $this->input->post('data_fim')) {
             $dataInicioFormatada = $this->input->post('data_inicio');
@@ -73,32 +56,123 @@ class FinFluxoCaixa extends CI_Controller
             $dataFimFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataFimFormatada)));
         }
 
-        $dados['dataInicio'] = $this->input->post('data_inicio');
-        $dados['dataFim'] = $this->input->post('data_fim');
+        $dados['tipoMovimentacao'] = 'ambas';
+        $dados['idSetor'] = 'todos';
+        $dados['dataInicio'] = '';
+        $dados['dataFim'] = '';
+
+        if ($page != "all") {
+
+            // dados no cookie para refazer o filtro
+            $cookieDataInicio = json_decode($this->input->cookie('filtro_data_inicio_fluxo_caixa'));
+            $cookieDataFim = json_decode($this->input->cookie('filtro_data_fim_fluxo_caixa'));
+            $cookieTipoMovimentacao = json_decode($this->input->cookie('filtro_tipo_movimentacao_fluxo_caixa'));
+            $cookieSetor = json_decode($this->input->cookie('filtro_setor_fluxo_caixa'));
+
+            $dataInicio = $this->input->post('data_inicio') ?? $cookieDataInicio;
+            $dataFim = $this->input->post('data_fim') ?? $cookieDataFim;
+            $tipoMovimentacao = $this->input->post('movimentacao') ?? $cookieTipoMovimentacao;
+            $setorEmpresa = $this->input->post('setor-empresa') ?? $cookieSetor;
+
+            // define os cookies para filtrar por datas
+            if ($dataInicio) {
+                $this->input->set_cookie('filtro_data_inicio_fluxo_caixa', json_encode($dataInicio), 3600);
+                $this->input->set_cookie('filtro_data_fim_fluxo_caixa', json_encode($dataFim), 3600);
+                $this->input->set_cookie('filtro_tipo_movimentacao_fluxo_caixa', json_encode($tipoMovimentacao), 3600);
+                $this->input->set_cookie('filtro_setor_fluxo_caixa', json_encode($setorEmpresa), 3600);
+                // converte as datas para o formato americano (Y-m-d)
+                $dataInicioFormatada = $dataInicio ? date('Y-m-d', strtotime(str_replace('/', '-', $dataInicio))) : "";
+                $dataFimFormatada = $dataFim ? date('Y-m-d', strtotime(str_replace('/', '-', $dataFim))) : "";
+                // dados para exibir no formulário novamente
+                $dados['dataInicio'] = $dataInicio;
+                $dados['dataFim'] = $dataFim;
+                $dados['tipoMovimentacao'] = $tipoMovimentacao;
+                $dados['idSetor'] = $setorEmpresa;
+            }
+        } else {
+
+            delete_cookie('filtro_data_inicio_fluxo_caixa');
+            delete_cookie('filtro_data_fim_fluxo_caixa');
+            delete_cookie('filtro_tipo_movimentacao_fluxo_caixa');
+            delete_cookie('filtro_setor_fluxo_caixa');
+        }
+
+
+        $this->load->library('finDadosFinanceiros');
+
+        $this->load->model('FinGrupos_model');
+        $this->load->model('FinFormaTransacao_model');
+        $this->load->model('FinContaBancaria_model');
+        $this->load->model('FinMacro_model');
+        $this->load->model('SetoresEmpresa_model');
+
         $idSetor = $this->input->post('setor-empresa');
 
         if ($idSetor === null || $idSetor === '') {
             $idSetor = "todos";
         }
 
-        //Soma as movimentacoes da tabela fluxo.
-        $dados['totalSaida'] = $this->findadosfinanceiros->totalFluxoFinanceiro('valor', 0, $dataInicioFormatada, $dataFimFormatada, $idSetor);
-        $dados['totalEntrada'] = $this->findadosfinanceiros->totalFluxoFinanceiro('valor', 1, $dataInicioFormatada, $dataFimFormatada, $idSetor);
-
-        $dados['balancoFinanceiro'] = $dados['totalEntrada']['valor'] - $dados['totalSaida']['valor'];
-
-        // Verifica se o tipo de movimentação foi recebido via POST
         $tipoMovimentacao = $this->input->post('movimentacao');
 
-        // Se não houver nenhum valor recebido via POST, define 'ambas' como valor padrão
         if ($tipoMovimentacao === null || $tipoMovimentacao === '') {
             $tipoMovimentacao = 'ambas';
         }
 
-        $dados['tipoMovimentacao'] = $tipoMovimentacao;
-        $dados['idSetor'] = $idSetor;
+        $dados['macros'] = $this->FinMacro_model->recebeMacros();
+        $dados['grupos'] = $this->FinGrupos_model->recebeGrupos();
+        $dados['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
+        $dados['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
+        $dados['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
+        $dados['saldoTotal'] = $this->findadosfinanceiros->somaSaldosBancarios();
 
-        $dados['movimentacoes'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao, $idSetor);
+
+        // Search com cookie
+        if ($this->input->post()) {
+            $this->input->set_cookie('filtro_fluxo_caixa', json_encode($this->input->post()), 3600);
+        }
+
+        if (is_numeric($page)) {
+            $cookie_filtro_fluxo_caixa = $this->input->post() ? json_encode($this->input->post()) : $this->input->cookie('filtro_fluxo_caixa');
+        } else {
+            $page = 1;
+            delete_cookie('filtro_fluxo_caixa');
+            $cookie_filtro_fluxo_caixa = json_encode([]);
+        }
+
+        $dados['cookie_filtro_fluxo_caixa'] = json_decode($cookie_filtro_fluxo_caixa, true);
+
+        // >>>> PAGINAÇÃO <<<<<
+        $limit = 15;
+        $this->load->library('pagination');
+        $config['base_url'] = base_url('finFluxoCaixa/index/');
+        $config['total_rows'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao, $idSetor, $cookie_filtro_fluxo_caixa, $limit, $page, true);
+        $config['per_page'] = $limit;
+        $config['use_page_numbers'] = TRUE;
+        $this->pagination->initialize($config);
+        // >>>> FIM PAGINAÇÃO <<<<<
+
+
+        $dados['movimentacoes'] = $this->FinFluxo_model->recebeFluxoData($dataInicioFormatada, $dataFimFormatada, $tipoMovimentacao, $idSetor, $cookie_filtro_fluxo_caixa, $limit, $page);
+
+        //Soma as movimentacoes da tabela fluxo.
+        $dados['totalSaida'] = $this->findadosfinanceiros->totalFluxoFinanceiro(
+            'valor',
+            0,
+            $dataInicioFormatada,
+            $dataFimFormatada,
+            $idSetor,
+            $cookie_filtro_fluxo_caixa
+        );
+        $dados['totalEntrada'] = $this->findadosfinanceiros->totalFluxoFinanceiro(
+            'valor',
+            1,
+            $dataInicioFormatada,
+            $dataFimFormatada,
+            $idSetor,
+            $cookie_filtro_fluxo_caixa
+        );
+        $dados['balancoFinanceiro'] = $dados['totalEntrada']['valor'] - $dados['totalSaida']['valor'];
+
 
         $this->load->view('admin/includes/painel/cabecalho', $dados);
         $this->load->view('admin/paginas/financeiro/fluxo-caixa');

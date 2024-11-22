@@ -1,6 +1,6 @@
 <div class="content">
 
-    <div class="pb-5">
+    <div class="pb-2">
         <div class="row g-4">
             <div class="col-12 col-xxl-12">
                 <div class="row align-items-center g-4">
@@ -79,12 +79,14 @@
                     </div>
 
                 </div>
-                <hr class="bg-200 mb-6 mt-3" />
+                <hr class="bg-200 mb-4 mt-3" />
             </div>
 
             <form id="filtroForm" action="<?= base_url('finFluxoCaixa/index') ?>" method="post">
                 <div class="col-12">
+
                     <div class="row align-items-center g-4">
+                        <h4 class="ms-3">Filtrar resultados</h4>
                         <div class="col-12 col-md-2">
                             <div class="ms-3">
                                 <input class="form-control datetimepicker" value="<?= $dataInicio ?>" required
@@ -133,7 +135,7 @@
                                 <button type="submit"
                                     class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= !$dataInicio ? 'w-100' : 'w-75'; ?>">Filtrar</button>
 
-                                <?php if ($dataInicio) { ?>
+                                <?php if ($dataInicio || $cookie_filtro_fluxo_caixa) { ?>
 
                                     <button id="exportarBtn" class="btn btn-phoenix-secondary me-2">
                                         <span class="txt-exportar-btn">Exportar</span>
@@ -141,7 +143,7 @@
                                             role="status" style="width: 0.9rem; height: 0.9rem;"></div>
                                     </button>
 
-                                    <a href="<?= base_url('finFluxoCaixa'); ?>" class="btn btn-phoenix-danger"
+                                    <a href="<?= base_url('finFluxoCaixa/index/all'); ?>" class="btn btn-phoenix-danger"
                                         title="Limpar Filtro"><i class="fas fa-ban"></i></a>
                                 <?php } ?>
                             </div>
@@ -163,32 +165,18 @@
                 <div class="col-auto">
                     <div class="d-flex align-items-center">
                         <h3>Fluxo de caixa</h3>
-                        <div class="btn-acoes-elementos-selecionados d-none ms-2">
-                            <button class="btn btn-phoenix-info dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span class="contador-elementos-selecionados"></span>
-                                Selecionados
-                            </button>
-
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <li>
-                                    <button class="dropdown-item btn-excluir-fluxos" onclick="deletaFluxos()">
-                                        <span data-feather="trash"></span> Excluir tudo
-                                    </button>
-                                </li>
-                            </ul>
+                        <div class="ms-3">
+                            <span class="badge badge-phoenix fs--2 badge-phoenix-warning d-none badge-saida">
+                                <span class="badge-label-saida"></span>
+                                <span class="ms-1" data-feather="trending-down"
+                                    style="height:20px;width:20px;"></span>
+                            </span>
+                            <span class="badge badge-phoenix fs--2 badge-phoenix-success d-none badge-entrada">
+                                <span class="badge-label-entrada"></span>
+                                <span class="ms-1" data-feather="trending-up"
+                                    style="height:20px;width:20px;"></span>
+                            </span>
                         </div>
-                    </div>
-                    <div class="">
-                        <span class="badge badge-phoenix fs--2 badge-phoenix-warning d-none badge-saida">
-                            <span class="badge-label-saida"></span>
-                            <span class="ms-1" data-feather="trending-down"
-                                style="height:12.8px;width:12.8px;"></span>
-                        </span>
-                        <span class="badge badge-phoenix fs--2 badge-phoenix-success d-none badge-entrada">
-                            <span class="badge-label-entrada"></span>
-                            <span class="ms-1" data-feather="trending-up"
-                                style="height:12.8px;width:12.8px;"></span>
-                        </span>
                     </div>
                 </div>
                 <div class="col-12 col-md-auto">
@@ -196,13 +184,13 @@
 
                         <div class="col-auto flex-1">
                             <div class="search-box">
-                                <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                                    <input class="form-control search-input search form-control-sm" type="search"
-                                        placeholder="Buscar" aria-label="Search" />
+                                <form action="<?= base_url('finFluxoCaixa/index/1') ?>" method="POST" class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                                    <input name="search" value="<?= $cookie_filtro_fluxo_caixa['search'] ?? null ?>" class="form-control search-input " type="search" placeholder="Buscar" aria-label="Search">
                                     <span class="fas fa-search search-box-icon"></span>
                                 </form>
                             </div>
                         </div>
+
 
                         <div class="col-auto">
 
@@ -249,7 +237,7 @@
 
                                 <td class="fs--1 align-middle ps-0">
                                     <div class="form-check mb-0 fs-0">
-                                        <input data-tipo="<?= $movimentacao['movimentacao_tabela'] ?>" data-valor="<?= $movimentacao['valor'] ?>" class="form-check-input check-elemento" type="checkbox" value="<?= $movimentacao['id'] ?>" />
+                                        <input data-tipo="<?= $movimentacao['movimentacao_tabela'] ?>" data-valor="<?= $movimentacao['valor'] ?>" class="form-check-input check-elemento check-<?= $movimentacao['id'] ?>" type="checkbox" value="<?= $movimentacao['id'] ?>" />
                                     </div>
                                 </td>
 
@@ -264,11 +252,11 @@
 
                                         <?php
                                         if ($movimentacao['nome_dado_financeiro']) {
-                                            echo strtoupper($movimentacao['nome_dado_financeiro']);
+                                            echo mb_strtoupper($movimentacao['nome_dado_financeiro']);
                                         } else if (($movimentacao['id_funcionario'])) {
-                                            echo strtoupper($movimentacao['NOME_FUNCIONARIO']);
+                                            echo mb_strtoupper($movimentacao['NOME_FUNCIONARIO']);
                                         } else {
-                                            echo strtoupper($movimentacao['CLIENTE']);
+                                            echo mb_strtoupper($movimentacao['CLIENTE']);
                                         }
                                         ?>
                                     </h6>
@@ -357,8 +345,16 @@
                 </table>
             </div>
 
-            <!-- Links de Paginação usando classes Bootstrap -->
-            <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+            <div class="row">
+                <div class="col-12">
+                    <nav aria-label="Page navigation" style="display: flex; float: right">
+                        <ul class="pagination-customizada mt-5">
+                            <?= $this->pagination->create_links(); ?>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
                 <div class="col-auto d-none">
                     <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a
                         class="fw-semi-bold" href="#!" data-list-view="*">Ver todos<span class="fas fa-angle-right ms-1"
@@ -373,7 +369,7 @@
                     <button class="page-link pe-0" data-list-pagination="next"><span
                             class="fas fa-chevron-right"></span></button>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 
