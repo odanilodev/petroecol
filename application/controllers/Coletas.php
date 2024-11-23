@@ -64,9 +64,43 @@ class Coletas extends CI_Controller
         $todosIdsClientes = $this->input->post('todosIdsClientes');
         $this->Clientes_model->editaVariosClientes($todosIdsClientes, $obsColetaCliente);
 
-
         if ($payload) {
+
+            $valorCustoTotal = 0;
             foreach ($payload as $cliente):
+
+                // calcula o valor total gasto no romaneio
+                if (isset($cliente['dadosBancarios']) && verificaArrayVazio($cliente['dadosBancarios'])) { // pagamento no ato pela empresa
+
+                    for ($i = 0; $i < count($cliente['dadosBancarios']['valor'][0]); $i++) {
+    
+                        $valorCustoTotal += $cliente['dadosBancarios']['valor'][0][$i];
+                    }
+
+                } else if (isset($cliente['valor'])) {
+    
+                    // soma o pagamento realizado pelo responsável, caso seja tipo moeda
+                    for ($i = 0; $i < count($cliente['valor']); $i++) {
+
+                        if ($cliente['tipoMoedaPagamento'][$i] == 1) {
+
+                            $valorCustoTotal += $cliente['valor'][$i];
+                        }
+    
+                    }
+
+                } else {
+    
+                    // vai calcular o valor do resíduo quando for pagamento a prazo
+                    for ($i = 0; $i < count($cliente['qtdColetado']); $i++) {
+    
+                        $valorResiduo = $cliente['qtdColetado'][$i] * $cliente['valoresResiduos'][$i];
+    
+                        $valorCustoTotal += $valorResiduo;
+    
+                    }
+                    
+                }
 
                 // remove a observação de coleta do cliente
                 $obsColetaCliente['observacao_coleta'] = "";
@@ -133,6 +167,19 @@ class Coletas extends CI_Controller
                 }
 
             endforeach;
+
+
+            // valor total do romaneio em prestar contas
+            $dadosPrestacaoContas['id_tipo_custo'] = 17;
+            $dadosPrestacaoContas['valor'] = $valorCustoTotal; // valor para tabela prestacao
+            $dadosPrestacaoContas['id_empresa'] = $this->session->userdata('id_empresa');
+            $dadosPrestacaoContas['id_funcionario'] = $idResponsavel;
+            $dadosPrestacaoContas['codigo_romaneio'] = $codRomaneio;
+            $dadosPrestacaoContas['id_setor_empresa'] = $idSetorEmpresa;
+
+		    $this->load->model('FinPrestacaoContas_model');
+            $this->FinPrestacaoContas_model->inserePrestacaoContas($dadosPrestacaoContas);
+
 
             function verificaAgendamentosFuturos($agendamentos)
             {

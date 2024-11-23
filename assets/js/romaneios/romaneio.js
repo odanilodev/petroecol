@@ -1120,10 +1120,12 @@ function finalizarRomaneio() {
 
         // valores pagamentos
         let formaPagamentoSelecionados = [];
-
+        let tipoMoedaPagamento = [];
         $(this).find('.div-pagamento .select-pagamento option:selected').each(function () {
 
             let divPagamento = $(this).closest('.col-md-3').prevAll('.div-pagamento');
+            
+            tipoMoedaPagamento.push($(this).data('id-tipo-pagamento'));
 
             let tipoPagamento = divPagamento.find('.select-tipo-pagamento option:selected').val();
 
@@ -1194,6 +1196,7 @@ function finalizarRomaneio() {
                 tipoPagamento: tiposPagamentos,
                 valor: valorPagamento,
                 coletado: coletado,
+                tipoMoedaPagamento: tipoMoedaPagamento,
                 obs: $(this).find('.input-obs').val()
             };
 
