@@ -48,12 +48,13 @@ class Afericao_model extends CI_Model
 
     public function recebeResiduosAferidos()
     {
-        $this->db->select('A.quantidade_coletada as quantidade_coletada, A.aferido as aferido, R.nome as RESIDUO, A.cod_romaneio, T.nome as TRAJETO, F.nome as RESPONSAVEL');
+        $this->db->select('MAX(A.quantidade_coletada) as quantidade_coletada, MAX(A.aferido) as aferido, MAX(R.nome) as RESIDUO, MAX(A.cod_romaneio) as cod_romaneio, MAX(T.nome) as TRAJETO, MAX(F.nome) as RESPONSAVEL, SUM(PC.valor) AS VALOR_TOTAL_COLETA');
         $this->db->from('ci_afericao A');
         $this->db->join('ci_residuos R', 'A.id_residuo = R.id', 'LEFT');
         $this->db->join('ci_trajetos T', 'A.id_trajeto = T.id', 'LEFT');
         $this->db->join('ci_romaneios RO', 'A.cod_romaneio = RO.codigo', 'LEFT');
         $this->db->join('ci_funcionarios F', 'RO.id_responsavel = F.id', 'LEFT');
+        $this->db->join('fin_prestacao_contas PC', 'A.cod_romaneio = PC.codigo_romaneio', 'LEFT');
         $this->db->where('A.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->order_by('cod_romaneio');
         $query = $this->db->get();

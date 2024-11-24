@@ -11,6 +11,8 @@
                             <th class="sort align-middle text-center" scope="col">Resíduo</th>
                             <th class="sort align-middle text-center" scope="col">Quantidade coletada</th>
                             <th class="sort align-middle text-center" scope="col">Aferido</th>
+                            <th class="sort align-middle text-center" scope="col">Custos</th>
+                            <th class="sort align-middle text-center" scope="col">Gasto total</th>
                             <th class="sort align-middle text-center" scope="col">Trajeto</th>
                         </tr>
                     </thead>
@@ -39,6 +41,14 @@
                                 <td class="align-middle text-center white-space-nowrap py-3">
                                     <span class="text-<?= $residuoAferido['aferido'] >= $residuoAferido['quantidade_coletada'] ? 'success' : 'danger'?>"><?=  $residuoAferido['aferido']; ?></span>
                                 </td>
+
+                                <td class="align-middle text-center white-space-nowrap py-3">
+                                    <?= number_format($residuoAferido['VALOR_TOTAL_COLETA'] / $residuoAferido['aferido'], 2, ',', '.'); ?>
+                                </td>
+
+                                <td class="align-middle text-center white-space-nowrap py-3">
+                                    <?= number_format($residuoAferido['VALOR_TOTAL_COLETA'], 2, ',', '.'); ?>
+                                </td> 
 
                                 <td class="align-middle text-center white-space-nowrap py-3">
                                     <?= $residuoAferido['TRAJETO']; ?>
