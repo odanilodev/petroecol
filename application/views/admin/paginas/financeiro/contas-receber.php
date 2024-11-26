@@ -1,5 +1,5 @@
 <div class="content">
-    <div class="pb-5">
+    <div>
         <div class="row g-4">
             <div class="col-12 col-xxl-12">
                 <div class="row align-items-center g-4">
@@ -65,7 +65,7 @@
             </div>
             <div class="col-12 col-xxl-12 mt-0">
                 <form id="filtroForm" action="<?= base_url('finContasReceber/') ?>" method="post">
-                    <div class="col-12">
+                    <div class="col-12 mb-4">
                         <div class="row align-items-center g-4">
                             <h4 class="ms-3">Filtrar resultados</h4>
                             <div class="col-12 col-md-3">
@@ -113,7 +113,6 @@
                                 </div>
                             </div>
                         </div>
-                        <hr class="bg-200 mb-6 mt-4" />
                     </div>
                 </form>
             </div>
