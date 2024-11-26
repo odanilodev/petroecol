@@ -168,6 +168,13 @@ $('#searchInput').on('input', function () {
 
 $(document).on('click', '.btn-salva-romaneio', function () {
 
+    let clientes = $('.ids-selecionados').val().split(',');
+
+    if (clientes.length > 300) {
+        avisoRetorno('Limite de clientes excedido!', 'Você precisa selecionar menos de 300 clientes para gerar o Romaneio.', 'error', `#`);
+        return;
+    }
+
     let permissao = true;
 
     $(".input-obrigatorio").each(function () {
@@ -224,11 +231,11 @@ const gerarRomaneio = () => {
             type: "POST",
             url: `${baseUrl}romaneios/gerarRomaneio`,
             data: {
-                clientes: clientes,
                 responsavel: responsavel,
                 veiculo: veiculo,
                 data_coleta: data_coleta,
-                setorEmpresa: setorEmpresa
+                setorEmpresa: setorEmpresa,
+                clientes: clientes
             },
             beforeSend: function () {
                 $('.load-form-modal-romaneio').removeClass('d-none');
