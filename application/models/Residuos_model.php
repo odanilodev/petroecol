@@ -114,4 +114,14 @@ class Residuos_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+    public function recebeMovimentacaoResiduos($tipoMovimentacao)
+    {
+        $this->db->select('quantidade, id_residuo');
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('tipo_movimentacao', $tipoMovimentacao);
+        $query = $this->db->get('ci_estoque_residuos');
+
+        return $query->result_array();
+    }
 }

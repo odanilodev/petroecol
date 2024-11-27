@@ -1,7 +1,10 @@
 <div class="content">
+    <div id="members">
 
-    <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
-        <div id="members">
+        <a href="#" class="btn btn-phoenix-primary mb-3 btn-nova-venda" data-bs-toggle="modal" data-bs-target="#modalNovaVenda">Nova Venda</a>
+
+        <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
+
             <div class="row align-items-end justify-content-between pb-5 g-3">
                 <div class="col-auto">
                     <h3>Estoque de Resíduos</h3>
@@ -52,7 +55,9 @@
 
                                 <td class="align-middle text-center td_recebido">
                                     <h6 class="mb-0 text-900">
-                                        <?= $estoque['quantidade']; ?>
+
+                                        <?php $saidaResiduo = isset($saidasResiduos[$estoque['ID_RESIDUO']]) ? $saidasResiduos[$estoque['ID_RESIDUO']] : 0;?>
+                                        <?= $entradasResiduos[$estoque['ID_RESIDUO']] - $saidaResiduo; ?>
                                     </h6>
                                 </td>
 
@@ -71,7 +76,7 @@
                                             aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span
                                                 class="fas fa-ellipsis-h fs--2"></span></button>
                                         <div class="dropdown-menu dropdown-menu-start py-2">
-                                            <a class="dropdown-item" href="<?= base_url('estoqueResiduos/detalhes/' . $estoque['ID_RESIDUO'])?>">
+                                            <a class="dropdown-item" href="<?= base_url('estoqueResiduos/detalhes/' . $estoque['ID_RESIDUO']) ?>">
                                                 <span class="fas fa-eye"></span> Visualizar
                                             </a>
 
@@ -170,6 +175,134 @@
 
                     <div class="spinner-border text-primary load-form-modal d-none" role="status"></div>
                     <button class="btn btn-success btn-form-modal" type="button" onclick="inserirLancamentoEstoqueResiduos()">Salvar</button>
+                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal nova venda -->
+    <div class="modal fade" tabindex="-1" id="modalNovaVenda">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nova venda</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body body-coleta">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="col-sm-12 col-xxl-12 py-3">
+                                        <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+
+                                            <div class="col-lg-12">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Cliente</label>
+                                                    <select class="form-select input-obrigatorio-venda select2 select-cliente">
+                                                        <option selected disabled>Selecione</option>
+                                                        <?php foreach ($clientes_finais as $cliente_final) { ?>
+                                                            <option value="<?= $cliente_final['id'] ?>"><?= $cliente_final['nome'] ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Resíduo</label>
+                                                    <select class="form-select input-obrigatorio-venda select-residuo-venda select2" name="residuo">
+                                                        <option selected disabled>Selecione</option>
+
+                                                        <?php foreach ($residuos as $residuo) { ?>
+                                                            <option value="<?= $residuo['id'] ?>"><?= $residuo['nome'] ?></option>
+                                                        <?php } ?>
+
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Unidade de Medida</label>
+                                                    <select class="form-select input-obrigatorio-venda select-unidade-medida select2" name="residuo">
+                                                        <option selected disabled>Selecione</option>
+                                                        <?php foreach ($unidades_medidas as $unidade_medida) { ?>
+                                                            <option value="<?= $unidade_medida['id'] ?>"><?= $unidade_medida['nome'] ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Quantidade</label>
+                                                    <input class="form-control input-quantidade-venda input-obrigatorio-venda" required name="valor" type="number" placeholder="Quantidade">
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">
+                                                        Valor
+                                                        <span class="tipo-unidade-medida">
+                                                            <!-- JS -->
+                                                        </span>
+                                                    </label> 
+                                                    <input class="form-control mascara-dinheiro input-obrigatorio-venda input-valor" required name="valor" type="text" placeholder="Valor">
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Valor Total da Destinação</label>
+                                                    <input class="form-control mascara-dinheiro input-obrigatorio-venda input-valor-total" required name="valor" type="text" placeholder="Quantidade">
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Data da Destinação</label>
+                                                    <input autocomplete="off" class="form-control datetimepicker input-data-destinacao input-obrigatorio-venda" required name="data_destinacao" type="text" placeholder="Data da Destinação"
+                                                        data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' style="cursor: pointer;" />
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+
+                    <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                    <button class="btn btn-success btn-form" type="button" onclick="salvarNovaVenda()">Salvar</button>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
                 </div>
