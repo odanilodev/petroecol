@@ -11,12 +11,10 @@ class EstoqueResiduos_model extends CI_Model
 
     public function recebeEstoqueResiduo($idResiduo, $tipoMovimentacao)
     {
-        $this->db->select('SUM(ER.quantidade) as quantidade, MAX(ER.id_residuo) as ID_RESIDUO, MAX(R.nome) as RESIDUO, MAX(SE.nome) as SETOR');
+        $this->db->select('SUM(ER.quantidade) as quantidade');
         $this->db->from('ci_estoque_residuos ER');
 
         $this->db->where('ER.id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->join('ci_residuos R', 'ER.id_residuo = R.id', 'LEFT');
-        $this->db->join('ci_setores_empresa SE', 'R.id_setor_empresa = SE.id', 'LEFT');
 
         $this->db->where('ER.id_residuo', $idResiduo);
         $this->db->where('ER.tipo_movimentacao', $tipoMovimentacao);

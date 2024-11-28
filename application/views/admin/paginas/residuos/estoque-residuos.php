@@ -37,21 +37,20 @@
                         <tr class="text-center">
                             <th class="sort align-middle text-center" scope="col" data-sort="td_recebido">Resíduo</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_transacao">Quantidade</th>
-                            <th class="sort ps-5 align-middle text-center" scope="col" data-sort="td_setor">Setor</th>
                             <th class="sort ps-5 align-middle text-center" scope="col" data-sort="td_setor">Ações</th>
                         </tr>
                     </thead>
                     <tbody class="list" id="table-latest-review-body">
 
-                        <?php foreach ($estoque as $estoque) { ?>
+                        <?php foreach ($residuos as $residuo) { ?>
 
-                            <?php if (!empty($estoque['RESIDUO'])) : ?>
+                            <?php if ($quantidadeEntradaResiduo[$residuo['id']]['quantidade']) { ?>
 
                                 <tr class="hover-actions-trigger btn-reveal-trigger position-static text-center">
 
                                     <td class="align-middle text-center data white-space-nowrap td_data">
                                         <h6 class="mb-0 text-900 text-center">
-                                            <?= $estoque['RESIDUO'] ?>
+                                            <?= $residuo['nome'] ?>
                                         </h6>
                                     </td>
 
@@ -60,18 +59,14 @@
 
                                             <?php
 
-                                            $quantidadeResiduoSaida = $quantidadeSaidaResiduo[$estoque['ID_RESIDUO']]['quantidade'] ?? 0;
+                                            $quantidadeResiduoSaida = $quantidadeSaidaResiduo[$residuo['id']]['quantidade'] ?? 0;
+                                            $quantidadeResiduoEntrada = $quantidadeEntradaResiduo[$residuo['id']]['quantidade'];
+                                            $quantidadeTotalResiduo = $quantidadeResiduoEntrada - $quantidadeResiduoSaida;
 
-                                            echo $estoque['quantidade'] - $quantidadeResiduoSaida;
+                                            echo $quantidadeTotalResiduo . ' ' . strtoupper($residuo['unidade_medida']);
 
                                             ?>
 
-                                        </h6>
-                                    </td>
-
-                                    <td class="align-middle text-center">
-                                        <h6 class="mb-0 text-900 text-center">
-                                            <?= $estoque['SETOR']; ?>
                                         </h6>
                                     </td>
 
@@ -84,7 +79,7 @@
                                                 aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span
                                                     class="fas fa-ellipsis-h fs--2"></span></button>
                                             <div class="dropdown-menu dropdown-menu-start py-2">
-                                                <a class="dropdown-item" href="<?= base_url('estoqueResiduos/detalhes/' . $estoque['ID_RESIDUO']) ?>">
+                                                <a class="dropdown-item" href="<?= base_url('estoqueResiduos/detalhes/' . $residuo['id']) ?>">
                                                     <span class="fas fa-eye"></span> Visualizar
                                                 </a>
 
@@ -94,7 +89,7 @@
 
                                 </tr>
 
-                            <?php endif; ?>
+                            <?php } ?>
 
                         <?php } ?>
 

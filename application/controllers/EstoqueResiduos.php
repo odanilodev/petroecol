@@ -48,7 +48,7 @@ class EstoqueResiduos extends CI_Controller
             $quantidadeResiduoSaida[$residuo['id']] = $this->EstoqueResiduos_model->recebeEstoqueResiduo($residuo['id'], 0); // 0 é saída
         } 
         
-        $data['estoque'] = $quantidadeResiduoEntrada;
+        $data['quantidadeEntradaResiduo'] = $quantidadeResiduoEntrada;
         $data['quantidadeSaidaResiduo'] = $quantidadeResiduoSaida;
     
         $this->load->model('UnidadesMedidas_model');

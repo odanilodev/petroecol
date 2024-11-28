@@ -27,7 +27,7 @@ class Residuos_model extends CI_Model
     public function recebeTodosResiduos()
     {
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->order_by('nome', 'ASC'); 
+        $this->db->order_by('nome', 'DESC'); 
         $query = $this->db->get('ci_residuos');
     
         return $query->result_array();
