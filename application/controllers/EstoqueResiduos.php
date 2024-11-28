@@ -23,7 +23,7 @@ class EstoqueResiduos extends CI_Controller
         $this->load->model('EstoqueResiduos_model');
     }
 
-    public function index($page = 1)
+    public function index()
     {
         // scripts padrão
         $scriptsPadraoHead = scriptsPadraoHead();
@@ -36,69 +36,27 @@ class EstoqueResiduos extends CI_Controller
         add_scripts('header', array_merge($scriptsPadraoHead, $scriptsEstoqueResiduosHead));
         add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsEstoqueResiduosFooter));
 
-        $this->load->helper('cookie');
-
-        if ($this->input->post()) {
-
-            $this->input->set_cookie('filtro_estoque_residuos', json_encode($this->input->post()), 3600);
-        }
-
-        if (is_numeric($page)) {
-            $cookie_filtro_estoque_residuos = count($this->input->post()) > 0 ? json_encode($this->input->post()) : $this->input->cookie('filtro_estoque_residuos');
-        } else {
-            $page = 1;
-            delete_cookie('filtro_estoque_residuos');
-            $cookie_filtro_estoque_residuos = json_encode([]);
-        }
-
-        $data['cookie_filtro_estoque_residuos'] = json_decode($cookie_filtro_estoque_residuos, true);
-
-
-        // >>>> PAGINAÇÃO <<<<<
-        $limit = 12; // Número de estoque por página
-        $this->load->library('pagination');
-        $config['base_url'] = base_url('estoqueResiduos/index/');
-        $config['total_rows'] = $this->EstoqueResiduos_model->recebeEstoqueResiduos($cookie_filtro_estoque_residuos, $limit, $page, true); // true para contar
-        $config['per_page'] = $limit;
-        $config['use_page_numbers'] = TRUE; // Usar números de página em vez de offset
-        $this->pagination->initialize($config);
-        // >>>> FIM PAGINAÇÃO <<<<<
-
-        $data['estoque'] = $this->EstoqueResiduos_model->recebeEstoqueResiduos($cookie_filtro_estoque_residuos, $limit, $page);
-
-        $this->load->model('Residuos_model');
-        $data['residuos'] = $this->Residuos_model->recebeTodosResiduos();        
-
-        $entradasResiduos = $this->Residuos_model->recebeMovimentacaoResiduos(1);
-        $arrayEntradaResiduoId = [];
-        foreach($entradasResiduos as $entradaResiduo) {
-            if (isset($arrayEntradaResiduoId[$entradaResiduo['id_residuo']])) {
-                $arrayEntradaResiduoId[$entradaResiduo['id_residuo']] += $entradaResiduo['quantidade'];
-            } else {
-                $arrayEntradaResiduoId[$entradaResiduo['id_residuo']] = $entradaResiduo['quantidade'];
-            }
-        }
-        $data['entradasResiduos'] = $arrayEntradaResiduoId;
-
-
-        $saidasResiduos = $this->Residuos_model->recebeMovimentacaoResiduos(0);
-        $arraySaidaResiduoId = [];
-        foreach($saidasResiduos as $saida) {
-            if (isset($arraySaidaResiduoId[$saida['id_residuo']])) {
-                $arraySaidaResiduoId[$saida['id_residuo']] += $saida['quantidade'];
-            } else {
-                $arraySaidaResiduoId[$saida['id_residuo']] = $saida['quantidade'];
-            }
-        }
-        $data['saidasResiduos'] = $arraySaidaResiduoId;
         
+        $this->load->model('Residuos_model');
+        $data['residuos'] = $this->Residuos_model->recebeTodosResiduos();
+        
+        $quantidadeResiduoEntrada[] = 0;
+        $quantidadeResiduoSaida[] = 0;
+        foreach($data['residuos'] as $residuo) {
 
+            $quantidadeResiduoEntrada[$residuo['id']] = $this->EstoqueResiduos_model->recebeEstoqueResiduo($residuo['id'], 1); // 1 é entrada
+            $quantidadeResiduoSaida[$residuo['id']] = $this->EstoqueResiduos_model->recebeEstoqueResiduo($residuo['id'], 0); // 0 é saída
+        } 
+        
+        $data['estoque'] = $quantidadeResiduoEntrada;
+        $data['quantidadeSaidaResiduo'] = $quantidadeResiduoSaida;
+    
         $this->load->model('UnidadesMedidas_model');
         $data['unidades_medidas'] = $this->UnidadesMedidas_model->recebeUnidadesMedidas();
 
         $this->load->model('Clientes_model');
         $data['clientes_finais'] = $this->Clientes_model->recebeClientesFinais();
-
+        
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/residuos/estoque-residuos');
         $this->load->view('admin/includes/painel/rodape');

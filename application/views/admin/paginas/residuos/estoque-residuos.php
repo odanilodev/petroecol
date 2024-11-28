@@ -45,46 +45,56 @@
 
                         <?php foreach ($estoque as $estoque) { ?>
 
-                            <tr class="hover-actions-trigger btn-reveal-trigger position-static text-center">
+                            <?php if (!empty($estoque['RESIDUO'])) : ?>
 
-                                <td class="align-middle text-center data white-space-nowrap td_data">
-                                    <h6 class="mb-0 text-900 text-center">
-                                        <?= $estoque['RESIDUO']; ?>
-                                    </h6>
-                                </td>
+                                <tr class="hover-actions-trigger btn-reveal-trigger position-static text-center">
 
-                                <td class="align-middle text-center td_recebido">
-                                    <h6 class="mb-0 text-900">
+                                    <td class="align-middle text-center data white-space-nowrap td_data">
+                                        <h6 class="mb-0 text-900 text-center">
+                                            <?= $estoque['RESIDUO'] ?>
+                                        </h6>
+                                    </td>
 
-                                        <?php $saidaResiduo = isset($saidasResiduos[$estoque['ID_RESIDUO']]) ? $saidasResiduos[$estoque['ID_RESIDUO']] : 0;?>
-                                        <?= $entradasResiduos[$estoque['ID_RESIDUO']] - $saidaResiduo; ?>
-                                    </h6>
-                                </td>
+                                    <td class="align-middle text-center td_recebido">
+                                        <h6 class="mb-0 text-900">
 
-                                <td class="align-middle text-center">
-                                    <h6 class="mb-0 text-900 text-center">
-                                        <?= $estoque['SETOR']; ?>
-                                    </h6>
-                                </td>
+                                            <?php
 
-                                <td class="align-middle white-space-nowrap text-center pe-0">
+                                            $quantidadeResiduoSaida = $quantidadeSaidaResiduo[$estoque['ID_RESIDUO']]['quantidade'] ?? 0;
 
-                                    <div class="font-sans-serif btn-reveal-trigger position-static">
-                                        <button
-                                            class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2"
-                                            type="button" data-bs-toggle="dropdown" data-boundary="window"
-                                            aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span
-                                                class="fas fa-ellipsis-h fs--2"></span></button>
-                                        <div class="dropdown-menu dropdown-menu-start py-2">
-                                            <a class="dropdown-item" href="<?= base_url('estoqueResiduos/detalhes/' . $estoque['ID_RESIDUO']) ?>">
-                                                <span class="fas fa-eye"></span> Visualizar
-                                            </a>
+                                            echo $estoque['quantidade'] - $quantidadeResiduoSaida;
 
+                                            ?>
+
+                                        </h6>
+                                    </td>
+
+                                    <td class="align-middle text-center">
+                                        <h6 class="mb-0 text-900 text-center">
+                                            <?= $estoque['SETOR']; ?>
+                                        </h6>
+                                    </td>
+
+                                    <td class="align-middle white-space-nowrap text-center pe-0">
+
+                                        <div class="font-sans-serif btn-reveal-trigger position-static">
+                                            <button
+                                                class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2"
+                                                type="button" data-bs-toggle="dropdown" data-boundary="window"
+                                                aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span
+                                                    class="fas fa-ellipsis-h fs--2"></span></button>
+                                            <div class="dropdown-menu dropdown-menu-start py-2">
+                                                <a class="dropdown-item" href="<?= base_url('estoqueResiduos/detalhes/' . $estoque['ID_RESIDUO']) ?>">
+                                                    <span class="fas fa-eye"></span> Visualizar
+                                                </a>
+
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
+                                    </td>
 
-                            </tr>
+                                </tr>
+
+                            <?php endif; ?>
 
                         <?php } ?>
 
@@ -97,7 +107,6 @@
                 <div class="col-12">
                     <nav aria-label="Page navigation" style="display: flex; float: right">
                         <ul class="pagination mt-5">
-                            <?= $this->pagination->create_links(); ?>
                         </ul>
                     </nav>
                 </div>
@@ -264,7 +273,7 @@
                                                         <span class="tipo-unidade-medida">
                                                             <!-- JS -->
                                                         </span>
-                                                    </label> 
+                                                    </label>
                                                     <input class="form-control mascara-dinheiro input-obrigatorio-venda input-valor" required name="valor" type="text" placeholder="Valor">
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
