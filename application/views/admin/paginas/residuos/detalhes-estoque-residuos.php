@@ -25,7 +25,7 @@
 
                                 <td class="align-middle text-center td_recebido">
                                     <h6 class="mb-0 text-900">
-                                        <?= $estoque['quantidade'] . ' '. $estoque['UNIDADE_MEDIDA']; ?>
+                                        <?= $estoque['quantidade'] . ' '. strtoupper($estoque['UNIDADE_MEDIDA']); ?>
                                     </h6>
                                 </td>
 
