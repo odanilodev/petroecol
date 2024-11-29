@@ -138,11 +138,8 @@ class ConversaoUnidadeMedida extends CI_Controller
 		$medidaOrigem = $this->input->post('medidaOrigem');
 		$medidaDestino = $this->input->post('medidaDestino');
 
-		//Criando a expressão
-		$expressao = "$valor $tipo_operacao $quantidade";
-
-		//Usando eval para calcular a expressão
-		eval('$resultado = ' . $expressao . ';');
+		$this->load->helper('converter_unidade_medida_residuo');
+		$resultado = calcularUnidadeMedidaResiduo($valor, $tipo_operacao, $quantidade);
 
 		echo "$quantidade $medidaOrigem de $residuo equivalem a " . $resultado . " $medidaDestino de $residuo";
 	}

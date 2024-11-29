@@ -31,12 +31,6 @@ $(document).on('click', '.btn-nova-venda', function () {
 
 })
 
-
-$(document).on('change', '.select-unidade-medida', function () {
-    $('.tipo-unidade-medida').html(`por ${$(this).find(':selected').text()}`);
-    $('.input-valor').attr('placeholder', `Valor por ${$(this).find(':selected').text()}`)
-})
-
 const salvarNovaVenda = () => {
 
     let permissao = verificaCamposObrigatorios('input-obrigatorio-venda');
@@ -47,7 +41,6 @@ const salvarNovaVenda = () => {
         let residuo = $('.select-residuo-venda').val();
         let unidadeMedida = $('.select-unidade-medida').val();
         let quantidade = $('.input-quantidade-venda').val();
-        let valorUnidadeMedida = $('.input-valor').val();
         let valorTotal = $('.input-valor-total').val();
         let dataDestinacao = $('.input-data-destinacao').val();
 
@@ -59,7 +52,6 @@ const salvarNovaVenda = () => {
                 residuo: residuo,
                 unidadeMedida: unidadeMedida,
                 quantidade: quantidade,
-                valorUnidadeMedida: valorUnidadeMedida,
                 valorTotal: valorTotal,
                 dataDestinacao: dataDestinacao
             },

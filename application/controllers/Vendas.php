@@ -26,6 +26,7 @@ class Vendas extends CI_Controller
 	public function novaVendaResiduo()
 	{
 		$this->load->model('EstoqueResiduos_model');
+		$this->load->model('Residuos_model');
 
 		// Dados para tabela de vendas
 		$dados['id_cliente'] = $this->input->post('cliente');
@@ -33,20 +34,34 @@ class Vendas extends CI_Controller
 		$dados['id_unidade_medida'] = $this->input->post('unidadeMedida');
 		$dados['quantidade'] = $this->input->post('quantidade');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
-		$dados['valor_medida'] = $this->input->post('valorUnidadeMedida');
 		$dados['valor_total'] = $this->input->post('valorTotal');
 		$dados['data_venda'] = date('Y-m-d', strtotime(str_replace('/', '-', $this->input->post('dataDestinacao'))));
+
+		$retorno = $this->Vendas_model->insereNovaVendaResiduo($dados);
+
+
+		$unidadeMedidaPadraoResiduo = $this->Residuos_model->recebeResiduo($dados['id_residuo'])['id_unidade_medida'];
+
+		// faz a conversão de quantidade caso o a unidade de medida seja diferente da padrão do resíduo
+		if ($unidadeMedidaPadraoResiduo != $dados['id_unidade_medida']) {
+
+			$this->load->model('ConversaoUnidadeMedida_model');
+			$this->load->helper('converter_unidade_medida_residuo');
+
+			$dadosConversaoResiduo = $this->ConversaoUnidadeMedida_model->recebeConversaoPorResiduo($dados['id_residuo']);
+
+			$dados['quantidade'] = calcularUnidadeMedidaResiduo($dadosConversaoResiduo['valor'], $dadosConversaoResiduo['tipo_operacao'], $dados['quantidade']); // quantidade convertida
+		}		
 
 		// dados para tabela de estoque
 		$dadosResiduosEstoque['id_residuo'] = $dados['id_residuo'];
 		$dadosResiduosEstoque['quantidade'] = $dados['quantidade'];
-		$dadosResiduosEstoque['id_unidade_medida'] = $dados['id_unidade_medida'];
+		$dadosResiduosEstoque['id_unidade_medida'] = $unidadeMedidaPadraoResiduo;
 		$dadosResiduosEstoque['tipo_movimentacao'] = 0; // saída
 		$dadosResiduosEstoque['id_empresa'] = $dados['id_empresa'];
 
 		$this->EstoqueResiduos_model->insereEstoqueResiduos($dadosResiduosEstoque); 
 
-		$retorno = $this->Vendas_model->insereNovaVendaResiduo($dados);
 		
 		if ($retorno) {
 

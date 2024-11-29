@@ -203,7 +203,7 @@
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
 
-                                            <div class="col-lg-12">
+                                            <div class="col-lg-6">
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Cliente</label>
@@ -256,20 +256,6 @@
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Quantidade</label>
                                                     <input class="form-control input-quantidade-venda input-obrigatorio-venda" required name="valor" type="number" placeholder="Quantidade">
-                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
-
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">
-                                                        Valor
-                                                        <span class="tipo-unidade-medida">
-                                                            <!-- JS -->
-                                                        </span>
-                                                    </label>
-                                                    <input class="form-control mascara-dinheiro input-obrigatorio-venda input-valor" required name="valor" type="text" placeholder="Valor">
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>

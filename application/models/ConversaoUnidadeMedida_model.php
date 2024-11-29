@@ -82,4 +82,13 @@ class ConversaoUnidadeMedida_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+    public function recebeConversaoPorResiduo($id_residuo)
+    {
+        $this->db->where('id_residuo', $id_residuo);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $query = $this->db->get('ci_conversao_unidade_medida');
+
+        return $query->row_array();
+    }
 }
