@@ -131,6 +131,7 @@ class Afericao extends CI_Controller
 
 		$this->load->model('Coletas_model');
 		$this->load->model('EstoqueResiduos_model');
+		$this->load->model('Residuos_model');
 
 		$sucesso = 0; // conta quantos registros foram inseridos com sucesso
 		foreach ($dadosResiduosAferidos as $dadosResiduosAferido) {
@@ -153,6 +154,20 @@ class Afericao extends CI_Controller
 				$dadosResiduosEstoque['id_unidade_medida'] = $dadosResiduosAferido['medida'];
 				$dadosResiduosEstoque['tipo_movimentacao'] = 1; // entrada
 				$dadosResiduosEstoque['id_empresa'] = $this->session->userdata('id_empresa');
+
+				$unidadeMedidaPadraoResiduo = $this->Residuos_model->recebeResiduo($dadosResiduosEstoque['id_residuo'])['id_unidade_medida'];
+
+				// faz a conversão de quantidade caso o a unidade de medida seja diferente da padrão do resíduo
+				if ($unidadeMedidaPadraoResiduo != $dadosResiduosEstoque['id_unidade_medida']) {
+		
+					$this->load->model('ConversaoUnidadeMedida_model');
+					$this->load->helper('converter_unidade_medida_residuo');
+		
+					$dadosConversaoResiduo = $this->ConversaoUnidadeMedida_model->recebeConversaoPorResiduo($dadosResiduosEstoque['id_residuo'], $dadosResiduosEstoque['id_unidade_medida']);
+		
+					$dadosResiduosEstoque['quantidade'] = calcularUnidadeMedidaResiduo($dadosConversaoResiduo['valor'], $dadosConversaoResiduo['tipo_operacao'], $dadosResiduosAferido['aferido']); // quantidade convertida
+				
+				}		
 
 				$this->EstoqueResiduos_model->insereEstoqueResiduos($dadosResiduosEstoque); 
 

@@ -48,7 +48,7 @@ class Vendas extends CI_Controller
 			$this->load->model('ConversaoUnidadeMedida_model');
 			$this->load->helper('converter_unidade_medida_residuo');
 
-			$dadosConversaoResiduo = $this->ConversaoUnidadeMedida_model->recebeConversaoPorResiduo($dados['id_residuo']);
+			$dadosConversaoResiduo = $this->ConversaoUnidadeMedida_model->recebeConversaoPorResiduo($dados['id_residuo'], $dados['id_unidade_medida']);
 
 			$dados['quantidade'] = calcularUnidadeMedidaResiduo($dadosConversaoResiduo['valor'], $dadosConversaoResiduo['tipo_operacao'], $dados['quantidade']); // quantidade convertida
 		}		
