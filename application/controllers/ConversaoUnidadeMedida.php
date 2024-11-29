@@ -90,7 +90,7 @@ class ConversaoUnidadeMedida extends CI_Controller
 
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 
-		$residuo = $this->ConversaoUnidadeMedida_model->recebeConversaoResiduo($dados['id_residuo'], $id); // verifica se já existe a conversao
+		$residuo = $this->ConversaoUnidadeMedida_model->recebeConversaoResiduo($dados, $id); // verifica se já existe a conversao
 
 		if ($residuo) {
 

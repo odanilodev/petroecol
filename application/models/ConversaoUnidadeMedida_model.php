@@ -32,9 +32,12 @@ class ConversaoUnidadeMedida_model extends CI_Model
         return $query->row_array();
     }
 
-    public function recebeConversaoResiduo($id_residuo, $id)
+    public function recebeConversaoResiduo($dadosConversaoResiduo, $id)
     {
-        $this->db->where('id_residuo', $id_residuo);
+        $this->db->where('id_residuo', $dadosConversaoResiduo['id_residuo']);
+        $this->db->where('id_medida_origem', $dadosConversaoResiduo['id_medida_origem']);
+        $this->db->where('id_medida_destino', $dadosConversaoResiduo['id_medida_destino']);
+        $this->db->where('tipo_operacao', $dadosConversaoResiduo['tipo_operacao']);
         $this->db->where('id <>', $id);
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('ci_conversao_unidade_medida');
