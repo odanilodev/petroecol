@@ -339,6 +339,14 @@ $(document).on('change', '.select-macros', function () {
 
 })
 
+
+$(document).on('change', '.select-macros-editar', function () {
+
+    let idMacro = $(this).val();
+    changeSelectMacros(idMacro);
+
+})
+
 $(document).on('change', '.select-grupo-recebidos', function () {
 
     let grupo = $(this).val();

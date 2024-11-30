@@ -74,7 +74,7 @@ class Romaneios_model extends CI_Model
         if ($codRomaneio) {
             $this->db->where('R.codigo', $codRomaneio);
         } else {
-            $this->db->where('R.data_romaneio >=', date('Y-m-d', strtotime('-30 days')));
+            $this->db->where('R.data_romaneio >=', date('Y-m-d', strtotime('-55 days')));
         }
 
         $this->db->order_by('data_romaneio', 'DESC');
