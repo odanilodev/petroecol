@@ -43,11 +43,11 @@
                                 </td>
 
                                 <td class="align-middle text-center white-space-nowrap py-3">
-                                    <?= number_format($residuoAferido['VALOR_TOTAL_COLETA'] / $residuoAferido['aferido'], 2, ',', '.'); ?>
+                                    <?= $residuoAferido['aferido'] ? number_format($residuoAferido['VALOR_TOTAL_COLETA'] / $residuoAferido['aferido'], 2, ',', '.') : ''; ?>
                                 </td>
 
                                 <td class="align-middle text-center white-space-nowrap py-3">
-                                    <?= number_format($residuoAferido['VALOR_TOTAL_COLETA'], 2, ',', '.'); ?>
+                                    <?= $residuoAferido['VALOR_TOTAL_COLETA'] ? number_format($residuoAferido['VALOR_TOTAL_COLETA'], 2, ',', '.') : ''; ?>
                                 </td> 
 
                                 <td class="align-middle text-center white-space-nowrap py-3">
