@@ -25,8 +25,9 @@ class FinContasReceber extends CI_Controller
 		$this->load->model('FinContasReceber_model');
 	}
 
-	public function index()
+	public function index($page = 1)
 	{
+		$this->load->helper('cookie');
 
 		$this->load->model('FinContaBancaria_model');
 		$this->load->model('FinFormaTransacao_model');
@@ -43,8 +44,54 @@ class FinContasReceber extends CI_Controller
 		add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsContasReceberFooter));
 
 		$dataInicioFormatada = '';
-
 		$dataFimFormatada = '';
+
+		$data['dataInicio'] = "";
+		$data['status'] = 'ambas';
+		$data['idSetor'] = 'todos';
+
+		$statusConta = 'ambas';
+		$setorEmpresa = 'todos';
+
+		if ($page != "all") {
+			// dados no cookie para refazer o filtro
+			$cookieDataInicio = json_decode($this->input->cookie('filtro_data_inicio_receber'));
+			$cookieDataFim = json_decode($this->input->cookie('filtro_data_fim_receber'));
+			$cookieStatus = json_decode($this->input->cookie('filtro_status_receber'));
+			$cookieSetor = json_decode($this->input->cookie('filtro_setor_receber'));
+			$cookieNomeSetor = json_decode($this->input->cookie('filtro_nome_setor_receber'));
+
+			$dataInicio = $this->input->post('data_inicio') ?? $cookieDataInicio;
+			$dataFim = $this->input->post('data_fim') ?? $cookieDataFim;
+			$statusConta = $this->input->post('status') ?? $cookieStatus;
+			$setorEmpresa = $this->input->post('setor') ?? $cookieSetor;
+			$nomeSetorEmpresa = $this->input->post('nomeSetor') ?? $cookieNomeSetor;
+
+			// define os cookies para filtrar por datas
+			if ($dataInicio) {
+
+				$this->input->set_cookie('filtro_data_inicio_receber', json_encode($dataInicio), 3600);
+				$this->input->set_cookie('filtro_data_fim_receber', json_encode($dataFim), 3600);
+				$this->input->set_cookie('filtro_status_receber', json_encode($statusConta), 3600);
+				$this->input->set_cookie('filtro_setor_receber', json_encode($setorEmpresa), 3600);
+				$this->input->set_cookie('filtro_nome_setor_receber', json_encode($nomeSetorEmpresa), 3600);
+				// converte as datas para o formato americano (Y-m-d)
+				$dataInicioFormatada = $dataInicio ? date('Y-m-d', strtotime(str_replace('/', '-', $dataInicio))) : "";
+				$dataFimFormatada = $dataFim ? date('Y-m-d', strtotime(str_replace('/', '-', $dataFim))) : "";
+				// dados para exibir no formulário novamente
+				$data['dataInicio'] = $dataInicio;
+				$data['dataFim'] = $dataFim;
+				$data['nomeSaldoSetor'] = $nomeSetorEmpresa;
+				$data['status'] = $statusConta;
+				$data['idSetor'] = $setorEmpresa;
+			}
+		} else {
+			delete_cookie('filtro_data_inicio_receber');
+			delete_cookie('filtro_data_fim_receber');
+			delete_cookie('filtro_status_receber');
+			delete_cookie('filtro_setor_receber');
+			delete_cookie('filtro_nome_setor_receber');
+		}
 
 		// Verifica se as datas foram recebidas via POST
 		if ($this->input->post('data_inicio') && $this->input->post('data_fim')) {
@@ -90,10 +137,37 @@ class FinContasReceber extends CI_Controller
 
 		$data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
 		$data['dadosFinanceiro'] = $this->FinDadosFinanceiros_model->recebeDadosFinanceiros();
-		$data['contasReceber'] = $this->FinContasReceber_model->recebeContasReceber($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa);
-
+		
 		$data['formasTransacao'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
 		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
+		
+		// search com cookie
+		if ($this->input->post()) {
+			$this->input->set_cookie('filtro_contas_receber', json_encode($this->input->post()), 3600);
+		}
+		
+		if (is_numeric($page)) {
+			$cookie_filtro_contas_receber = $this->input->post() ? json_encode($this->input->post()) : $this->input->cookie('filtro_contas_receber');
+		} else {
+			$page = 1;
+			delete_cookie('filtro_contas_receber');
+			$cookie_filtro_contas_receber = json_encode([]);
+		}
+		
+		$data['cookie_filtro_contas_receber'] = json_decode($cookie_filtro_contas_receber, true);
+		
+		
+		// >>>> PAGINAÇÃO <<<<<
+		$limit = 15; // Número de clientes por página
+		$this->load->library('pagination');
+		$config['base_url'] = base_url('finContasReceber/index/');
+		$config['total_rows'] = $this->FinContasReceber_model->recebeContasReceber($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa, $cookie_filtro_contas_receber, $limit, $page, true); // true para contar
+		$config['per_page'] = $limit;
+		$config['use_page_numbers'] = TRUE; // Usar números de página em vez de offset
+		$this->pagination->initialize($config);
+		// >>>> FIM PAGINAÇÃO <<<<<
+		
+		$data['contasReceber'] = $this->FinContasReceber_model->recebeContasReceber($dataInicioFormatada, $dataFimFormatada, $statusConta, $setorEmpresa,$cookie_filtro_contas_receber, $limit, $page);
 
 		$this->load->library('finDadosFinanceiros');
 

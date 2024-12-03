@@ -10,20 +10,20 @@ class FinContasReceber_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebeContasReceber($dataInicio, $dataFim, $status, $setor)
+    public function recebeContasReceber($dataInicio, $dataFim, $status, $setor, $cookie_filtro_contas_receber, $limit, $page, $count = null)
     {
+        $filtro = json_decode($cookie_filtro_contas_receber, true);
+
         $this->db->select('CR.*, DF.nome as RECEBIDO, SE.nome as SETOR, ci_clientes.nome as CLIENTE, F.nome as NOME_FUNCIONARIO');
         $this->db->from('fin_contas_receber CR');
         $this->db->join('fin_dados_financeiros DF', 'CR.id_dado_financeiro = DF.id', 'left');
         $this->db->join('ci_funcionarios F', 'F.id = CR.id_funcionario', 'left');
         $this->db->join('ci_setores_empresa SE', 'CR.id_setor_empresa = SE.id', 'LEFT');
-
         $this->db->join('ci_clientes', 'CR.id_cliente = ci_clientes.id', 'left'); // recebido/pago (cliente)
 
         $this->db->where('CR.id_empresa', $this->session->userdata('id_empresa'));
 
         if ($dataInicio && $dataFim) {
-
             $this->db->where('CR.data_vencimento >=', $dataInicio);
             $this->db->where('CR.data_vencimento <=', $dataFim);
         }
@@ -38,9 +38,39 @@ class FinContasReceber_model extends CI_Model
             $this->db->where('CR.id_setor_empresa', $setor);
         }
 
+        if ($filtro['search'] ?? false) {
+            $search = $filtro['search'];
+
+            // verifica se tem , no texto digitado para buscar valor
+            if (preg_match('/[.,]/', $search)) {
+                $search = str_replace(['.', ','], ['', '.'], $search);
+                $search = (float) $search;
+            }
+
+            $this->db->group_start();
+            $this->db->where("LOWER(DF.nome) LIKE LOWER('%$search%')");
+            $this->db->or_where("LOWER(ci_clientes.nome) LIKE LOWER('%$search%')");
+            $this->db->or_where("F.nome LIKE '%$search%'");
+            $this->db->or_where("CR.valor LIKE '%$search%'");
+            $this->db->or_where("CR.valor_pago LIKE '%$search%'");
+            $this->db->or_where("CR.observacao LIKE '%$search%'");
+            $this->db->group_end();
+        }
+
+        if (!$count) {
+            $offset = ($page - 1) * $limit;
+            $this->db->limit($limit, $offset);
+        }
+
         $query = $this->db->get();
+
+        if ($count) {
+            return $query->num_rows();
+        }
+
         return $query->result_array();
     }
+
 
     public function insereContasReceber($dados)
     {
