@@ -133,7 +133,7 @@
                                     <button type="submit"
                                         class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= !$dataInicio ? 'w-100' : 'w-75'; ?>">Filtrar</button>
 
-                                    <?php if ($dataInicio) { ?>
+                                    <?php if ($dataInicio || $cookie_filtro_contas_pagar) { ?>
                                         <button id="exportarBtn" class="btn btn-phoenix-secondary me-2">
                                             <span class="txt-exportar-btn">Exportar</span>
                                             <div class="spinner-border spinner-border-sm loader-btn-exportar d-none"

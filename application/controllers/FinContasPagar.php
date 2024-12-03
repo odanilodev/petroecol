@@ -51,7 +51,6 @@ class FinContasPagar extends CI_Controller
 
 		if ($page != "all") {
 
-
 			// dados no cookie para refazer o filtro
 			$cookieDataInicio = json_decode($this->input->cookie('filtro_data_inicio_pagar'));
 			$cookieDataFim = json_decode($this->input->cookie('filtro_data_fim_pagar'));
@@ -126,7 +125,6 @@ class FinContasPagar extends CI_Controller
 
 		$data['cookie_filtro_contas_pagar'] = json_decode($cookie_filtro_contas_pagar, true);
 
-
 		// >>>> PAGINAÇÃO <<<<<
 		$limit = 10; // Número de clientes por página
 		$this->load->library('pagination');
@@ -142,23 +140,22 @@ class FinContasPagar extends CI_Controller
 		$this->load->library('finDadosFinanceiros');
 		$data['saldoTotal'] = $this->findadosfinanceiros->somaSaldosBancarios();
 
-		if ($statusConta == '1' || $statusConta == 'ambas') {
-
-			$data['totalPago'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 1, $dataInicioFormatada, $dataFimFormatada, $setorEmpresa); // soma o valor total pago
-
-		} else {
-			$data['totalPago']['valor'] = '00';
-		}
-
-		if ($statusConta == '0' || $statusConta == 'ambas') {
-
-			$data['emAberto'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 0, $dataInicioFormatada, $dataFimFormatada, $setorEmpresa); // soma o valor total em aberto
-
-		} else {
-			$data['emAberto']['valor'] = '00';
-		}
-
 		$data['porSetor'] = $this->findadosfinanceiros->somaSaldosBancariosSetor($setorEmpresa); // soma o valor total do setor específico
+
+		if ($data['cookie_filtro_contas_pagar']) {
+
+			// Para o total pago (status 1)
+			$data['totalPago'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 1, $dataInicioFormatada, $dataFimFormatada, $setorEmpresa, $data['cookie_filtro_contas_pagar']);
+
+			// Para o total em aberto (status 0)
+			$data['emAberto'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 0, $dataInicioFormatada, $dataFimFormatada, $setorEmpresa, $data['cookie_filtro_contas_pagar']);
+		} else {
+			
+			$data['totalPago'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 1, $dataInicioFormatada, $dataFimFormatada, $setorEmpresa);
+
+			$data['emAberto'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 0, $dataInicioFormatada, $dataFimFormatada, $setorEmpresa);
+			
+		}
 
 		// contas recorrentes
 		$this->load->model('FinContasRecorrentes_model');
