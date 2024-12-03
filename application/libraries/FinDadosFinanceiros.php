@@ -72,15 +72,15 @@ class FinDadosFinanceiros
 
 			// Aplica o filtro de busca
 			if (isset($filtro['search']) && !empty($filtro['search'])) {
-				$searchValue = $filtro['search'];
+				$filtroSearch = $filtro['search'];
 				$this->CI->db
-					->or_like('DF.nome', $searchValue)
-					->or_like('F.nome', $searchValue)
-					->or_like('C.nome', $searchValue)
-					->or_like("$tabela.data_pagamento", $searchValue)
-					->or_like("$tabela.valor", $searchValue)
-					->or_like('FM.nome', $searchValue)
-					->or_like("$tabela.observacao", $searchValue);
+					->or_like('DF.nome', $filtroSearch)
+					->or_like('F.nome', $filtroSearch)
+					->or_like('C.nome', $filtroSearch)
+					->or_like("$tabela.data_pagamento", $filtroSearch)
+					->or_like("$tabela.valor", $filtroSearch)
+					->or_like('FM.nome', $filtroSearch)
+					->or_like("$tabela.observacao", $filtroSearch);
 			}
 
 			$this->CI->db->group_end();
