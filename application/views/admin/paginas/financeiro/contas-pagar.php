@@ -328,9 +328,10 @@
 
                                 <td class="align-middle product white-space-nowrap td_observacao text-center">
                                     <h6 class="mb-0 text-900">
-                                        <?= empty($contaPagar['observacao']) ? '-' : $contaPagar['observacao'] ?>
+                                        <?= empty($contaPagar['observacao']) ? '-' : (strlen($contaPagar['observacao']) > 50 ? substr($contaPagar['observacao'], 0, 50) . '...' : $contaPagar['observacao']) ?>
                                     </h6>
                                 </td>
+
 
                                 <td class="align-middle white-space-nowrap text-end pe-0">
 

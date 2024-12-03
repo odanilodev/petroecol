@@ -309,7 +309,7 @@
 
                                 <td class="align-middle td_observacao">
                                     <h6 class="text-900 mb-0">
-                                        <?= empty($movimentacao['observacao']) ? '-' : $movimentacao['observacao'] ?>
+                                        <?= empty($movimentacao['observacao']) ? '-' : (strlen($movimentacao['observacao']) > 50 ? substr($movimentacao['observacao'], 0, 50) . '...' : $movimentacao['observacao']) ?>
                                     </h6>
 
                                 </td>
