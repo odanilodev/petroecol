@@ -1,7 +1,9 @@
 <div class="content">
     <div id="members">
 
-        <a href="#" class="btn btn-phoenix-primary mb-3 btn-nova-venda" data-bs-toggle="modal" data-bs-target="#modalNovaVenda">Nova Venda</a>
+        <a href="#" class="btn btn-phoenix-primary mb-3 btn-nova-venda" data-bs-toggle="modal" data-bs-target="#modalNovaVenda">
+            <span class="fas fa-dollar-sign"></span>
+            Nova Venda</a>
 
         <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
 
@@ -55,7 +57,11 @@
                                 <td class="align-middle text-center td_recebido">
                                     <h6 class="mb-0 text-900">
 
-                                        <?= $estoqueResiduo['quantidade'] . ' ' . strtoupper($estoqueResiduo['unidade_medida']); ?>
+                                        <!-- formata com 3 casas decimais caso não seja numero inteiro -->
+                                        <?= floor($estoqueResiduo['quantidade']) == $estoqueResiduo['quantidade']
+                                            ? $estoqueResiduo['quantidade'] . ' ' . strtoupper($estoqueResiduo['unidade_medida'])
+                                            : number_format($estoqueResiduo['quantidade'], 3, ',', '') . ' ' . strtoupper($estoqueResiduo['unidade_medida']);
+                                        ?>
 
                                     </h6>
                                 </td>
@@ -251,8 +257,8 @@
 
                                             <div class="col-lg-6">
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Valor Total da Destinação</label>
-                                                    <input class="form-control mascara-dinheiro input-obrigatorio-venda input-valor-total" required name="valor" type="text" placeholder="Quantidade">
+                                                    <label class="text-body-highlight fw-bold mb-2">Valor total da destinação</label>
+                                                    <input class="form-control mascara-dinheiro input-obrigatorio-venda input-valor-total" required name="valor" type="text" placeholder="Valor total da destinação">
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>

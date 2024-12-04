@@ -52,7 +52,7 @@ class Vendas extends CI_Controller
 
 		$quantidadeTotalResiduo = $this->EstoqueResiduos_model->recebeTotalAtualEstoqueResiduo($dados['id_residuo']);
 
-		if ($quantidadeTotalResiduo < $dados['quantidade']) {
+		if ($quantidadeTotalResiduo['total_estoque_residuo'] < $dados['quantidade']) {
 			$response = array(
 				'success' => false,
 				'type' => 'error',
@@ -67,7 +67,7 @@ class Vendas extends CI_Controller
 
 		// dados para tabela de estoque
 		$dadosResiduosEstoque['id_residuo'] = $dados['id_residuo'];
-		$dadosResiduosEstoque['quantidade'] = $dados['quantidade'];
+		$dadosResiduosEstoque['quantidade'] = number_format($dados['quantidade'], 3, '.', '');;
 		$dadosResiduosEstoque['id_unidade_medida'] = $unidadeMedidaPadraoResiduo;
 		$dadosResiduosEstoque['tipo_movimentacao'] = 0; // saída
 		$dadosResiduosEstoque['id_empresa'] = $dados['id_empresa'];
