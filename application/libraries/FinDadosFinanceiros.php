@@ -62,15 +62,13 @@ class FinDadosFinanceiros
 
 		// Aplica os filtros de busca somente se o filtro existir
 		if ($filtro) {
-
 			$this->CI->db->join('fin_dados_financeiros DF', "$tabela.id_dado_financeiro = DF.id", 'left');
 			$this->CI->db->join('fin_micros FM', "$tabela.id_micro = FM.id", 'left');
 			$this->CI->db->join('ci_funcionarios F', "$tabela.id_funcionario = F.id", 'left');
 			$this->CI->db->join('ci_clientes C', "$tabela.id_cliente = C.id", 'left');
-			// Verifica se o status foi passado e se é válido
+		
 			$this->CI->db->group_start();
-
-			// Aplica o filtro de busca
+		
 			if (isset($filtro['search']) && !empty($filtro['search'])) {
 				$filtroSearch = $filtro['search'];
 				$this->CI->db
@@ -82,10 +80,13 @@ class FinDadosFinanceiros
 					->or_like('FM.nome', $filtroSearch)
 					->or_like("$tabela.observacao", $filtroSearch);
 			}
-
-			$this->CI->db->group_end();
+		
+			if (isset($filtro['search']) && !empty($filtro['search'])) {
+				$this->CI->db->group_end();
+			} else {
+				$this->CI->db->reset_query();
+			}
 		}
-
 		// Realiza a consulta no banco de dados
 		$query = $this->CI->db->get($tabela);
 
