@@ -6,7 +6,7 @@
                 <div class="col-auto">
                     <h3>Movimentações de <?= $estoqueResiduo[0]['RESIDUO']; ?></h3>
                 </div>
-                
+
             </div>
             <div class="table-responsive mx-n1 px-1 scrollbar">
                 <table id="table-fluxo" class="table fs--1 mb-0 border-top border-200">
@@ -25,7 +25,11 @@
 
                                 <td class="align-middle text-center td_recebido">
                                     <h6 class="mb-0 text-900">
-                                        <?= $estoque['quantidade'] . ' '. strtoupper($estoque['UNIDADE_MEDIDA']); ?>
+                                        <!-- formata com 3 casas decimais caso não seja numero inteiro -->
+                                        <?= floor($estoque['quantidade']) == $estoque['quantidade']
+                                            ? $estoque['quantidade'] . ' ' . strtoupper($estoque['UNIDADE_MEDIDA'])
+                                            : number_format($estoque['quantidade'], 3, ',', '') . ' ' . strtoupper($estoque['UNIDADE_MEDIDA']);
+                                        ?>
                                     </h6>
                                 </td>
 

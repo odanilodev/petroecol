@@ -166,8 +166,13 @@ class Afericao extends CI_Controller
 					$dadosConversaoResiduo = $this->ConversaoUnidadeMedida_model->recebeConversaoPorResiduo($dadosResiduosEstoque['id_residuo'], $dadosResiduosEstoque['id_unidade_medida']);
 		
 					$dadosResiduosEstoque['quantidade'] = calcularUnidadeMedidaResiduo($dadosConversaoResiduo['valor'], $dadosConversaoResiduo['tipo_operacao'], $dadosResiduosAferido['aferido']); // quantidade convertida
-				
+					$dadosResiduosEstoque['quantidade'] = number_format($dadosResiduosEstoque['quantidade'], 3, '.', '');
 				}		
+				
+				// soma o total do residuo de acordo com o ultimo total gravado
+				$quantidadeTotalResiduo = $this->EstoqueResiduos_model->recebeTotalAtualEstoqueResiduo($dadosResiduosEstoque['id_residuo']);
+				$dadosResiduosEstoque['total_estoque_residuo'] = $quantidadeTotalResiduo['total_estoque_residuo'] ?? 0 + $dadosResiduosEstoque['quantidade'];
+				$dadosResiduosEstoque['total_estoque_residuo'] = number_format($dadosResiduosEstoque['total_estoque_residuo'], 3, '.', '');
 
 				$this->EstoqueResiduos_model->insereEstoqueResiduos($dadosResiduosEstoque); 
 

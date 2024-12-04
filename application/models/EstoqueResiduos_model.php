@@ -9,16 +9,14 @@ class EstoqueResiduos_model extends CI_Model
         $this->load->model('Log_model');
     }
 
-    public function recebeEstoqueResiduo($idResiduo, $tipoMovimentacao)
+    public function recebeEstoqueResiduo($idResiduo)
     {
-        $this->db->select('SUM(ER.quantidade) as quantidade');
+        $this->db->select('ER.total_estoque_residuo as QUANTIDADE');
         $this->db->from('ci_estoque_residuos ER');
-
         $this->db->where('ER.id_empresa', $this->session->userdata('id_empresa'));
-
         $this->db->where('ER.id_residuo', $idResiduo);
-        $this->db->where('ER.tipo_movimentacao', $tipoMovimentacao);
-
+        $this->db->order_by('ER.criado_em', 'DESC');
+        $this->db->limit(1);
         $query = $this->db->get();
 
         return $query->row_array();
@@ -50,6 +48,19 @@ class EstoqueResiduos_model extends CI_Model
         }
 
         return $this->db->affected_rows() > 0;
+    }
+
+    public function recebeTotalAtualEstoqueResiduo($idResiduo)
+    {
+        $this->db->select('total_estoque_residuo');
+        $this->db->from('ci_estoque_residuos');
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('id_residuo', $idResiduo);
+        $this->db->order_by('criado_em', 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get();
+
+        return $query->row_array();
     }
 
 }

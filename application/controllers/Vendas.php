@@ -27,18 +27,15 @@ class Vendas extends CI_Controller
 	{
 		$this->load->model('EstoqueResiduos_model');
 		$this->load->model('Residuos_model');
-
+		
 		// Dados para tabela de vendas
 		$dados['id_cliente'] = $this->input->post('cliente');
 		$dados['id_residuo'] = $this->input->post('residuo');
-		$dados['id_unidade_medida'] = $this->input->post('unidadeMedida');
 		$dados['quantidade'] = $this->input->post('quantidade');
+		$dados['id_unidade_medida'] = $this->input->post('unidadeMedida');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 		$dados['valor_total'] = $this->input->post('valorTotal');
 		$dados['data_venda'] = date('Y-m-d', strtotime(str_replace('/', '-', $this->input->post('dataDestinacao'))));
-
-		$retorno = $this->Vendas_model->insereNovaVendaResiduo($dados);
-
 
 		$unidadeMedidaPadraoResiduo = $this->Residuos_model->recebeResiduo($dados['id_residuo'])['id_unidade_medida'];
 
@@ -53,6 +50,21 @@ class Vendas extends CI_Controller
 			$dados['quantidade'] = calcularUnidadeMedidaResiduo($dadosConversaoResiduo['valor'], $dadosConversaoResiduo['tipo_operacao'], $dados['quantidade']); // quantidade convertida
 		}		
 
+		$quantidadeTotalResiduo = $this->EstoqueResiduos_model->recebeTotalAtualEstoqueResiduo($dados['id_residuo']);
+
+		if ($quantidadeTotalResiduo < $dados['quantidade']) {
+			$response = array(
+				'success' => false,
+				'type' => 'error',
+				'title' => 'Algo deu errado!',
+				'message' => 'Não há essa quantidade de resíduo no estoque!'
+			);
+
+			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
+		}
+
+		$retorno = $this->Vendas_model->insereNovaVendaResiduo($dados);
+
 		// dados para tabela de estoque
 		$dadosResiduosEstoque['id_residuo'] = $dados['id_residuo'];
 		$dadosResiduosEstoque['quantidade'] = $dados['quantidade'];
@@ -60,6 +72,9 @@ class Vendas extends CI_Controller
 		$dadosResiduosEstoque['tipo_movimentacao'] = 0; // saída
 		$dadosResiduosEstoque['id_empresa'] = $dados['id_empresa'];
 
+		// soma o total do residuo de acordo com o ultimo total gravado
+		$dadosResiduosEstoque['total_estoque_residuo'] = $quantidadeTotalResiduo['total_estoque_residuo'] - $dadosResiduosEstoque['quantidade'];
+		$dadosResiduosEstoque['total_estoque_residuo'] = number_format($dadosResiduosEstoque['total_estoque_residuo'], 3, '.', '');
 		$this->EstoqueResiduos_model->insereEstoqueResiduos($dadosResiduosEstoque); 
 
 		
@@ -83,4 +98,5 @@ class Vendas extends CI_Controller
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
 }

@@ -36,20 +36,26 @@ class EstoqueResiduos extends CI_Controller
         add_scripts('header', array_merge($scriptsPadraoHead, $scriptsEstoqueResiduosHead));
         add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsEstoqueResiduosFooter));
 
-        
         $this->load->model('Residuos_model');
         $data['residuos'] = $this->Residuos_model->recebeTodosResiduos();
         
-        $quantidadeResiduoEntrada[] = 0;
-        $quantidadeResiduoSaida[] = 0;
+        $quantidadeResiduoEntrada = [];
         foreach($data['residuos'] as $residuo) {
-
-            $quantidadeResiduoEntrada[$residuo['id']] = $this->EstoqueResiduos_model->recebeEstoqueResiduo($residuo['id'], 1); // 1 é entrada
-            $quantidadeResiduoSaida[$residuo['id']] = $this->EstoqueResiduos_model->recebeEstoqueResiduo($residuo['id'], 0); // 0 é saída
-        } 
         
-        $data['quantidadeEntradaResiduo'] = $quantidadeResiduoEntrada;
-        $data['quantidadeSaidaResiduo'] = $quantidadeResiduoSaida;
+            $dadosResiduos = $this->EstoqueResiduos_model->recebeEstoqueResiduo($residuo['id']); // 1 é entrada
+        
+            if (isset($dadosResiduos['QUANTIDADE'])) {
+                $quantidadeResiduoEntrada[] = [
+                    'quantidade' => $dadosResiduos['QUANTIDADE'],
+                    'residuo'    => $residuo['nome'],
+                    'idResiduo'    => $residuo['id'],
+                    'unidade_medida' => $residuo['unidade_medida']
+                ];
+            }
+        }
+        
+       $data['estoqueResiduos'] = $quantidadeResiduoEntrada;
+       
     
         $this->load->model('UnidadesMedidas_model');
         $data['unidades_medidas'] = $this->UnidadesMedidas_model->recebeUnidadesMedidas();

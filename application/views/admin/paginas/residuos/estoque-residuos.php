@@ -42,54 +42,42 @@
                     </thead>
                     <tbody class="list" id="table-latest-review-body">
 
-                        <?php foreach ($residuos as $residuo) { ?>
+                        <?php foreach ($estoqueResiduos as $estoqueResiduo) { ?>
 
-                            <?php if ($quantidadeEntradaResiduo[$residuo['id']]['quantidade']) { ?>
+                            <tr class="hover-actions-trigger btn-reveal-trigger position-static text-center">
 
-                                <tr class="hover-actions-trigger btn-reveal-trigger position-static text-center">
+                                <td class="align-middle text-center data white-space-nowrap td_data">
+                                    <h6 class="mb-0 text-900 text-center">
+                                        <?= $estoqueResiduo['residuo'];?>
+                                    </h6>
+                                </td>
 
-                                    <td class="align-middle text-center data white-space-nowrap td_data">
-                                        <h6 class="mb-0 text-900 text-center">
-                                            <?= $residuo['nome'] ?>
-                                        </h6>
-                                    </td>
+                                <td class="align-middle text-center td_recebido">
+                                    <h6 class="mb-0 text-900">
 
-                                    <td class="align-middle text-center td_recebido">
-                                        <h6 class="mb-0 text-900">
+                                        <?= $estoqueResiduo['quantidade'] . ' ' . strtoupper($estoqueResiduo['unidade_medida']); ?>
 
-                                            <?php
+                                    </h6>
+                                </td>
 
-                                            $quantidadeResiduoSaida = $quantidadeSaidaResiduo[$residuo['id']]['quantidade'] ?? 0;
-                                            $quantidadeResiduoEntrada = $quantidadeEntradaResiduo[$residuo['id']]['quantidade'];
-                                            $quantidadeTotalResiduo = $quantidadeResiduoEntrada - $quantidadeResiduoSaida;
+                                <td class="align-middle white-space-nowrap text-center pe-0">
 
-                                            echo $quantidadeTotalResiduo . ' ' . strtoupper($residuo['unidade_medida']);
+                                    <div class="font-sans-serif btn-reveal-trigger position-static">
+                                        <button
+                                            class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2"
+                                            type="button" data-bs-toggle="dropdown" data-boundary="window"
+                                            aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span
+                                                class="fas fa-ellipsis-h fs--2"></span></button>
+                                        <div class="dropdown-menu dropdown-menu-start py-2">
+                                            <a class="dropdown-item" href="<?= base_url('estoqueResiduos/detalhes/' . $estoqueResiduo['idResiduo']) ?>">
+                                                <span class="fas fa-eye"></span> Visualizar
+                                            </a>
 
-                                            ?>
-
-                                        </h6>
-                                    </td>
-
-                                    <td class="align-middle white-space-nowrap text-center pe-0">
-
-                                        <div class="font-sans-serif btn-reveal-trigger position-static">
-                                            <button
-                                                class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2"
-                                                type="button" data-bs-toggle="dropdown" data-boundary="window"
-                                                aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span
-                                                    class="fas fa-ellipsis-h fs--2"></span></button>
-                                            <div class="dropdown-menu dropdown-menu-start py-2">
-                                                <a class="dropdown-item" href="<?= base_url('estoqueResiduos/detalhes/' . $residuo['id']) ?>">
-                                                    <span class="fas fa-eye"></span> Visualizar
-                                                </a>
-
-                                            </div>
                                         </div>
-                                    </td>
+                                    </div>
+                                </td>
 
-                                </tr>
-
-                            <?php } ?>
+                            </tr>
 
                         <?php } ?>
 
