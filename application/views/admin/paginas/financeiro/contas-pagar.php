@@ -1,5 +1,5 @@
 <div class="content">
-    <div class="pb-5">
+    <div>
         <div class="row g-4">
             <div class="col-12 col-xxl-12">
                 <div class="row align-items-center g-4">
@@ -81,79 +81,76 @@
 
             <div class="col-12 col-xxl-12 mt-0">
                 <form id="filtroForm" action="<?= base_url('finContasPagar/index/filtro') ?>" method="post">
-                    <div class="col-12">
+                    <div class="col-12 mb-4">
+
                         <div class="row align-items-center g-4">
                             <h4 class="ms-3">Filtrar resultados</h4>
 
-                            <div class="col-12 col-md-2" style="padding:0;">
+                            <div class="col-12 col-md-2">
                                 <div class="ms-3">
-                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataInicio ?? "" ?>"
-                                        required name="data_inicio" id="data_inicio" type="text"
-                                        placeholder="Selecione a data de início"
+                                    <input class="form-control datetimepicker" value="<?= $dataInicio ?? "" ?>" required
+                                        name="data_inicio" id="data_inicio" type="text" placeholder="Data Início"
                                         data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}'
                                         style="cursor: pointer;" autocomplete="off" />
                                 </div>
                             </div>
-                            <div class="col-12 col-md-2" style="padding:0;">
+
+                            <div class="col-12 col-md-2">
                                 <div class="ms-3">
-                                    <input class="form-control datetimepicker mascara-data" value="<?= $dataFim ?? "" ?>"
-                                        required name="data_fim" id="data_fim" type="text"
-                                        placeholder="Seleciona a data final"
+                                    <input class="form-control datetimepicker" value="<?= $dataFim ?? "" ?>" required
+                                        name="data_fim" id="data_fim" type="text" placeholder="Data Fim"
                                         data-options='{"disableMobile":true,"allowInput":true, "dateFormat":"d/m/Y"}'
                                         style="cursor: pointer;" autocomplete="off" />
                                 </div>
                             </div>
-                            <div class="col-12 col-md-2" style="padding:0;">
+
+                            <div class="col-12 col-md-2">
                                 <div class="ms-3">
-                                    <select class="form-control select-validation select-orientacao" required
-                                        name="status" id="status">
-                                        <option <?= $status == 'ambas' ? 'selected' : '' ?> disabled> Status da conta
-                                        </option>
+                                    <select class="select-validation select-orientacao" required name="status" id="status">
+                                        <option <?= $status == 'ambas' ? 'selected' : '' ?> disabled value=''>Status da Conta</option>
                                         <option <?= $status == '0' ? 'selected' : '' ?> value="0">Em aberto</option>
                                         <option <?= $status == '1' ? 'selected' : '' ?> value="1">Paga</option>
                                         <option <?= $status == 'ambas' ? 'selected' : '' ?> value="ambas">Ambos</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-2" style="padding:0;">
+
+                            <div class="col-12 col-md-2">
                                 <div class="ms-3">
-                                    <select class="form-control select-validation select-setor" required name="setor"
-                                        id="setor">
-                                        <option selected disabled>Setor da conta</option>
+                                    <select class="select-validation" required name="setor" id="setor">
+                                        <option selected disabled value=''>Setor da Conta</option>
                                         <option <?= $idSetor == 'todos' ? 'selected' : '' ?> value="todos">Todos</option>
                                         <?php foreach ($setoresEmpresa as $setor) { ?>
                                             <option <?= $idSetor == $setor['id'] ? 'selected' : '' ?>
-                                                value="<?= $setor['id'] ?>"><?= $setor['nome'] ?>
-                                            </option>
+                                                value="<?= $setor['id'] ?>"><?= $setor['nome'] ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
                             </div>
-                            <input type="hidden" name="nomeSetor" id="nomeSetor">
 
-                            <div class="col-12 col-md-2" style="padding:0;">
+                            <div class="col-12 col-md-4">
                                 <div class="d-flex ms-3">
                                     <button type="submit"
-                                        class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= $dataInicio != "" ? 'w-100' : ''; ?>">Filtrar</button>
-                                    <?php if ($dataInicio != "") { ?>
+                                        class="btn btn-phoenix-secondary bg-white hover-bg-100 me-2 <?= !$dataInicio ? 'w-100' : 'w-75'; ?>">Filtrar</button>
 
+                                    <?php if ($dataInicio || !empty($cookie_filtro_contas_pagar['search'])) { ?>
                                         <button id="exportarBtn" class="btn btn-phoenix-secondary me-2">
                                             <span class="txt-exportar-btn">Exportar</span>
-                                            <div class="spinner-border spinner-border-sm loader-btn-exportar d-none" role="status" style="width: 0.9rem; height: 0.9rem;"></div>
+                                            <div class="spinner-border spinner-border-sm loader-btn-exportar d-none"
+                                                role="status" style="width: 0.9rem; height: 0.9rem;"></div>
                                         </button>
 
                                         <a href="<?= base_url('finContasPagar/index/all'); ?>" class="btn btn-phoenix-danger"
                                             title="Limpar Filtro"><i class="fas fa-ban"></i></a>
-
                                     <?php } ?>
                                 </div>
                             </div>
 
-
-
                         </div>
+                        <!-- <hr class="bg-200 mb-6 mt-4" /> -->
                     </div>
                 </form>
+
             </div>
         </div>
     </div>
@@ -249,7 +246,7 @@
                                             type="checkbox" value="<?= $contaPagar['id'] ?>"
                                             data-id-dado-financeiro="<?= $contaPagar['id_dado_financeiro'] ?>"
                                             data-id-funcionario="<?= $contaPagar['id_funcionario'] ?>"
-                                            data-nome-empresa="<?=  $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ($contaPagar['CLIENTE'] ? ucfirst($contaPagar['CLIENTE']) : strtoupper($contaPagar['NOME_FUNCIONARIO'])) ?>"
+                                            data-nome-empresa="<?= $contaPagar['RECEBIDO'] ? ucfirst($contaPagar['RECEBIDO']) : ($contaPagar['CLIENTE'] ? ucfirst($contaPagar['CLIENTE']) : strtoupper($contaPagar['NOME_FUNCIONARIO'])) ?>"
                                             data-id-dado-cliente="<?= $contaPagar['id_cliente'] ?>"
                                             data-valor="<?= $contaPagar['valor'] ?>"
                                             data-setor="<?= $contaPagar['SETOR'] ?>"
@@ -331,9 +328,10 @@
 
                                 <td class="align-middle product white-space-nowrap td_observacao text-center">
                                     <h6 class="mb-0 text-900">
-                                        <?= empty($contaPagar['observacao']) ? '-' : $contaPagar['observacao'] ?>
+                                        <?= empty($contaPagar['observacao']) ? '-' : (strlen($contaPagar['observacao']) > 50 ? substr($contaPagar['observacao'], 0, 50) . '...' : $contaPagar['observacao']) ?>
                                     </h6>
                                 </td>
+
 
                                 <td class="align-middle white-space-nowrap text-end pe-0">
 
