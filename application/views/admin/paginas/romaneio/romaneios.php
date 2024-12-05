@@ -338,10 +338,7 @@
 
                                                                     $dataFaturamentoObj = new DateTime($dataFaturamento);
 
-                                                                    if ($dataFaturamento < $dataAtual) {
-
-                                                                        $dataFaturamentoObj->modify('+1 month');
-                                                                    }
+                                                                    $dataFaturamentoObj->modify('+1 month');                                                                    
 
                                                                     $novaDataFaturamento = $dataFaturamentoObj->format('Y-m-d');
 
