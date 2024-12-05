@@ -83,7 +83,7 @@
             </div>
 
             <form id="filtroForm" action="<?= base_url('finFluxoCaixa/index') ?>" method="post">
-                <div class="col-12">
+                <div class="col-12 mb-4">
 
                     <div class="row align-items-center g-4">
                         <h4 class="ms-3">Filtrar resultados</h4>
@@ -151,7 +151,6 @@
 
 
                     </div>
-                    <hr class="bg-200 mb-6 mt-4" />
                 </div>
             </form>
 
@@ -310,7 +309,7 @@
 
                                 <td class="align-middle td_observacao">
                                     <h6 class="text-900 mb-0">
-                                        <?= empty($movimentacao['observacao']) ? '-' : $movimentacao['observacao'] ?>
+                                        <?= empty($movimentacao['observacao']) ? '-' : (strlen($movimentacao['observacao']) > 50 ? substr($movimentacao['observacao'], 0, 50) . '...' : $movimentacao['observacao']) ?>
                                     </h6>
 
                                 </td>

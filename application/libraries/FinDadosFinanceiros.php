@@ -36,29 +36,58 @@ class FinDadosFinanceiros
 		return $query->row_array();
 	}
 
-
-
-	// calcula o total pago e total recebido
-	public function totalDadosFinanceiro($coluna, $tabela, $status, $dataInicio, $dataFim, $setor)
+	public function totalDadosFinanceiro($coluna, $tabela, $status, $dataInicio = null, $dataFim = null, $setor = null, $filtro = null)
 	{
+
 		$this->CI->db->select_sum($coluna);
-		$this->CI->db->where('id_empresa', $this->CI->session->userdata('id_empresa'));
-		$this->CI->db->where('status', $status);
+		$this->CI->db->where("$tabela.id_empresa", $this->CI->session->userdata('id_empresa'));
 
+		if ($status == 0 || $status == 1) {
+			$this->CI->db->where("$tabela.status", $status);
+		}
+
+		// Aplica os filtros de data
 		if ($dataInicio) {
-
-			$this->CI->db->where('data_vencimento >=', $dataInicio);
+			$this->CI->db->where("$tabela.data_vencimento >=", $dataInicio);
 		}
 
 		if ($dataFim) {
-
-			$this->CI->db->where('data_vencimento <=', $dataFim);
+			$this->CI->db->where("$tabela.data_vencimento <=", $dataFim);
 		}
 
-		if ($setor !== 'todos') {
-			$this->CI->db->where('id_setor_empresa', $setor);
+		// Verifica se o setor foi passado e se é válido
+		if ($setor !== null && $setor !== 'todos') {
+			$this->CI->db->where("$tabela.id_setor_empresa", $setor);
 		}
 
+		// Aplica os filtros de busca somente se o filtro existir
+		if ($filtro) {
+			$this->CI->db->join('fin_dados_financeiros DF', "$tabela.id_dado_financeiro = DF.id", 'left');
+			$this->CI->db->join('fin_micros FM', "$tabela.id_micro = FM.id", 'left');
+			$this->CI->db->join('ci_funcionarios F', "$tabela.id_funcionario = F.id", 'left');
+			$this->CI->db->join('ci_clientes C', "$tabela.id_cliente = C.id", 'left');
+		
+			$this->CI->db->group_start();
+		
+			if (isset($filtro['search']) && !empty($filtro['search'])) {
+				$filtroSearch = $filtro['search'];
+				$this->CI->db
+					->or_like('DF.nome', $filtroSearch)
+					->or_like('F.nome', $filtroSearch)
+					->or_like('C.nome', $filtroSearch)
+					->or_like("$tabela.data_pagamento", $filtroSearch)
+					->or_like("$tabela.valor", $filtroSearch)
+					->or_like('FM.nome', $filtroSearch)
+					->or_like("$tabela.observacao", $filtroSearch);
+			}
+		
+			if (isset($filtro['search']) && !empty($filtro['search'])) {
+				$this->CI->db->group_end();
+			} else {
+				$this->CI->db->reset_query();
+			}
+		}
+		// Realiza a consulta no banco de dados
 		$query = $this->CI->db->get($tabela);
 
 		return $query->row_array();
