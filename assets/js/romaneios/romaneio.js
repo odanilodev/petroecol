@@ -220,11 +220,7 @@ const gerarRomaneio = () => {
                 veiculo: veiculo,
                 data_coleta: data_coleta,
                 setorEmpresa: setorEmpresa,
-<<<<<<< HEAD
-                id_trajeto: trajeto
-=======
                 clientes: clientes
->>>>>>> main
             },
             beforeSend: function () {
                 $('.load-form-modal-romaneio').removeClass('d-none');
