@@ -700,7 +700,7 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
             // id credor
             if (atributosElementosSelecionados[i].idDadoFinanceiro) {
                 idsDadoFinanceiro.push(atributosElementosSelecionados[i].idDadoFinanceiro);
-            } else if ($(this).data('id-dado-cliente')) {
+            } else if (atributosElementosSelecionados[i].idDadoCliente) {
                 idsDadoFinanceiro.push(atributosElementosSelecionados[i].idDadoCliente);
             } else {
                 idsDadoFinanceiro.push(atributosElementosSelecionados[i].idFuncionario);
