@@ -232,9 +232,10 @@ $(document).on('click', '.editar-lancamento', function () {
             changeSelectMacros(data.conta.id_macro, data.conta.id_micro);
             $('.select-setor-empresa').val(data.conta.id_setor_empresa).trigger('change');
 
-            let idRecebido = data.conta.id_funcionario || data.conta.id_dado_financeiro || data.conta.id_cliente;
+            let idRecebido = data.conta.id_dado_financeiro || data.conta.id_cliente || data.conta.id_funcionario;
 
             let grupo = data.conta.GRUPO_CREDOR || (data.conta.id_funcionario ? 'funcionarios' : 'clientes');
+            
             $('.select-grupo-recebidos').val(grupo);
             changeSelectRecebidos(grupo, idRecebido);
 

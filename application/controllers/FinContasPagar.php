@@ -1,7 +1,5 @@
 <?php
 
-use PHPUnit\TextUI\XmlConfiguration\CodeCoverage\Report\Php;
-
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class FinContasPagar extends CI_Controller
@@ -145,7 +143,7 @@ class FinContasPagar extends CI_Controller
 
 		$data['porSetor'] = $this->findadosfinanceiros->somaSaldosBancariosSetor($setorEmpresa); // soma o valor total do setor específico
 
-		if ($data['cookie_filtro_contas_pagar']['search']) {
+		if (isset($data['cookie_filtro_contas_pagar']['search'])) {
 
 			// Para o total pago (status 1)
 			$data['totalPago'] = $this->findadosfinanceiros->totalDadosFinanceiro('valor', 'fin_contas_pagar', 1, $dataInicioFormatada, $dataFimFormatada, $setorEmpresa, $data['cookie_filtro_contas_pagar']);
