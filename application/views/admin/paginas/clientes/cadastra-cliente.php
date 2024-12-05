@@ -161,6 +161,11 @@
                           <textarea class="form-control campo-empresa" rows="4" name="observacao" value="<?= $cliente['observacao'] ?? ''; ?>"><?= $cliente['observacao'] ?? ''; ?></textarea>
                         </div>
                       </div>
+
+                      <div class="d-flex mt-3">
+                        <input type="checkbox" name="cliente_final" class="form-check-input cursor-pointer mt-1 campo-empresa" id="cliente-final">
+                        <label class="mt-2 form-label cursor-pointer" for="cliente-final">Cliente Final</label>
+                      </div>
                     </form>
                   </div>
 
@@ -260,7 +265,7 @@
                     </button>
                   </div>
                 </div>
-                
+
                 <div class="spinner-border text-primary load-form d-none" role="status"></div>
 
               </div>

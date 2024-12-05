@@ -17,10 +17,12 @@ class FinPrestacaoContas_model extends CI_Model
         $this->db->insert('fin_prestacao_contas', $dados);
 
         if ($this->db->affected_rows()) {
-            $this->Log_model->insereLog($this->db->insert_id());
+            $idPrestacaoConta = $this->db->insert_id();
+            $this->Log_model->insereLog($idPrestacaoConta);
+            return $idPrestacaoConta;
         }
-
-        return $this->db->affected_rows() > 0;
+ 
+        return false; // retorna false se não inserir
     }
 
     public function recebeCustosPrestacaoContasRomaneio($codRomaneio)
@@ -57,6 +59,21 @@ class FinPrestacaoContas_model extends CI_Model
         $query = $this->db->get('ci_romaneios');
 
         return $query->row_array();
+    }
+
+    public function editaPrestacaoConta($id, $dados)
+    {
+        $dados['editado_em'] = date('Y-m-d H:i:s');
+
+        $this->db->where('id', $id);
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->update('fin_prestacao_contas', $dados);
+
+        if ($this->db->affected_rows()) {
+            $this->Log_model->insereLog($id);
+        }
+
+        return $this->db->affected_rows() > 0;
     }
 
 }
