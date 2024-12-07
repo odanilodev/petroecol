@@ -3,7 +3,8 @@
 
         <a href="#" class="btn btn-phoenix-primary mb-3 btn-nova-venda" data-bs-toggle="modal" data-bs-target="#modalNovaVenda">
             <span class="fas fa-dollar-sign"></span>
-            Nova Venda</a>
+            Nova Venda
+        </a>
 
         <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
 
@@ -50,7 +51,7 @@
 
                                 <td class="align-middle text-center data white-space-nowrap td_data">
                                     <h6 class="mb-0 text-900 text-center">
-                                        <?= $estoqueResiduo['residuo'];?>
+                                        <?= $estoqueResiduo['residuo']; ?>
                                     </h6>
                                 </td>
 
@@ -66,7 +67,7 @@
                                     </h6>
                                 </td>
 
-                                <td class="align-middle white-space-nowrap text-center pe-0">
+                                <td class="align-middle white-space-nowrap text-middle pe-0">
 
                                     <div class="font-sans-serif btn-reveal-trigger position-static">
                                         <button
@@ -79,6 +80,7 @@
                                                 <span class="fas fa-eye"></span> Visualizar
                                             </a>
 
+                                            
                                         </div>
                                     </div>
                                 </td>
