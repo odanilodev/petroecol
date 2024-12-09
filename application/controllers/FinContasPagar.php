@@ -465,6 +465,8 @@ class FinContasPagar extends CI_Controller
 				$dados['movimentacao_tabela'] = 0;
 				$dados['data_movimentacao'] = $dataPagamentoFormatada;
 				$dados['id_dado_financeiro'] = $operacao['idDadoFinanceiro'];
+				$dados['id_cliente'] = $operacao['idDadoCliente'];
+				$dados['id_funcionario'] = $operacao['idDadoFuncionario'];
 				$dados['id_setor_empresa'] = $operacao['id_setor_empresa'];
 
 

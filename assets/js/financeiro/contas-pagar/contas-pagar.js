@@ -692,6 +692,8 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
         let ids = idsElementosSelecionados;
 
         let idsDadoFinanceiro = [];
+        let idsDadoCliente = [];
+        let idsDadoFuncionario = [];
         let nomesEmpresas = [];
         let setoresEmpresas = []; 
         let idSetorEmpresa = [];
@@ -701,13 +703,10 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
             idSetorEmpresa.push(atributosElementosSelecionados[i].idSetorEmpresa);
 
             // id credor
-            if (atributosElementosSelecionados[i].idDadoFinanceiro) {
-                idsDadoFinanceiro.push(atributosElementosSelecionados[i].idDadoFinanceiro);
-            } else if (atributosElementosSelecionados[i].idDadoCliente) {
-                idsDadoFinanceiro.push(atributosElementosSelecionados[i].idDadoCliente);
-            } else {
-                idsDadoFinanceiro.push(atributosElementosSelecionados[i].idFuncionario);
-            }
+            idsDadoFinanceiro.push(atributosElementosSelecionados[i].idDadoFinanceiro ?? 0);
+            idsDadoCliente.push(atributosElementosSelecionados[i].idDadoCliente ?? 0);
+            idsDadoFuncionario.push(atributosElementosSelecionados[i].idFuncionario ?? 0);
+           
         }
 
 
@@ -721,6 +720,8 @@ $(document).on('click', '.proxima-etapa-pagamento', function () {
                 $(this).val(valor);
                 $(this).addClass('campo-form-' + ids[i]);
                 $(this).addClass('dado-financeiro-' + idsDadoFinanceiro[i]);
+                $(this).addClass('dado-cliente-' + idsDadoCliente[i]);
+                $(this).addClass('dado-funcionario-' + idsDadoFuncionario[i]);
                 $(this).addClass('setor-empresa-' + idSetorEmpresa[i]);
             });
 
@@ -815,12 +816,16 @@ function realizarVariosPagamentos() {
 
         let idInput = $(this).attr('class').match(/campo-form-(\d+)/);
         let idsDadoFinanceiro = $(this).attr('class').match(/dado-financeiro-(\d+)/);
+        let idsDadoCliente = $(this).attr('class').match(/dado-cliente-(\d+)/);
+        let idsDadoFuncionario = $(this).attr('class').match(/dado-funcionario-(\d+)/);
         let idSetorEmpresa = $(this).attr('class').match(/setor-empresa-(\d+)/);
 
         if (idInput) {
 
             idInput = idInput[1];
-            idsDadoFinanceiro = idsDadoFinanceiro[1];
+            idsDadoFinanceiro = Array.isArray(idsDadoFinanceiro) && idsDadoFinanceiro[1] !== undefined ? idsDadoFinanceiro[1] : null;
+            idsDadoCliente = Array.isArray(idsDadoCliente) && idsDadoCliente[1] !== undefined ? idsDadoCliente[1] : null;
+            idsDadoFuncionario = Array.isArray(idsDadoFuncionario) && idsDadoFuncionario[1] !== undefined ? idsDadoFuncionario[1] : null;
             idSetorEmpresa = idSetorEmpresa[1];
             let observacao = $('.obs-pagamento-varios').val()
 
@@ -829,6 +834,8 @@ function realizarVariosPagamentos() {
                 let novaOperacao = {
                     idConta: idInput,
                     idDadoFinanceiro: idsDadoFinanceiro,
+                    idDadoCliente: idsDadoCliente,
+                    idDadoFuncionario: idsDadoFuncionario,
                     formasPagamento: [],
                     contasBancarias: [],
                     valores: [],
