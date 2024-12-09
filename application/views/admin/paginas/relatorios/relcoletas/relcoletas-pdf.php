@@ -181,9 +181,18 @@
                                         $valor_base_cliente = '';
                                         foreach ($coleta['residuos'] as $key => $residuo):
                                             if ($residuo == $residuo_id) {
-                                                if (!is_numeric($coleta['quantidade_coletada'][$key])) {
-                                                    $coleta['quantidade_coletada'][$key] = 0;
+                                                if (isset($coleta['quantidade_coletada'][$key])) {
+                                                    // Substitui a vírgula por ponto
+                                                    $valor = str_replace(',', '.', $coleta['quantidade_coletada'][$key]);
+
+                                                    // Verifica se o valor ajustado é numérico
+                                                    if (!is_numeric($valor)) {
+                                                        $coleta['quantidade_coletada'][$key] = 0;
+                                                    } else {
+                                                        $coleta['quantidade_coletada'][$key] = (float) $valor; // Converte para float para garantir cálculos corretos
+                                                    }
                                                 }
+
 
                                                 if (isset($movimentado[$residuo])) {
                                                     $movimentado[$residuo] += $coleta['quantidade_coletada'][$key] ?? 0;
