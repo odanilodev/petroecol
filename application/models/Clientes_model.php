@@ -415,4 +415,14 @@ class Clientes_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+    public function recebeClientesFinais()
+    {
+        $this->db->select('C.nome, C.id');
+        $this->db->from('ci_clientes AS C');
+        $this->db->where('C.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('cliente_final', 1);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 }
