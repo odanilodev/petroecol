@@ -113,7 +113,6 @@ class Relatorios extends CI_Controller
 			$dados[] = $array;
 		}
 
-
 		if (count($dados) > 0) {
 
 			// todos residuos cadastrado na empresa
@@ -132,6 +131,11 @@ class Relatorios extends CI_Controller
 			$data['dados'] = $this->estruturaColetas($dados);
 
 			$data['ids_residuos'] = explode(',', $idsResiduos);
+
+			// Ordena por nome
+			usort($data['dados'], function ($a, $b) {
+				return strcmp($a['nome'], $b['nome']);
+			});
 
 			$mpdf = new Mpdf;
 			$html = $this->load->view('admin/paginas/relatorios/relcoletas/relcoletas-pdf', $data, true);
