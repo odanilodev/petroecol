@@ -415,4 +415,14 @@ class Clientes_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+    public function recebeDataObservacaoColetaCliente($idCliente)
+    {
+        $this->db->select('data_observacao_coleta');
+        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->where('id', $idCliente);
+        $query = $this->db->get('ci_clientes');
+        return $query->row_array();
+    }
+
 }
