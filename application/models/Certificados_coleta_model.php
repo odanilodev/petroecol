@@ -39,16 +39,28 @@ class Certificados_coleta_model extends CI_Model
         $query = $this->db->get('ci_certificados_coleta');
         $ultimoId = $query->row()->id;
 
-        // Gerar um código único baseado no último ID + timestamp
-        $novoCodigo = ($ultimoId + 1) . '-' . time();
+        // Incrementar o ID
+        $novoId = $ultimoId + 1;
+
+        // Formatar o ID com zeros à esquerda (6 dígitos)
+        $idFormatado = str_pad($novoId, 6, '0', STR_PAD_LEFT);
+
+        // Obter o ano atual
+        $anoAtual = date('Y');
+
+        // Gerar o código no formato "ANO-ID"
+        $novoCodigo = $anoAtual . '/' . $idFormatado;
 
         // Verificar se o código já existe
         while ($this->verificaCodigoExistente($novoCodigo)) {
-            $novoCodigo = ($ultimoId + 1) . '-' . time();
+            $novoId++;
+            $idFormatado = str_pad($novoId, 6, '0', STR_PAD_LEFT);
+            $novoCodigo = $anoAtual . '-' . $idFormatado;
         }
 
         return $novoCodigo;
     }
+
 
     public function verificaCodigoExistente($codigo)
     {
