@@ -59,17 +59,20 @@ class Coletas extends CI_Controller
 
         $idColeta = $this->input->post('idColeta');
 
+        // remove a observacao da proxima coleta caso a data do romaneio seja maior que a data que foi adicionada a observacao
         $obsColetaCliente['observacao_coleta'] = "";
+        $obsColetaCliente['data_observacao_coleta'] = "";
+        $obsColetaCliente['codigo_romaneio_obs_coletado'] = $codRomaneio;
         $todosIdsClientes = $this->input->post('todosIdsClientes');
-        $this->Clientes_model->editaVariosClientes($todosIdsClientes, $obsColetaCliente);
-
+        foreach($todosIdsClientes as $idCliente) {
+            $dataObservacaoColeta = $this->Clientes_model->recebeDataObservacaoColetaCliente($idCliente);
+            if ($dataObservacaoColeta > $dataRomaneio) {
+                $this->Clientes_model->editaCliente($idCliente, $obsColetaCliente);
+            }
+        }
 
         if ($payload) {
             foreach ($payload as $cliente):
-
-                // remove a observação de coleta do cliente
-                $obsColetaCliente['observacao_coleta'] = "";
-                $this->Clientes_model->editaCliente($cliente['idCliente'], $obsColetaCliente);
 
                 if (isset($cliente['qtdColetado'])) {
 

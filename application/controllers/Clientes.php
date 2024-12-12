@@ -486,6 +486,7 @@ class Clientes extends CI_Controller
     {
         $id = $this->input->post('idCliente');
         $dados['observacao_coleta'] = $this->input->post('observacao');
+        $dados['data_observacao_coleta'] = date('Y-m-d');
 
         $retorno = $this->Clientes_model->editaCliente($id, $dados);
 
