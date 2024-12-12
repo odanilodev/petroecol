@@ -526,7 +526,7 @@ $('#select-cliente-modal').change(function () {
 
 })
 
-const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpresa) => {
+const concluirRomaneio = (codRomaneio, idResponsavel, saldoResponsavel, dataRomaneio, idSetorEmpresa) => {
 
     $('.btn-adicionar-clientes-romaneio').addClass('d-none');
 
@@ -535,6 +535,7 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpre
     $('.id_responsavel').val(idResponsavel);
     $('.code_romaneio').val(codRomaneio);
     $('.data_romaneio').val(dataRomaneio);
+    $('.saldo-responsavel').val(saldoResponsavel);
 
     if (codRomaneio) {
 
@@ -562,7 +563,7 @@ const concluirRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpre
 
 }
 
-const verificaPrestacaoContasFuncionario = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpresa) => {
+const verificaPrestacaoContasFuncionario = (codRomaneio, idResponsavel, saldoResponsavel, dataRomaneio, idSetorEmpresa) => {
 
     $.ajax({
         type: "post",
@@ -577,7 +578,7 @@ const verificaPrestacaoContasFuncionario = (codRomaneio, idResponsavel, dataRoma
             if (response) {
                 avisoRetorno(`Pendências de Romaneios`, `Para concluir este romaneio, é necessário prestar contas do romaneio anterior vinculado a este funcionário. Por favor, regularize as pendências para prosseguir.`, 'error', `#`);
             } else {
-                concluirRomaneio(codRomaneio, idResponsavel, dataRomaneio, idSetorEmpresa)
+                concluirRomaneio(codRomaneio, idResponsavel, saldoResponsavel, dataRomaneio, idSetorEmpresa)
             }
         },
         error: function (xhr, status, error) {
@@ -1025,13 +1026,13 @@ $(document).on('input', '.input-obs', function () {
 
 function finalizarRomaneio() {
 
-
     var permissao = true;
 
     let dadosClientes = [];
     let idResponsavel = $('.id_responsavel').val();
     let codRomaneio = $('.code_romaneio').val();
     let dataRomaneio = $('.data_romaneio').val();
+    let saldoResponsavel = $('.saldo-responsavel').val();
 
     let valorTotal = 0;
     let todosIdsClientes = [];
@@ -1146,8 +1147,6 @@ function finalizarRomaneio() {
 
             let tipoPagamento = divPagamento.find('.select-tipo-pagamento option:selected').val();
 
-            let checkboxFuncionario = $(this).closest('.col-md-3').siblings().find('.checkbox-funcionario');
-
             // grava o valor pra exibir no relatorio somente oq foi pago no ato
             if ($(this).val() != '' && tipoPagamento == 0) {
 
@@ -1166,11 +1165,20 @@ function finalizarRomaneio() {
 
             let tipoPagamento = divPagamento.find('.select-tipo-pagamento option:selected').val();
 
-            // grava o valor pra exibir no relatorio somente oq foi pago no ato
-            if ($(this).val() != '' && tipoPagamento == 0) {
+            let tipoMoedaPagamento = divPagamento.find('.select-pagamento option:selected').data('id-tipo-pagamento');
 
+            let checkboxFuncionario = divPagamento.siblings('.div-checkbox').find('.checkbox-funcionario');
+
+            // grava o valor pra exibir no relatorio somente oq foi pago no ato (pago pelo responsavel)
+            if ($(this).val() != '' && tipoPagamento == 0) {
                 valorPagamento.push($(this).val());
 
+                // se for tipo moeda financeira, tira do saldo do motorista para verificar se está negativo
+                if (tipoMoedaPagamento == 1 && checkboxFuncionario.is(':checked')) {
+
+                    saldoResponsavel = parseFloat(saldoResponsavel) - $(this).val();
+
+                }
             }
 
         });
@@ -1187,6 +1195,7 @@ function finalizarRomaneio() {
 
         });
 
+        
 
         // salva somente os dados dos clientes que foram preenchidos
         if (salvarDados) {
@@ -1267,6 +1276,12 @@ function finalizarRomaneio() {
     })
 
     var idSetorEmpresa = $('.input-id-setor-empresa').val();
+
+    if (saldoResponsavel < 0) {
+
+        avisoRetorno('Algo deu errado!', `O saldo do responsável não pode ficar negativo!`, 'error', '#');
+        return;
+    }
 
     if (permissao) {
         $.ajax({
@@ -1807,7 +1822,7 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
                                     </a>
 
                                     ${romaneio.status == 0 ? `
-                                        <a class="dropdown-item" href="#" title="Concluir Romaneio" onclick="verificaPrestacaoContasFuncionario('${romaneio.codigo}', ${romaneio.ID_RESPONSAVEL}, '${romaneio.data_romaneio}', ${romaneio.id_setor_empresa})">
+                                        <a class="dropdown-item" href="#" title="Concluir Romaneio" onclick="verificaPrestacaoContasFuncionario('${romaneio.codigo}', ${romaneio.ID_RESPONSAVEL}, '${romaneio.saldo}', '${romaneio.data_romaneio}', ${romaneio.id_setor_empresa})">
                                             <span class="ms-1 fas fa-check-circle"></span> Concluir
                                         </a>
                                     ` : ''}

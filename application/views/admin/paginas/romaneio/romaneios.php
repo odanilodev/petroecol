@@ -110,6 +110,7 @@
                     <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
                     <button type="button" class="btn btn-primary btn-finaliza-romaneio" onclick="finalizarRomaneio()">Finalizar Romaneio</button>
                     <input type="hidden" class="id_responsavel">
+                    <input type="hidden" class="saldo-responsavel">
                     <input type="hidden" class="code_romaneio">
                     <input type="hidden" class="data_romaneio">
                     <input type="hidden" class="input-id-setor-empresa">
