@@ -343,10 +343,14 @@
                     </td>
                     <td style="width: 8px;">
                         <?php
-                        $totalQuantidade = 0; // Inicializa o total
+                        $totalPorUnidade = []; // Inicializa os totais por unidade de medida
                         foreach ($movimentado_geral as $key => $mov) {
-                            echo '<p>' . $mov . ' ' . ($residuos[$key]['unidade_medida'] ?? "") . ' de ' . ($residuos[$key]['nome'] ?? "") . '</p>';
-                            $totalQuantidade += $mov; // Soma o valor atual ao total
+                            $unidade = $residuos[$key]['unidade_medida'] ?? "";
+                            echo '<p>' . $mov . ' ' . $unidade . ' de ' . ($residuos[$key]['nome'] ?? "") . '</p>';
+                            if (!isset($totalPorUnidade[$unidade])) {
+                                $totalPorUnidade[$unidade] = 0;
+                            }
+                            $totalPorUnidade[$unidade] += $mov; // Soma o valor atual ao total da unidade correspondente
                         }
                         ?>
                     </td>
@@ -375,10 +379,15 @@
                 </tr>
                 <tr>
                     <td colspan="4" align="center" style="font-weight: bold;">
-                        Total Movimentado: <?= number_format($totalQuantidade, 2, ',', '.') ?>
+                        <?php
+                        foreach ($totalPorUnidade as $unidade => $total) {
+                            echo 'Total em ' . $unidade . ': ' . number_format($total, 2, ',', '.') . '<br>';
+                        }
+                        ?>
                     </td>
                 </tr>
             </tbody>
+
 
         </table>
 
