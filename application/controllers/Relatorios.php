@@ -132,11 +132,6 @@ class Relatorios extends CI_Controller
 
 			$data['ids_residuos'] = explode(',', $idsResiduos);
 
-			// Ordena por nome
-			usort($data['dados'], function ($a, $b) {
-				return strcmp($a['nome'], $b['nome']);
-			});
-
 			$mpdf = new Mpdf;
 			$html = $this->load->view('admin/paginas/relatorios/relcoletas/relcoletas-pdf', $data, true);
 			$mpdf->WriteHTML($html);
