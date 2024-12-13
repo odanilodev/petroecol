@@ -338,11 +338,15 @@
             </thead>
             <tbody>
                 <tr>
-                    <td align="center" style="width: 45px;"><?= $movimentacoes_por_residuo_geral ?> movimentações</td>
+                    <td align="center" style="width: 45px;">
+                        <?= $movimentacoes_por_residuo_geral ?> movimentações
+                    </td>
                     <td style="width: 8px;">
                         <?php
+                        $totalQuantidade = 0; // Inicializa o total
                         foreach ($movimentado_geral as $key => $mov) {
                             echo '<p>' . $mov . ' ' . ($residuos[$key]['unidade_medida'] ?? "") . ' de ' . ($residuos[$key]['nome'] ?? "") . '</p>';
+                            $totalQuantidade += $mov; // Soma o valor atual ao total
                         }
                         ?>
                     </td>
@@ -369,7 +373,13 @@
                         </td>
                     <?php } ?>
                 </tr>
+                <tr>
+                    <td colspan="4" align="center" style="font-weight: bold;">
+                        Total Movimentado: <?= number_format($totalQuantidade, 2, ',', '.') ?>
+                    </td>
+                </tr>
             </tbody>
+
         </table>
 
 
