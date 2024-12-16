@@ -64,10 +64,14 @@ class Coletas extends CI_Controller
         $obsColetaCliente['data_observacao_coleta'] = "";
         $obsColetaCliente['codigo_romaneio_obs_coletado'] = $codRomaneio;
         $todosIdsClientes = $this->input->post('todosIdsClientes');
-        foreach($todosIdsClientes as $idCliente) {
-            $dataObservacaoColeta = $this->Clientes_model->recebeDataObservacaoColetaCliente($idCliente);
-            if ($dataObservacaoColeta > $dataRomaneio) {
-                $this->Clientes_model->editaCliente($idCliente, $obsColetaCliente);
+
+        if ($todosIdsClientes) {
+
+            foreach($todosIdsClientes as $idCliente) {
+                $dataObservacaoColeta = $this->Clientes_model->recebeDataObservacaoColetaCliente($idCliente);
+                if ($dataObservacaoColeta > $dataRomaneio) {
+                    $this->Clientes_model->editaCliente($idCliente, $obsColetaCliente);
+                }
             }
         }
 
@@ -549,7 +553,7 @@ class Coletas extends CI_Controller
             $selectRow = '<div class="row">';
             $selectFormaPagamento = '
                 <div class="col-6 mb-4 div-pagamento">
-                    <select class="form-select select2 input-obrigatorio-coleta select-pagamento">
+                    <select class="form-select select2 select-pagamento">
                         <option value="" selected disabled>Selecione</option>';
 
             foreach ($todasFormasPagamento as $key => $formaPagamento) {
@@ -563,7 +567,7 @@ class Coletas extends CI_Controller
             // Cria o input para o valor correspondente à forma de pagamento
             $inputValorPagamento = '
                 <div class="col-6 mb-4 ">
-                    <input type="text" class="input-pagamento form-control mascara-dinheiro input-obrigatorio-coleta" name="valor_0" value="">
+                    <input type="text" class="input-pagamento form-control mascara-dinheiro" name="valor_0" value="">
                     <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
                 </div>';
 
