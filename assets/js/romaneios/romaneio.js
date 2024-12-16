@@ -1821,6 +1821,10 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
                                         <span class="fas fa-download ms-1"></span> Gerar
                                     </a>
 
+                                    <a target="_blank" class="dropdown-item" href="${baseUrl}romaneios/gerarromaneiopdf/${romaneio.codigo}/IA" title="Gerar Romaneio com IA">
+                                        <span class="fas fa-download ms-1"></span> Gerar <span class="fw-bold fs--1 text-light lh-2 mr-5 badge rounded-pill bg-warning">IA</span>
+                                    </a>
+
                                     ${romaneio.status == 0 ? `
                                         <a class="dropdown-item" href="#" title="Concluir Romaneio" onclick="verificaPrestacaoContasFuncionario('${romaneio.codigo}', ${romaneio.ID_RESPONSAVEL}, '${romaneio.saldo}', '${romaneio.data_romaneio}', ${romaneio.id_setor_empresa})">
                                             <span class="ms-1 fas fa-check-circle"></span> Concluir

@@ -17,10 +17,10 @@ class GerarRomaneio
 		$this->CI->load->model('RecipienteCliente_model');
 	}
 
-	public function gerarPdf($codigo)
+	public function gerarPdf($codigo, $IA = false)
 	{
 		$romaneio = $this->CI->Romaneios_model->recebeRomaneioCod($codigo);
-		
+
 		$data['id_cliente_prioridade'] = $this->CI->Agendamentos_model->recebeAgendamentoPrioridade($romaneio['data_romaneio']);
 
 		if ($romaneio) {
@@ -32,6 +32,12 @@ class GerarRomaneio
 			$data['ultimas_coletas'] = $this->CI->Coletas_model->ultimaColetaCLiente($idClientes);
 
 			$data['clientes'] = $this->CI->Clientes_model->recebeClientesIds($idClientes, $romaneio['id_setor_empresa']);
+
+			if ($IA) {
+				$this->CI->load->library('apiChatGpt');
+				$idsClientesOrdenadoPelaIA = $this->CI->apichatgpt->organizarCoordenadas($data['clientes'], $this->CI->session->userdata('latitude'), $this->CI->session->userdata('longitude'));
+				$data['clientes'] = $this->ordenarClientesPorArrayDeIds($data['clientes'], $idsClientesOrdenadoPelaIA);
+			}
 
 			$data['obsAgendamento'] = $this->CI->Agendamentos_model->recebeObservacaoAgendamentoCliente($romaneio['data_romaneio']);
 
@@ -66,7 +72,7 @@ class GerarRomaneio
 		}
 	}
 
-	public function recipientesClientes (array $recipientes_clientes) : array 
+	public function recipientesClientes(array $recipientes_clientes): array
 	{
 		$recipientesAgrupados = [];
 		foreach ($recipientes_clientes as $recipiente) {
@@ -77,5 +83,19 @@ class GerarRomaneio
 		}
 
 		return $recipientesAgrupados;
+	}
+
+	public function ordenarClientesPorArrayDeIds($clientes, $idsClientesOrdenadoPelaIA)
+	{
+		$clientesOrdenados = [];
+		foreach ($idsClientesOrdenadoPelaIA as $idOrdenado) {
+			foreach ($clientes as $cliente) {
+				if ($cliente['id'] == $idOrdenado) {
+					$clientesOrdenados[] = $cliente;
+					break;
+				}
+			}
+		}
+		return $clientesOrdenados;
 	}
 }
