@@ -622,7 +622,7 @@ function exibirDadosClientes(clientes, registros, residuos, pagamentos, id_clien
 
         let dadosClientes = `
 
-        <div class="accordion-item accordion-${i}">
+        <div class="accordion-item accordion-${i} accordion-${clientes[i].id}">
 
             <h2 class="accordion-header" id="heading${i}">
                 <button class="accordion-button accordion-button-${i} ${i != 0 ? 'collapsed' : ''}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="true">
@@ -1701,7 +1701,6 @@ $(document).on('click', '.btn-salva-edicao-romaneio', function () {
     let codRomaneio = $('.code_romaneio').val();
     let saldoResponsavelAntigo = $('.saldo-responsavel').val();
     let responsavelAntigo = $('.id_responsavel').val();
-    
 
     if (novoResponsavel != responsavelAntigo) {
 
