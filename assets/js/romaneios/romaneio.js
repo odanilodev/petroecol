@@ -1639,7 +1639,7 @@ $(document).on('click', '.adicionar-cliente', function () {
 })
 
 
-const editarRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpresa) => {
+const editarRomaneio = (codRomaneio, idResponsavel, saldoResponsavel, dataRomaneio, idSetorEmpresa) => {
 
     $('#select-cliente-modal').val('').trigger('change');
 
@@ -1653,6 +1653,7 @@ const editarRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpresa
     $('#select-editar-motorista').val(idResponsavel).trigger('change');
 
     $('.id_responsavel').val(idResponsavel);
+    $('.saldo-responsavel').val(saldoResponsavel);
     $('.code_romaneio').val(codRomaneio);
     $('.data_romaneio').val(dataRomaneio);
 
@@ -1682,17 +1683,44 @@ const editarRomaneio = (codRomaneio, idResponsavel, dataRomaneio, idSetorEmpresa
 
 }
 
+$(document).on('change', '#select-editar-motorista', function () {
+
+    let responsavelAntigo = $('.id_responsavel').val();
+    let saldoResponsavelAntigo = $('.saldo-responsavel').val();
+
+    if ($(this).val() != responsavelAntigo && saldoResponsavelAntigo > 0) {
+        $('.saldo-responsavel-atual').html(formatarValorMoeda(saldoResponsavelAntigo));
+        $('#modalTransferirSaldo').modal('show');
+    }
+
+})
+
 $(document).on('click', '.btn-salva-edicao-romaneio', function () {
 
-    let idMotorista = $('#select-editar-motorista').val();
+    let novoResponsavel = $('#select-editar-motorista').val();
     let codRomaneio = $('.code_romaneio').val();
+    let saldoResponsavelAntigo = $('.saldo-responsavel').val();
+    let responsavelAntigo = $('.id_responsavel').val();
+    
 
-    if (idMotorista != $('.id_responsavel').val()) {
+    if (novoResponsavel != responsavelAntigo) {
+
+        let novoSaldoResponsavel = $('#inputSaldoTransferir').val();
+        novoSaldoResponsavel = parseFloat(novoSaldoResponsavel.replace(/\./g, '').replace(',', '.'));
+
+        if (novoSaldoResponsavel > saldoResponsavelAntigo) {
+            avisoRetorno(`Algo deu errado`, `O valor que deseja transferir para o novo responsável não pode exceder o saldo disponível com o responsável atual.`, `error`, `#`);
+            return;
+        }
+
         $.ajax({
             type: 'post',
             url: `${baseUrl}romaneios/editaMotoristaRomaneio`,
             data: {
-                idMotorista: idMotorista,
+                responsavelAntigo: responsavelAntigo,
+                saldoResponsavelAntigo: saldoResponsavelAntigo,
+                novoSaldoResponsavel: novoSaldoResponsavel,
+                novoResponsavel: novoResponsavel,
                 codRomaneio: codRomaneio
 
             }, beforeSend: function () {
@@ -1840,7 +1868,7 @@ const buscarRomaneioPorData = (dataRomaneio, idRomaneio) => {
                                     ` : ''}
 
                                     ${romaneio.status == 0 ? `
-                                        <a class="dropdown-item" href="#" title="Editar Romaneio" onclick='editarRomaneio(${romaneio.codigo}, ${romaneio.ID_RESPONSAVEL}, "${romaneio.data_romaneio}", ${romaneio.id_setor_empresa})'>
+                                        <a class="dropdown-item" href="#" title="Editar Romaneio" onclick='editarRomaneio(${romaneio.codigo}, ${romaneio.ID_RESPONSAVEL}, ${romaneio.saldo}, "${romaneio.data_romaneio}", ${romaneio.id_setor_empresa})'>
                                             <span class="ms-1 fas fa-pencil"></span> Editar
                                         </a>
                                     ` : ''}
