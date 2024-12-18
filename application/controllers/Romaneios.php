@@ -477,8 +477,24 @@ class Romaneios extends CI_Controller
 	public function editaMotoristaRomaneio()
 	{
 		$codRomaneio = $this->input->post('codRomaneio');
-		$data['id_responsavel'] = $this->input->post('idMotorista');
 
+		// atualiza saldo do funcionario antigo e funcionario novo
+		$saldoResponsavelAntigo = $this->input->post('saldoResponsavelAntigo');
+		$novoSaldoResponsavel = $this->input->post('novoSaldoResponsavel');
+		$idNovoResponsavel = $this->input->post('novoResponsavel');
+
+		if ($novoSaldoResponsavel) {
+			$idResponsavelAntigo = $this->input->post('responsavelAntigo');
+			$saldoAtualizadoResponsavelAntigo = $saldoResponsavelAntigo - $novoSaldoResponsavel;
+			$this->Funcionarios_model->atualizaSaldoFuncionario($idResponsavelAntigo, $saldoAtualizadoResponsavelAntigo);
+
+			// novo funcionario 
+			$saldoAtualNovoResponsavel = $this->Funcionarios_model->recebeSaldoFuncionario($idNovoResponsavel);
+			$novoSaldoResponsavel = $saldoAtualNovoResponsavel['saldo'] + $novoSaldoResponsavel;
+			$this->Funcionarios_model->atualizaSaldoFuncionario($idNovoResponsavel, $novoSaldoResponsavel);
+		}
+
+		$data['id_responsavel'] = $idNovoResponsavel;
 		$retorno = $this->Romaneios_model->editaRomaneioCodigo($codRomaneio, $data);
 
 		if ($retorno) {
