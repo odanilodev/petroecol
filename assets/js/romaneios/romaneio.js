@@ -1706,7 +1706,7 @@ $(document).on('click', '.btn-salva-edicao-romaneio', function () {
     if (novoResponsavel != responsavelAntigo) {
 
         let novoSaldoResponsavel = $('#inputSaldoTransferir').val();
-        novoSaldoResponsavel = parseFloat(novoSaldoResponsavel.replace(/\./g, '').replace(',', '.'));
+        novoSaldoResponsavel = novoSaldoResponsavel ? parseFloat(novoSaldoResponsavel.replace(/\./g, '').replace(',', '.')) : 0;
 
         if (novoSaldoResponsavel > saldoResponsavelAntigo) {
             avisoRetorno(`Algo deu errado`, `O valor que deseja transferir para o novo responsável não pode exceder o saldo disponível com o responsável atual.`, `error`, `#`);
