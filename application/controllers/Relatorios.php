@@ -113,7 +113,6 @@ class Relatorios extends CI_Controller
 			$dados[] = $array;
 		}
 
-
 		if (count($dados) > 0) {
 
 			// todos residuos cadastrado na empresa

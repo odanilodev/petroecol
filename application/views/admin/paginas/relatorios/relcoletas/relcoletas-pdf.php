@@ -181,9 +181,18 @@
                                         $valor_base_cliente = '';
                                         foreach ($coleta['residuos'] as $key => $residuo):
                                             if ($residuo == $residuo_id) {
-                                                if (!is_numeric($coleta['quantidade_coletada'][$key])) {
-                                                    $coleta['quantidade_coletada'][$key] = 0;
+                                                if (isset($coleta['quantidade_coletada'][$key])) {
+                                                    // Substitui a vírgula por ponto
+                                                    $valor = str_replace(',', '.', $coleta['quantidade_coletada'][$key]);
+
+                                                    // Verifica se o valor ajustado é numérico
+                                                    if (!is_numeric($valor)) {
+                                                        $coleta['quantidade_coletada'][$key] = 0;
+                                                    } else {
+                                                        $coleta['quantidade_coletada'][$key] = (float) $valor; // Converte para float para garantir cálculos corretos
+                                                    }
                                                 }
+
 
                                                 if (isset($movimentado[$residuo])) {
                                                     $movimentado[$residuo] += $coleta['quantidade_coletada'][$key] ?? 0;
@@ -329,11 +338,19 @@
             </thead>
             <tbody>
                 <tr>
-                    <td align="center" style="width: 45px;"><?= $movimentacoes_por_residuo_geral ?> movimentações</td>
+                    <td align="center" style="width: 45px;">
+                        <?= $movimentacoes_por_residuo_geral ?> movimentações
+                    </td>
                     <td style="width: 8px;">
                         <?php
+                        $totalPorUnidade = []; // Inicializa os totais por unidade de medida
                         foreach ($movimentado_geral as $key => $mov) {
-                            echo '<p>' . $mov . ' ' . ($residuos[$key]['unidade_medida'] ?? "") . ' de ' . ($residuos[$key]['nome'] ?? "") . '</p>';
+                            $unidade = $residuos[$key]['unidade_medida'] ?? "";
+                            echo '<p>' . $mov . ' ' . $unidade . ' de ' . ($residuos[$key]['nome'] ?? "") . '</p>';
+                            if (!isset($totalPorUnidade[$unidade])) {
+                                $totalPorUnidade[$unidade] = 0;
+                            }
+                            $totalPorUnidade[$unidade] += $mov; // Soma o valor atual ao total da unidade correspondente
                         }
                         ?>
                     </td>
@@ -360,7 +377,18 @@
                         </td>
                     <?php } ?>
                 </tr>
+                <tr>
+                    <td colspan="4" align="center" style="font-weight: bold;">
+                        <?php
+                        foreach ($totalPorUnidade as $unidade => $total) {
+                            echo 'Total em ' . $unidade . ': ' . number_format($total, 2, ',', '.') . '<br>';
+                        }
+                        ?>
+                    </td>
+                </tr>
             </tbody>
+
+
         </table>
 
 

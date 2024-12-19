@@ -60,15 +60,31 @@ class Coletas extends CI_Controller
 
         $idColeta = $this->input->post('idColeta');
 
+        // remove a observacao da proxima coleta caso a data do romaneio seja maior que a data que foi adicionada a observacao
         $obsColetaCliente['observacao_coleta'] = "";
+        $obsColetaCliente['data_observacao_coleta'] = "";
+        $obsColetaCliente['codigo_romaneio_obs_coletado'] = $codRomaneio;
         $todosIdsClientes = $this->input->post('todosIdsClientes');
-        $this->Clientes_model->editaVariosClientes($todosIdsClientes, $obsColetaCliente);
 
+<<<<<<< HEAD
+=======
+        if ($todosIdsClientes) {
+
+            foreach($todosIdsClientes as $idCliente) {
+                $dataObservacaoColeta = $this->Clientes_model->recebeDataObservacaoColetaCliente($idCliente);
+                if ($dataObservacaoColeta > $dataRomaneio) {
+                    $this->Clientes_model->editaCliente($idCliente, $obsColetaCliente);
+                }
+            }
+        }
+
+>>>>>>> main
         if ($payload) {
 
             $valorCustoTotal = 0;
             foreach ($payload as $cliente):
 
+<<<<<<< HEAD
                 // calcula o valor total gasto no romaneio
                 if (isset($cliente['dadosBancarios']) && verificaArrayVazio($cliente['dadosBancarios'])) { // pagamento no ato pela empresa
 
@@ -106,6 +122,8 @@ class Coletas extends CI_Controller
                 $obsColetaCliente['observacao_coleta'] = "";
                 $this->Clientes_model->editaCliente($cliente['idCliente'], $obsColetaCliente);
 
+=======
+>>>>>>> main
                 if (isset($cliente['qtdColetado'])) {
 
 
@@ -597,7 +615,7 @@ class Coletas extends CI_Controller
             $selectRow = '<div class="row">';
             $selectFormaPagamento = '
                 <div class="col-6 mb-4 div-pagamento">
-                    <select class="form-select select2 input-obrigatorio-coleta select-pagamento">
+                    <select class="form-select select2 select-pagamento">
                         <option value="" selected disabled>Selecione</option>';
 
             foreach ($todasFormasPagamento as $key => $formaPagamento) {
@@ -611,7 +629,7 @@ class Coletas extends CI_Controller
             // Cria o input para o valor correspondente à forma de pagamento
             $inputValorPagamento = '
                 <div class="col-6 mb-4 ">
-                    <input type="text" class="input-pagamento form-control mascara-dinheiro input-obrigatorio-coleta" name="valor_0" value="">
+                    <input type="text" class="input-pagamento form-control mascara-dinheiro" name="valor_0" value="">
                     <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
                 </div>';
 

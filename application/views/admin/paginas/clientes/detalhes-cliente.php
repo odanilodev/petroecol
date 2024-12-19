@@ -154,8 +154,7 @@
                       style="height:16px;width:16px;"></span>
 
                     <a href="#" data-bs-toggle="modal" data-bs-target=".modal-proxima-coleta"
-                      class="d-inline-block lh-sm"
-                      onclick="alterarObsProximaColeta('<?= $proxima_coleta ?>', <?= $this->uri->segment(3) ?>)">
+                      class="d-inline-block lh-sm">
                       Observação para próxima Coleta
                     </a>
                   </div>

@@ -12,8 +12,8 @@
 
             <div class="col col-auto">
                 <div class="search-box">
-                    <form class="position-relative" method="post" action="<?= base_url("romaneios/")?>" data-bs-toggle="search" data-bs-display="static">
-                        <input value="<?= $cod_romaneio?>" name="cod-romaneio" class="form-control search-input search" type="search" placeholder="Buscar Romaneios" aria-label="Search" />
+                    <form class="position-relative" method="post" action="<?= base_url("romaneios/") ?>" data-bs-toggle="search" data-bs-display="static">
+                        <input value="<?= $cod_romaneio ?>" name="cod-romaneio" class="form-control search-input search" type="search" placeholder="Buscar Romaneios" aria-label="Search" />
                         <span class="fas fa-search search-box-icon"></span>
 
                     </form>
@@ -110,6 +110,7 @@
                     <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status"></div>
                     <button type="button" class="btn btn-primary btn-finaliza-romaneio" onclick="finalizarRomaneio()">Finalizar Romaneio</button>
                     <input type="hidden" class="id_responsavel">
+                    <input type="hidden" class="saldo-responsavel">
                     <input type="hidden" class="code_romaneio">
                     <input type="hidden" class="data_romaneio">
                     <input type="hidden" class="input-id-setor-empresa">
@@ -121,7 +122,7 @@
     </div>
 
     <!-- edita romaneio-->
-    <div class="modal fade" id="modalEditarRomaneio" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalEditarRomaneio" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollabe">
             <div class="modal-content">
 
@@ -200,6 +201,7 @@
                     <input type="hidden" class="id_responsavel">
                     <input type="hidden" class="code_romaneio">
                     <input type="hidden" class="data_romaneio">
+                    <input type="hidden" class="saldo-responsavel">
                     <input type="hidden" class="input-id-setor-empresa">
 
                 </div>
@@ -339,7 +341,7 @@
 
                                                                     $dataFaturamentoObj = new DateTime($dataFaturamento);
 
-                                                                    $dataFaturamentoObj->modify('+1 month');                                                                    
+                                                                    $dataFaturamentoObj->modify('+1 month');
 
                                                                     $novaDataFaturamento = $dataFaturamentoObj->format('Y-m-d');
 
@@ -611,8 +613,8 @@
         </div>
     </div>
 
-        <!-- Modal visualizar Custos -->
-        <div class="modal fade" tabindex="-1" id="modalVisualizarCustosRomaneio">
+    <!-- Modal visualizar Custos -->
+    <div class="modal fade" tabindex="-1" id="modalVisualizarCustosRomaneio">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -625,8 +627,8 @@
                 </div>
                 <div class="modal-body body-coleta">
 
-                    
-                    
+
+
                     <div class="card">
                         <div class="card-body form-editar-pagar">
                             <div class="spinner-border text-primary load-form-modal d-none" role="status"></div>
@@ -655,11 +657,11 @@
                                     </div>
 
                                 </div>
-                                
+
                             </div>
-                            
+
                         </div>
-                        
+
                     </div>
 
 
@@ -670,6 +672,29 @@
                     <div class="spinner-border text-primary load-form d-none" role="status"></div>
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal Transferir saldo-->
+    <div class="modal fade" id="modalTransferirSaldo" tabindex="-1" aria-labelledby="modalTransferirSaldoLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-top border-bottom">
+                <div class="modal-header text-center">
+                    <h5 class="modal-title w-100" id="modalTransferirSaldoLabel">Transferência de Saldo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p>O responsável atual tem <strong class="saldo-responsavel-atual"></strong> de saldo.</p>
+                    <div class="mb-3">
+                        <label for="inputSaldoTransferir" class="form-label">Digite o valor que deseja transferir para o novo responsável:</label>
+                        <input type="text" id="inputSaldoTransferir" class="form-control text-center mascara-dinheiro" placeholder="Valor" >
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-primary" id="confirmarTransferencia" data-bs-dismiss="modal">Confirmar</button>
                 </div>
             </div>
         </div>

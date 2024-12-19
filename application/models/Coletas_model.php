@@ -171,7 +171,7 @@ class Coletas_model extends CI_Model
         $this->db->join('ci_setores_empresa SE', 'SE.id = R.id_setor_empresa');
 
         $query = $this->db->get();
-        
+
         return $query->result_array();
     }
     public function ultimaColetaCliente($idsClientes)
@@ -183,21 +183,21 @@ class Coletas_model extends CI_Model
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $this->db->group_by('id_cliente');
         $ultimasDatas = $this->db->get_compiled_select('ci_coletas');
-        
+
         // Pega as ultimas datas busca para ver de qual cliente é
         $this->db->select('C.data_coleta, C.id_cliente');
         $this->db->from("($ultimasDatas) as UD");
         $this->db->join('ci_coletas as C', 'C.id_cliente = UD.id_cliente AND C.data_coleta = UD.data_coleta', 'inner');
         $query = $this->db->get();
-        
+
         $result = $query->result_array();
-    
+
         // deixa o id do cliente como chave do array para usar no PDF
         $ultimaColetaCLiente = [];
         foreach ($result as $row) {
             $ultimaColetaCLiente[$row['id_cliente']] = $row;
         }
-    
+
         return $ultimaColetaCLiente;
     }
 
