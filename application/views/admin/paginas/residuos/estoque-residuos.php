@@ -40,7 +40,7 @@
                         <tr class="text-center">
                             <th class="sort align-middle text-center" scope="col" data-sort="td_recebido">Resíduo</th>
                             <th class="sort align-middle text-center" scope="col" data-sort="td_transacao">Quantidade</th>
-                            <th class="sort ps-5 align-middle text-center" scope="col" data-sort="td_setor">Ações</th>
+                            <th class="sort align-middle text-center" scope="col" data-sort="td_setor">Ações</th>
                         </tr>
                     </thead>
                     <tbody class="list" id="table-latest-review-body">
@@ -67,14 +67,15 @@
                                     </h6>
                                 </td>
 
-                                <td class="align-middle white-space-nowrap text-middle pe-0">
+                                <td class="align-middle white-space-nowrap text-center pe-0">
 
                                     <div class="font-sans-serif btn-reveal-trigger position-static">
                                         <button
                                             class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2"
                                             type="button" data-bs-toggle="dropdown" data-boundary="window"
-                                            aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span
-                                                class="fas fa-ellipsis-h fs--2"></span></button>
+                                            aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                                            <span class="fas fa-ellipsis-h fs--2"></span>
+                                        </button>
                                         <div class="dropdown-menu dropdown-menu-start py-2">
                                             <a class="dropdown-item" href="<?= base_url('estoqueResiduos/detalhes/' . $estoqueResiduo['idResiduo']) ?>">
                                                 <span class="fas fa-eye"></span> Visualizar
