@@ -80,7 +80,7 @@
                                                 <span class="fas fa-eye"></span> Visualizar
                                             </a>
 
-                                            
+
                                         </div>
                                     </div>
                                 </td>
@@ -250,10 +250,26 @@
 
                                             <div class="col-lg-6">
                                                 <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Valor por <span class="nome-unidade-medida">Unidade</span></label>
+                                                    <input class="form-control input-valor-unidade-medida input-obrigatorio-venda mascara-dinheiro" required name="valor" type="text" placeholder="Valor por unidade">
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Quantidade</label>
                                                     <input class="form-control input-quantidade-venda input-obrigatorio-venda" required name="valor" type="number" placeholder="Quantidade">
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <label class="text-body-highlight fw-bold mb-2">Desconto</label>
+                                                <div class="input-group">
+                                                    <input type="number" class="form-control input-desconto-venda" placeholder="Ex.: 15">
+                                                    <span class="input-group-text">%</span>
                                                 </div>
                                             </div>
 
@@ -269,8 +285,7 @@
                                             <div class="col-lg-6">
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Data da Destinação</label>
-                                                    <input autocomplete="off" class="form-control datetimepicker input-data-destinacao input-obrigatorio-venda" required name="data_destinacao" type="text" placeholder="Data da Destinação"
-                                                        data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' style="cursor: pointer;" />
+                                                    <input autocomplete="off" class="form-control datetimepicker input-data-destinacao input-obrigatorio-venda" required name="data_destinacao" type="text" placeholder="Data da Destinação" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' style="cursor: pointer;" />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>

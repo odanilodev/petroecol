@@ -69,6 +69,8 @@ class Vendas extends CI_Controller
 		$dados['id_unidade_medida'] = $this->input->post('unidadeMedida');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 		$dados['valor_total'] = $this->input->post('valorTotal');
+		$dados['porcentagem_desconto'] = $this->input->post('porcentagemDescontoVenda');
+		$dados['valor_unidade_medida'] = str_replace(['.', ','], ['', '.'], $this->input->post('valorUnidadeMedida'));
 		$dados['data_venda'] = date('Y-m-d', strtotime(str_replace('/', '-', $this->input->post('dataDestinacao'))));
 
 		$unidadeMedidaPadraoResiduo = $this->Residuos_model->recebeResiduo($dados['id_residuo'])['id_unidade_medida'];
@@ -80,12 +82,15 @@ class Vendas extends CI_Controller
 			$this->load->helper('converter_unidade_medida_residuo');
 
 			$dadosConversaoResiduo = $this->ConversaoUnidadeMedida_model->recebeConversaoPorResiduo($dados['id_residuo'], $dados['id_unidade_medida']);
-
 			$quantidadeResiduo = calcularUnidadeMedidaResiduo($dadosConversaoResiduo['valor'], $dadosConversaoResiduo['tipo_operacao'], $dados['quantidade']); // quantidade convertida
+
+		} else {
+			$quantidadeResiduo = $dados['quantidade'];
 		}
 
 		$quantidadeTotalResiduo = $this->EstoqueResiduos_model->recebeTotalAtualEstoqueResiduo($dados['id_residuo']);
 
+		// verifica se tem a quantidade desejada para realizar a venda
 		if ($quantidadeTotalResiduo['total_estoque_residuo'] < $quantidadeResiduo) {
 			$response = array(
 				'success' => false,
