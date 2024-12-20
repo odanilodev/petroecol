@@ -19,6 +19,6 @@ if (!function_exists('calcularUnidadeMedidaResiduo')) {
 
 		eval('$resultado = ' . $expressao . ';');
 
-        return $resultado;
+        return round($resultado, 3); // limita 3 casas decimais
     }
 }
