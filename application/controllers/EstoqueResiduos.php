@@ -21,6 +21,8 @@ class EstoqueResiduos extends CI_Controller
         // FIM controle sessão
 
         $this->load->model('EstoqueResiduos_model');
+        $this->load->model('ConversaoUnidadeMedida_model');
+
     }
 
     public function index()
@@ -42,20 +44,32 @@ class EstoqueResiduos extends CI_Controller
         $quantidadeResiduoEntrada = [];
         foreach ($data['residuos'] as $residuo) {
 
-            $dadosResiduos = $this->EstoqueResiduos_model->recebeEstoqueResiduo($residuo['id']); // 1 é entrada
+            $dadosResiduos = $this->EstoqueResiduos_model->recebeEstoqueResiduo($residuo['id']);
 
             if (isset($dadosResiduos['QUANTIDADE'])) {
+                
+                // faz a conversão de acordo com o escolhido
+                if ($this->input->post('converter_unidade_medida')) {
+
+                    $this->load->helper('converter_unidade_medida_residuo');
+    
+                    $dadosConversaoResiduo = $this->ConversaoUnidadeMedida_model->recebeConversaoMedidaPorResiduo($residuo['id'], $this->input->post('converter_unidade_medida'));
+    
+                    $quantidadeResiduo = isset($dadosConversaoResiduo) ? calcularUnidadeMedidaResiduo($dadosConversaoResiduo['valor'], $dadosConversaoResiduo['tipo_operacao'], $dadosResiduos['QUANTIDADE']) : $dadosResiduos['QUANTIDADE']; // quantidade convertida
+                }
+                
                 $quantidadeResiduoEntrada[] = [
-                    'quantidade' => $dadosResiduos['QUANTIDADE'],
+                    'quantidade' => $quantidadeResiduo,
                     'residuo'    => $residuo['nome'],
-                    'idResiduo'    => $residuo['id'],
-                    'unidade_medida' => $residuo['unidade_medida']
+                    'idResiduo'  => $residuo['id'],
+                    'unidade_medida' => $dadosConversaoResiduo['UNIDADE_MEDIDA'] ?? $residuo['unidade_medida']
                 ];
             }
-        }
+        }        
 
+        $data['converter_unidade_medida'] = $this->input->post('converter_unidade_medida');
+        
         $data['estoqueResiduos'] = $quantidadeResiduoEntrada;
-
 
         $this->load->model('UnidadesMedidas_model');
         $data['unidades_medidas'] = $this->UnidadesMedidas_model->recebeUnidadesMedidas();

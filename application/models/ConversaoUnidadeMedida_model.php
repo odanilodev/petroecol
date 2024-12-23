@@ -88,10 +88,28 @@ class ConversaoUnidadeMedida_model extends CI_Model
 
     public function recebeConversaoPorResiduo($id_residuo, $id_unidade_medida)
     {
-        $this->db->where('id_residuo', $id_residuo);
-        $this->db->where('id_medida_origem', $id_unidade_medida);
-        $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $query = $this->db->get('ci_conversao_unidade_medida');
+        $this->db->select('CM.*, UM.nome as UNIDADE_MEDIDA');
+        $this->db->from('ci_conversao_unidade_medida CM');
+        $this->db->where('CM.id_residuo', $id_residuo);
+        $this->db->where('CM.id_medida_origem', $id_unidade_medida);
+        $this->db->where('CM.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->join('ci_unidades_medidas UM', 'CM.id_medida_origem = UM.id', 'LEFT');
+
+        $query = $this->db->get();
+
+        return $query->row_array();
+    }
+
+    public function recebeConversaoMedidaPorResiduo($id_residuo, $id_unidade_medida)
+    {
+        $this->db->select('CM.*, UM.nome as UNIDADE_MEDIDA');
+        $this->db->from('ci_conversao_unidade_medida CM');
+        $this->db->where('CM.id_residuo', $id_residuo);
+        $this->db->where('CM.id_medida_destino', $id_unidade_medida);
+        $this->db->where('CM.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->join('ci_unidades_medidas UM', 'CM.id_medida_destino = UM.id', 'LEFT');
+
+        $query = $this->db->get();
 
         return $query->row_array();
     }

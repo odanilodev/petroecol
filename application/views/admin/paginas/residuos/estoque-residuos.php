@@ -1,10 +1,22 @@
 <div class="content">
     <div id="members">
 
-        <a href="#" class="btn btn-phoenix-primary mb-3 btn-nova-venda" data-bs-toggle="modal" data-bs-target="#modalNovaVenda">
-            <span class="fas fa-dollar-sign"></span>
-            Nova Venda
-        </a>
+        <div class="row justify-content-between">
+            <div class="col-auto">
+                <a href="#" class="btn btn-phoenix-primary mb-3 btn-nova-venda" data-bs-toggle="modal" data-bs-target="#modalNovaVenda">
+                    <span class="fas fa-dollar-sign"></span>
+                    Nova Venda
+                </a>
+            </div>
+
+            <div class="col-auto">
+                <a href="#" class="btn btn-phoenix-primary mb-3 btn-nova-venda" data-bs-toggle="modal" data-bs-target="#modalConfiguracoesExibicoes">
+                    <span class="uil-setting"></span>
+                    Configurações de Exibições
+                </a>
+            </div>
+        </div>
+
 
         <div class="mx-n4 px-4 px-lg-6 bg-white pt-7 border-y border-300 mb-5">
 
@@ -154,7 +166,7 @@
 
                                             </div>
 
-                                            
+
 
                                             <div class="col-lg-4">
                                                 <div class="mb-4">
@@ -310,6 +322,64 @@
                     <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
 
                 </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal Configurações de exibições -->
+    <div class="modal fade" tabindex="-1" id="modalConfiguracoesExibicoes">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <form action="<?= site_url('estoqueResiduos') ?>" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Configurações de exibições</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body body-coleta">
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <div class="col-sm-12 col-xxl-12 py-3">
+                                            <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+
+                                                <div class="col-lg-12">
+
+                                                    <div class="mb-4">
+                                                        <label class="text-body-highlight fw-bold mb-2">Unidade de Medida</label>
+                                                        <select class="form-select select-exibicao-unidade-medida" name="converter_unidade_medida">
+                                                            <option selected disabled>Selecione</option>
+
+                                                            <?php foreach ($unidades_medidas as $unidade_medida) { ?>
+                                                                <option <?= $converter_unidade_medida == $unidade_medida['id'] ? 'selected' : ''?> value="<?= $unidade_medida['id'] ?>">
+                                                                    <?= $unidade_medida['nome'] ?>
+                                                                </option>
+                                                            <?php } ?>
+                                                        </select>
+                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <div class="spinner-border text-primary load-form d-none" role="status"></div>
+                        <button class="btn btn-success btn-form" type="submit">Salvar</button>
+                        <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+
+                    </div>
+                </form>
             </div>
         </div>
     </div>
