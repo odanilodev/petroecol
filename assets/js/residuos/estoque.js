@@ -1,10 +1,16 @@
-const inserirLancamentoEstoqueResiduos = (dadosResiduos) => {
+const inserirLancamentoEstoqueResiduos = () => {
 
+    let tipoLancamento = $('.select-tipo-lancamento').val();
+    let residuo = $('.select-residuo').val();
+    let quantidade = $('.input-quantidade').val();
+    
     $.ajax({
         type: "post",
         url: `${baseUrl}estoqueResiduos/insereEstoqueResiduos`,
         data: {
-            dadosResiduos: dadosResiduos
+            tipoLancamento: tipoLancamento,
+            residuo: residuo,
+            quantidade: quantidade
         },
         beforeSend: function () {
             $('.load-form-modal').removeClass('d-none');
@@ -23,7 +29,6 @@ const inserirLancamentoEstoqueResiduos = (dadosResiduos) => {
         }
     });
 }
-
 
 $(document).on('click', '.btn-nova-venda', function () {
 

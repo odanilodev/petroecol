@@ -24,10 +24,10 @@
                             </div>
                         </div>
 
-                        <div class="col-auto d-none">
+                        <div class="col-auto">
 
                             <button class="btn btn-sm btn-phoenix-secondary bg-white hover-bg-100 action-btn btn-novo-lancamento"
-                                type="button" data-bs-toggle="modal" data-bs-target="#modalLancamentoEstoque" onclick="carregaSelect2('select2', 'modalLancamentoEstoque')">Novo Lançamento</button>
+                                type="button" data-bs-toggle="modal" data-bs-target="#modalLancamentoEstoque" onclick="carregaSelect2('select2', 'modalLancamentoEstoque')">+ Lançamento</button>
 
                         </div>
 
@@ -128,7 +128,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Tipo</label>
-                                                    <select class="form-select input-obrigatorio select-tipo-movimentacao">
+                                                    <select class="form-select input-obrigatorio select-tipo-lancamento">
                                                         <option selected disabled>Selecione</option>
                                                         <option value="1">Entrada</option>
                                                         <option value="0">Saída</option>
@@ -154,10 +154,12 @@
 
                                             </div>
 
+                                            
+
                                             <div class="col-lg-4">
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Quantidade</label>
-                                                    <input class="form-control input-quantidade input-obrigatorio" required name="valor" type="text" placeholder="Quantidade">
+                                                    <input class="form-control input-quantidade input-obrigatorio" required name="valor" type="number" placeholder="Quantidade">
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
@@ -176,7 +178,7 @@
 
                     <div class="spinner-border text-primary load-form-modal d-none" role="status"></div>
                     <button class="btn btn-success btn-form-modal" type="button" onclick="inserirLancamentoEstoqueResiduos()">Salvar</button>
-                    <button class="btn btn-secondary btn-form" type="button" data-bs-dismiss="modal">Fechar</button>
+                    <button class="btn btn-secondary btn-form-modal" type="button" data-bs-dismiss="modal">Fechar</button>
 
                 </div>
             </div>
