@@ -66,8 +66,6 @@ class Coletas extends CI_Controller
         $obsColetaCliente['codigo_romaneio_obs_coletado'] = $codRomaneio;
         $todosIdsClientes = $this->input->post('todosIdsClientes');
 
-<<<<<<< HEAD
-=======
         if ($todosIdsClientes) {
 
             foreach($todosIdsClientes as $idCliente) {
@@ -78,13 +76,11 @@ class Coletas extends CI_Controller
             }
         }
 
->>>>>>> main
         if ($payload) {
 
             $valorCustoTotal = 0;
             foreach ($payload as $cliente):
 
-<<<<<<< HEAD
                 // calcula o valor total gasto no romaneio
                 if (isset($cliente['dadosBancarios']) && verificaArrayVazio($cliente['dadosBancarios'])) { // pagamento no ato pela empresa
 
@@ -122,8 +118,6 @@ class Coletas extends CI_Controller
                 $obsColetaCliente['observacao_coleta'] = "";
                 $this->Clientes_model->editaCliente($cliente['idCliente'], $obsColetaCliente);
 
-=======
->>>>>>> main
                 if (isset($cliente['qtdColetado'])) {
 
 
