@@ -111,7 +111,7 @@ class Vendas extends CI_Controller
 		$dadosResiduosEstoque['tipo_movimentacao'] = 0; // saída
 		$dadosResiduosEstoque['id_empresa'] = $dados['id_empresa'];
 
-		// soma o total do residuo de acordo com o ultimo total gravado
+		// subtrai o total do residuo de acordo com o ultimo total gravado
 		$dadosResiduosEstoque['total_estoque_residuo'] = $quantidadeTotalResiduo['total_estoque_residuo'] - $dadosResiduosEstoque['quantidade'];
 		$dadosResiduosEstoque['total_estoque_residuo'] = number_format($dadosResiduosEstoque['total_estoque_residuo'], 3, '.', '');
 		$this->EstoqueResiduos_model->insereEstoqueResiduos($dadosResiduosEstoque);

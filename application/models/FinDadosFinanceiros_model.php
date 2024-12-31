@@ -13,7 +13,7 @@ class FinDadosFinanceiros_model extends CI_Model
 
     public function recebeDadosFinanceiros()
     {
-        $this->db->order_by('nome', 'DESC');
+        $this->db->order_by('nome', 'ASC');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
         $query = $this->db->get('fin_dados_financeiros');
 
