@@ -59,7 +59,7 @@ class EstoqueResiduos extends CI_Controller
                 }
                 
                 $quantidadeResiduoEntrada[] = [
-                    'quantidade' => $quantidadeResiduo,
+                    'quantidade' => $quantidadeResiduo ?? $dadosResiduos['QUANTIDADE'],
                     'residuo'    => $residuo['nome'],
                     'idResiduo'  => $residuo['id'],
                     'unidade_medida' => $dadosConversaoResiduo['UNIDADE_MEDIDA'] ?? $residuo['unidade_medida']
