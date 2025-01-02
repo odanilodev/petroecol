@@ -2,7 +2,15 @@
     <div id="members">
         <a href="<?= base_url('afericao/residuosAferidos') ?>" class="btn btn-phoenix-primary mb-3">Resíduos Aferidos</a>
 
-        <div class="px-4 px-lg-6 mb-9 bg-white border-y border-300 mt-2 position-relative top-1">
+        <div class="px-4 px-lg-6 mb-9 bg-white border-y border-300 mt-2 pt-7 position-relative top-1">
+            <div class="row align-items-end justify-content-between pb-5 g-3">
+                <div class="col-auto">
+                    <div class="d-flex align-items-center">
+                        <h3 class="me-3 teste-btn">Aferição de Resíduos</h3>
+                    </div>
+                </div>
+                
+            </div>
             <div class="table-responsive scrollbar ms-n1 ps-1">
                 <table class="table table-sm fs--1 mb-0">
                     <thead>
@@ -53,7 +61,7 @@
                                             <?php if (!$afericao['aferido']) { ?>
 
                                                 <a class="dropdown-item" href="<?= base_url('afericao/aferirResiduos/' . $afericao['cod_romaneio']) ?>">
-                                                    <span class="fas fa-eye"></span> Aferir
+                                                    <span class="fas fa-recycle"></span> Aferir
                                                 </a>
 
                                                 <a data-codigo="<?= $afericao['cod_romaneio'] ?>" data-id-trajeto="<?= $afericao['ID_TRAJETO'] ?>" class="dropdown-item btn-add-trajeto" href="#" data-bs-toggle="modal" data-bs-target="#modalTrajeto">
