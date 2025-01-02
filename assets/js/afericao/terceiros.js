@@ -25,7 +25,7 @@ $(document).on('click', '.btn-finalizar', function () {
 
         $.ajax({
             type: "post",
-            url: `${baseUrl}afericao/salvarAfericaoTerceiros` ,
+            url: `${baseUrl}afericaoTerceiros/salvarAfericaoTerceiros` ,
             data: {
                 dados: dados,
             },
@@ -37,7 +37,7 @@ $(document).on('click', '.btn-finalizar', function () {
                 $('.load-form').addClass('d-none');
                 $('.div-btn-modal').removeClass('d-none');
 
-                let redirect = response.type == 'success' ? `${baseUrl}/afericao/terceiros/all` : '#';
+                let redirect = response.type == 'success' ? `${baseUrl}/afericaoTerceiros/index/all` : '#';
                 avisoRetorno(response.title, response.message, response.type, redirect);
 
             },
