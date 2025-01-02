@@ -51,6 +51,10 @@ class Admin extends CI_Controller
         $this->load->helper('documentos_vencendo_helper');
         $documentos = documentosVencendo();
 
+        if (empty($documentos['vencendo']) && empty($documentos['vencido'])) {
+            return $this->output->set_content_type('application/json')->set_output(json_encode(['success' => false]));
+        }
+
         $mensagem = 'Os seguintes documentos precisam ser atualizados:<br><br>';
 
         // Documentos Vencidos
