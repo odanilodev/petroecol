@@ -4,33 +4,28 @@ var baseUrl = $(".base-url").val();
 const cadastraNovoDocumento = () => {
   let permissao = verificaCamposObrigatorios('input-obrigatorio');
 
-  // Captura dos valores dos campos
   let id = $('.input-id').val();
   let nome = $('.input-nome-documento').val();
   let dataVencimento = $('.input-data-vencimento').val();
   let documentoEmpresa = $('#documentoEmpresa')[0].files[0];
 
-  // Validação da data de vencimento
   let partesData = dataVencimento.split('/');
   let dataSelecionada = new Date(partesData[2], partesData[1] - 1, partesData[0]);
-  let dataAtual = new Date(); // dataAtual contém a hora atual
+  let dataAtual = new Date(); 
 
-  // Ajusta dataAtual para representar o início do dia atual
   dataAtual.setHours(0, 0, 0, 0);
 
   if (dataSelecionada < dataAtual) {
-    // Exibe SweetAlert se a data for menor que a data atual
     Swal.fire({
       icon: 'error',
       title: 'Data Inválida',
       text: 'Por favor, selecione uma data igual ou posterior à data atual.',
       confirmButtonText: 'OK'
     });
-    return; // Cancela o envio AJAX
+    return; 
   }
 
-  // Verifica o tamanho do arquivo
-  if (documentoEmpresa.size > 5120 * 1024) { // 5 MB em bytes
+  if (documentoEmpresa && documentoEmpresa.size > 5120 * 1024) { 
     Swal.fire({
       icon: 'error',
       title: 'Arquivo muito grande',
@@ -38,17 +33,15 @@ const cadastraNovoDocumento = () => {
       confirmButtonText: 'OK'
     });
     $('#documentoEmpresa').val('');
-    return; // Cancela o envio AJAX
+    return; 
   }
 
-  // Preparação dos dados para envio via AJAX
   let formData = new FormData();
   formData.append('id', id);
   formData.append('nome', nome);
   formData.append('validade', `${partesData[2]}-${partesData[1]}-${partesData[0]}`);
   formData.append('documento', documentoEmpresa);
 
-  // Envio do formulário via AJAX
   if (permissao) {
     $.ajax({
       type: "POST",
