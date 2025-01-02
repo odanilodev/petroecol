@@ -52,6 +52,24 @@ class Vendas extends CI_Controller
 
 		$data['vendasResiduos'] = $this->Vendas_model->recebeVendasResiduos($limit, $page);
 
+		$this->load->model('UnidadesMedidas_model');
+		$data['unidades_medidas'] = $this->UnidadesMedidas_model->recebeUnidadesMedidas();
+
+		$this->load->model('Clientes_model');
+		$data['clientes_finais'] = $this->Clientes_model->recebeClientesFinais();
+
+		$this->load->model('Residuos_model');
+		$data['residuos'] = $this->Residuos_model->recebeTodosResiduos();
+
+		$this->load->model('FinMacro_model');
+		$data['macros'] = $this->FinMacro_model->recebeMacros();
+
+		$this->load->model('FinFormaTransacao_model');
+		$data['formasTransacoes'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
+
+		$this->load->model('FinContaBancaria_model');
+		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
+
 		$this->load->view('admin/includes/painel/cabecalho', $data);
 		$this->load->view('admin/paginas/vendas/vendas-residuos');
 		$this->load->view('admin/includes/painel/rodape');
@@ -67,6 +85,7 @@ class Vendas extends CI_Controller
 		$dados['id_residuo'] = $this->input->post('residuo');
 		$dados['quantidade'] = $this->input->post('quantidade');
 		$dados['id_unidade_medida'] = $this->input->post('unidadeMedida');
+		$dados['id_setor_empresa'] = $this->input->post('setorEmpresa');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
 		$dados['valor_total'] = $this->input->post('valorTotal');
 		$dados['porcentagem_desconto'] = $this->input->post('porcentagemDescontoVenda');
@@ -76,31 +95,68 @@ class Vendas extends CI_Controller
 		$unidadeMedidaPadraoResiduo = $this->Residuos_model->recebeResiduo($dados['id_residuo'])['id_unidade_medida'];
 
 		// faz a conversão de quantidade caso o a unidade de medida seja diferente da padrão do resíduo
+		$quantidadeResiduo = $dados['quantidade'];
 		if ($unidadeMedidaPadraoResiduo != $dados['id_unidade_medida']) {
-
 			$this->load->model('ConversaoUnidadeMedida_model');
 			$this->load->helper('converter_unidade_medida_residuo');
-
 			$dadosConversaoResiduo = $this->ConversaoUnidadeMedida_model->recebeConversaoPorResiduo($dados['id_residuo'], $dados['id_unidade_medida']);
-			$quantidadeResiduo = calcularUnidadeMedidaResiduo($dadosConversaoResiduo['valor'], $dadosConversaoResiduo['tipo_operacao'], $dados['quantidade']); // quantidade convertida
-
-		} else {
-			$quantidadeResiduo = $dados['quantidade'];
+			if ($dadosConversaoResiduo) {
+				$quantidadeResiduo = calcularUnidadeMedidaResiduo($dadosConversaoResiduo['valor'], $dadosConversaoResiduo['tipo_operacao'], $dados['quantidade']); // quantidade convertida
+			}
 		}
 
 		$quantidadeTotalResiduo = $this->EstoqueResiduos_model->recebeTotalAtualEstoqueResiduo($dados['id_residuo']);
 
 		// verifica se tem a quantidade desejada para realizar a venda
-		if ($quantidadeTotalResiduo['total_estoque_residuo'] < $quantidadeResiduo) {
+		if (!isset($quantidadeTotalResiduo['total_estoque_residuo']) || $quantidadeTotalResiduo['total_estoque_residuo'] < $quantidadeResiduo) {
 			$response = array(
 				'success' => false,
 				'type' => 'error',
 				'title' => 'Algo deu errado!',
 				'message' => 'Não há essa quantidade de resíduo no estoque!'
 			);
-
 			return $this->output->set_content_type('application/json')->set_output(json_encode($response));
 		}
+
+		// integra com o financeiro (contas a receber)
+		if (!$this->input->post('contaBancaria')) {
+			$dadosContasReceber['id_setor_empresa'] = $dados['id_setor_empresa'];
+			$dadosContasReceber['id_empresa'] = $dados['id_empresa'];
+			$dadosContasReceber['valor'] = $dados['valor_total'];
+			$dadosContasReceber['valor_recebido'] = $dados['valor_total'];
+			$dadosContasReceber['id_cliente'] = $dados['id_cliente'];
+			$dadosContasReceber['id_macro'] = $this->input->post('macro');
+			$dadosContasReceber['id_micro'] = $this->input->post('micro');
+			$dadosContasReceber['data_vencimento'] = $dados['data_venda'];
+
+			$this->load->model('FinContasReceber_model');
+			$this->FinContasReceber_model->insereContasReceber($dadosContasReceber);
+
+		} else {
+			// atualiza saldo bancário
+			$this->load->model('FinSaldoBancario_model');
+			$idContaBancaria = $this->input->post('contaBancaria');
+			$saldoAtual = $this->FinSaldoBancario_model->recebeSaldoBancario($idContaBancaria);
+			$novoSaldo = $saldoAtual['saldo'] + $dados['valor_total'];
+			$this->FinSaldoBancario_model->atualizaSaldoBancario($idContaBancaria, $novoSaldo);
+
+			// manda pro fluxo de caixa como entrada
+			$dadosFluxo['id_setor_empresa'] = $dados['id_setor_empresa'];
+			$dadosFluxo['id_empresa'] = $dados['id_empresa'];
+			$dadosFluxo['valor'] = $dados['valor_total'];
+			$dadosFluxo['id_cliente'] = $dados['id_cliente'];
+			$dadosFluxo['id_macro'] = $this->input->post('macro');
+			$dadosFluxo['id_micro'] = $this->input->post('micro');
+			$dadosFluxo['data_movimentacao'] = $dados['data_venda'];
+			$dadosFluxo['id_conta_bancaria'] = $this->input->post('contaBancaria');
+			$dadosFluxo['id_forma_transacao'] = $this->input->post('formaRecebimento');
+			$dadosFluxo['movimentacao_tabela'] = 1; // entrada
+
+			$this->load->model('FinFluxo_model');
+			$this->FinFluxo_model->insereFluxo($dadosFluxo);
+		}
+
+
 
 		$retorno = $this->Vendas_model->insereNovaVendaResiduo($dados);
 
@@ -110,6 +166,7 @@ class Vendas extends CI_Controller
 		$dadosResiduosEstoque['id_unidade_medida'] = $unidadeMedidaPadraoResiduo;
 		$dadosResiduosEstoque['tipo_movimentacao'] = 0; // saída
 		$dadosResiduosEstoque['id_empresa'] = $dados['id_empresa'];
+		$dadosResiduosEstoque['id_setor_empresa'] = $dados['id_setor_empresa'];
 
 		// subtrai o total do residuo de acordo com o ultimo total gravado
 		$dadosResiduosEstoque['total_estoque_residuo'] = $quantidadeTotalResiduo['total_estoque_residuo'] - $dadosResiduosEstoque['quantidade'];

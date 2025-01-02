@@ -30,9 +30,3 @@ const inserirLancamentoEstoqueResiduos = () => {
     });
 }
 
-$(document).on('click', '.btn-nova-venda', function () {
-
-    carregaSelect2('select2', 'modalNovaVenda');
-
-})
-

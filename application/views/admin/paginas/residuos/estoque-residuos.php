@@ -10,7 +10,7 @@
             </div>
 
             <div class="col-auto">
-                <a href="#" class="btn btn-phoenix-primary mb-3 btn-nova-venda" data-bs-toggle="modal" data-bs-target="#modalConfiguracoesExibicoes">
+                <a href="#" class="btn btn-phoenix-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalConfiguracoesExibicoes">
                     <span class="uil-setting"></span>
                     Configurações de Exibições
                 </a>

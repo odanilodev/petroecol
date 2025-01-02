@@ -1,3 +1,9 @@
+$(document).on('click', '.btn-nova-venda', function () {
+
+    carregaSelect2('select2', 'modalNovaVenda');
+
+})
+
 $(document).on('change', '.select-unidade-medida', function () {
     let unidadeMedidaSelecionada = $(this).find('option:selected').html();
     $('.nome-unidade-medida').html(unidadeMedidaSelecionada);
@@ -36,11 +42,17 @@ const salvarNovaVenda = () => {
         let porcentagemDescontoVenda = $('.input-desconto-venda').val();
         let dataDestinacao = $('.input-data-destinacao').val();
         let valorUnidadeMedida = $('.input-valor-unidade-medida').val();
+        let macro = $('.select-macros').val();
+        let micro = $('.select-micros').val();
+        let setorEmpresa = $('.select-setor-empresa').val();
+        let contaBancaria = $('.select-conta-bancaria').val();
+        let formaRecebimento = $('.select-forma-recebimento').val();
 
         $.ajax({
             type: "post",
             url: `${baseUrl}vendas/novaVendaResiduo`,
             data: {
+                setorEmpresa: setorEmpresa,
                 cliente: cliente,
                 residuo: residuo,
                 unidadeMedida: unidadeMedida,
@@ -48,7 +60,11 @@ const salvarNovaVenda = () => {
                 valorTotal: valorTotal,
                 porcentagemDescontoVenda: porcentagemDescontoVenda,
                 dataDestinacao: dataDestinacao,
-                valorUnidadeMedida: valorUnidadeMedida
+                valorUnidadeMedida: valorUnidadeMedida,
+                macro: macro,
+                micro: micro,
+                contaBancaria: contaBancaria,
+                formaRecebimento: formaRecebimento
             },
             beforeSend: function () {
                 $('.btn-form').addClass('d-none');
@@ -58,7 +74,9 @@ const salvarNovaVenda = () => {
                 $('.btn-form').removeClass('d-none');
                 $('.load-form').addClass('d-none');
 
-                let redirect = response.type == 'error' ? '#' : `${baseUrl}estoqueResiduos`;
+                let segment1 = $('.segment-1').val();
+
+                let redirect = response.type == 'error' ? '#' : `${baseUrl}${segment1 == 'estoqueResiduos' ? 'estoqueResiduos' : 'vendas/residuos'}`;
 
                 avisoRetorno(response.title, response.message, response.type, redirect);
 
@@ -72,8 +90,6 @@ const salvarNovaVenda = () => {
 }
 
 const deletarVendaResiduo = (idVenda) => {
-
-    alert(idVenda); return;
 
 
     Swal.fire({
@@ -108,3 +124,42 @@ const deletarVendaResiduo = (idVenda) => {
     })
 
 }
+
+$(document).on('change', '#check-agendar-recebimento', function () {
+    let isChecked = $(this).is(':checked');
+    $('.label-data').html(isChecked ? 'Data de Vencimento' : 'Data da Venda');
+    $('.div-contas-receber').toggleClass('d-none', isChecked);
+    $('.div-contas-receber').find(':input').toggleClass('input-obrigatorio-venda', !isChecked);
+});
+
+$(document).on('change', '.select-macros', function () {
+
+    let idMacro = $(this).val();
+
+    $.ajax({
+        type: "post",
+        url: `${baseUrl}finMicro/recebeMicrosMacro`,
+        data: {
+            idMacro: idMacro
+        }, beforeSend: function () {
+            $('.select-micros').attr('disabled', true);
+            $('.select-micros').html('<option disabled>Carregando...</option>');
+
+        }, success: function (data) {
+
+            $('.select-micros').attr('disabled', false);
+
+            let options = '<option value="" disabled >Selecione</option>';
+
+            for (i = 0; i < data.microsMacro.length; i++) {
+
+                options += `<option value="${data.microsMacro[i].id}">${data.microsMacro[i].nome}</option>`;
+            }
+
+            $('.select-micros').html(options);
+
+            $('.select-micros').val('').trigger('change');
+
+        }
+    })
+})

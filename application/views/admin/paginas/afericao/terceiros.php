@@ -379,7 +379,6 @@
                                                     <div class="mb-4">
                                                         <input id="check-agendar-pagamento" name="agendar_pagamento" class="form-check-input" type="checkbox" style="cursor: pointer;" />
                                                         <label class="text-body-highlight mb-2 cursor-pointer" for="check-agendar-pagamento">Agendar pagamento</label>
-                                                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                                                     </div>
 
                                                 </div>
