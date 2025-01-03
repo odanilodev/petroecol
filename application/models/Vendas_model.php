@@ -13,6 +13,7 @@ class Vendas_model extends CI_Model {
         $this->db->join('ci_residuos R', 'R.id = V.id_residuo', 'left');
         $this->db->join('ci_unidades_medidas U', 'U.id = V.id_unidade_medida', 'left');
         $this->db->where('V.id_empresa', $this->session->userdata('id_empresa'));
+        $this->db->order_by('V.data_venda', 'DESC');
 
         if ($count) {
             $this->db->where('V.id_empresa', $this->session->userdata('id_empresa'));
