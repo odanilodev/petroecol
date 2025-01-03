@@ -59,24 +59,26 @@ class Admin extends CI_Controller
 
         // Documentos Vencidos
         if (!empty($documentos['vencido'])) {
-            $mensagem .= '<div class="card mb-2" style="background: #efecec; border-color: #efecec; margin:0; padding:5px;">';
             foreach ($documentos['vencido'] as $doc) {
-                $mensagem .= '<p class="mb-1">';
-                $mensagem .= $doc['nome'] . ' <br><span style="color:#ee3434 !important;" class="badge badge-phoenix badge-phoenix-danger rounded-pill fs-10 ms-2 mb-1"><span class="badge-label">Vencido em: ' . date('d/m/Y', strtotime($doc['validade'])) . '</span></span>';
-                $mensagem .= '</p><hr class="m-0 p-0" style="color: #bbb7b7;">';
+                $mensagem .= '
+                <span class="badge badge-phoenix fs-10 badge-phoenix-danger" style="background: transparent !important; color: #fa3b1d !important">
+                    <span class="badge-label">
+                        ' . $doc['nome'] . ' - Vencido em: ' . date('d/m/Y', strtotime($doc['validade'])) . '
+                    </span>
+                </span>';
             }
-            $mensagem .= '</div>';
         }
 
         // Documentos Vencendo
         if (!empty($documentos['vencendo'])) {
-            $mensagem .= '<div class="card" style="background: #efecec; border-color: #efecec; margin:0; padding:5px;">'; 
             foreach ($documentos['vencendo'] as $doc) {
-                $mensagem .= '<p class="mb-1">';
-                $mensagem .= $doc['nome'] . ' <br><span  class="badge badge-phoenix badge-phoenix-warning rounded-pill fs-10 ms-2 mb-1"><span class="badge-label" style="color: #ffb500;">Válido até: ' . date('d/m/Y', strtotime($doc['validade'])) . '</span></span>';
-                $mensagem .= '</p><hr class="m-0 p-0" style="color: #bbb7b7;">';
+                $mensagem .= '
+                <span class="badge badge-phoenix fs-10 badge-phoenix-warning" style="background: transparent !important; color: #e5780b !important">
+                    <span class="badge-label">
+                        ' . $doc['nome'] . ' - Válido até: ' . date('d/m/Y', strtotime($doc['validade'])) . '
+                    </span>
+                </span>';
             }
-            $mensagem .= '</div>';
         }
 
         // Preparando a resposta
