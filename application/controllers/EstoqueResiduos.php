@@ -77,6 +77,18 @@ class EstoqueResiduos extends CI_Controller
         $this->load->model('Clientes_model');
         $data['clientes_finais'] = $this->Clientes_model->recebeClientesFinais();
 
+        $this->load->model('FinMacro_model');
+		$data['macros'] = $this->FinMacro_model->recebeMacros();
+
+		$this->load->model('FinFormaTransacao_model');
+		$data['formasTransacoes'] = $this->FinFormaTransacao_model->recebeFormasTransacao();
+
+		$this->load->model('FinContaBancaria_model');
+		$data['contasBancarias'] = $this->FinContaBancaria_model->recebeContasBancarias();
+
+		$this->load->model('SetoresEmpresa_model');
+		$data['setoresEmpresa'] = $this->SetoresEmpresa_model->recebeSetoresEmpresa();
+
         $this->load->view('admin/includes/painel/cabecalho', $data);
         $this->load->view('admin/paginas/residuos/estoque-residuos');
         $this->load->view('admin/includes/painel/rodape');

@@ -130,6 +130,10 @@ $(document).on('change', '#check-agendar-recebimento', function () {
     $('.label-data').html(isChecked ? 'Data de Vencimento' : 'Data da Venda');
     $('.div-contas-receber').toggleClass('d-none', isChecked);
     $('.div-contas-receber').find(':input').toggleClass('input-obrigatorio-venda', !isChecked);
+
+    if (isChecked) {
+        $('.div-contas-receber').find(':input').val('').trigger('change');
+    }
 });
 
 $(document).on('change', '.select-macros', function () {

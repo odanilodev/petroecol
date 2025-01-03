@@ -214,6 +214,77 @@
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
 
+                                            <div class="col-lg-12">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Setor da Empresa</label>
+                                                    <select class="form-select input-obrigatorio-venda select2 select-setor-empresa">
+                                                        <option selected disabled>Selecione</option>
+                                                        <?php foreach ($setoresEmpresa as $setorEmpresa) { ?>
+                                                            <option value="<?= $setorEmpresa['id'] ?>"><?= $setorEmpresa['nome'] ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Grupos Macros</label>
+                                                    <select class="form-select select2 select-macros input-obrigatorio-venda" name="macro">
+                                                        <option selected disabled value="">Selecione</option>
+                                                        <?php foreach ($macros as $macro) { ?>
+                                                            <option value="<?= $macro['id'] ?>"><?= $macro['nome'] ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+
+                                                <div class="mb-4 ">
+                                                    <label class="text-body-highlight fw-bold mb-2 ">Grupos Micros</label>
+                                                    <select disabled class="form-select select2 select-micros input-obrigatorio-venda" name="micro">
+                                                        <option selected disabled value="">Selecione</option>
+                                                        <!-- JS -->
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6 div-contas-receber">
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2 ">Conta Bancária</label>
+                                                    <select class="form-select select2 input-obrigatorio-venda select-conta-bancaria" name="conta_bancaria">
+                                                        <option selected disabled value="">Selecione</option>
+                                                        <?php foreach ($contasBancarias as $contaBancaria) { ?>
+                                                            <option value="<?= $contaBancaria['ID_CONTA_BANCARIA'] ?>"><?= $contaBancaria['apelido'] ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6 div-contas-receber">
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2 ">Forma de Recebimento</label>
+                                                    <select class="form-select select2 input-obrigatorio-venda select-forma-recebimento" name="forma_recebimento">
+                                                        <option selected disabled value="">Selecione</option>
+                                                        <?php foreach ($formasTransacoes as $formasTransacao) { ?>
+                                                            <option value="<?= $formasTransacao['id'] ?>"><?= $formasTransacao['nome'] ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                </div>
+                                            </div>
+
                                             <div class="col-lg-6">
 
                                                 <div class="mb-4">
@@ -290,20 +361,28 @@
 
                                             <div class="col-lg-6">
                                                 <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Valor total da destinação</label>
-                                                    <input class="form-control mascara-dinheiro input-obrigatorio-venda input-valor-total" required name="valor" type="text" placeholder="Valor total da destinação">
+                                                    <label class="text-body-highlight fw-bold mb-2">Valor total da Venda</label>
+                                                    <input class="form-control mascara-dinheiro input-obrigatorio-venda input-valor-total" required name="valor" type="text" placeholder="Valor total da Venda">
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2 label-data">Data da Venda</label>
+                                                    <input autocomplete="off" class="form-control datetimepicker input-data-destinacao input-obrigatorio-venda cursor-pointer" required name="data_destinacao" type="text" placeholder="Selecione uma data" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' />
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <div class="mb-4">
-                                                    <label class="text-body-highlight fw-bold mb-2">Data da Destinação</label>
-                                                    <input autocomplete="off" class="form-control datetimepicker input-data-destinacao input-obrigatorio-venda" required name="data_destinacao" type="text" placeholder="Data da Destinação" data-options='{"disableMobile":true,"allowInput":true,"dateFormat":"d/m/Y"}' style="cursor: pointer;" />
-                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
+                                                <div class="mt-2">
+                                                    <input id="check-agendar-recebimento" name="agendar_recebimento" class="form-check-input cursor-pointer" type="checkbox" />
+                                                    <label class="text-body-highlight mb-2 cursor-pointer" for="check-agendar-recebimento">Agendar recebimento</label>
                                                 </div>
+
                                             </div>
 
                                         </div>
@@ -353,7 +432,7 @@
                                                             <option selected disabled>Selecione</option>
 
                                                             <?php foreach ($unidades_medidas as $unidade_medida) { ?>
-                                                                <option <?= $converter_unidade_medida == $unidade_medida['id'] ? 'selected' : ''?> value="<?= $unidade_medida['id'] ?>">
+                                                                <option <?= $converter_unidade_medida == $unidade_medida['id'] ? 'selected' : '' ?> value="<?= $unidade_medida['id'] ?>">
                                                                     <?= $unidade_medida['nome'] ?>
                                                                 </option>
                                                             <?php } ?>

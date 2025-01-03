@@ -87,7 +87,7 @@ class Vendas extends CI_Controller
 		$dados['id_unidade_medida'] = $this->input->post('unidadeMedida');
 		$dados['id_setor_empresa'] = $this->input->post('setorEmpresa');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
-		$dados['valor_total'] = $this->input->post('valorTotal');
+		$dados['valor_total'] = str_replace(['.', ','], ['', '.'], $this->input->post('valorTotal'));
 		$dados['porcentagem_desconto'] = $this->input->post('porcentagemDescontoVenda');
 		$dados['valor_unidade_medida'] = str_replace(['.', ','], ['', '.'], $this->input->post('valorUnidadeMedida'));
 		$dados['data_venda'] = date('Y-m-d', strtotime(str_replace('/', '-', $this->input->post('dataDestinacao'))));
@@ -119,7 +119,7 @@ class Vendas extends CI_Controller
 		}
 
 		// integra com o financeiro (contas a receber)
-		if (!$this->input->post('contaBancaria')) {
+		if (!$this->input->post('contaBancaria') || $this->input->post('contaBancaria') == null) {
 			$dadosContasReceber['id_setor_empresa'] = $dados['id_setor_empresa'];
 			$dadosContasReceber['id_empresa'] = $dados['id_empresa'];
 			$dadosContasReceber['valor'] = $dados['valor_total'];
