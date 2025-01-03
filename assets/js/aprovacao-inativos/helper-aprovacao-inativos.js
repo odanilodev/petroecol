@@ -35,7 +35,7 @@ const inativaCliente = (id) => {
                             $('.icon-indicator-number').text(qtdClientesAtualizado);
 
                         } else {
-                            
+
                             $(".btn-aprovacao-inativacao").remove();
                         }
                     }
@@ -47,6 +47,5 @@ const inativaCliente = (id) => {
 
         }
     })
-
 
 }
