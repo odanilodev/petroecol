@@ -211,8 +211,18 @@
                         <div class="card-body">
                             <div class="row g-3">
                                 <div class="col-12">
-                                    <div class="col-sm-12 col-xxl-12 py-3">
+                                    <div class="col-sm-12 col-xxl-12">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
+
+                                            <div class="col-lg-6">
+
+                                                <div class="mb-3">
+                                                    <input id="check-agendar-recebimento" name="agendar_recebimento" class="form-check-input cursor-pointer" type="checkbox" />
+                                                    <label class="text-body-highlight mb-2 cursor-pointer" for="check-agendar-recebimento">Agendar recebimento</label>
+                                                </div>
+
+                                            </div>
+
 
                                             <div class="col-lg-12">
 
@@ -374,15 +384,6 @@
                                                     <div class="d-none aviso-obrigatorio">Preencha este campo</div>
 
                                                 </div>
-                                            </div>
-
-                                            <div class="col-lg-6">
-
-                                                <div class="mt-2">
-                                                    <input id="check-agendar-recebimento" name="agendar_recebimento" class="form-check-input cursor-pointer" type="checkbox" />
-                                                    <label class="text-body-highlight mb-2 cursor-pointer" for="check-agendar-recebimento">Agendar recebimento</label>
-                                                </div>
-
                                             </div>
 
                                         </div>

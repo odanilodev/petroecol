@@ -38,7 +38,7 @@ const salvarNovaVenda = () => {
         let unidadeMedida = $('.select-unidade-medida').val();
         let quantidade = $('.input-quantidade-venda').val();
         let valorTotal = $('.input-valor-total').val();
-        valorTotal = valorTotal.replace(/R\$\s?/, '').replace(',', '.');
+        valorTotal = valorTotal.replace(/R\$\s?/, '');
         let porcentagemDescontoVenda = $('.input-desconto-venda').val();
         let dataDestinacao = $('.input-data-destinacao').val();
         let valorUnidadeMedida = $('.input-valor-unidade-medida').val();
