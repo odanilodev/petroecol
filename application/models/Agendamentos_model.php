@@ -30,32 +30,34 @@ class Agendamentos_model extends CI_Model
         $this->db->join('ci_etiqueta_cliente EC', 'EC.id_cliente = C.id', 'left');
         $this->db->join('ci_etiquetas E', 'E.id = EC.id_etiqueta', 'left');
         $this->db->where('A.data_coleta >=', $dataInicioFormatada);
-        $this->db->where('A.data_coleta <', date('Y-m-d')); 
+    
+        $dataAtual = date('Y-m-d');
+        if ($dataFimFormatada < $dataAtual) {
+            $this->db->where('A.data_coleta <=', $dataFimFormatada);
+        } else {
+            $this->db->where('A.data_coleta <', $dataAtual);
+        }
+    
         $this->db->where('A.status', 0);
         $this->db->where('A.id_empresa', $this->session->userdata('id_empresa'));
-
-        // Adiciona a cláusula do setor apenas se $setor não for null
+    
         if ($setorEmpresa !== 'todos' && $setorEmpresa !== null) {
             $this->db->where('A.id_setor_empresa', $setorEmpresa);
         }
-
-        // Adiciona a cláusula de cidade apenas se $cidade não for null
+    
         if ($cidade !== 'todas' && $cidade !== null) {
             $this->db->where('C.cidade', $cidade);
         }
-
-        // Adiciona a cláusula de etiqueta apenas se $etiqueta não for null
+    
         if (isset($etiqueta) && $etiqueta[0] !== 'todas' && $etiqueta !== null) {
             $this->db->where_in('EC.id_etiqueta', $etiqueta);
         }
-
+    
         $this->db->group_by('A.id_cliente, A.data_coleta');
         $this->db->order_by('A.data_coleta');
         $query = $this->db->get();
         return $query->result_array();
     }
-
-
 
     public function recebeAgendamentos($anoAtual, $mesAtual)
     {
