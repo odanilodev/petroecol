@@ -13,24 +13,24 @@ class Agendamentos_model extends CI_Model
     public function recebeAgendamentosAtrasados(string $dataInicioFormatada, string $dataFimFormatada, ?string $setorEmpresa, ?string $cidade, ?array $etiqueta): array
     {
         $this->db->select('
-        MAX(C.cidade) as cidade, 
-        MAX(C.telefone) as telefone, 
-        MAX(C.nome) as NOME_CLIENTE, 
-        MAX(SE.nome) as NOME_SETOR,
-        MAX(A.data_coleta) as data_coleta,
-        MAX(A.id_setor_empresa) as id_setor_empresa,
-        MAX(A.id_cliente) as id_cliente,
-        MAX(A.id) as ID_AGENDAMENTO,
-        MAX(EC.id_etiqueta) as ID_ETIQUETA,
-        MAX(E.nome) as NOME_ETIQUETA
-    ');
+            MAX(C.cidade) as cidade, 
+            MAX(C.telefone) as telefone, 
+            MAX(C.nome) as NOME_CLIENTE, 
+            MAX(SE.nome) as NOME_SETOR,
+            MAX(A.data_coleta) as data_coleta,
+            MAX(A.id_setor_empresa) as id_setor_empresa,
+            MAX(A.id_cliente) as id_cliente,
+            MAX(A.id) as ID_AGENDAMENTO,
+            MAX(EC.id_etiqueta) as ID_ETIQUETA,
+            MAX(E.nome) as NOME_ETIQUETA
+        ');
         $this->db->from('ci_agendamentos A');
         $this->db->join('ci_clientes C', 'A.id_cliente = C.id', 'left');
         $this->db->join('ci_setores_empresa SE', 'A.id_setor_empresa = SE.id', 'left');
         $this->db->join('ci_etiqueta_cliente EC', 'EC.id_cliente = C.id', 'left');
         $this->db->join('ci_etiquetas E', 'E.id = EC.id_etiqueta', 'left');
         $this->db->where('A.data_coleta >=', $dataInicioFormatada);
-        $this->db->where('A.data_coleta <=', $dataFimFormatada);
+        $this->db->where('A.data_coleta <', date('Y-m-d')); 
         $this->db->where('A.status', 0);
         $this->db->where('A.id_empresa', $this->session->userdata('id_empresa'));
 
@@ -56,6 +56,7 @@ class Agendamentos_model extends CI_Model
     }
 
 
+
     public function recebeAgendamentos($anoAtual, $mesAtual)
     {
         $this->db->select('data_coleta, prioridade, status, COUNT(*) AS total_agendamento');
@@ -73,8 +74,8 @@ class Agendamentos_model extends CI_Model
         $this->db->select('id, data_coleta, status');
         $this->db->from('ci_agendamentos');
         $this->db->where('id_empresa', $this->session->userdata('id_empresa'));
-        $this->db->where('id_cliente', $id_cliente); // Adiciona a condição para o id_cliente
-        $this->db->where('status', 0); // Adiciona a condição para o status igual a 0
+        $this->db->where('id_cliente', $id_cliente); 
+        $this->db->where('status', 0); 
         $this->db->where('data_coleta <', $data_coleta);
         $this->db->group_by('id');
         $this->db->group_by('data_coleta');
@@ -165,7 +166,7 @@ class Agendamentos_model extends CI_Model
         $this->db->update('ci_agendamentos', $dados);
 
         if ($this->db->affected_rows()) {
-            $this->Log_model->insereLog($id_cliente); // Corrigi para usar $id_cliente em vez de $id
+            $this->Log_model->insereLog($id_cliente);
         }
 
         return $this->db->affected_rows() > 0;
@@ -320,7 +321,6 @@ class Agendamentos_model extends CI_Model
 
     public function recebeProximosAgendamentosCliente($idCliente, $dataColeta, $excluindoCliente = false)
     {
-        // Seleção dos campos corrigida com operador ternário
         $this->db->select('C.nome, C.id as ID_CLIENTE, A.data_coleta' . ($excluindoCliente ? ', MAX(A.id_setor_empresa) AS id_setor_empresa' : ', A.id_setor_empresa'));
         $this->db->from('ci_agendamentos A');
         $this->db->join('ci_clientes C', 'A.id_cliente = C.id', 'inner');
@@ -328,16 +328,13 @@ class Agendamentos_model extends CI_Model
         $this->db->where('A.data_coleta >=', $dataColeta);
 
         if (!$excluindoCliente) {
-            // Condições adicionais se não estiver excluindo cliente
             $this->db->where('A.status', 0);
             $this->db->where('A.data_coleta <=', date('Y-m-d', strtotime($dataColeta . ' +30 days')));
         } else {
-            // Condições se estiver excluindo cliente
             $this->db->where_in('A.status', [2, 0]);
         }
 
         $this->db->where('A.id_empresa', $this->session->userdata('id_empresa'));
-        // Ajuste na cláusula GROUP BY com operador ternário
         $this->db->group_by('C.nome, A.data_coleta' . (!$excluindoCliente ? ', id_setor_empresa' : ''));
 
         $query = $this->db->get();

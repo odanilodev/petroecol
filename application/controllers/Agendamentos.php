@@ -24,11 +24,9 @@ class Agendamentos extends CI_Controller
 
     public function index()
     {
-        // scripts padrão
         $scriptsPadraoHead = scriptsPadraoHead();
         $scriptsPadraoFooter = scriptsPadraoFooter();
 
-        // scripts para agendamento
         $scriptsAgendamentoHead = scriptsAgendamentoHead();
         $scriptsAgendamentoFooter = scriptsAgendamentoFooter();
 
@@ -56,39 +54,30 @@ class Agendamentos extends CI_Controller
         $this->load->model('Veiculos_model');
         $this->load->model('Etiquetas_model');
 
-        // Carrega scripts padrão
         $scriptsPadraoHead = scriptsPadraoHead();
         $scriptsPadraoFooter = scriptsPadraoFooter();
 
-        // Carrega scripts específicos para agendamento
         $scriptsAgendamentoHead = scriptsAgendamentoHead();
         $scriptsAgendamentoFooter = scriptsAgendamentoFooter();
 
-        // Adiciona scripts ao cabeçalho e rodapé
         add_scripts('header', array_merge($scriptsPadraoHead, $scriptsAgendamentoHead));
         add_scripts('footer', array_merge($scriptsPadraoFooter, $scriptsAgendamentoFooter));
 
-        // Define as datas padrão caso não sejam recebidas via POST
         $dataInicio = new DateTime();
-        $dataInicio->modify('-31 days'); // Modifica para 31 dias atrás para incluir ontem
+        $dataInicio->modify('-31 days'); 
         $dataInicioFormatada = $dataInicio->format('Y-m-d');
 
         $dataFim = new DateTime();
-        $dataFim->modify('-1 days'); // Modifica para 1 dia atrás para incluir até ontem
+        $dataFim->modify('-1 days');
         $dataFimFormatada = $dataFim->format('Y-m-d');
 
-        // Verifica se as datas foram recebidas via POST
         if ($this->input->post('data_inicio') && $this->input->post('data_fim')) {
-            // Recebe as datas do POST
             $dataInicioFormatada = $this->input->post('data_inicio');
             $dataFimFormatada = $this->input->post('data_fim');
-
-            // Converte as datas para o formato americano (Y-m-d)
             $dataInicioFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataInicioFormatada)));
             $dataFimFormatada = date('Y-m-d', strtotime(str_replace('/', '-', $dataFimFormatada)));
         }
 
-        // Prepara os dados para a view
         $data['dataInicio'] = $this->input->post('data_inicio');
         $data['dataFim'] = $this->input->post('data_fim');
         $data['idSetor'] = $this->input->post('setor');
@@ -132,12 +121,10 @@ class Agendamentos extends CI_Controller
 
         for ($i = 0; $i < count($idsClientes); $i++) {
 
-            // verifica se já existe o cliente agendado nessa data
             $clienteAgendado = $this->Agendamentos_model->recebeClienteAgendado($idsClientes[$i], $dados['data_coleta'], $dados['id_setor_empresa']);
 
             if (!$clienteAgendado) {
 
-                // Se o cliente não está agendado, realiza a inserção ou edição
                 $dados['id_cliente'] = $idsClientes[$i];
                 $retorno = $id ? $this->Agendamentos_model->editaAgendamento($id, $dados) : $this->Agendamentos_model->insereAgendamento($dados);
 
@@ -146,7 +133,7 @@ class Agendamentos extends CI_Controller
                         'success' => false,
                         'message' => 'Erro ao inserir ou editar agendamento para o cliente:'
                     );
-                    break; // para o loop se der erro
+                    break; 
                 }
             } else if ($clienteAgendado['id'] == $id) {
 
@@ -157,11 +144,9 @@ class Agendamentos extends CI_Controller
                         'success' => false,
                         'message' => 'Erro ao inserir ou editar agendamento para o cliente:'
                     );
-                    break; // para o loop se der erro
+                    break; 
                 }
             } else {
-
-                // Se o cliente já está agendado, atualiza a mensagem de erro
                 $response = array(
                     'success' => false,
                     'message' => 'Este cliente já está agendado para este dia.'
@@ -185,7 +170,6 @@ class Agendamentos extends CI_Controller
             'agendamentos' => $agendamentos
         );
 
-        // Responda com os dados em formato JSON
         return $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
@@ -201,7 +185,6 @@ class Agendamentos extends CI_Controller
             'agendados' => $clientesAgendados
         );
 
-        // Responda com os dados em formato JSON
         return $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
@@ -210,20 +193,17 @@ class Agendamentos extends CI_Controller
         $idCliente = $this->input->post('idCliente');
         $dataAgendamento = $this->input->post('dataAgendamento');
 
-        // Chama a função do modelo para obter os agendamentos
         $agendamentos = $this->Agendamentos_model->obtemAgendamentosPorDataProxima($idCliente, $dataAgendamento);
 
         $data = array(
             'agendamentos' => $agendamentos
         );
 
-        // Responda com os dados em formato JSON
         return $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
     public function editaObservacaoAgendamento()
     {
-        // Obtém os dados do POST
         $idAgendamento = $this->input->post('idAgendamento');
 
         $dados['observacao'] = $this->input->post('observacao');
@@ -246,7 +226,6 @@ class Agendamentos extends CI_Controller
             );
         }
 
-        // Retorna a resposta como JSON
         return $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
