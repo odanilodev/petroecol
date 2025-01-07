@@ -5,7 +5,7 @@
       <div class="col-auto">
         <div class="d-flex align-items-center">
           <button class="btn btn-link text-900 me-4 px-0 d-none"><span class="fa-solid fa-file-export fs--1 me-2"></span>Export</button>
-          <a href="<?= base_url("documentoEmpresa/formulario") ?>" class="btn btn-phoenix-primary"><span class="fas fa-plus me-2"></span>Cadastrar Documento</a>
+          <a href="<?= base_url("documentoEmpresa/formulario") ?>" class="btn btn-phoenix-primary"><span class="fas fa-plus me-2"></span> Cadastrar Documento</a>
           <a href="#" class="btn btn-danger d-none btn-excluir-tudo mx-2" onclick="deletaDocumentoEmpresa()"><span class="fas fa-trash"></span> Excluir</a>
         </div>
 
@@ -35,7 +35,19 @@
 
           <tbody class="list" id="members-table-body">
 
-            <?php foreach ($documentos as $documento) { ?>
+            <?php foreach ($documentos as $documento) {
+              $dataAtual = new DateTime(); 
+              $dataAtual->setTime(0, 0, 0); // hora como 00:00:00
+
+              $dataLimite = (clone $dataAtual)->modify('+30 days'); // data limite para 30 dias após a data atual
+
+              $etiqueta = '';
+              if ($documento['validade'] < $dataAtual->format('Y-m-d')) { //anterior a hoje
+                $etiqueta = "text-danger"; 
+              } elseif ($documento['validade'] == $dataAtual->format('Y-m-d') || ($documento['validade'] >= $dataAtual->format('Y-m-d') && $documento['validade'] <= $dataLimite->format('Y-m-d'))) { // vence hoje ou dentro de 30 dias
+                $etiqueta = "text-warning";
+              }
+            ?>
               <tr class="hover-actions-trigger btn-reveal-trigger position-static">
 
                 <td class="text-center nome align-middle white-space-nowrap">
@@ -43,7 +55,7 @@
                 </td>
 
                 <td class="text-center validade align-middle white-space-nowrap">
-                  <h6><?= date('d/m/Y', strtotime($documento['validade'])) ?></h6>
+                  <h6 class="<?= $etiqueta ?>"><?= date('d/m/Y', strtotime($documento['validade'])) ?></h6>
                 </td>
 
                 <td class="text-center align-middle white-space-nowrap">
@@ -58,8 +70,7 @@
                   </button>
                 </td>
 
-
-                <td class="align-middle white-space-nowrap text-end pe-0 text-center ">
+                <td class="align-middle white-space-nowrap text-end pe-0 text-center">
                   <div class="font-sans-serif btn-reveal-trigger position-static">
                     <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
                       <span class="fas fa-ellipsis-h fs--2"></span>
@@ -75,10 +86,9 @@
                   </div>
                 </td>
 
-
               </tr>
-
             <?php } ?>
+
 
           </tbody>
         </table>
