@@ -220,6 +220,7 @@ const gerarRomaneio = () => {
                 veiculo: veiculo,
                 data_coleta: data_coleta,
                 setorEmpresa: setorEmpresa,
+                id_trajeto: trajeto,
                 clientes: clientes
             },
             beforeSend: function () {
