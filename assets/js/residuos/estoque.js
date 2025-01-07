@@ -3,6 +3,7 @@ const inserirLancamentoEstoqueResiduos = () => {
     let tipoLancamento = $('.select-tipo-lancamento').val();
     let residuo = $('.select-residuo').val();
     let quantidade = $('.input-quantidade').val();
+    let setorEmpresa = $('.select-setor-empresa').val();
     
     $.ajax({
         type: "post",
@@ -10,7 +11,8 @@ const inserirLancamentoEstoqueResiduos = () => {
         data: {
             tipoLancamento: tipoLancamento,
             residuo: residuo,
-            quantidade: quantidade
+            quantidade: quantidade,
+            setorEmpresa: setorEmpresa
         },
         beforeSend: function () {
             $('.load-form-modal').removeClass('d-none');

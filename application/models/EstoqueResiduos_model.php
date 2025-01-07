@@ -24,7 +24,7 @@ class EstoqueResiduos_model extends CI_Model
 
     public function recebeMovimentacaoEstoqueResiduo($idResiduo)
     {
-        $this->db->select('ER.quantidade, ER.criado_em, ER.tipo_movimentacao, R.nome as RESIDUO, U.nome as UNIDADE_MEDIDA');
+        $this->db->select('ER.quantidade, ER.criado_em, ER.tipo_movimentacao, ER.origem_movimentacao, R.nome as RESIDUO, U.nome as UNIDADE_MEDIDA');
         $this->db->from('ci_estoque_residuos ER');
 
         $this->db->where('ER.id_empresa', $this->session->userdata('id_empresa'));

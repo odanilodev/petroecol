@@ -151,7 +151,7 @@ class AfericaoTerceiros extends CI_Controller
 		$dadosAfericaoTerceiros['quantidade_paga'] = number_format($quantidade, 3, '.', '');
 		$dadosAfericaoTerceiros['id_unidade_medida_paga'] = $dadosPost['unidade_medida'];
 		$dadosAfericaoTerceiros['gasto'] = str_replace(['.', ','], ['', '.'], $dadosPost['valor']);
-		$dadosAfericaoTerceiros['id_setor_empresa'] = $dadosPost['setor'];
+		$dadosAfericaoTerceiros['id_setor_empresa'] = 
 		$dadosAfericaoTerceiros['data_afericao'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosPost['data_afericao'])));
 		$dadosAfericaoTerceiros['id_empresa'] = $this->session->userdata('id_empresa');
 		$dadosAfericaoTerceiros['id_unidade_medida_aferida'] = $dadosPost['unidade_medida_aferida'];
@@ -166,6 +166,7 @@ class AfericaoTerceiros extends CI_Controller
 
 			// dados para tabela de estoque
 			$dadosResiduosEstoque['id_residuo'] = $dadosPost['residuo'];
+			$dadosResiduosEstoque['id_setor_empresa'] = $dadosPost['setor'];
 			$dadosResiduosEstoque['quantidade'] = number_format($quantidadeAferida, 3, '.', '');
 			$dadosResiduosEstoque['id_unidade_medida'] = $unidadeMedidaPadraoResiduo;
 			$dadosResiduosEstoque['tipo_movimentacao'] = 1; // entrada
@@ -174,6 +175,7 @@ class AfericaoTerceiros extends CI_Controller
 			// soma o total do residuo de acordo com o ultimo total gravado
 			$dadosResiduosEstoque['total_estoque_residuo'] = ($quantidadeTotalResiduo['total_estoque_residuo'] ?? 0) + $dadosResiduosEstoque['quantidade'];
 			$dadosResiduosEstoque['total_estoque_residuo'] = number_format($dadosResiduosEstoque['total_estoque_residuo'], 3, '.', '');
+			$dadosResiduosEstoque['origem_movimentacao'] = 'Lançamento aferição de terceiros';
 
 			$this->EstoqueResiduos_model->insereEstoqueResiduos($dadosResiduosEstoque);
 		}

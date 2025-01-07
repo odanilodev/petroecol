@@ -2,6 +2,11 @@
     <div id="members">
 
         <div class="px-4 px-lg-6 mb-9 bg-white border-y border-300 mt-2 position-relative top-1">
+            <div class="row align-items-end justify-content-between pb-5 pt-5 g-3">
+                <div class="col-auto">
+                    <h3>Resíduos Aferidos</h3>
+                </div>
+            </div>
             <div class="table-responsive scrollbar ms-n1 ps-1">
                 <table class="table table-sm fs--1 mb-0">
                     <thead>

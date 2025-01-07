@@ -167,6 +167,8 @@ class Vendas extends CI_Controller
 		$dadosResiduosEstoque['tipo_movimentacao'] = 0; // saída
 		$dadosResiduosEstoque['id_empresa'] = $dados['id_empresa'];
 		$dadosResiduosEstoque['id_setor_empresa'] = $dados['id_setor_empresa'];
+        $dadosResiduosEstoque['origem_movimentacao'] = 'Venda de resíduo';
+
 
 		// subtrai o total do residuo de acordo com o ultimo total gravado
 		$dadosResiduosEstoque['total_estoque_residuo'] = $quantidadeTotalResiduo['total_estoque_residuo'] - $dadosResiduosEstoque['quantidade'];

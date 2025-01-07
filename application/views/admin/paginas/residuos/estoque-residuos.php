@@ -136,6 +136,22 @@
                                     <div class="col-sm-12 col-xxl-12 py-3">
                                         <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
 
+                                            <div class="col-lg-12">
+
+                                                <div class="mb-4">
+                                                    <label class="text-body-highlight fw-bold mb-2">Setor da empresa</label>
+                                                    <select class="form-select input-obrigatorio select-setor-empresa select2" name="setor">
+                                                        <option selected disabled>Selecione</option>
+                                                        <?php foreach ($setoresEmpresa as $setorEmpresa) { ?>
+                                                            <option value="<?= $setorEmpresa['id'] ?>"><?= $setorEmpresa['nome'] ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                    <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+
+                                                </div>
+
+                                            </div>
+
                                             <div class="col-lg-4">
 
                                                 <div class="mb-4">
@@ -228,7 +244,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Setor da Empresa</label>
-                                                    <select class="form-select input-obrigatorio-venda select2 select-setor-empresa">
+                                                    <select class="form-select input-obrigatorio-venda select2 select-setor-empresa-venda">
                                                         <option selected disabled>Selecione</option>
                                                         <?php foreach ($setoresEmpresa as $setorEmpresa) { ?>
                                                             <option value="<?= $setorEmpresa['id'] ?>"><?= $setorEmpresa['nome'] ?></option>

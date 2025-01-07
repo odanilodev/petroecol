@@ -124,7 +124,9 @@ class EstoqueResiduos extends CI_Controller
         $dados['id_unidade_medida'] = $this->Residuos_model->recebeResiduo($dados['id_residuo'])['id_unidade_medida'];
         $dados['quantidade'] = $this->input->post('quantidade');
         $dados['tipo_movimentacao'] = $this->input->post('tipoLancamento');
+        $dados['id_setor_empresa'] = $this->input->post('setorEmpresa');
         $dados['id_empresa'] = $this->session->userdata('id_empresa');
+        $dados['origem_movimentacao'] = 'Lançamento manual no estoque';
 
         $totalAtualResiduo = $this->EstoqueResiduos_model->recebeTotalAtualEstoqueResiduo($dados['id_residuo']);
 

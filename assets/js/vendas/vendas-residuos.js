@@ -44,7 +44,7 @@ const salvarNovaVenda = () => {
         let valorUnidadeMedida = $('.input-valor-unidade-medida').val();
         let macro = $('.select-macros').val();
         let micro = $('.select-micros').val();
-        let setorEmpresa = $('.select-setor-empresa').val();
+        let setorEmpresa = $('.select-setor-empresa-venda').val();
         let contaBancaria = $('.select-conta-bancaria').val();
         let formaRecebimento = $('.select-forma-recebimento').val();
 

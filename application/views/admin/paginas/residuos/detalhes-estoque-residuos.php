@@ -13,8 +13,9 @@
                     <thead>
                         <tr class="text-center">
                             <th class="sort align-middle text-center" scope="col" data-sort="td_transacao">Quantidade</th>
-                            <th class="sort ps-5 align-middle text-center" scope="col" data-sort="td_setor">Tipo de Movimentação</th>
-                            <th class="sort ps-5 align-middle text-center" scope="col" data-sort="td_setor">Data de Movimentação</th>
+                            <th class="sort ps-5 align-middle text-center" scope="col">Tipo de Movimentação</th>
+                            <th class="sort ps-5 align-middle text-center" scope="col">Data de Movimentação</th>
+                            <th class="sort ps-5 align-middle text-center" scope="col">Origem de Movimentação</th>
                         </tr>
                     </thead>
                     <tbody class="list" id="table-latest-review-body">
@@ -50,10 +51,15 @@
                                     <?php endif; ?>
                                 </td>
 
-
                                 <td class="align-middle text-center">
                                     <h6 class="mb-0 text-900 text-center">
                                         <?= date('d/m/Y H:i:s', strtotime($estoque['criado_em'])) ?>
+                                    </h6>
+                                </td>
+
+                                <td class="align-middle text-center td_recebido">
+                                    <h6 class="mb-0 text-900">
+                                        <?= $estoque['origem_movimentacao']; ?>
                                     </h6>
                                 </td>
 

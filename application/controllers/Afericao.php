@@ -151,6 +151,7 @@ class Afericao extends CI_Controller
 				$dadosResiduosEstoque['id_residuo'] = $dadosResiduosAferido['idResiduo'];
 				$dadosResiduosEstoque['quantidade'] = $dadosResiduosAferido['aferido'];
 				$dadosResiduosEstoque['id_unidade_medida'] = $dadosResiduosAferido['medida'];
+				$dadosResiduosEstoque['id_setor_empresa'] = $dadosResiduosAferido['setorEmpresa'];
 				$dadosResiduosEstoque['tipo_movimentacao'] = 1; // entrada
 				$dadosResiduosEstoque['id_empresa'] = $this->session->userdata('id_empresa');
 
@@ -172,6 +173,8 @@ class Afericao extends CI_Controller
 				$quantidadeTotalResiduo = $this->EstoqueResiduos_model->recebeTotalAtualEstoqueResiduo($dadosResiduosEstoque['id_residuo']);
 				$dadosResiduosEstoque['total_estoque_residuo'] = $quantidadeTotalResiduo['total_estoque_residuo'] ?? 0 + $dadosResiduosEstoque['quantidade'];
 				$dadosResiduosEstoque['total_estoque_residuo'] = number_format($dadosResiduosEstoque['total_estoque_residuo'], 3, '.', '');
+				$dadosResiduosEstoque['origem_movimentacao'] = 'Lançamento aferição';
+
 
 				$this->EstoqueResiduos_model->insereEstoqueResiduos($dadosResiduosEstoque);
 

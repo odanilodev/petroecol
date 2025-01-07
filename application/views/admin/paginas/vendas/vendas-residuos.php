@@ -149,7 +149,7 @@
 
                                                 <div class="mb-4">
                                                     <label class="text-body-highlight fw-bold mb-2">Setor da Empresa</label>
-                                                    <select class="form-select input-obrigatorio-venda select2 select-setor-empresa">
+                                                    <select class="form-select input-obrigatorio-venda select2 select-setor-empresa-venda">
                                                         <option selected disabled>Selecione</option>
                                                         <?php foreach ($setoresEmpresa as $setorEmpresa) { ?>
                                                             <option value="<?= $setorEmpresa['id'] ?>"><?= $setorEmpresa['nome'] ?></option>
