@@ -270,6 +270,8 @@ class FinContasPagar extends CI_Controller
 	public function editaConta()
 	{
 		$id = $this->input->post('idConta');
+		$idPrescaoContas = $this->input->post('integracao');
+		
 		$dadosLancamento = $this->input->post('dados');
 
 		$data = [
@@ -296,6 +298,14 @@ class FinContasPagar extends CI_Controller
 		$data['id_macro'] = $dadosLancamento['macros'] ?? null;
 
 		$retorno = $this->FinContasPagar_model->editaConta($id, $data);
+
+		if ($idPrescaoContas) {
+			$this->load->model('FinPrestacaoContas_model');
+			// $dadosPrestacaoContas['recebido'] = $dadosLancamento['recebido'];
+			$dadosPrestacaoContas['valor'] = $data['valor'];
+			$dadosPrestacaoContas['id_setor_empresa'] = $data['id_setor_empresa'];
+			$this->FinPrestacaoContas_model->editaPrestacaoConta($idPrescaoContas, $dadosPrestacaoContas);
+		}
 
 		$response = [
 			'success' => (bool) $retorno,

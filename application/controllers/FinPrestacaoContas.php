@@ -26,6 +26,8 @@ class FinPrestacaoContas extends CI_Controller
 
 	public function cadastraPrestacaoContas()
 	{
+		$this->load->model('FinContasPagar_model');
+		
 		$idFuncionario = $this->input->post('idFuncionario');
 		$codRomaneio = $this->input->post('codigoRomaneio');
 		$idSetorEmpresa = $this->input->post('idSetorEmpresa');
@@ -65,6 +67,8 @@ class FinPrestacaoContas extends CI_Controller
 				$dados['codigo_romaneio'] = $codRomaneio;
 				$dados['id_setor_empresa'] = $idSetorEmpresa;
 
+				$retornoPrestacaoContas = $this->FinPrestacaoContas_model->inserePrestacaoContas($dados);
+
 				if (!$tipoPagamento[$i]) {
 
 					$valorTotal += floatval($dados['valor']); // valor total que o funcionario gastou
@@ -73,20 +77,18 @@ class FinPrestacaoContas extends CI_Controller
 
 					$contasPagar['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-', $dataPagamento[$i])));
 					$contasPagar['valor'] = str_replace(['.', ','], ['', '.'], $valores[$i]);
-					$contasPagar['id_funcionario'] = $idFuncionario;
 					$contasPagar['id_empresa'] = $this->session->userdata('id_empresa');
 					$contasPagar['id_dado_financeiro'] = $recebido[$i];
 					$contasPagar['id_micro'] = $micros[$i];
 					$contasPagar['id_macro'] = $macros[$i];
 					$contasPagar['id_setor_empresa'] = $idSetorEmpresa;
 					$contasPagar['observacao'] = "Romaneio: $codRomaneio";
-					$this->load->model('FinContasPagar_model');
+					$contasPagar['integracao'] = $retornoPrestacaoContas;
 
 					$this->FinContasPagar_model->insereConta($contasPagar);
 				}
 
-				$retorno = $this->FinPrestacaoContas_model->inserePrestacaoContas($dados);
-				if (!$retorno) {
+				if (!$retornoPrestacaoContas) {
 					$success = false;
 					break;
 				}

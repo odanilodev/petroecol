@@ -161,6 +161,19 @@
                         <div class="d-none aviso-obrigatorio">Preencha este campo</div>
                     </div>
 
+                    <div class="col-12">
+
+                        <select class="form-select w-100 select2" id="select-trajetos">
+                            <option selected disabled>Selecione o trajeto</option>
+                            <?php
+                            foreach ($trajetos as $trajeto) { ?>
+                                <option value="<?= $trajeto['id'] ?>">
+                                    <?= strtoupper($trajeto['nome']) ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                        <div class="d-none aviso-obrigatorio">Preencha este campo</div>
+                    </div>
 
                     <div class="spinner-border text-primary load-form d-none load-form-modal-romaneio" role="status">
                     </div>

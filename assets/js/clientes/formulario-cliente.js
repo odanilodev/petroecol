@@ -39,6 +39,13 @@ const verificaCampos = () => {
     let dadosEmpresa = {};
     $('#form-empresa .campo-empresa').each(function () {
         dadosEmpresa[$(this).attr('name')] = $(this).val();
+
+        if ($(this).attr('name') == 'cliente_final' && $(this).is(':checked')) {
+            dadosEmpresa['cliente_final'] = 1;
+        } else {
+            dadosEmpresa['cliente_final'] = 0;
+        }
+        
     });
 
     let dadosEndereco = {};

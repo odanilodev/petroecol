@@ -175,24 +175,7 @@ $(document).on('click', '.btn-salva-romaneio', function () {
         return;
     }
 
-    let permissao = true;
-
-    $(".input-obrigatorio").each(function () {
-
-        // Verifica se o valor do input atual está vazio
-        if ($(this).val() === "" || $(this).val() === null) {
-
-            $(this).addClass('invalido');
-            $(this).next().removeClass('d-none');
-
-            permissao = false;
-
-        } else {
-
-            $(this).removeClass('invalido');
-            $(this).next().addClass('d-none');
-        }
-    });
+    let permissao = verificaCamposObrigatorios('input-obrigatorio');
 
 
     if (!$('.ids-selecionados').val()) {
@@ -224,6 +207,8 @@ const gerarRomaneio = () => {
     let veiculo = $('#select-veiculo').val();
     let data_coleta = $('.input-coleta').val();
     let setorEmpresa = $('.id-setor-empresa').val();
+    let trajeto = $('#select-trajetos').val();
+
 
     if (permissao) {
 
@@ -553,6 +538,8 @@ const concluirRomaneio = (codRomaneio, idResponsavel, saldoResponsavel, dataRoma
             }, success: function (data) {
 
                 $('.responsavel').html(`${data.responsavel}`);
+
+                $('.input-id-trajeto').val(data.id_trajeto);
 
                 exibirDadosClientes(data.retorno, data.registros, data.residuos, data.pagamentos, data.id_cliente_prioridade);
                 carregaSelect2('select2', 'modalConcluirRomaneio');
@@ -1032,6 +1019,7 @@ function finalizarRomaneio() {
     let idResponsavel = $('.id_responsavel').val();
     let codRomaneio = $('.code_romaneio').val();
     let dataRomaneio = $('.data_romaneio').val();
+    let idTrajeto = $('.input-id-trajeto').val();
     let saldoResponsavel = $('.saldo-responsavel').val();
 
     let valorTotal = 0;
@@ -1140,10 +1128,12 @@ function finalizarRomaneio() {
 
         // valores pagamentos
         let formaPagamentoSelecionados = [];
-
+        let tipoMoedaPagamento = [];
         $(this).find('.div-pagamento .select-pagamento option:selected').each(function () {
 
             let divPagamento = $(this).closest('.col-md-3').prevAll('.div-pagamento');
+            
+            tipoMoedaPagamento.push($(this).data('id-tipo-pagamento'));
 
             let tipoPagamento = divPagamento.find('.select-tipo-pagamento option:selected').val();
 
@@ -1222,6 +1212,7 @@ function finalizarRomaneio() {
                 tipoPagamento: tiposPagamentos,
                 valor: valorPagamento,
                 coletado: coletado,
+                tipoMoedaPagamento: tipoMoedaPagamento,
                 obs: $(this).find('.input-obs').val()
             };
 
@@ -1295,7 +1286,8 @@ function finalizarRomaneio() {
                 dataRomaneio: dataRomaneio,
                 idSetorEmpresa: idSetorEmpresa,
                 verificaAgendamentosFuturos: true,
-                valorTotal: valorTotal
+                valorTotal: valorTotal,
+                idTrajeto: idTrajeto
 
             },
             beforeSend: function () {

@@ -34676,3 +34676,7 @@ select + .select2-obrigatorio:focus {
   background-color: var(--phoenix-border-color); 
   border-radius: 5px; 
 }
+
+.theme-wizard .nav-item:not(.theme-wizard .nav-item:last-child) .nav-link:before {
+  left: 6% !important;
+}

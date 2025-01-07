@@ -373,7 +373,7 @@ const finalizarPrestacaoContas = (dadosPrestacaoContas, dadosTrocoFuncionario) =
             $('.btn-form').removeClass('d-none');
             $('.load-form').addClass('d-none');
 
-            let redirect = data.success ? `${baseUrl}romaneios` : '#';
+            let redirect = data.success ? `${location.reload()}` : '#';
 
             avisoRetorno(data.title, data.message, data.type, redirect);
 

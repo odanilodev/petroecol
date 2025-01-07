@@ -42,7 +42,7 @@
                           <select name="conta-bancaria" class="form-select select-conta-bancaria select2 input-obrigatorio">
                             <option value="" selected>Selecione a Conta Bancária</option>
                             <?php foreach ($contasBancarias as $v) { ?>
-                              <option value="<?= $v['ID_CB'] ?>" <?= (isset($tarifa['id_conta_bancaria']) && $tarifa['id_conta_bancaria'] == $v['ID_CB']) ? 'selected' : ''; ?>><?= $v['conta']; ?></option>
+                              <option value="<?= $v['ID_CONTA_BANCARIA'] ?>" <?= (isset($tarifa['id_conta_bancaria']) && $tarifa['id_conta_bancaria'] == $v['ID_CONTA_BANCARIA']) ? 'selected' : ''; ?>><?= $v['conta']; ?></option>
                             <?php } ?>
                           </select>
                           <div class="d-none aviso-obrigatorio">Preencha este campo</div>

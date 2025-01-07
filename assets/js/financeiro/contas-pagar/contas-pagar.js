@@ -79,6 +79,7 @@ $(document).on('change', '.select-setor-empresa', function () {
 const cadastraContasPagar = (classe) => {
 
     let idConta = $('.id-editar-conta').val();
+    let integracao = $('.id-integracao').val();
 
     let dadosFormulario = {};
 
@@ -94,9 +95,6 @@ const cadastraContasPagar = (classe) => {
         } else {
             dadosFormulario[$(this).attr('name')].push($(this).val());
         }
-
-
-        // dadosFormulario[$(this).attr('name')] = $(this).val();
 
         if ($(this).hasClass('input-obrigatorio') && !$(this).val()) {
 
@@ -141,6 +139,7 @@ const cadastraContasPagar = (classe) => {
             url: url,
             data: {
                 idConta: idConta,
+                integracao: integracao,
                 dados: dadosFormulario
             }, beforeSend: function () {
                 $(".load-form").removeClass("d-none");
@@ -218,6 +217,10 @@ $(document).on('click', '.editar-lancamento', function () {
     let id = $(this).data('id');
     $('.id-editar-conta').val(id);
 
+    let integracao = $(this).data('integracao'); // integração com prestação de contas
+    $('.id-integracao').val(integracao);
+
+
     $.ajax({
         type: "post",
         url: `${baseUrl}finContasPagar/recebeContaPagar`,
@@ -293,7 +296,7 @@ function changeSelectRecebidos(grupo, idRecebido = null) {
             }
 
             dados.forEach(dado => {
-                options += `<option ${idRecebido !== null && idRecebido == dado.id ? "selected" : ""} value="${dado.id}">${dado.nome}</option>`;
+                options += `<option ${idRecebido !== null && idRecebido == dado.id ? "selected" : ""} value="${dado.id} - ${idRecebido }">${dado.nome}</option>`;
             });
 
             $('.select-recebido').html(options);
