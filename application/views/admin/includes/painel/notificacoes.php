@@ -1,6 +1,6 @@
 <?php
 $dataAtualObj = new DateTime();
-$dataAtualObj->setTime(0, 0); 
+$dataAtualObj->setTime(0, 0);
 
 $clientesCount = count(aprovacaoInativacao());
 $documentos = documentosVencendo();
@@ -31,7 +31,8 @@ $totalCount = $clientesCount + $documentosCount;
         <div class="card position-relative border-0">
             <!-- Aprovação de Inativação -->
             <div class="card-header p-2">
-                <div class="d-flex justify-content-between p-2 cursor-pointer collapsed" data-bs-toggle="collapse" data-bs-target="#collapseAprovacaoInativacao" aria-expanded="false" aria-controls="collapseAprovacaoInativacao">
+                <div class="d-flex justify-content-between p-2 cursor-pointer collapsed" data-bs-toggle="collapse" data-bs-target="#collapseAprovacaoInativacao" aria-expanded="false" aria-controls="collapseAprovacaoInativacao" id="toggleAprovacao">
+
                     <h5 class="text-black mb-0">Aprovação de Inativação</h5>
                     <?php if ($clientesCount > 0) { ?>
                         <div class="ms-auto">
@@ -47,10 +48,23 @@ $totalCount = $clientesCount + $documentosCount;
                             <?php
                             $dataUltimaColetaObj = new DateTime($v['ULTIMA_COLETA']);
                             $diferenca = $dataUltimaColetaObj->diff($dataAtualObj);
+
+                            $badgeComodato = '';
+
+                            if ($v['ID_COMODATO']) {
+                                $badgeComodato = '
+                                    <div class="d-flex justify-content-end align-items-center" style="height:100%; position:absolute; right:0; top:0;">
+                                        <span class="bg-danger-100 rounded-circle d-flex justify-content-center align-items-center me-2" 
+                                              style="width:50px; height:50px;" 
+                                              title="Comodato existente">
+                                            <i class="text-danger-600 dark__text-danger-300 fas fa-box" style="font-size:25px;"></i>
+                                        </span>
+                                    </div>';
+                            }
                             ?>
                             <div class="px-2 px-sm-3 py-3 border-300 notification-card position-relative unread border-bottom notificacao-<?= $v['id'] ?>">
                                 <div class="d-flex align-items-center justify-content-between position-relative">
-                                    <div class="d-flex">
+                                    <div class="d-flex flex-grow-1">
                                         <div class="flex-1 me-sm-3">
                                             <h4 class="fs--1"><a class="text-black text-decoration-none" href="<?= base_url('clientes/detalhes/' . $v['id']) ?>"><?= $v['nome'] ?></a></h4>
                                             <?php if ($v['ULTIMA_COLETA']) { ?>
@@ -61,6 +75,7 @@ $totalCount = $clientesCount + $documentosCount;
                                             <p class="text-800 fs--1 mb-0 cursor-pointer"><span class="me-1 fas fa-check text-success"></span><span onclick="inativaCliente(<?= $v['id'] ?>)" class="fw-bold">CONFIRMAR INATIVAÇÃO?</span></p>
                                         </div>
                                     </div>
+                                    <?= $badgeComodato ?>
                                 </div>
                             </div>
                         <?php } ?>
@@ -75,7 +90,8 @@ $totalCount = $clientesCount + $documentosCount;
 
                 <!-- Documentos a Vencer -->
                 <div class="card-header p-2">
-                    <div class="d-flex justify-content-between p-2 cursor-pointer" data-bs-toggle="collapse" data-bs-target="#collapseDocumentos" aria-expanded="false" aria-controls="collapseDocumentos">
+                    <div class="d-flex justify-content-between p-2 cursor-pointer collapsed" data-bs-toggle="collapse" data-bs-target="#collapseDocumentos" aria-expanded="false" aria-controls="collapseDocumentos" id="toggleDocumentos">
+
                         <h5 class="text-black mb-0">Documentos</h5>
                         <?php if ($documentosCount > 0) { ?>
                             <div class="ms-auto">
