@@ -566,7 +566,7 @@ class Coletas extends CI_Controller
             // Se não houver formas de pagamento, adiciona uma linha com o campo de seleção vazio
             $selectRow = '<div class="row div-pagamento-editar">';
             $selectFormaPagamento = '
-                <div class="col-6 mb-4 div-pagamento">
+                <div class="col-md-5 col-12 mb-4 div-pagamento">
                     <select class="form-select select2 select-pagamento">
                         <option value="" selected disabled>Selecione</option>';
 
@@ -580,8 +580,8 @@ class Coletas extends CI_Controller
 
             // Cria o input para o valor correspondente à forma de pagamento
             $inputValorPagamento = '
-                <div class="col-6 mb-4 ">
-                    <input type="text" class="input-pagamento form-control mascara-dinheiro" name="valor_0" value="">
+                <div class="col-md-5 col-12 mb-4 ">
+                    <input type="text" class="input-pagamento form-control mascara-dinheiro" name="valor_0" value="" placeholder="Digite valor pago">
                     <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
                 </div>';
 
@@ -595,7 +595,7 @@ class Coletas extends CI_Controller
             // adiciona o select e o input à linha
             $selectRow .= $selectFormaPagamento . $inputValorPagamento . $btnDuplicaPagamento;
             // Fecha a linha e adiciona ao todosSelects
-            $selectRow .= '</div>';
+            $selectRow .= '<div class="pagamentos-duplicados-editar"></div></div>';
 
             $todosSelects .= $selectRow;
         } else {
