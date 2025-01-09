@@ -885,7 +885,7 @@ const salvarColetaEdit = () => {
 
     let qtdResiduos = [];
 
-    $('.input-quantidade').each(function () {
+    $('.input-residuo').each(function () {
 
         if ($(this).val() != '') {
 
@@ -976,22 +976,22 @@ const salvarColetaEdit = () => {
     }
 }
 // duplica forma de pagamento e residuos
-function duplicarElemento(novoElemento, novoInput, classe) {
+function duplicarElemento(novoElemento, novoInput, classe, editar) {
 
     // Pega os options do select
     let options = $('.select-' + novoElemento).html();
 
     let selectHtml = `
         <div class="col-md-5 mb-2 mt-2 div-${novoElemento}">
-            <select class="select2 form-select select-${novoElemento} w-100 ${novoElemento == "residuo" ? 'obrigatorio-coleta' : ''} ">
+            <select class="select2 form-select select-${novoElemento} w-100 ${novoElemento == "residuo" || editar ? 'input-obrigatorio-coleta' : ''} ">
                 ${options}
             </select>
         </div>
     `;
 
-    let inputHtml = `
+    inputHtml = `
         <div class="col-md-5 mb-2 div-${novoElemento}">
-            <input class="form-control mt-2 input-${novoElemento} ${novoElemento == "residuo" ? 'obrigatorio-coleta' : ''}" type="text" placeholder="Digite ${novoInput}" value="">
+            <input class="form-control mt-2 input-${novoElemento} ${novoElemento == "residuo" || editar ? 'input-obrigatorio-coleta' : ''}" type="text" placeholder="Digite ${novoInput}" value="">
         </div>
     `;
 
@@ -1031,6 +1031,23 @@ $(document).on('click', '.duplicar-residuo', function () {
 
 });
 
+$(document).on('click', '.remover-residuo', function () {
+
+    $(this).closest('.div-residuos-editar').remove();
+})
+
+
+$(document).on('click', '.duplicar-residuo-editar', function () {
+
+    duplicarElemento('residuo', 'quantidade coletada', 'residuos-duplicados-editar', true);
+
+    $('.select2').select2({
+        dropdownParent: ".modal-editar-coleta",
+        theme: "bootstrap-5",
+    });
+
+});
+
 $(document).on('click', '.duplicar-pagamento', function () {
 
     duplicarElemento('pagamento', 'valor pago', 'pagamentos-duplicados');
@@ -1041,6 +1058,22 @@ $(document).on('click', '.duplicar-pagamento', function () {
     });
 
 });
+
+$(document).on('click', '.duplicar-pagamento-editar', function () {
+
+    duplicarElemento('pagamento', 'valor pago', 'pagamentos-duplicados-editar', true);
+
+    $('.select2').select2({
+        dropdownParent: ".modal-editar-coleta",
+        theme: "bootstrap-5",
+    });
+
+});
+
+$(document).on('click', '.remover-pagamento', function () {
+
+    $(this).closest('.div-pagamento-editar').remove();
+})
 
 const cadastraColetaCliente = (idCliente) => {
 

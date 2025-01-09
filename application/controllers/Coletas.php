@@ -498,10 +498,10 @@ class Coletas extends CI_Controller
         // adiciona os labels
         $todosSelects .= '  
             <div class="row">
-                <div class="col-6">
+                <div class="col-md-5 col-12">
                     <label class="text-body-highlight fw-bold mb-2">Resíduos</label>
                 </div>
-                <div class="col-6">
+                <div class="col-md-5 col-12">
                     <label class="text-body-highlight fw-bold mb-2">Quantidade Coletada</label>
                 </div>
             </div>
@@ -510,11 +510,11 @@ class Coletas extends CI_Controller
         // Loop para cada resíduo coletado
         foreach ($residuosColetados as $index => $residuoColetado) {
             // Inicia a div de cada linha
-            $selectRow = '<div class="row">';
+            $selectRow = '<div class="row div-residuos-editar">';
 
             // cria o select para o resíduo
             $selectResiduo = '
-            <div class="col-6 mb-4">
+            <div class="col-md-5 col-12 mb-4">
                 <select class="form-select select2 select-residuo input-obrigatorio-coleta"> 
                     <option value="" selected disabled>Selecione</option>';
 
@@ -530,29 +530,43 @@ class Coletas extends CI_Controller
 
             // cria o input para a quantidade coletada
             $inputQuantidade = '
-            <div class="col-6 mb-4">
-                <input type="text" class="form-control input-quantidade input-obrigatorio-coleta" name="quantidade_coletada[]" value="' . $quantidadeColetada[$index] . '">
+            <div class="col-md-5 col-12 mb-4">
+                <input type="text" class="form-control input-residuo input-obrigatorio-coleta" name="quantidade_coletada[]" value="' . $quantidadeColetada[$index] . '">
                 <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
             </div>';
 
+            if ($index === 0) {
+                $btnDuplicaResiduos = '
+                <div class="col-md-2 mb-2 mb-4 row">
+                    <button class="btn btn-phoenix-success duplicar-residuo-editar w-25">+</button>
+                </div>';
+            } else {
+                $btnDuplicaResiduos = '
+                <div class="col-md-2 mb-2 mb-4 row">
+                   <button class="btn btn-phoenix-danger remover-residuo w-25">-</button>
+                </div>';
+            }
+
             // adiciona o select e o input à linha
-            $selectRow .= $selectResiduo . $inputQuantidade;
+            $selectRow .= $selectResiduo . $inputQuantidade . $btnDuplicaResiduos;
 
             // fecha a linha e adiciona ao todosSelects
             $selectRow .= '</div>';
             $todosSelects .= $selectRow;
         }
 
+        $todosSelects .= '<div class="residuos-duplicados-editar"></div>';
+
         // Adiciona o label para as formas de pagamento
-        $todosSelects .= '<hr><div class="row"><div class="col-6"><label class="text-body-highlight fw-bold mb-2">Formas de Pagamento</label></div><div class="col-6"><label class="text-body-highlight fw-bold mb-2">Valor Pago</label></div> </div>';
+        $todosSelects .= '<hr><div class="row"><div class="col-md-5 col-12"><label class="text-body-highlight fw-bold mb-2">Formas de Pagamento</label></div><div class="col-md-5 col-12"><label class="text-body-highlight fw-bold mb-2">Valor Pago</label></div> </div>';
 
         // Loop para cada forma de pagamento realizada
         if (empty($formasPagamento)) {
 
             // Se não houver formas de pagamento, adiciona uma linha com o campo de seleção vazio
-            $selectRow = '<div class="row">';
+            $selectRow = '<div class="row div-pagamento-editar">';
             $selectFormaPagamento = '
-                <div class="col-6 mb-4 div-pagamento">
+                <div class="col-md-5 col-12 mb-4 div-pagamento">
                     <select class="form-select select2 select-pagamento">
                         <option value="" selected disabled>Selecione</option>';
 
@@ -566,26 +580,34 @@ class Coletas extends CI_Controller
 
             // Cria o input para o valor correspondente à forma de pagamento
             $inputValorPagamento = '
-                <div class="col-6 mb-4 ">
-                    <input type="text" class="input-pagamento form-control mascara-dinheiro" name="valor_0" value="">
+                <div class="col-md-5 col-12 mb-4 ">
+                    <input type="text" class="input-pagamento form-control mascara-dinheiro" name="valor_0" value="" placeholder="Digite valor pago">
                     <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
                 </div>';
 
             // Adiciona o select e o input à linha
-            $selectRow .= $selectFormaPagamento . $inputValorPagamento;
+            $btnDuplicaPagamento = '
+            <div class="col-md-2 mb-2 mb-4 row">
+                <button class="btn btn-phoenix-success duplicar-pagamento-editar w-25">+</button>
+            </div>';
+        
+
+            // adiciona o select e o input à linha
+            $selectRow .= $selectFormaPagamento . $inputValorPagamento . $btnDuplicaPagamento;
             // Fecha a linha e adiciona ao todosSelects
-            $selectRow .= '</div>';
+            $selectRow .= '<div class="pagamentos-duplicados-editar"></div></div>';
+
             $todosSelects .= $selectRow;
         } else {
             // Se houver formas de pagamento, segue com o loop normalmente
             $count = 0;
             foreach ($formasPagamento as $key => $forma) {
                 // Inicia a div de cada linha
-                $selectRow = '<div class="row">';
+                $selectRow = '<div class="row div-pagamento-editar">';
 
                 // Cria o select para a forma de pagamento
                 $selectFormaPagamento = '
-                    <div class="col-6 mb-4 div-pagamento">
+                    <div class="col-md-5 col-12 mb-4 div-pagamento">
                         <select class="form-select select2 select-pagamento input-obrigatorio-coleta">
                             <option value="" selected disabled>Selecione</option>';
 
@@ -602,18 +624,36 @@ class Coletas extends CI_Controller
 
                 // Cria o input para o valor correspondente à forma de pagamento
                 $inputValorPagamento = '
-                    <div class="col-6 mb-4 div-pagamento">
+                    <div class="col-md-5 col-12 mb-4 div-pagamento">
                         <input type="' . ($formaPagamento['tipo_pagamento'] == "Moeda Financeira" ? "text" : "number") . '" class="form-control mascara-dinheiro input-pagamento input-obrigatorio-coleta" name="valor_' . $forma . '" value="' . $valoresPagos[$count] . '">
                         <div class="d-none aviso-obrigatorio">Preencha este campo.</div>
                     </div>';
 
                 // Adiciona o select e o input à linha
-                $selectRow .= $selectFormaPagamento . $inputValorPagamento;
+                if ($count === 0) {
+                    $btnDuplicaPagamento = '
+                    <div class="col-md-2 mb-2 mb-4 row">
+                        <button class="btn btn-phoenix-success duplicar-pagamento-editar w-25">+</button>
+                    </div>';
+                } else {
+                    $btnDuplicaPagamento = '
+                    <div class="col-md-2 mb-2 mb-4 row">
+                       <button class="btn btn-phoenix-danger remover-pagamento w-25">-</button>
+                    </div>';
+                }
+    
+                // adiciona o select e o input à linha
+                $selectRow .= $selectFormaPagamento . $inputValorPagamento . $btnDuplicaPagamento;
                 // Fecha a linha e adiciona ao todosSelects
                 $selectRow .= '</div>';
+
                 $todosSelects .= $selectRow;
+                
                 $count++;
             }
+
+            $todosSelects .= '<div class="pagamentos-duplicados-editar"></div>';
+
         }
 
         if ($historicoColeta) {
