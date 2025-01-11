@@ -11,7 +11,7 @@ class EstoqueResiduos_model extends CI_Model
 
     public function recebeEstoqueResiduo($idResiduo)
     {
-        $this->db->select('ER.total_estoque_residuo as QUANTIDADE');
+        $this->db->select('ER.total_estoque_residuo as QUANTIDADE, id_unidade_medida');
         $this->db->from('ci_estoque_residuos ER');
         $this->db->where('ER.id_empresa', $this->session->userdata('id_empresa'));
         $this->db->where('ER.id_residuo', $idResiduo);

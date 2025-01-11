@@ -49,7 +49,7 @@ class EstoqueResiduos extends CI_Controller
             if (isset($dadosResiduos['QUANTIDADE'])) {
                 
                 // faz a conversão de acordo com o escolhido
-                if ($this->input->post('converter_unidade_medida')) {
+                if ($this->input->post('converter_unidade_medida') && $dadosResiduos['id_unidade_medida'] != $this->input->post('converter_unidade_medida')) {
 
                     $this->load->helper('converter_unidade_medida_residuo');
     
