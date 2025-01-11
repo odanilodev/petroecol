@@ -53,11 +53,41 @@ $totalCount = $clientesCount + $documentosCount;
 
                             if ($v['ID_COMODATO']) {
                                 $badgeComodato = '
-                                    <div class="d-flex justify-content-end align-items-center" style="height:100%; position:absolute; right:0; top:0;">
-                                        <span class="bg-danger-100 rounded-circle d-flex justify-content-center align-items-center me-2" 
-                                              style="width:50px; height:50px;" 
-                                              title="Comodato existente">
-                                            <i class="text-danger-600 dark__text-danger-300 fas fa-box" style="font-size:25px;"></i>
+                                    <div class="d-flex justify-content-end align-items-center" style="position:absolute; right:0; bottom:0;">
+                                        <span class="rounded-circle d-flex justify-content-center align-items-center" style="width:24px; height:24px;" title="Comodato existente">
+                                            <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                                                width="878.000000pt" height="959.000000pt" viewBox="0 0 878.000000 959.000000"
+                                                preserveAspectRatio="xMidYMid meet">
+
+                                                <g transform="translate(0.000000,959.000000) scale(0.100000,-0.100000)"
+                                                fill="var(--phoenix-theme-control-toggle-color)" stroke="none">
+                                                <path d="M3985 8288 c-601 -34 -1116 -127 -1520 -273 -349 -126 -576 -282
+                                                -660 -450 -25 -51 -29 -71 -29 -140 0 -67 4 -89 28 -138 89 -184 362 -358 762
+                                                -487 1328 -425 3510 -284 4256 276 190 142 260 304 200 462 -132 348 -891 636
+                                                -1927 732 -312 29 -790 37 -1110 18z m-620 -533 c208 -31 335 -90 335 -155 0
+                                                -80 -193 -147 -490 -170 -330 -25 -693 39 -769 136 -27 34 -27 37 10 78 95
+                                                109 554 165 914 111z"/>
+                                                <path d="M1832 5625 c3 -1082 5 -1236 18 -1248 17 -16 108 -47 316 -106 524
+                                                -150 1092 -247 1649 -281 196 -12 703 -15 855 -5 575 38 879 80 1355 187 276
+                                                62 758 205 921 273 l34 14 0 1177 0 1176 -24 -6 c-13 -3 -104 -44 -202 -92
+                                                -378 -181 -472 -216 -805 -298 -303 -74 -512 -111 -829 -146 -412 -46 -1013
+                                                -46 -1397 0 -46 6 -122 15 -170 20 -159 19 -301 43 -518 85 -251 50 -333 71
+                                                -515 131 -235 78 -475 202 -631 325 -20 16 -42 29 -48 29 -9 0 -11 -323 -9
+                                                -1235z m4380 -168 c56 -89 121 -200 145 -247 42 -83 43 -85 40 -170 -6 -148
+                                                -77 -259 -205 -322 -61 -30 -74 -33 -162 -33 -81 0 -103 4 -150 26 -30 14 -70
+                                                39 -89 55 -82 69 -139 209 -127 311 11 96 32 137 217 428 34 55 83 139 107
+                                                188 l44 87 39 -80 c21 -45 85 -154 141 -243z"/>
+                                                <path d="M5839 5200 c-74 -117 -72 -264 4 -338 33 -32 107 -62 153 -62 21 0
+                                                17 6 -30 53 -69 67 -95 135 -104 272 -7 95 -8 98 -23 75z"/>
+                                                <path d="M6890 4241 c-24 -14 -374 -127 -526 -170 -463 -132 -933 -217 -1474
+                                                -268 -144 -13 -288 -17 -645 -17 -454 -1 -511 2 -860 40 -454 50 -966 155
+                                                -1399 288 -98 31 -183 53 -188 50 -4 -3 -8 -444 -8 -981 l0 -975 -54 -60
+                                                c-185 -204 -133 -418 148 -608 86 -57 293 -160 323 -160 10 0 27 -6 38 -14 75
+                                                -52 487 -162 811 -216 419 -71 796 -101 1285 -101 387 0 602 11 924 46 682 76
+                                                1234 232 1556 440 99 64 198 166 234 239 58 120 35 245 -68 365 l-47 55 0
+                                                1028 c0 972 -1 1028 -17 1028 -10 0 -25 -4 -33 -9z"/>
+                                                </g>
+                                            </svg>
                                         </span>
                                     </div>';
                             }
