@@ -133,7 +133,7 @@ $totalCount = $clientesCount + $documentosCount;
                 </div>
 
                 <div id="collapseDocumentos" class="collapse">
-                    <div class="scrollbar-overlay">
+                    <div class="scrollbar-overlay" style="height: 500px;">
                         <div class="border-300">
                             <?php foreach ($documentosVencendo as $documentoVencendo) { ?>
                                 <?php
