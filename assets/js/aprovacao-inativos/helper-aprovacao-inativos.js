@@ -49,3 +49,17 @@ const inativaCliente = (id) => {
     })
 
 }
+
+$(function () {
+    $('#toggleAprovacao').on('click', function () {
+        if (!$('#collapseAprovacaoInativacao').hasClass('show')) {
+            $('#collapseDocumentos').collapse('hide'); 
+        }
+    });
+
+    $('#toggleDocumentos').on('click', function () {
+        if (!$('#collapseDocumentos').hasClass('show')) {
+            $('#collapseAprovacaoInativacao').collapse('hide'); 
+        }
+    });
+});
