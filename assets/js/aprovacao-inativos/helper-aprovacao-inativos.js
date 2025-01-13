@@ -18,11 +18,11 @@ const inativaCliente = (id) => {
                         id: id
                     }, success: function () {
 
-                        let qtdClientes = $('.quantidade-notificacao').val();
+                        let qtdClientes = $('.quantidade-notificacao-clientes').val();
 
                         $(".notificacao-" + id).remove();
 
-                        $('.quantidade-notificacao').val(qtdClientes - 1);
+                        $('.quantidade-notificacao-clientes').val(qtdClientes - 1);
 
                         let qtdClientesAtualizado = qtdClientes - 1;
 
@@ -30,7 +30,7 @@ const inativaCliente = (id) => {
 
                             $('.icon-indicator-number').text('99+');
 
-                        } else if (qtdClientes > 1) {
+                        } else if (qtdClientesAtualizado > 1) {
 
                             $('.icon-indicator-number').text(qtdClientesAtualizado);
 

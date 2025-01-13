@@ -39,7 +39,7 @@ $(function () {
         let documentosCountVencendo = parseInt($('.quantidade-notificacao-documentos-vencendo').val());
         let documentosCountVencidos = parseInt($('.quantidade-notificacao-documentos-vencidos').val());
 
-        let totalCount = clientesCount + documentosCount;
+        let totalCount = clientesCount + documentosCountVencendo + documentosCountVencidos;
 
         totalCount = totalCount >= 100 ? '99+' : totalCount;
 
