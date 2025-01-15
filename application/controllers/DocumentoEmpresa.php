@@ -111,7 +111,7 @@ class DocumentoEmpresa extends CI_Controller
       $arrayUpload = [
         'single_document' => ['documentos-empresa', null]
       ];
-      $retornoDados = $this->upload_imagem->uploadImagem($arrayUpload, '*', 5120);
+      $retornoDados = $this->upload_imagem->uploadImagem($arrayUpload, '*', 25120);
     }
 
     $documento_antigo = $this->DocumentoEmpresa_model->recebeDocumentoEmpresa($id);
