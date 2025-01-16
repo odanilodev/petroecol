@@ -132,6 +132,16 @@
             ?>
 
             <?php foreach ($residuo_dados['cliente'] as $id_cliente => $cliente_dados) {
+
+                // Verifica se o cliente tem algum valor cadastrado para este resíduo
+                $residuo_pago = isset($residuoPagamentoCliente[$id_cliente][$residuo_id])
+                    && $residuoPagamentoCliente[$id_cliente][$residuo_id][0] != 0;
+
+                // Se não tiver valor cadastrado, pula para o próximo cliente
+                if (!$residuo_pago and $residuos_pagos == 1) {
+                    continue;
+                }
+
                 $movimentado = [];
                 $valor_total = [];
                 $valor_total_mensal = [];
