@@ -68,6 +68,7 @@ class Relatorios extends CI_Controller
 		$setor = $this->input->post('setor');
 		$filtrar_geral = $this->input->post('filtrar_geral');
 		$residuos = $this->input->post('residuos');
+		$residuos_pagos = $this->input->post('residuos_pagos');
 
 
 		if (!empty($this->input->post('grupos'))) {
@@ -77,10 +78,10 @@ class Relatorios extends CI_Controller
 		$this->load->model('Coletas_model');
 		$idsColetasClientes = array_column($this->Coletas_model->recebeIdColetasClientesAll($clientes, $data_inicio, $data_fim), 'id');
 
-		$this->gerarPdfRelatorioColetas($idsColetasClientes, $residuos, $filtrar_geral, $data_inicio, $data_fim);
+		$this->gerarPdfRelatorioColetas($idsColetasClientes, $residuos, $filtrar_geral, $data_inicio, $data_fim, $residuos_pagos);
 	}
 
-	public function gerarPdfRelatorioColetas($idColetaClientes, $idsResiduos, $filtrar_geral, $data_inicio, $data_fim)
+	public function gerarPdfRelatorioColetas($idColetaClientes, $idsResiduos, $filtrar_geral, $data_inicio, $data_fim, $residuos_pagos)
 	{
 		$this->load->library('detalhesColeta');
 		$this->load->library('formasPagamentoChaveId');
@@ -127,6 +128,8 @@ class Relatorios extends CI_Controller
 
 			$data['data_inicio'] = $data_inicio;
 			$data['data_fim'] = $data_fim;
+
+			$data['residuos_pagos'] = $residuos_pagos;
 
 			$data['dados'] = $this->estruturaColetas($dados);
 

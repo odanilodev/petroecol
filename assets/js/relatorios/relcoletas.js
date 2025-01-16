@@ -144,6 +144,12 @@ const relatorioColetas = () => {
         var filtrarGeral = 0;
     }
 
+    if ($('#residuos-pagos').prop('checked')) {
+        var residuosPagos = 1;
+    } else {
+        var residuosPagos = 0;
+    }
+
     if (permissao) {
 
         var form = $('<form>', {
@@ -187,6 +193,12 @@ const relatorioColetas = () => {
             'type': 'hidden',
             'name': 'filtrar_geral',
             'value': filtrarGeral
+        }));
+
+        form.append($('<input>', {
+            'type': 'hidden',
+            'name': 'residuos_pagos',
+            'value': residuosPagos
         }));
 
         $('body').append(form);
