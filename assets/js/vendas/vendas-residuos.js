@@ -24,29 +24,70 @@ $(document).on('focusout', '.input-quantidade-venda, .input-valor-unidade-medida
         valorTotalVenda = valorTotalVenda - (valorTotalVenda * porcentagemDescontoVenda / 100);
     }
 
-    $('.input-valor-total').val(formatarValorMoeda(valorTotalVenda).replace('R$ ', ''));
+    $('.input-valor-total').val(formatarValorMoeda(valorTotalVenda).replace(/^R\$\s*/, ''));
 })
 
-const salvarNovaVenda = () => {
+$(document).on('focusout', '.input-desconto-parcela-venda', function () {
+
+    let valorUnidadeMedida = $('.input-valor-unidade-medida').val();
+    valorUnidadeMedida = parseFloat(valorUnidadeMedida.replace(/\./g, '').replace(',', '.'));
+
+    let quantidade = $('.input-quantidade-venda').val();
+    let valorTotalParcelaVenda = valorUnidadeMedida * quantidade;
+    let porcentagemDescontoParcelaVenda = $(this).val();
+
+    if (porcentagemDescontoParcelaVenda) {
+        valorTotalParcelaVenda = valorTotalParcelaVenda - (valorTotalParcelaVenda * porcentagemDescontoParcelaVenda / 100);
+    }
+
+    $(this).closest('.col-md-4').next().find('.input-valor-parcela-adicional').val(formatarValorMoeda(valorTotalParcelaVenda).replace(/^R\$\s*/, ''));
+
+})
+
+
+$(document).on('click', '.btn-proximo', function () {
+    
+    verificaCamposObrigatorios('input-obrigatorio-venda');
+
+    if ($('.etapa-venda').hasClass('active')) {
+        $('.btn-proximo').addClass('btn-finalizar');
+    } else {
+        $('.btn-proximo').removeClass('btn-finalizar');
+    }
+
+})
+
+$(document).on('click', '.btn-finalizar', function () {
 
     let permissao = verificaCamposObrigatorios('input-obrigatorio-venda');
 
     if (permissao) {
 
+        let valorVenda = [];
+        $('.input-valor-venda').each(function () {
+        
+            valorVenda.push($(this).val().replace(/R\$\s?/, ''));
+        })
+
+        let vencimentoParcelas = [];
+        $('.input-data-vencimento').each(function () {
+        
+            vencimentoParcelas.push($(this).val());
+        })
+
         let cliente = $('.select-cliente').val();
         let residuo = $('.select-residuo-venda').val();
         let unidadeMedida = $('.select-unidade-medida').val();
         let quantidade = $('.input-quantidade-venda').val();
-        let valorTotal = $('.input-valor-total').val();
-        valorTotal = valorTotal.replace(/R\$\s?/, '');
         let porcentagemDescontoVenda = $('.input-desconto-venda').val();
-        let dataDestinacao = $('.input-data-destinacao').val();
+        let dataDestinacao = vencimentoParcelas;
         let valorUnidadeMedida = $('.input-valor-unidade-medida').val();
         let macro = $('.select-macros').val();
         let micro = $('.select-micros').val();
         let setorEmpresa = $('.select-setor-empresa-venda').val();
         let contaBancaria = $('.select-conta-bancaria').val();
         let formaRecebimento = $('.select-forma-recebimento').val();
+        let parcelas = $('.select-parcela').val();
 
         $.ajax({
             type: "post",
@@ -57,13 +98,14 @@ const salvarNovaVenda = () => {
                 residuo: residuo,
                 unidadeMedida: unidadeMedida,
                 quantidade: quantidade,
-                valorTotal: valorTotal,
                 porcentagemDescontoVenda: porcentagemDescontoVenda,
                 dataDestinacao: dataDestinacao,
                 valorUnidadeMedida: valorUnidadeMedida,
                 macro: macro,
                 micro: micro,
                 contaBancaria: contaBancaria,
+                valorVenda: valorVenda,
+                parcelas: parcelas,
                 formaRecebimento: formaRecebimento
             },
             beforeSend: function () {
@@ -87,7 +129,8 @@ const salvarNovaVenda = () => {
         });
     }
 
-}
+    
+})
 
 const deletarVendaResiduo = (idVenda) => {
 
@@ -133,6 +176,14 @@ $(document).on('change', '#check-agendar-recebimento', function () {
 
     if (isChecked) {
         $('.div-contas-receber').find(':input').val('').trigger('change');
+        $('.div-select-cliente').removeClass('col-lg-12');
+        $('.div-select-cliente').addClass('col-lg-6');
+        $('.div-select-parcelas').removeClass('d-none');
+    } else {
+        $('.select-parcela').val('1').trigger('change');
+        $('.div-select-parcelas').addClass('d-none');
+        $('.div-select-cliente').addClass('col-lg-12');
+        $('.div-select-cliente').removeClass('col-lg-6');
     }
 });
 
@@ -166,4 +217,92 @@ $(document).on('change', '.select-macros', function () {
 
         }
     })
+})
+
+$(document).on('change', '.input-data-primeira-parcela', function () {
+
+    let quantidadeParcela = 2;
+    let dataBR = $(this).val(); // formato DD/MM/YYYY
+    let [dia, mes, ano] = dataBR.split("/"); // separa dia, mês e ano
+    let dataPrimeiraParcela = new Date(`${ano}-${mes}-${dia}`); // formata para YYYY-MM-DD
+
+    $('.input-data-parcela-adicional').each(function () {
+        let dataParcelaAtual = new Date(dataPrimeiraParcela);
+
+        // Incrementa o mês com base na quantidadeParcela - 1 para cada input
+        dataParcelaAtual.setMonth(dataParcelaAtual.getMonth() + (quantidadeParcela - 1));
+
+        let dia = String(dataParcelaAtual.getDate() + 1).padStart(2, '0');
+        let mes = String(dataParcelaAtual.getMonth() + 1).padStart(1, '0');
+        let ano = dataParcelaAtual.getFullYear();
+        let dataFormatada = `${dia}/${mes}/${ano}`;
+
+        $(`.input-data-parcela-${quantidadeParcela}`).val(dataFormatada);
+
+        quantidadeParcela++;
+    });
+});
+
+
+$(document).on('focusout', '.input-valor-primeira-parcela', function () {
+
+    $('.input-valor-parcela-adicional').val($(this).val())
+})
+
+$(document).on('change', '.select-parcela', function () {
+
+    let quantidadeParcelas = $(this).val();
+
+    if (quantidadeParcelas > 1) {
+
+        $('.div-resumo-parcelas').removeClass('d-none');
+        $('.text-resumo-parcelas').removeClass('d-none');
+        $('.text-primeira-parcela').removeClass('d-none');
+        $('.div-total-venda').addClass('d-none');
+        $('.label-data').html('Data de Vencimento');
+
+        let divDataVencimento = $('.div-input-data-vencimento').clone();
+        let divValor = $('.div-input-valor').clone();
+        let divDesconto = $('.div-input-desconto').clone();
+
+        let htmlParcelas = ``;
+        for (i = 2; i <= quantidadeParcelas; i++) {
+
+            if (i != 1) {
+                divDataVencimento.find('input').removeClass('input-data-primeira-parcela');
+                divDataVencimento.find('input').addClass('input-data-parcela-adicional input-data-parcela-' + i);
+                divValor.find('input').removeClass('input-valor-primeira-parcela input-valor-total');
+                divValor.find('input').addClass('input-valor-parcela-adicional');
+                divDesconto.find('input').addClass('input-desconto-parcela-venda');
+            }
+
+            htmlParcelas += `<div class="col-12 mb-2">${i}ª Parcela </div>`;
+            htmlParcelas += `<div class="col-md-4 col-12">${divDataVencimento.html()}</div>`;
+            htmlParcelas += `<div class="col-md-4 col-12">${divDesconto.html()}</div>`;
+            htmlParcelas += `<div class="col-md-4 col-12">${divValor.html()}</div>`;
+            htmlParcelas += '<hr>';
+        }
+
+        $('.resumo-parcelas').html(htmlParcelas);
+
+        $('.datetimepicker').flatpickr({
+            dateFormat: "d/m/Y",
+            disableMobile: true,
+            allowInput: true
+        });
+
+        $('.mascara-dinheiro').mask('000.000.000.000.000,00', { reverse: true });
+        $('.mascara-data').mask('00/00/0000');
+
+    } else {
+
+        let agendarVenda = $('#check-agendar-recebimento').is(':checked');
+
+        $('.label-data').html(`${agendarVenda ? 'Data de Vencimento' : 'Data da Venda'}`);
+        $('.resumo-parcelas').find('input').remove();
+        $('.div-resumo-parcelas').addClass('d-none');
+        $('.text-resumo-parcelas').addClass('d-none');
+        $('.text-primeira-parcela').addClass('d-none');
+    }
+
 })

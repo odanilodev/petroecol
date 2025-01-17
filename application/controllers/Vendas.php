@@ -87,10 +87,10 @@ class Vendas extends CI_Controller
 		$dados['id_unidade_medida'] = $this->input->post('unidadeMedida');
 		$dados['id_setor_empresa'] = $this->input->post('setorEmpresa');
 		$dados['id_empresa'] = $this->session->userdata('id_empresa');
-		$dados['valor_total'] = str_replace(['.', ','], ['', '.'], $this->input->post('valorTotal'));
 		$dados['porcentagem_desconto'] = $this->input->post('porcentagemDescontoVenda');
 		$dados['valor_unidade_medida'] = str_replace(['.', ','], ['', '.'], $this->input->post('valorUnidadeMedida'));
-		$dados['data_venda'] = date('Y-m-d', strtotime(str_replace('/', '-', $this->input->post('dataDestinacao'))));
+		$dados['valor_total'] = 0; // vai somar o tatal no looping de parcelas
+		$dados['data_venda'] = date('Y-m-d', strtotime(str_replace('/', '-', $this->input->post('dataDestinacao')[0])));
 
 		$unidadeMedidaPadraoResiduo = $this->Residuos_model->recebeResiduo($dados['id_residuo'])['id_unidade_medida'];
 
@@ -120,43 +120,62 @@ class Vendas extends CI_Controller
 
 		// integra com o financeiro (contas a receber)
 		if (!$this->input->post('contaBancaria') || $this->input->post('contaBancaria') == null) {
-			$dadosContasReceber['id_setor_empresa'] = $dados['id_setor_empresa'];
-			$dadosContasReceber['id_empresa'] = $dados['id_empresa'];
-			$dadosContasReceber['valor'] = $dados['valor_total'];
-			$dadosContasReceber['valor_recebido'] = $dados['valor_total'];
-			$dadosContasReceber['id_cliente'] = $dados['id_cliente'];
-			$dadosContasReceber['id_macro'] = $this->input->post('macro');
-			$dadosContasReceber['id_micro'] = $this->input->post('micro');
-			$dadosContasReceber['data_vencimento'] = $dados['data_venda'];
-
 			$this->load->model('FinContasReceber_model');
-			$this->FinContasReceber_model->insereContasReceber($dadosContasReceber);
+			$valorVenda = str_replace(['.', ','], ['', '.'], $this->input->post('valorVenda'));
+			$parcelas = $this->input->post('parcelas');
+			$dataVenda = $this->input->post('dataDestinacao');
+
+			$idPrimeiraParcela = null;
+			for ($i = 0; $i < $parcelas; $i++) {
+
+				$dados['valor_total'] += $valorVenda[$i]; // soma o valor total da venda
+
+				$dadosContasReceber['id_setor_empresa'] = $dados['id_setor_empresa'];
+				$dadosContasReceber['id_empresa'] = $dados['id_empresa'];
+				$dadosContasReceber['valor'] = $valorVenda[$i];
+				$dadosContasReceber['id_cliente'] = $dados['id_cliente'];
+				$dadosContasReceber['id_macro'] = $this->input->post('macro');
+				$dadosContasReceber['id_micro'] = $this->input->post('micro');
+				$dadosContasReceber['data_vencimento'] = date('Y-m-d', strtotime(str_replace('/', '-',$dataVenda[$i])));
+				$dadosContasReceber['numero_parcela'] = $parcelas > 1 ? $i + 1 . '/' . $parcelas : '';
+				$dadosContasReceber['id_primeira_parcela'] = $i > 0 ? $idPrimeiraParcela : null;
+
+				$idContaInserida = $this->FinContasReceber_model->insereContasReceber($dadosContasReceber);
+
+				if ($i == 0) {
+					$idPrimeiraParcela = $idContaInserida;
+				}
+			}
 
 		} else {
 			// atualiza saldo bancário
+			$valorTotal = str_replace(['.', ','], ['', '.'], $this->input->post('valorVenda'));
+			$dataVenda = $this->input->post('dataDestinacao');
+
+			
 			$this->load->model('FinSaldoBancario_model');
 			$idContaBancaria = $this->input->post('contaBancaria');
 			$saldoAtual = $this->FinSaldoBancario_model->recebeSaldoBancario($idContaBancaria);
-			$novoSaldo = $saldoAtual['saldo'] + $dados['valor_total'];
+			$novoSaldo = $saldoAtual['saldo'] + $valorTotal[0];
 			$this->FinSaldoBancario_model->atualizaSaldoBancario($idContaBancaria, $novoSaldo);
 
 			// manda pro fluxo de caixa como entrada
 			$dadosFluxo['id_setor_empresa'] = $dados['id_setor_empresa'];
 			$dadosFluxo['id_empresa'] = $dados['id_empresa'];
-			$dadosFluxo['valor'] = $dados['valor_total'];
+			$dadosFluxo['valor'] = $valorTotal[0];
 			$dadosFluxo['id_cliente'] = $dados['id_cliente'];
 			$dadosFluxo['id_macro'] = $this->input->post('macro');
 			$dadosFluxo['id_micro'] = $this->input->post('micro');
-			$dadosFluxo['data_movimentacao'] = $dados['data_venda'];
+			$dadosFluxo['data_movimentacao'] = date('Y-m-d', strtotime(str_replace('/', '-',$dataVenda[0])));
 			$dadosFluxo['id_conta_bancaria'] = $this->input->post('contaBancaria');
 			$dadosFluxo['id_forma_transacao'] = $this->input->post('formaRecebimento');
 			$dadosFluxo['movimentacao_tabela'] = 1; // entrada
 
 			$this->load->model('FinFluxo_model');
 			$this->FinFluxo_model->insereFluxo($dadosFluxo);
+
+			$dados['valor_total'] = $valorTotal[0];
 		}
-
-
 
 		$retorno = $this->Vendas_model->insereNovaVendaResiduo($dados);
 
@@ -167,7 +186,7 @@ class Vendas extends CI_Controller
 		$dadosResiduosEstoque['tipo_movimentacao'] = 0; // saída
 		$dadosResiduosEstoque['id_empresa'] = $dados['id_empresa'];
 		$dadosResiduosEstoque['id_setor_empresa'] = $dados['id_setor_empresa'];
-        $dadosResiduosEstoque['origem_movimentacao'] = 'Venda de resíduo';
+		$dadosResiduosEstoque['origem_movimentacao'] = 'Venda de resíduo';
 
 
 		// subtrai o total do residuo de acordo com o ultimo total gravado

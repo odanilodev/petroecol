@@ -52,7 +52,7 @@ class FinContasReceber_model extends CI_Model
             $this->Log_model->insereLog($this->db->insert_id());
         }
 
-        return $this->db->affected_rows() > 0;
+        return $this->db->insert_id() > 0;
     }
 
     public function editaConta($id, $dados)
