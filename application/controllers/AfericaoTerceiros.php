@@ -151,7 +151,7 @@ class AfericaoTerceiros extends CI_Controller
 		$dadosAfericaoTerceiros['quantidade_paga'] = number_format($quantidade, 3, '.', '');
 		$dadosAfericaoTerceiros['id_unidade_medida_paga'] = $dadosPost['unidade_medida'];
 		$dadosAfericaoTerceiros['gasto'] = str_replace(['.', ','], ['', '.'], $dadosPost['valor']);
-		$dadosAfericaoTerceiros['id_setor_empresa'] = 
+		$dadosAfericaoTerceiros['id_setor_empresa'] = $dadosPost['setor'];
 		$dadosAfericaoTerceiros['data_afericao'] = date('Y-m-d', strtotime(str_replace('/', '-', $dadosPost['data_afericao'])));
 		$dadosAfericaoTerceiros['id_empresa'] = $this->session->userdata('id_empresa');
 		$dadosAfericaoTerceiros['id_unidade_medida_aferida'] = $dadosPost['unidade_medida_aferida'];
