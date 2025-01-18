@@ -91,6 +91,7 @@ class Vendas extends CI_Controller
 		$dados['valor_unidade_medida'] = str_replace(['.', ','], ['', '.'], $this->input->post('valorUnidadeMedida'));
 		$dados['valor_total'] = 0; // vai somar o tatal no looping de parcelas
 		$dados['data_venda'] = date('Y-m-d', strtotime(str_replace('/', '-', $this->input->post('dataDestinacao')[0])));
+		$dados['parcelas_venda'] = json_encode(str_replace(['.', ','], ['', '.'], $this->input->post('valorVenda')));
 
 		$unidadeMedidaPadraoResiduo = $this->Residuos_model->recebeResiduo($dados['id_residuo'])['id_unidade_medida'];
 
